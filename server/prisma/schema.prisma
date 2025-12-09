@@ -1,0 +1,162 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String
+  status        String    @default("ACTIVE") // ACTIVE, INACTIVE
+  role          String    @default("EMPLOYEE") // ADMIN, HR, EMPLOYEE, INTERN
+  
+  // Hierarchy
+  managerId     String?
+  manager       User?     @relation("ManagerSubordinates", fields: [managerId], references: [id])
+  subordinates  User[]    @relation("ManagerSubordinates")
+
+  profile       Profile?
+  attendance    Attendance[]
+  onboarding    Onboarding?
+  payslips      Payslip[]
+  certificates  Certificate[]
+  
+  // Leaves
+  leaveBalances LeaveBalance[]
+  leaveRequests LeaveRequest[]
+}
+
+model Profile {
+  id            String    @id @default(uuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName     String
+  lastName      String
+  phone         String?
+  designation   String?
+  department    String?
+  employmentType String   @default("FULL_TIME") // FULL_TIME, INTERN, CONTRACT
+  dateOfJoining DateTime?
+  documents     String?   // JSON: { "aadhar": "url", "pan": "url", "resume": "url" }
+}
+
+model Attendance {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  date      DateTime // YYYY-MM-DD
+  checkIn   DateTime?
+  checkOut  DateTime?
+  location  String?
+  hours     Float?
+  
+  shiftId   String?
+  shift     Shift?   @relation(fields: [shiftId], references: [id])
+  status    String   @default("PRESENT") // PRESENT, ABSENT, HALF_DAY, LEAVE
+  isLate    Boolean  @default(false)
+  
+  @@unique([userId, date])
+}
+
+model Shift {
+  id        String   @id @default(uuid())
+  name      String   // "General", "Morning"
+  startTime String   // "09:00"
+  endTime   String   // "18:00"
+  graceTime Int      @default(15) // Minutes
+  attendance Attendance[]
+}
+
+// --- LEAVE MANAGEMENT ---
+
+model LeaveType {
+  id          String   @id @default(uuid())
+  name        String   // CL, SL, PL
+  code        String   @unique // cl, sl
+  daysPerYear Int
+  carryForward Boolean @default(false)
+  balances    LeaveBalance[]
+  requests    LeaveRequest[]
+}
+
+model LeaveBalance {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  leaveTypeId String
+  leaveType   LeaveType @relation(fields: [leaveTypeId], references: [id])
+  balance     Float
+  used        Float     @default(0)
+
+  @@unique([userId, leaveTypeId])
+}
+
+model LeaveRequest {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  leaveTypeId String
+  leaveType   LeaveType @relation(fields: [leaveTypeId], references: [id])
+  startDate   DateTime
+  endDate     DateTime
+  days        Float
+  reason      String
+  status      String    @default("PENDING") // PENDING, APPROVED, REJECTED
+  managerComment String?
+  createdAt   DateTime  @default(now())
+}
+
+model Holiday {
+  id        String   @id @default(uuid())
+  name      String
+  date      DateTime @unique
+  type      String   // MANDATORY, OPTIONAL
+}
+
+model Onboarding {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  status      String   @default("PENDING")
+  documents   String?
+  bankDetails String?
+  submittedAt DateTime @default(now())
+}
+
+model Payslip {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  month     Int
+  year      Int
+  url       String
+  gross     Float
+  net       Float
+  generatedAt DateTime @default(now())
+}
+
+model Certificate {
+  id             String   @id @default(uuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  type           String
+  title          String
+  verificationId String   @unique
+  issuedDate     DateTime @default(now())
+  url            String?
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
