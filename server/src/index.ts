@@ -10,6 +10,16 @@ import payslipRoutes from './routes/payslip.routes';
 import certificateRoutes from './routes/certificate.routes';
 import notificationRoutes from './routes/notification.routes';
 import leaveRoutes from './routes/leave.routes';
+import shiftRoutes from './routes/shift.routes';
+import salaryRoutes from './routes/salary.routes';
+import offboardingRoutes from './routes/offboarding.routes';
+import performanceRoutes from './routes/performance.routes';
+import recruitmentRoutes from './routes/recruitment.routes';
+import expenseRoutes from './routes/expense.routes';
+import assetRoutes from './routes/asset.routes';
+import profileRoutes from './routes/profile.routes';
+import notificationRoutes from './routes/notification.routes';
+import statsRoutes from './routes/stats.routes';
 import path from 'path';
 
 dotenv.config();
@@ -36,6 +46,16 @@ app.use('/api/payslips', payslipRoutes);
 app.use('/api/certificates', certificateRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/leaves', leaveRoutes);
+app.use('/api/shifts', shiftRoutes);
+app.use('/api/salary', salaryRoutes);
+app.use('/api/offboarding', offboardingRoutes);
+app.use('/api/performance', performanceRoutes);
+app.use('/api/recruitment', recruitmentRoutes);
+app.use('/api/expenses', expenseRoutes);
+app.use('/api/assets', assetRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/stats', statsRoutes);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

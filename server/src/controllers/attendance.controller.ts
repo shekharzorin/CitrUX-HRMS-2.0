@@ -20,12 +20,41 @@ export const punchIn = async (req: AuthRequest, res: Response) => {
             return res.status(400).json({ message: 'Already punched in today' });
         }
 
+        // Get User's Shift
+        // @ts-ignore
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            include: { shift: true }
+        });
+
+        let isLate = false;
+        let shiftId = null;
+
+        if (user?.shift) {
+            shiftId = user.shift.id;
+            const now = new Date();
+            const [hours, minutes] = user.shift.startTime.split(':').map(Number);
+
+            const shiftStart = new Date();
+            shiftStart.setHours(hours, minutes, 0, 0);
+
+            // Add Grace Time
+            const lateTime = new Date(shiftStart.getTime() + user.shift.graceTime * 60000);
+
+            if (now > lateTime) {
+                isLate = true;
+            }
+        }
+
+        // @ts-ignore
         const attendance = await prisma.attendance.create({
             data: {
                 userId,
                 date: today,
                 checkIn: new Date(),
-                location
+                location,
+                shiftId,
+                isLate
             }
         });
 

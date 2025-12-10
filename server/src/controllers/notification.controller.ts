@@ -5,39 +5,60 @@ interface AuthRequest extends Request {
     user?: any;
 }
 
-export const getMyNotifications = async (req: AuthRequest, res: Response) => {
+// Get My Notifications
+export const getNotifications = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user.userId;
+        // @ts-ignore
         const notifications = await prisma.notification.findMany({
             where: { userId },
             orderBy: { createdAt: 'desc' }
         });
         res.json(notifications);
     } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: 'Error fetching notifications' });
     }
 };
 
-export const markAsRead = async (req: Request, res: Response) => {
+// Mark as Read
+export const markRead = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
+        // @ts-ignore
         await prisma.notification.update({
             where: { id },
             data: { read: true }
         });
         res.json({ message: 'Marked as read' });
     } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: 'Error updating notification' });
     }
 };
 
-// Helper to create notification (internal use)
-export const createNotification = async (userId: string, message: string) => {
+// Create Notification (Internal Helper or Admin Broadcast)
+export const createNotification = async (req: Request, res: Response) => {
     try {
-        await prisma.notification.create({
+        const { userId, message } = req.body;
+        // @ts-ignore
+        const notification = await prisma.notification.create({
             data: { userId, message }
         });
-    } catch (e) {
-        console.error('Failed to create notification', e);
+        res.json(notification);
+    } catch (error) {
+        res.status(500).json({ message: 'Error creating notification' });
     }
-}
+};
+
+// Get Unread Count
+export const getUnreadCount = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = req.user.userId;
+        // @ts-ignore
+        const count = await prisma.notification.count({
+            where: { userId, read: false }
+        });
+        res.json({ count });
+    } catch (error) {
+        res.status(500).json({ message: 'Error counting unread' });
+    }
+};

@@ -5,66 +5,123 @@ interface AuthRequest extends Request {
     user?: any;
 }
 
-export const submitOnboarding = async (req: AuthRequest, res: Response) => {
+// Get Onboarding Status (Enhanced)
+export const getOnboardingStatus = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user.userId;
-        const { documents, bankDetails } = req.body;
-
-        const existing = await prisma.onboarding.findUnique({ where: { userId } });
-        if (existing) {
-            return res.status(400).json({ message: 'Onboarding data already submitted' });
-        }
-
-        const onboarding = await prisma.onboarding.create({
-            data: {
-                userId,
-                documents: JSON.stringify(documents),
-                bankDetails: JSON.stringify(bankDetails),
-                status: 'PENDING'
-            }
+        // @ts-ignore
+        const onboarding = await prisma.onboarding.findUnique({
+            where: { userId },
+            include: { tasks: true }
         });
+
+        if (!onboarding) {
+            // Auto-create if not exists
+            // @ts-ignore
+            const newOnboarding = await prisma.onboarding.create({
+                data: {
+                    userId,
+                    tasks: {
+                        create: [
+                            { title: 'Upload Aadhar Card' },
+                            { title: 'Upload PAN Card' },
+                            { title: 'Submit Bank Details' },
+                            { title: 'Sign Offer Letter' },
+                            { title: 'Read Employee Handbook' }
+                        ]
+                    }
+                },
+                include: { tasks: true }
+            });
+            return res.json(newOnboarding);
+        }
 
         res.json(onboarding);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: 'Error fetching onboarding status' });
     }
 };
 
-export const getOnboardingStatus = async (req: AuthRequest, res: Response) => {
+// Update Task Status
+export const updateTaskStatus = async (req: AuthRequest, res: Response) => {
+    try {
+        const { taskId, status } = req.body;
+        // @ts-ignore
+        const task = await prisma.onboardingTask.update({
+            where: { id: taskId },
+            data: {
+                status,
+                completedAt: status === 'COMPLETED' ? new Date() : null
+            }
+        });
+        res.json(task);
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating task' });
+    }
+};
+
+export const submitOnboarding = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user.userId;
-        const learning = await prisma.onboarding.findUnique({ where: { userId } });
-        res.json(learning);
+        const { bankDetails } = req.body;
+
+        // @ts-ignore
+        const onboarding = await prisma.onboarding.update({
+            where: { userId },
+            data: {
+                bankDetails,
+                status: 'SUBMITTED',
+                submittedAt: new Date()
+            }
+        });
+        res.json(onboarding);
     } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: 'Error submitting onboarding' });
     }
 };
 
+// Admin: Get Pending Onboardings
+export const getPendingOnboardings = async (req: Request, res: Response) => {
+    try {
+        // @ts-ignore
+        const onboardings = await prisma.onboarding.findMany({
+            where: { status: 'SUBMITTED' },
+            include: { user: { include: { profile: true } } }
+        });
+        res.json(onboardings);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching pending onboardings' });
+    }
+};
+
+// Admin: Approve Onboarding
 export const approveOnboarding = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { status } = req.body; // APPROVED or REJECTED
-
-        const updated = await prisma.onboarding.update({
+        // @ts-ignore
+        const onboarding = await prisma.onboarding.update({
             where: { id },
-            data: { status }
+            data: { status: 'APPROVED' }
         });
-
-        res.json(updated);
+        res.json(onboarding);
     } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: 'Error approving onboarding' });
     }
 };
 
-export const getPendingOnboardings = async (req: Request, res: Response) => {
+// Admin: Get All Onboardings
+export const getAllOnboarding = async (req: Request, res: Response) => {
     try {
-        const pending = await prisma.onboarding.findMany({
-            where: { status: 'PENDING' },
-            include: { user: { include: { profile: true } } }
+        // @ts-ignore
+        const onboardings = await prisma.onboarding.findMany({
+            include: {
+                user: { include: { profile: true } },
+                tasks: true
+            }
         });
-        res.json(pending);
+        res.json(onboardings);
     } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: 'Error fetching onboardings' });
     }
 };

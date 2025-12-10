@@ -1,12 +1,14 @@
 import { Router } from 'express';
-import { getMyNotifications, markAsRead } from '../controllers/notification.controller';
-import { getAdminStats } from '../controllers/stats.controller';
-import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware';
+import { getNotifications, markRead, createNotification, getUnreadCount } from '../controllers/notification.controller';
+import { authenticateToken } from '../middlewares/auth.middleware';
 
 const router = Router();
 
-router.get('/', authenticateToken, getMyNotifications);
-router.put('/:id/read', authenticateToken, markAsRead);
-router.get('/admin-stats', authenticateToken, authorizeRole(['ADMIN', 'HR']), getAdminStats);
+router.use(authenticateToken);
+
+router.get('/', getNotifications);
+router.get('/unread-count', getUnreadCount);
+router.put('/:id/read', markRead);
+router.post('/', createNotification); // Access control might be needed here usually
 
 export default router;

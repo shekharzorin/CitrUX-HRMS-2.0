@@ -41,9 +41,17 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
                     <Link to="/" className="nav-link">📊 Dashboard</Link>
                     <Link to="/attendance" className="nav-link">⏱️ Attendance</Link>
+                    <Link to="/timesheets" className="nav-link">📅 Timesheets</Link>
                     <Link to="/leaves" className="nav-link">🌴 Leave / Time Off</Link>
                     <Link to="/payslips" className="nav-link">💰 Payslips</Link>
                     <Link to="/onboarding/submit" className="nav-link">🚀 Onboarding</Link>
+                    <Link to="/offboarding" className="nav-link">👋 Offboarding</Link>
+                    <Link to="/performance" className="nav-link">🎯 Performance</Link>
+                    <Link to="/recruitment/jobs" className="nav-link">💼 Careers</Link>
+                    <Link to="/expenses" className="nav-link">💸 Expenses</Link>
+                    <Link to="/my-assets" className="nav-link">💻 My Assets</Link>
+                    <Link to="/profile" className="nav-link">👤 My Profile</Link>
+                    <Link to="/manager/leaves" className="nav-link">📋 Team Leaves</Link>
 
                     {(user?.role === 'ADMIN' || user?.role === 'HR') && (
                         <>
@@ -52,6 +60,13 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             <Link to="/users" className="nav-link">👥 Employees</Link>
                             <Link to="/onboarding/admin" className="nav-link">📋 Approvals</Link>
                             <Link to="/certificates/issue" className="nav-link">🎓 Certificates</Link>
+                            <Link to="/performance/reviews" className="nav-link">⭐ Reviews</Link>
+                            <Link to="/recruitment/applications" className="nav-link">📄 ATS</Link>
+                            <Link to="/expenses/approvals" className="nav-link">✅ Exp. Approvals</Link>
+                            <Link to="/assets" className="nav-link">📦 Asset Inventory</Link>
+                            <Link to="/admin/shifts" className="nav-link">⏰ Shifts</Link>
+                            <Link to="/admin/salary" className="nav-link">💸 Payroll</Link>
+                            <Link to="/analytics" className="nav-link">📈 Analytics</Link>
                         </>
                     )}
                 </nav>
@@ -71,7 +86,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </aside>
 
             {/* Main Content Area */}
-            <main style={{ flex: 1, marginLeft: '260px', padding: '0' }}>
+            <div style={{ flex: 1, marginLeft: '260px', display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
                 {/* Top Header */}
                 <header style={{
                     background: 'white',
@@ -80,32 +95,27 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    position: 'sticky',
-                    top: 0,
                     zIndex: 90
                 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                        <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Home</Link>
-                        {pathnames.map((value, index) => {
-                            const to = `/${pathnames.slice(0, index + 1).join('/')}`;
-                            return (
-                                <React.Fragment key={to}>
-                                    <span>/</span>
-                                    <Link to={to} style={{ color: 'var(--primary)', textDecoration: 'none', textTransform: 'capitalize', fontWeight: 500 }}>{value}</Link>
-                                </React.Fragment>
-                            );
-                        })}
-                    </div>
-
-                    <div style={{ display: 'flex', gap: '1rem' }}>
-                        {/* Placeholder for header actions if needed */}
+                    <h2 className="text-xl font-bold text-slate-700">Citrux HRMS</h2>
+                    <div className="flex items-center gap-4">
+                        <Link to="/notifications" className="relative p-2 text-slate-500 hover:text-slate-800 transition-colors">
+                            <span className="text-xl">🔔</span>
+                        </Link>
+                        <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold">
+                                {user?.email[0].toUpperCase()}
+                            </div>
+                            <span className="text-sm font-medium text-slate-600 hidden md:inline">{user?.email}</span>
+                        </div>
                     </div>
                 </header>
 
-                <div style={{ padding: '2rem' }}>
+                {/* Content - Scrollable */}
+                <main style={{ flex: 1, overflowY: 'auto', padding: '2rem', background: 'var(--background)' }}>
                     {children}
-                </div>
-            </main>
+                </main>
+            </div>
         </div>
     );
 };
