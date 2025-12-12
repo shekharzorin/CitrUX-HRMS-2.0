@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { Link } from 'react-router-dom';
 
 const Analytics: React.FC = () => {
     const { token } = useAuth();
@@ -19,39 +20,49 @@ const Analytics: React.FC = () => {
     if (!stats) return <div className="p-6">Loading Analytics...</div>;
 
     const Card = ({ title, value, sub, color }: any) => (
-        <div className={`p-6 rounded-xl shadow-sm border border-slate-200 bg-white`}>
-            <div className="text-slate-500 text-sm font-bold uppercase mb-2">{title}</div>
-            <div className={`text-4xl font-bold ${color}`}>{value}</div>
-            {sub && <div className="text-slate-400 text-xs mt-2">{sub}</div>}
+        <div className="dashboard-card">
+            <div className="text-bold-caps">{title}</div>
+            <div className={`text-value-lg ${color}`}>{value}</div>
+            {sub && <div className="text-muted-sm mt-2">{sub}</div>}
         </div>
     );
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-6 text-slate-800">HR Analytics Dashboard</h1>
+        <div className="page-container">
+            <h1 className="text-xl font-bold mb-6 text-slate-800">HR Analytics Dashboard</h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <Card title="Total Employees" value={stats.users.total} sub={`${stats.users.active} Active Users`} color="text-slate-800" />
-                <Card title="Present Today" value={stats.attendance.presentToday || 0} sub="Check-ins recorded" color="text-green-600" />
-                <Card title="Open Jobs" value={stats.recruitment.openJobs} sub="Role vacancies" color="text-blue-600" />
-                <Card title="Pending Expenses" value={stats.finance.pendingClaims} sub={`$${stats.finance.approvedTotal} Approved YTD`} color="text-amber-600" />
-                <Card title="Assigned Assets" value={stats.assets.assigned} sub="Devices in use" color="text-purple-600" />
+            <div className="grid-3">
+                <Link to="/users" style={{ textDecoration: 'none' }}>
+                    <Card title="Total Employees" value={stats.users.total} sub={`${stats.users.active} Active Users`} color="text-slate-800" />
+                </Link>
+                <Link to="/attendance" style={{ textDecoration: 'none' }}>
+                    <Card title="Present Today" value={stats.attendance.presentToday || 0} sub="Check-ins recorded" color="text-green-600" />
+                </Link>
+                <Link to="/recruitment/jobs" style={{ textDecoration: 'none' }}>
+                    <Card title="Open Jobs" value={stats.recruitment.openJobs} sub="Role vacancies" color="text-blue-600" />
+                </Link>
+                <Link to="/expenses/approvals" style={{ textDecoration: 'none' }}>
+                    <Card title="Pending Expenses" value={stats.finance.pendingClaims} sub={`$${stats.finance.approvedTotal} Approved YTD`} color="text-amber-600" />
+                </Link>
+                <Link to="/assets" style={{ textDecoration: 'none' }}>
+                    <Card title="Assigned Assets" value={stats.assets.assigned} sub="Devices in use" color="text-purple-600" />
+                </Link>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid-3">
                 {/* Placeholder for future charts */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-64 flex items-center justify-center">
-                    <div className="text-center">
-                        <div className="text-5xl mb-2">📊</div>
-                        <div className="text-slate-500 font-bold">Expense Trends</div>
-                        <div className="text-xs text-slate-400">(Coming Soon in v2.1)</div>
+                <div className="dashboard-card h-64 flex items-center justify-center">
+                    <div className="text-center" style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>📊</div>
+                        <div className="text-bold-caps">Expense Trends</div>
+                        <div className="text-muted-sm">(Coming Soon in v2.1)</div>
                     </div>
                 </div>
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-64 flex items-center justify-center">
-                    <div className="text-center">
-                        <div className="text-5xl mb-2">🥧</div>
-                        <div className="text-slate-500 font-bold">Dept Distribution</div>
-                        <div className="text-xs text-slate-400">(Coming Soon in v2.1)</div>
+                <div className="dashboard-card h-64 flex items-center justify-center">
+                    <div className="text-center" style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>🥧</div>
+                        <div className="text-bold-caps">Dept Distribution</div>
+                        <div className="text-muted-sm">(Coming Soon in v2.1)</div>
                     </div>
                 </div>
             </div>

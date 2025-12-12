@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,105 +8,96 @@ datasource db {
 }
 
 model User {
-  id           String @id @default(uuid())
-  email        String @unique
-  passwordHash String
-  status       String @default("ACTIVE") // ACTIVE, INACTIVE
-  role         String @default("EMPLOYEE") // ADMIN, HR, EMPLOYEE, INTERN
-
-  // Hierarchy
-  managerId    String?
-  manager      User?   @relation("ManagerSubordinates", fields: [managerId], references: [id])
-  subordinates User[]  @relation("ManagerSubordinates")
-
-  shiftId     String?
-  shift       Shift?       @relation("UserShift", fields: [shiftId], references: [id])
-  offboarding Offboarding?
-
-  profile       Profile?
-  attendance    Attendance[]
-  onboarding    Onboarding?
-  salary        SalaryStructure?
-  payslips      Payslip[]
-  certificates  Certificate[]
-  goals         Goal[]
-  reviews       PerformanceReview[]
-  reviewsGiven  PerformanceReview[] @relation("Reviewer")
-  expenses      ExpenseClaim[]
+  id            String              @id @default(uuid())
+  email         String              @unique
+  passwordHash  String
+  status        String              @default("ACTIVE")
+  role          String              @default("EMPLOYEE")
+  managerId     String?
+  shiftId       String?
   assets        Asset[]
-  notifications Notification[]
-
-  // Leaves
+  attendance    Attendance[]
+  certificates  Certificate[]
+  expenses      ExpenseClaim[]
+  goals         Goal[]
   leaveBalances LeaveBalance[]
   leaveRequests LeaveRequest[]
+  notifications Notification[]
+  offboarding   Offboarding?
+  onboarding    Onboarding?
+  payslips      Payslip[]
+  reviewsGiven  PerformanceReview[] @relation("Reviewer")
+  reviews       PerformanceReview[]
+  profile       Profile?
+  salary        SalaryStructure?
+  shift         Shift?              @relation("UserShift", fields: [shiftId], references: [id])
+  manager       User?               @relation("ManagerSubordinates", fields: [managerId], references: [id])
+  subordinates  User[]              @relation("ManagerSubordinates")
 }
-
-// ... existing models ...
 
 model SalaryStructure {
   id         String @id @default(uuid())
   userId     String @unique
-  user       User   @relation(fields: [userId], references: [id])
   basic      Float
   hra        Float
   da         Float  @default(0)
   allowances Float  @default(0)
   deductions Float  @default(0)
-  ctc        Float // Calculated
+  ctc        Float
+  user       User   @relation(fields: [userId], references: [id])
 }
 
 model Payslip {
   id          String   @id @default(uuid())
   userId      String
-  user        User     @relation(fields: [userId], references: [id])
   month       Int
   year        Int
-  url         String? // Optional now as we generate dynamic
+  url         String?
   gross       Float
   net         Float
-  details     String // JSON Snapshot of calculations
+  details     String
   generatedAt DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
 }
 
 model Profile {
   id             String    @id @default(uuid())
   userId         String    @unique
-  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   firstName      String
   lastName       String
   phone          String?
   designation    String?
   department     String?
-  employmentType String    @default("FULL_TIME") // FULL_TIME, INTERN, CONTRACT
+  employmentType String    @default("FULL_TIME")
   dateOfJoining  DateTime?
-  documents      String? // JSON
+  documents      String?
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Attendance {
   id       String    @id @default(uuid())
   userId   String
-  user     User      @relation(fields: [userId], references: [id])
-  date     DateTime // YYYY-MM-DD
+  date     DateTime
   checkIn  DateTime?
   checkOut DateTime?
   location String?
   hours    Float?
-
-  shiftId String?
-  shift   Shift?  @relation(fields: [shiftId], references: [id])
-  status  String  @default("PRESENT") // PRESENT, ABSENT, HALF_DAY, LEAVE
-  isLate  Boolean @default(false)
-  breaks  Break[]
+  shiftId  String?
+  status   String    @default("PRESENT")
+  isLate   Boolean   @default(false)
+  shift    Shift?    @relation(fields: [shiftId], references: [id])
+  user     User      @relation(fields: [userId], references: [id])
+  breaks   Break[]
 
   @@unique([userId, date])
 }
 
 model Shift {
   id         String       @id @default(uuid())
-  name       String // "General", "Morning"
-  startTime  String // "09:00"
-  endTime    String // "18:00"
-  graceTime  Int          @default(15) // Minutes
+  name       String
+  startTime  String
+  endTime    String
+  graceTime  Int          @default(15)
   attendance Attendance[]
   users      User[]       @relation("UserShift")
 }
@@ -117,18 +105,16 @@ model Shift {
 model Break {
   id           String     @id @default(uuid())
   attendanceId String
-  attendance   Attendance @relation(fields: [attendanceId], references: [id])
   startTime    DateTime
   endTime      DateTime?
-  duration     Float? // in minutes
+  duration     Float?
+  attendance   Attendance @relation(fields: [attendanceId], references: [id])
 }
-
-// --- LEAVE MANAGEMENT ---
 
 model LeaveType {
   id           String         @id @default(uuid())
-  name         String // CL, SL, PL
-  code         String         @unique // cl, sl
+  name         String
+  code         String         @unique
   daysPerYear  Int
   carryForward Boolean        @default(false)
   balances     LeaveBalance[]
@@ -138,11 +124,11 @@ model LeaveType {
 model LeaveBalance {
   id          String    @id @default(uuid())
   userId      String
-  user        User      @relation(fields: [userId], references: [id])
   leaveTypeId String
-  leaveType   LeaveType @relation(fields: [leaveTypeId], references: [id])
   balance     Float
   used        Float     @default(0)
+  leaveType   LeaveType @relation(fields: [leaveTypeId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
 
   @@unique([userId, leaveTypeId])
 }
@@ -150,86 +136,98 @@ model LeaveBalance {
 model LeaveRequest {
   id             String    @id @default(uuid())
   userId         String
-  user           User      @relation(fields: [userId], references: [id])
   leaveTypeId    String
-  leaveType      LeaveType @relation(fields: [leaveTypeId], references: [id])
   startDate      DateTime
   endDate        DateTime
   days           Float
   reason         String
-  status         String    @default("PENDING") // PENDING, APPROVED, REJECTED
+  status         String    @default("PENDING")
   managerComment String?
   createdAt      DateTime  @default(now())
+  leaveType      LeaveType @relation(fields: [leaveTypeId], references: [id])
+  user           User      @relation(fields: [userId], references: [id])
 }
 
 model Holiday {
   id   String   @id @default(uuid())
   name String
   date DateTime @unique
-  type String // MANDATORY, OPTIONAL
+  type String
 }
 
 model Onboarding {
-  id          String           @id @default(uuid())
-  userId      String           @unique
-  user        User             @relation(fields: [userId], references: [id])
-  status      String           @default("PENDING")
-  documents   String?
-  bankDetails String?
-  submittedAt DateTime         @default(now())
-  tasks       OnboardingTask[]
+  id             String           @id @default(uuid())
+  userId         String           @unique
+  status         String           @default("PENDING")
+  firstName      String?
+  lastName       String?
+  fatherName     String?
+  dateOfBirth    DateTime?
+  currAddress    String?
+  permAddress    String?
+  aadhaarNumber  String?
+  panNumber      String?
+  aadhaarUrl     String?
+  panUrl         String?
+  passbookUrl    String?
+  offerLetterUrl String?
+  documents      String?
+  bankDetails    String?
+  submittedAt    DateTime         @default(now())
+  user           User             @relation(fields: [userId], references: [id])
+  tasks          OnboardingTask[]
 }
 
 model OnboardingTask {
   id           String     @id @default(uuid())
   onboardingId String
-  onboarding   Onboarding @relation(fields: [onboardingId], references: [id])
   title        String
-  status       String     @default("PENDING") // PENDING, COMPLETED
+  status       String     @default("PENDING")
   completedAt  DateTime?
+  onboarding   Onboarding @relation(fields: [onboardingId], references: [id])
 }
 
 model Offboarding {
   id            String         @id @default(uuid())
   userId        String         @unique
-  user          User           @relation(fields: [userId], references: [id])
   reason        String
-  status        String         @default("PENDING") // PENDING, APPROVED, REJECTED, CLEARED
+  status        String         @default("PENDING")
   lastDay       DateTime
   createdAt     DateTime       @default(now())
   exitInterview ExitInterview?
+  user          User           @relation(fields: [userId], references: [id])
 }
 
 model ExitInterview {
   id            String      @id @default(uuid())
   offboardingId String      @unique
-  offboarding   Offboarding @relation(fields: [offboardingId], references: [id])
   feedback      String
   rating        Int
   submittedAt   DateTime    @default(now())
+  offboarding   Offboarding @relation(fields: [offboardingId], references: [id])
 }
 
 model Goal {
   id          String   @id @default(uuid())
   userId      String
-  user        User     @relation(fields: [userId], references: [id])
   title       String
   description String?
   deadline    DateTime
-  status      String   @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED
+  status      String   @default("PENDING")
   createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
 }
 
 model PerformanceReview {
   id         String   @id @default(uuid())
   userId     String
-  user       User     @relation(fields: [userId], references: [id])
   reviewerId String
-  reviewer   User     @relation("Reviewer", fields: [reviewerId], references: [id])
-  period     String // e.g., "Q4 2024"
-  rating     Int // 1-5
+  period     String
+  rating     Int
   feedback   String
   createdAt  DateTime @default(now())
+  reviewer   User     @relation("Reviewer", fields: [reviewerId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
 }
 
 model JobPosting {
@@ -237,7 +235,7 @@ model JobPosting {
   title        String
   department   String
   description  String
-  status       String           @default("OPEN") // OPEN, CLOSED
+  status       String           @default("OPEN")
   createdAt    DateTime         @default(now())
   applications JobApplication[]
 }
@@ -245,57 +243,57 @@ model JobPosting {
 model JobApplication {
   id            String     @id @default(uuid())
   jobId         String
-  job           JobPosting @relation(fields: [jobId], references: [id])
   applicantName String
   email         String
   phone         String
-  resumeUrl     String? // Link to stored resume
-  status        String     @default("NEW") // NEW, INTERVIEW, OFFERED, REJECTED, HIRED
+  resumeUrl     String?
+  status        String     @default("NEW")
   appliedAt     DateTime   @default(now())
+  job           JobPosting @relation(fields: [jobId], references: [id])
 }
 
 model ExpenseCategory {
   id     String         @id @default(uuid())
   name   String         @unique
-  limit  Float? // Optional cap
+  limit  Float?
   claims ExpenseClaim[]
 }
 
 model ExpenseClaim {
   id          String          @id @default(uuid())
   userId      String
-  user        User            @relation(fields: [userId], references: [id])
   categoryId  String
-  category    ExpenseCategory @relation(fields: [categoryId], references: [id])
   amount      Float
   description String
-  status      String          @default("PENDING") // PENDING, APPROVED, REJECTED, PAID
+  status      String          @default("PENDING")
   receiptUrl  String?
   date        DateTime
   createdAt   DateTime        @default(now())
+  category    ExpenseCategory @relation(fields: [categoryId], references: [id])
+  user        User            @relation(fields: [userId], references: [id])
 }
 
 model Certificate {
   id             String   @id @default(uuid())
   userId         String
-  user           User     @relation(fields: [userId], references: [id])
   type           String
   title          String
   verificationId String   @unique
   issuedDate     DateTime @default(now())
   url            String?
+  user           User     @relation(fields: [userId], references: [id])
 }
 
 model Asset {
   id           String    @id @default(uuid())
   name         String
-  type         String // LAPTOP, PHONE, LICENSE, FURNITURE
+  type         String
   serialNumber String?   @unique
-  status       String    @default("AVAILABLE") // AVAILABLE, ASSIGNED, DAMAGED, LOST
+  status       String    @default("AVAILABLE")
   assignedTo   String?
-  user         User?     @relation(fields: [assignedTo], references: [id])
   purchasedAt  DateTime?
   createdAt    DateTime  @default(now())
+  user         User?     @relation(fields: [assignedTo], references: [id])
 }
 
 model Notification {

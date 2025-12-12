@@ -32,6 +32,22 @@ export const createUser = async (req: Request, res: Response) => {
             include: { profile: true }
         });
 
+        // Initialize Leave Balances
+        try {
+            const leaveTypes = await prisma.leaveType.findMany();
+            if (leaveTypes.length > 0) {
+                const balances = leaveTypes.map(lt => ({
+                    userId: user.id,
+                    leaveTypeId: lt.id,
+                    balance: lt.daysPerYear,
+                    used: 0
+                }));
+                await prisma.leaveBalance.createMany({ data: balances });
+            }
+        } catch (e) {
+            console.error("Failed to init leave balances for user:", user.id, e);
+        }
+
         const { passwordHash: _, ...userWithoutPassword } = user;
         res.status(201).json(userWithoutPassword);
     } catch (error) {
@@ -42,18 +58,26 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const getUsers = async (req: Request, res: Response) => {
     try {
+        console.log('GET /api/users HIT');
+        console.log('CWD:', process.cwd());
+        console.log('DATABASE_URL env:', process.env.DATABASE_URL);
+
+        const count = await prisma.user.count();
+        console.log('Prisma User Count:', count);
+
         const users = await prisma.user.findMany({
             select: {
                 id: true,
                 email: true,
                 role: true,
-                createdAt: true,
                 profile: true
                 // Exclude passwordHash
             }
         });
+        console.log(`Returning ${users.length} users`);
         res.json(users);
     } catch (error) {
+        console.error('Error in getUsers:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
@@ -63,7 +87,16 @@ export const getUserById = async (req: Request, res: Response) => {
         const { id } = req.params;
         const user = await prisma.user.findUnique({
             where: { id },
-            include: { profile: true }
+            include: {
+                profile: true,
+                onboarding: true,
+                salary: true,
+                attendance: {
+                    orderBy: { date: 'desc' },
+                    take: 5
+                },
+                leaveBalances: true
+            }
         });
 
         if (!user) {
@@ -114,21 +147,45 @@ export const deleteUser = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         // Transaction to delete relations if necessary? 
-        // Prisma cascading delete might need to be configured or handled manually.
-        // For now delete user (Profile cascades if configured in schema, otherwise need to update schema or delete profile first)
-        // Prisma default relation is not cascade delete by default unless specified.
-        // Let's rely on Prisma client knowing to delete relation if configured?
-        // Actually schema didn't specify onDelete: Cascade.
-
-        // We should probably delete related records first or update schema.
-        // Updating schema is better in long run, but for now manual.
+        // Delete all related records first to satisfy foreign keys
+        // Note: Using a transaction to ensure atomicity
+        const deleteAttendance = prisma.attendance.deleteMany({ where: { userId: id } });
+        const deleteLeaveBalance = prisma.leaveBalance.deleteMany({ where: { userId: id } });
+        const deleteLeaveRequest = prisma.leaveRequest.deleteMany({ where: { userId: id } });
+        // @ts-ignore
+        const deleteSalary = prisma.salaryStructure.deleteMany({ where: { userId: id } });
+        // @ts-ignore
+        const deletePayslips = prisma.payslip.deleteMany({ where: { userId: id } });
+        // @ts-ignore
+        const deleteOnboarding = prisma.onboarding.deleteMany({ where: { userId: id } });
+        const deleteNotifications = prisma.notification.deleteMany({ where: { userId: id } });
+        const deleteGoals = prisma.goal.deleteMany({ where: { userId: id } });
+        const deleteReviews = prisma.performanceReview.deleteMany({ where: { userId: id } });
+        const deleteGivenReviews = prisma.performanceReview.deleteMany({ where: { reviewerId: id } });
+        const deleteClaims = prisma.expenseClaim.deleteMany({ where: { userId: id } });
+        const deleteAssets = prisma.asset.updateMany({ where: { assignedTo: id }, data: { assignedTo: null, status: 'AVAILABLE' } });
 
         const deleteProfile = prisma.profile.deleteMany({ where: { userId: id } });
         const deleteUser = prisma.user.delete({ where: { id } });
 
-        await prisma.$transaction([deleteProfile, deleteUser]);
+        await prisma.$transaction([
+            deleteAttendance,
+            deleteLeaveBalance,
+            deleteLeaveRequest,
+            deleteSalary,
+            deletePayslips,
+            deleteOnboarding,
+            deleteNotifications,
+            deleteGoals,
+            deleteReviews,
+            deleteGivenReviews,
+            deleteClaims,
+            deleteAssets,
+            deleteProfile,
+            deleteUser
+        ]);
 
-        res.json({ message: 'User deleted successfully' });
+        res.json({ message: 'User and all related data deleted successfully' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });

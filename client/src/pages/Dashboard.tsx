@@ -16,11 +16,14 @@ const Dashboard: React.FC = () => {
 
     const fetchStats = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/notifications/admin-stats', {
+            // Using the new detailed stats API
+            const response = await fetch('http://localhost:5000/api/stats', {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            const data = await response.json();
-            setStats(data);
+            if (response.ok) {
+                const data = await response.json();
+                setStats(data);
+            }
         } catch (error) {
             console.error(error);
         }
@@ -38,6 +41,14 @@ const Dashboard: React.FC = () => {
         }
     };
 
+    const Card = ({ title, value, sub, color }: any) => (
+        <div className="dashboard-card">
+            <div className="text-bold-caps">{title}</div>
+            <div className={`text-value-lg ${color}`}>{value}</div>
+            {sub && <div className="text-muted-sm mt-2">{sub}</div>}
+        </div>
+    );
+
     return (
         <div className="page-container">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
@@ -45,7 +56,6 @@ const Dashboard: React.FC = () => {
                     <h1 style={{ marginBottom: '0.25rem' }}>Welcome, {user?.profile?.firstName || user?.email} 👋</h1>
                     <p style={{ color: 'var(--text-muted)' }}>{user?.profile?.designation || user?.role}</p>
                 </div>
-                {/* Logout is handled by sidebar now, keeping this empty or for other actions */}
             </div>
 
             {/* Notifications Section */}
@@ -64,23 +74,22 @@ const Dashboard: React.FC = () => {
 
             {/* Admin Stats */}
             {(user?.role === 'ADMIN' || user?.role === 'HR') && stats && (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
-                    <div className="glass-panel" style={{ padding: '1.5rem' }}>
-                        <p style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-muted)' }}>TOTAL EMPLOYEES</p>
-                        <h3 style={{ margin: '0.5rem 0 0', fontSize: '2.5rem', color: 'var(--primary)' }}>{stats.totalEmployees}</h3>
-                    </div>
-                    <div className="glass-panel" style={{ padding: '1.5rem' }}>
-                        <p style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-muted)' }}>TOTAL INTERNS</p>
-                        <h3 style={{ margin: '0.5rem 0 0', fontSize: '2.5rem', color: 'var(--secondary)' }}>{stats.totalInterns}</h3>
-                    </div>
-                    <div className="glass-panel" style={{ padding: '1.5rem' }}>
-                        <p style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-muted)' }}>PRESENT TODAY</p>
-                        <h3 style={{ margin: '0.5rem 0 0', fontSize: '2.5rem', color: 'var(--warning)' }}>{stats.presentToday}</h3>
-                    </div>
-                    <div className="glass-panel" style={{ padding: '1.5rem' }}>
-                        <p style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-muted)' }}>PENDING ONBOARDING</p>
-                        <h3 style={{ margin: '0.5rem 0 0', fontSize: '2.5rem', color: 'var(--error)' }}>{stats.pendingOnboarding}</h3>
-                    </div>
+                <div className="grid-3">
+                    <Link to="/users" style={{ textDecoration: 'none' }}>
+                        <Card title="Total Employees" value={stats.users?.total} sub={`${stats.users?.active} Active Users`} color="text-slate-800" />
+                    </Link>
+                    <Link to="/attendance" style={{ textDecoration: 'none' }}>
+                        <Card title="Present Today" value={stats.attendance?.presentToday || 0} sub="Check-ins recorded" color="text-green-600" />
+                    </Link>
+                    <Link to="/recruitment/jobs" style={{ textDecoration: 'none' }}>
+                        <Card title="Open Jobs" value={stats.recruitment?.openJobs} sub="Role vacancies" color="text-blue-600" />
+                    </Link>
+                    <Link to="/expenses/approvals" style={{ textDecoration: 'none' }}>
+                        <Card title="Pending Expenses" value={stats.finance?.pendingClaims} sub={`$${stats.finance?.approvedTotal} Approved YTD`} color="text-amber-600" />
+                    </Link>
+                    <Link to="/assets" style={{ textDecoration: 'none' }}>
+                        <Card title="Assigned Assets" value={stats.assets?.assigned} sub="Devices in use" color="text-purple-600" />
+                    </Link>
                 </div>
             )}
 

@@ -8,7 +8,15 @@ import {
 } from '../controllers/onboarding.controller';
 import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware';
 
+import { upload } from '../middlewares/upload.middleware';
+
 const router = Router();
+
+router.post('/upload', authenticateToken, upload.single('file'), (req: any, res) => {
+    if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+    const url = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    res.json({ url });
+});
 
 router.post('/submit', authenticateToken, submitOnboarding);
 router.get('/status', authenticateToken, getOnboardingStatus);

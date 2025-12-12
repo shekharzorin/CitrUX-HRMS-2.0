@@ -1,22 +1,18 @@
 :root {
   /* Keka-inspired Palette */
-  --primary: #6941C6;
-  /* Professional Purple */
-  --primary-hover: #53389E;
-  --secondary: #0D9488;
-  /* Teal/Green for actions/success */
-  --accent-blue: #0ea5e9;
+  --primary: #9d316e;
+  /* Deep Pink/Maroon for Keka feel */
+  --primary-hover: #83275a;
+  --secondary: #475569;
 
-  --background: #F3F4F6;
-  /* Light Gray Background */
-  --surface: #FFFFFF;
-  /* White Cards */
-  --sidebar-bg: #111827;
-  /* Dark clean sidebar */
-  --sidebar-text: #E5E7EB;
+  --background: #f1f5f9;
+  --surface: #ffffff;
+  --sidebar-active: #ffffff;
+
+  --sidebar-width-collapsed: 70px;
+  --sidebar-width-expanded: 260px;
 
   --text: #1F2937;
-  /* Dark Gray text */
   --text-muted: #6B7280;
   --border: #E5E7EB;
 
@@ -28,6 +24,27 @@
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  --sidebar-bg: #32373d;
+  --sidebar-text: #94A3B8;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  background-color: var(--background);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Sidebar Transitions */
+.sidebar-transition {
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.content-transition {
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
@@ -147,6 +164,68 @@ p {
   color: var(--error);
   font-size: 0.875rem;
   margin-top: 0.5rem;
+}
+
+/* Grid Layouts */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Text Colors */
+.text-slate-800 {
+  color: #1e293b;
+}
+
+.text-green-600 {
+  color: #16a34a;
+}
+
+.text-blue-600 {
+  color: #2563eb;
+}
+
+.text-amber-600 {
+  color: #d97706;
+}
+
+.text-purple-600 {
+  color: #9333ea;
+}
+
+.text-muted-sm {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.text-bold-caps {
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.text-value-lg {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Dashboard Card */
+.dashboard-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s;
+}
+
+.dashboard-card:hover {
+  box-shadow: var(--shadow-md);
 }
 
 /* Sidebar Navigation */

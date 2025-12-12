@@ -1,4 +1,4 @@
-2025-12-09T18:27:48.301Z - CWD: D:\citrux-hrms\server - Login Error: 
+2025-12-12T04:34:01.065Z - CWD: D:\citrux-hrms\server - Login Error: 
 Invalid `prisma.user.findUnique()` invocation in
 D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
 
@@ -6,8 +6,15 @@ D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
    9 console.log('Login attempt:', email);
   10 
 → 11 const user = await prisma.user.findUnique(
-The column `main.User.status` does not exist in the current database.
-PrismaClientKnownRequestError: 
+error: Error validating datasource `db`: the URL must start with the protocol `file:`.
+  -->  schema.prisma:10
+   | 
+ 9 |   provider = "sqlite"
+10 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
 Invalid `prisma.user.findUnique()` invocation in
 D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
 
@@ -15,14 +22,21 @@ D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
    9 console.log('Login attempt:', email);
   10 
 → 11 const user = await prisma.user.findUnique(
-The column `main.User.status` does not exist in the current database.
-    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
+error: Error validating datasource `db`: the URL must start with the protocol `file:`.
+  -->  schema.prisma:10
+   | 
+ 9 |   provider = "sqlite"
+10 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
     at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
     at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
     at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
     at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
 
-2025-12-09T18:27:49.057Z - CWD: D:\citrux-hrms\server - Login Error: 
+2025-12-12T04:34:06.934Z - CWD: D:\citrux-hrms\server - Login Error: 
 Invalid `prisma.user.findUnique()` invocation in
 D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
 
@@ -30,8 +44,15 @@ D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
    9 console.log('Login attempt:', email);
   10 
 → 11 const user = await prisma.user.findUnique(
-The column `main.User.status` does not exist in the current database.
-PrismaClientKnownRequestError: 
+error: Error validating datasource `db`: the URL must start with the protocol `file:`.
+  -->  schema.prisma:10
+   | 
+ 9 |   provider = "sqlite"
+10 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
 Invalid `prisma.user.findUnique()` invocation in
 D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
 
@@ -39,14 +60,21 @@ D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
    9 console.log('Login attempt:', email);
   10 
 → 11 const user = await prisma.user.findUnique(
-The column `main.User.status` does not exist in the current database.
-    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
+error: Error validating datasource `db`: the URL must start with the protocol `file:`.
+  -->  schema.prisma:10
+   | 
+ 9 |   provider = "sqlite"
+10 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
     at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
     at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
     at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
     at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
 
-2025-12-09T18:27:49.647Z - CWD: D:\citrux-hrms\server - Login Error: 
+2025-12-12T04:34:08.226Z - CWD: D:\citrux-hrms\server - Login Error: 
 Invalid `prisma.user.findUnique()` invocation in
 D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
 
@@ -54,8 +82,15 @@ D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
    9 console.log('Login attempt:', email);
   10 
 → 11 const user = await prisma.user.findUnique(
-The column `main.User.status` does not exist in the current database.
-PrismaClientKnownRequestError: 
+error: Error validating datasource `db`: the URL must start with the protocol `file:`.
+  -->  schema.prisma:10
+   | 
+ 9 |   provider = "sqlite"
+10 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
 Invalid `prisma.user.findUnique()` invocation in
 D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
 
@@ -63,104 +98,15 @@ D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
    9 console.log('Login attempt:', email);
   10 
 → 11 const user = await prisma.user.findUnique(
-The column `main.User.status` does not exist in the current database.
-    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
-    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
-    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
-    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
-    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+error: Error validating datasource `db`: the URL must start with the protocol `file:`.
+  -->  schema.prisma:10
+   | 
+ 9 |   provider = "sqlite"
+10 |   url      = env("DATABASE_URL")
+   | 
 
-2025-12-09T18:27:51.412Z - CWD: D:\citrux-hrms\server - Login Error: 
-Invalid `prisma.user.findUnique()` invocation in
-D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
-
-   8 const { email, password } = req.body;
-   9 console.log('Login attempt:', email);
-  10 
-→ 11 const user = await prisma.user.findUnique(
-The column `main.User.status` does not exist in the current database.
-PrismaClientKnownRequestError: 
-Invalid `prisma.user.findUnique()` invocation in
-D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
-
-   8 const { email, password } = req.body;
-   9 console.log('Login attempt:', email);
-  10 
-→ 11 const user = await prisma.user.findUnique(
-The column `main.User.status` does not exist in the current database.
-    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
-    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
-    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
-    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
-    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
-
-2025-12-09T18:34:00.714Z - CWD: D:\citrux-hrms\server - Login Error: 
-Invalid `prisma.user.findUnique()` invocation in
-D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
-
-   8 const { email, password } = req.body;
-   9 console.log('Login attempt:', email);
-  10 
-→ 11 const user = await prisma.user.findUnique(
-The column `main.User.status` does not exist in the current database.
-PrismaClientKnownRequestError: 
-Invalid `prisma.user.findUnique()` invocation in
-D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
-
-   8 const { email, password } = req.body;
-   9 console.log('Login attempt:', email);
-  10 
-→ 11 const user = await prisma.user.findUnique(
-The column `main.User.status` does not exist in the current database.
-    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
-    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
-    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
-    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
-    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
-
-2025-12-09T18:34:01.337Z - CWD: D:\citrux-hrms\server - Login Error: 
-Invalid `prisma.user.findUnique()` invocation in
-D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
-
-   8 const { email, password } = req.body;
-   9 console.log('Login attempt:', email);
-  10 
-→ 11 const user = await prisma.user.findUnique(
-The column `main.User.status` does not exist in the current database.
-PrismaClientKnownRequestError: 
-Invalid `prisma.user.findUnique()` invocation in
-D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
-
-   8 const { email, password } = req.body;
-   9 console.log('Login attempt:', email);
-  10 
-→ 11 const user = await prisma.user.findUnique(
-The column `main.User.status` does not exist in the current database.
-    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
-    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
-    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
-    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
-    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
-
-2025-12-09T18:38:47.072Z - CWD: D:\citrux-hrms\server - Login Error: 
-Invalid `prisma.user.findUnique()` invocation in
-D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
-
-   8 const { email, password } = req.body;
-   9 console.log('Login attempt:', email);
-  10 
-→ 11 const user = await prisma.user.findUnique(
-The column `main.User.status` does not exist in the current database.
-PrismaClientKnownRequestError: 
-Invalid `prisma.user.findUnique()` invocation in
-D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
-
-   8 const { email, password } = req.body;
-   9 console.log('Login attempt:', email);
-  10 
-→ 11 const user = await prisma.user.findUnique(
-The column `main.User.status` does not exist in the current database.
-    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
     at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
     at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
     at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)

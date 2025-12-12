@@ -53,7 +53,7 @@ async function main() {
     }
 
     // 2. Create Users
-    console.log('Creating Users...');
+    console.log('Creating Admin User...');
 
     // Admin
     const admin = await prisma.user.create({
@@ -67,120 +67,7 @@ async function main() {
         }
     });
 
-    // HR
-    const hr = await prisma.user.create({
-        data: {
-            email: 'hr@citrux.com',
-            passwordHash: empPasswordHash,
-            role: 'HR',
-            managerId: admin.id,
-            profile: {
-                create: { firstName: 'Sarah', lastName: 'Connor', designation: 'HR Manager', department: 'HR', dateOfJoining: new Date() }
-            }
-        }
-    });
-
-    // Manager
-    const manager = await prisma.user.create({
-        data: {
-            email: 'manager@citrux.com',
-            passwordHash: empPasswordHash,
-            role: 'EMPLOYEE',
-            managerId: admin.id,
-            profile: {
-                create: { firstName: 'John', lastName: 'Doe', designation: 'Engineering Manager', department: 'Engineering', dateOfJoining: new Date() }
-            }
-        }
-    });
-
-    // Employees
-    const emp1 = await prisma.user.create({
-        data: {
-            email: 'alice@citrux.com',
-            passwordHash: empPasswordHash,
-            role: 'EMPLOYEE',
-            managerId: manager.id,
-            profile: {
-                create: { firstName: 'Alice', lastName: 'Smith', designation: 'Senior Dev', department: 'Engineering', dateOfJoining: new Date() }
-            }
-        }
-    });
-
-    const emp2 = await prisma.user.create({
-        data: {
-            email: 'bob@citrux.com',
-            passwordHash: empPasswordHash,
-            role: 'EMPLOYEE',
-            managerId: manager.id,
-            profile: {
-                create: { firstName: 'Bob', lastName: 'Jones', designation: 'UI Designer', department: 'Design', dateOfJoining: new Date() }
-            }
-        }
-    });
-
-    // Intern
-    const intern = await prisma.user.create({
-        data: {
-            email: 'intern@citrux.com',
-            passwordHash: empPasswordHash,
-            role: 'INTERN',
-            managerId: emp1.id, // Reports to Alice
-            profile: {
-                create: { firstName: 'Charlie', lastName: 'Brown', designation: 'Intern', department: 'Engineering', employmentType: 'INTERN', dateOfJoining: new Date() }
-            }
-        }
-    });
-
-    const allUsers = [admin, hr, manager, emp1, emp2, intern];
-
-    // 3. Assign Leave Balances
-    console.log('Assigning Leave Balances...');
-    for (const u of allUsers) {
-        for (const code in leaveTypeMap) {
-            await prisma.leaveBalance.create({
-                data: {
-                    userId: u.id,
-                    leaveTypeId: leaveTypeMap[code],
-                    balance: types.find(t => t.code === code)?.days || 0,
-                    used: 0
-                }
-            });
-        }
-    }
-
-    // 4. Create Attendance (Random)
-    console.log('Creating Attendance logs...');
-    const today = new Date();
-    for (let i = 0; i < 7; i++) {
-        const date = new Date(today);
-        date.setDate(date.getDate() - i);
-        if (date.getDay() === 0 || date.getDay() === 6) continue;
-
-        for (const u of allUsers) {
-            // Random absent
-            if (Math.random() > 0.9) continue;
-
-            const inTime = new Date(date);
-            inTime.setHours(9 + Math.random(), Math.random() * 59, 0);
-            const outTime = new Date(date);
-            outTime.setHours(18 + Math.random(), Math.random() * 59, 0);
-
-            const hours = (outTime.getTime() - inTime.getTime()) / (1000 * 3600);
-
-            await prisma.attendance.create({
-                data: {
-                    userId: u.id,
-                    date: date,
-                    checkIn: inTime,
-                    checkOut: outTime,
-                    hours: parseFloat(hours.toFixed(2)),
-                    status: 'PRESENT'
-                }
-            });
-        }
-    }
-
-    console.log('✅ Seeding Complete!');
+    console.log('✅ Seeding Complete! Default Admin: admin@citrux.com / admin123');
 }
 
 main()

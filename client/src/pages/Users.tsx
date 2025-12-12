@@ -18,10 +18,21 @@ const Users: React.FC = () => {
             const response = await fetch('http://localhost:5000/api/users', {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            const data = await response.json();
-            setUsers(data);
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Fetched users:", data);
+                if (Array.isArray(data)) {
+                    setUsers(data);
+                } else {
+                    console.error("Received invalid users data:", data);
+                    setUsers([]);
+                }
+            } else {
+                console.error("Failed to fetch users:", response.status);
+            }
         } catch (error) {
-            console.error(error);
+            console.error("Error fetching users:", error);
         } finally {
             setLoading(false);
         }
@@ -50,11 +61,11 @@ const Users: React.FC = () => {
         }
     };
 
-    const filteredUsers = users.filter(user =>
-        user.email.toLowerCase().includes(search.toLowerCase()) ||
-        user.profile?.firstName?.toLowerCase().includes(search.toLowerCase()) ||
-        user.profile?.lastName?.toLowerCase().includes(search.toLowerCase())
-    );
+    const filteredUsers = Array.isArray(users) ? users.filter(user =>
+        (user.email && user.email.toLowerCase().includes(search.toLowerCase())) ||
+        (user.profile?.firstName && user.profile.firstName.toLowerCase().includes(search.toLowerCase())) ||
+        (user.profile?.lastName && user.profile.lastName.toLowerCase().includes(search.toLowerCase()))
+    ) : [];
 
     return (
         <div className="page-container">
@@ -78,6 +89,11 @@ const Users: React.FC = () => {
             </div>
 
             <div className="glass-panel" style={{ padding: 0, overflow: 'hidden', background: 'white' }}>
+                <div className="p-4 bg-gray-100 text-xs font-mono border-b">
+                    DEBUG: Users Count: {users.length}, Filtered Count: {filteredUsers.length}, Search: "{search}"
+                    {users.length > 0 && <br />}
+                    {users.length > 0 && JSON.stringify(users[0]).substring(0, 100) + "..."}
+                </div>
                 {loading ? <div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div> : (
                     <table style={{ width: '100%', borderCollapse: 'collapse', color: 'var(--text)' }}>
                         <thead style={{ background: '#F9FAFB', borderBottom: '1px solid var(--border)' }}>
@@ -118,6 +134,7 @@ const Users: React.FC = () => {
                                     <td style={{ padding: '1rem', color: '#374151' }}>{user.profile?.designation || '-'}</td>
                                     <td style={{ padding: '1rem', textAlign: 'right' }}>
                                         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
+                                            <Link to={`/employees/${user.id}`} className="btn-primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', background: 'white', color: 'var(--primary)', border: '1px solid var(--border)', boxShadow: 'none' }}>View</Link>
                                             <Link to={`/users/edit/${user.id}`} className="btn-primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', background: 'white', color: 'var(--primary)', border: '1px solid var(--border)', boxShadow: 'none' }}>Edit</Link>
                                             <button
                                                 onClick={() => handleDelete(user.id, user.profile?.firstName || user.email)}

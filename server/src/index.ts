@@ -18,7 +18,7 @@ import recruitmentRoutes from './routes/recruitment.routes';
 import expenseRoutes from './routes/expense.routes';
 import assetRoutes from './routes/asset.routes';
 import profileRoutes from './routes/profile.routes';
-import notificationRoutes from './routes/notification.routes';
+
 import statsRoutes from './routes/stats.routes';
 import path from 'path';
 
@@ -54,9 +54,11 @@ app.use('/api/recruitment', recruitmentRoutes);
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/assets', assetRoutes);
 app.use('/api/profile', profileRoutes);
-app.use('/api/notifications', notificationRoutes);
+
 app.use('/api/stats', statsRoutes);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
+
+

@@ -64,19 +64,30 @@ export const updateTaskStatus = async (req: AuthRequest, res: Response) => {
 export const submitOnboarding = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user.userId;
-        const { bankDetails } = req.body;
+        const {
+            bankDetails, firstName, lastName, fatherName,
+            dateOfBirth, currAddress, permAddress,
+            aadhaarNumber, panNumber,
+            aadhaarUrl, panUrl, passbookUrl, offerLetterUrl
+        } = req.body;
 
         // @ts-ignore
         const onboarding = await prisma.onboarding.update({
             where: { userId },
             data: {
                 bankDetails,
+                firstName, lastName, fatherName,
+                dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null,
+                currAddress, permAddress,
+                aadhaarNumber, panNumber,
+                aadhaarUrl, panUrl, passbookUrl, offerLetterUrl,
                 status: 'SUBMITTED',
                 submittedAt: new Date()
             }
         });
         res.json(onboarding);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Error submitting onboarding' });
     }
 };

@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Users from './pages/Users';
+import EmployeeDetails from './pages/EmployeeDetails';
 import Leaves from './pages/Leaves';
 import ManagerLeaves from './pages/ManagerLeaves';
 import CreateUser from './pages/CreateUser';
@@ -57,6 +58,11 @@ const App: React.FC = () => {
           <Route path="/users" element={
             <ProtectedRoute>
               <Users />
+            </ProtectedRoute>
+          } />
+          <Route path="/employees/:id" element={
+            <ProtectedRoute>
+              <EmployeeDetails />
             </ProtectedRoute>
           } />
           <Route path="/leaves" element={

@@ -16,11 +16,16 @@ export const getDashboardStats = async (req: Request, res: Response) => {
         // 3. Attendance Today
         const startOfDay = new Date();
         startOfDay.setHours(0, 0, 0, 0);
-        const presentToday = await prisma.attendance.count({
-            where: { date: startOfDay }
+        const endOfDay = new Date();
+        endOfDay.setHours(23, 59, 59, 999);
 
-            // Check date storage format. It was Datetime... user might store UTC?
-            // Assuming simplified date match for 'gte startOfDay'.
+        const presentToday = await prisma.attendance.count({
+            where: {
+                date: {
+                    gte: startOfDay,
+                    lte: endOfDay
+                }
+            }
         });
 
         // 4. Pending Claims
