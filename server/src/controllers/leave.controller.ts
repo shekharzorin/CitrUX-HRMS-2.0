@@ -124,7 +124,7 @@ export const getTeamRequests = async (req: Request, res: Response) => {
 export const updateLeaveStatus = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { status, comment } = req.body; // APPROVED or REJECTED
+        const { status, comment } = req.body; // APPROVED or   REJECTED
 
         // @ts-ignore
         const request = await prisma.leaveRequest.findUnique({ where: { id } });

@@ -1,13 +1,16 @@
 import { Router } from 'express';
-import { createUser, getUsers, getUserById, updateUser, deleteUser } from '../controllers/user.controller';
+import { createUser, getUsers, getUserById, updateUser, deleteUser, importUsers } from '../controllers/user.controller';
+import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware';
 
 const router = Router();
 
-// TODO: Add Auth Middleware
-router.post('/', createUser);
+router.use(authenticateToken);
+
+router.post('/', authorizeRole(['ADMIN', 'HR', 'SUPER_ADMIN']), createUser);
+router.post('/import', authorizeRole(['ADMIN', 'HR', 'SUPER_ADMIN']), importUsers);
 router.get('/', getUsers);
 router.get('/:id', getUserById);
-router.put('/:id', updateUser);
-router.delete('/:id', deleteUser);
+router.put('/:id', authorizeRole(['ADMIN', 'HR', 'SUPER_ADMIN']), updateUser);
+router.delete('/:id', authorizeRole(['ADMIN', 'HR', 'SUPER_ADMIN']), deleteUser);
 
 export default router;

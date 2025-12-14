@@ -13,9 +13,33 @@ const EditUser: React.FC = () => {
         lastName: '',
         phone: '',
         designation: '',
+        managerId: '',
+        employeeId: ''
     });
 
+    const [jobRoles, setJobRoles] = useState<any[]>([]);
+    const [managers, setManagers] = useState<any[]>([]);
+
     useEffect(() => {
+        // ... (fetchData logic kept same, simplified replacement) ...
+        const fetchData = async () => {
+            // ... existing fetch logic for roles/managers ...
+            try {
+                const headers = { Authorization: `Bearer ${token}` };
+                const [rolesRes, usersRes] = await Promise.all([
+                    fetch('http://localhost:5000/api/job-roles', { headers }),
+                    fetch('http://localhost:5000/api/users', { headers })
+                ]);
+
+                if (rolesRes.ok) setJobRoles(await rolesRes.json());
+                if (usersRes.ok) {
+                    const allUsers = await usersRes.json();
+                    setManagers(allUsers.filter((u: any) => u.id !== id));
+                }
+            } catch (error) { console.error(error); }
+        };
+        fetchData();
+
         const fetchUser = async () => {
             try {
                 const response = await fetch(`http://localhost:5000/api/users/${id}`, {
@@ -29,6 +53,8 @@ const EditUser: React.FC = () => {
                         lastName: data.profile?.lastName || '',
                         phone: data.profile?.phone || '',
                         designation: data.profile?.designation || '',
+                        managerId: data.managerId || '',
+                        employeeId: data.employeeId || ''
                     });
                 }
             } catch (error) {
@@ -87,6 +113,11 @@ const EditUser: React.FC = () => {
                     </div>
 
                     <div>
+                        <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.9rem' }}>Employee ID</label>
+                        <input name="employeeId" className="input-field" value={formData.employeeId} onChange={handleChange} placeholder="Optional" />
+                    </div>
+
+                    <div>
                         <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.9rem' }}>Role</label>
                         <select name="role" className="input-field" value={formData.role} onChange={handleChange}>
                             <option value="EMPLOYEE">Employee</option>
@@ -103,7 +134,25 @@ const EditUser: React.FC = () => {
 
                     <div>
                         <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.9rem' }}>Designation</label>
-                        <input name="designation" className="input-field" value={formData.designation} onChange={handleChange} />
+                        <select name="designation" className="input-field" value={formData.designation} onChange={handleChange} required>
+                            <option value="">Select Designation...</option>
+                            {jobRoles.map(role => (
+                                <option key={role.id} value={role.title}>{role.title}</option>
+                            ))}
+                            {jobRoles.length === 0 && <option value="Employee">Employee (Default)</option>}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.9rem' }}>Reporting Manager</label>
+                        <select name="managerId" className="input-field" value={formData.managerId} onChange={handleChange}>
+                            <option value="">None (Top Level)</option>
+                            {managers.map(mgr => (
+                                <option key={mgr.id} value={mgr.id}>
+                                    {mgr.profile?.firstName} {mgr.profile?.lastName} ({mgr.profile?.designation || mgr.email})
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
                     <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>

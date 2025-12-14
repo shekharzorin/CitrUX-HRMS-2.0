@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { notifyRole, notifyUser } from '../utils/notification';
 
 interface AuthRequest extends Request {
     user?: any;
@@ -19,6 +20,10 @@ export const resign = async (req: AuthRequest, res: Response) => {
                 lastDay: new Date(lastDay)
             }
         });
+
+        // Notify Admin & HR
+        await notifyRole(['ADMIN', 'HR'], `New Resignation Request from User ID: ${userId}`);
+
         res.json(offboarding);
     } catch (error) {
         res.status(500).json({ message: 'Error submitting resignation' });
@@ -77,6 +82,10 @@ export const updateOffboardingStatus = async (req: Request, res: Response) => {
             where: { id },
             data: { status }
         });
+
+        // Notify User
+        await notifyUser(updated.userId, `Your offboarding status has been updated to: ${status}`);
+
         res.json(updated);
     } catch (error) {
         res.status(500).json({ message: 'Error updating status' });

@@ -16,6 +16,25 @@ const CreateUser: React.FC = () => {
         joiningDate: ''
     });
 
+    const [jobRoles, setJobRoles] = useState<any[]>([]);
+    const [managers, setManagers] = useState<any[]>([]);
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const headers = { Authorization: `Bearer ${token}` };
+                const [rolesRes, usersRes] = await Promise.all([
+                    fetch('http://localhost:5000/api/job-roles', { headers }),
+                    fetch('http://localhost:5000/api/users', { headers })
+                ]);
+
+                if (rolesRes.ok) setJobRoles(await rolesRes.json());
+                if (usersRes.ok) setManagers(await usersRes.json());
+            } catch (error) { console.error(error); }
+        };
+        fetchData();
+    }, [token]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -58,6 +77,11 @@ const CreateUser: React.FC = () => {
                     </div>
 
                     <div>
+                        <label>Employee ID <span style={{ fontSize: '0.8em', color: '#6b7280', fontWeight: 'normal' }}>(Optional)</span></label>
+                        <input name="employeeId" className="input-field" placeholder="Leave blank to auto-generate (if enabled)" onChange={handleChange} />
+                    </div>
+
+                    <div>
                         <label>Email</label>
                         <input name="email" type="email" className="input-field" onChange={handleChange} required />
                     </div>
@@ -84,7 +108,25 @@ const CreateUser: React.FC = () => {
 
                     <div>
                         <label>Designation</label>
-                        <input name="designation" className="input-field" onChange={handleChange} />
+                        <select name="designation" className="input-field" onChange={handleChange} required>
+                            <option value="">Select Designation...</option>
+                            {jobRoles.map(role => (
+                                <option key={role.id} value={role.title}>{role.title}</option>
+                            ))}
+                            {jobRoles.length === 0 && <option value="Employee">Employee (Default)</option>}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Reporting Manager</label>
+                        <select name="managerId" className="input-field" onChange={handleChange}>
+                            <option value="">None (Top Level)</option>
+                            {managers.map(mgr => (
+                                <option key={mgr.id} value={mgr.id}>
+                                    {mgr.profile?.firstName} {mgr.profile?.lastName} ({mgr.profile?.designation || mgr.email})
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
                     <div>

@@ -31,6 +31,7 @@ import Payslips from './pages/Payslips';
 import SalaryConfig from './pages/SalaryConfig';
 import IssueCertificate from './pages/IssueCertificate';
 import Verification from './pages/Verification';
+import OrgChart from './pages/OrgChart';
 
 import Layout from './components/Layout';
 
@@ -55,9 +56,16 @@ const App: React.FC = () => {
               <Dashboard />
             </ProtectedRoute>
           } />
+
+
           <Route path="/users" element={
             <ProtectedRoute>
               <Users />
+            </ProtectedRoute>
+          } />
+          <Route path="/org-chart" element={
+            <ProtectedRoute>
+              <OrgChart />
             </ProtectedRoute>
           } />
           <Route path="/employees/:id" element={

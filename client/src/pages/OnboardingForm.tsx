@@ -12,7 +12,8 @@ const OnboardingForm: React.FC = () => {
         currAddress: '', permAddress: '',
         aadhaarNumber: '', panNumber: '',
         bankName: '', accountNumber: '', ifsc: '',
-        aadhaarUrl: '', panUrl: '', passbookUrl: '', offerLetterUrl: ''
+        aadhaarUrl: '', panUrl: '', passbookUrl: '', offerLetterUrl: '',
+        educationDocumentsUrl: '', experienceDocumentsUrl: ''
     });
 
     useEffect(() => {
@@ -50,7 +51,9 @@ const OnboardingForm: React.FC = () => {
                     aadhaarUrl: data.aadhaarUrl || '',
                     panUrl: data.panUrl || '',
                     passbookUrl: data.passbookUrl || '',
-                    offerLetterUrl: data.offerLetterUrl || ''
+                    offerLetterUrl: data.offerLetterUrl || '',
+                    educationDocumentsUrl: data.educationDocumentsUrl || '',
+                    experienceDocumentsUrl: data.experienceDocumentsUrl || ''
                 });
             }
         } catch (error) { console.error(error); }
@@ -256,7 +259,28 @@ const OnboardingForm: React.FC = () => {
                             </div>
                         </section>
 
-                        {/* 4. Offer Letter */}
+                        {/* 4. Education & Experience */}
+                        <section>
+                            <h2 className="text-lg font-semibold mb-4 border-b pb-2">Education & Experience</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="label">Educational Documents</label>
+                                    <p className="text-xs text-slate-500 mb-2">Upload consolidated marksheets or degree certificates (PDF).</p>
+                                    <input type="file" className="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                        onChange={(e) => handleFileUpload(e, 'educationDocumentsUrl')} />
+                                    {formData.educationDocumentsUrl && <span className="text-xs text-green-600 ml-2">✓ Uploaded</span>}
+                                </div>
+                                <div>
+                                    <label className="label">Experience Documents</label>
+                                    <p className="text-xs text-slate-500 mb-2">Upload relieving letters or experience certificates (PDF).</p>
+                                    <input type="file" className="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                        onChange={(e) => handleFileUpload(e, 'experienceDocumentsUrl')} />
+                                    {formData.experienceDocumentsUrl && <span className="text-xs text-green-600 ml-2">✓ Uploaded</span>}
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* 5. Offer Letter */}
                         <section>
                             <h2 className="text-lg font-semibold mb-4 border-b pb-2">Offer Acceptance</h2>
                             <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">

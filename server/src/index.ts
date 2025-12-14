@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from './generated/client';
 import userRoutes from './routes/user.routes';
 import authRoutes from './routes/auth.routes';
 import attendanceRoutes from './routes/attendance.routes';
@@ -18,6 +18,9 @@ import recruitmentRoutes from './routes/recruitment.routes';
 import expenseRoutes from './routes/expense.routes';
 import assetRoutes from './routes/asset.routes';
 import profileRoutes from './routes/profile.routes';
+import jobRoleRoutes from './routes/jobrole.routes';
+import settingsRoutes from './routes/settings.routes';
+import timesheetRoutes from './routes/timesheet.routes';
 
 import statsRoutes from './routes/stats.routes';
 import path from 'path';
@@ -54,11 +57,12 @@ app.use('/api/recruitment', recruitmentRoutes);
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/assets', assetRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/job-roles', jobRoleRoutes);
+app.use('/api/settings', settingsRoutes);
+app.use('/api/timesheets', timesheetRoutes);
 
 app.use('/api/stats', statsRoutes);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
-
-

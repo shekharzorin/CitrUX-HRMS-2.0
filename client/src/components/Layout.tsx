@@ -2,12 +2,19 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
+import ConfirmModal from './ConfirmModal';
+
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { user, logout } = useAuth();
+    const [showLogoutConfirm, setShowLogoutConfirm] = React.useState(false);
 
     const navigate = useNavigate();
 
     const handleLogout = () => {
+        setShowLogoutConfirm(true);
+    };
+
+    const confirmLogout = () => {
         logout();
         navigate('/login');
     };
@@ -39,16 +46,20 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     justifyContent: collapsed ? 'center' : 'space-between'
                 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        <div style={{ width: '32px', height: '32px', background: 'var(--primary)', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>C</div>
-                        {!collapsed && <h2 style={{ color: 'white', marginBottom: 0, fontSize: '1.25rem', letterSpacing: '-0.5px' }}>Citrux</h2>}
+                        {localStorage.getItem('company_logo') ? (
+                            <img src={localStorage.getItem('company_logo') || ''} alt="Logo" style={{ width: '36px', height: '36px', objectFit: 'contain', borderRadius: '4px' }} />
+                        ) : (
+                            <div style={{ width: '36px', height: '36px', background: 'var(--primary)', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>C</div>
+                        )}
+                        {!collapsed && <h2 style={{ color: 'white', margin: 0, fontSize: '1.25rem', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.5px' }}>{localStorage.getItem('company_name') || 'Citrux'}</h2>}
                     </div>
-                    <button onClick={() => setCollapsed(!collapsed)} className="text-slate-400 hover:text-white transition-colors" style={{ display: collapsed ? 'none' : 'block' }}>
+                    <button onClick={() => setCollapsed(!collapsed)} className="text-slate-400 hover:text-white transition-colors" style={{ display: collapsed ? 'none' : 'block', background: 'none', border: 'none', cursor: 'pointer', color: '#94A3B8', padding: '4px' }}>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
                     </button>
                 </div>
 
                 {collapsed && (
-                    <button onClick={() => setCollapsed(false)} className="mx-auto mt-2 text-slate-400 hover:text-white">
+                    <button onClick={() => setCollapsed(false)} style={{ display: 'block', margin: '0.5rem auto', background: 'none', border: 'none', cursor: 'pointer', color: '#94A3B8' }}>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
                     </button>
                 )}
@@ -65,10 +76,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         <span className="text-xl">⏱️</span>
                         {!collapsed && <span>Attendance</span>}
                     </Link>
-                    <Link to="/timesheets" className="nav-link" title="Timesheets">
-                        <span className="text-xl">📅</span>
-                        {!collapsed && <span>Timesheets</span>}
-                    </Link>
+                    {user?.role !== 'SUPER_ADMIN' && (
+                        <Link to="/timesheets" className="nav-link" title="Timesheets">
+                            <span className="text-xl">📅</span>
+                            {!collapsed && <span>Timesheets</span>}
+                        </Link>
+                    )}
                     <Link to="/leaves" className="nav-link" title="Leaves">
                         <span className="text-xl">🌴</span>
                         {!collapsed && <span>Leaves</span>}
@@ -115,9 +128,18 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             <div style={{ margin: '2rem 0 1rem 0', borderTop: '1px solid rgba(255,255,255,0.1)' }}></div>
                             {!collapsed && <p style={{ fontSize: '0.75rem', fontWeight: 600, color: '#6B7280', textTransform: 'uppercase', marginBottom: '0.75rem', paddingLeft: '0.5rem' }}>Administration</p>}
 
+                            <Link to="/settings" className="nav-link" title="Settings">
+                                <span className="text-xl">⚙️</span>
+                                {!collapsed && <span>Settings</span>}
+                            </Link>
+
                             <Link to="/users" className="nav-link" title="Employees">
                                 <span className="text-xl">👥</span>
                                 {!collapsed && <span>Employees</span>}
+                            </Link>
+                            <Link to="/org-chart" className="nav-link" title="Org Chart">
+                                <span className="text-xl">🌳</span>
+                                {!collapsed && <span>Org Structure</span>}
                             </Link>
                             <Link to="/onboarding/admin" className="nav-link" title="Approvals">
                                 <span className="text-xl">📋</span>
@@ -173,7 +195,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     </div>
                     {!collapsed && <button onClick={handleLogout} className="btn-primary" style={{ width: '100%', background: 'rgba(239, 68, 68, 0.1)', color: '#EF4444', border: '1px solid rgba(239, 68, 68, 0.2)' }}>Logout</button>}
                     {collapsed && (
-                        <button onClick={handleLogout} className="btn-primary p-2 flex justify-center w-full" style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#EF4444', border: '1px solid rgba(239, 68, 68, 0.2)' }}>
+                        <button onClick={handleLogout} className="btn-primary p-2 flex justify-center w-full" style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#EF4444', border: '1px solid rgba(239, 68, 68, 0.2)', display: 'flex', justifyContent: 'center' }}>
                             <span className="text-sm">🚪</span>
                         </button>
                     )}
@@ -192,16 +214,18 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     justifyContent: 'space-between',
                     zIndex: 90
                 }}>
-                    <h2 className="text-xl font-bold text-slate-700">Citrux HRMS</h2>
-                    <div className="flex items-center gap-4">
-                        <Link to="/notifications" className="relative p-2 text-slate-500 hover:text-slate-800 transition-colors">
-                            <span className="text-xl">🔔</span>
+                    <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#334155', margin: 0 }}>
+                        {localStorage.getItem('company_name') ? (localStorage.getItem('company_name') + ' HRMS') : 'Citrux HRMS'}
+                    </h2>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                        <Link to="/notifications" style={{ textDecoration: 'none', color: '#64748B', display: 'flex', alignItems: 'center' }}>
+                            <span style={{ fontSize: '1.25rem' }}>🔔</span>
                         </Link>
-                        <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                            <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#E2E8F0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#475569', fontWeight: 'bold' }}>
                                 {user?.email[0].toUpperCase()}
                             </div>
-                            <span className="text-sm font-medium text-slate-600 hidden md:inline">{user?.email}</span>
+                            <span style={{ fontSize: '0.875rem', fontWeight: 500, color: '#475569' }}>{user?.email}</span>
                         </div>
                     </div>
                 </header>
@@ -211,6 +235,15 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     {children}
                 </main>
             </div>
+            <ConfirmModal
+                isOpen={showLogoutConfirm}
+                onClose={() => setShowLogoutConfirm(false)}
+                onConfirm={confirmLogout}
+                title="Confirm Logout"
+                message="Are you sure you want to log out? You will need to sign in again to access the application."
+                confirmText="Logout"
+                type="danger"
+            />
         </div>
     );
 };

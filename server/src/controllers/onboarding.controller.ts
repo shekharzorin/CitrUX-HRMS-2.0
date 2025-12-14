@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { notifyRole, notifyUser } from '../utils/notification';
 
 interface AuthRequest extends Request {
     user?: any;
@@ -68,7 +69,8 @@ export const submitOnboarding = async (req: AuthRequest, res: Response) => {
             bankDetails, firstName, lastName, fatherName,
             dateOfBirth, currAddress, permAddress,
             aadhaarNumber, panNumber,
-            aadhaarUrl, panUrl, passbookUrl, offerLetterUrl
+            aadhaarUrl, panUrl, passbookUrl, offerLetterUrl,
+            educationDocumentsUrl, experienceDocumentsUrl
         } = req.body;
 
         // @ts-ignore
@@ -81,10 +83,15 @@ export const submitOnboarding = async (req: AuthRequest, res: Response) => {
                 currAddress, permAddress,
                 aadhaarNumber, panNumber,
                 aadhaarUrl, panUrl, passbookUrl, offerLetterUrl,
+                educationDocumentsUrl, experienceDocumentsUrl,
                 status: 'SUBMITTED',
                 submittedAt: new Date()
             }
         });
+
+        // Notify Admin & HR
+        await notifyRole(['ADMIN', 'HR'], `New Onboarding Submission from ${firstName} ${lastName}`);
+
         res.json(onboarding);
     } catch (error) {
         console.error(error);
@@ -110,13 +117,62 @@ export const getPendingOnboardings = async (req: Request, res: Response) => {
 export const approveOnboarding = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
+
+        // Fetch original onboarding data
         // @ts-ignore
-        const onboarding = await prisma.onboarding.update({
-            where: { id },
-            data: { status: 'APPROVED' }
+        const onboarding = await prisma.onboarding.findUnique({ where: { id } });
+        if (!onboarding) return res.status(404).json({ message: 'Record not found' });
+
+        await prisma.$transaction(async (tx) => {
+            // 1. Update Onboarding Status
+            // @ts-ignore
+            await tx.onboarding.update({
+                where: { id },
+                data: { status: 'APPROVED' }
+            });
+
+            // 2. Activate User
+            // @ts-ignore
+            await tx.user.update({
+                where: { id: onboarding.userId },
+                data: { status: 'ACTIVE' }
+            });
+
+            // 3. Update/Create Profile with Onboarding Data
+            // @ts-ignore
+            await tx.profile.upsert({
+                where: { userId: onboarding.userId },
+                create: {
+                    userId: onboarding.userId,
+                    firstName: onboarding.firstName || 'Employee',
+                    lastName: onboarding.lastName || '',
+                    documents: JSON.stringify({
+                        aadhaar: onboarding.aadhaarUrl,
+                        pan: onboarding.panUrl,
+                        education: onboarding.educationDocumentsUrl,
+                        experience: onboarding.experienceDocumentsUrl
+                    })
+                    // Add other profile defaults if needed
+                },
+                update: {
+                    firstName: onboarding.firstName || undefined,
+                    lastName: onboarding.lastName || undefined,
+                    documents: JSON.stringify({
+                        aadhaar: onboarding.aadhaarUrl,
+                        pan: onboarding.panUrl,
+                        education: onboarding.educationDocumentsUrl,
+                        experience: onboarding.experienceDocumentsUrl
+                    })
+                }
+            });
         });
-        res.json(onboarding);
+
+        // Notify User
+        await notifyUser(onboarding.userId, 'Congratulations! Your onboarding has been approved. Welcome aboard!');
+
+        res.json({ message: 'Approved and Profile Updated' });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Error approving onboarding' });
     }
 };
