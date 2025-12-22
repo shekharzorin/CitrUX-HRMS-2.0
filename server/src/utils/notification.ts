@@ -25,13 +25,15 @@ export const notifyRole = async (roles: string[], message: string) => {
 
         if (users.length === 0) return;
 
-        await prisma.notification.createMany({
-            data: users.map(u => ({
-                userId: u.id,
-                message,
-                read: false
-            }))
-        });
+        for (const u of users) {
+            await prisma.notification.create({
+                data: {
+                    userId: u.id,
+                    message,
+                    read: false
+                }
+            });
+        }
     } catch (error) {
         console.error('Failed to notify roles:', roles, error);
     }

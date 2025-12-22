@@ -128,221 +128,187 @@ const Timesheets: React.FC = () => {
 
 
     return (
-        <div className="p-6 bg-slate-50 min-h-screen font-sans">
-            <div className="max-w-7xl mx-auto space-y-6">
-
-                {/* 1. Top Header: Title & Actions */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div>
-                        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Timesheets</h1>
-                        <p className="text-slate-500 text-sm mt-1">Manage your weekly tasks and hours.</p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 text-sm font-medium transition-all shadow-sm">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-                            Copy Last Week
-                        </button>
-                        <button onClick={saveChanges} disabled={saving} className="flex items-center gap-2 px-4 py-2 bg-white border border-blue-200 text-blue-600 rounded-lg hover:bg-blue-50 text-sm font-medium transition-all shadow-sm disabled:opacity-50">
-                            {saving ? 'Saving...' : 'Save Draft'}
-                        </button>
-                        <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition-all shadow-md shadow-blue-200">
-                            Submit for Approval
-                        </button>
-                    </div>
+        <div className="page-container">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div>
+                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Timesheets</h1>
+                    <p className="text-slate-500 text-sm mt-1">Manage your weekly tasks and hours.</p>
                 </div>
+                <div className="flex items-center gap-3">
+                    <button className="btn-secondary">
+                        <span className="text-lg">📋</span> Copy Last Week
+                    </button>
+                    <button onClick={saveChanges} disabled={saving} className="btn-secondary" style={{ minWidth: '120px' }}>
+                        {saving ? 'Saving...' : '💾 Save Draft'}
+                    </button>
+                    <button className="btn-primary">
+                        🚀 Submit for Approval
+                    </button>
+                </div>
+            </div>
 
-                {/* 2. Stats & Navigation Bar */}
-                <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-1 flex flex-col md:flex-row items-center justify-between">
-
+            {/* Navigation & Stats */}
+            <div className="glass-panel" style={{ padding: '1rem', marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                     {/* Week Navigator */}
-                    <div className="flex items-center gap-2 p-2">
-                        <button onClick={() => setCurrentDate(subWeeks(currentDate, 1))} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-500 transition-colors">
-                            <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 19l-7-7 7-7" /></svg>
+                    <div className="flex items-center gap-4 bg-slate-50 p-2 rounded-lg border border-slate-200">
+                        <button onClick={() => setCurrentDate(subWeeks(currentDate, 1))} className="p-2 hover:bg-white rounded-md transition-colors text-slate-500">
+                            ◀
                         </button>
-                        <div className="flex items-center gap-3 px-2">
-                            <div className="bg-blue-50 text-blue-700 p-2 rounded-lg">
-                                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
-                            </div>
+                        <div className="flex items-center gap-3">
+                            <span className="text-2xl">📅</span>
                             <div>
-                                <div className="text-xs text-slate-500 font-semibold uppercase tracking-wider">Current Week</div>
-                                <div className="text-slate-800 font-bold text-sm md:text-base whitespace-nowrap">
+                                <div className="text-xs text-slate-500 font-bold uppercase tracking-wider">Current Week</div>
+                                <div className="text-slate-900 font-bold whitespace-nowrap">
                                     {format(weekStart, 'dd MMM')} - {format(weekEnd, 'dd MMM yyyy')}
                                 </div>
                             </div>
                         </div>
-                        <button onClick={() => setCurrentDate(addWeeks(currentDate, 1))} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-500 transition-colors">
-                            <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 5l7 7-7 7" /></svg>
+                        <button onClick={() => setCurrentDate(addWeeks(currentDate, 1))} className="p-2 hover:bg-white rounded-md transition-colors text-slate-500">
+                            ▶
                         </button>
                     </div>
 
-                    {/* Divider */}
-                    <div className="w-full md:w-px h-px md:h-12 bg-slate-100 my-2 md:my-0"></div>
-
                     {/* Stats */}
-                    <div className="flex items-center gap-8 px-6 py-2 overflow-x-auto w-full md:w-auto">
+                    <div className="flex items-center gap-6 overflow-x-auto pb-2 md:pb-0">
                         <div className="flex flex-col">
-                            <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Status</span>
-                            <div className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold mt-1 border ${timesheet?.status === 'SUBMITTED'
-                                ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
-                                : 'bg-amber-50 text-amber-700 border-amber-100'
-                                }`}>
-                                <span className={`w-1.5 h-1.5 rounded-full ${timesheet?.status === 'SUBMITTED' ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
+                            <span className="text-xs font-bold text-slate-400 uppercase">Status</span>
+                            <span className={`px-2 py-0.5 rounded text-xs font-bold mt-1 border ${timesheet?.status === 'SUBMITTED' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'}`}>
                                 {timesheet?.status || 'Draft'}
-                            </div>
+                            </span>
                         </div>
-
                         <div className="flex flex-col">
-                            <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Billable</span>
-                            <span className="text-lg font-bold text-slate-700 font-mono">00:00</span>
+                            <span className="text-xs font-bold text-slate-400 uppercase">Billable</span>
+                            <span className="font-mono font-bold text-slate-700">00:00</span>
                         </div>
-
                         <div className="flex flex-col">
-                            <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Non-Billable</span>
-                            <span className="text-lg font-bold text-slate-700 font-mono">{totals.total.toFixed(2)}</span>
+                            <span className="text-xs font-bold text-slate-400 uppercase">Non-Billable</span>
+                            <span className="font-mono font-bold text-slate-700">{totals.total.toFixed(2)}</span>
                         </div>
-
-                        <div className="flex flex-col pl-4 border-l border-slate-100">
-                            <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Total Hours</span>
-                            <span className="text-2xl font-bold text-blue-600 font-mono">{totals.total.toFixed(2)}</span>
+                        <div className="flex flex-col pl-6 border-l border-slate-200">
+                            <span className="text-xs font-bold text-slate-400 uppercase">Total Hours</span>
+                            <span className="font-mono font-bold text-xl text-blue-600">{totals.total.toFixed(2)}</span>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                {/* 3. Timesheet Grid */}
-                <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden ring-1 ring-slate-900/5">
-                    {loading ? (
-                        <div className="p-12 flex flex-col items-center justify-center text-slate-400 gap-3">
-                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-                            <span className="text-sm font-medium">Loading your timesheet...</span>
-                        </div>
-                    ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse">
-                                <thead>
-                                    <tr className="bg-slate-50/80 border-b border-slate-200">
-                                        <th className="p-4 w-[320px] text-xs font-semibold text-slate-500 uppercase tracking-wider">Project / Task</th>
-                                        <th className="p-2 text-center w-[80px] text-xs font-semibold text-slate-500 uppercase">Mon <br /><span className="text-[10px] font-normal text-slate-400">{format(addWeeks(weekStart, 0), 'd')}</span></th>
-                                        <th className="p-2 text-center w-[80px] text-xs font-semibold text-slate-500 uppercase">Tue <br /><span className="text-[10px] font-normal text-slate-400">{format(addWeeks(weekStart, 0), 'd')}</span></th>
-                                        <th className="p-2 text-center w-[80px] text-xs font-semibold text-slate-500 uppercase">Wed <br /><span className="text-[10px] font-normal text-slate-400">{format(addWeeks(weekStart, 0), 'd')}</span></th>
-                                        <th className="p-2 text-center w-[80px] text-xs font-semibold text-slate-500 uppercase">Thu <br /><span className="text-[10px] font-normal text-slate-400">{format(addWeeks(weekStart, 0), 'd')}</span></th>
-                                        <th className="p-2 text-center w-[80px] text-xs font-semibold text-slate-500 uppercase">Fri <br /><span className="text-[10px] font-normal text-slate-400">{format(addWeeks(weekStart, 0), 'd')}</span></th>
-                                        <th className="p-2 text-center w-[80px] text-xs font-semibold text-slate-500 uppercase bg-slate-100/50">Sat <br /><span className="text-[10px] font-normal text-slate-400">{format(addWeeks(weekStart, 0), 'd')}</span></th>
-                                        <th className="p-2 text-center w-[80px] text-xs font-semibold text-slate-500 uppercase bg-slate-100/50">Sun <br /><span className="text-[10px] font-normal text-slate-400">{format(addWeeks(weekStart, 0), 'd')}</span></th>
-                                        <th className="p-2 text-center w-[100px] text-xs font-bold text-slate-700 uppercase bg-slate-50">Total</th>
-                                        <th className="p-2 w-[50px]"></th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-100">
-                                    {entries.map((entry, index) => (
-                                        <tr key={index} className="group hover:bg-slate-50 transition-colors">
-                                            <td className="p-3 align-top">
-                                                <div className="flex flex-col gap-2">
-                                                    <div className="relative">
-                                                        <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                                                            <span className="text-slate-400 text-xs text-[10px]">🏢</span>
-                                                        </div>
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Select Project / Client..."
-                                                            className="w-full pl-7 pr-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-50 border border-slate-200 rounded-md focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-200 transition-all placeholder-slate-400"
-                                                            value={entry.project || ''}
-                                                            onChange={e => handleChange(index, 'project', e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div className="relative">
-                                                        <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                                                            <span className="text-slate-400 text-[10px]">📝</span>
-                                                        </div>
-                                                        <input
-                                                            type="text"
-                                                            placeholder="What are you working on?"
-                                                            className="w-full pl-7 pr-3 py-1.5 text-sm font-medium text-slate-800 bg-transparent border-0 border-b border-slate-200 focus:border-blue-500 focus:ring-0 transition-colors placeholder-slate-400"
-                                                            value={entry.taskName || ''}
-                                                            onChange={e => handleChange(index, 'taskName', e.target.value)}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            {['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].map(day => (
-                                                <td key={day} className={`p-2 align-middle text-center ${['sat', 'sun'].includes(day) ? 'bg-slate-50/50' : ''}`}>
-                                                    <input
-                                                        type="number"
-                                                        min="0"
-                                                        max="24"
-                                                        step="0.5"
-                                                        className={`w-12 h-9 text-center rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none font-mono text-sm transition-all
-                                                            ${entry[day] > 0 ? 'bg-white text-slate-900 border-slate-300 shadow-sm' : 'bg-transparent text-slate-400 hover:bg-white hover:border-slate-300'}
-                                                            ${entry[day] > 8 ? 'text-amber-600 font-bold bg-amber-50 border-amber-200' : ''}
-                                                        `}
-                                                        value={entry[day] === 0 ? '' : entry[day]}
-                                                        placeholder="-"
-                                                        onFocus={(e) => e.target.select()}
-                                                        onChange={e => handleChange(index, day, e.target.value)}
-                                                    />
-                                                </td>
-                                            ))}
-                                            <td className="p-3 align-middle text-center">
-                                                <div className="w-16 mx-auto py-1.5 bg-slate-100 rounded-md font-mono font-bold text-slate-700 text-sm">
-                                                    {entry.total.toFixed(2)}
-                                                </div>
-                                            </td>
-                                            <td className="p-3 align-middle text-center">
-                                                <button
-                                                    onClick={() => handleDeleteRow(index)}
-                                                    className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-all opacity-0 group-hover:opacity-100"
-                                                    title="Remove Task"
-                                                >
-                                                    <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-
-                                    {/* Empty State */}
-                                    {entries.length === 0 && (
-                                        <tr>
-                                            <td colSpan={10} className="py-16">
-                                                <div className="flex flex-col items-center justify-center text-slate-400">
-                                                    <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
-                                                        <span className="text-3xl">📝</span>
-                                                    </div>
-                                                    <p className="text-lg font-medium text-slate-600">No tasks tracked this week</p>
-                                                    <p className="text-sm">Start by adding a new task below</p>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                                <tfoot>
-                                    <tr className="bg-slate-50 border-t border-slate-200">
-                                        <td className="p-4 text-right pr-6 text-xs font-bold uppercase tracking-wider text-slate-500">
-                                            Daily Total
-                                        </td>
-                                        <td className="p-3 text-center font-mono font-bold text-slate-700">{totals.mon.toFixed(2)}</td>
-                                        <td className="p-3 text-center font-mono font-bold text-slate-700">{totals.tue.toFixed(2)}</td>
-                                        <td className="p-3 text-center font-mono font-bold text-slate-700">{totals.wed.toFixed(2)}</td>
-                                        <td className="p-3 text-center font-mono font-bold text-slate-700">{totals.thu.toFixed(2)}</td>
-                                        <td className="p-3 text-center font-mono font-bold text-slate-700">{totals.fri.toFixed(2)}</td>
-                                        <td className="p-3 text-center font-mono font-bold text-slate-500 bg-slate-100/50">{totals.sat.toFixed(2)}</td>
-                                        <td className="p-3 text-center font-mono font-bold text-slate-500 bg-slate-100/50">{totals.sun.toFixed(2)}</td>
-                                        <td className="p-3 text-center font-mono font-bold text-white bg-blue-600 rounded-b-lg md:rounded-none">{totals.total.toFixed(2)}</td>
-                                        <td></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    )}
-
-                    {/* Footer Actions */}
-                    <div className="p-3 bg-slate-50 border-t border-slate-200">
-                        <button
-                            onClick={handleAddRow}
-                            className="w-full py-3 border-2 border-dashed border-slate-300 rounded-xl flex items-center justify-center gap-2 text-slate-500 font-medium hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50/50 transition-all group"
-                        >
-                            <span className="w-6 h-6 rounded-full bg-slate-200 group-hover:bg-blue-200 text-slate-500 group-hover:text-blue-600 flex items-center justify-center text-lg leading-none pb-0.5 transition-colors">+</span>
-                            Add New Task
-                        </button>
+            {/* Timesheet Grid */}
+            <div className="glass-panel" style={{ padding: 0, overflow: 'hidden' }}>
+                {loading ? (
+                    <div className="p-12 flex flex-col items-center justify-center text-slate-400 gap-3">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                        <span className="text-sm font-medium">Loading your timesheet...</span>
                     </div>
+                ) : (
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="bg-slate-50 border-b border-slate-200">
+                                    <th className="p-4 w-[300px] text-xs font-bold text-slate-500 uppercase tracking-wider">Project / Task</th>
+                                    {Array.from({ length: 7 }).map((_, i) => {
+                                        const date = new Date(weekStart);
+                                        date.setDate(weekStart.getDate() + i);
+                                        return (
+                                            <th key={i} className={`p-3 text-center w-[80px] text-xs font-bold text-slate-500 uppercase ${i > 4 ? 'bg-slate-100/50' : ''}`}>
+                                                {format(date, 'EEE')} <br />
+                                                <span className="text-slate-400 font-normal">{format(date, 'dd')}</span>
+                                            </th>
+                                        );
+                                    })}
+                                    <th className="p-3 text-center w-[80px] text-xs font-bold text-slate-700 uppercase bg-slate-100">Total</th>
+                                    <th className="w-[50px]"></th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100">
+                                {entries.map((entry, index) => (
+                                    <tr key={index} className="group hover:bg-slate-50/50 transition-colors">
+                                        <td className="p-3 align-top">
+                                            <div className="flex flex-col gap-2">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Select Project..."
+                                                    className="input-field text-xs"
+                                                    style={{ padding: '0.4rem 0.75rem' }}
+                                                    value={entry.project || ''}
+                                                    onChange={e => handleChange(index, 'project', e.target.value)}
+                                                />
+                                                <input
+                                                    type="text"
+                                                    placeholder="Task description..."
+                                                    className="w-full bg-transparent border-0 border-b border-slate-200 focus:border-blue-500 focus:ring-0 text-sm px-1 py-1"
+                                                    value={entry.taskName || ''}
+                                                    onChange={e => handleChange(index, 'taskName', e.target.value)}
+                                                />
+                                            </div>
+                                        </td>
+                                        {['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].map((day, i) => (
+                                            <td key={day} className={`p-2 align-middle text-center ${i > 4 ? 'bg-slate-50/30' : ''}`}>
+                                                <input
+                                                    type="number"
+                                                    min="0"
+                                                    max="24"
+                                                    step="0.5"
+                                                    className={`w-12 h-9 text-center rounded border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none font-mono text-sm
+                                                        ${entry[day] > 0 ? 'bg-white font-bold text-slate-800' : 'bg-transparent text-slate-400'}
+                                                    `}
+                                                    value={entry[day] === 0 ? '' : entry[day]}
+                                                    placeholder="-"
+                                                    onFocus={(e) => e.target.select()}
+                                                    onChange={e => handleChange(index, day, e.target.value)}
+                                                />
+                                            </td>
+                                        ))}
+                                        <td className="p-3 align-middle text-center bg-slate-50/30">
+                                            <span className="font-mono font-bold text-slate-700">{entry.total.toFixed(2)}</span>
+                                        </td>
+                                        <td className="p-2 text-center">
+                                            <button
+                                                onClick={() => handleDeleteRow(index)}
+                                                className="text-slate-400 hover:text-red-500 p-1 rounded hover:bg-red-50 transition-all opacity-0 group-hover:opacity-100"
+                                            >
+                                                🗑️
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+
+                                {entries.length === 0 && (
+                                    <tr>
+                                        <td colSpan={10} className="py-12">
+                                            <div className="flex flex-col items-center justify-center text-slate-400 opacity-70">
+                                                <span className="text-4xl mb-3">📝</span>
+                                                <p className="font-medium">No tasks tracked this week</p>
+                                                <p className="text-sm">Add a task to start tracking time</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                            <tfoot>
+                                <tr className="bg-slate-50/80 border-t border-slate-200 font-bold text-slate-700 text-sm">
+                                    <td className="p-4 text-right uppercase text-xs text-slate-500 tracking-wider">Weekly Total</td>
+                                    <td className="p-2 text-center font-mono">{totals.mon.toFixed(2)}</td>
+                                    <td className="p-2 text-center font-mono">{totals.tue.toFixed(2)}</td>
+                                    <td className="p-2 text-center font-mono">{totals.wed.toFixed(2)}</td>
+                                    <td className="p-2 text-center font-mono">{totals.thu.toFixed(2)}</td>
+                                    <td className="p-2 text-center font-mono">{totals.fri.toFixed(2)}</td>
+                                    <td className="p-2 text-center font-mono text-slate-500">{totals.sat.toFixed(2)}</td>
+                                    <td className="p-2 text-center font-mono text-slate-500">{totals.sun.toFixed(2)}</td>
+                                    <td className="p-2 text-center font-mono bg-blue-600 text-white shadow-sm">{totals.total.toFixed(2)}</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                )}
+                <div className="p-4 bg-slate-50 border-t border-slate-200">
+                    <button
+                        onClick={handleAddRow}
+                        className="w-full py-3 border-2 border-dashed border-slate-300 rounded-xl flex items-center justify-center gap-2 text-slate-500 font-bold hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-all"
+                    >
+                        <span>+</span> Add New Task
+                    </button>
                 </div>
             </div>
         </div>

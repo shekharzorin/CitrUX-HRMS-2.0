@@ -162,3 +162,30 @@ export const updateLeaveStatus = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error updating status' });
     }
 };
+
+// Create Leave Type
+export const createLeaveType = async (req: Request, res: Response) => {
+    try {
+        const { name, code, daysPerYear, carryForward } = req.body;
+        // @ts-ignore
+        const type = await prisma.leaveType.create({
+            data: { name, code, daysPerYear: parseInt(daysPerYear), carryForward }
+        });
+        res.json(type);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error creating leave type' });
+    }
+};
+
+// Delete Leave Type
+export const deleteLeaveType = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        // @ts-ignore
+        await prisma.leaveType.delete({ where: { id } });
+        res.json({ message: 'Leave type deleted' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting leave type' });
+    }
+};

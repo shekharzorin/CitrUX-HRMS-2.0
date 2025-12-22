@@ -77,14 +77,14 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
                 className="animation-scale-up"
                 onClick={(e) => e.stopPropagation()}
                 style={{
-                    background: 'white',
+                    background: 'var(--bg-surface)',
                     padding: '2rem',
-                    borderRadius: '16px',
+                    borderRadius: 'var(--radius-xl)',
                     width: '90%',
                     maxWidth: '400px',
-                    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                    boxShadow: 'var(--shadow-xl)',
                     textAlign: 'center',
-                    border: '1px solid rgba(0,0,0,0.05)'
+                    border: '1px solid var(--border-color)'
                 }}
             >
                 <div style={{
@@ -102,28 +102,21 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
                     {getIcon()}
                 </div>
 
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#1F2937', marginBottom: '0.5rem', marginTop: 0 }}>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '0.5rem', marginTop: 0 }}>
                     {title}
                 </h3>
 
-                <p style={{ color: '#6B7280', marginBottom: '2rem', lineHeight: 1.5, fontSize: '0.95rem' }}>
+                <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', lineHeight: 1.5, fontSize: '0.95rem' }}>
                     {message}
                 </p>
 
                 <div style={{ display: 'flex', gap: '1rem' }}>
                     <button
                         onClick={onClose}
+                        className="btn-secondary"
                         style={{
                             flex: 1,
-                            padding: '0.75rem',
-                            borderRadius: '8px',
-                            border: '1px solid #E5E7EB',
-                            background: 'white',
-                            color: '#374151',
-                            fontWeight: 600,
-                            cursor: 'pointer',
-                            fontSize: '0.95rem',
-                            transition: 'background 0.2s'
+                            justifyContent: 'center'
                         }}
                     >
                         {cancelText}
@@ -133,14 +126,14 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
                         style={{
                             flex: 1,
                             padding: '0.75rem',
-                            borderRadius: '8px',
+                            borderRadius: 'var(--radius-md)',
                             border: 'none',
                             background: colors.text,
                             color: 'white',
                             fontWeight: 600,
                             cursor: 'pointer',
                             fontSize: '0.95rem',
-                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                            boxShadow: 'var(--shadow-md)',
                             transition: 'opacity 0.2s'
                         }}
                     >

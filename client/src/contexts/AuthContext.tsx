@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 
 interface User {
     id: string;
+    employeeId?: string;
     email: string;
     role: string;
     profile?: any;

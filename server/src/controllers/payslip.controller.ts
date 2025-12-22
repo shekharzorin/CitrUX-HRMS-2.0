@@ -34,7 +34,8 @@ export const uploadPayslip = async (req: AuthRequest, res: Response) => {
                 year: parseInt(year),
                 gross: parseFloat(gross),
                 net: parseFloat(net),
-                url: file.path
+                url: file.path,
+                details: `Payslip for ${month}/${year}`
             }
         });
 

@@ -21,6 +21,7 @@ import profileRoutes from './routes/profile.routes';
 import jobRoleRoutes from './routes/jobrole.routes';
 import settingsRoutes from './routes/settings.routes';
 import timesheetRoutes from './routes/timesheet.routes';
+import holidayRoutes from './routes/holiday.routes';
 
 import statsRoutes from './routes/stats.routes';
 import path from 'path';
@@ -60,6 +61,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/job-roles', jobRoleRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/timesheets', timesheetRoutes);
+app.use('/api/holidays', holidayRoutes);
 
 app.use('/api/stats', statsRoutes);
 

@@ -3,36 +3,40 @@ import { prisma } from '../db';
 import { notifyRole, notifyUser } from '../utils/notification';
 
 interface AuthRequest extends Request {
-    user?: any;
+    user?: {
+        userId: string;
+        email: string;
+        role: string;
+    };
 }
 
-// Get Onboarding Status (Enhanced)
+// Get Onboarding Status (Full details)
 export const getOnboardingStatus = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
-        // @ts-ignore
+        const userId = req.user!.userId;
         const onboarding = await prisma.onboarding.findUnique({
             where: { userId },
-            include: { tasks: true }
+            include: {
+                emergencyContacts: true,
+                experiences: true,
+                education: true,
+                documents: true
+            }
         });
 
         if (!onboarding) {
-            // Auto-create if not exists
-            // @ts-ignore
+            // Auto-create DRAFT if not exists
             const newOnboarding = await prisma.onboarding.create({
                 data: {
                     userId,
-                    tasks: {
-                        create: [
-                            { title: 'Upload Aadhar Card' },
-                            { title: 'Upload PAN Card' },
-                            { title: 'Submit Bank Details' },
-                            { title: 'Sign Offer Letter' },
-                            { title: 'Read Employee Handbook' }
-                        ]
-                    }
+                    status: 'DRAFT'
                 },
-                include: { tasks: true }
+                include: {
+                    emergencyContacts: true,
+                    experiences: true,
+                    education: true,
+                    documents: true
+                }
             });
             return res.json(newOnboarding);
         }
@@ -44,53 +48,110 @@ export const getOnboardingStatus = async (req: AuthRequest, res: Response) => {
     }
 };
 
-// Update Task Status
-export const updateTaskStatus = async (req: AuthRequest, res: Response) => {
+// Update Onboarding (Save as Draft or Partial Update)
+export const updateOnboarding = async (req: AuthRequest, res: Response) => {
     try {
-        const { taskId, status } = req.body;
-        // @ts-ignore
-        const task = await prisma.onboardingTask.update({
-            where: { id: taskId },
-            data: {
-                status,
-                completedAt: status === 'COMPLETED' ? new Date() : null
+        const userId = req.user!.userId;
+        const data = req.body;
+
+        // Extract nested arrays to handle separately
+        const { emergencyContacts, experiences, education, documents, ...flatData } = data;
+
+        // Prepare nested writes
+        const updateData: any = { ...flatData };
+
+        if (emergencyContacts) {
+            updateData.emergencyContacts = {
+                deleteMany: {},
+                create: emergencyContacts.map((c: any) => ({
+                    name: c.name,
+                    relationship: c.relationship,
+                    mobile: c.mobile,
+                    alternateMobile: c.alternateMobile
+                }))
+            };
+        }
+
+        if (experiences) {
+            updateData.experiences = {
+                deleteMany: {},
+                create: experiences.map((e: any) => ({
+                    companyName: e.companyName,
+                    designation: e.designation,
+                    employmentType: e.employmentType,
+                    startDate: e.startDate ? new Date(e.startDate) : null,
+                    endDate: e.endDate ? new Date(e.endDate) : null,
+                    isCurrent: e.isCurrent,
+                    reasonForLeaving: e.reasonForLeaving
+                }))
+            };
+        }
+
+        if (education) {
+            updateData.education = {
+                deleteMany: {},
+                create: education.map((e: any) => ({
+                    institutionName: e.institutionName,
+                    degreeOrCourse: e.degreeOrCourse,
+                    highestQualification: e.highestQualification,
+                    yearOfPassing: e.yearOfPassing ? parseInt(e.yearOfPassing) : null
+                }))
+            };
+        }
+
+        // Documents are usually uploaded one by one via /upload endpoint which returns URL, 
+        // but here we might sync their status or metadata. 
+        // If documents array is passed, we replace? 
+        // Better to upsert documents based on type if possible, but deleteMany is safer for full sync.
+        if (documents) {
+            updateData.documents = {
+                deleteMany: {},
+                create: documents.map((d: any) => ({
+                    type: d.type,
+                    url: d.url,
+                    status: d.status || 'PENDING'
+                }))
+            };
+        }
+
+        // Handle Date conversions for flat fields
+        if (updateData.dateOfBirth) updateData.dateOfBirth = new Date(updateData.dateOfBirth);
+        if (updateData.dateOfJoining) updateData.dateOfJoining = new Date(updateData.dateOfJoining);
+
+
+        const onboarding = await prisma.onboarding.update({
+            where: { userId },
+            data: updateData,
+            include: {
+                emergencyContacts: true,
+                experiences: true,
+                education: true,
+                documents: true
             }
         });
-        res.json(task);
+
+        res.json(onboarding);
     } catch (error) {
-        res.status(500).json({ message: 'Error updating task' });
+        console.error(error);
+        res.status(500).json({ message: 'Error updating onboarding' });
     }
 };
 
+// Submit Onboarding (Finalize)
 export const submitOnboarding = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
-        const {
-            bankDetails, firstName, lastName, fatherName,
-            dateOfBirth, currAddress, permAddress,
-            aadhaarNumber, panNumber,
-            aadhaarUrl, panUrl, passbookUrl, offerLetterUrl,
-            educationDocumentsUrl, experienceDocumentsUrl
-        } = req.body;
+        const userId = req.user!.userId;
 
-        // @ts-ignore
+        // Simple approach: Update status to SUBMITTED.
         const onboarding = await prisma.onboarding.update({
             where: { userId },
             data: {
-                bankDetails,
-                firstName, lastName, fatherName,
-                dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null,
-                currAddress, permAddress,
-                aadhaarNumber, panNumber,
-                aadhaarUrl, panUrl, passbookUrl, offerLetterUrl,
-                educationDocumentsUrl, experienceDocumentsUrl,
                 status: 'SUBMITTED',
                 submittedAt: new Date()
             }
         });
 
-        // Notify Admin & HR
-        await notifyRole(['ADMIN', 'HR'], `New Onboarding Submission from ${firstName} ${lastName}`);
+        await notifyRole(['ADMIN', 'HR'], `New Onboarding Submission from User ${userId}`);
 
         res.json(onboarding);
     } catch (error) {
@@ -102,7 +163,6 @@ export const submitOnboarding = async (req: AuthRequest, res: Response) => {
 // Admin: Get Pending Onboardings
 export const getPendingOnboardings = async (req: Request, res: Response) => {
     try {
-        // @ts-ignore
         const onboardings = await prisma.onboarding.findMany({
             where: { status: 'SUBMITTED' },
             include: { user: { include: { profile: true } } }
@@ -118,51 +178,56 @@ export const approveOnboarding = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
 
-        // Fetch original onboarding data
-        // @ts-ignore
-        const onboarding = await prisma.onboarding.findUnique({ where: { id } });
+        const onboarding = await prisma.onboarding.findUnique({
+            where: { id },
+            include: {
+                emergencyContacts: true,
+                experiences: true,
+                education: true,
+                documents: true
+            }
+        });
         if (!onboarding) return res.status(404).json({ message: 'Record not found' });
 
         await prisma.$transaction(async (tx) => {
             // 1. Update Onboarding Status
-            // @ts-ignore
             await tx.onboarding.update({
                 where: { id },
                 data: { status: 'APPROVED' }
             });
 
             // 2. Activate User
-            // @ts-ignore
             await tx.user.update({
                 where: { id: onboarding.userId },
-                data: { status: 'ACTIVE' }
+                data: {
+                    status: 'ACTIVE',
+                    // Maybe update employeeId if we generated it
+                }
             });
 
-            // 3. Update/Create Profile with Onboarding Data
-            // @ts-ignore
+            // 3. Update/Create Profile
             await tx.profile.upsert({
                 where: { userId: onboarding.userId },
                 create: {
                     userId: onboarding.userId,
-                    firstName: onboarding.firstName || 'Employee',
-                    lastName: onboarding.lastName || '',
-                    documents: JSON.stringify({
-                        aadhaar: onboarding.aadhaarUrl,
-                        pan: onboarding.panUrl,
-                        education: onboarding.educationDocumentsUrl,
-                        experience: onboarding.experienceDocumentsUrl
-                    })
-                    // Add other profile defaults if needed
+                    firstName: onboarding.fullName?.split(' ')[0] || 'Employee',
+                    lastName: onboarding.fullName?.split(' ').slice(1).join(' ') || '',
+                    phone: onboarding.personalMobile,
+                    department: onboarding.department,
+                    designation: onboarding.designation,
+                    employmentType: onboarding.employmentType || "FULL_TIME",
+                    dateOfJoining: onboarding.dateOfJoining,
+                    documents: JSON.stringify(onboarding.documents)
                 },
                 update: {
-                    firstName: onboarding.firstName || undefined,
-                    lastName: onboarding.lastName || undefined,
-                    documents: JSON.stringify({
-                        aadhaar: onboarding.aadhaarUrl,
-                        pan: onboarding.panUrl,
-                        education: onboarding.educationDocumentsUrl,
-                        experience: onboarding.experienceDocumentsUrl
-                    })
+                    firstName: onboarding.fullName?.split(' ')[0] || undefined,
+                    lastName: onboarding.fullName?.split(' ').slice(1).join(' ') || undefined,
+                    phone: onboarding.personalMobile,
+                    department: onboarding.department,
+                    designation: onboarding.designation,
+                    employmentType: onboarding.employmentType || undefined,
+                    dateOfJoining: onboarding.dateOfJoining,
+                    documents: JSON.stringify(onboarding.documents)
                 }
             });
         });
@@ -177,18 +242,3 @@ export const approveOnboarding = async (req: Request, res: Response) => {
     }
 };
 
-// Admin: Get All Onboardings
-export const getAllOnboarding = async (req: Request, res: Response) => {
-    try {
-        // @ts-ignore
-        const onboardings = await prisma.onboarding.findMany({
-            include: {
-                user: { include: { profile: true } },
-                tasks: true
-            }
-        });
-        res.json(onboardings);
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching onboardings' });
-    }
-};

@@ -6,7 +6,9 @@ import {
     applyLeave,
     getMyRequests,
     getTeamRequests,
-    updateLeaveStatus
+    updateLeaveStatus,
+    createLeaveType,
+    deleteLeaveType
 } from '../controllers/leave.controller';
 
 const router = Router();
@@ -19,5 +21,9 @@ router.post('/apply', applyLeave);
 router.get('/my-requests', getMyRequests);
 router.get('/team-requests', getTeamRequests); // For Managers
 router.put('/:id/status', updateLeaveStatus); // Approve/Reject
+
+// Admin Configuration
+router.post('/types', createLeaveType);
+router.delete('/types/:id', deleteLeaveType);
 
 export default router;

@@ -74,10 +74,25 @@ export type Holiday = $Result.DefaultSelection<Prisma.$HolidayPayload>
  */
 export type Onboarding = $Result.DefaultSelection<Prisma.$OnboardingPayload>
 /**
- * Model OnboardingTask
+ * Model OnboardingEmergencyContact
  * 
  */
-export type OnboardingTask = $Result.DefaultSelection<Prisma.$OnboardingTaskPayload>
+export type OnboardingEmergencyContact = $Result.DefaultSelection<Prisma.$OnboardingEmergencyContactPayload>
+/**
+ * Model OnboardingExperience
+ * 
+ */
+export type OnboardingExperience = $Result.DefaultSelection<Prisma.$OnboardingExperiencePayload>
+/**
+ * Model OnboardingEducation
+ * 
+ */
+export type OnboardingEducation = $Result.DefaultSelection<Prisma.$OnboardingEducationPayload>
+/**
+ * Model OnboardingDocument
+ * 
+ */
+export type OnboardingDocument = $Result.DefaultSelection<Prisma.$OnboardingDocumentPayload>
 /**
  * Model Offboarding
  * 
@@ -402,14 +417,44 @@ export class PrismaClient<
   get onboarding(): Prisma.OnboardingDelegate<ExtArgs>;
 
   /**
-   * `prisma.onboardingTask`: Exposes CRUD operations for the **OnboardingTask** model.
+   * `prisma.onboardingEmergencyContact`: Exposes CRUD operations for the **OnboardingEmergencyContact** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more OnboardingTasks
-    * const onboardingTasks = await prisma.onboardingTask.findMany()
+    * // Fetch zero or more OnboardingEmergencyContacts
+    * const onboardingEmergencyContacts = await prisma.onboardingEmergencyContact.findMany()
     * ```
     */
-  get onboardingTask(): Prisma.OnboardingTaskDelegate<ExtArgs>;
+  get onboardingEmergencyContact(): Prisma.OnboardingEmergencyContactDelegate<ExtArgs>;
+
+  /**
+   * `prisma.onboardingExperience`: Exposes CRUD operations for the **OnboardingExperience** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OnboardingExperiences
+    * const onboardingExperiences = await prisma.onboardingExperience.findMany()
+    * ```
+    */
+  get onboardingExperience(): Prisma.OnboardingExperienceDelegate<ExtArgs>;
+
+  /**
+   * `prisma.onboardingEducation`: Exposes CRUD operations for the **OnboardingEducation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OnboardingEducations
+    * const onboardingEducations = await prisma.onboardingEducation.findMany()
+    * ```
+    */
+  get onboardingEducation(): Prisma.OnboardingEducationDelegate<ExtArgs>;
+
+  /**
+   * `prisma.onboardingDocument`: Exposes CRUD operations for the **OnboardingDocument** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OnboardingDocuments
+    * const onboardingDocuments = await prisma.onboardingDocument.findMany()
+    * ```
+    */
+  get onboardingDocument(): Prisma.OnboardingDocumentDelegate<ExtArgs>;
 
   /**
    * `prisma.offboarding`: Exposes CRUD operations for the **Offboarding** model.
@@ -1052,7 +1097,10 @@ export namespace Prisma {
     LeaveRequest: 'LeaveRequest',
     Holiday: 'Holiday',
     Onboarding: 'Onboarding',
-    OnboardingTask: 'OnboardingTask',
+    OnboardingEmergencyContact: 'OnboardingEmergencyContact',
+    OnboardingExperience: 'OnboardingExperience',
+    OnboardingEducation: 'OnboardingEducation',
+    OnboardingDocument: 'OnboardingDocument',
     Offboarding: 'Offboarding',
     ExitInterview: 'ExitInterview',
     Goal: 'Goal',
@@ -1085,7 +1133,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'user' | 'salaryStructure' | 'payslip' | 'profile' | 'attendance' | 'shift' | 'break' | 'leaveType' | 'leaveBalance' | 'leaveRequest' | 'holiday' | 'onboarding' | 'onboardingTask' | 'offboarding' | 'exitInterview' | 'goal' | 'performanceReview' | 'jobPosting' | 'jobApplication' | 'expenseCategory' | 'expenseClaim' | 'certificate' | 'asset' | 'notification' | 'jobRole' | 'systemSetting' | 'timesheet' | 'timesheetEntry' | 'task'
+      modelProps: 'user' | 'salaryStructure' | 'payslip' | 'profile' | 'attendance' | 'shift' | 'break' | 'leaveType' | 'leaveBalance' | 'leaveRequest' | 'holiday' | 'onboarding' | 'onboardingEmergencyContact' | 'onboardingExperience' | 'onboardingEducation' | 'onboardingDocument' | 'offboarding' | 'exitInterview' | 'goal' | 'performanceReview' | 'jobPosting' | 'jobApplication' | 'expenseCategory' | 'expenseClaim' | 'certificate' | 'asset' | 'notification' | 'jobRole' | 'systemSetting' | 'timesheet' | 'timesheetEntry' | 'task'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1833,65 +1881,251 @@ export namespace Prisma {
           }
         }
       }
-      OnboardingTask: {
-        payload: Prisma.$OnboardingTaskPayload<ExtArgs>
-        fields: Prisma.OnboardingTaskFieldRefs
+      OnboardingEmergencyContact: {
+        payload: Prisma.$OnboardingEmergencyContactPayload<ExtArgs>
+        fields: Prisma.OnboardingEmergencyContactFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.OnboardingTaskFindUniqueArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$OnboardingTaskPayload> | null
+            args: Prisma.OnboardingEmergencyContactFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEmergencyContactPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.OnboardingTaskFindUniqueOrThrowArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$OnboardingTaskPayload>
+            args: Prisma.OnboardingEmergencyContactFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEmergencyContactPayload>
           }
           findFirst: {
-            args: Prisma.OnboardingTaskFindFirstArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$OnboardingTaskPayload> | null
+            args: Prisma.OnboardingEmergencyContactFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEmergencyContactPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.OnboardingTaskFindFirstOrThrowArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$OnboardingTaskPayload>
+            args: Prisma.OnboardingEmergencyContactFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEmergencyContactPayload>
           }
           findMany: {
-            args: Prisma.OnboardingTaskFindManyArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$OnboardingTaskPayload>[]
+            args: Prisma.OnboardingEmergencyContactFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEmergencyContactPayload>[]
           }
           create: {
-            args: Prisma.OnboardingTaskCreateArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$OnboardingTaskPayload>
+            args: Prisma.OnboardingEmergencyContactCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEmergencyContactPayload>
           }
           delete: {
-            args: Prisma.OnboardingTaskDeleteArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$OnboardingTaskPayload>
+            args: Prisma.OnboardingEmergencyContactDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEmergencyContactPayload>
           }
           update: {
-            args: Prisma.OnboardingTaskUpdateArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$OnboardingTaskPayload>
+            args: Prisma.OnboardingEmergencyContactUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEmergencyContactPayload>
           }
           deleteMany: {
-            args: Prisma.OnboardingTaskDeleteManyArgs<ExtArgs>,
+            args: Prisma.OnboardingEmergencyContactDeleteManyArgs<ExtArgs>,
             result: Prisma.BatchPayload
           }
           updateMany: {
-            args: Prisma.OnboardingTaskUpdateManyArgs<ExtArgs>,
+            args: Prisma.OnboardingEmergencyContactUpdateManyArgs<ExtArgs>,
             result: Prisma.BatchPayload
           }
           upsert: {
-            args: Prisma.OnboardingTaskUpsertArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$OnboardingTaskPayload>
+            args: Prisma.OnboardingEmergencyContactUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEmergencyContactPayload>
           }
           aggregate: {
-            args: Prisma.OnboardingTaskAggregateArgs<ExtArgs>,
-            result: $Utils.Optional<AggregateOnboardingTask>
+            args: Prisma.OnboardingEmergencyContactAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateOnboardingEmergencyContact>
           }
           groupBy: {
-            args: Prisma.OnboardingTaskGroupByArgs<ExtArgs>,
-            result: $Utils.Optional<OnboardingTaskGroupByOutputType>[]
+            args: Prisma.OnboardingEmergencyContactGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<OnboardingEmergencyContactGroupByOutputType>[]
           }
           count: {
-            args: Prisma.OnboardingTaskCountArgs<ExtArgs>,
-            result: $Utils.Optional<OnboardingTaskCountAggregateOutputType> | number
+            args: Prisma.OnboardingEmergencyContactCountArgs<ExtArgs>,
+            result: $Utils.Optional<OnboardingEmergencyContactCountAggregateOutputType> | number
+          }
+        }
+      }
+      OnboardingExperience: {
+        payload: Prisma.$OnboardingExperiencePayload<ExtArgs>
+        fields: Prisma.OnboardingExperienceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OnboardingExperienceFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingExperiencePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OnboardingExperienceFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingExperiencePayload>
+          }
+          findFirst: {
+            args: Prisma.OnboardingExperienceFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingExperiencePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OnboardingExperienceFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingExperiencePayload>
+          }
+          findMany: {
+            args: Prisma.OnboardingExperienceFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingExperiencePayload>[]
+          }
+          create: {
+            args: Prisma.OnboardingExperienceCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingExperiencePayload>
+          }
+          delete: {
+            args: Prisma.OnboardingExperienceDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingExperiencePayload>
+          }
+          update: {
+            args: Prisma.OnboardingExperienceUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingExperiencePayload>
+          }
+          deleteMany: {
+            args: Prisma.OnboardingExperienceDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OnboardingExperienceUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.OnboardingExperienceUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingExperiencePayload>
+          }
+          aggregate: {
+            args: Prisma.OnboardingExperienceAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateOnboardingExperience>
+          }
+          groupBy: {
+            args: Prisma.OnboardingExperienceGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<OnboardingExperienceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OnboardingExperienceCountArgs<ExtArgs>,
+            result: $Utils.Optional<OnboardingExperienceCountAggregateOutputType> | number
+          }
+        }
+      }
+      OnboardingEducation: {
+        payload: Prisma.$OnboardingEducationPayload<ExtArgs>
+        fields: Prisma.OnboardingEducationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OnboardingEducationFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEducationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OnboardingEducationFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEducationPayload>
+          }
+          findFirst: {
+            args: Prisma.OnboardingEducationFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEducationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OnboardingEducationFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEducationPayload>
+          }
+          findMany: {
+            args: Prisma.OnboardingEducationFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEducationPayload>[]
+          }
+          create: {
+            args: Prisma.OnboardingEducationCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEducationPayload>
+          }
+          delete: {
+            args: Prisma.OnboardingEducationDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEducationPayload>
+          }
+          update: {
+            args: Prisma.OnboardingEducationUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEducationPayload>
+          }
+          deleteMany: {
+            args: Prisma.OnboardingEducationDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OnboardingEducationUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.OnboardingEducationUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingEducationPayload>
+          }
+          aggregate: {
+            args: Prisma.OnboardingEducationAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateOnboardingEducation>
+          }
+          groupBy: {
+            args: Prisma.OnboardingEducationGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<OnboardingEducationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OnboardingEducationCountArgs<ExtArgs>,
+            result: $Utils.Optional<OnboardingEducationCountAggregateOutputType> | number
+          }
+        }
+      }
+      OnboardingDocument: {
+        payload: Prisma.$OnboardingDocumentPayload<ExtArgs>
+        fields: Prisma.OnboardingDocumentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OnboardingDocumentFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingDocumentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OnboardingDocumentFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingDocumentPayload>
+          }
+          findFirst: {
+            args: Prisma.OnboardingDocumentFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingDocumentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OnboardingDocumentFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingDocumentPayload>
+          }
+          findMany: {
+            args: Prisma.OnboardingDocumentFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingDocumentPayload>[]
+          }
+          create: {
+            args: Prisma.OnboardingDocumentCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingDocumentPayload>
+          }
+          delete: {
+            args: Prisma.OnboardingDocumentDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingDocumentPayload>
+          }
+          update: {
+            args: Prisma.OnboardingDocumentUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingDocumentPayload>
+          }
+          deleteMany: {
+            args: Prisma.OnboardingDocumentDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OnboardingDocumentUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.OnboardingDocumentUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$OnboardingDocumentPayload>
+          }
+          aggregate: {
+            args: Prisma.OnboardingDocumentAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateOnboardingDocument>
+          }
+          groupBy: {
+            args: Prisma.OnboardingDocumentGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<OnboardingDocumentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OnboardingDocumentCountArgs<ExtArgs>,
+            result: $Utils.Optional<OnboardingDocumentCountAggregateOutputType> | number
           }
         }
       }
@@ -3322,11 +3556,17 @@ export namespace Prisma {
    */
 
   export type OnboardingCountOutputType = {
-    tasks: number
+    emergencyContacts: number
+    experiences: number
+    education: number
+    documents: number
   }
 
   export type OnboardingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tasks?: boolean | OnboardingCountOutputTypeCountTasksArgs
+    emergencyContacts?: boolean | OnboardingCountOutputTypeCountEmergencyContactsArgs
+    experiences?: boolean | OnboardingCountOutputTypeCountExperiencesArgs
+    education?: boolean | OnboardingCountOutputTypeCountEducationArgs
+    documents?: boolean | OnboardingCountOutputTypeCountDocumentsArgs
   }
 
   // Custom InputTypes
@@ -3345,8 +3585,32 @@ export namespace Prisma {
   /**
    * OnboardingCountOutputType without action
    */
-  export type OnboardingCountOutputTypeCountTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: OnboardingTaskWhereInput
+  export type OnboardingCountOutputTypeCountEmergencyContactsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OnboardingEmergencyContactWhereInput
+  }
+
+
+  /**
+   * OnboardingCountOutputType without action
+   */
+  export type OnboardingCountOutputTypeCountExperiencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OnboardingExperienceWhereInput
+  }
+
+
+  /**
+   * OnboardingCountOutputType without action
+   */
+  export type OnboardingCountOutputTypeCountEducationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OnboardingEducationWhereInput
+  }
+
+
+  /**
+   * OnboardingCountOutputType without action
+   */
+  export type OnboardingCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OnboardingDocumentWhereInput
   }
 
 
@@ -14429,148 +14693,414 @@ export namespace Prisma {
 
   export type AggregateOnboarding = {
     _count: OnboardingCountAggregateOutputType | null
+    _avg: OnboardingAvgAggregateOutputType | null
+    _sum: OnboardingSumAggregateOutputType | null
     _min: OnboardingMinAggregateOutputType | null
     _max: OnboardingMaxAggregateOutputType | null
+  }
+
+  export type OnboardingAvgAggregateOutputType = {
+    probationPeriodMonths: number | null
+    noticePeriodDays: number | null
+    totalYearsExperience: number | null
+  }
+
+  export type OnboardingSumAggregateOutputType = {
+    probationPeriodMonths: number | null
+    noticePeriodDays: number | null
+    totalYearsExperience: number | null
   }
 
   export type OnboardingMinAggregateOutputType = {
     id: string | null
     userId: string | null
     status: string | null
-    firstName: string | null
-    lastName: string | null
+    fullName: string | null
     fatherName: string | null
+    motherName: string | null
+    guardianName: string | null
     dateOfBirth: Date | null
-    currAddress: string | null
-    permAddress: string | null
+    gender: string | null
+    maritalStatus: string | null
+    bloodGroup: string | null
+    nationality: string | null
+    profilePhoto: string | null
+    personalMobile: string | null
+    officialMobile: string | null
+    personalEmail: string | null
+    officialEmail: string | null
+    currentAddress: string | null
+    permanentAddress: string | null
+    sameAsCurrentAddress: boolean | null
+    department: string | null
+    designation: string | null
+    employmentType: string | null
+    dateOfJoining: Date | null
+    workLocation: string | null
+    reportingManagerId: string | null
+    shift: string | null
+    workingHours: string | null
+    probationPeriodMonths: number | null
+    noticePeriodDays: number | null
+    totalYearsExperience: number | null
     aadhaarNumber: string | null
     panNumber: string | null
-    aadhaarUrl: string | null
-    panUrl: string | null
-    passbookUrl: string | null
-    offerLetterUrl: string | null
-    documents: string | null
-    educationDocumentsUrl: string | null
-    experienceDocumentsUrl: string | null
-    bankDetails: string | null
+    passportNumber: string | null
+    uanNumber: string | null
+    esicNumber: string | null
+    drivingLicense: string | null
+    accountHolderName: string | null
+    bankName: string | null
+    accountNumber: string | null
+    ifscCode: string | null
+    branchName: string | null
+    salaryPaymentMode: string | null
+    medicalConditions: string | null
+    allergies: string | null
+    disabilityStatus: boolean | null
+    disabilityDetails: string | null
+    companyEmailCreated: boolean | null
+    hrmsAccessEnabled: boolean | null
+    roleAndPermissions: string | null
+    deviceIssued: string | null
+    assetId: string | null
+    companyPolicyAccepted: boolean | null
+    ndaAccepted: boolean | null
+    codeOfConductAccepted: boolean | null
+    digitalConsentSignature: string | null
+    acceptanceTimestamp: Date | null
+    acceptanceIp: string | null
     submittedAt: Date | null
+    updatedAt: Date | null
   }
 
   export type OnboardingMaxAggregateOutputType = {
     id: string | null
     userId: string | null
     status: string | null
-    firstName: string | null
-    lastName: string | null
+    fullName: string | null
     fatherName: string | null
+    motherName: string | null
+    guardianName: string | null
     dateOfBirth: Date | null
-    currAddress: string | null
-    permAddress: string | null
+    gender: string | null
+    maritalStatus: string | null
+    bloodGroup: string | null
+    nationality: string | null
+    profilePhoto: string | null
+    personalMobile: string | null
+    officialMobile: string | null
+    personalEmail: string | null
+    officialEmail: string | null
+    currentAddress: string | null
+    permanentAddress: string | null
+    sameAsCurrentAddress: boolean | null
+    department: string | null
+    designation: string | null
+    employmentType: string | null
+    dateOfJoining: Date | null
+    workLocation: string | null
+    reportingManagerId: string | null
+    shift: string | null
+    workingHours: string | null
+    probationPeriodMonths: number | null
+    noticePeriodDays: number | null
+    totalYearsExperience: number | null
     aadhaarNumber: string | null
     panNumber: string | null
-    aadhaarUrl: string | null
-    panUrl: string | null
-    passbookUrl: string | null
-    offerLetterUrl: string | null
-    documents: string | null
-    educationDocumentsUrl: string | null
-    experienceDocumentsUrl: string | null
-    bankDetails: string | null
+    passportNumber: string | null
+    uanNumber: string | null
+    esicNumber: string | null
+    drivingLicense: string | null
+    accountHolderName: string | null
+    bankName: string | null
+    accountNumber: string | null
+    ifscCode: string | null
+    branchName: string | null
+    salaryPaymentMode: string | null
+    medicalConditions: string | null
+    allergies: string | null
+    disabilityStatus: boolean | null
+    disabilityDetails: string | null
+    companyEmailCreated: boolean | null
+    hrmsAccessEnabled: boolean | null
+    roleAndPermissions: string | null
+    deviceIssued: string | null
+    assetId: string | null
+    companyPolicyAccepted: boolean | null
+    ndaAccepted: boolean | null
+    codeOfConductAccepted: boolean | null
+    digitalConsentSignature: string | null
+    acceptanceTimestamp: Date | null
+    acceptanceIp: string | null
     submittedAt: Date | null
+    updatedAt: Date | null
   }
 
   export type OnboardingCountAggregateOutputType = {
     id: number
     userId: number
     status: number
-    firstName: number
-    lastName: number
+    fullName: number
     fatherName: number
+    motherName: number
+    guardianName: number
     dateOfBirth: number
-    currAddress: number
-    permAddress: number
+    gender: number
+    maritalStatus: number
+    bloodGroup: number
+    nationality: number
+    profilePhoto: number
+    personalMobile: number
+    officialMobile: number
+    personalEmail: number
+    officialEmail: number
+    currentAddress: number
+    permanentAddress: number
+    sameAsCurrentAddress: number
+    department: number
+    designation: number
+    employmentType: number
+    dateOfJoining: number
+    workLocation: number
+    reportingManagerId: number
+    shift: number
+    workingHours: number
+    probationPeriodMonths: number
+    noticePeriodDays: number
+    totalYearsExperience: number
     aadhaarNumber: number
     panNumber: number
-    aadhaarUrl: number
-    panUrl: number
-    passbookUrl: number
-    offerLetterUrl: number
-    documents: number
-    educationDocumentsUrl: number
-    experienceDocumentsUrl: number
-    bankDetails: number
+    passportNumber: number
+    uanNumber: number
+    esicNumber: number
+    drivingLicense: number
+    accountHolderName: number
+    bankName: number
+    accountNumber: number
+    ifscCode: number
+    branchName: number
+    salaryPaymentMode: number
+    medicalConditions: number
+    allergies: number
+    disabilityStatus: number
+    disabilityDetails: number
+    companyEmailCreated: number
+    hrmsAccessEnabled: number
+    roleAndPermissions: number
+    deviceIssued: number
+    assetId: number
+    companyPolicyAccepted: number
+    ndaAccepted: number
+    codeOfConductAccepted: number
+    digitalConsentSignature: number
+    acceptanceTimestamp: number
+    acceptanceIp: number
     submittedAt: number
+    updatedAt: number
     _all: number
   }
 
+
+  export type OnboardingAvgAggregateInputType = {
+    probationPeriodMonths?: true
+    noticePeriodDays?: true
+    totalYearsExperience?: true
+  }
+
+  export type OnboardingSumAggregateInputType = {
+    probationPeriodMonths?: true
+    noticePeriodDays?: true
+    totalYearsExperience?: true
+  }
 
   export type OnboardingMinAggregateInputType = {
     id?: true
     userId?: true
     status?: true
-    firstName?: true
-    lastName?: true
+    fullName?: true
     fatherName?: true
+    motherName?: true
+    guardianName?: true
     dateOfBirth?: true
-    currAddress?: true
-    permAddress?: true
+    gender?: true
+    maritalStatus?: true
+    bloodGroup?: true
+    nationality?: true
+    profilePhoto?: true
+    personalMobile?: true
+    officialMobile?: true
+    personalEmail?: true
+    officialEmail?: true
+    currentAddress?: true
+    permanentAddress?: true
+    sameAsCurrentAddress?: true
+    department?: true
+    designation?: true
+    employmentType?: true
+    dateOfJoining?: true
+    workLocation?: true
+    reportingManagerId?: true
+    shift?: true
+    workingHours?: true
+    probationPeriodMonths?: true
+    noticePeriodDays?: true
+    totalYearsExperience?: true
     aadhaarNumber?: true
     panNumber?: true
-    aadhaarUrl?: true
-    panUrl?: true
-    passbookUrl?: true
-    offerLetterUrl?: true
-    documents?: true
-    educationDocumentsUrl?: true
-    experienceDocumentsUrl?: true
-    bankDetails?: true
+    passportNumber?: true
+    uanNumber?: true
+    esicNumber?: true
+    drivingLicense?: true
+    accountHolderName?: true
+    bankName?: true
+    accountNumber?: true
+    ifscCode?: true
+    branchName?: true
+    salaryPaymentMode?: true
+    medicalConditions?: true
+    allergies?: true
+    disabilityStatus?: true
+    disabilityDetails?: true
+    companyEmailCreated?: true
+    hrmsAccessEnabled?: true
+    roleAndPermissions?: true
+    deviceIssued?: true
+    assetId?: true
+    companyPolicyAccepted?: true
+    ndaAccepted?: true
+    codeOfConductAccepted?: true
+    digitalConsentSignature?: true
+    acceptanceTimestamp?: true
+    acceptanceIp?: true
     submittedAt?: true
+    updatedAt?: true
   }
 
   export type OnboardingMaxAggregateInputType = {
     id?: true
     userId?: true
     status?: true
-    firstName?: true
-    lastName?: true
+    fullName?: true
     fatherName?: true
+    motherName?: true
+    guardianName?: true
     dateOfBirth?: true
-    currAddress?: true
-    permAddress?: true
+    gender?: true
+    maritalStatus?: true
+    bloodGroup?: true
+    nationality?: true
+    profilePhoto?: true
+    personalMobile?: true
+    officialMobile?: true
+    personalEmail?: true
+    officialEmail?: true
+    currentAddress?: true
+    permanentAddress?: true
+    sameAsCurrentAddress?: true
+    department?: true
+    designation?: true
+    employmentType?: true
+    dateOfJoining?: true
+    workLocation?: true
+    reportingManagerId?: true
+    shift?: true
+    workingHours?: true
+    probationPeriodMonths?: true
+    noticePeriodDays?: true
+    totalYearsExperience?: true
     aadhaarNumber?: true
     panNumber?: true
-    aadhaarUrl?: true
-    panUrl?: true
-    passbookUrl?: true
-    offerLetterUrl?: true
-    documents?: true
-    educationDocumentsUrl?: true
-    experienceDocumentsUrl?: true
-    bankDetails?: true
+    passportNumber?: true
+    uanNumber?: true
+    esicNumber?: true
+    drivingLicense?: true
+    accountHolderName?: true
+    bankName?: true
+    accountNumber?: true
+    ifscCode?: true
+    branchName?: true
+    salaryPaymentMode?: true
+    medicalConditions?: true
+    allergies?: true
+    disabilityStatus?: true
+    disabilityDetails?: true
+    companyEmailCreated?: true
+    hrmsAccessEnabled?: true
+    roleAndPermissions?: true
+    deviceIssued?: true
+    assetId?: true
+    companyPolicyAccepted?: true
+    ndaAccepted?: true
+    codeOfConductAccepted?: true
+    digitalConsentSignature?: true
+    acceptanceTimestamp?: true
+    acceptanceIp?: true
     submittedAt?: true
+    updatedAt?: true
   }
 
   export type OnboardingCountAggregateInputType = {
     id?: true
     userId?: true
     status?: true
-    firstName?: true
-    lastName?: true
+    fullName?: true
     fatherName?: true
+    motherName?: true
+    guardianName?: true
     dateOfBirth?: true
-    currAddress?: true
-    permAddress?: true
+    gender?: true
+    maritalStatus?: true
+    bloodGroup?: true
+    nationality?: true
+    profilePhoto?: true
+    personalMobile?: true
+    officialMobile?: true
+    personalEmail?: true
+    officialEmail?: true
+    currentAddress?: true
+    permanentAddress?: true
+    sameAsCurrentAddress?: true
+    department?: true
+    designation?: true
+    employmentType?: true
+    dateOfJoining?: true
+    workLocation?: true
+    reportingManagerId?: true
+    shift?: true
+    workingHours?: true
+    probationPeriodMonths?: true
+    noticePeriodDays?: true
+    totalYearsExperience?: true
     aadhaarNumber?: true
     panNumber?: true
-    aadhaarUrl?: true
-    panUrl?: true
-    passbookUrl?: true
-    offerLetterUrl?: true
-    documents?: true
-    educationDocumentsUrl?: true
-    experienceDocumentsUrl?: true
-    bankDetails?: true
+    passportNumber?: true
+    uanNumber?: true
+    esicNumber?: true
+    drivingLicense?: true
+    accountHolderName?: true
+    bankName?: true
+    accountNumber?: true
+    ifscCode?: true
+    branchName?: true
+    salaryPaymentMode?: true
+    medicalConditions?: true
+    allergies?: true
+    disabilityStatus?: true
+    disabilityDetails?: true
+    companyEmailCreated?: true
+    hrmsAccessEnabled?: true
+    roleAndPermissions?: true
+    deviceIssued?: true
+    assetId?: true
+    companyPolicyAccepted?: true
+    ndaAccepted?: true
+    codeOfConductAccepted?: true
+    digitalConsentSignature?: true
+    acceptanceTimestamp?: true
+    acceptanceIp?: true
     submittedAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -14612,6 +15142,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: OnboardingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OnboardingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: OnboardingMinAggregateInputType
@@ -14642,6 +15184,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: OnboardingCountAggregateInputType | true
+    _avg?: OnboardingAvgAggregateInputType
+    _sum?: OnboardingSumAggregateInputType
     _min?: OnboardingMinAggregateInputType
     _max?: OnboardingMaxAggregateInputType
   }
@@ -14650,24 +15194,66 @@ export namespace Prisma {
     id: string
     userId: string
     status: string
-    firstName: string | null
-    lastName: string | null
+    fullName: string | null
     fatherName: string | null
+    motherName: string | null
+    guardianName: string | null
     dateOfBirth: Date | null
-    currAddress: string | null
-    permAddress: string | null
+    gender: string | null
+    maritalStatus: string | null
+    bloodGroup: string | null
+    nationality: string | null
+    profilePhoto: string | null
+    personalMobile: string | null
+    officialMobile: string | null
+    personalEmail: string | null
+    officialEmail: string | null
+    currentAddress: string | null
+    permanentAddress: string | null
+    sameAsCurrentAddress: boolean
+    department: string | null
+    designation: string | null
+    employmentType: string | null
+    dateOfJoining: Date | null
+    workLocation: string | null
+    reportingManagerId: string | null
+    shift: string | null
+    workingHours: string | null
+    probationPeriodMonths: number | null
+    noticePeriodDays: number | null
+    totalYearsExperience: number | null
     aadhaarNumber: string | null
     panNumber: string | null
-    aadhaarUrl: string | null
-    panUrl: string | null
-    passbookUrl: string | null
-    offerLetterUrl: string | null
-    documents: string | null
-    educationDocumentsUrl: string | null
-    experienceDocumentsUrl: string | null
-    bankDetails: string | null
-    submittedAt: Date
+    passportNumber: string | null
+    uanNumber: string | null
+    esicNumber: string | null
+    drivingLicense: string | null
+    accountHolderName: string | null
+    bankName: string | null
+    accountNumber: string | null
+    ifscCode: string | null
+    branchName: string | null
+    salaryPaymentMode: string | null
+    medicalConditions: string | null
+    allergies: string | null
+    disabilityStatus: boolean | null
+    disabilityDetails: string | null
+    companyEmailCreated: boolean
+    hrmsAccessEnabled: boolean
+    roleAndPermissions: string | null
+    deviceIssued: string | null
+    assetId: string | null
+    companyPolicyAccepted: boolean
+    ndaAccepted: boolean
+    codeOfConductAccepted: boolean
+    digitalConsentSignature: string | null
+    acceptanceTimestamp: Date | null
+    acceptanceIp: string | null
+    submittedAt: Date | null
+    updatedAt: Date
     _count: OnboardingCountAggregateOutputType | null
+    _avg: OnboardingAvgAggregateOutputType | null
+    _sum: OnboardingSumAggregateOutputType | null
     _min: OnboardingMinAggregateOutputType | null
     _max: OnboardingMaxAggregateOutputType | null
   }
@@ -14690,25 +15276,68 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     status?: boolean
-    firstName?: boolean
-    lastName?: boolean
+    fullName?: boolean
     fatherName?: boolean
+    motherName?: boolean
+    guardianName?: boolean
     dateOfBirth?: boolean
-    currAddress?: boolean
-    permAddress?: boolean
+    gender?: boolean
+    maritalStatus?: boolean
+    bloodGroup?: boolean
+    nationality?: boolean
+    profilePhoto?: boolean
+    personalMobile?: boolean
+    officialMobile?: boolean
+    personalEmail?: boolean
+    officialEmail?: boolean
+    currentAddress?: boolean
+    permanentAddress?: boolean
+    sameAsCurrentAddress?: boolean
+    department?: boolean
+    designation?: boolean
+    employmentType?: boolean
+    dateOfJoining?: boolean
+    workLocation?: boolean
+    reportingManagerId?: boolean
+    shift?: boolean
+    workingHours?: boolean
+    probationPeriodMonths?: boolean
+    noticePeriodDays?: boolean
+    totalYearsExperience?: boolean
     aadhaarNumber?: boolean
     panNumber?: boolean
-    aadhaarUrl?: boolean
-    panUrl?: boolean
-    passbookUrl?: boolean
-    offerLetterUrl?: boolean
-    documents?: boolean
-    educationDocumentsUrl?: boolean
-    experienceDocumentsUrl?: boolean
-    bankDetails?: boolean
+    passportNumber?: boolean
+    uanNumber?: boolean
+    esicNumber?: boolean
+    drivingLicense?: boolean
+    accountHolderName?: boolean
+    bankName?: boolean
+    accountNumber?: boolean
+    ifscCode?: boolean
+    branchName?: boolean
+    salaryPaymentMode?: boolean
+    medicalConditions?: boolean
+    allergies?: boolean
+    disabilityStatus?: boolean
+    disabilityDetails?: boolean
+    companyEmailCreated?: boolean
+    hrmsAccessEnabled?: boolean
+    roleAndPermissions?: boolean
+    deviceIssued?: boolean
+    assetId?: boolean
+    companyPolicyAccepted?: boolean
+    ndaAccepted?: boolean
+    codeOfConductAccepted?: boolean
+    digitalConsentSignature?: boolean
+    acceptanceTimestamp?: boolean
+    acceptanceIp?: boolean
     submittedAt?: boolean
+    updatedAt?: boolean
+    emergencyContacts?: boolean | Onboarding$emergencyContactsArgs<ExtArgs>
+    experiences?: boolean | Onboarding$experiencesArgs<ExtArgs>
+    education?: boolean | Onboarding$educationArgs<ExtArgs>
+    documents?: boolean | Onboarding$documentsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
-    tasks?: boolean | Onboarding$tasksArgs<ExtArgs>
     _count?: boolean | OnboardingCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["onboarding"]>
 
@@ -14716,28 +15345,71 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     status?: boolean
-    firstName?: boolean
-    lastName?: boolean
+    fullName?: boolean
     fatherName?: boolean
+    motherName?: boolean
+    guardianName?: boolean
     dateOfBirth?: boolean
-    currAddress?: boolean
-    permAddress?: boolean
+    gender?: boolean
+    maritalStatus?: boolean
+    bloodGroup?: boolean
+    nationality?: boolean
+    profilePhoto?: boolean
+    personalMobile?: boolean
+    officialMobile?: boolean
+    personalEmail?: boolean
+    officialEmail?: boolean
+    currentAddress?: boolean
+    permanentAddress?: boolean
+    sameAsCurrentAddress?: boolean
+    department?: boolean
+    designation?: boolean
+    employmentType?: boolean
+    dateOfJoining?: boolean
+    workLocation?: boolean
+    reportingManagerId?: boolean
+    shift?: boolean
+    workingHours?: boolean
+    probationPeriodMonths?: boolean
+    noticePeriodDays?: boolean
+    totalYearsExperience?: boolean
     aadhaarNumber?: boolean
     panNumber?: boolean
-    aadhaarUrl?: boolean
-    panUrl?: boolean
-    passbookUrl?: boolean
-    offerLetterUrl?: boolean
-    documents?: boolean
-    educationDocumentsUrl?: boolean
-    experienceDocumentsUrl?: boolean
-    bankDetails?: boolean
+    passportNumber?: boolean
+    uanNumber?: boolean
+    esicNumber?: boolean
+    drivingLicense?: boolean
+    accountHolderName?: boolean
+    bankName?: boolean
+    accountNumber?: boolean
+    ifscCode?: boolean
+    branchName?: boolean
+    salaryPaymentMode?: boolean
+    medicalConditions?: boolean
+    allergies?: boolean
+    disabilityStatus?: boolean
+    disabilityDetails?: boolean
+    companyEmailCreated?: boolean
+    hrmsAccessEnabled?: boolean
+    roleAndPermissions?: boolean
+    deviceIssued?: boolean
+    assetId?: boolean
+    companyPolicyAccepted?: boolean
+    ndaAccepted?: boolean
+    codeOfConductAccepted?: boolean
+    digitalConsentSignature?: boolean
+    acceptanceTimestamp?: boolean
+    acceptanceIp?: boolean
     submittedAt?: boolean
+    updatedAt?: boolean
   }
 
   export type OnboardingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    emergencyContacts?: boolean | Onboarding$emergencyContactsArgs<ExtArgs>
+    experiences?: boolean | Onboarding$experiencesArgs<ExtArgs>
+    education?: boolean | Onboarding$educationArgs<ExtArgs>
+    documents?: boolean | Onboarding$documentsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
-    tasks?: boolean | Onboarding$tasksArgs<ExtArgs>
     _count?: boolean | OnboardingCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -14745,30 +15417,73 @@ export namespace Prisma {
   export type $OnboardingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Onboarding"
     objects: {
+      emergencyContacts: Prisma.$OnboardingEmergencyContactPayload<ExtArgs>[]
+      experiences: Prisma.$OnboardingExperiencePayload<ExtArgs>[]
+      education: Prisma.$OnboardingEducationPayload<ExtArgs>[]
+      documents: Prisma.$OnboardingDocumentPayload<ExtArgs>[]
       user: Prisma.$UserPayload<ExtArgs>
-      tasks: Prisma.$OnboardingTaskPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
       status: string
-      firstName: string | null
-      lastName: string | null
+      fullName: string | null
       fatherName: string | null
+      motherName: string | null
+      guardianName: string | null
       dateOfBirth: Date | null
-      currAddress: string | null
-      permAddress: string | null
+      gender: string | null
+      maritalStatus: string | null
+      bloodGroup: string | null
+      nationality: string | null
+      profilePhoto: string | null
+      personalMobile: string | null
+      officialMobile: string | null
+      personalEmail: string | null
+      officialEmail: string | null
+      currentAddress: string | null
+      permanentAddress: string | null
+      sameAsCurrentAddress: boolean
+      department: string | null
+      designation: string | null
+      employmentType: string | null
+      dateOfJoining: Date | null
+      workLocation: string | null
+      reportingManagerId: string | null
+      shift: string | null
+      workingHours: string | null
+      probationPeriodMonths: number | null
+      noticePeriodDays: number | null
+      totalYearsExperience: number | null
       aadhaarNumber: string | null
       panNumber: string | null
-      aadhaarUrl: string | null
-      panUrl: string | null
-      passbookUrl: string | null
-      offerLetterUrl: string | null
-      documents: string | null
-      educationDocumentsUrl: string | null
-      experienceDocumentsUrl: string | null
-      bankDetails: string | null
-      submittedAt: Date
+      passportNumber: string | null
+      uanNumber: string | null
+      esicNumber: string | null
+      drivingLicense: string | null
+      accountHolderName: string | null
+      bankName: string | null
+      accountNumber: string | null
+      ifscCode: string | null
+      branchName: string | null
+      salaryPaymentMode: string | null
+      medicalConditions: string | null
+      allergies: string | null
+      disabilityStatus: boolean | null
+      disabilityDetails: string | null
+      companyEmailCreated: boolean
+      hrmsAccessEnabled: boolean
+      roleAndPermissions: string | null
+      deviceIssued: string | null
+      assetId: string | null
+      companyPolicyAccepted: boolean
+      ndaAccepted: boolean
+      codeOfConductAccepted: boolean
+      digitalConsentSignature: string | null
+      acceptanceTimestamp: Date | null
+      acceptanceIp: string | null
+      submittedAt: Date | null
+      updatedAt: Date
     }, ExtArgs["result"]["onboarding"]>
     composites: {}
   }
@@ -15118,9 +15833,15 @@ export namespace Prisma {
   export interface Prisma__OnboardingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
 
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+    emergencyContacts<T extends Onboarding$emergencyContactsArgs<ExtArgs> = {}>(args?: Subset<T, Onboarding$emergencyContactsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingEmergencyContactPayload<ExtArgs>, T, 'findMany'> | Null>;
 
-    tasks<T extends Onboarding$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Onboarding$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingTaskPayload<ExtArgs>, T, 'findMany'> | Null>;
+    experiences<T extends Onboarding$experiencesArgs<ExtArgs> = {}>(args?: Subset<T, Onboarding$experiencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingExperiencePayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    education<T extends Onboarding$educationArgs<ExtArgs> = {}>(args?: Subset<T, Onboarding$educationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingEducationPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    documents<T extends Onboarding$documentsArgs<ExtArgs> = {}>(args?: Subset<T, Onboarding$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingDocumentPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -15153,23 +15874,63 @@ export namespace Prisma {
     readonly id: FieldRef<"Onboarding", 'String'>
     readonly userId: FieldRef<"Onboarding", 'String'>
     readonly status: FieldRef<"Onboarding", 'String'>
-    readonly firstName: FieldRef<"Onboarding", 'String'>
-    readonly lastName: FieldRef<"Onboarding", 'String'>
+    readonly fullName: FieldRef<"Onboarding", 'String'>
     readonly fatherName: FieldRef<"Onboarding", 'String'>
+    readonly motherName: FieldRef<"Onboarding", 'String'>
+    readonly guardianName: FieldRef<"Onboarding", 'String'>
     readonly dateOfBirth: FieldRef<"Onboarding", 'DateTime'>
-    readonly currAddress: FieldRef<"Onboarding", 'String'>
-    readonly permAddress: FieldRef<"Onboarding", 'String'>
+    readonly gender: FieldRef<"Onboarding", 'String'>
+    readonly maritalStatus: FieldRef<"Onboarding", 'String'>
+    readonly bloodGroup: FieldRef<"Onboarding", 'String'>
+    readonly nationality: FieldRef<"Onboarding", 'String'>
+    readonly profilePhoto: FieldRef<"Onboarding", 'String'>
+    readonly personalMobile: FieldRef<"Onboarding", 'String'>
+    readonly officialMobile: FieldRef<"Onboarding", 'String'>
+    readonly personalEmail: FieldRef<"Onboarding", 'String'>
+    readonly officialEmail: FieldRef<"Onboarding", 'String'>
+    readonly currentAddress: FieldRef<"Onboarding", 'String'>
+    readonly permanentAddress: FieldRef<"Onboarding", 'String'>
+    readonly sameAsCurrentAddress: FieldRef<"Onboarding", 'Boolean'>
+    readonly department: FieldRef<"Onboarding", 'String'>
+    readonly designation: FieldRef<"Onboarding", 'String'>
+    readonly employmentType: FieldRef<"Onboarding", 'String'>
+    readonly dateOfJoining: FieldRef<"Onboarding", 'DateTime'>
+    readonly workLocation: FieldRef<"Onboarding", 'String'>
+    readonly reportingManagerId: FieldRef<"Onboarding", 'String'>
+    readonly shift: FieldRef<"Onboarding", 'String'>
+    readonly workingHours: FieldRef<"Onboarding", 'String'>
+    readonly probationPeriodMonths: FieldRef<"Onboarding", 'Int'>
+    readonly noticePeriodDays: FieldRef<"Onboarding", 'Int'>
+    readonly totalYearsExperience: FieldRef<"Onboarding", 'Float'>
     readonly aadhaarNumber: FieldRef<"Onboarding", 'String'>
     readonly panNumber: FieldRef<"Onboarding", 'String'>
-    readonly aadhaarUrl: FieldRef<"Onboarding", 'String'>
-    readonly panUrl: FieldRef<"Onboarding", 'String'>
-    readonly passbookUrl: FieldRef<"Onboarding", 'String'>
-    readonly offerLetterUrl: FieldRef<"Onboarding", 'String'>
-    readonly documents: FieldRef<"Onboarding", 'String'>
-    readonly educationDocumentsUrl: FieldRef<"Onboarding", 'String'>
-    readonly experienceDocumentsUrl: FieldRef<"Onboarding", 'String'>
-    readonly bankDetails: FieldRef<"Onboarding", 'String'>
+    readonly passportNumber: FieldRef<"Onboarding", 'String'>
+    readonly uanNumber: FieldRef<"Onboarding", 'String'>
+    readonly esicNumber: FieldRef<"Onboarding", 'String'>
+    readonly drivingLicense: FieldRef<"Onboarding", 'String'>
+    readonly accountHolderName: FieldRef<"Onboarding", 'String'>
+    readonly bankName: FieldRef<"Onboarding", 'String'>
+    readonly accountNumber: FieldRef<"Onboarding", 'String'>
+    readonly ifscCode: FieldRef<"Onboarding", 'String'>
+    readonly branchName: FieldRef<"Onboarding", 'String'>
+    readonly salaryPaymentMode: FieldRef<"Onboarding", 'String'>
+    readonly medicalConditions: FieldRef<"Onboarding", 'String'>
+    readonly allergies: FieldRef<"Onboarding", 'String'>
+    readonly disabilityStatus: FieldRef<"Onboarding", 'Boolean'>
+    readonly disabilityDetails: FieldRef<"Onboarding", 'String'>
+    readonly companyEmailCreated: FieldRef<"Onboarding", 'Boolean'>
+    readonly hrmsAccessEnabled: FieldRef<"Onboarding", 'Boolean'>
+    readonly roleAndPermissions: FieldRef<"Onboarding", 'String'>
+    readonly deviceIssued: FieldRef<"Onboarding", 'String'>
+    readonly assetId: FieldRef<"Onboarding", 'String'>
+    readonly companyPolicyAccepted: FieldRef<"Onboarding", 'Boolean'>
+    readonly ndaAccepted: FieldRef<"Onboarding", 'Boolean'>
+    readonly codeOfConductAccepted: FieldRef<"Onboarding", 'Boolean'>
+    readonly digitalConsentSignature: FieldRef<"Onboarding", 'String'>
+    readonly acceptanceTimestamp: FieldRef<"Onboarding", 'DateTime'>
+    readonly acceptanceIp: FieldRef<"Onboarding", 'String'>
     readonly submittedAt: FieldRef<"Onboarding", 'DateTime'>
+    readonly updatedAt: FieldRef<"Onboarding", 'DateTime'>
   }
     
 
@@ -15470,23 +16231,86 @@ export namespace Prisma {
 
 
   /**
-   * Onboarding.tasks
+   * Onboarding.emergencyContacts
    */
-  export type Onboarding$tasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Onboarding$emergencyContactsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the OnboardingTask
+     * Select specific fields to fetch from the OnboardingEmergencyContact
      */
-    select?: OnboardingTaskSelect<ExtArgs> | null
+    select?: OnboardingEmergencyContactSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OnboardingTaskInclude<ExtArgs> | null
-    where?: OnboardingTaskWhereInput
-    orderBy?: OnboardingTaskOrderByWithRelationInput | OnboardingTaskOrderByWithRelationInput[]
-    cursor?: OnboardingTaskWhereUniqueInput
+    include?: OnboardingEmergencyContactInclude<ExtArgs> | null
+    where?: OnboardingEmergencyContactWhereInput
+    orderBy?: OnboardingEmergencyContactOrderByWithRelationInput | OnboardingEmergencyContactOrderByWithRelationInput[]
+    cursor?: OnboardingEmergencyContactWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: OnboardingTaskScalarFieldEnum | OnboardingTaskScalarFieldEnum[]
+    distinct?: OnboardingEmergencyContactScalarFieldEnum | OnboardingEmergencyContactScalarFieldEnum[]
+  }
+
+
+  /**
+   * Onboarding.experiences
+   */
+  export type Onboarding$experiencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingExperience
+     */
+    select?: OnboardingExperienceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingExperienceInclude<ExtArgs> | null
+    where?: OnboardingExperienceWhereInput
+    orderBy?: OnboardingExperienceOrderByWithRelationInput | OnboardingExperienceOrderByWithRelationInput[]
+    cursor?: OnboardingExperienceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OnboardingExperienceScalarFieldEnum | OnboardingExperienceScalarFieldEnum[]
+  }
+
+
+  /**
+   * Onboarding.education
+   */
+  export type Onboarding$educationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingEducation
+     */
+    select?: OnboardingEducationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingEducationInclude<ExtArgs> | null
+    where?: OnboardingEducationWhereInput
+    orderBy?: OnboardingEducationOrderByWithRelationInput | OnboardingEducationOrderByWithRelationInput[]
+    cursor?: OnboardingEducationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OnboardingEducationScalarFieldEnum | OnboardingEducationScalarFieldEnum[]
+  }
+
+
+  /**
+   * Onboarding.documents
+   */
+  export type Onboarding$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingDocument
+     */
+    select?: OnboardingDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingDocumentInclude<ExtArgs> | null
+    where?: OnboardingDocumentWhereInput
+    orderBy?: OnboardingDocumentOrderByWithRelationInput | OnboardingDocumentOrderByWithRelationInput[]
+    cursor?: OnboardingDocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OnboardingDocumentScalarFieldEnum | OnboardingDocumentScalarFieldEnum[]
   }
 
 
@@ -15507,334 +16331,344 @@ export namespace Prisma {
 
 
   /**
-   * Model OnboardingTask
+   * Model OnboardingEmergencyContact
    */
 
-  export type AggregateOnboardingTask = {
-    _count: OnboardingTaskCountAggregateOutputType | null
-    _min: OnboardingTaskMinAggregateOutputType | null
-    _max: OnboardingTaskMaxAggregateOutputType | null
+  export type AggregateOnboardingEmergencyContact = {
+    _count: OnboardingEmergencyContactCountAggregateOutputType | null
+    _min: OnboardingEmergencyContactMinAggregateOutputType | null
+    _max: OnboardingEmergencyContactMaxAggregateOutputType | null
   }
 
-  export type OnboardingTaskMinAggregateOutputType = {
+  export type OnboardingEmergencyContactMinAggregateOutputType = {
     id: string | null
     onboardingId: string | null
-    title: string | null
-    status: string | null
-    completedAt: Date | null
+    name: string | null
+    relationship: string | null
+    mobile: string | null
+    alternateMobile: string | null
   }
 
-  export type OnboardingTaskMaxAggregateOutputType = {
+  export type OnboardingEmergencyContactMaxAggregateOutputType = {
     id: string | null
     onboardingId: string | null
-    title: string | null
-    status: string | null
-    completedAt: Date | null
+    name: string | null
+    relationship: string | null
+    mobile: string | null
+    alternateMobile: string | null
   }
 
-  export type OnboardingTaskCountAggregateOutputType = {
+  export type OnboardingEmergencyContactCountAggregateOutputType = {
     id: number
     onboardingId: number
-    title: number
-    status: number
-    completedAt: number
+    name: number
+    relationship: number
+    mobile: number
+    alternateMobile: number
     _all: number
   }
 
 
-  export type OnboardingTaskMinAggregateInputType = {
+  export type OnboardingEmergencyContactMinAggregateInputType = {
     id?: true
     onboardingId?: true
-    title?: true
-    status?: true
-    completedAt?: true
+    name?: true
+    relationship?: true
+    mobile?: true
+    alternateMobile?: true
   }
 
-  export type OnboardingTaskMaxAggregateInputType = {
+  export type OnboardingEmergencyContactMaxAggregateInputType = {
     id?: true
     onboardingId?: true
-    title?: true
-    status?: true
-    completedAt?: true
+    name?: true
+    relationship?: true
+    mobile?: true
+    alternateMobile?: true
   }
 
-  export type OnboardingTaskCountAggregateInputType = {
+  export type OnboardingEmergencyContactCountAggregateInputType = {
     id?: true
     onboardingId?: true
-    title?: true
-    status?: true
-    completedAt?: true
+    name?: true
+    relationship?: true
+    mobile?: true
+    alternateMobile?: true
     _all?: true
   }
 
-  export type OnboardingTaskAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OnboardingEmergencyContactAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which OnboardingTask to aggregate.
+     * Filter which OnboardingEmergencyContact to aggregate.
      */
-    where?: OnboardingTaskWhereInput
+    where?: OnboardingEmergencyContactWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of OnboardingTasks to fetch.
+     * Determine the order of OnboardingEmergencyContacts to fetch.
      */
-    orderBy?: OnboardingTaskOrderByWithRelationInput | OnboardingTaskOrderByWithRelationInput[]
+    orderBy?: OnboardingEmergencyContactOrderByWithRelationInput | OnboardingEmergencyContactOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: OnboardingTaskWhereUniqueInput
+    cursor?: OnboardingEmergencyContactWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` OnboardingTasks from the position of the cursor.
+     * Take `±n` OnboardingEmergencyContacts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` OnboardingTasks.
+     * Skip the first `n` OnboardingEmergencyContacts.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned OnboardingTasks
+     * Count returned OnboardingEmergencyContacts
     **/
-    _count?: true | OnboardingTaskCountAggregateInputType
+    _count?: true | OnboardingEmergencyContactCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: OnboardingTaskMinAggregateInputType
+    _min?: OnboardingEmergencyContactMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: OnboardingTaskMaxAggregateInputType
+    _max?: OnboardingEmergencyContactMaxAggregateInputType
   }
 
-  export type GetOnboardingTaskAggregateType<T extends OnboardingTaskAggregateArgs> = {
-        [P in keyof T & keyof AggregateOnboardingTask]: P extends '_count' | 'count'
+  export type GetOnboardingEmergencyContactAggregateType<T extends OnboardingEmergencyContactAggregateArgs> = {
+        [P in keyof T & keyof AggregateOnboardingEmergencyContact]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateOnboardingTask[P]>
-      : GetScalarType<T[P], AggregateOnboardingTask[P]>
+        : GetScalarType<T[P], AggregateOnboardingEmergencyContact[P]>
+      : GetScalarType<T[P], AggregateOnboardingEmergencyContact[P]>
   }
 
 
 
 
-  export type OnboardingTaskGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: OnboardingTaskWhereInput
-    orderBy?: OnboardingTaskOrderByWithAggregationInput | OnboardingTaskOrderByWithAggregationInput[]
-    by: OnboardingTaskScalarFieldEnum[] | OnboardingTaskScalarFieldEnum
-    having?: OnboardingTaskScalarWhereWithAggregatesInput
+  export type OnboardingEmergencyContactGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OnboardingEmergencyContactWhereInput
+    orderBy?: OnboardingEmergencyContactOrderByWithAggregationInput | OnboardingEmergencyContactOrderByWithAggregationInput[]
+    by: OnboardingEmergencyContactScalarFieldEnum[] | OnboardingEmergencyContactScalarFieldEnum
+    having?: OnboardingEmergencyContactScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: OnboardingTaskCountAggregateInputType | true
-    _min?: OnboardingTaskMinAggregateInputType
-    _max?: OnboardingTaskMaxAggregateInputType
+    _count?: OnboardingEmergencyContactCountAggregateInputType | true
+    _min?: OnboardingEmergencyContactMinAggregateInputType
+    _max?: OnboardingEmergencyContactMaxAggregateInputType
   }
 
-  export type OnboardingTaskGroupByOutputType = {
+  export type OnboardingEmergencyContactGroupByOutputType = {
     id: string
     onboardingId: string
-    title: string
-    status: string
-    completedAt: Date | null
-    _count: OnboardingTaskCountAggregateOutputType | null
-    _min: OnboardingTaskMinAggregateOutputType | null
-    _max: OnboardingTaskMaxAggregateOutputType | null
+    name: string
+    relationship: string | null
+    mobile: string
+    alternateMobile: string | null
+    _count: OnboardingEmergencyContactCountAggregateOutputType | null
+    _min: OnboardingEmergencyContactMinAggregateOutputType | null
+    _max: OnboardingEmergencyContactMaxAggregateOutputType | null
   }
 
-  type GetOnboardingTaskGroupByPayload<T extends OnboardingTaskGroupByArgs> = Prisma.PrismaPromise<
+  type GetOnboardingEmergencyContactGroupByPayload<T extends OnboardingEmergencyContactGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<OnboardingTaskGroupByOutputType, T['by']> &
+      PickEnumerable<OnboardingEmergencyContactGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof OnboardingTaskGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof OnboardingEmergencyContactGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], OnboardingTaskGroupByOutputType[P]>
-            : GetScalarType<T[P], OnboardingTaskGroupByOutputType[P]>
+              : GetScalarType<T[P], OnboardingEmergencyContactGroupByOutputType[P]>
+            : GetScalarType<T[P], OnboardingEmergencyContactGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type OnboardingTaskSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type OnboardingEmergencyContactSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     onboardingId?: boolean
-    title?: boolean
-    status?: boolean
-    completedAt?: boolean
+    name?: boolean
+    relationship?: boolean
+    mobile?: boolean
+    alternateMobile?: boolean
     onboarding?: boolean | OnboardingDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["onboardingTask"]>
+  }, ExtArgs["result"]["onboardingEmergencyContact"]>
 
-  export type OnboardingTaskSelectScalar = {
+  export type OnboardingEmergencyContactSelectScalar = {
     id?: boolean
     onboardingId?: boolean
-    title?: boolean
-    status?: boolean
-    completedAt?: boolean
+    name?: boolean
+    relationship?: boolean
+    mobile?: boolean
+    alternateMobile?: boolean
   }
 
-  export type OnboardingTaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OnboardingEmergencyContactInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     onboarding?: boolean | OnboardingDefaultArgs<ExtArgs>
   }
 
 
-  export type $OnboardingTaskPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "OnboardingTask"
+  export type $OnboardingEmergencyContactPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OnboardingEmergencyContact"
     objects: {
       onboarding: Prisma.$OnboardingPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       onboardingId: string
-      title: string
-      status: string
-      completedAt: Date | null
-    }, ExtArgs["result"]["onboardingTask"]>
+      name: string
+      relationship: string | null
+      mobile: string
+      alternateMobile: string | null
+    }, ExtArgs["result"]["onboardingEmergencyContact"]>
     composites: {}
   }
 
 
-  type OnboardingTaskGetPayload<S extends boolean | null | undefined | OnboardingTaskDefaultArgs> = $Result.GetResult<Prisma.$OnboardingTaskPayload, S>
+  type OnboardingEmergencyContactGetPayload<S extends boolean | null | undefined | OnboardingEmergencyContactDefaultArgs> = $Result.GetResult<Prisma.$OnboardingEmergencyContactPayload, S>
 
-  type OnboardingTaskCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<OnboardingTaskFindManyArgs, 'select' | 'include' | 'distinct'> & {
-      select?: OnboardingTaskCountAggregateInputType | true
+  type OnboardingEmergencyContactCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<OnboardingEmergencyContactFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: OnboardingEmergencyContactCountAggregateInputType | true
     }
 
-  export interface OnboardingTaskDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OnboardingTask'], meta: { name: 'OnboardingTask' } }
+  export interface OnboardingEmergencyContactDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OnboardingEmergencyContact'], meta: { name: 'OnboardingEmergencyContact' } }
     /**
-     * Find zero or one OnboardingTask that matches the filter.
-     * @param {OnboardingTaskFindUniqueArgs} args - Arguments to find a OnboardingTask
+     * Find zero or one OnboardingEmergencyContact that matches the filter.
+     * @param {OnboardingEmergencyContactFindUniqueArgs} args - Arguments to find a OnboardingEmergencyContact
      * @example
-     * // Get one OnboardingTask
-     * const onboardingTask = await prisma.onboardingTask.findUnique({
+     * // Get one OnboardingEmergencyContact
+     * const onboardingEmergencyContact = await prisma.onboardingEmergencyContact.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends OnboardingTaskFindUniqueArgs<ExtArgs>>(
-      args: SelectSubset<T, OnboardingTaskFindUniqueArgs<ExtArgs>>
-    ): Prisma__OnboardingTaskClient<$Result.GetResult<Prisma.$OnboardingTaskPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+    findUnique<T extends OnboardingEmergencyContactFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingEmergencyContactFindUniqueArgs<ExtArgs>>
+    ): Prisma__OnboardingEmergencyContactClient<$Result.GetResult<Prisma.$OnboardingEmergencyContactPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
 
     /**
-     * Find one OnboardingTask that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one OnboardingEmergencyContact that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {OnboardingTaskFindUniqueOrThrowArgs} args - Arguments to find a OnboardingTask
+     * @param {OnboardingEmergencyContactFindUniqueOrThrowArgs} args - Arguments to find a OnboardingEmergencyContact
      * @example
-     * // Get one OnboardingTask
-     * const onboardingTask = await prisma.onboardingTask.findUniqueOrThrow({
+     * // Get one OnboardingEmergencyContact
+     * const onboardingEmergencyContact = await prisma.onboardingEmergencyContact.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends OnboardingTaskFindUniqueOrThrowArgs<ExtArgs>>(
-      args?: SelectSubset<T, OnboardingTaskFindUniqueOrThrowArgs<ExtArgs>>
-    ): Prisma__OnboardingTaskClient<$Result.GetResult<Prisma.$OnboardingTaskPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+    findUniqueOrThrow<T extends OnboardingEmergencyContactFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingEmergencyContactFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__OnboardingEmergencyContactClient<$Result.GetResult<Prisma.$OnboardingEmergencyContactPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
 
     /**
-     * Find the first OnboardingTask that matches the filter.
+     * Find the first OnboardingEmergencyContact that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {OnboardingTaskFindFirstArgs} args - Arguments to find a OnboardingTask
+     * @param {OnboardingEmergencyContactFindFirstArgs} args - Arguments to find a OnboardingEmergencyContact
      * @example
-     * // Get one OnboardingTask
-     * const onboardingTask = await prisma.onboardingTask.findFirst({
+     * // Get one OnboardingEmergencyContact
+     * const onboardingEmergencyContact = await prisma.onboardingEmergencyContact.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends OnboardingTaskFindFirstArgs<ExtArgs>>(
-      args?: SelectSubset<T, OnboardingTaskFindFirstArgs<ExtArgs>>
-    ): Prisma__OnboardingTaskClient<$Result.GetResult<Prisma.$OnboardingTaskPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+    findFirst<T extends OnboardingEmergencyContactFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingEmergencyContactFindFirstArgs<ExtArgs>>
+    ): Prisma__OnboardingEmergencyContactClient<$Result.GetResult<Prisma.$OnboardingEmergencyContactPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
 
     /**
-     * Find the first OnboardingTask that matches the filter or
+     * Find the first OnboardingEmergencyContact that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {OnboardingTaskFindFirstOrThrowArgs} args - Arguments to find a OnboardingTask
+     * @param {OnboardingEmergencyContactFindFirstOrThrowArgs} args - Arguments to find a OnboardingEmergencyContact
      * @example
-     * // Get one OnboardingTask
-     * const onboardingTask = await prisma.onboardingTask.findFirstOrThrow({
+     * // Get one OnboardingEmergencyContact
+     * const onboardingEmergencyContact = await prisma.onboardingEmergencyContact.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends OnboardingTaskFindFirstOrThrowArgs<ExtArgs>>(
-      args?: SelectSubset<T, OnboardingTaskFindFirstOrThrowArgs<ExtArgs>>
-    ): Prisma__OnboardingTaskClient<$Result.GetResult<Prisma.$OnboardingTaskPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+    findFirstOrThrow<T extends OnboardingEmergencyContactFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingEmergencyContactFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__OnboardingEmergencyContactClient<$Result.GetResult<Prisma.$OnboardingEmergencyContactPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
 
     /**
-     * Find zero or more OnboardingTasks that matches the filter.
+     * Find zero or more OnboardingEmergencyContacts that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {OnboardingTaskFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {OnboardingEmergencyContactFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all OnboardingTasks
-     * const onboardingTasks = await prisma.onboardingTask.findMany()
+     * // Get all OnboardingEmergencyContacts
+     * const onboardingEmergencyContacts = await prisma.onboardingEmergencyContact.findMany()
      * 
-     * // Get first 10 OnboardingTasks
-     * const onboardingTasks = await prisma.onboardingTask.findMany({ take: 10 })
+     * // Get first 10 OnboardingEmergencyContacts
+     * const onboardingEmergencyContacts = await prisma.onboardingEmergencyContact.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const onboardingTaskWithIdOnly = await prisma.onboardingTask.findMany({ select: { id: true } })
+     * const onboardingEmergencyContactWithIdOnly = await prisma.onboardingEmergencyContact.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends OnboardingTaskFindManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, OnboardingTaskFindManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingTaskPayload<ExtArgs>, T, 'findMany'>>
+    findMany<T extends OnboardingEmergencyContactFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingEmergencyContactFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingEmergencyContactPayload<ExtArgs>, T, 'findMany'>>
 
     /**
-     * Create a OnboardingTask.
-     * @param {OnboardingTaskCreateArgs} args - Arguments to create a OnboardingTask.
+     * Create a OnboardingEmergencyContact.
+     * @param {OnboardingEmergencyContactCreateArgs} args - Arguments to create a OnboardingEmergencyContact.
      * @example
-     * // Create one OnboardingTask
-     * const OnboardingTask = await prisma.onboardingTask.create({
+     * // Create one OnboardingEmergencyContact
+     * const OnboardingEmergencyContact = await prisma.onboardingEmergencyContact.create({
      *   data: {
-     *     // ... data to create a OnboardingTask
+     *     // ... data to create a OnboardingEmergencyContact
      *   }
      * })
      * 
     **/
-    create<T extends OnboardingTaskCreateArgs<ExtArgs>>(
-      args: SelectSubset<T, OnboardingTaskCreateArgs<ExtArgs>>
-    ): Prisma__OnboardingTaskClient<$Result.GetResult<Prisma.$OnboardingTaskPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+    create<T extends OnboardingEmergencyContactCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingEmergencyContactCreateArgs<ExtArgs>>
+    ): Prisma__OnboardingEmergencyContactClient<$Result.GetResult<Prisma.$OnboardingEmergencyContactPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
 
     /**
-     * Delete a OnboardingTask.
-     * @param {OnboardingTaskDeleteArgs} args - Arguments to delete one OnboardingTask.
+     * Delete a OnboardingEmergencyContact.
+     * @param {OnboardingEmergencyContactDeleteArgs} args - Arguments to delete one OnboardingEmergencyContact.
      * @example
-     * // Delete one OnboardingTask
-     * const OnboardingTask = await prisma.onboardingTask.delete({
+     * // Delete one OnboardingEmergencyContact
+     * const OnboardingEmergencyContact = await prisma.onboardingEmergencyContact.delete({
      *   where: {
-     *     // ... filter to delete one OnboardingTask
+     *     // ... filter to delete one OnboardingEmergencyContact
      *   }
      * })
      * 
     **/
-    delete<T extends OnboardingTaskDeleteArgs<ExtArgs>>(
-      args: SelectSubset<T, OnboardingTaskDeleteArgs<ExtArgs>>
-    ): Prisma__OnboardingTaskClient<$Result.GetResult<Prisma.$OnboardingTaskPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+    delete<T extends OnboardingEmergencyContactDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingEmergencyContactDeleteArgs<ExtArgs>>
+    ): Prisma__OnboardingEmergencyContactClient<$Result.GetResult<Prisma.$OnboardingEmergencyContactPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
 
     /**
-     * Update one OnboardingTask.
-     * @param {OnboardingTaskUpdateArgs} args - Arguments to update one OnboardingTask.
+     * Update one OnboardingEmergencyContact.
+     * @param {OnboardingEmergencyContactUpdateArgs} args - Arguments to update one OnboardingEmergencyContact.
      * @example
-     * // Update one OnboardingTask
-     * const onboardingTask = await prisma.onboardingTask.update({
+     * // Update one OnboardingEmergencyContact
+     * const onboardingEmergencyContact = await prisma.onboardingEmergencyContact.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -15844,34 +16678,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends OnboardingTaskUpdateArgs<ExtArgs>>(
-      args: SelectSubset<T, OnboardingTaskUpdateArgs<ExtArgs>>
-    ): Prisma__OnboardingTaskClient<$Result.GetResult<Prisma.$OnboardingTaskPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+    update<T extends OnboardingEmergencyContactUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingEmergencyContactUpdateArgs<ExtArgs>>
+    ): Prisma__OnboardingEmergencyContactClient<$Result.GetResult<Prisma.$OnboardingEmergencyContactPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
 
     /**
-     * Delete zero or more OnboardingTasks.
-     * @param {OnboardingTaskDeleteManyArgs} args - Arguments to filter OnboardingTasks to delete.
+     * Delete zero or more OnboardingEmergencyContacts.
+     * @param {OnboardingEmergencyContactDeleteManyArgs} args - Arguments to filter OnboardingEmergencyContacts to delete.
      * @example
-     * // Delete a few OnboardingTasks
-     * const { count } = await prisma.onboardingTask.deleteMany({
+     * // Delete a few OnboardingEmergencyContacts
+     * const { count } = await prisma.onboardingEmergencyContact.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends OnboardingTaskDeleteManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, OnboardingTaskDeleteManyArgs<ExtArgs>>
+    deleteMany<T extends OnboardingEmergencyContactDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingEmergencyContactDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more OnboardingTasks.
+     * Update zero or more OnboardingEmergencyContacts.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {OnboardingTaskUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {OnboardingEmergencyContactUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many OnboardingTasks
-     * const onboardingTask = await prisma.onboardingTask.updateMany({
+     * // Update many OnboardingEmergencyContacts
+     * const onboardingEmergencyContact = await prisma.onboardingEmergencyContact.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -15881,59 +16715,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends OnboardingTaskUpdateManyArgs<ExtArgs>>(
-      args: SelectSubset<T, OnboardingTaskUpdateManyArgs<ExtArgs>>
+    updateMany<T extends OnboardingEmergencyContactUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingEmergencyContactUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one OnboardingTask.
-     * @param {OnboardingTaskUpsertArgs} args - Arguments to update or create a OnboardingTask.
+     * Create or update one OnboardingEmergencyContact.
+     * @param {OnboardingEmergencyContactUpsertArgs} args - Arguments to update or create a OnboardingEmergencyContact.
      * @example
-     * // Update or create a OnboardingTask
-     * const onboardingTask = await prisma.onboardingTask.upsert({
+     * // Update or create a OnboardingEmergencyContact
+     * const onboardingEmergencyContact = await prisma.onboardingEmergencyContact.upsert({
      *   create: {
-     *     // ... data to create a OnboardingTask
+     *     // ... data to create a OnboardingEmergencyContact
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the OnboardingTask we want to update
+     *     // ... the filter for the OnboardingEmergencyContact we want to update
      *   }
      * })
     **/
-    upsert<T extends OnboardingTaskUpsertArgs<ExtArgs>>(
-      args: SelectSubset<T, OnboardingTaskUpsertArgs<ExtArgs>>
-    ): Prisma__OnboardingTaskClient<$Result.GetResult<Prisma.$OnboardingTaskPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+    upsert<T extends OnboardingEmergencyContactUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingEmergencyContactUpsertArgs<ExtArgs>>
+    ): Prisma__OnboardingEmergencyContactClient<$Result.GetResult<Prisma.$OnboardingEmergencyContactPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
 
     /**
-     * Count the number of OnboardingTasks.
+     * Count the number of OnboardingEmergencyContacts.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {OnboardingTaskCountArgs} args - Arguments to filter OnboardingTasks to count.
+     * @param {OnboardingEmergencyContactCountArgs} args - Arguments to filter OnboardingEmergencyContacts to count.
      * @example
-     * // Count the number of OnboardingTasks
-     * const count = await prisma.onboardingTask.count({
+     * // Count the number of OnboardingEmergencyContacts
+     * const count = await prisma.onboardingEmergencyContact.count({
      *   where: {
-     *     // ... the filter for the OnboardingTasks we want to count
+     *     // ... the filter for the OnboardingEmergencyContacts we want to count
      *   }
      * })
     **/
-    count<T extends OnboardingTaskCountArgs>(
-      args?: Subset<T, OnboardingTaskCountArgs>,
+    count<T extends OnboardingEmergencyContactCountArgs>(
+      args?: Subset<T, OnboardingEmergencyContactCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], OnboardingTaskCountAggregateOutputType>
+          : GetScalarType<T['select'], OnboardingEmergencyContactCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a OnboardingTask.
+     * Allows you to perform aggregations operations on a OnboardingEmergencyContact.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {OnboardingTaskAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {OnboardingEmergencyContactAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -15953,13 +16787,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends OnboardingTaskAggregateArgs>(args: Subset<T, OnboardingTaskAggregateArgs>): Prisma.PrismaPromise<GetOnboardingTaskAggregateType<T>>
+    aggregate<T extends OnboardingEmergencyContactAggregateArgs>(args: Subset<T, OnboardingEmergencyContactAggregateArgs>): Prisma.PrismaPromise<GetOnboardingEmergencyContactAggregateType<T>>
 
     /**
-     * Group by OnboardingTask.
+     * Group by OnboardingEmergencyContact.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {OnboardingTaskGroupByArgs} args - Group by arguments.
+     * @param {OnboardingEmergencyContactGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -15974,14 +16808,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends OnboardingTaskGroupByArgs,
+      T extends OnboardingEmergencyContactGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: OnboardingTaskGroupByArgs['orderBy'] }
-        : { orderBy?: OnboardingTaskGroupByArgs['orderBy'] },
+        ? { orderBy: OnboardingEmergencyContactGroupByArgs['orderBy'] }
+        : { orderBy?: OnboardingEmergencyContactGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -16030,20 +16864,20 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, OnboardingTaskGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOnboardingTaskGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, OnboardingEmergencyContactGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOnboardingEmergencyContactGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the OnboardingTask model
+   * Fields of the OnboardingEmergencyContact model
    */
-  readonly fields: OnboardingTaskFieldRefs;
+  readonly fields: OnboardingEmergencyContactFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for OnboardingTask.
+   * The delegate class that acts as a "Promise-like" for OnboardingEmergencyContact.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__OnboardingTaskClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__OnboardingEmergencyContactClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
 
     onboarding<T extends OnboardingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OnboardingDefaultArgs<ExtArgs>>): Prisma__OnboardingClient<$Result.GetResult<Prisma.$OnboardingPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
@@ -16073,325 +16907,3085 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the OnboardingTask model
+   * Fields of the OnboardingEmergencyContact model
    */ 
-  interface OnboardingTaskFieldRefs {
-    readonly id: FieldRef<"OnboardingTask", 'String'>
-    readonly onboardingId: FieldRef<"OnboardingTask", 'String'>
-    readonly title: FieldRef<"OnboardingTask", 'String'>
-    readonly status: FieldRef<"OnboardingTask", 'String'>
-    readonly completedAt: FieldRef<"OnboardingTask", 'DateTime'>
+  interface OnboardingEmergencyContactFieldRefs {
+    readonly id: FieldRef<"OnboardingEmergencyContact", 'String'>
+    readonly onboardingId: FieldRef<"OnboardingEmergencyContact", 'String'>
+    readonly name: FieldRef<"OnboardingEmergencyContact", 'String'>
+    readonly relationship: FieldRef<"OnboardingEmergencyContact", 'String'>
+    readonly mobile: FieldRef<"OnboardingEmergencyContact", 'String'>
+    readonly alternateMobile: FieldRef<"OnboardingEmergencyContact", 'String'>
   }
     
 
   // Custom InputTypes
 
   /**
-   * OnboardingTask findUnique
+   * OnboardingEmergencyContact findUnique
    */
-  export type OnboardingTaskFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OnboardingEmergencyContactFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the OnboardingTask
+     * Select specific fields to fetch from the OnboardingEmergencyContact
      */
-    select?: OnboardingTaskSelect<ExtArgs> | null
+    select?: OnboardingEmergencyContactSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OnboardingTaskInclude<ExtArgs> | null
+    include?: OnboardingEmergencyContactInclude<ExtArgs> | null
     /**
-     * Filter, which OnboardingTask to fetch.
+     * Filter, which OnboardingEmergencyContact to fetch.
      */
-    where: OnboardingTaskWhereUniqueInput
+    where: OnboardingEmergencyContactWhereUniqueInput
   }
 
 
   /**
-   * OnboardingTask findUniqueOrThrow
+   * OnboardingEmergencyContact findUniqueOrThrow
    */
-  export type OnboardingTaskFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OnboardingEmergencyContactFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the OnboardingTask
+     * Select specific fields to fetch from the OnboardingEmergencyContact
      */
-    select?: OnboardingTaskSelect<ExtArgs> | null
+    select?: OnboardingEmergencyContactSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OnboardingTaskInclude<ExtArgs> | null
+    include?: OnboardingEmergencyContactInclude<ExtArgs> | null
     /**
-     * Filter, which OnboardingTask to fetch.
+     * Filter, which OnboardingEmergencyContact to fetch.
      */
-    where: OnboardingTaskWhereUniqueInput
+    where: OnboardingEmergencyContactWhereUniqueInput
   }
 
 
   /**
-   * OnboardingTask findFirst
+   * OnboardingEmergencyContact findFirst
    */
-  export type OnboardingTaskFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OnboardingEmergencyContactFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the OnboardingTask
+     * Select specific fields to fetch from the OnboardingEmergencyContact
      */
-    select?: OnboardingTaskSelect<ExtArgs> | null
+    select?: OnboardingEmergencyContactSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OnboardingTaskInclude<ExtArgs> | null
+    include?: OnboardingEmergencyContactInclude<ExtArgs> | null
     /**
-     * Filter, which OnboardingTask to fetch.
+     * Filter, which OnboardingEmergencyContact to fetch.
      */
-    where?: OnboardingTaskWhereInput
+    where?: OnboardingEmergencyContactWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of OnboardingTasks to fetch.
+     * Determine the order of OnboardingEmergencyContacts to fetch.
      */
-    orderBy?: OnboardingTaskOrderByWithRelationInput | OnboardingTaskOrderByWithRelationInput[]
+    orderBy?: OnboardingEmergencyContactOrderByWithRelationInput | OnboardingEmergencyContactOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for OnboardingTasks.
+     * Sets the position for searching for OnboardingEmergencyContacts.
      */
-    cursor?: OnboardingTaskWhereUniqueInput
+    cursor?: OnboardingEmergencyContactWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` OnboardingTasks from the position of the cursor.
+     * Take `±n` OnboardingEmergencyContacts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` OnboardingTasks.
+     * Skip the first `n` OnboardingEmergencyContacts.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of OnboardingTasks.
+     * Filter by unique combinations of OnboardingEmergencyContacts.
      */
-    distinct?: OnboardingTaskScalarFieldEnum | OnboardingTaskScalarFieldEnum[]
+    distinct?: OnboardingEmergencyContactScalarFieldEnum | OnboardingEmergencyContactScalarFieldEnum[]
   }
 
 
   /**
-   * OnboardingTask findFirstOrThrow
+   * OnboardingEmergencyContact findFirstOrThrow
    */
-  export type OnboardingTaskFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OnboardingEmergencyContactFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the OnboardingTask
+     * Select specific fields to fetch from the OnboardingEmergencyContact
      */
-    select?: OnboardingTaskSelect<ExtArgs> | null
+    select?: OnboardingEmergencyContactSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OnboardingTaskInclude<ExtArgs> | null
+    include?: OnboardingEmergencyContactInclude<ExtArgs> | null
     /**
-     * Filter, which OnboardingTask to fetch.
+     * Filter, which OnboardingEmergencyContact to fetch.
      */
-    where?: OnboardingTaskWhereInput
+    where?: OnboardingEmergencyContactWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of OnboardingTasks to fetch.
+     * Determine the order of OnboardingEmergencyContacts to fetch.
      */
-    orderBy?: OnboardingTaskOrderByWithRelationInput | OnboardingTaskOrderByWithRelationInput[]
+    orderBy?: OnboardingEmergencyContactOrderByWithRelationInput | OnboardingEmergencyContactOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for OnboardingTasks.
+     * Sets the position for searching for OnboardingEmergencyContacts.
      */
-    cursor?: OnboardingTaskWhereUniqueInput
+    cursor?: OnboardingEmergencyContactWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` OnboardingTasks from the position of the cursor.
+     * Take `±n` OnboardingEmergencyContacts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` OnboardingTasks.
+     * Skip the first `n` OnboardingEmergencyContacts.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of OnboardingTasks.
+     * Filter by unique combinations of OnboardingEmergencyContacts.
      */
-    distinct?: OnboardingTaskScalarFieldEnum | OnboardingTaskScalarFieldEnum[]
+    distinct?: OnboardingEmergencyContactScalarFieldEnum | OnboardingEmergencyContactScalarFieldEnum[]
   }
 
 
   /**
-   * OnboardingTask findMany
+   * OnboardingEmergencyContact findMany
    */
-  export type OnboardingTaskFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OnboardingEmergencyContactFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the OnboardingTask
+     * Select specific fields to fetch from the OnboardingEmergencyContact
      */
-    select?: OnboardingTaskSelect<ExtArgs> | null
+    select?: OnboardingEmergencyContactSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OnboardingTaskInclude<ExtArgs> | null
+    include?: OnboardingEmergencyContactInclude<ExtArgs> | null
     /**
-     * Filter, which OnboardingTasks to fetch.
+     * Filter, which OnboardingEmergencyContacts to fetch.
      */
-    where?: OnboardingTaskWhereInput
+    where?: OnboardingEmergencyContactWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of OnboardingTasks to fetch.
+     * Determine the order of OnboardingEmergencyContacts to fetch.
      */
-    orderBy?: OnboardingTaskOrderByWithRelationInput | OnboardingTaskOrderByWithRelationInput[]
+    orderBy?: OnboardingEmergencyContactOrderByWithRelationInput | OnboardingEmergencyContactOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing OnboardingTasks.
+     * Sets the position for listing OnboardingEmergencyContacts.
      */
-    cursor?: OnboardingTaskWhereUniqueInput
+    cursor?: OnboardingEmergencyContactWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` OnboardingTasks from the position of the cursor.
+     * Take `±n` OnboardingEmergencyContacts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` OnboardingTasks.
+     * Skip the first `n` OnboardingEmergencyContacts.
      */
     skip?: number
-    distinct?: OnboardingTaskScalarFieldEnum | OnboardingTaskScalarFieldEnum[]
+    distinct?: OnboardingEmergencyContactScalarFieldEnum | OnboardingEmergencyContactScalarFieldEnum[]
   }
 
 
   /**
-   * OnboardingTask create
+   * OnboardingEmergencyContact create
    */
-  export type OnboardingTaskCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OnboardingEmergencyContactCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the OnboardingTask
+     * Select specific fields to fetch from the OnboardingEmergencyContact
      */
-    select?: OnboardingTaskSelect<ExtArgs> | null
+    select?: OnboardingEmergencyContactSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OnboardingTaskInclude<ExtArgs> | null
+    include?: OnboardingEmergencyContactInclude<ExtArgs> | null
     /**
-     * The data needed to create a OnboardingTask.
+     * The data needed to create a OnboardingEmergencyContact.
      */
-    data: XOR<OnboardingTaskCreateInput, OnboardingTaskUncheckedCreateInput>
+    data: XOR<OnboardingEmergencyContactCreateInput, OnboardingEmergencyContactUncheckedCreateInput>
   }
 
 
   /**
-   * OnboardingTask update
+   * OnboardingEmergencyContact update
    */
-  export type OnboardingTaskUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OnboardingEmergencyContactUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the OnboardingTask
+     * Select specific fields to fetch from the OnboardingEmergencyContact
      */
-    select?: OnboardingTaskSelect<ExtArgs> | null
+    select?: OnboardingEmergencyContactSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OnboardingTaskInclude<ExtArgs> | null
+    include?: OnboardingEmergencyContactInclude<ExtArgs> | null
     /**
-     * The data needed to update a OnboardingTask.
+     * The data needed to update a OnboardingEmergencyContact.
      */
-    data: XOR<OnboardingTaskUpdateInput, OnboardingTaskUncheckedUpdateInput>
+    data: XOR<OnboardingEmergencyContactUpdateInput, OnboardingEmergencyContactUncheckedUpdateInput>
     /**
-     * Choose, which OnboardingTask to update.
+     * Choose, which OnboardingEmergencyContact to update.
      */
-    where: OnboardingTaskWhereUniqueInput
+    where: OnboardingEmergencyContactWhereUniqueInput
   }
 
 
   /**
-   * OnboardingTask updateMany
+   * OnboardingEmergencyContact updateMany
    */
-  export type OnboardingTaskUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OnboardingEmergencyContactUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update OnboardingTasks.
+     * The data used to update OnboardingEmergencyContacts.
      */
-    data: XOR<OnboardingTaskUpdateManyMutationInput, OnboardingTaskUncheckedUpdateManyInput>
+    data: XOR<OnboardingEmergencyContactUpdateManyMutationInput, OnboardingEmergencyContactUncheckedUpdateManyInput>
     /**
-     * Filter which OnboardingTasks to update
+     * Filter which OnboardingEmergencyContacts to update
      */
-    where?: OnboardingTaskWhereInput
+    where?: OnboardingEmergencyContactWhereInput
   }
 
 
   /**
-   * OnboardingTask upsert
+   * OnboardingEmergencyContact upsert
    */
-  export type OnboardingTaskUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OnboardingEmergencyContactUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the OnboardingTask
+     * Select specific fields to fetch from the OnboardingEmergencyContact
      */
-    select?: OnboardingTaskSelect<ExtArgs> | null
+    select?: OnboardingEmergencyContactSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OnboardingTaskInclude<ExtArgs> | null
+    include?: OnboardingEmergencyContactInclude<ExtArgs> | null
     /**
-     * The filter to search for the OnboardingTask to update in case it exists.
+     * The filter to search for the OnboardingEmergencyContact to update in case it exists.
      */
-    where: OnboardingTaskWhereUniqueInput
+    where: OnboardingEmergencyContactWhereUniqueInput
     /**
-     * In case the OnboardingTask found by the `where` argument doesn't exist, create a new OnboardingTask with this data.
+     * In case the OnboardingEmergencyContact found by the `where` argument doesn't exist, create a new OnboardingEmergencyContact with this data.
      */
-    create: XOR<OnboardingTaskCreateInput, OnboardingTaskUncheckedCreateInput>
+    create: XOR<OnboardingEmergencyContactCreateInput, OnboardingEmergencyContactUncheckedCreateInput>
     /**
-     * In case the OnboardingTask was found with the provided `where` argument, update it with this data.
+     * In case the OnboardingEmergencyContact was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<OnboardingTaskUpdateInput, OnboardingTaskUncheckedUpdateInput>
+    update: XOR<OnboardingEmergencyContactUpdateInput, OnboardingEmergencyContactUncheckedUpdateInput>
   }
 
 
   /**
-   * OnboardingTask delete
+   * OnboardingEmergencyContact delete
    */
-  export type OnboardingTaskDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OnboardingEmergencyContactDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the OnboardingTask
+     * Select specific fields to fetch from the OnboardingEmergencyContact
      */
-    select?: OnboardingTaskSelect<ExtArgs> | null
+    select?: OnboardingEmergencyContactSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OnboardingTaskInclude<ExtArgs> | null
+    include?: OnboardingEmergencyContactInclude<ExtArgs> | null
     /**
-     * Filter which OnboardingTask to delete.
+     * Filter which OnboardingEmergencyContact to delete.
      */
-    where: OnboardingTaskWhereUniqueInput
+    where: OnboardingEmergencyContactWhereUniqueInput
   }
 
 
   /**
-   * OnboardingTask deleteMany
+   * OnboardingEmergencyContact deleteMany
    */
-  export type OnboardingTaskDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OnboardingEmergencyContactDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which OnboardingTasks to delete
+     * Filter which OnboardingEmergencyContacts to delete
      */
-    where?: OnboardingTaskWhereInput
+    where?: OnboardingEmergencyContactWhereInput
   }
 
 
   /**
-   * OnboardingTask without action
+   * OnboardingEmergencyContact without action
    */
-  export type OnboardingTaskDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OnboardingEmergencyContactDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the OnboardingTask
+     * Select specific fields to fetch from the OnboardingEmergencyContact
      */
-    select?: OnboardingTaskSelect<ExtArgs> | null
+    select?: OnboardingEmergencyContactSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OnboardingTaskInclude<ExtArgs> | null
+    include?: OnboardingEmergencyContactInclude<ExtArgs> | null
+  }
+
+
+
+  /**
+   * Model OnboardingExperience
+   */
+
+  export type AggregateOnboardingExperience = {
+    _count: OnboardingExperienceCountAggregateOutputType | null
+    _min: OnboardingExperienceMinAggregateOutputType | null
+    _max: OnboardingExperienceMaxAggregateOutputType | null
+  }
+
+  export type OnboardingExperienceMinAggregateOutputType = {
+    id: string | null
+    onboardingId: string | null
+    companyName: string | null
+    designation: string | null
+    employmentType: string | null
+    startDate: Date | null
+    endDate: Date | null
+    isCurrent: boolean | null
+    reasonForLeaving: string | null
+  }
+
+  export type OnboardingExperienceMaxAggregateOutputType = {
+    id: string | null
+    onboardingId: string | null
+    companyName: string | null
+    designation: string | null
+    employmentType: string | null
+    startDate: Date | null
+    endDate: Date | null
+    isCurrent: boolean | null
+    reasonForLeaving: string | null
+  }
+
+  export type OnboardingExperienceCountAggregateOutputType = {
+    id: number
+    onboardingId: number
+    companyName: number
+    designation: number
+    employmentType: number
+    startDate: number
+    endDate: number
+    isCurrent: number
+    reasonForLeaving: number
+    _all: number
+  }
+
+
+  export type OnboardingExperienceMinAggregateInputType = {
+    id?: true
+    onboardingId?: true
+    companyName?: true
+    designation?: true
+    employmentType?: true
+    startDate?: true
+    endDate?: true
+    isCurrent?: true
+    reasonForLeaving?: true
+  }
+
+  export type OnboardingExperienceMaxAggregateInputType = {
+    id?: true
+    onboardingId?: true
+    companyName?: true
+    designation?: true
+    employmentType?: true
+    startDate?: true
+    endDate?: true
+    isCurrent?: true
+    reasonForLeaving?: true
+  }
+
+  export type OnboardingExperienceCountAggregateInputType = {
+    id?: true
+    onboardingId?: true
+    companyName?: true
+    designation?: true
+    employmentType?: true
+    startDate?: true
+    endDate?: true
+    isCurrent?: true
+    reasonForLeaving?: true
+    _all?: true
+  }
+
+  export type OnboardingExperienceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OnboardingExperience to aggregate.
+     */
+    where?: OnboardingExperienceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingExperiences to fetch.
+     */
+    orderBy?: OnboardingExperienceOrderByWithRelationInput | OnboardingExperienceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OnboardingExperienceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingExperiences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingExperiences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OnboardingExperiences
+    **/
+    _count?: true | OnboardingExperienceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OnboardingExperienceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OnboardingExperienceMaxAggregateInputType
+  }
+
+  export type GetOnboardingExperienceAggregateType<T extends OnboardingExperienceAggregateArgs> = {
+        [P in keyof T & keyof AggregateOnboardingExperience]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOnboardingExperience[P]>
+      : GetScalarType<T[P], AggregateOnboardingExperience[P]>
+  }
+
+
+
+
+  export type OnboardingExperienceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OnboardingExperienceWhereInput
+    orderBy?: OnboardingExperienceOrderByWithAggregationInput | OnboardingExperienceOrderByWithAggregationInput[]
+    by: OnboardingExperienceScalarFieldEnum[] | OnboardingExperienceScalarFieldEnum
+    having?: OnboardingExperienceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OnboardingExperienceCountAggregateInputType | true
+    _min?: OnboardingExperienceMinAggregateInputType
+    _max?: OnboardingExperienceMaxAggregateInputType
+  }
+
+  export type OnboardingExperienceGroupByOutputType = {
+    id: string
+    onboardingId: string
+    companyName: string
+    designation: string | null
+    employmentType: string | null
+    startDate: Date | null
+    endDate: Date | null
+    isCurrent: boolean
+    reasonForLeaving: string | null
+    _count: OnboardingExperienceCountAggregateOutputType | null
+    _min: OnboardingExperienceMinAggregateOutputType | null
+    _max: OnboardingExperienceMaxAggregateOutputType | null
+  }
+
+  type GetOnboardingExperienceGroupByPayload<T extends OnboardingExperienceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OnboardingExperienceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OnboardingExperienceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OnboardingExperienceGroupByOutputType[P]>
+            : GetScalarType<T[P], OnboardingExperienceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OnboardingExperienceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    onboardingId?: boolean
+    companyName?: boolean
+    designation?: boolean
+    employmentType?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    isCurrent?: boolean
+    reasonForLeaving?: boolean
+    onboarding?: boolean | OnboardingDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["onboardingExperience"]>
+
+  export type OnboardingExperienceSelectScalar = {
+    id?: boolean
+    onboardingId?: boolean
+    companyName?: boolean
+    designation?: boolean
+    employmentType?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    isCurrent?: boolean
+    reasonForLeaving?: boolean
+  }
+
+  export type OnboardingExperienceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    onboarding?: boolean | OnboardingDefaultArgs<ExtArgs>
+  }
+
+
+  export type $OnboardingExperiencePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OnboardingExperience"
+    objects: {
+      onboarding: Prisma.$OnboardingPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      onboardingId: string
+      companyName: string
+      designation: string | null
+      employmentType: string | null
+      startDate: Date | null
+      endDate: Date | null
+      isCurrent: boolean
+      reasonForLeaving: string | null
+    }, ExtArgs["result"]["onboardingExperience"]>
+    composites: {}
+  }
+
+
+  type OnboardingExperienceGetPayload<S extends boolean | null | undefined | OnboardingExperienceDefaultArgs> = $Result.GetResult<Prisma.$OnboardingExperiencePayload, S>
+
+  type OnboardingExperienceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<OnboardingExperienceFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: OnboardingExperienceCountAggregateInputType | true
+    }
+
+  export interface OnboardingExperienceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OnboardingExperience'], meta: { name: 'OnboardingExperience' } }
+    /**
+     * Find zero or one OnboardingExperience that matches the filter.
+     * @param {OnboardingExperienceFindUniqueArgs} args - Arguments to find a OnboardingExperience
+     * @example
+     * // Get one OnboardingExperience
+     * const onboardingExperience = await prisma.onboardingExperience.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends OnboardingExperienceFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingExperienceFindUniqueArgs<ExtArgs>>
+    ): Prisma__OnboardingExperienceClient<$Result.GetResult<Prisma.$OnboardingExperiencePayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one OnboardingExperience that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {OnboardingExperienceFindUniqueOrThrowArgs} args - Arguments to find a OnboardingExperience
+     * @example
+     * // Get one OnboardingExperience
+     * const onboardingExperience = await prisma.onboardingExperience.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends OnboardingExperienceFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingExperienceFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__OnboardingExperienceClient<$Result.GetResult<Prisma.$OnboardingExperiencePayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first OnboardingExperience that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingExperienceFindFirstArgs} args - Arguments to find a OnboardingExperience
+     * @example
+     * // Get one OnboardingExperience
+     * const onboardingExperience = await prisma.onboardingExperience.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends OnboardingExperienceFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingExperienceFindFirstArgs<ExtArgs>>
+    ): Prisma__OnboardingExperienceClient<$Result.GetResult<Prisma.$OnboardingExperiencePayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first OnboardingExperience that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingExperienceFindFirstOrThrowArgs} args - Arguments to find a OnboardingExperience
+     * @example
+     * // Get one OnboardingExperience
+     * const onboardingExperience = await prisma.onboardingExperience.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends OnboardingExperienceFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingExperienceFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__OnboardingExperienceClient<$Result.GetResult<Prisma.$OnboardingExperiencePayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more OnboardingExperiences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingExperienceFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OnboardingExperiences
+     * const onboardingExperiences = await prisma.onboardingExperience.findMany()
+     * 
+     * // Get first 10 OnboardingExperiences
+     * const onboardingExperiences = await prisma.onboardingExperience.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const onboardingExperienceWithIdOnly = await prisma.onboardingExperience.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends OnboardingExperienceFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingExperienceFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingExperiencePayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a OnboardingExperience.
+     * @param {OnboardingExperienceCreateArgs} args - Arguments to create a OnboardingExperience.
+     * @example
+     * // Create one OnboardingExperience
+     * const OnboardingExperience = await prisma.onboardingExperience.create({
+     *   data: {
+     *     // ... data to create a OnboardingExperience
+     *   }
+     * })
+     * 
+    **/
+    create<T extends OnboardingExperienceCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingExperienceCreateArgs<ExtArgs>>
+    ): Prisma__OnboardingExperienceClient<$Result.GetResult<Prisma.$OnboardingExperiencePayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Delete a OnboardingExperience.
+     * @param {OnboardingExperienceDeleteArgs} args - Arguments to delete one OnboardingExperience.
+     * @example
+     * // Delete one OnboardingExperience
+     * const OnboardingExperience = await prisma.onboardingExperience.delete({
+     *   where: {
+     *     // ... filter to delete one OnboardingExperience
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends OnboardingExperienceDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingExperienceDeleteArgs<ExtArgs>>
+    ): Prisma__OnboardingExperienceClient<$Result.GetResult<Prisma.$OnboardingExperiencePayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one OnboardingExperience.
+     * @param {OnboardingExperienceUpdateArgs} args - Arguments to update one OnboardingExperience.
+     * @example
+     * // Update one OnboardingExperience
+     * const onboardingExperience = await prisma.onboardingExperience.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends OnboardingExperienceUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingExperienceUpdateArgs<ExtArgs>>
+    ): Prisma__OnboardingExperienceClient<$Result.GetResult<Prisma.$OnboardingExperiencePayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more OnboardingExperiences.
+     * @param {OnboardingExperienceDeleteManyArgs} args - Arguments to filter OnboardingExperiences to delete.
+     * @example
+     * // Delete a few OnboardingExperiences
+     * const { count } = await prisma.onboardingExperience.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends OnboardingExperienceDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingExperienceDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OnboardingExperiences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingExperienceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OnboardingExperiences
+     * const onboardingExperience = await prisma.onboardingExperience.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends OnboardingExperienceUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingExperienceUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one OnboardingExperience.
+     * @param {OnboardingExperienceUpsertArgs} args - Arguments to update or create a OnboardingExperience.
+     * @example
+     * // Update or create a OnboardingExperience
+     * const onboardingExperience = await prisma.onboardingExperience.upsert({
+     *   create: {
+     *     // ... data to create a OnboardingExperience
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OnboardingExperience we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends OnboardingExperienceUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingExperienceUpsertArgs<ExtArgs>>
+    ): Prisma__OnboardingExperienceClient<$Result.GetResult<Prisma.$OnboardingExperiencePayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of OnboardingExperiences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingExperienceCountArgs} args - Arguments to filter OnboardingExperiences to count.
+     * @example
+     * // Count the number of OnboardingExperiences
+     * const count = await prisma.onboardingExperience.count({
+     *   where: {
+     *     // ... the filter for the OnboardingExperiences we want to count
+     *   }
+     * })
+    **/
+    count<T extends OnboardingExperienceCountArgs>(
+      args?: Subset<T, OnboardingExperienceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OnboardingExperienceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OnboardingExperience.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingExperienceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OnboardingExperienceAggregateArgs>(args: Subset<T, OnboardingExperienceAggregateArgs>): Prisma.PrismaPromise<GetOnboardingExperienceAggregateType<T>>
+
+    /**
+     * Group by OnboardingExperience.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingExperienceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OnboardingExperienceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OnboardingExperienceGroupByArgs['orderBy'] }
+        : { orderBy?: OnboardingExperienceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OnboardingExperienceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOnboardingExperienceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OnboardingExperience model
+   */
+  readonly fields: OnboardingExperienceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OnboardingExperience.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OnboardingExperienceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    onboarding<T extends OnboardingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OnboardingDefaultArgs<ExtArgs>>): Prisma__OnboardingClient<$Result.GetResult<Prisma.$OnboardingPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the OnboardingExperience model
+   */ 
+  interface OnboardingExperienceFieldRefs {
+    readonly id: FieldRef<"OnboardingExperience", 'String'>
+    readonly onboardingId: FieldRef<"OnboardingExperience", 'String'>
+    readonly companyName: FieldRef<"OnboardingExperience", 'String'>
+    readonly designation: FieldRef<"OnboardingExperience", 'String'>
+    readonly employmentType: FieldRef<"OnboardingExperience", 'String'>
+    readonly startDate: FieldRef<"OnboardingExperience", 'DateTime'>
+    readonly endDate: FieldRef<"OnboardingExperience", 'DateTime'>
+    readonly isCurrent: FieldRef<"OnboardingExperience", 'Boolean'>
+    readonly reasonForLeaving: FieldRef<"OnboardingExperience", 'String'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * OnboardingExperience findUnique
+   */
+  export type OnboardingExperienceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingExperience
+     */
+    select?: OnboardingExperienceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingExperienceInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingExperience to fetch.
+     */
+    where: OnboardingExperienceWhereUniqueInput
+  }
+
+
+  /**
+   * OnboardingExperience findUniqueOrThrow
+   */
+  export type OnboardingExperienceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingExperience
+     */
+    select?: OnboardingExperienceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingExperienceInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingExperience to fetch.
+     */
+    where: OnboardingExperienceWhereUniqueInput
+  }
+
+
+  /**
+   * OnboardingExperience findFirst
+   */
+  export type OnboardingExperienceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingExperience
+     */
+    select?: OnboardingExperienceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingExperienceInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingExperience to fetch.
+     */
+    where?: OnboardingExperienceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingExperiences to fetch.
+     */
+    orderBy?: OnboardingExperienceOrderByWithRelationInput | OnboardingExperienceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OnboardingExperiences.
+     */
+    cursor?: OnboardingExperienceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingExperiences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingExperiences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OnboardingExperiences.
+     */
+    distinct?: OnboardingExperienceScalarFieldEnum | OnboardingExperienceScalarFieldEnum[]
+  }
+
+
+  /**
+   * OnboardingExperience findFirstOrThrow
+   */
+  export type OnboardingExperienceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingExperience
+     */
+    select?: OnboardingExperienceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingExperienceInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingExperience to fetch.
+     */
+    where?: OnboardingExperienceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingExperiences to fetch.
+     */
+    orderBy?: OnboardingExperienceOrderByWithRelationInput | OnboardingExperienceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OnboardingExperiences.
+     */
+    cursor?: OnboardingExperienceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingExperiences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingExperiences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OnboardingExperiences.
+     */
+    distinct?: OnboardingExperienceScalarFieldEnum | OnboardingExperienceScalarFieldEnum[]
+  }
+
+
+  /**
+   * OnboardingExperience findMany
+   */
+  export type OnboardingExperienceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingExperience
+     */
+    select?: OnboardingExperienceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingExperienceInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingExperiences to fetch.
+     */
+    where?: OnboardingExperienceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingExperiences to fetch.
+     */
+    orderBy?: OnboardingExperienceOrderByWithRelationInput | OnboardingExperienceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OnboardingExperiences.
+     */
+    cursor?: OnboardingExperienceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingExperiences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingExperiences.
+     */
+    skip?: number
+    distinct?: OnboardingExperienceScalarFieldEnum | OnboardingExperienceScalarFieldEnum[]
+  }
+
+
+  /**
+   * OnboardingExperience create
+   */
+  export type OnboardingExperienceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingExperience
+     */
+    select?: OnboardingExperienceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingExperienceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OnboardingExperience.
+     */
+    data: XOR<OnboardingExperienceCreateInput, OnboardingExperienceUncheckedCreateInput>
+  }
+
+
+  /**
+   * OnboardingExperience update
+   */
+  export type OnboardingExperienceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingExperience
+     */
+    select?: OnboardingExperienceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingExperienceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OnboardingExperience.
+     */
+    data: XOR<OnboardingExperienceUpdateInput, OnboardingExperienceUncheckedUpdateInput>
+    /**
+     * Choose, which OnboardingExperience to update.
+     */
+    where: OnboardingExperienceWhereUniqueInput
+  }
+
+
+  /**
+   * OnboardingExperience updateMany
+   */
+  export type OnboardingExperienceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OnboardingExperiences.
+     */
+    data: XOR<OnboardingExperienceUpdateManyMutationInput, OnboardingExperienceUncheckedUpdateManyInput>
+    /**
+     * Filter which OnboardingExperiences to update
+     */
+    where?: OnboardingExperienceWhereInput
+  }
+
+
+  /**
+   * OnboardingExperience upsert
+   */
+  export type OnboardingExperienceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingExperience
+     */
+    select?: OnboardingExperienceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingExperienceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OnboardingExperience to update in case it exists.
+     */
+    where: OnboardingExperienceWhereUniqueInput
+    /**
+     * In case the OnboardingExperience found by the `where` argument doesn't exist, create a new OnboardingExperience with this data.
+     */
+    create: XOR<OnboardingExperienceCreateInput, OnboardingExperienceUncheckedCreateInput>
+    /**
+     * In case the OnboardingExperience was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OnboardingExperienceUpdateInput, OnboardingExperienceUncheckedUpdateInput>
+  }
+
+
+  /**
+   * OnboardingExperience delete
+   */
+  export type OnboardingExperienceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingExperience
+     */
+    select?: OnboardingExperienceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingExperienceInclude<ExtArgs> | null
+    /**
+     * Filter which OnboardingExperience to delete.
+     */
+    where: OnboardingExperienceWhereUniqueInput
+  }
+
+
+  /**
+   * OnboardingExperience deleteMany
+   */
+  export type OnboardingExperienceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OnboardingExperiences to delete
+     */
+    where?: OnboardingExperienceWhereInput
+  }
+
+
+  /**
+   * OnboardingExperience without action
+   */
+  export type OnboardingExperienceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingExperience
+     */
+    select?: OnboardingExperienceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingExperienceInclude<ExtArgs> | null
+  }
+
+
+
+  /**
+   * Model OnboardingEducation
+   */
+
+  export type AggregateOnboardingEducation = {
+    _count: OnboardingEducationCountAggregateOutputType | null
+    _avg: OnboardingEducationAvgAggregateOutputType | null
+    _sum: OnboardingEducationSumAggregateOutputType | null
+    _min: OnboardingEducationMinAggregateOutputType | null
+    _max: OnboardingEducationMaxAggregateOutputType | null
+  }
+
+  export type OnboardingEducationAvgAggregateOutputType = {
+    yearOfPassing: number | null
+  }
+
+  export type OnboardingEducationSumAggregateOutputType = {
+    yearOfPassing: number | null
+  }
+
+  export type OnboardingEducationMinAggregateOutputType = {
+    id: string | null
+    onboardingId: string | null
+    institutionName: string | null
+    degreeOrCourse: string | null
+    highestQualification: string | null
+    yearOfPassing: number | null
+  }
+
+  export type OnboardingEducationMaxAggregateOutputType = {
+    id: string | null
+    onboardingId: string | null
+    institutionName: string | null
+    degreeOrCourse: string | null
+    highestQualification: string | null
+    yearOfPassing: number | null
+  }
+
+  export type OnboardingEducationCountAggregateOutputType = {
+    id: number
+    onboardingId: number
+    institutionName: number
+    degreeOrCourse: number
+    highestQualification: number
+    yearOfPassing: number
+    _all: number
+  }
+
+
+  export type OnboardingEducationAvgAggregateInputType = {
+    yearOfPassing?: true
+  }
+
+  export type OnboardingEducationSumAggregateInputType = {
+    yearOfPassing?: true
+  }
+
+  export type OnboardingEducationMinAggregateInputType = {
+    id?: true
+    onboardingId?: true
+    institutionName?: true
+    degreeOrCourse?: true
+    highestQualification?: true
+    yearOfPassing?: true
+  }
+
+  export type OnboardingEducationMaxAggregateInputType = {
+    id?: true
+    onboardingId?: true
+    institutionName?: true
+    degreeOrCourse?: true
+    highestQualification?: true
+    yearOfPassing?: true
+  }
+
+  export type OnboardingEducationCountAggregateInputType = {
+    id?: true
+    onboardingId?: true
+    institutionName?: true
+    degreeOrCourse?: true
+    highestQualification?: true
+    yearOfPassing?: true
+    _all?: true
+  }
+
+  export type OnboardingEducationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OnboardingEducation to aggregate.
+     */
+    where?: OnboardingEducationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingEducations to fetch.
+     */
+    orderBy?: OnboardingEducationOrderByWithRelationInput | OnboardingEducationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OnboardingEducationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingEducations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingEducations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OnboardingEducations
+    **/
+    _count?: true | OnboardingEducationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OnboardingEducationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OnboardingEducationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OnboardingEducationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OnboardingEducationMaxAggregateInputType
+  }
+
+  export type GetOnboardingEducationAggregateType<T extends OnboardingEducationAggregateArgs> = {
+        [P in keyof T & keyof AggregateOnboardingEducation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOnboardingEducation[P]>
+      : GetScalarType<T[P], AggregateOnboardingEducation[P]>
+  }
+
+
+
+
+  export type OnboardingEducationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OnboardingEducationWhereInput
+    orderBy?: OnboardingEducationOrderByWithAggregationInput | OnboardingEducationOrderByWithAggregationInput[]
+    by: OnboardingEducationScalarFieldEnum[] | OnboardingEducationScalarFieldEnum
+    having?: OnboardingEducationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OnboardingEducationCountAggregateInputType | true
+    _avg?: OnboardingEducationAvgAggregateInputType
+    _sum?: OnboardingEducationSumAggregateInputType
+    _min?: OnboardingEducationMinAggregateInputType
+    _max?: OnboardingEducationMaxAggregateInputType
+  }
+
+  export type OnboardingEducationGroupByOutputType = {
+    id: string
+    onboardingId: string
+    institutionName: string
+    degreeOrCourse: string
+    highestQualification: string | null
+    yearOfPassing: number | null
+    _count: OnboardingEducationCountAggregateOutputType | null
+    _avg: OnboardingEducationAvgAggregateOutputType | null
+    _sum: OnboardingEducationSumAggregateOutputType | null
+    _min: OnboardingEducationMinAggregateOutputType | null
+    _max: OnboardingEducationMaxAggregateOutputType | null
+  }
+
+  type GetOnboardingEducationGroupByPayload<T extends OnboardingEducationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OnboardingEducationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OnboardingEducationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OnboardingEducationGroupByOutputType[P]>
+            : GetScalarType<T[P], OnboardingEducationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OnboardingEducationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    onboardingId?: boolean
+    institutionName?: boolean
+    degreeOrCourse?: boolean
+    highestQualification?: boolean
+    yearOfPassing?: boolean
+    onboarding?: boolean | OnboardingDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["onboardingEducation"]>
+
+  export type OnboardingEducationSelectScalar = {
+    id?: boolean
+    onboardingId?: boolean
+    institutionName?: boolean
+    degreeOrCourse?: boolean
+    highestQualification?: boolean
+    yearOfPassing?: boolean
+  }
+
+  export type OnboardingEducationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    onboarding?: boolean | OnboardingDefaultArgs<ExtArgs>
+  }
+
+
+  export type $OnboardingEducationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OnboardingEducation"
+    objects: {
+      onboarding: Prisma.$OnboardingPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      onboardingId: string
+      institutionName: string
+      degreeOrCourse: string
+      highestQualification: string | null
+      yearOfPassing: number | null
+    }, ExtArgs["result"]["onboardingEducation"]>
+    composites: {}
+  }
+
+
+  type OnboardingEducationGetPayload<S extends boolean | null | undefined | OnboardingEducationDefaultArgs> = $Result.GetResult<Prisma.$OnboardingEducationPayload, S>
+
+  type OnboardingEducationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<OnboardingEducationFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: OnboardingEducationCountAggregateInputType | true
+    }
+
+  export interface OnboardingEducationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OnboardingEducation'], meta: { name: 'OnboardingEducation' } }
+    /**
+     * Find zero or one OnboardingEducation that matches the filter.
+     * @param {OnboardingEducationFindUniqueArgs} args - Arguments to find a OnboardingEducation
+     * @example
+     * // Get one OnboardingEducation
+     * const onboardingEducation = await prisma.onboardingEducation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends OnboardingEducationFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingEducationFindUniqueArgs<ExtArgs>>
+    ): Prisma__OnboardingEducationClient<$Result.GetResult<Prisma.$OnboardingEducationPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one OnboardingEducation that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {OnboardingEducationFindUniqueOrThrowArgs} args - Arguments to find a OnboardingEducation
+     * @example
+     * // Get one OnboardingEducation
+     * const onboardingEducation = await prisma.onboardingEducation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends OnboardingEducationFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingEducationFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__OnboardingEducationClient<$Result.GetResult<Prisma.$OnboardingEducationPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first OnboardingEducation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingEducationFindFirstArgs} args - Arguments to find a OnboardingEducation
+     * @example
+     * // Get one OnboardingEducation
+     * const onboardingEducation = await prisma.onboardingEducation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends OnboardingEducationFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingEducationFindFirstArgs<ExtArgs>>
+    ): Prisma__OnboardingEducationClient<$Result.GetResult<Prisma.$OnboardingEducationPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first OnboardingEducation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingEducationFindFirstOrThrowArgs} args - Arguments to find a OnboardingEducation
+     * @example
+     * // Get one OnboardingEducation
+     * const onboardingEducation = await prisma.onboardingEducation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends OnboardingEducationFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingEducationFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__OnboardingEducationClient<$Result.GetResult<Prisma.$OnboardingEducationPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more OnboardingEducations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingEducationFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OnboardingEducations
+     * const onboardingEducations = await prisma.onboardingEducation.findMany()
+     * 
+     * // Get first 10 OnboardingEducations
+     * const onboardingEducations = await prisma.onboardingEducation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const onboardingEducationWithIdOnly = await prisma.onboardingEducation.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends OnboardingEducationFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingEducationFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingEducationPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a OnboardingEducation.
+     * @param {OnboardingEducationCreateArgs} args - Arguments to create a OnboardingEducation.
+     * @example
+     * // Create one OnboardingEducation
+     * const OnboardingEducation = await prisma.onboardingEducation.create({
+     *   data: {
+     *     // ... data to create a OnboardingEducation
+     *   }
+     * })
+     * 
+    **/
+    create<T extends OnboardingEducationCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingEducationCreateArgs<ExtArgs>>
+    ): Prisma__OnboardingEducationClient<$Result.GetResult<Prisma.$OnboardingEducationPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Delete a OnboardingEducation.
+     * @param {OnboardingEducationDeleteArgs} args - Arguments to delete one OnboardingEducation.
+     * @example
+     * // Delete one OnboardingEducation
+     * const OnboardingEducation = await prisma.onboardingEducation.delete({
+     *   where: {
+     *     // ... filter to delete one OnboardingEducation
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends OnboardingEducationDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingEducationDeleteArgs<ExtArgs>>
+    ): Prisma__OnboardingEducationClient<$Result.GetResult<Prisma.$OnboardingEducationPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one OnboardingEducation.
+     * @param {OnboardingEducationUpdateArgs} args - Arguments to update one OnboardingEducation.
+     * @example
+     * // Update one OnboardingEducation
+     * const onboardingEducation = await prisma.onboardingEducation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends OnboardingEducationUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingEducationUpdateArgs<ExtArgs>>
+    ): Prisma__OnboardingEducationClient<$Result.GetResult<Prisma.$OnboardingEducationPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more OnboardingEducations.
+     * @param {OnboardingEducationDeleteManyArgs} args - Arguments to filter OnboardingEducations to delete.
+     * @example
+     * // Delete a few OnboardingEducations
+     * const { count } = await prisma.onboardingEducation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends OnboardingEducationDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingEducationDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OnboardingEducations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingEducationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OnboardingEducations
+     * const onboardingEducation = await prisma.onboardingEducation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends OnboardingEducationUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingEducationUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one OnboardingEducation.
+     * @param {OnboardingEducationUpsertArgs} args - Arguments to update or create a OnboardingEducation.
+     * @example
+     * // Update or create a OnboardingEducation
+     * const onboardingEducation = await prisma.onboardingEducation.upsert({
+     *   create: {
+     *     // ... data to create a OnboardingEducation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OnboardingEducation we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends OnboardingEducationUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingEducationUpsertArgs<ExtArgs>>
+    ): Prisma__OnboardingEducationClient<$Result.GetResult<Prisma.$OnboardingEducationPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of OnboardingEducations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingEducationCountArgs} args - Arguments to filter OnboardingEducations to count.
+     * @example
+     * // Count the number of OnboardingEducations
+     * const count = await prisma.onboardingEducation.count({
+     *   where: {
+     *     // ... the filter for the OnboardingEducations we want to count
+     *   }
+     * })
+    **/
+    count<T extends OnboardingEducationCountArgs>(
+      args?: Subset<T, OnboardingEducationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OnboardingEducationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OnboardingEducation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingEducationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OnboardingEducationAggregateArgs>(args: Subset<T, OnboardingEducationAggregateArgs>): Prisma.PrismaPromise<GetOnboardingEducationAggregateType<T>>
+
+    /**
+     * Group by OnboardingEducation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingEducationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OnboardingEducationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OnboardingEducationGroupByArgs['orderBy'] }
+        : { orderBy?: OnboardingEducationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OnboardingEducationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOnboardingEducationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OnboardingEducation model
+   */
+  readonly fields: OnboardingEducationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OnboardingEducation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OnboardingEducationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    onboarding<T extends OnboardingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OnboardingDefaultArgs<ExtArgs>>): Prisma__OnboardingClient<$Result.GetResult<Prisma.$OnboardingPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the OnboardingEducation model
+   */ 
+  interface OnboardingEducationFieldRefs {
+    readonly id: FieldRef<"OnboardingEducation", 'String'>
+    readonly onboardingId: FieldRef<"OnboardingEducation", 'String'>
+    readonly institutionName: FieldRef<"OnboardingEducation", 'String'>
+    readonly degreeOrCourse: FieldRef<"OnboardingEducation", 'String'>
+    readonly highestQualification: FieldRef<"OnboardingEducation", 'String'>
+    readonly yearOfPassing: FieldRef<"OnboardingEducation", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * OnboardingEducation findUnique
+   */
+  export type OnboardingEducationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingEducation
+     */
+    select?: OnboardingEducationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingEducationInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingEducation to fetch.
+     */
+    where: OnboardingEducationWhereUniqueInput
+  }
+
+
+  /**
+   * OnboardingEducation findUniqueOrThrow
+   */
+  export type OnboardingEducationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingEducation
+     */
+    select?: OnboardingEducationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingEducationInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingEducation to fetch.
+     */
+    where: OnboardingEducationWhereUniqueInput
+  }
+
+
+  /**
+   * OnboardingEducation findFirst
+   */
+  export type OnboardingEducationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingEducation
+     */
+    select?: OnboardingEducationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingEducationInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingEducation to fetch.
+     */
+    where?: OnboardingEducationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingEducations to fetch.
+     */
+    orderBy?: OnboardingEducationOrderByWithRelationInput | OnboardingEducationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OnboardingEducations.
+     */
+    cursor?: OnboardingEducationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingEducations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingEducations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OnboardingEducations.
+     */
+    distinct?: OnboardingEducationScalarFieldEnum | OnboardingEducationScalarFieldEnum[]
+  }
+
+
+  /**
+   * OnboardingEducation findFirstOrThrow
+   */
+  export type OnboardingEducationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingEducation
+     */
+    select?: OnboardingEducationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingEducationInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingEducation to fetch.
+     */
+    where?: OnboardingEducationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingEducations to fetch.
+     */
+    orderBy?: OnboardingEducationOrderByWithRelationInput | OnboardingEducationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OnboardingEducations.
+     */
+    cursor?: OnboardingEducationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingEducations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingEducations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OnboardingEducations.
+     */
+    distinct?: OnboardingEducationScalarFieldEnum | OnboardingEducationScalarFieldEnum[]
+  }
+
+
+  /**
+   * OnboardingEducation findMany
+   */
+  export type OnboardingEducationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingEducation
+     */
+    select?: OnboardingEducationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingEducationInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingEducations to fetch.
+     */
+    where?: OnboardingEducationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingEducations to fetch.
+     */
+    orderBy?: OnboardingEducationOrderByWithRelationInput | OnboardingEducationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OnboardingEducations.
+     */
+    cursor?: OnboardingEducationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingEducations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingEducations.
+     */
+    skip?: number
+    distinct?: OnboardingEducationScalarFieldEnum | OnboardingEducationScalarFieldEnum[]
+  }
+
+
+  /**
+   * OnboardingEducation create
+   */
+  export type OnboardingEducationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingEducation
+     */
+    select?: OnboardingEducationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingEducationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OnboardingEducation.
+     */
+    data: XOR<OnboardingEducationCreateInput, OnboardingEducationUncheckedCreateInput>
+  }
+
+
+  /**
+   * OnboardingEducation update
+   */
+  export type OnboardingEducationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingEducation
+     */
+    select?: OnboardingEducationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingEducationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OnboardingEducation.
+     */
+    data: XOR<OnboardingEducationUpdateInput, OnboardingEducationUncheckedUpdateInput>
+    /**
+     * Choose, which OnboardingEducation to update.
+     */
+    where: OnboardingEducationWhereUniqueInput
+  }
+
+
+  /**
+   * OnboardingEducation updateMany
+   */
+  export type OnboardingEducationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OnboardingEducations.
+     */
+    data: XOR<OnboardingEducationUpdateManyMutationInput, OnboardingEducationUncheckedUpdateManyInput>
+    /**
+     * Filter which OnboardingEducations to update
+     */
+    where?: OnboardingEducationWhereInput
+  }
+
+
+  /**
+   * OnboardingEducation upsert
+   */
+  export type OnboardingEducationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingEducation
+     */
+    select?: OnboardingEducationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingEducationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OnboardingEducation to update in case it exists.
+     */
+    where: OnboardingEducationWhereUniqueInput
+    /**
+     * In case the OnboardingEducation found by the `where` argument doesn't exist, create a new OnboardingEducation with this data.
+     */
+    create: XOR<OnboardingEducationCreateInput, OnboardingEducationUncheckedCreateInput>
+    /**
+     * In case the OnboardingEducation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OnboardingEducationUpdateInput, OnboardingEducationUncheckedUpdateInput>
+  }
+
+
+  /**
+   * OnboardingEducation delete
+   */
+  export type OnboardingEducationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingEducation
+     */
+    select?: OnboardingEducationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingEducationInclude<ExtArgs> | null
+    /**
+     * Filter which OnboardingEducation to delete.
+     */
+    where: OnboardingEducationWhereUniqueInput
+  }
+
+
+  /**
+   * OnboardingEducation deleteMany
+   */
+  export type OnboardingEducationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OnboardingEducations to delete
+     */
+    where?: OnboardingEducationWhereInput
+  }
+
+
+  /**
+   * OnboardingEducation without action
+   */
+  export type OnboardingEducationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingEducation
+     */
+    select?: OnboardingEducationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingEducationInclude<ExtArgs> | null
+  }
+
+
+
+  /**
+   * Model OnboardingDocument
+   */
+
+  export type AggregateOnboardingDocument = {
+    _count: OnboardingDocumentCountAggregateOutputType | null
+    _min: OnboardingDocumentMinAggregateOutputType | null
+    _max: OnboardingDocumentMaxAggregateOutputType | null
+  }
+
+  export type OnboardingDocumentMinAggregateOutputType = {
+    id: string | null
+    onboardingId: string | null
+    type: string | null
+    url: string | null
+    status: string | null
+  }
+
+  export type OnboardingDocumentMaxAggregateOutputType = {
+    id: string | null
+    onboardingId: string | null
+    type: string | null
+    url: string | null
+    status: string | null
+  }
+
+  export type OnboardingDocumentCountAggregateOutputType = {
+    id: number
+    onboardingId: number
+    type: number
+    url: number
+    status: number
+    _all: number
+  }
+
+
+  export type OnboardingDocumentMinAggregateInputType = {
+    id?: true
+    onboardingId?: true
+    type?: true
+    url?: true
+    status?: true
+  }
+
+  export type OnboardingDocumentMaxAggregateInputType = {
+    id?: true
+    onboardingId?: true
+    type?: true
+    url?: true
+    status?: true
+  }
+
+  export type OnboardingDocumentCountAggregateInputType = {
+    id?: true
+    onboardingId?: true
+    type?: true
+    url?: true
+    status?: true
+    _all?: true
+  }
+
+  export type OnboardingDocumentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OnboardingDocument to aggregate.
+     */
+    where?: OnboardingDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingDocuments to fetch.
+     */
+    orderBy?: OnboardingDocumentOrderByWithRelationInput | OnboardingDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OnboardingDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OnboardingDocuments
+    **/
+    _count?: true | OnboardingDocumentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OnboardingDocumentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OnboardingDocumentMaxAggregateInputType
+  }
+
+  export type GetOnboardingDocumentAggregateType<T extends OnboardingDocumentAggregateArgs> = {
+        [P in keyof T & keyof AggregateOnboardingDocument]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOnboardingDocument[P]>
+      : GetScalarType<T[P], AggregateOnboardingDocument[P]>
+  }
+
+
+
+
+  export type OnboardingDocumentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OnboardingDocumentWhereInput
+    orderBy?: OnboardingDocumentOrderByWithAggregationInput | OnboardingDocumentOrderByWithAggregationInput[]
+    by: OnboardingDocumentScalarFieldEnum[] | OnboardingDocumentScalarFieldEnum
+    having?: OnboardingDocumentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OnboardingDocumentCountAggregateInputType | true
+    _min?: OnboardingDocumentMinAggregateInputType
+    _max?: OnboardingDocumentMaxAggregateInputType
+  }
+
+  export type OnboardingDocumentGroupByOutputType = {
+    id: string
+    onboardingId: string
+    type: string
+    url: string
+    status: string
+    _count: OnboardingDocumentCountAggregateOutputType | null
+    _min: OnboardingDocumentMinAggregateOutputType | null
+    _max: OnboardingDocumentMaxAggregateOutputType | null
+  }
+
+  type GetOnboardingDocumentGroupByPayload<T extends OnboardingDocumentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OnboardingDocumentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OnboardingDocumentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OnboardingDocumentGroupByOutputType[P]>
+            : GetScalarType<T[P], OnboardingDocumentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OnboardingDocumentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    onboardingId?: boolean
+    type?: boolean
+    url?: boolean
+    status?: boolean
+    onboarding?: boolean | OnboardingDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["onboardingDocument"]>
+
+  export type OnboardingDocumentSelectScalar = {
+    id?: boolean
+    onboardingId?: boolean
+    type?: boolean
+    url?: boolean
+    status?: boolean
+  }
+
+  export type OnboardingDocumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    onboarding?: boolean | OnboardingDefaultArgs<ExtArgs>
+  }
+
+
+  export type $OnboardingDocumentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OnboardingDocument"
+    objects: {
+      onboarding: Prisma.$OnboardingPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      onboardingId: string
+      type: string
+      url: string
+      status: string
+    }, ExtArgs["result"]["onboardingDocument"]>
+    composites: {}
+  }
+
+
+  type OnboardingDocumentGetPayload<S extends boolean | null | undefined | OnboardingDocumentDefaultArgs> = $Result.GetResult<Prisma.$OnboardingDocumentPayload, S>
+
+  type OnboardingDocumentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<OnboardingDocumentFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: OnboardingDocumentCountAggregateInputType | true
+    }
+
+  export interface OnboardingDocumentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OnboardingDocument'], meta: { name: 'OnboardingDocument' } }
+    /**
+     * Find zero or one OnboardingDocument that matches the filter.
+     * @param {OnboardingDocumentFindUniqueArgs} args - Arguments to find a OnboardingDocument
+     * @example
+     * // Get one OnboardingDocument
+     * const onboardingDocument = await prisma.onboardingDocument.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends OnboardingDocumentFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingDocumentFindUniqueArgs<ExtArgs>>
+    ): Prisma__OnboardingDocumentClient<$Result.GetResult<Prisma.$OnboardingDocumentPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one OnboardingDocument that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {OnboardingDocumentFindUniqueOrThrowArgs} args - Arguments to find a OnboardingDocument
+     * @example
+     * // Get one OnboardingDocument
+     * const onboardingDocument = await prisma.onboardingDocument.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends OnboardingDocumentFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingDocumentFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__OnboardingDocumentClient<$Result.GetResult<Prisma.$OnboardingDocumentPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first OnboardingDocument that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingDocumentFindFirstArgs} args - Arguments to find a OnboardingDocument
+     * @example
+     * // Get one OnboardingDocument
+     * const onboardingDocument = await prisma.onboardingDocument.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends OnboardingDocumentFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingDocumentFindFirstArgs<ExtArgs>>
+    ): Prisma__OnboardingDocumentClient<$Result.GetResult<Prisma.$OnboardingDocumentPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first OnboardingDocument that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingDocumentFindFirstOrThrowArgs} args - Arguments to find a OnboardingDocument
+     * @example
+     * // Get one OnboardingDocument
+     * const onboardingDocument = await prisma.onboardingDocument.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends OnboardingDocumentFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingDocumentFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__OnboardingDocumentClient<$Result.GetResult<Prisma.$OnboardingDocumentPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more OnboardingDocuments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingDocumentFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OnboardingDocuments
+     * const onboardingDocuments = await prisma.onboardingDocument.findMany()
+     * 
+     * // Get first 10 OnboardingDocuments
+     * const onboardingDocuments = await prisma.onboardingDocument.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const onboardingDocumentWithIdOnly = await prisma.onboardingDocument.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends OnboardingDocumentFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingDocumentFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OnboardingDocumentPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a OnboardingDocument.
+     * @param {OnboardingDocumentCreateArgs} args - Arguments to create a OnboardingDocument.
+     * @example
+     * // Create one OnboardingDocument
+     * const OnboardingDocument = await prisma.onboardingDocument.create({
+     *   data: {
+     *     // ... data to create a OnboardingDocument
+     *   }
+     * })
+     * 
+    **/
+    create<T extends OnboardingDocumentCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingDocumentCreateArgs<ExtArgs>>
+    ): Prisma__OnboardingDocumentClient<$Result.GetResult<Prisma.$OnboardingDocumentPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Delete a OnboardingDocument.
+     * @param {OnboardingDocumentDeleteArgs} args - Arguments to delete one OnboardingDocument.
+     * @example
+     * // Delete one OnboardingDocument
+     * const OnboardingDocument = await prisma.onboardingDocument.delete({
+     *   where: {
+     *     // ... filter to delete one OnboardingDocument
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends OnboardingDocumentDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingDocumentDeleteArgs<ExtArgs>>
+    ): Prisma__OnboardingDocumentClient<$Result.GetResult<Prisma.$OnboardingDocumentPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one OnboardingDocument.
+     * @param {OnboardingDocumentUpdateArgs} args - Arguments to update one OnboardingDocument.
+     * @example
+     * // Update one OnboardingDocument
+     * const onboardingDocument = await prisma.onboardingDocument.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends OnboardingDocumentUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingDocumentUpdateArgs<ExtArgs>>
+    ): Prisma__OnboardingDocumentClient<$Result.GetResult<Prisma.$OnboardingDocumentPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more OnboardingDocuments.
+     * @param {OnboardingDocumentDeleteManyArgs} args - Arguments to filter OnboardingDocuments to delete.
+     * @example
+     * // Delete a few OnboardingDocuments
+     * const { count } = await prisma.onboardingDocument.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends OnboardingDocumentDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, OnboardingDocumentDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OnboardingDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingDocumentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OnboardingDocuments
+     * const onboardingDocument = await prisma.onboardingDocument.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends OnboardingDocumentUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingDocumentUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one OnboardingDocument.
+     * @param {OnboardingDocumentUpsertArgs} args - Arguments to update or create a OnboardingDocument.
+     * @example
+     * // Update or create a OnboardingDocument
+     * const onboardingDocument = await prisma.onboardingDocument.upsert({
+     *   create: {
+     *     // ... data to create a OnboardingDocument
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OnboardingDocument we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends OnboardingDocumentUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, OnboardingDocumentUpsertArgs<ExtArgs>>
+    ): Prisma__OnboardingDocumentClient<$Result.GetResult<Prisma.$OnboardingDocumentPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of OnboardingDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingDocumentCountArgs} args - Arguments to filter OnboardingDocuments to count.
+     * @example
+     * // Count the number of OnboardingDocuments
+     * const count = await prisma.onboardingDocument.count({
+     *   where: {
+     *     // ... the filter for the OnboardingDocuments we want to count
+     *   }
+     * })
+    **/
+    count<T extends OnboardingDocumentCountArgs>(
+      args?: Subset<T, OnboardingDocumentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OnboardingDocumentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OnboardingDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingDocumentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OnboardingDocumentAggregateArgs>(args: Subset<T, OnboardingDocumentAggregateArgs>): Prisma.PrismaPromise<GetOnboardingDocumentAggregateType<T>>
+
+    /**
+     * Group by OnboardingDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OnboardingDocumentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OnboardingDocumentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OnboardingDocumentGroupByArgs['orderBy'] }
+        : { orderBy?: OnboardingDocumentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OnboardingDocumentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOnboardingDocumentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OnboardingDocument model
+   */
+  readonly fields: OnboardingDocumentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OnboardingDocument.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OnboardingDocumentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    onboarding<T extends OnboardingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OnboardingDefaultArgs<ExtArgs>>): Prisma__OnboardingClient<$Result.GetResult<Prisma.$OnboardingPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the OnboardingDocument model
+   */ 
+  interface OnboardingDocumentFieldRefs {
+    readonly id: FieldRef<"OnboardingDocument", 'String'>
+    readonly onboardingId: FieldRef<"OnboardingDocument", 'String'>
+    readonly type: FieldRef<"OnboardingDocument", 'String'>
+    readonly url: FieldRef<"OnboardingDocument", 'String'>
+    readonly status: FieldRef<"OnboardingDocument", 'String'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * OnboardingDocument findUnique
+   */
+  export type OnboardingDocumentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingDocument
+     */
+    select?: OnboardingDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingDocument to fetch.
+     */
+    where: OnboardingDocumentWhereUniqueInput
+  }
+
+
+  /**
+   * OnboardingDocument findUniqueOrThrow
+   */
+  export type OnboardingDocumentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingDocument
+     */
+    select?: OnboardingDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingDocument to fetch.
+     */
+    where: OnboardingDocumentWhereUniqueInput
+  }
+
+
+  /**
+   * OnboardingDocument findFirst
+   */
+  export type OnboardingDocumentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingDocument
+     */
+    select?: OnboardingDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingDocument to fetch.
+     */
+    where?: OnboardingDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingDocuments to fetch.
+     */
+    orderBy?: OnboardingDocumentOrderByWithRelationInput | OnboardingDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OnboardingDocuments.
+     */
+    cursor?: OnboardingDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OnboardingDocuments.
+     */
+    distinct?: OnboardingDocumentScalarFieldEnum | OnboardingDocumentScalarFieldEnum[]
+  }
+
+
+  /**
+   * OnboardingDocument findFirstOrThrow
+   */
+  export type OnboardingDocumentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingDocument
+     */
+    select?: OnboardingDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingDocument to fetch.
+     */
+    where?: OnboardingDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingDocuments to fetch.
+     */
+    orderBy?: OnboardingDocumentOrderByWithRelationInput | OnboardingDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OnboardingDocuments.
+     */
+    cursor?: OnboardingDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OnboardingDocuments.
+     */
+    distinct?: OnboardingDocumentScalarFieldEnum | OnboardingDocumentScalarFieldEnum[]
+  }
+
+
+  /**
+   * OnboardingDocument findMany
+   */
+  export type OnboardingDocumentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingDocument
+     */
+    select?: OnboardingDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which OnboardingDocuments to fetch.
+     */
+    where?: OnboardingDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OnboardingDocuments to fetch.
+     */
+    orderBy?: OnboardingDocumentOrderByWithRelationInput | OnboardingDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OnboardingDocuments.
+     */
+    cursor?: OnboardingDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OnboardingDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OnboardingDocuments.
+     */
+    skip?: number
+    distinct?: OnboardingDocumentScalarFieldEnum | OnboardingDocumentScalarFieldEnum[]
+  }
+
+
+  /**
+   * OnboardingDocument create
+   */
+  export type OnboardingDocumentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingDocument
+     */
+    select?: OnboardingDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OnboardingDocument.
+     */
+    data: XOR<OnboardingDocumentCreateInput, OnboardingDocumentUncheckedCreateInput>
+  }
+
+
+  /**
+   * OnboardingDocument update
+   */
+  export type OnboardingDocumentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingDocument
+     */
+    select?: OnboardingDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OnboardingDocument.
+     */
+    data: XOR<OnboardingDocumentUpdateInput, OnboardingDocumentUncheckedUpdateInput>
+    /**
+     * Choose, which OnboardingDocument to update.
+     */
+    where: OnboardingDocumentWhereUniqueInput
+  }
+
+
+  /**
+   * OnboardingDocument updateMany
+   */
+  export type OnboardingDocumentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OnboardingDocuments.
+     */
+    data: XOR<OnboardingDocumentUpdateManyMutationInput, OnboardingDocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which OnboardingDocuments to update
+     */
+    where?: OnboardingDocumentWhereInput
+  }
+
+
+  /**
+   * OnboardingDocument upsert
+   */
+  export type OnboardingDocumentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingDocument
+     */
+    select?: OnboardingDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingDocumentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OnboardingDocument to update in case it exists.
+     */
+    where: OnboardingDocumentWhereUniqueInput
+    /**
+     * In case the OnboardingDocument found by the `where` argument doesn't exist, create a new OnboardingDocument with this data.
+     */
+    create: XOR<OnboardingDocumentCreateInput, OnboardingDocumentUncheckedCreateInput>
+    /**
+     * In case the OnboardingDocument was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OnboardingDocumentUpdateInput, OnboardingDocumentUncheckedUpdateInput>
+  }
+
+
+  /**
+   * OnboardingDocument delete
+   */
+  export type OnboardingDocumentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingDocument
+     */
+    select?: OnboardingDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingDocumentInclude<ExtArgs> | null
+    /**
+     * Filter which OnboardingDocument to delete.
+     */
+    where: OnboardingDocumentWhereUniqueInput
+  }
+
+
+  /**
+   * OnboardingDocument deleteMany
+   */
+  export type OnboardingDocumentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OnboardingDocuments to delete
+     */
+    where?: OnboardingDocumentWhereInput
+  }
+
+
+  /**
+   * OnboardingDocument without action
+   */
+  export type OnboardingDocumentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OnboardingDocument
+     */
+    select?: OnboardingDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OnboardingDocumentInclude<ExtArgs> | null
   }
 
 
@@ -31372,37 +34966,116 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     status: 'status',
-    firstName: 'firstName',
-    lastName: 'lastName',
+    fullName: 'fullName',
     fatherName: 'fatherName',
+    motherName: 'motherName',
+    guardianName: 'guardianName',
     dateOfBirth: 'dateOfBirth',
-    currAddress: 'currAddress',
-    permAddress: 'permAddress',
+    gender: 'gender',
+    maritalStatus: 'maritalStatus',
+    bloodGroup: 'bloodGroup',
+    nationality: 'nationality',
+    profilePhoto: 'profilePhoto',
+    personalMobile: 'personalMobile',
+    officialMobile: 'officialMobile',
+    personalEmail: 'personalEmail',
+    officialEmail: 'officialEmail',
+    currentAddress: 'currentAddress',
+    permanentAddress: 'permanentAddress',
+    sameAsCurrentAddress: 'sameAsCurrentAddress',
+    department: 'department',
+    designation: 'designation',
+    employmentType: 'employmentType',
+    dateOfJoining: 'dateOfJoining',
+    workLocation: 'workLocation',
+    reportingManagerId: 'reportingManagerId',
+    shift: 'shift',
+    workingHours: 'workingHours',
+    probationPeriodMonths: 'probationPeriodMonths',
+    noticePeriodDays: 'noticePeriodDays',
+    totalYearsExperience: 'totalYearsExperience',
     aadhaarNumber: 'aadhaarNumber',
     panNumber: 'panNumber',
-    aadhaarUrl: 'aadhaarUrl',
-    panUrl: 'panUrl',
-    passbookUrl: 'passbookUrl',
-    offerLetterUrl: 'offerLetterUrl',
-    documents: 'documents',
-    educationDocumentsUrl: 'educationDocumentsUrl',
-    experienceDocumentsUrl: 'experienceDocumentsUrl',
-    bankDetails: 'bankDetails',
-    submittedAt: 'submittedAt'
+    passportNumber: 'passportNumber',
+    uanNumber: 'uanNumber',
+    esicNumber: 'esicNumber',
+    drivingLicense: 'drivingLicense',
+    accountHolderName: 'accountHolderName',
+    bankName: 'bankName',
+    accountNumber: 'accountNumber',
+    ifscCode: 'ifscCode',
+    branchName: 'branchName',
+    salaryPaymentMode: 'salaryPaymentMode',
+    medicalConditions: 'medicalConditions',
+    allergies: 'allergies',
+    disabilityStatus: 'disabilityStatus',
+    disabilityDetails: 'disabilityDetails',
+    companyEmailCreated: 'companyEmailCreated',
+    hrmsAccessEnabled: 'hrmsAccessEnabled',
+    roleAndPermissions: 'roleAndPermissions',
+    deviceIssued: 'deviceIssued',
+    assetId: 'assetId',
+    companyPolicyAccepted: 'companyPolicyAccepted',
+    ndaAccepted: 'ndaAccepted',
+    codeOfConductAccepted: 'codeOfConductAccepted',
+    digitalConsentSignature: 'digitalConsentSignature',
+    acceptanceTimestamp: 'acceptanceTimestamp',
+    acceptanceIp: 'acceptanceIp',
+    submittedAt: 'submittedAt',
+    updatedAt: 'updatedAt'
   };
 
   export type OnboardingScalarFieldEnum = (typeof OnboardingScalarFieldEnum)[keyof typeof OnboardingScalarFieldEnum]
 
 
-  export const OnboardingTaskScalarFieldEnum: {
+  export const OnboardingEmergencyContactScalarFieldEnum: {
     id: 'id',
     onboardingId: 'onboardingId',
-    title: 'title',
-    status: 'status',
-    completedAt: 'completedAt'
+    name: 'name',
+    relationship: 'relationship',
+    mobile: 'mobile',
+    alternateMobile: 'alternateMobile'
   };
 
-  export type OnboardingTaskScalarFieldEnum = (typeof OnboardingTaskScalarFieldEnum)[keyof typeof OnboardingTaskScalarFieldEnum]
+  export type OnboardingEmergencyContactScalarFieldEnum = (typeof OnboardingEmergencyContactScalarFieldEnum)[keyof typeof OnboardingEmergencyContactScalarFieldEnum]
+
+
+  export const OnboardingExperienceScalarFieldEnum: {
+    id: 'id',
+    onboardingId: 'onboardingId',
+    companyName: 'companyName',
+    designation: 'designation',
+    employmentType: 'employmentType',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    isCurrent: 'isCurrent',
+    reasonForLeaving: 'reasonForLeaving'
+  };
+
+  export type OnboardingExperienceScalarFieldEnum = (typeof OnboardingExperienceScalarFieldEnum)[keyof typeof OnboardingExperienceScalarFieldEnum]
+
+
+  export const OnboardingEducationScalarFieldEnum: {
+    id: 'id',
+    onboardingId: 'onboardingId',
+    institutionName: 'institutionName',
+    degreeOrCourse: 'degreeOrCourse',
+    highestQualification: 'highestQualification',
+    yearOfPassing: 'yearOfPassing'
+  };
+
+  export type OnboardingEducationScalarFieldEnum = (typeof OnboardingEducationScalarFieldEnum)[keyof typeof OnboardingEducationScalarFieldEnum]
+
+
+  export const OnboardingDocumentScalarFieldEnum: {
+    id: 'id',
+    onboardingId: 'onboardingId',
+    type: 'type',
+    url: 'url',
+    status: 'status'
+  };
+
+  export type OnboardingDocumentScalarFieldEnum = (typeof OnboardingDocumentScalarFieldEnum)[keyof typeof OnboardingDocumentScalarFieldEnum]
 
 
   export const OffboardingScalarFieldEnum: {
@@ -32484,50 +36157,136 @@ export namespace Prisma {
     id?: StringFilter<"Onboarding"> | string
     userId?: StringFilter<"Onboarding"> | string
     status?: StringFilter<"Onboarding"> | string
-    firstName?: StringNullableFilter<"Onboarding"> | string | null
-    lastName?: StringNullableFilter<"Onboarding"> | string | null
+    fullName?: StringNullableFilter<"Onboarding"> | string | null
     fatherName?: StringNullableFilter<"Onboarding"> | string | null
+    motherName?: StringNullableFilter<"Onboarding"> | string | null
+    guardianName?: StringNullableFilter<"Onboarding"> | string | null
     dateOfBirth?: DateTimeNullableFilter<"Onboarding"> | Date | string | null
-    currAddress?: StringNullableFilter<"Onboarding"> | string | null
-    permAddress?: StringNullableFilter<"Onboarding"> | string | null
+    gender?: StringNullableFilter<"Onboarding"> | string | null
+    maritalStatus?: StringNullableFilter<"Onboarding"> | string | null
+    bloodGroup?: StringNullableFilter<"Onboarding"> | string | null
+    nationality?: StringNullableFilter<"Onboarding"> | string | null
+    profilePhoto?: StringNullableFilter<"Onboarding"> | string | null
+    personalMobile?: StringNullableFilter<"Onboarding"> | string | null
+    officialMobile?: StringNullableFilter<"Onboarding"> | string | null
+    personalEmail?: StringNullableFilter<"Onboarding"> | string | null
+    officialEmail?: StringNullableFilter<"Onboarding"> | string | null
+    currentAddress?: StringNullableFilter<"Onboarding"> | string | null
+    permanentAddress?: StringNullableFilter<"Onboarding"> | string | null
+    sameAsCurrentAddress?: BoolFilter<"Onboarding"> | boolean
+    department?: StringNullableFilter<"Onboarding"> | string | null
+    designation?: StringNullableFilter<"Onboarding"> | string | null
+    employmentType?: StringNullableFilter<"Onboarding"> | string | null
+    dateOfJoining?: DateTimeNullableFilter<"Onboarding"> | Date | string | null
+    workLocation?: StringNullableFilter<"Onboarding"> | string | null
+    reportingManagerId?: StringNullableFilter<"Onboarding"> | string | null
+    shift?: StringNullableFilter<"Onboarding"> | string | null
+    workingHours?: StringNullableFilter<"Onboarding"> | string | null
+    probationPeriodMonths?: IntNullableFilter<"Onboarding"> | number | null
+    noticePeriodDays?: IntNullableFilter<"Onboarding"> | number | null
+    totalYearsExperience?: FloatNullableFilter<"Onboarding"> | number | null
     aadhaarNumber?: StringNullableFilter<"Onboarding"> | string | null
     panNumber?: StringNullableFilter<"Onboarding"> | string | null
-    aadhaarUrl?: StringNullableFilter<"Onboarding"> | string | null
-    panUrl?: StringNullableFilter<"Onboarding"> | string | null
-    passbookUrl?: StringNullableFilter<"Onboarding"> | string | null
-    offerLetterUrl?: StringNullableFilter<"Onboarding"> | string | null
-    documents?: StringNullableFilter<"Onboarding"> | string | null
-    educationDocumentsUrl?: StringNullableFilter<"Onboarding"> | string | null
-    experienceDocumentsUrl?: StringNullableFilter<"Onboarding"> | string | null
-    bankDetails?: StringNullableFilter<"Onboarding"> | string | null
-    submittedAt?: DateTimeFilter<"Onboarding"> | Date | string
+    passportNumber?: StringNullableFilter<"Onboarding"> | string | null
+    uanNumber?: StringNullableFilter<"Onboarding"> | string | null
+    esicNumber?: StringNullableFilter<"Onboarding"> | string | null
+    drivingLicense?: StringNullableFilter<"Onboarding"> | string | null
+    accountHolderName?: StringNullableFilter<"Onboarding"> | string | null
+    bankName?: StringNullableFilter<"Onboarding"> | string | null
+    accountNumber?: StringNullableFilter<"Onboarding"> | string | null
+    ifscCode?: StringNullableFilter<"Onboarding"> | string | null
+    branchName?: StringNullableFilter<"Onboarding"> | string | null
+    salaryPaymentMode?: StringNullableFilter<"Onboarding"> | string | null
+    medicalConditions?: StringNullableFilter<"Onboarding"> | string | null
+    allergies?: StringNullableFilter<"Onboarding"> | string | null
+    disabilityStatus?: BoolNullableFilter<"Onboarding"> | boolean | null
+    disabilityDetails?: StringNullableFilter<"Onboarding"> | string | null
+    companyEmailCreated?: BoolFilter<"Onboarding"> | boolean
+    hrmsAccessEnabled?: BoolFilter<"Onboarding"> | boolean
+    roleAndPermissions?: StringNullableFilter<"Onboarding"> | string | null
+    deviceIssued?: StringNullableFilter<"Onboarding"> | string | null
+    assetId?: StringNullableFilter<"Onboarding"> | string | null
+    companyPolicyAccepted?: BoolFilter<"Onboarding"> | boolean
+    ndaAccepted?: BoolFilter<"Onboarding"> | boolean
+    codeOfConductAccepted?: BoolFilter<"Onboarding"> | boolean
+    digitalConsentSignature?: StringNullableFilter<"Onboarding"> | string | null
+    acceptanceTimestamp?: DateTimeNullableFilter<"Onboarding"> | Date | string | null
+    acceptanceIp?: StringNullableFilter<"Onboarding"> | string | null
+    submittedAt?: DateTimeNullableFilter<"Onboarding"> | Date | string | null
+    updatedAt?: DateTimeFilter<"Onboarding"> | Date | string
+    emergencyContacts?: OnboardingEmergencyContactListRelationFilter
+    experiences?: OnboardingExperienceListRelationFilter
+    education?: OnboardingEducationListRelationFilter
+    documents?: OnboardingDocumentListRelationFilter
     user?: XOR<UserRelationFilter, UserWhereInput>
-    tasks?: OnboardingTaskListRelationFilter
   }
 
   export type OnboardingOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
     status?: SortOrder
-    firstName?: SortOrderInput | SortOrder
-    lastName?: SortOrderInput | SortOrder
+    fullName?: SortOrderInput | SortOrder
     fatherName?: SortOrderInput | SortOrder
+    motherName?: SortOrderInput | SortOrder
+    guardianName?: SortOrderInput | SortOrder
     dateOfBirth?: SortOrderInput | SortOrder
-    currAddress?: SortOrderInput | SortOrder
-    permAddress?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    maritalStatus?: SortOrderInput | SortOrder
+    bloodGroup?: SortOrderInput | SortOrder
+    nationality?: SortOrderInput | SortOrder
+    profilePhoto?: SortOrderInput | SortOrder
+    personalMobile?: SortOrderInput | SortOrder
+    officialMobile?: SortOrderInput | SortOrder
+    personalEmail?: SortOrderInput | SortOrder
+    officialEmail?: SortOrderInput | SortOrder
+    currentAddress?: SortOrderInput | SortOrder
+    permanentAddress?: SortOrderInput | SortOrder
+    sameAsCurrentAddress?: SortOrder
+    department?: SortOrderInput | SortOrder
+    designation?: SortOrderInput | SortOrder
+    employmentType?: SortOrderInput | SortOrder
+    dateOfJoining?: SortOrderInput | SortOrder
+    workLocation?: SortOrderInput | SortOrder
+    reportingManagerId?: SortOrderInput | SortOrder
+    shift?: SortOrderInput | SortOrder
+    workingHours?: SortOrderInput | SortOrder
+    probationPeriodMonths?: SortOrderInput | SortOrder
+    noticePeriodDays?: SortOrderInput | SortOrder
+    totalYearsExperience?: SortOrderInput | SortOrder
     aadhaarNumber?: SortOrderInput | SortOrder
     panNumber?: SortOrderInput | SortOrder
-    aadhaarUrl?: SortOrderInput | SortOrder
-    panUrl?: SortOrderInput | SortOrder
-    passbookUrl?: SortOrderInput | SortOrder
-    offerLetterUrl?: SortOrderInput | SortOrder
-    documents?: SortOrderInput | SortOrder
-    educationDocumentsUrl?: SortOrderInput | SortOrder
-    experienceDocumentsUrl?: SortOrderInput | SortOrder
-    bankDetails?: SortOrderInput | SortOrder
-    submittedAt?: SortOrder
+    passportNumber?: SortOrderInput | SortOrder
+    uanNumber?: SortOrderInput | SortOrder
+    esicNumber?: SortOrderInput | SortOrder
+    drivingLicense?: SortOrderInput | SortOrder
+    accountHolderName?: SortOrderInput | SortOrder
+    bankName?: SortOrderInput | SortOrder
+    accountNumber?: SortOrderInput | SortOrder
+    ifscCode?: SortOrderInput | SortOrder
+    branchName?: SortOrderInput | SortOrder
+    salaryPaymentMode?: SortOrderInput | SortOrder
+    medicalConditions?: SortOrderInput | SortOrder
+    allergies?: SortOrderInput | SortOrder
+    disabilityStatus?: SortOrderInput | SortOrder
+    disabilityDetails?: SortOrderInput | SortOrder
+    companyEmailCreated?: SortOrder
+    hrmsAccessEnabled?: SortOrder
+    roleAndPermissions?: SortOrderInput | SortOrder
+    deviceIssued?: SortOrderInput | SortOrder
+    assetId?: SortOrderInput | SortOrder
+    companyPolicyAccepted?: SortOrder
+    ndaAccepted?: SortOrder
+    codeOfConductAccepted?: SortOrder
+    digitalConsentSignature?: SortOrderInput | SortOrder
+    acceptanceTimestamp?: SortOrderInput | SortOrder
+    acceptanceIp?: SortOrderInput | SortOrder
+    submittedAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    emergencyContacts?: OnboardingEmergencyContactOrderByRelationAggregateInput
+    experiences?: OnboardingExperienceOrderByRelationAggregateInput
+    education?: OnboardingEducationOrderByRelationAggregateInput
+    documents?: OnboardingDocumentOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
-    tasks?: OnboardingTaskOrderByRelationAggregateInput
   }
 
   export type OnboardingWhereUniqueInput = Prisma.AtLeast<{
@@ -32537,51 +36296,136 @@ export namespace Prisma {
     OR?: OnboardingWhereInput[]
     NOT?: OnboardingWhereInput | OnboardingWhereInput[]
     status?: StringFilter<"Onboarding"> | string
-    firstName?: StringNullableFilter<"Onboarding"> | string | null
-    lastName?: StringNullableFilter<"Onboarding"> | string | null
+    fullName?: StringNullableFilter<"Onboarding"> | string | null
     fatherName?: StringNullableFilter<"Onboarding"> | string | null
+    motherName?: StringNullableFilter<"Onboarding"> | string | null
+    guardianName?: StringNullableFilter<"Onboarding"> | string | null
     dateOfBirth?: DateTimeNullableFilter<"Onboarding"> | Date | string | null
-    currAddress?: StringNullableFilter<"Onboarding"> | string | null
-    permAddress?: StringNullableFilter<"Onboarding"> | string | null
+    gender?: StringNullableFilter<"Onboarding"> | string | null
+    maritalStatus?: StringNullableFilter<"Onboarding"> | string | null
+    bloodGroup?: StringNullableFilter<"Onboarding"> | string | null
+    nationality?: StringNullableFilter<"Onboarding"> | string | null
+    profilePhoto?: StringNullableFilter<"Onboarding"> | string | null
+    personalMobile?: StringNullableFilter<"Onboarding"> | string | null
+    officialMobile?: StringNullableFilter<"Onboarding"> | string | null
+    personalEmail?: StringNullableFilter<"Onboarding"> | string | null
+    officialEmail?: StringNullableFilter<"Onboarding"> | string | null
+    currentAddress?: StringNullableFilter<"Onboarding"> | string | null
+    permanentAddress?: StringNullableFilter<"Onboarding"> | string | null
+    sameAsCurrentAddress?: BoolFilter<"Onboarding"> | boolean
+    department?: StringNullableFilter<"Onboarding"> | string | null
+    designation?: StringNullableFilter<"Onboarding"> | string | null
+    employmentType?: StringNullableFilter<"Onboarding"> | string | null
+    dateOfJoining?: DateTimeNullableFilter<"Onboarding"> | Date | string | null
+    workLocation?: StringNullableFilter<"Onboarding"> | string | null
+    reportingManagerId?: StringNullableFilter<"Onboarding"> | string | null
+    shift?: StringNullableFilter<"Onboarding"> | string | null
+    workingHours?: StringNullableFilter<"Onboarding"> | string | null
+    probationPeriodMonths?: IntNullableFilter<"Onboarding"> | number | null
+    noticePeriodDays?: IntNullableFilter<"Onboarding"> | number | null
+    totalYearsExperience?: FloatNullableFilter<"Onboarding"> | number | null
     aadhaarNumber?: StringNullableFilter<"Onboarding"> | string | null
     panNumber?: StringNullableFilter<"Onboarding"> | string | null
-    aadhaarUrl?: StringNullableFilter<"Onboarding"> | string | null
-    panUrl?: StringNullableFilter<"Onboarding"> | string | null
-    passbookUrl?: StringNullableFilter<"Onboarding"> | string | null
-    offerLetterUrl?: StringNullableFilter<"Onboarding"> | string | null
-    documents?: StringNullableFilter<"Onboarding"> | string | null
-    educationDocumentsUrl?: StringNullableFilter<"Onboarding"> | string | null
-    experienceDocumentsUrl?: StringNullableFilter<"Onboarding"> | string | null
-    bankDetails?: StringNullableFilter<"Onboarding"> | string | null
-    submittedAt?: DateTimeFilter<"Onboarding"> | Date | string
+    passportNumber?: StringNullableFilter<"Onboarding"> | string | null
+    uanNumber?: StringNullableFilter<"Onboarding"> | string | null
+    esicNumber?: StringNullableFilter<"Onboarding"> | string | null
+    drivingLicense?: StringNullableFilter<"Onboarding"> | string | null
+    accountHolderName?: StringNullableFilter<"Onboarding"> | string | null
+    bankName?: StringNullableFilter<"Onboarding"> | string | null
+    accountNumber?: StringNullableFilter<"Onboarding"> | string | null
+    ifscCode?: StringNullableFilter<"Onboarding"> | string | null
+    branchName?: StringNullableFilter<"Onboarding"> | string | null
+    salaryPaymentMode?: StringNullableFilter<"Onboarding"> | string | null
+    medicalConditions?: StringNullableFilter<"Onboarding"> | string | null
+    allergies?: StringNullableFilter<"Onboarding"> | string | null
+    disabilityStatus?: BoolNullableFilter<"Onboarding"> | boolean | null
+    disabilityDetails?: StringNullableFilter<"Onboarding"> | string | null
+    companyEmailCreated?: BoolFilter<"Onboarding"> | boolean
+    hrmsAccessEnabled?: BoolFilter<"Onboarding"> | boolean
+    roleAndPermissions?: StringNullableFilter<"Onboarding"> | string | null
+    deviceIssued?: StringNullableFilter<"Onboarding"> | string | null
+    assetId?: StringNullableFilter<"Onboarding"> | string | null
+    companyPolicyAccepted?: BoolFilter<"Onboarding"> | boolean
+    ndaAccepted?: BoolFilter<"Onboarding"> | boolean
+    codeOfConductAccepted?: BoolFilter<"Onboarding"> | boolean
+    digitalConsentSignature?: StringNullableFilter<"Onboarding"> | string | null
+    acceptanceTimestamp?: DateTimeNullableFilter<"Onboarding"> | Date | string | null
+    acceptanceIp?: StringNullableFilter<"Onboarding"> | string | null
+    submittedAt?: DateTimeNullableFilter<"Onboarding"> | Date | string | null
+    updatedAt?: DateTimeFilter<"Onboarding"> | Date | string
+    emergencyContacts?: OnboardingEmergencyContactListRelationFilter
+    experiences?: OnboardingExperienceListRelationFilter
+    education?: OnboardingEducationListRelationFilter
+    documents?: OnboardingDocumentListRelationFilter
     user?: XOR<UserRelationFilter, UserWhereInput>
-    tasks?: OnboardingTaskListRelationFilter
   }, "id" | "userId">
 
   export type OnboardingOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
     status?: SortOrder
-    firstName?: SortOrderInput | SortOrder
-    lastName?: SortOrderInput | SortOrder
+    fullName?: SortOrderInput | SortOrder
     fatherName?: SortOrderInput | SortOrder
+    motherName?: SortOrderInput | SortOrder
+    guardianName?: SortOrderInput | SortOrder
     dateOfBirth?: SortOrderInput | SortOrder
-    currAddress?: SortOrderInput | SortOrder
-    permAddress?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    maritalStatus?: SortOrderInput | SortOrder
+    bloodGroup?: SortOrderInput | SortOrder
+    nationality?: SortOrderInput | SortOrder
+    profilePhoto?: SortOrderInput | SortOrder
+    personalMobile?: SortOrderInput | SortOrder
+    officialMobile?: SortOrderInput | SortOrder
+    personalEmail?: SortOrderInput | SortOrder
+    officialEmail?: SortOrderInput | SortOrder
+    currentAddress?: SortOrderInput | SortOrder
+    permanentAddress?: SortOrderInput | SortOrder
+    sameAsCurrentAddress?: SortOrder
+    department?: SortOrderInput | SortOrder
+    designation?: SortOrderInput | SortOrder
+    employmentType?: SortOrderInput | SortOrder
+    dateOfJoining?: SortOrderInput | SortOrder
+    workLocation?: SortOrderInput | SortOrder
+    reportingManagerId?: SortOrderInput | SortOrder
+    shift?: SortOrderInput | SortOrder
+    workingHours?: SortOrderInput | SortOrder
+    probationPeriodMonths?: SortOrderInput | SortOrder
+    noticePeriodDays?: SortOrderInput | SortOrder
+    totalYearsExperience?: SortOrderInput | SortOrder
     aadhaarNumber?: SortOrderInput | SortOrder
     panNumber?: SortOrderInput | SortOrder
-    aadhaarUrl?: SortOrderInput | SortOrder
-    panUrl?: SortOrderInput | SortOrder
-    passbookUrl?: SortOrderInput | SortOrder
-    offerLetterUrl?: SortOrderInput | SortOrder
-    documents?: SortOrderInput | SortOrder
-    educationDocumentsUrl?: SortOrderInput | SortOrder
-    experienceDocumentsUrl?: SortOrderInput | SortOrder
-    bankDetails?: SortOrderInput | SortOrder
-    submittedAt?: SortOrder
+    passportNumber?: SortOrderInput | SortOrder
+    uanNumber?: SortOrderInput | SortOrder
+    esicNumber?: SortOrderInput | SortOrder
+    drivingLicense?: SortOrderInput | SortOrder
+    accountHolderName?: SortOrderInput | SortOrder
+    bankName?: SortOrderInput | SortOrder
+    accountNumber?: SortOrderInput | SortOrder
+    ifscCode?: SortOrderInput | SortOrder
+    branchName?: SortOrderInput | SortOrder
+    salaryPaymentMode?: SortOrderInput | SortOrder
+    medicalConditions?: SortOrderInput | SortOrder
+    allergies?: SortOrderInput | SortOrder
+    disabilityStatus?: SortOrderInput | SortOrder
+    disabilityDetails?: SortOrderInput | SortOrder
+    companyEmailCreated?: SortOrder
+    hrmsAccessEnabled?: SortOrder
+    roleAndPermissions?: SortOrderInput | SortOrder
+    deviceIssued?: SortOrderInput | SortOrder
+    assetId?: SortOrderInput | SortOrder
+    companyPolicyAccepted?: SortOrder
+    ndaAccepted?: SortOrder
+    codeOfConductAccepted?: SortOrder
+    digitalConsentSignature?: SortOrderInput | SortOrder
+    acceptanceTimestamp?: SortOrderInput | SortOrder
+    acceptanceIp?: SortOrderInput | SortOrder
+    submittedAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
     _count?: OnboardingCountOrderByAggregateInput
+    _avg?: OnboardingAvgOrderByAggregateInput
     _max?: OnboardingMaxOrderByAggregateInput
     _min?: OnboardingMinOrderByAggregateInput
+    _sum?: OnboardingSumOrderByAggregateInput
   }
 
   export type OnboardingScalarWhereWithAggregatesInput = {
@@ -32591,78 +36435,315 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Onboarding"> | string
     userId?: StringWithAggregatesFilter<"Onboarding"> | string
     status?: StringWithAggregatesFilter<"Onboarding"> | string
-    firstName?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
-    lastName?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    fullName?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
     fatherName?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    motherName?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    guardianName?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
     dateOfBirth?: DateTimeNullableWithAggregatesFilter<"Onboarding"> | Date | string | null
-    currAddress?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
-    permAddress?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    gender?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    maritalStatus?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    bloodGroup?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    nationality?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    profilePhoto?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    personalMobile?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    officialMobile?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    personalEmail?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    officialEmail?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    currentAddress?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    permanentAddress?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    sameAsCurrentAddress?: BoolWithAggregatesFilter<"Onboarding"> | boolean
+    department?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    designation?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    employmentType?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    dateOfJoining?: DateTimeNullableWithAggregatesFilter<"Onboarding"> | Date | string | null
+    workLocation?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    reportingManagerId?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    shift?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    workingHours?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    probationPeriodMonths?: IntNullableWithAggregatesFilter<"Onboarding"> | number | null
+    noticePeriodDays?: IntNullableWithAggregatesFilter<"Onboarding"> | number | null
+    totalYearsExperience?: FloatNullableWithAggregatesFilter<"Onboarding"> | number | null
     aadhaarNumber?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
     panNumber?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
-    aadhaarUrl?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
-    panUrl?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
-    passbookUrl?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
-    offerLetterUrl?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
-    documents?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
-    educationDocumentsUrl?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
-    experienceDocumentsUrl?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
-    bankDetails?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
-    submittedAt?: DateTimeWithAggregatesFilter<"Onboarding"> | Date | string
+    passportNumber?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    uanNumber?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    esicNumber?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    drivingLicense?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    accountHolderName?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    bankName?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    accountNumber?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    ifscCode?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    branchName?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    salaryPaymentMode?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    medicalConditions?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    allergies?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    disabilityStatus?: BoolNullableWithAggregatesFilter<"Onboarding"> | boolean | null
+    disabilityDetails?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    companyEmailCreated?: BoolWithAggregatesFilter<"Onboarding"> | boolean
+    hrmsAccessEnabled?: BoolWithAggregatesFilter<"Onboarding"> | boolean
+    roleAndPermissions?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    deviceIssued?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    assetId?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    companyPolicyAccepted?: BoolWithAggregatesFilter<"Onboarding"> | boolean
+    ndaAccepted?: BoolWithAggregatesFilter<"Onboarding"> | boolean
+    codeOfConductAccepted?: BoolWithAggregatesFilter<"Onboarding"> | boolean
+    digitalConsentSignature?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    acceptanceTimestamp?: DateTimeNullableWithAggregatesFilter<"Onboarding"> | Date | string | null
+    acceptanceIp?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    submittedAt?: DateTimeNullableWithAggregatesFilter<"Onboarding"> | Date | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"Onboarding"> | Date | string
   }
 
-  export type OnboardingTaskWhereInput = {
-    AND?: OnboardingTaskWhereInput | OnboardingTaskWhereInput[]
-    OR?: OnboardingTaskWhereInput[]
-    NOT?: OnboardingTaskWhereInput | OnboardingTaskWhereInput[]
-    id?: StringFilter<"OnboardingTask"> | string
-    onboardingId?: StringFilter<"OnboardingTask"> | string
-    title?: StringFilter<"OnboardingTask"> | string
-    status?: StringFilter<"OnboardingTask"> | string
-    completedAt?: DateTimeNullableFilter<"OnboardingTask"> | Date | string | null
+  export type OnboardingEmergencyContactWhereInput = {
+    AND?: OnboardingEmergencyContactWhereInput | OnboardingEmergencyContactWhereInput[]
+    OR?: OnboardingEmergencyContactWhereInput[]
+    NOT?: OnboardingEmergencyContactWhereInput | OnboardingEmergencyContactWhereInput[]
+    id?: StringFilter<"OnboardingEmergencyContact"> | string
+    onboardingId?: StringFilter<"OnboardingEmergencyContact"> | string
+    name?: StringFilter<"OnboardingEmergencyContact"> | string
+    relationship?: StringNullableFilter<"OnboardingEmergencyContact"> | string | null
+    mobile?: StringFilter<"OnboardingEmergencyContact"> | string
+    alternateMobile?: StringNullableFilter<"OnboardingEmergencyContact"> | string | null
     onboarding?: XOR<OnboardingRelationFilter, OnboardingWhereInput>
   }
 
-  export type OnboardingTaskOrderByWithRelationInput = {
+  export type OnboardingEmergencyContactOrderByWithRelationInput = {
     id?: SortOrder
     onboardingId?: SortOrder
-    title?: SortOrder
-    status?: SortOrder
-    completedAt?: SortOrderInput | SortOrder
+    name?: SortOrder
+    relationship?: SortOrderInput | SortOrder
+    mobile?: SortOrder
+    alternateMobile?: SortOrderInput | SortOrder
     onboarding?: OnboardingOrderByWithRelationInput
   }
 
-  export type OnboardingTaskWhereUniqueInput = Prisma.AtLeast<{
+  export type OnboardingEmergencyContactWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: OnboardingTaskWhereInput | OnboardingTaskWhereInput[]
-    OR?: OnboardingTaskWhereInput[]
-    NOT?: OnboardingTaskWhereInput | OnboardingTaskWhereInput[]
-    onboardingId?: StringFilter<"OnboardingTask"> | string
-    title?: StringFilter<"OnboardingTask"> | string
-    status?: StringFilter<"OnboardingTask"> | string
-    completedAt?: DateTimeNullableFilter<"OnboardingTask"> | Date | string | null
+    AND?: OnboardingEmergencyContactWhereInput | OnboardingEmergencyContactWhereInput[]
+    OR?: OnboardingEmergencyContactWhereInput[]
+    NOT?: OnboardingEmergencyContactWhereInput | OnboardingEmergencyContactWhereInput[]
+    onboardingId?: StringFilter<"OnboardingEmergencyContact"> | string
+    name?: StringFilter<"OnboardingEmergencyContact"> | string
+    relationship?: StringNullableFilter<"OnboardingEmergencyContact"> | string | null
+    mobile?: StringFilter<"OnboardingEmergencyContact"> | string
+    alternateMobile?: StringNullableFilter<"OnboardingEmergencyContact"> | string | null
     onboarding?: XOR<OnboardingRelationFilter, OnboardingWhereInput>
   }, "id">
 
-  export type OnboardingTaskOrderByWithAggregationInput = {
+  export type OnboardingEmergencyContactOrderByWithAggregationInput = {
     id?: SortOrder
     onboardingId?: SortOrder
-    title?: SortOrder
-    status?: SortOrder
-    completedAt?: SortOrderInput | SortOrder
-    _count?: OnboardingTaskCountOrderByAggregateInput
-    _max?: OnboardingTaskMaxOrderByAggregateInput
-    _min?: OnboardingTaskMinOrderByAggregateInput
+    name?: SortOrder
+    relationship?: SortOrderInput | SortOrder
+    mobile?: SortOrder
+    alternateMobile?: SortOrderInput | SortOrder
+    _count?: OnboardingEmergencyContactCountOrderByAggregateInput
+    _max?: OnboardingEmergencyContactMaxOrderByAggregateInput
+    _min?: OnboardingEmergencyContactMinOrderByAggregateInput
   }
 
-  export type OnboardingTaskScalarWhereWithAggregatesInput = {
-    AND?: OnboardingTaskScalarWhereWithAggregatesInput | OnboardingTaskScalarWhereWithAggregatesInput[]
-    OR?: OnboardingTaskScalarWhereWithAggregatesInput[]
-    NOT?: OnboardingTaskScalarWhereWithAggregatesInput | OnboardingTaskScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"OnboardingTask"> | string
-    onboardingId?: StringWithAggregatesFilter<"OnboardingTask"> | string
-    title?: StringWithAggregatesFilter<"OnboardingTask"> | string
-    status?: StringWithAggregatesFilter<"OnboardingTask"> | string
-    completedAt?: DateTimeNullableWithAggregatesFilter<"OnboardingTask"> | Date | string | null
+  export type OnboardingEmergencyContactScalarWhereWithAggregatesInput = {
+    AND?: OnboardingEmergencyContactScalarWhereWithAggregatesInput | OnboardingEmergencyContactScalarWhereWithAggregatesInput[]
+    OR?: OnboardingEmergencyContactScalarWhereWithAggregatesInput[]
+    NOT?: OnboardingEmergencyContactScalarWhereWithAggregatesInput | OnboardingEmergencyContactScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OnboardingEmergencyContact"> | string
+    onboardingId?: StringWithAggregatesFilter<"OnboardingEmergencyContact"> | string
+    name?: StringWithAggregatesFilter<"OnboardingEmergencyContact"> | string
+    relationship?: StringNullableWithAggregatesFilter<"OnboardingEmergencyContact"> | string | null
+    mobile?: StringWithAggregatesFilter<"OnboardingEmergencyContact"> | string
+    alternateMobile?: StringNullableWithAggregatesFilter<"OnboardingEmergencyContact"> | string | null
+  }
+
+  export type OnboardingExperienceWhereInput = {
+    AND?: OnboardingExperienceWhereInput | OnboardingExperienceWhereInput[]
+    OR?: OnboardingExperienceWhereInput[]
+    NOT?: OnboardingExperienceWhereInput | OnboardingExperienceWhereInput[]
+    id?: StringFilter<"OnboardingExperience"> | string
+    onboardingId?: StringFilter<"OnboardingExperience"> | string
+    companyName?: StringFilter<"OnboardingExperience"> | string
+    designation?: StringNullableFilter<"OnboardingExperience"> | string | null
+    employmentType?: StringNullableFilter<"OnboardingExperience"> | string | null
+    startDate?: DateTimeNullableFilter<"OnboardingExperience"> | Date | string | null
+    endDate?: DateTimeNullableFilter<"OnboardingExperience"> | Date | string | null
+    isCurrent?: BoolFilter<"OnboardingExperience"> | boolean
+    reasonForLeaving?: StringNullableFilter<"OnboardingExperience"> | string | null
+    onboarding?: XOR<OnboardingRelationFilter, OnboardingWhereInput>
+  }
+
+  export type OnboardingExperienceOrderByWithRelationInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    companyName?: SortOrder
+    designation?: SortOrderInput | SortOrder
+    employmentType?: SortOrderInput | SortOrder
+    startDate?: SortOrderInput | SortOrder
+    endDate?: SortOrderInput | SortOrder
+    isCurrent?: SortOrder
+    reasonForLeaving?: SortOrderInput | SortOrder
+    onboarding?: OnboardingOrderByWithRelationInput
+  }
+
+  export type OnboardingExperienceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OnboardingExperienceWhereInput | OnboardingExperienceWhereInput[]
+    OR?: OnboardingExperienceWhereInput[]
+    NOT?: OnboardingExperienceWhereInput | OnboardingExperienceWhereInput[]
+    onboardingId?: StringFilter<"OnboardingExperience"> | string
+    companyName?: StringFilter<"OnboardingExperience"> | string
+    designation?: StringNullableFilter<"OnboardingExperience"> | string | null
+    employmentType?: StringNullableFilter<"OnboardingExperience"> | string | null
+    startDate?: DateTimeNullableFilter<"OnboardingExperience"> | Date | string | null
+    endDate?: DateTimeNullableFilter<"OnboardingExperience"> | Date | string | null
+    isCurrent?: BoolFilter<"OnboardingExperience"> | boolean
+    reasonForLeaving?: StringNullableFilter<"OnboardingExperience"> | string | null
+    onboarding?: XOR<OnboardingRelationFilter, OnboardingWhereInput>
+  }, "id">
+
+  export type OnboardingExperienceOrderByWithAggregationInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    companyName?: SortOrder
+    designation?: SortOrderInput | SortOrder
+    employmentType?: SortOrderInput | SortOrder
+    startDate?: SortOrderInput | SortOrder
+    endDate?: SortOrderInput | SortOrder
+    isCurrent?: SortOrder
+    reasonForLeaving?: SortOrderInput | SortOrder
+    _count?: OnboardingExperienceCountOrderByAggregateInput
+    _max?: OnboardingExperienceMaxOrderByAggregateInput
+    _min?: OnboardingExperienceMinOrderByAggregateInput
+  }
+
+  export type OnboardingExperienceScalarWhereWithAggregatesInput = {
+    AND?: OnboardingExperienceScalarWhereWithAggregatesInput | OnboardingExperienceScalarWhereWithAggregatesInput[]
+    OR?: OnboardingExperienceScalarWhereWithAggregatesInput[]
+    NOT?: OnboardingExperienceScalarWhereWithAggregatesInput | OnboardingExperienceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OnboardingExperience"> | string
+    onboardingId?: StringWithAggregatesFilter<"OnboardingExperience"> | string
+    companyName?: StringWithAggregatesFilter<"OnboardingExperience"> | string
+    designation?: StringNullableWithAggregatesFilter<"OnboardingExperience"> | string | null
+    employmentType?: StringNullableWithAggregatesFilter<"OnboardingExperience"> | string | null
+    startDate?: DateTimeNullableWithAggregatesFilter<"OnboardingExperience"> | Date | string | null
+    endDate?: DateTimeNullableWithAggregatesFilter<"OnboardingExperience"> | Date | string | null
+    isCurrent?: BoolWithAggregatesFilter<"OnboardingExperience"> | boolean
+    reasonForLeaving?: StringNullableWithAggregatesFilter<"OnboardingExperience"> | string | null
+  }
+
+  export type OnboardingEducationWhereInput = {
+    AND?: OnboardingEducationWhereInput | OnboardingEducationWhereInput[]
+    OR?: OnboardingEducationWhereInput[]
+    NOT?: OnboardingEducationWhereInput | OnboardingEducationWhereInput[]
+    id?: StringFilter<"OnboardingEducation"> | string
+    onboardingId?: StringFilter<"OnboardingEducation"> | string
+    institutionName?: StringFilter<"OnboardingEducation"> | string
+    degreeOrCourse?: StringFilter<"OnboardingEducation"> | string
+    highestQualification?: StringNullableFilter<"OnboardingEducation"> | string | null
+    yearOfPassing?: IntNullableFilter<"OnboardingEducation"> | number | null
+    onboarding?: XOR<OnboardingRelationFilter, OnboardingWhereInput>
+  }
+
+  export type OnboardingEducationOrderByWithRelationInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    institutionName?: SortOrder
+    degreeOrCourse?: SortOrder
+    highestQualification?: SortOrderInput | SortOrder
+    yearOfPassing?: SortOrderInput | SortOrder
+    onboarding?: OnboardingOrderByWithRelationInput
+  }
+
+  export type OnboardingEducationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OnboardingEducationWhereInput | OnboardingEducationWhereInput[]
+    OR?: OnboardingEducationWhereInput[]
+    NOT?: OnboardingEducationWhereInput | OnboardingEducationWhereInput[]
+    onboardingId?: StringFilter<"OnboardingEducation"> | string
+    institutionName?: StringFilter<"OnboardingEducation"> | string
+    degreeOrCourse?: StringFilter<"OnboardingEducation"> | string
+    highestQualification?: StringNullableFilter<"OnboardingEducation"> | string | null
+    yearOfPassing?: IntNullableFilter<"OnboardingEducation"> | number | null
+    onboarding?: XOR<OnboardingRelationFilter, OnboardingWhereInput>
+  }, "id">
+
+  export type OnboardingEducationOrderByWithAggregationInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    institutionName?: SortOrder
+    degreeOrCourse?: SortOrder
+    highestQualification?: SortOrderInput | SortOrder
+    yearOfPassing?: SortOrderInput | SortOrder
+    _count?: OnboardingEducationCountOrderByAggregateInput
+    _avg?: OnboardingEducationAvgOrderByAggregateInput
+    _max?: OnboardingEducationMaxOrderByAggregateInput
+    _min?: OnboardingEducationMinOrderByAggregateInput
+    _sum?: OnboardingEducationSumOrderByAggregateInput
+  }
+
+  export type OnboardingEducationScalarWhereWithAggregatesInput = {
+    AND?: OnboardingEducationScalarWhereWithAggregatesInput | OnboardingEducationScalarWhereWithAggregatesInput[]
+    OR?: OnboardingEducationScalarWhereWithAggregatesInput[]
+    NOT?: OnboardingEducationScalarWhereWithAggregatesInput | OnboardingEducationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OnboardingEducation"> | string
+    onboardingId?: StringWithAggregatesFilter<"OnboardingEducation"> | string
+    institutionName?: StringWithAggregatesFilter<"OnboardingEducation"> | string
+    degreeOrCourse?: StringWithAggregatesFilter<"OnboardingEducation"> | string
+    highestQualification?: StringNullableWithAggregatesFilter<"OnboardingEducation"> | string | null
+    yearOfPassing?: IntNullableWithAggregatesFilter<"OnboardingEducation"> | number | null
+  }
+
+  export type OnboardingDocumentWhereInput = {
+    AND?: OnboardingDocumentWhereInput | OnboardingDocumentWhereInput[]
+    OR?: OnboardingDocumentWhereInput[]
+    NOT?: OnboardingDocumentWhereInput | OnboardingDocumentWhereInput[]
+    id?: StringFilter<"OnboardingDocument"> | string
+    onboardingId?: StringFilter<"OnboardingDocument"> | string
+    type?: StringFilter<"OnboardingDocument"> | string
+    url?: StringFilter<"OnboardingDocument"> | string
+    status?: StringFilter<"OnboardingDocument"> | string
+    onboarding?: XOR<OnboardingRelationFilter, OnboardingWhereInput>
+  }
+
+  export type OnboardingDocumentOrderByWithRelationInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    status?: SortOrder
+    onboarding?: OnboardingOrderByWithRelationInput
+  }
+
+  export type OnboardingDocumentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OnboardingDocumentWhereInput | OnboardingDocumentWhereInput[]
+    OR?: OnboardingDocumentWhereInput[]
+    NOT?: OnboardingDocumentWhereInput | OnboardingDocumentWhereInput[]
+    onboardingId?: StringFilter<"OnboardingDocument"> | string
+    type?: StringFilter<"OnboardingDocument"> | string
+    url?: StringFilter<"OnboardingDocument"> | string
+    status?: StringFilter<"OnboardingDocument"> | string
+    onboarding?: XOR<OnboardingRelationFilter, OnboardingWhereInput>
+  }, "id">
+
+  export type OnboardingDocumentOrderByWithAggregationInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    status?: SortOrder
+    _count?: OnboardingDocumentCountOrderByAggregateInput
+    _max?: OnboardingDocumentMaxOrderByAggregateInput
+    _min?: OnboardingDocumentMinOrderByAggregateInput
+  }
+
+  export type OnboardingDocumentScalarWhereWithAggregatesInput = {
+    AND?: OnboardingDocumentScalarWhereWithAggregatesInput | OnboardingDocumentScalarWhereWithAggregatesInput[]
+    OR?: OnboardingDocumentScalarWhereWithAggregatesInput[]
+    NOT?: OnboardingDocumentScalarWhereWithAggregatesInput | OnboardingDocumentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OnboardingDocument"> | string
+    onboardingId?: StringWithAggregatesFilter<"OnboardingDocument"> | string
+    type?: StringWithAggregatesFilter<"OnboardingDocument"> | string
+    url?: StringWithAggregatesFilter<"OnboardingDocument"> | string
+    status?: StringWithAggregatesFilter<"OnboardingDocument"> | string
   }
 
   export type OffboardingWhereInput = {
@@ -34442,189 +38523,618 @@ export namespace Prisma {
   export type OnboardingCreateInput = {
     id?: string
     status?: string
-    firstName?: string | null
-    lastName?: string | null
+    fullName?: string | null
     fatherName?: string | null
+    motherName?: string | null
+    guardianName?: string | null
     dateOfBirth?: Date | string | null
-    currAddress?: string | null
-    permAddress?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    bloodGroup?: string | null
+    nationality?: string | null
+    profilePhoto?: string | null
+    personalMobile?: string | null
+    officialMobile?: string | null
+    personalEmail?: string | null
+    officialEmail?: string | null
+    currentAddress?: string | null
+    permanentAddress?: string | null
+    sameAsCurrentAddress?: boolean
+    department?: string | null
+    designation?: string | null
+    employmentType?: string | null
+    dateOfJoining?: Date | string | null
+    workLocation?: string | null
+    reportingManagerId?: string | null
+    shift?: string | null
+    workingHours?: string | null
+    probationPeriodMonths?: number | null
+    noticePeriodDays?: number | null
+    totalYearsExperience?: number | null
     aadhaarNumber?: string | null
     panNumber?: string | null
-    aadhaarUrl?: string | null
-    panUrl?: string | null
-    passbookUrl?: string | null
-    offerLetterUrl?: string | null
-    documents?: string | null
-    educationDocumentsUrl?: string | null
-    experienceDocumentsUrl?: string | null
-    bankDetails?: string | null
-    submittedAt?: Date | string
+    passportNumber?: string | null
+    uanNumber?: string | null
+    esicNumber?: string | null
+    drivingLicense?: string | null
+    accountHolderName?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    branchName?: string | null
+    salaryPaymentMode?: string | null
+    medicalConditions?: string | null
+    allergies?: string | null
+    disabilityStatus?: boolean | null
+    disabilityDetails?: string | null
+    companyEmailCreated?: boolean
+    hrmsAccessEnabled?: boolean
+    roleAndPermissions?: string | null
+    deviceIssued?: string | null
+    assetId?: string | null
+    companyPolicyAccepted?: boolean
+    ndaAccepted?: boolean
+    codeOfConductAccepted?: boolean
+    digitalConsentSignature?: string | null
+    acceptanceTimestamp?: Date | string | null
+    acceptanceIp?: string | null
+    submittedAt?: Date | string | null
+    updatedAt?: Date | string
+    emergencyContacts?: OnboardingEmergencyContactCreateNestedManyWithoutOnboardingInput
+    experiences?: OnboardingExperienceCreateNestedManyWithoutOnboardingInput
+    education?: OnboardingEducationCreateNestedManyWithoutOnboardingInput
+    documents?: OnboardingDocumentCreateNestedManyWithoutOnboardingInput
     user: UserCreateNestedOneWithoutOnboardingInput
-    tasks?: OnboardingTaskCreateNestedManyWithoutOnboardingInput
   }
 
   export type OnboardingUncheckedCreateInput = {
     id?: string
     userId: string
     status?: string
-    firstName?: string | null
-    lastName?: string | null
+    fullName?: string | null
     fatherName?: string | null
+    motherName?: string | null
+    guardianName?: string | null
     dateOfBirth?: Date | string | null
-    currAddress?: string | null
-    permAddress?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    bloodGroup?: string | null
+    nationality?: string | null
+    profilePhoto?: string | null
+    personalMobile?: string | null
+    officialMobile?: string | null
+    personalEmail?: string | null
+    officialEmail?: string | null
+    currentAddress?: string | null
+    permanentAddress?: string | null
+    sameAsCurrentAddress?: boolean
+    department?: string | null
+    designation?: string | null
+    employmentType?: string | null
+    dateOfJoining?: Date | string | null
+    workLocation?: string | null
+    reportingManagerId?: string | null
+    shift?: string | null
+    workingHours?: string | null
+    probationPeriodMonths?: number | null
+    noticePeriodDays?: number | null
+    totalYearsExperience?: number | null
     aadhaarNumber?: string | null
     panNumber?: string | null
-    aadhaarUrl?: string | null
-    panUrl?: string | null
-    passbookUrl?: string | null
-    offerLetterUrl?: string | null
-    documents?: string | null
-    educationDocumentsUrl?: string | null
-    experienceDocumentsUrl?: string | null
-    bankDetails?: string | null
-    submittedAt?: Date | string
-    tasks?: OnboardingTaskUncheckedCreateNestedManyWithoutOnboardingInput
+    passportNumber?: string | null
+    uanNumber?: string | null
+    esicNumber?: string | null
+    drivingLicense?: string | null
+    accountHolderName?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    branchName?: string | null
+    salaryPaymentMode?: string | null
+    medicalConditions?: string | null
+    allergies?: string | null
+    disabilityStatus?: boolean | null
+    disabilityDetails?: string | null
+    companyEmailCreated?: boolean
+    hrmsAccessEnabled?: boolean
+    roleAndPermissions?: string | null
+    deviceIssued?: string | null
+    assetId?: string | null
+    companyPolicyAccepted?: boolean
+    ndaAccepted?: boolean
+    codeOfConductAccepted?: boolean
+    digitalConsentSignature?: string | null
+    acceptanceTimestamp?: Date | string | null
+    acceptanceIp?: string | null
+    submittedAt?: Date | string | null
+    updatedAt?: Date | string
+    emergencyContacts?: OnboardingEmergencyContactUncheckedCreateNestedManyWithoutOnboardingInput
+    experiences?: OnboardingExperienceUncheckedCreateNestedManyWithoutOnboardingInput
+    education?: OnboardingEducationUncheckedCreateNestedManyWithoutOnboardingInput
+    documents?: OnboardingDocumentUncheckedCreateNestedManyWithoutOnboardingInput
   }
 
   export type OnboardingUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
     fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    guardianName?: NullableStringFieldUpdateOperationsInput | string | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    permAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    officialEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    currentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsCurrentAddress?: BoolFieldUpdateOperationsInput | boolean
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    reportingManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shift?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
+    probationPeriodMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    totalYearsExperience?: NullableFloatFieldUpdateOperationsInput | number | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    aadhaarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    panUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    passbookUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    offerLetterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    documents?: NullableStringFieldUpdateOperationsInput | string | null
-    educationDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    experienceDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bankDetails?: NullableStringFieldUpdateOperationsInput | string | null
-    submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    esicNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    drivingLicense?: NullableStringFieldUpdateOperationsInput | string | null
+    accountHolderName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    branchName?: NullableStringFieldUpdateOperationsInput | string | null
+    salaryPaymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    disabilityStatus?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    disabilityDetails?: NullableStringFieldUpdateOperationsInput | string | null
+    companyEmailCreated?: BoolFieldUpdateOperationsInput | boolean
+    hrmsAccessEnabled?: BoolFieldUpdateOperationsInput | boolean
+    roleAndPermissions?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceIssued?: NullableStringFieldUpdateOperationsInput | string | null
+    assetId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyPolicyAccepted?: BoolFieldUpdateOperationsInput | boolean
+    ndaAccepted?: BoolFieldUpdateOperationsInput | boolean
+    codeOfConductAccepted?: BoolFieldUpdateOperationsInput | boolean
+    digitalConsentSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceIp?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emergencyContacts?: OnboardingEmergencyContactUpdateManyWithoutOnboardingNestedInput
+    experiences?: OnboardingExperienceUpdateManyWithoutOnboardingNestedInput
+    education?: OnboardingEducationUpdateManyWithoutOnboardingNestedInput
+    documents?: OnboardingDocumentUpdateManyWithoutOnboardingNestedInput
     user?: UserUpdateOneRequiredWithoutOnboardingNestedInput
-    tasks?: OnboardingTaskUpdateManyWithoutOnboardingNestedInput
   }
 
   export type OnboardingUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
     fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    guardianName?: NullableStringFieldUpdateOperationsInput | string | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    permAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    officialEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    currentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsCurrentAddress?: BoolFieldUpdateOperationsInput | boolean
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    reportingManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shift?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
+    probationPeriodMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    totalYearsExperience?: NullableFloatFieldUpdateOperationsInput | number | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    aadhaarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    panUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    passbookUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    offerLetterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    documents?: NullableStringFieldUpdateOperationsInput | string | null
-    educationDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    experienceDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bankDetails?: NullableStringFieldUpdateOperationsInput | string | null
-    submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tasks?: OnboardingTaskUncheckedUpdateManyWithoutOnboardingNestedInput
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    esicNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    drivingLicense?: NullableStringFieldUpdateOperationsInput | string | null
+    accountHolderName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    branchName?: NullableStringFieldUpdateOperationsInput | string | null
+    salaryPaymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    disabilityStatus?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    disabilityDetails?: NullableStringFieldUpdateOperationsInput | string | null
+    companyEmailCreated?: BoolFieldUpdateOperationsInput | boolean
+    hrmsAccessEnabled?: BoolFieldUpdateOperationsInput | boolean
+    roleAndPermissions?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceIssued?: NullableStringFieldUpdateOperationsInput | string | null
+    assetId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyPolicyAccepted?: BoolFieldUpdateOperationsInput | boolean
+    ndaAccepted?: BoolFieldUpdateOperationsInput | boolean
+    codeOfConductAccepted?: BoolFieldUpdateOperationsInput | boolean
+    digitalConsentSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceIp?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emergencyContacts?: OnboardingEmergencyContactUncheckedUpdateManyWithoutOnboardingNestedInput
+    experiences?: OnboardingExperienceUncheckedUpdateManyWithoutOnboardingNestedInput
+    education?: OnboardingEducationUncheckedUpdateManyWithoutOnboardingNestedInput
+    documents?: OnboardingDocumentUncheckedUpdateManyWithoutOnboardingNestedInput
   }
 
   export type OnboardingUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
     fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    guardianName?: NullableStringFieldUpdateOperationsInput | string | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    permAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    officialEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    currentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsCurrentAddress?: BoolFieldUpdateOperationsInput | boolean
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    reportingManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shift?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
+    probationPeriodMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    totalYearsExperience?: NullableFloatFieldUpdateOperationsInput | number | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    aadhaarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    panUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    passbookUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    offerLetterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    documents?: NullableStringFieldUpdateOperationsInput | string | null
-    educationDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    experienceDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bankDetails?: NullableStringFieldUpdateOperationsInput | string | null
-    submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    esicNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    drivingLicense?: NullableStringFieldUpdateOperationsInput | string | null
+    accountHolderName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    branchName?: NullableStringFieldUpdateOperationsInput | string | null
+    salaryPaymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    disabilityStatus?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    disabilityDetails?: NullableStringFieldUpdateOperationsInput | string | null
+    companyEmailCreated?: BoolFieldUpdateOperationsInput | boolean
+    hrmsAccessEnabled?: BoolFieldUpdateOperationsInput | boolean
+    roleAndPermissions?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceIssued?: NullableStringFieldUpdateOperationsInput | string | null
+    assetId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyPolicyAccepted?: BoolFieldUpdateOperationsInput | boolean
+    ndaAccepted?: BoolFieldUpdateOperationsInput | boolean
+    codeOfConductAccepted?: BoolFieldUpdateOperationsInput | boolean
+    digitalConsentSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceIp?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OnboardingUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
     fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    guardianName?: NullableStringFieldUpdateOperationsInput | string | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    permAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    officialEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    currentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsCurrentAddress?: BoolFieldUpdateOperationsInput | boolean
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    reportingManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shift?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
+    probationPeriodMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    totalYearsExperience?: NullableFloatFieldUpdateOperationsInput | number | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    aadhaarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    panUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    passbookUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    offerLetterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    documents?: NullableStringFieldUpdateOperationsInput | string | null
-    educationDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    experienceDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bankDetails?: NullableStringFieldUpdateOperationsInput | string | null
-    submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    esicNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    drivingLicense?: NullableStringFieldUpdateOperationsInput | string | null
+    accountHolderName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    branchName?: NullableStringFieldUpdateOperationsInput | string | null
+    salaryPaymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    disabilityStatus?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    disabilityDetails?: NullableStringFieldUpdateOperationsInput | string | null
+    companyEmailCreated?: BoolFieldUpdateOperationsInput | boolean
+    hrmsAccessEnabled?: BoolFieldUpdateOperationsInput | boolean
+    roleAndPermissions?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceIssued?: NullableStringFieldUpdateOperationsInput | string | null
+    assetId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyPolicyAccepted?: BoolFieldUpdateOperationsInput | boolean
+    ndaAccepted?: BoolFieldUpdateOperationsInput | boolean
+    codeOfConductAccepted?: BoolFieldUpdateOperationsInput | boolean
+    digitalConsentSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceIp?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type OnboardingTaskCreateInput = {
+  export type OnboardingEmergencyContactCreateInput = {
     id?: string
-    title: string
-    status?: string
-    completedAt?: Date | string | null
-    onboarding: OnboardingCreateNestedOneWithoutTasksInput
+    name: string
+    relationship?: string | null
+    mobile: string
+    alternateMobile?: string | null
+    onboarding: OnboardingCreateNestedOneWithoutEmergencyContactsInput
   }
 
-  export type OnboardingTaskUncheckedCreateInput = {
+  export type OnboardingEmergencyContactUncheckedCreateInput = {
     id?: string
     onboardingId: string
-    title: string
+    name: string
+    relationship?: string | null
+    mobile: string
+    alternateMobile?: string | null
+  }
+
+  export type OnboardingEmergencyContactUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    relationship?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: StringFieldUpdateOperationsInput | string
+    alternateMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    onboarding?: OnboardingUpdateOneRequiredWithoutEmergencyContactsNestedInput
+  }
+
+  export type OnboardingEmergencyContactUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    onboardingId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    relationship?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: StringFieldUpdateOperationsInput | string
+    alternateMobile?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OnboardingEmergencyContactUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    relationship?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: StringFieldUpdateOperationsInput | string
+    alternateMobile?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OnboardingEmergencyContactUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    onboardingId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    relationship?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: StringFieldUpdateOperationsInput | string
+    alternateMobile?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OnboardingExperienceCreateInput = {
+    id?: string
+    companyName: string
+    designation?: string | null
+    employmentType?: string | null
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    isCurrent?: boolean
+    reasonForLeaving?: string | null
+    onboarding: OnboardingCreateNestedOneWithoutExperiencesInput
+  }
+
+  export type OnboardingExperienceUncheckedCreateInput = {
+    id?: string
+    onboardingId: string
+    companyName: string
+    designation?: string | null
+    employmentType?: string | null
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    isCurrent?: boolean
+    reasonForLeaving?: string | null
+  }
+
+  export type OnboardingExperienceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    reasonForLeaving?: NullableStringFieldUpdateOperationsInput | string | null
+    onboarding?: OnboardingUpdateOneRequiredWithoutExperiencesNestedInput
+  }
+
+  export type OnboardingExperienceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    onboardingId?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    reasonForLeaving?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OnboardingExperienceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    reasonForLeaving?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OnboardingExperienceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    onboardingId?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    reasonForLeaving?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OnboardingEducationCreateInput = {
+    id?: string
+    institutionName: string
+    degreeOrCourse: string
+    highestQualification?: string | null
+    yearOfPassing?: number | null
+    onboarding: OnboardingCreateNestedOneWithoutEducationInput
+  }
+
+  export type OnboardingEducationUncheckedCreateInput = {
+    id?: string
+    onboardingId: string
+    institutionName: string
+    degreeOrCourse: string
+    highestQualification?: string | null
+    yearOfPassing?: number | null
+  }
+
+  export type OnboardingEducationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    institutionName?: StringFieldUpdateOperationsInput | string
+    degreeOrCourse?: StringFieldUpdateOperationsInput | string
+    highestQualification?: NullableStringFieldUpdateOperationsInput | string | null
+    yearOfPassing?: NullableIntFieldUpdateOperationsInput | number | null
+    onboarding?: OnboardingUpdateOneRequiredWithoutEducationNestedInput
+  }
+
+  export type OnboardingEducationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    onboardingId?: StringFieldUpdateOperationsInput | string
+    institutionName?: StringFieldUpdateOperationsInput | string
+    degreeOrCourse?: StringFieldUpdateOperationsInput | string
+    highestQualification?: NullableStringFieldUpdateOperationsInput | string | null
+    yearOfPassing?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type OnboardingEducationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    institutionName?: StringFieldUpdateOperationsInput | string
+    degreeOrCourse?: StringFieldUpdateOperationsInput | string
+    highestQualification?: NullableStringFieldUpdateOperationsInput | string | null
+    yearOfPassing?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type OnboardingEducationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    onboardingId?: StringFieldUpdateOperationsInput | string
+    institutionName?: StringFieldUpdateOperationsInput | string
+    degreeOrCourse?: StringFieldUpdateOperationsInput | string
+    highestQualification?: NullableStringFieldUpdateOperationsInput | string | null
+    yearOfPassing?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type OnboardingDocumentCreateInput = {
+    id?: string
+    type: string
+    url: string
     status?: string
-    completedAt?: Date | string | null
+    onboarding: OnboardingCreateNestedOneWithoutDocumentsInput
   }
 
-  export type OnboardingTaskUpdateInput = {
+  export type OnboardingDocumentUncheckedCreateInput = {
+    id?: string
+    onboardingId: string
+    type: string
+    url: string
+    status?: string
+  }
+
+  export type OnboardingDocumentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    onboarding?: OnboardingUpdateOneRequiredWithoutTasksNestedInput
+    onboarding?: OnboardingUpdateOneRequiredWithoutDocumentsNestedInput
   }
 
-  export type OnboardingTaskUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    onboardingId?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type OnboardingTaskUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type OnboardingTaskUncheckedUpdateManyInput = {
+  export type OnboardingDocumentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     onboardingId?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type OnboardingDocumentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type OnboardingDocumentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    onboardingId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
   }
 
   export type OffboardingCreateInput = {
@@ -36365,13 +40875,59 @@ export namespace Prisma {
     type?: SortOrder
   }
 
-  export type OnboardingTaskListRelationFilter = {
-    every?: OnboardingTaskWhereInput
-    some?: OnboardingTaskWhereInput
-    none?: OnboardingTaskWhereInput
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type OnboardingTaskOrderByRelationAggregateInput = {
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type OnboardingEmergencyContactListRelationFilter = {
+    every?: OnboardingEmergencyContactWhereInput
+    some?: OnboardingEmergencyContactWhereInput
+    none?: OnboardingEmergencyContactWhereInput
+  }
+
+  export type OnboardingExperienceListRelationFilter = {
+    every?: OnboardingExperienceWhereInput
+    some?: OnboardingExperienceWhereInput
+    none?: OnboardingExperienceWhereInput
+  }
+
+  export type OnboardingEducationListRelationFilter = {
+    every?: OnboardingEducationWhereInput
+    some?: OnboardingEducationWhereInput
+    none?: OnboardingEducationWhereInput
+  }
+
+  export type OnboardingDocumentListRelationFilter = {
+    every?: OnboardingDocumentWhereInput
+    some?: OnboardingDocumentWhereInput
+    none?: OnboardingDocumentWhereInput
+  }
+
+  export type OnboardingEmergencyContactOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OnboardingExperienceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OnboardingEducationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OnboardingDocumentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -36379,69 +40935,225 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     status?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
+    fullName?: SortOrder
     fatherName?: SortOrder
+    motherName?: SortOrder
+    guardianName?: SortOrder
     dateOfBirth?: SortOrder
-    currAddress?: SortOrder
-    permAddress?: SortOrder
+    gender?: SortOrder
+    maritalStatus?: SortOrder
+    bloodGroup?: SortOrder
+    nationality?: SortOrder
+    profilePhoto?: SortOrder
+    personalMobile?: SortOrder
+    officialMobile?: SortOrder
+    personalEmail?: SortOrder
+    officialEmail?: SortOrder
+    currentAddress?: SortOrder
+    permanentAddress?: SortOrder
+    sameAsCurrentAddress?: SortOrder
+    department?: SortOrder
+    designation?: SortOrder
+    employmentType?: SortOrder
+    dateOfJoining?: SortOrder
+    workLocation?: SortOrder
+    reportingManagerId?: SortOrder
+    shift?: SortOrder
+    workingHours?: SortOrder
+    probationPeriodMonths?: SortOrder
+    noticePeriodDays?: SortOrder
+    totalYearsExperience?: SortOrder
     aadhaarNumber?: SortOrder
     panNumber?: SortOrder
-    aadhaarUrl?: SortOrder
-    panUrl?: SortOrder
-    passbookUrl?: SortOrder
-    offerLetterUrl?: SortOrder
-    documents?: SortOrder
-    educationDocumentsUrl?: SortOrder
-    experienceDocumentsUrl?: SortOrder
-    bankDetails?: SortOrder
+    passportNumber?: SortOrder
+    uanNumber?: SortOrder
+    esicNumber?: SortOrder
+    drivingLicense?: SortOrder
+    accountHolderName?: SortOrder
+    bankName?: SortOrder
+    accountNumber?: SortOrder
+    ifscCode?: SortOrder
+    branchName?: SortOrder
+    salaryPaymentMode?: SortOrder
+    medicalConditions?: SortOrder
+    allergies?: SortOrder
+    disabilityStatus?: SortOrder
+    disabilityDetails?: SortOrder
+    companyEmailCreated?: SortOrder
+    hrmsAccessEnabled?: SortOrder
+    roleAndPermissions?: SortOrder
+    deviceIssued?: SortOrder
+    assetId?: SortOrder
+    companyPolicyAccepted?: SortOrder
+    ndaAccepted?: SortOrder
+    codeOfConductAccepted?: SortOrder
+    digitalConsentSignature?: SortOrder
+    acceptanceTimestamp?: SortOrder
+    acceptanceIp?: SortOrder
     submittedAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OnboardingAvgOrderByAggregateInput = {
+    probationPeriodMonths?: SortOrder
+    noticePeriodDays?: SortOrder
+    totalYearsExperience?: SortOrder
   }
 
   export type OnboardingMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     status?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
+    fullName?: SortOrder
     fatherName?: SortOrder
+    motherName?: SortOrder
+    guardianName?: SortOrder
     dateOfBirth?: SortOrder
-    currAddress?: SortOrder
-    permAddress?: SortOrder
+    gender?: SortOrder
+    maritalStatus?: SortOrder
+    bloodGroup?: SortOrder
+    nationality?: SortOrder
+    profilePhoto?: SortOrder
+    personalMobile?: SortOrder
+    officialMobile?: SortOrder
+    personalEmail?: SortOrder
+    officialEmail?: SortOrder
+    currentAddress?: SortOrder
+    permanentAddress?: SortOrder
+    sameAsCurrentAddress?: SortOrder
+    department?: SortOrder
+    designation?: SortOrder
+    employmentType?: SortOrder
+    dateOfJoining?: SortOrder
+    workLocation?: SortOrder
+    reportingManagerId?: SortOrder
+    shift?: SortOrder
+    workingHours?: SortOrder
+    probationPeriodMonths?: SortOrder
+    noticePeriodDays?: SortOrder
+    totalYearsExperience?: SortOrder
     aadhaarNumber?: SortOrder
     panNumber?: SortOrder
-    aadhaarUrl?: SortOrder
-    panUrl?: SortOrder
-    passbookUrl?: SortOrder
-    offerLetterUrl?: SortOrder
-    documents?: SortOrder
-    educationDocumentsUrl?: SortOrder
-    experienceDocumentsUrl?: SortOrder
-    bankDetails?: SortOrder
+    passportNumber?: SortOrder
+    uanNumber?: SortOrder
+    esicNumber?: SortOrder
+    drivingLicense?: SortOrder
+    accountHolderName?: SortOrder
+    bankName?: SortOrder
+    accountNumber?: SortOrder
+    ifscCode?: SortOrder
+    branchName?: SortOrder
+    salaryPaymentMode?: SortOrder
+    medicalConditions?: SortOrder
+    allergies?: SortOrder
+    disabilityStatus?: SortOrder
+    disabilityDetails?: SortOrder
+    companyEmailCreated?: SortOrder
+    hrmsAccessEnabled?: SortOrder
+    roleAndPermissions?: SortOrder
+    deviceIssued?: SortOrder
+    assetId?: SortOrder
+    companyPolicyAccepted?: SortOrder
+    ndaAccepted?: SortOrder
+    codeOfConductAccepted?: SortOrder
+    digitalConsentSignature?: SortOrder
+    acceptanceTimestamp?: SortOrder
+    acceptanceIp?: SortOrder
     submittedAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type OnboardingMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     status?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
+    fullName?: SortOrder
     fatherName?: SortOrder
+    motherName?: SortOrder
+    guardianName?: SortOrder
     dateOfBirth?: SortOrder
-    currAddress?: SortOrder
-    permAddress?: SortOrder
+    gender?: SortOrder
+    maritalStatus?: SortOrder
+    bloodGroup?: SortOrder
+    nationality?: SortOrder
+    profilePhoto?: SortOrder
+    personalMobile?: SortOrder
+    officialMobile?: SortOrder
+    personalEmail?: SortOrder
+    officialEmail?: SortOrder
+    currentAddress?: SortOrder
+    permanentAddress?: SortOrder
+    sameAsCurrentAddress?: SortOrder
+    department?: SortOrder
+    designation?: SortOrder
+    employmentType?: SortOrder
+    dateOfJoining?: SortOrder
+    workLocation?: SortOrder
+    reportingManagerId?: SortOrder
+    shift?: SortOrder
+    workingHours?: SortOrder
+    probationPeriodMonths?: SortOrder
+    noticePeriodDays?: SortOrder
+    totalYearsExperience?: SortOrder
     aadhaarNumber?: SortOrder
     panNumber?: SortOrder
-    aadhaarUrl?: SortOrder
-    panUrl?: SortOrder
-    passbookUrl?: SortOrder
-    offerLetterUrl?: SortOrder
-    documents?: SortOrder
-    educationDocumentsUrl?: SortOrder
-    experienceDocumentsUrl?: SortOrder
-    bankDetails?: SortOrder
+    passportNumber?: SortOrder
+    uanNumber?: SortOrder
+    esicNumber?: SortOrder
+    drivingLicense?: SortOrder
+    accountHolderName?: SortOrder
+    bankName?: SortOrder
+    accountNumber?: SortOrder
+    ifscCode?: SortOrder
+    branchName?: SortOrder
+    salaryPaymentMode?: SortOrder
+    medicalConditions?: SortOrder
+    allergies?: SortOrder
+    disabilityStatus?: SortOrder
+    disabilityDetails?: SortOrder
+    companyEmailCreated?: SortOrder
+    hrmsAccessEnabled?: SortOrder
+    roleAndPermissions?: SortOrder
+    deviceIssued?: SortOrder
+    assetId?: SortOrder
+    companyPolicyAccepted?: SortOrder
+    ndaAccepted?: SortOrder
+    codeOfConductAccepted?: SortOrder
+    digitalConsentSignature?: SortOrder
+    acceptanceTimestamp?: SortOrder
+    acceptanceIp?: SortOrder
     submittedAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OnboardingSumOrderByAggregateInput = {
+    probationPeriodMonths?: SortOrder
+    noticePeriodDays?: SortOrder
+    totalYearsExperience?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type OnboardingRelationFilter = {
@@ -36449,28 +41161,126 @@ export namespace Prisma {
     isNot?: OnboardingWhereInput
   }
 
-  export type OnboardingTaskCountOrderByAggregateInput = {
+  export type OnboardingEmergencyContactCountOrderByAggregateInput = {
     id?: SortOrder
     onboardingId?: SortOrder
-    title?: SortOrder
-    status?: SortOrder
-    completedAt?: SortOrder
+    name?: SortOrder
+    relationship?: SortOrder
+    mobile?: SortOrder
+    alternateMobile?: SortOrder
   }
 
-  export type OnboardingTaskMaxOrderByAggregateInput = {
+  export type OnboardingEmergencyContactMaxOrderByAggregateInput = {
     id?: SortOrder
     onboardingId?: SortOrder
-    title?: SortOrder
-    status?: SortOrder
-    completedAt?: SortOrder
+    name?: SortOrder
+    relationship?: SortOrder
+    mobile?: SortOrder
+    alternateMobile?: SortOrder
   }
 
-  export type OnboardingTaskMinOrderByAggregateInput = {
+  export type OnboardingEmergencyContactMinOrderByAggregateInput = {
     id?: SortOrder
     onboardingId?: SortOrder
-    title?: SortOrder
+    name?: SortOrder
+    relationship?: SortOrder
+    mobile?: SortOrder
+    alternateMobile?: SortOrder
+  }
+
+  export type OnboardingExperienceCountOrderByAggregateInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    companyName?: SortOrder
+    designation?: SortOrder
+    employmentType?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    isCurrent?: SortOrder
+    reasonForLeaving?: SortOrder
+  }
+
+  export type OnboardingExperienceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    companyName?: SortOrder
+    designation?: SortOrder
+    employmentType?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    isCurrent?: SortOrder
+    reasonForLeaving?: SortOrder
+  }
+
+  export type OnboardingExperienceMinOrderByAggregateInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    companyName?: SortOrder
+    designation?: SortOrder
+    employmentType?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    isCurrent?: SortOrder
+    reasonForLeaving?: SortOrder
+  }
+
+  export type OnboardingEducationCountOrderByAggregateInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    institutionName?: SortOrder
+    degreeOrCourse?: SortOrder
+    highestQualification?: SortOrder
+    yearOfPassing?: SortOrder
+  }
+
+  export type OnboardingEducationAvgOrderByAggregateInput = {
+    yearOfPassing?: SortOrder
+  }
+
+  export type OnboardingEducationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    institutionName?: SortOrder
+    degreeOrCourse?: SortOrder
+    highestQualification?: SortOrder
+    yearOfPassing?: SortOrder
+  }
+
+  export type OnboardingEducationMinOrderByAggregateInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    institutionName?: SortOrder
+    degreeOrCourse?: SortOrder
+    highestQualification?: SortOrder
+    yearOfPassing?: SortOrder
+  }
+
+  export type OnboardingEducationSumOrderByAggregateInput = {
+    yearOfPassing?: SortOrder
+  }
+
+  export type OnboardingDocumentCountOrderByAggregateInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
     status?: SortOrder
-    completedAt?: SortOrder
+  }
+
+  export type OnboardingDocumentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    status?: SortOrder
+  }
+
+  export type OnboardingDocumentMinOrderByAggregateInput = {
+    id?: SortOrder
+    onboardingId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    status?: SortOrder
   }
 
   export type ExitInterviewNullableRelationFilter = {
@@ -38074,22 +42884,122 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLeaveRequestsInput, UserUpdateWithoutLeaveRequestsInput>, UserUncheckedUpdateWithoutLeaveRequestsInput>
   }
 
+  export type OnboardingEmergencyContactCreateNestedManyWithoutOnboardingInput = {
+    create?: XOR<OnboardingEmergencyContactCreateWithoutOnboardingInput, OnboardingEmergencyContactUncheckedCreateWithoutOnboardingInput> | OnboardingEmergencyContactCreateWithoutOnboardingInput[] | OnboardingEmergencyContactUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingEmergencyContactCreateOrConnectWithoutOnboardingInput | OnboardingEmergencyContactCreateOrConnectWithoutOnboardingInput[]
+    connect?: OnboardingEmergencyContactWhereUniqueInput | OnboardingEmergencyContactWhereUniqueInput[]
+  }
+
+  export type OnboardingExperienceCreateNestedManyWithoutOnboardingInput = {
+    create?: XOR<OnboardingExperienceCreateWithoutOnboardingInput, OnboardingExperienceUncheckedCreateWithoutOnboardingInput> | OnboardingExperienceCreateWithoutOnboardingInput[] | OnboardingExperienceUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingExperienceCreateOrConnectWithoutOnboardingInput | OnboardingExperienceCreateOrConnectWithoutOnboardingInput[]
+    connect?: OnboardingExperienceWhereUniqueInput | OnboardingExperienceWhereUniqueInput[]
+  }
+
+  export type OnboardingEducationCreateNestedManyWithoutOnboardingInput = {
+    create?: XOR<OnboardingEducationCreateWithoutOnboardingInput, OnboardingEducationUncheckedCreateWithoutOnboardingInput> | OnboardingEducationCreateWithoutOnboardingInput[] | OnboardingEducationUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingEducationCreateOrConnectWithoutOnboardingInput | OnboardingEducationCreateOrConnectWithoutOnboardingInput[]
+    connect?: OnboardingEducationWhereUniqueInput | OnboardingEducationWhereUniqueInput[]
+  }
+
+  export type OnboardingDocumentCreateNestedManyWithoutOnboardingInput = {
+    create?: XOR<OnboardingDocumentCreateWithoutOnboardingInput, OnboardingDocumentUncheckedCreateWithoutOnboardingInput> | OnboardingDocumentCreateWithoutOnboardingInput[] | OnboardingDocumentUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingDocumentCreateOrConnectWithoutOnboardingInput | OnboardingDocumentCreateOrConnectWithoutOnboardingInput[]
+    connect?: OnboardingDocumentWhereUniqueInput | OnboardingDocumentWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutOnboardingInput = {
     create?: XOR<UserCreateWithoutOnboardingInput, UserUncheckedCreateWithoutOnboardingInput>
     connectOrCreate?: UserCreateOrConnectWithoutOnboardingInput
     connect?: UserWhereUniqueInput
   }
 
-  export type OnboardingTaskCreateNestedManyWithoutOnboardingInput = {
-    create?: XOR<OnboardingTaskCreateWithoutOnboardingInput, OnboardingTaskUncheckedCreateWithoutOnboardingInput> | OnboardingTaskCreateWithoutOnboardingInput[] | OnboardingTaskUncheckedCreateWithoutOnboardingInput[]
-    connectOrCreate?: OnboardingTaskCreateOrConnectWithoutOnboardingInput | OnboardingTaskCreateOrConnectWithoutOnboardingInput[]
-    connect?: OnboardingTaskWhereUniqueInput | OnboardingTaskWhereUniqueInput[]
+  export type OnboardingEmergencyContactUncheckedCreateNestedManyWithoutOnboardingInput = {
+    create?: XOR<OnboardingEmergencyContactCreateWithoutOnboardingInput, OnboardingEmergencyContactUncheckedCreateWithoutOnboardingInput> | OnboardingEmergencyContactCreateWithoutOnboardingInput[] | OnboardingEmergencyContactUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingEmergencyContactCreateOrConnectWithoutOnboardingInput | OnboardingEmergencyContactCreateOrConnectWithoutOnboardingInput[]
+    connect?: OnboardingEmergencyContactWhereUniqueInput | OnboardingEmergencyContactWhereUniqueInput[]
   }
 
-  export type OnboardingTaskUncheckedCreateNestedManyWithoutOnboardingInput = {
-    create?: XOR<OnboardingTaskCreateWithoutOnboardingInput, OnboardingTaskUncheckedCreateWithoutOnboardingInput> | OnboardingTaskCreateWithoutOnboardingInput[] | OnboardingTaskUncheckedCreateWithoutOnboardingInput[]
-    connectOrCreate?: OnboardingTaskCreateOrConnectWithoutOnboardingInput | OnboardingTaskCreateOrConnectWithoutOnboardingInput[]
-    connect?: OnboardingTaskWhereUniqueInput | OnboardingTaskWhereUniqueInput[]
+  export type OnboardingExperienceUncheckedCreateNestedManyWithoutOnboardingInput = {
+    create?: XOR<OnboardingExperienceCreateWithoutOnboardingInput, OnboardingExperienceUncheckedCreateWithoutOnboardingInput> | OnboardingExperienceCreateWithoutOnboardingInput[] | OnboardingExperienceUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingExperienceCreateOrConnectWithoutOnboardingInput | OnboardingExperienceCreateOrConnectWithoutOnboardingInput[]
+    connect?: OnboardingExperienceWhereUniqueInput | OnboardingExperienceWhereUniqueInput[]
+  }
+
+  export type OnboardingEducationUncheckedCreateNestedManyWithoutOnboardingInput = {
+    create?: XOR<OnboardingEducationCreateWithoutOnboardingInput, OnboardingEducationUncheckedCreateWithoutOnboardingInput> | OnboardingEducationCreateWithoutOnboardingInput[] | OnboardingEducationUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingEducationCreateOrConnectWithoutOnboardingInput | OnboardingEducationCreateOrConnectWithoutOnboardingInput[]
+    connect?: OnboardingEducationWhereUniqueInput | OnboardingEducationWhereUniqueInput[]
+  }
+
+  export type OnboardingDocumentUncheckedCreateNestedManyWithoutOnboardingInput = {
+    create?: XOR<OnboardingDocumentCreateWithoutOnboardingInput, OnboardingDocumentUncheckedCreateWithoutOnboardingInput> | OnboardingDocumentCreateWithoutOnboardingInput[] | OnboardingDocumentUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingDocumentCreateOrConnectWithoutOnboardingInput | OnboardingDocumentCreateOrConnectWithoutOnboardingInput[]
+    connect?: OnboardingDocumentWhereUniqueInput | OnboardingDocumentWhereUniqueInput[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+  }
+
+  export type OnboardingEmergencyContactUpdateManyWithoutOnboardingNestedInput = {
+    create?: XOR<OnboardingEmergencyContactCreateWithoutOnboardingInput, OnboardingEmergencyContactUncheckedCreateWithoutOnboardingInput> | OnboardingEmergencyContactCreateWithoutOnboardingInput[] | OnboardingEmergencyContactUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingEmergencyContactCreateOrConnectWithoutOnboardingInput | OnboardingEmergencyContactCreateOrConnectWithoutOnboardingInput[]
+    upsert?: OnboardingEmergencyContactUpsertWithWhereUniqueWithoutOnboardingInput | OnboardingEmergencyContactUpsertWithWhereUniqueWithoutOnboardingInput[]
+    set?: OnboardingEmergencyContactWhereUniqueInput | OnboardingEmergencyContactWhereUniqueInput[]
+    disconnect?: OnboardingEmergencyContactWhereUniqueInput | OnboardingEmergencyContactWhereUniqueInput[]
+    delete?: OnboardingEmergencyContactWhereUniqueInput | OnboardingEmergencyContactWhereUniqueInput[]
+    connect?: OnboardingEmergencyContactWhereUniqueInput | OnboardingEmergencyContactWhereUniqueInput[]
+    update?: OnboardingEmergencyContactUpdateWithWhereUniqueWithoutOnboardingInput | OnboardingEmergencyContactUpdateWithWhereUniqueWithoutOnboardingInput[]
+    updateMany?: OnboardingEmergencyContactUpdateManyWithWhereWithoutOnboardingInput | OnboardingEmergencyContactUpdateManyWithWhereWithoutOnboardingInput[]
+    deleteMany?: OnboardingEmergencyContactScalarWhereInput | OnboardingEmergencyContactScalarWhereInput[]
+  }
+
+  export type OnboardingExperienceUpdateManyWithoutOnboardingNestedInput = {
+    create?: XOR<OnboardingExperienceCreateWithoutOnboardingInput, OnboardingExperienceUncheckedCreateWithoutOnboardingInput> | OnboardingExperienceCreateWithoutOnboardingInput[] | OnboardingExperienceUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingExperienceCreateOrConnectWithoutOnboardingInput | OnboardingExperienceCreateOrConnectWithoutOnboardingInput[]
+    upsert?: OnboardingExperienceUpsertWithWhereUniqueWithoutOnboardingInput | OnboardingExperienceUpsertWithWhereUniqueWithoutOnboardingInput[]
+    set?: OnboardingExperienceWhereUniqueInput | OnboardingExperienceWhereUniqueInput[]
+    disconnect?: OnboardingExperienceWhereUniqueInput | OnboardingExperienceWhereUniqueInput[]
+    delete?: OnboardingExperienceWhereUniqueInput | OnboardingExperienceWhereUniqueInput[]
+    connect?: OnboardingExperienceWhereUniqueInput | OnboardingExperienceWhereUniqueInput[]
+    update?: OnboardingExperienceUpdateWithWhereUniqueWithoutOnboardingInput | OnboardingExperienceUpdateWithWhereUniqueWithoutOnboardingInput[]
+    updateMany?: OnboardingExperienceUpdateManyWithWhereWithoutOnboardingInput | OnboardingExperienceUpdateManyWithWhereWithoutOnboardingInput[]
+    deleteMany?: OnboardingExperienceScalarWhereInput | OnboardingExperienceScalarWhereInput[]
+  }
+
+  export type OnboardingEducationUpdateManyWithoutOnboardingNestedInput = {
+    create?: XOR<OnboardingEducationCreateWithoutOnboardingInput, OnboardingEducationUncheckedCreateWithoutOnboardingInput> | OnboardingEducationCreateWithoutOnboardingInput[] | OnboardingEducationUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingEducationCreateOrConnectWithoutOnboardingInput | OnboardingEducationCreateOrConnectWithoutOnboardingInput[]
+    upsert?: OnboardingEducationUpsertWithWhereUniqueWithoutOnboardingInput | OnboardingEducationUpsertWithWhereUniqueWithoutOnboardingInput[]
+    set?: OnboardingEducationWhereUniqueInput | OnboardingEducationWhereUniqueInput[]
+    disconnect?: OnboardingEducationWhereUniqueInput | OnboardingEducationWhereUniqueInput[]
+    delete?: OnboardingEducationWhereUniqueInput | OnboardingEducationWhereUniqueInput[]
+    connect?: OnboardingEducationWhereUniqueInput | OnboardingEducationWhereUniqueInput[]
+    update?: OnboardingEducationUpdateWithWhereUniqueWithoutOnboardingInput | OnboardingEducationUpdateWithWhereUniqueWithoutOnboardingInput[]
+    updateMany?: OnboardingEducationUpdateManyWithWhereWithoutOnboardingInput | OnboardingEducationUpdateManyWithWhereWithoutOnboardingInput[]
+    deleteMany?: OnboardingEducationScalarWhereInput | OnboardingEducationScalarWhereInput[]
+  }
+
+  export type OnboardingDocumentUpdateManyWithoutOnboardingNestedInput = {
+    create?: XOR<OnboardingDocumentCreateWithoutOnboardingInput, OnboardingDocumentUncheckedCreateWithoutOnboardingInput> | OnboardingDocumentCreateWithoutOnboardingInput[] | OnboardingDocumentUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingDocumentCreateOrConnectWithoutOnboardingInput | OnboardingDocumentCreateOrConnectWithoutOnboardingInput[]
+    upsert?: OnboardingDocumentUpsertWithWhereUniqueWithoutOnboardingInput | OnboardingDocumentUpsertWithWhereUniqueWithoutOnboardingInput[]
+    set?: OnboardingDocumentWhereUniqueInput | OnboardingDocumentWhereUniqueInput[]
+    disconnect?: OnboardingDocumentWhereUniqueInput | OnboardingDocumentWhereUniqueInput[]
+    delete?: OnboardingDocumentWhereUniqueInput | OnboardingDocumentWhereUniqueInput[]
+    connect?: OnboardingDocumentWhereUniqueInput | OnboardingDocumentWhereUniqueInput[]
+    update?: OnboardingDocumentUpdateWithWhereUniqueWithoutOnboardingInput | OnboardingDocumentUpdateWithWhereUniqueWithoutOnboardingInput[]
+    updateMany?: OnboardingDocumentUpdateManyWithWhereWithoutOnboardingInput | OnboardingDocumentUpdateManyWithWhereWithoutOnboardingInput[]
+    deleteMany?: OnboardingDocumentScalarWhereInput | OnboardingDocumentScalarWhereInput[]
   }
 
   export type UserUpdateOneRequiredWithoutOnboardingNestedInput = {
@@ -38100,44 +43010,112 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOnboardingInput, UserUpdateWithoutOnboardingInput>, UserUncheckedUpdateWithoutOnboardingInput>
   }
 
-  export type OnboardingTaskUpdateManyWithoutOnboardingNestedInput = {
-    create?: XOR<OnboardingTaskCreateWithoutOnboardingInput, OnboardingTaskUncheckedCreateWithoutOnboardingInput> | OnboardingTaskCreateWithoutOnboardingInput[] | OnboardingTaskUncheckedCreateWithoutOnboardingInput[]
-    connectOrCreate?: OnboardingTaskCreateOrConnectWithoutOnboardingInput | OnboardingTaskCreateOrConnectWithoutOnboardingInput[]
-    upsert?: OnboardingTaskUpsertWithWhereUniqueWithoutOnboardingInput | OnboardingTaskUpsertWithWhereUniqueWithoutOnboardingInput[]
-    set?: OnboardingTaskWhereUniqueInput | OnboardingTaskWhereUniqueInput[]
-    disconnect?: OnboardingTaskWhereUniqueInput | OnboardingTaskWhereUniqueInput[]
-    delete?: OnboardingTaskWhereUniqueInput | OnboardingTaskWhereUniqueInput[]
-    connect?: OnboardingTaskWhereUniqueInput | OnboardingTaskWhereUniqueInput[]
-    update?: OnboardingTaskUpdateWithWhereUniqueWithoutOnboardingInput | OnboardingTaskUpdateWithWhereUniqueWithoutOnboardingInput[]
-    updateMany?: OnboardingTaskUpdateManyWithWhereWithoutOnboardingInput | OnboardingTaskUpdateManyWithWhereWithoutOnboardingInput[]
-    deleteMany?: OnboardingTaskScalarWhereInput | OnboardingTaskScalarWhereInput[]
+  export type OnboardingEmergencyContactUncheckedUpdateManyWithoutOnboardingNestedInput = {
+    create?: XOR<OnboardingEmergencyContactCreateWithoutOnboardingInput, OnboardingEmergencyContactUncheckedCreateWithoutOnboardingInput> | OnboardingEmergencyContactCreateWithoutOnboardingInput[] | OnboardingEmergencyContactUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingEmergencyContactCreateOrConnectWithoutOnboardingInput | OnboardingEmergencyContactCreateOrConnectWithoutOnboardingInput[]
+    upsert?: OnboardingEmergencyContactUpsertWithWhereUniqueWithoutOnboardingInput | OnboardingEmergencyContactUpsertWithWhereUniqueWithoutOnboardingInput[]
+    set?: OnboardingEmergencyContactWhereUniqueInput | OnboardingEmergencyContactWhereUniqueInput[]
+    disconnect?: OnboardingEmergencyContactWhereUniqueInput | OnboardingEmergencyContactWhereUniqueInput[]
+    delete?: OnboardingEmergencyContactWhereUniqueInput | OnboardingEmergencyContactWhereUniqueInput[]
+    connect?: OnboardingEmergencyContactWhereUniqueInput | OnboardingEmergencyContactWhereUniqueInput[]
+    update?: OnboardingEmergencyContactUpdateWithWhereUniqueWithoutOnboardingInput | OnboardingEmergencyContactUpdateWithWhereUniqueWithoutOnboardingInput[]
+    updateMany?: OnboardingEmergencyContactUpdateManyWithWhereWithoutOnboardingInput | OnboardingEmergencyContactUpdateManyWithWhereWithoutOnboardingInput[]
+    deleteMany?: OnboardingEmergencyContactScalarWhereInput | OnboardingEmergencyContactScalarWhereInput[]
   }
 
-  export type OnboardingTaskUncheckedUpdateManyWithoutOnboardingNestedInput = {
-    create?: XOR<OnboardingTaskCreateWithoutOnboardingInput, OnboardingTaskUncheckedCreateWithoutOnboardingInput> | OnboardingTaskCreateWithoutOnboardingInput[] | OnboardingTaskUncheckedCreateWithoutOnboardingInput[]
-    connectOrCreate?: OnboardingTaskCreateOrConnectWithoutOnboardingInput | OnboardingTaskCreateOrConnectWithoutOnboardingInput[]
-    upsert?: OnboardingTaskUpsertWithWhereUniqueWithoutOnboardingInput | OnboardingTaskUpsertWithWhereUniqueWithoutOnboardingInput[]
-    set?: OnboardingTaskWhereUniqueInput | OnboardingTaskWhereUniqueInput[]
-    disconnect?: OnboardingTaskWhereUniqueInput | OnboardingTaskWhereUniqueInput[]
-    delete?: OnboardingTaskWhereUniqueInput | OnboardingTaskWhereUniqueInput[]
-    connect?: OnboardingTaskWhereUniqueInput | OnboardingTaskWhereUniqueInput[]
-    update?: OnboardingTaskUpdateWithWhereUniqueWithoutOnboardingInput | OnboardingTaskUpdateWithWhereUniqueWithoutOnboardingInput[]
-    updateMany?: OnboardingTaskUpdateManyWithWhereWithoutOnboardingInput | OnboardingTaskUpdateManyWithWhereWithoutOnboardingInput[]
-    deleteMany?: OnboardingTaskScalarWhereInput | OnboardingTaskScalarWhereInput[]
+  export type OnboardingExperienceUncheckedUpdateManyWithoutOnboardingNestedInput = {
+    create?: XOR<OnboardingExperienceCreateWithoutOnboardingInput, OnboardingExperienceUncheckedCreateWithoutOnboardingInput> | OnboardingExperienceCreateWithoutOnboardingInput[] | OnboardingExperienceUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingExperienceCreateOrConnectWithoutOnboardingInput | OnboardingExperienceCreateOrConnectWithoutOnboardingInput[]
+    upsert?: OnboardingExperienceUpsertWithWhereUniqueWithoutOnboardingInput | OnboardingExperienceUpsertWithWhereUniqueWithoutOnboardingInput[]
+    set?: OnboardingExperienceWhereUniqueInput | OnboardingExperienceWhereUniqueInput[]
+    disconnect?: OnboardingExperienceWhereUniqueInput | OnboardingExperienceWhereUniqueInput[]
+    delete?: OnboardingExperienceWhereUniqueInput | OnboardingExperienceWhereUniqueInput[]
+    connect?: OnboardingExperienceWhereUniqueInput | OnboardingExperienceWhereUniqueInput[]
+    update?: OnboardingExperienceUpdateWithWhereUniqueWithoutOnboardingInput | OnboardingExperienceUpdateWithWhereUniqueWithoutOnboardingInput[]
+    updateMany?: OnboardingExperienceUpdateManyWithWhereWithoutOnboardingInput | OnboardingExperienceUpdateManyWithWhereWithoutOnboardingInput[]
+    deleteMany?: OnboardingExperienceScalarWhereInput | OnboardingExperienceScalarWhereInput[]
   }
 
-  export type OnboardingCreateNestedOneWithoutTasksInput = {
-    create?: XOR<OnboardingCreateWithoutTasksInput, OnboardingUncheckedCreateWithoutTasksInput>
-    connectOrCreate?: OnboardingCreateOrConnectWithoutTasksInput
+  export type OnboardingEducationUncheckedUpdateManyWithoutOnboardingNestedInput = {
+    create?: XOR<OnboardingEducationCreateWithoutOnboardingInput, OnboardingEducationUncheckedCreateWithoutOnboardingInput> | OnboardingEducationCreateWithoutOnboardingInput[] | OnboardingEducationUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingEducationCreateOrConnectWithoutOnboardingInput | OnboardingEducationCreateOrConnectWithoutOnboardingInput[]
+    upsert?: OnboardingEducationUpsertWithWhereUniqueWithoutOnboardingInput | OnboardingEducationUpsertWithWhereUniqueWithoutOnboardingInput[]
+    set?: OnboardingEducationWhereUniqueInput | OnboardingEducationWhereUniqueInput[]
+    disconnect?: OnboardingEducationWhereUniqueInput | OnboardingEducationWhereUniqueInput[]
+    delete?: OnboardingEducationWhereUniqueInput | OnboardingEducationWhereUniqueInput[]
+    connect?: OnboardingEducationWhereUniqueInput | OnboardingEducationWhereUniqueInput[]
+    update?: OnboardingEducationUpdateWithWhereUniqueWithoutOnboardingInput | OnboardingEducationUpdateWithWhereUniqueWithoutOnboardingInput[]
+    updateMany?: OnboardingEducationUpdateManyWithWhereWithoutOnboardingInput | OnboardingEducationUpdateManyWithWhereWithoutOnboardingInput[]
+    deleteMany?: OnboardingEducationScalarWhereInput | OnboardingEducationScalarWhereInput[]
+  }
+
+  export type OnboardingDocumentUncheckedUpdateManyWithoutOnboardingNestedInput = {
+    create?: XOR<OnboardingDocumentCreateWithoutOnboardingInput, OnboardingDocumentUncheckedCreateWithoutOnboardingInput> | OnboardingDocumentCreateWithoutOnboardingInput[] | OnboardingDocumentUncheckedCreateWithoutOnboardingInput[]
+    connectOrCreate?: OnboardingDocumentCreateOrConnectWithoutOnboardingInput | OnboardingDocumentCreateOrConnectWithoutOnboardingInput[]
+    upsert?: OnboardingDocumentUpsertWithWhereUniqueWithoutOnboardingInput | OnboardingDocumentUpsertWithWhereUniqueWithoutOnboardingInput[]
+    set?: OnboardingDocumentWhereUniqueInput | OnboardingDocumentWhereUniqueInput[]
+    disconnect?: OnboardingDocumentWhereUniqueInput | OnboardingDocumentWhereUniqueInput[]
+    delete?: OnboardingDocumentWhereUniqueInput | OnboardingDocumentWhereUniqueInput[]
+    connect?: OnboardingDocumentWhereUniqueInput | OnboardingDocumentWhereUniqueInput[]
+    update?: OnboardingDocumentUpdateWithWhereUniqueWithoutOnboardingInput | OnboardingDocumentUpdateWithWhereUniqueWithoutOnboardingInput[]
+    updateMany?: OnboardingDocumentUpdateManyWithWhereWithoutOnboardingInput | OnboardingDocumentUpdateManyWithWhereWithoutOnboardingInput[]
+    deleteMany?: OnboardingDocumentScalarWhereInput | OnboardingDocumentScalarWhereInput[]
+  }
+
+  export type OnboardingCreateNestedOneWithoutEmergencyContactsInput = {
+    create?: XOR<OnboardingCreateWithoutEmergencyContactsInput, OnboardingUncheckedCreateWithoutEmergencyContactsInput>
+    connectOrCreate?: OnboardingCreateOrConnectWithoutEmergencyContactsInput
     connect?: OnboardingWhereUniqueInput
   }
 
-  export type OnboardingUpdateOneRequiredWithoutTasksNestedInput = {
-    create?: XOR<OnboardingCreateWithoutTasksInput, OnboardingUncheckedCreateWithoutTasksInput>
-    connectOrCreate?: OnboardingCreateOrConnectWithoutTasksInput
-    upsert?: OnboardingUpsertWithoutTasksInput
+  export type OnboardingUpdateOneRequiredWithoutEmergencyContactsNestedInput = {
+    create?: XOR<OnboardingCreateWithoutEmergencyContactsInput, OnboardingUncheckedCreateWithoutEmergencyContactsInput>
+    connectOrCreate?: OnboardingCreateOrConnectWithoutEmergencyContactsInput
+    upsert?: OnboardingUpsertWithoutEmergencyContactsInput
     connect?: OnboardingWhereUniqueInput
-    update?: XOR<XOR<OnboardingUpdateToOneWithWhereWithoutTasksInput, OnboardingUpdateWithoutTasksInput>, OnboardingUncheckedUpdateWithoutTasksInput>
+    update?: XOR<XOR<OnboardingUpdateToOneWithWhereWithoutEmergencyContactsInput, OnboardingUpdateWithoutEmergencyContactsInput>, OnboardingUncheckedUpdateWithoutEmergencyContactsInput>
+  }
+
+  export type OnboardingCreateNestedOneWithoutExperiencesInput = {
+    create?: XOR<OnboardingCreateWithoutExperiencesInput, OnboardingUncheckedCreateWithoutExperiencesInput>
+    connectOrCreate?: OnboardingCreateOrConnectWithoutExperiencesInput
+    connect?: OnboardingWhereUniqueInput
+  }
+
+  export type OnboardingUpdateOneRequiredWithoutExperiencesNestedInput = {
+    create?: XOR<OnboardingCreateWithoutExperiencesInput, OnboardingUncheckedCreateWithoutExperiencesInput>
+    connectOrCreate?: OnboardingCreateOrConnectWithoutExperiencesInput
+    upsert?: OnboardingUpsertWithoutExperiencesInput
+    connect?: OnboardingWhereUniqueInput
+    update?: XOR<XOR<OnboardingUpdateToOneWithWhereWithoutExperiencesInput, OnboardingUpdateWithoutExperiencesInput>, OnboardingUncheckedUpdateWithoutExperiencesInput>
+  }
+
+  export type OnboardingCreateNestedOneWithoutEducationInput = {
+    create?: XOR<OnboardingCreateWithoutEducationInput, OnboardingUncheckedCreateWithoutEducationInput>
+    connectOrCreate?: OnboardingCreateOrConnectWithoutEducationInput
+    connect?: OnboardingWhereUniqueInput
+  }
+
+  export type OnboardingUpdateOneRequiredWithoutEducationNestedInput = {
+    create?: XOR<OnboardingCreateWithoutEducationInput, OnboardingUncheckedCreateWithoutEducationInput>
+    connectOrCreate?: OnboardingCreateOrConnectWithoutEducationInput
+    upsert?: OnboardingUpsertWithoutEducationInput
+    connect?: OnboardingWhereUniqueInput
+    update?: XOR<XOR<OnboardingUpdateToOneWithWhereWithoutEducationInput, OnboardingUpdateWithoutEducationInput>, OnboardingUncheckedUpdateWithoutEducationInput>
+  }
+
+  export type OnboardingCreateNestedOneWithoutDocumentsInput = {
+    create?: XOR<OnboardingCreateWithoutDocumentsInput, OnboardingUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: OnboardingCreateOrConnectWithoutDocumentsInput
+    connect?: OnboardingWhereUniqueInput
+  }
+
+  export type OnboardingUpdateOneRequiredWithoutDocumentsNestedInput = {
+    create?: XOR<OnboardingCreateWithoutDocumentsInput, OnboardingUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: OnboardingCreateOrConnectWithoutDocumentsInput
+    upsert?: OnboardingUpsertWithoutDocumentsInput
+    connect?: OnboardingWhereUniqueInput
+    update?: XOR<XOR<OnboardingUpdateToOneWithWhereWithoutDocumentsInput, OnboardingUpdateWithoutDocumentsInput>, OnboardingUncheckedUpdateWithoutDocumentsInput>
   }
 
   export type ExitInterviewCreateNestedOneWithoutOffboardingInput = {
@@ -38741,6 +43719,35 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
   export type AssetCreateWithoutUserInput = {
     id?: string
     name: string
@@ -38963,47 +43970,133 @@ export namespace Prisma {
   export type OnboardingCreateWithoutUserInput = {
     id?: string
     status?: string
-    firstName?: string | null
-    lastName?: string | null
+    fullName?: string | null
     fatherName?: string | null
+    motherName?: string | null
+    guardianName?: string | null
     dateOfBirth?: Date | string | null
-    currAddress?: string | null
-    permAddress?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    bloodGroup?: string | null
+    nationality?: string | null
+    profilePhoto?: string | null
+    personalMobile?: string | null
+    officialMobile?: string | null
+    personalEmail?: string | null
+    officialEmail?: string | null
+    currentAddress?: string | null
+    permanentAddress?: string | null
+    sameAsCurrentAddress?: boolean
+    department?: string | null
+    designation?: string | null
+    employmentType?: string | null
+    dateOfJoining?: Date | string | null
+    workLocation?: string | null
+    reportingManagerId?: string | null
+    shift?: string | null
+    workingHours?: string | null
+    probationPeriodMonths?: number | null
+    noticePeriodDays?: number | null
+    totalYearsExperience?: number | null
     aadhaarNumber?: string | null
     panNumber?: string | null
-    aadhaarUrl?: string | null
-    panUrl?: string | null
-    passbookUrl?: string | null
-    offerLetterUrl?: string | null
-    documents?: string | null
-    educationDocumentsUrl?: string | null
-    experienceDocumentsUrl?: string | null
-    bankDetails?: string | null
-    submittedAt?: Date | string
-    tasks?: OnboardingTaskCreateNestedManyWithoutOnboardingInput
+    passportNumber?: string | null
+    uanNumber?: string | null
+    esicNumber?: string | null
+    drivingLicense?: string | null
+    accountHolderName?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    branchName?: string | null
+    salaryPaymentMode?: string | null
+    medicalConditions?: string | null
+    allergies?: string | null
+    disabilityStatus?: boolean | null
+    disabilityDetails?: string | null
+    companyEmailCreated?: boolean
+    hrmsAccessEnabled?: boolean
+    roleAndPermissions?: string | null
+    deviceIssued?: string | null
+    assetId?: string | null
+    companyPolicyAccepted?: boolean
+    ndaAccepted?: boolean
+    codeOfConductAccepted?: boolean
+    digitalConsentSignature?: string | null
+    acceptanceTimestamp?: Date | string | null
+    acceptanceIp?: string | null
+    submittedAt?: Date | string | null
+    updatedAt?: Date | string
+    emergencyContacts?: OnboardingEmergencyContactCreateNestedManyWithoutOnboardingInput
+    experiences?: OnboardingExperienceCreateNestedManyWithoutOnboardingInput
+    education?: OnboardingEducationCreateNestedManyWithoutOnboardingInput
+    documents?: OnboardingDocumentCreateNestedManyWithoutOnboardingInput
   }
 
   export type OnboardingUncheckedCreateWithoutUserInput = {
     id?: string
     status?: string
-    firstName?: string | null
-    lastName?: string | null
+    fullName?: string | null
     fatherName?: string | null
+    motherName?: string | null
+    guardianName?: string | null
     dateOfBirth?: Date | string | null
-    currAddress?: string | null
-    permAddress?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    bloodGroup?: string | null
+    nationality?: string | null
+    profilePhoto?: string | null
+    personalMobile?: string | null
+    officialMobile?: string | null
+    personalEmail?: string | null
+    officialEmail?: string | null
+    currentAddress?: string | null
+    permanentAddress?: string | null
+    sameAsCurrentAddress?: boolean
+    department?: string | null
+    designation?: string | null
+    employmentType?: string | null
+    dateOfJoining?: Date | string | null
+    workLocation?: string | null
+    reportingManagerId?: string | null
+    shift?: string | null
+    workingHours?: string | null
+    probationPeriodMonths?: number | null
+    noticePeriodDays?: number | null
+    totalYearsExperience?: number | null
     aadhaarNumber?: string | null
     panNumber?: string | null
-    aadhaarUrl?: string | null
-    panUrl?: string | null
-    passbookUrl?: string | null
-    offerLetterUrl?: string | null
-    documents?: string | null
-    educationDocumentsUrl?: string | null
-    experienceDocumentsUrl?: string | null
-    bankDetails?: string | null
-    submittedAt?: Date | string
-    tasks?: OnboardingTaskUncheckedCreateNestedManyWithoutOnboardingInput
+    passportNumber?: string | null
+    uanNumber?: string | null
+    esicNumber?: string | null
+    drivingLicense?: string | null
+    accountHolderName?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    branchName?: string | null
+    salaryPaymentMode?: string | null
+    medicalConditions?: string | null
+    allergies?: string | null
+    disabilityStatus?: boolean | null
+    disabilityDetails?: string | null
+    companyEmailCreated?: boolean
+    hrmsAccessEnabled?: boolean
+    roleAndPermissions?: string | null
+    deviceIssued?: string | null
+    assetId?: string | null
+    companyPolicyAccepted?: boolean
+    ndaAccepted?: boolean
+    codeOfConductAccepted?: boolean
+    digitalConsentSignature?: string | null
+    acceptanceTimestamp?: Date | string | null
+    acceptanceIp?: string | null
+    submittedAt?: Date | string | null
+    updatedAt?: Date | string
+    emergencyContacts?: OnboardingEmergencyContactUncheckedCreateNestedManyWithoutOnboardingInput
+    experiences?: OnboardingExperienceUncheckedCreateNestedManyWithoutOnboardingInput
+    education?: OnboardingEducationUncheckedCreateNestedManyWithoutOnboardingInput
+    documents?: OnboardingDocumentUncheckedCreateNestedManyWithoutOnboardingInput
   }
 
   export type OnboardingCreateOrConnectWithoutUserInput = {
@@ -39584,47 +44677,133 @@ export namespace Prisma {
   export type OnboardingUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
     fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    guardianName?: NullableStringFieldUpdateOperationsInput | string | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    permAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    officialEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    currentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsCurrentAddress?: BoolFieldUpdateOperationsInput | boolean
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    reportingManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shift?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
+    probationPeriodMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    totalYearsExperience?: NullableFloatFieldUpdateOperationsInput | number | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    aadhaarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    panUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    passbookUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    offerLetterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    documents?: NullableStringFieldUpdateOperationsInput | string | null
-    educationDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    experienceDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bankDetails?: NullableStringFieldUpdateOperationsInput | string | null
-    submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tasks?: OnboardingTaskUpdateManyWithoutOnboardingNestedInput
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    esicNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    drivingLicense?: NullableStringFieldUpdateOperationsInput | string | null
+    accountHolderName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    branchName?: NullableStringFieldUpdateOperationsInput | string | null
+    salaryPaymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    disabilityStatus?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    disabilityDetails?: NullableStringFieldUpdateOperationsInput | string | null
+    companyEmailCreated?: BoolFieldUpdateOperationsInput | boolean
+    hrmsAccessEnabled?: BoolFieldUpdateOperationsInput | boolean
+    roleAndPermissions?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceIssued?: NullableStringFieldUpdateOperationsInput | string | null
+    assetId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyPolicyAccepted?: BoolFieldUpdateOperationsInput | boolean
+    ndaAccepted?: BoolFieldUpdateOperationsInput | boolean
+    codeOfConductAccepted?: BoolFieldUpdateOperationsInput | boolean
+    digitalConsentSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceIp?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emergencyContacts?: OnboardingEmergencyContactUpdateManyWithoutOnboardingNestedInput
+    experiences?: OnboardingExperienceUpdateManyWithoutOnboardingNestedInput
+    education?: OnboardingEducationUpdateManyWithoutOnboardingNestedInput
+    documents?: OnboardingDocumentUpdateManyWithoutOnboardingNestedInput
   }
 
   export type OnboardingUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
     fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    guardianName?: NullableStringFieldUpdateOperationsInput | string | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    permAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    officialEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    currentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsCurrentAddress?: BoolFieldUpdateOperationsInput | boolean
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    reportingManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shift?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
+    probationPeriodMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    totalYearsExperience?: NullableFloatFieldUpdateOperationsInput | number | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    aadhaarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    panUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    passbookUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    offerLetterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    documents?: NullableStringFieldUpdateOperationsInput | string | null
-    educationDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    experienceDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bankDetails?: NullableStringFieldUpdateOperationsInput | string | null
-    submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tasks?: OnboardingTaskUncheckedUpdateManyWithoutOnboardingNestedInput
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    esicNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    drivingLicense?: NullableStringFieldUpdateOperationsInput | string | null
+    accountHolderName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    branchName?: NullableStringFieldUpdateOperationsInput | string | null
+    salaryPaymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    disabilityStatus?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    disabilityDetails?: NullableStringFieldUpdateOperationsInput | string | null
+    companyEmailCreated?: BoolFieldUpdateOperationsInput | boolean
+    hrmsAccessEnabled?: BoolFieldUpdateOperationsInput | boolean
+    roleAndPermissions?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceIssued?: NullableStringFieldUpdateOperationsInput | string | null
+    assetId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyPolicyAccepted?: BoolFieldUpdateOperationsInput | boolean
+    ndaAccepted?: BoolFieldUpdateOperationsInput | boolean
+    codeOfConductAccepted?: BoolFieldUpdateOperationsInput | boolean
+    digitalConsentSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceIp?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emergencyContacts?: OnboardingEmergencyContactUncheckedUpdateManyWithoutOnboardingNestedInput
+    experiences?: OnboardingExperienceUncheckedUpdateManyWithoutOnboardingNestedInput
+    education?: OnboardingEducationUncheckedUpdateManyWithoutOnboardingNestedInput
+    documents?: OnboardingDocumentUncheckedUpdateManyWithoutOnboardingNestedInput
   }
 
   export type PayslipUpsertWithWhereUniqueWithoutUserInput = {
@@ -41138,6 +46317,94 @@ export namespace Prisma {
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type OnboardingEmergencyContactCreateWithoutOnboardingInput = {
+    id?: string
+    name: string
+    relationship?: string | null
+    mobile: string
+    alternateMobile?: string | null
+  }
+
+  export type OnboardingEmergencyContactUncheckedCreateWithoutOnboardingInput = {
+    id?: string
+    name: string
+    relationship?: string | null
+    mobile: string
+    alternateMobile?: string | null
+  }
+
+  export type OnboardingEmergencyContactCreateOrConnectWithoutOnboardingInput = {
+    where: OnboardingEmergencyContactWhereUniqueInput
+    create: XOR<OnboardingEmergencyContactCreateWithoutOnboardingInput, OnboardingEmergencyContactUncheckedCreateWithoutOnboardingInput>
+  }
+
+  export type OnboardingExperienceCreateWithoutOnboardingInput = {
+    id?: string
+    companyName: string
+    designation?: string | null
+    employmentType?: string | null
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    isCurrent?: boolean
+    reasonForLeaving?: string | null
+  }
+
+  export type OnboardingExperienceUncheckedCreateWithoutOnboardingInput = {
+    id?: string
+    companyName: string
+    designation?: string | null
+    employmentType?: string | null
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    isCurrent?: boolean
+    reasonForLeaving?: string | null
+  }
+
+  export type OnboardingExperienceCreateOrConnectWithoutOnboardingInput = {
+    where: OnboardingExperienceWhereUniqueInput
+    create: XOR<OnboardingExperienceCreateWithoutOnboardingInput, OnboardingExperienceUncheckedCreateWithoutOnboardingInput>
+  }
+
+  export type OnboardingEducationCreateWithoutOnboardingInput = {
+    id?: string
+    institutionName: string
+    degreeOrCourse: string
+    highestQualification?: string | null
+    yearOfPassing?: number | null
+  }
+
+  export type OnboardingEducationUncheckedCreateWithoutOnboardingInput = {
+    id?: string
+    institutionName: string
+    degreeOrCourse: string
+    highestQualification?: string | null
+    yearOfPassing?: number | null
+  }
+
+  export type OnboardingEducationCreateOrConnectWithoutOnboardingInput = {
+    where: OnboardingEducationWhereUniqueInput
+    create: XOR<OnboardingEducationCreateWithoutOnboardingInput, OnboardingEducationUncheckedCreateWithoutOnboardingInput>
+  }
+
+  export type OnboardingDocumentCreateWithoutOnboardingInput = {
+    id?: string
+    type: string
+    url: string
+    status?: string
+  }
+
+  export type OnboardingDocumentUncheckedCreateWithoutOnboardingInput = {
+    id?: string
+    type: string
+    url: string
+    status?: string
+  }
+
+  export type OnboardingDocumentCreateOrConnectWithoutOnboardingInput = {
+    where: OnboardingDocumentWhereUniqueInput
+    create: XOR<OnboardingDocumentCreateWithoutOnboardingInput, OnboardingDocumentUncheckedCreateWithoutOnboardingInput>
+  }
+
   export type UserCreateWithoutOnboardingInput = {
     id?: string
     employeeId?: string | null
@@ -41197,23 +46464,118 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutOnboardingInput, UserUncheckedCreateWithoutOnboardingInput>
   }
 
-  export type OnboardingTaskCreateWithoutOnboardingInput = {
-    id?: string
-    title: string
-    status?: string
-    completedAt?: Date | string | null
+  export type OnboardingEmergencyContactUpsertWithWhereUniqueWithoutOnboardingInput = {
+    where: OnboardingEmergencyContactWhereUniqueInput
+    update: XOR<OnboardingEmergencyContactUpdateWithoutOnboardingInput, OnboardingEmergencyContactUncheckedUpdateWithoutOnboardingInput>
+    create: XOR<OnboardingEmergencyContactCreateWithoutOnboardingInput, OnboardingEmergencyContactUncheckedCreateWithoutOnboardingInput>
   }
 
-  export type OnboardingTaskUncheckedCreateWithoutOnboardingInput = {
-    id?: string
-    title: string
-    status?: string
-    completedAt?: Date | string | null
+  export type OnboardingEmergencyContactUpdateWithWhereUniqueWithoutOnboardingInput = {
+    where: OnboardingEmergencyContactWhereUniqueInput
+    data: XOR<OnboardingEmergencyContactUpdateWithoutOnboardingInput, OnboardingEmergencyContactUncheckedUpdateWithoutOnboardingInput>
   }
 
-  export type OnboardingTaskCreateOrConnectWithoutOnboardingInput = {
-    where: OnboardingTaskWhereUniqueInput
-    create: XOR<OnboardingTaskCreateWithoutOnboardingInput, OnboardingTaskUncheckedCreateWithoutOnboardingInput>
+  export type OnboardingEmergencyContactUpdateManyWithWhereWithoutOnboardingInput = {
+    where: OnboardingEmergencyContactScalarWhereInput
+    data: XOR<OnboardingEmergencyContactUpdateManyMutationInput, OnboardingEmergencyContactUncheckedUpdateManyWithoutOnboardingInput>
+  }
+
+  export type OnboardingEmergencyContactScalarWhereInput = {
+    AND?: OnboardingEmergencyContactScalarWhereInput | OnboardingEmergencyContactScalarWhereInput[]
+    OR?: OnboardingEmergencyContactScalarWhereInput[]
+    NOT?: OnboardingEmergencyContactScalarWhereInput | OnboardingEmergencyContactScalarWhereInput[]
+    id?: StringFilter<"OnboardingEmergencyContact"> | string
+    onboardingId?: StringFilter<"OnboardingEmergencyContact"> | string
+    name?: StringFilter<"OnboardingEmergencyContact"> | string
+    relationship?: StringNullableFilter<"OnboardingEmergencyContact"> | string | null
+    mobile?: StringFilter<"OnboardingEmergencyContact"> | string
+    alternateMobile?: StringNullableFilter<"OnboardingEmergencyContact"> | string | null
+  }
+
+  export type OnboardingExperienceUpsertWithWhereUniqueWithoutOnboardingInput = {
+    where: OnboardingExperienceWhereUniqueInput
+    update: XOR<OnboardingExperienceUpdateWithoutOnboardingInput, OnboardingExperienceUncheckedUpdateWithoutOnboardingInput>
+    create: XOR<OnboardingExperienceCreateWithoutOnboardingInput, OnboardingExperienceUncheckedCreateWithoutOnboardingInput>
+  }
+
+  export type OnboardingExperienceUpdateWithWhereUniqueWithoutOnboardingInput = {
+    where: OnboardingExperienceWhereUniqueInput
+    data: XOR<OnboardingExperienceUpdateWithoutOnboardingInput, OnboardingExperienceUncheckedUpdateWithoutOnboardingInput>
+  }
+
+  export type OnboardingExperienceUpdateManyWithWhereWithoutOnboardingInput = {
+    where: OnboardingExperienceScalarWhereInput
+    data: XOR<OnboardingExperienceUpdateManyMutationInput, OnboardingExperienceUncheckedUpdateManyWithoutOnboardingInput>
+  }
+
+  export type OnboardingExperienceScalarWhereInput = {
+    AND?: OnboardingExperienceScalarWhereInput | OnboardingExperienceScalarWhereInput[]
+    OR?: OnboardingExperienceScalarWhereInput[]
+    NOT?: OnboardingExperienceScalarWhereInput | OnboardingExperienceScalarWhereInput[]
+    id?: StringFilter<"OnboardingExperience"> | string
+    onboardingId?: StringFilter<"OnboardingExperience"> | string
+    companyName?: StringFilter<"OnboardingExperience"> | string
+    designation?: StringNullableFilter<"OnboardingExperience"> | string | null
+    employmentType?: StringNullableFilter<"OnboardingExperience"> | string | null
+    startDate?: DateTimeNullableFilter<"OnboardingExperience"> | Date | string | null
+    endDate?: DateTimeNullableFilter<"OnboardingExperience"> | Date | string | null
+    isCurrent?: BoolFilter<"OnboardingExperience"> | boolean
+    reasonForLeaving?: StringNullableFilter<"OnboardingExperience"> | string | null
+  }
+
+  export type OnboardingEducationUpsertWithWhereUniqueWithoutOnboardingInput = {
+    where: OnboardingEducationWhereUniqueInput
+    update: XOR<OnboardingEducationUpdateWithoutOnboardingInput, OnboardingEducationUncheckedUpdateWithoutOnboardingInput>
+    create: XOR<OnboardingEducationCreateWithoutOnboardingInput, OnboardingEducationUncheckedCreateWithoutOnboardingInput>
+  }
+
+  export type OnboardingEducationUpdateWithWhereUniqueWithoutOnboardingInput = {
+    where: OnboardingEducationWhereUniqueInput
+    data: XOR<OnboardingEducationUpdateWithoutOnboardingInput, OnboardingEducationUncheckedUpdateWithoutOnboardingInput>
+  }
+
+  export type OnboardingEducationUpdateManyWithWhereWithoutOnboardingInput = {
+    where: OnboardingEducationScalarWhereInput
+    data: XOR<OnboardingEducationUpdateManyMutationInput, OnboardingEducationUncheckedUpdateManyWithoutOnboardingInput>
+  }
+
+  export type OnboardingEducationScalarWhereInput = {
+    AND?: OnboardingEducationScalarWhereInput | OnboardingEducationScalarWhereInput[]
+    OR?: OnboardingEducationScalarWhereInput[]
+    NOT?: OnboardingEducationScalarWhereInput | OnboardingEducationScalarWhereInput[]
+    id?: StringFilter<"OnboardingEducation"> | string
+    onboardingId?: StringFilter<"OnboardingEducation"> | string
+    institutionName?: StringFilter<"OnboardingEducation"> | string
+    degreeOrCourse?: StringFilter<"OnboardingEducation"> | string
+    highestQualification?: StringNullableFilter<"OnboardingEducation"> | string | null
+    yearOfPassing?: IntNullableFilter<"OnboardingEducation"> | number | null
+  }
+
+  export type OnboardingDocumentUpsertWithWhereUniqueWithoutOnboardingInput = {
+    where: OnboardingDocumentWhereUniqueInput
+    update: XOR<OnboardingDocumentUpdateWithoutOnboardingInput, OnboardingDocumentUncheckedUpdateWithoutOnboardingInput>
+    create: XOR<OnboardingDocumentCreateWithoutOnboardingInput, OnboardingDocumentUncheckedCreateWithoutOnboardingInput>
+  }
+
+  export type OnboardingDocumentUpdateWithWhereUniqueWithoutOnboardingInput = {
+    where: OnboardingDocumentWhereUniqueInput
+    data: XOR<OnboardingDocumentUpdateWithoutOnboardingInput, OnboardingDocumentUncheckedUpdateWithoutOnboardingInput>
+  }
+
+  export type OnboardingDocumentUpdateManyWithWhereWithoutOnboardingInput = {
+    where: OnboardingDocumentScalarWhereInput
+    data: XOR<OnboardingDocumentUpdateManyMutationInput, OnboardingDocumentUncheckedUpdateManyWithoutOnboardingInput>
+  }
+
+  export type OnboardingDocumentScalarWhereInput = {
+    AND?: OnboardingDocumentScalarWhereInput | OnboardingDocumentScalarWhereInput[]
+    OR?: OnboardingDocumentScalarWhereInput[]
+    NOT?: OnboardingDocumentScalarWhereInput | OnboardingDocumentScalarWhereInput[]
+    id?: StringFilter<"OnboardingDocument"> | string
+    onboardingId?: StringFilter<"OnboardingDocument"> | string
+    type?: StringFilter<"OnboardingDocument"> | string
+    url?: StringFilter<"OnboardingDocument"> | string
+    status?: StringFilter<"OnboardingDocument"> | string
   }
 
   export type UserUpsertWithoutOnboardingInput = {
@@ -41281,139 +46643,1124 @@ export namespace Prisma {
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type OnboardingTaskUpsertWithWhereUniqueWithoutOnboardingInput = {
-    where: OnboardingTaskWhereUniqueInput
-    update: XOR<OnboardingTaskUpdateWithoutOnboardingInput, OnboardingTaskUncheckedUpdateWithoutOnboardingInput>
-    create: XOR<OnboardingTaskCreateWithoutOnboardingInput, OnboardingTaskUncheckedCreateWithoutOnboardingInput>
-  }
-
-  export type OnboardingTaskUpdateWithWhereUniqueWithoutOnboardingInput = {
-    where: OnboardingTaskWhereUniqueInput
-    data: XOR<OnboardingTaskUpdateWithoutOnboardingInput, OnboardingTaskUncheckedUpdateWithoutOnboardingInput>
-  }
-
-  export type OnboardingTaskUpdateManyWithWhereWithoutOnboardingInput = {
-    where: OnboardingTaskScalarWhereInput
-    data: XOR<OnboardingTaskUpdateManyMutationInput, OnboardingTaskUncheckedUpdateManyWithoutOnboardingInput>
-  }
-
-  export type OnboardingTaskScalarWhereInput = {
-    AND?: OnboardingTaskScalarWhereInput | OnboardingTaskScalarWhereInput[]
-    OR?: OnboardingTaskScalarWhereInput[]
-    NOT?: OnboardingTaskScalarWhereInput | OnboardingTaskScalarWhereInput[]
-    id?: StringFilter<"OnboardingTask"> | string
-    onboardingId?: StringFilter<"OnboardingTask"> | string
-    title?: StringFilter<"OnboardingTask"> | string
-    status?: StringFilter<"OnboardingTask"> | string
-    completedAt?: DateTimeNullableFilter<"OnboardingTask"> | Date | string | null
-  }
-
-  export type OnboardingCreateWithoutTasksInput = {
+  export type OnboardingCreateWithoutEmergencyContactsInput = {
     id?: string
     status?: string
-    firstName?: string | null
-    lastName?: string | null
+    fullName?: string | null
     fatherName?: string | null
+    motherName?: string | null
+    guardianName?: string | null
     dateOfBirth?: Date | string | null
-    currAddress?: string | null
-    permAddress?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    bloodGroup?: string | null
+    nationality?: string | null
+    profilePhoto?: string | null
+    personalMobile?: string | null
+    officialMobile?: string | null
+    personalEmail?: string | null
+    officialEmail?: string | null
+    currentAddress?: string | null
+    permanentAddress?: string | null
+    sameAsCurrentAddress?: boolean
+    department?: string | null
+    designation?: string | null
+    employmentType?: string | null
+    dateOfJoining?: Date | string | null
+    workLocation?: string | null
+    reportingManagerId?: string | null
+    shift?: string | null
+    workingHours?: string | null
+    probationPeriodMonths?: number | null
+    noticePeriodDays?: number | null
+    totalYearsExperience?: number | null
     aadhaarNumber?: string | null
     panNumber?: string | null
-    aadhaarUrl?: string | null
-    panUrl?: string | null
-    passbookUrl?: string | null
-    offerLetterUrl?: string | null
-    documents?: string | null
-    educationDocumentsUrl?: string | null
-    experienceDocumentsUrl?: string | null
-    bankDetails?: string | null
-    submittedAt?: Date | string
+    passportNumber?: string | null
+    uanNumber?: string | null
+    esicNumber?: string | null
+    drivingLicense?: string | null
+    accountHolderName?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    branchName?: string | null
+    salaryPaymentMode?: string | null
+    medicalConditions?: string | null
+    allergies?: string | null
+    disabilityStatus?: boolean | null
+    disabilityDetails?: string | null
+    companyEmailCreated?: boolean
+    hrmsAccessEnabled?: boolean
+    roleAndPermissions?: string | null
+    deviceIssued?: string | null
+    assetId?: string | null
+    companyPolicyAccepted?: boolean
+    ndaAccepted?: boolean
+    codeOfConductAccepted?: boolean
+    digitalConsentSignature?: string | null
+    acceptanceTimestamp?: Date | string | null
+    acceptanceIp?: string | null
+    submittedAt?: Date | string | null
+    updatedAt?: Date | string
+    experiences?: OnboardingExperienceCreateNestedManyWithoutOnboardingInput
+    education?: OnboardingEducationCreateNestedManyWithoutOnboardingInput
+    documents?: OnboardingDocumentCreateNestedManyWithoutOnboardingInput
     user: UserCreateNestedOneWithoutOnboardingInput
   }
 
-  export type OnboardingUncheckedCreateWithoutTasksInput = {
+  export type OnboardingUncheckedCreateWithoutEmergencyContactsInput = {
     id?: string
     userId: string
     status?: string
-    firstName?: string | null
-    lastName?: string | null
+    fullName?: string | null
     fatherName?: string | null
+    motherName?: string | null
+    guardianName?: string | null
     dateOfBirth?: Date | string | null
-    currAddress?: string | null
-    permAddress?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    bloodGroup?: string | null
+    nationality?: string | null
+    profilePhoto?: string | null
+    personalMobile?: string | null
+    officialMobile?: string | null
+    personalEmail?: string | null
+    officialEmail?: string | null
+    currentAddress?: string | null
+    permanentAddress?: string | null
+    sameAsCurrentAddress?: boolean
+    department?: string | null
+    designation?: string | null
+    employmentType?: string | null
+    dateOfJoining?: Date | string | null
+    workLocation?: string | null
+    reportingManagerId?: string | null
+    shift?: string | null
+    workingHours?: string | null
+    probationPeriodMonths?: number | null
+    noticePeriodDays?: number | null
+    totalYearsExperience?: number | null
     aadhaarNumber?: string | null
     panNumber?: string | null
-    aadhaarUrl?: string | null
-    panUrl?: string | null
-    passbookUrl?: string | null
-    offerLetterUrl?: string | null
-    documents?: string | null
-    educationDocumentsUrl?: string | null
-    experienceDocumentsUrl?: string | null
-    bankDetails?: string | null
-    submittedAt?: Date | string
+    passportNumber?: string | null
+    uanNumber?: string | null
+    esicNumber?: string | null
+    drivingLicense?: string | null
+    accountHolderName?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    branchName?: string | null
+    salaryPaymentMode?: string | null
+    medicalConditions?: string | null
+    allergies?: string | null
+    disabilityStatus?: boolean | null
+    disabilityDetails?: string | null
+    companyEmailCreated?: boolean
+    hrmsAccessEnabled?: boolean
+    roleAndPermissions?: string | null
+    deviceIssued?: string | null
+    assetId?: string | null
+    companyPolicyAccepted?: boolean
+    ndaAccepted?: boolean
+    codeOfConductAccepted?: boolean
+    digitalConsentSignature?: string | null
+    acceptanceTimestamp?: Date | string | null
+    acceptanceIp?: string | null
+    submittedAt?: Date | string | null
+    updatedAt?: Date | string
+    experiences?: OnboardingExperienceUncheckedCreateNestedManyWithoutOnboardingInput
+    education?: OnboardingEducationUncheckedCreateNestedManyWithoutOnboardingInput
+    documents?: OnboardingDocumentUncheckedCreateNestedManyWithoutOnboardingInput
   }
 
-  export type OnboardingCreateOrConnectWithoutTasksInput = {
+  export type OnboardingCreateOrConnectWithoutEmergencyContactsInput = {
     where: OnboardingWhereUniqueInput
-    create: XOR<OnboardingCreateWithoutTasksInput, OnboardingUncheckedCreateWithoutTasksInput>
+    create: XOR<OnboardingCreateWithoutEmergencyContactsInput, OnboardingUncheckedCreateWithoutEmergencyContactsInput>
   }
 
-  export type OnboardingUpsertWithoutTasksInput = {
-    update: XOR<OnboardingUpdateWithoutTasksInput, OnboardingUncheckedUpdateWithoutTasksInput>
-    create: XOR<OnboardingCreateWithoutTasksInput, OnboardingUncheckedCreateWithoutTasksInput>
+  export type OnboardingUpsertWithoutEmergencyContactsInput = {
+    update: XOR<OnboardingUpdateWithoutEmergencyContactsInput, OnboardingUncheckedUpdateWithoutEmergencyContactsInput>
+    create: XOR<OnboardingCreateWithoutEmergencyContactsInput, OnboardingUncheckedCreateWithoutEmergencyContactsInput>
     where?: OnboardingWhereInput
   }
 
-  export type OnboardingUpdateToOneWithWhereWithoutTasksInput = {
+  export type OnboardingUpdateToOneWithWhereWithoutEmergencyContactsInput = {
     where?: OnboardingWhereInput
-    data: XOR<OnboardingUpdateWithoutTasksInput, OnboardingUncheckedUpdateWithoutTasksInput>
+    data: XOR<OnboardingUpdateWithoutEmergencyContactsInput, OnboardingUncheckedUpdateWithoutEmergencyContactsInput>
   }
 
-  export type OnboardingUpdateWithoutTasksInput = {
+  export type OnboardingUpdateWithoutEmergencyContactsInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
     fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    guardianName?: NullableStringFieldUpdateOperationsInput | string | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    permAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    officialEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    currentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsCurrentAddress?: BoolFieldUpdateOperationsInput | boolean
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    reportingManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shift?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
+    probationPeriodMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    totalYearsExperience?: NullableFloatFieldUpdateOperationsInput | number | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    aadhaarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    panUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    passbookUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    offerLetterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    documents?: NullableStringFieldUpdateOperationsInput | string | null
-    educationDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    experienceDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bankDetails?: NullableStringFieldUpdateOperationsInput | string | null
-    submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    esicNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    drivingLicense?: NullableStringFieldUpdateOperationsInput | string | null
+    accountHolderName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    branchName?: NullableStringFieldUpdateOperationsInput | string | null
+    salaryPaymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    disabilityStatus?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    disabilityDetails?: NullableStringFieldUpdateOperationsInput | string | null
+    companyEmailCreated?: BoolFieldUpdateOperationsInput | boolean
+    hrmsAccessEnabled?: BoolFieldUpdateOperationsInput | boolean
+    roleAndPermissions?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceIssued?: NullableStringFieldUpdateOperationsInput | string | null
+    assetId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyPolicyAccepted?: BoolFieldUpdateOperationsInput | boolean
+    ndaAccepted?: BoolFieldUpdateOperationsInput | boolean
+    codeOfConductAccepted?: BoolFieldUpdateOperationsInput | boolean
+    digitalConsentSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceIp?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    experiences?: OnboardingExperienceUpdateManyWithoutOnboardingNestedInput
+    education?: OnboardingEducationUpdateManyWithoutOnboardingNestedInput
+    documents?: OnboardingDocumentUpdateManyWithoutOnboardingNestedInput
     user?: UserUpdateOneRequiredWithoutOnboardingNestedInput
   }
 
-  export type OnboardingUncheckedUpdateWithoutTasksInput = {
+  export type OnboardingUncheckedUpdateWithoutEmergencyContactsInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
     fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    guardianName?: NullableStringFieldUpdateOperationsInput | string | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    currAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    permAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    officialEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    currentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsCurrentAddress?: BoolFieldUpdateOperationsInput | boolean
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    reportingManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shift?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
+    probationPeriodMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    totalYearsExperience?: NullableFloatFieldUpdateOperationsInput | number | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    aadhaarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    panUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    passbookUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    offerLetterUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    documents?: NullableStringFieldUpdateOperationsInput | string | null
-    educationDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    experienceDocumentsUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bankDetails?: NullableStringFieldUpdateOperationsInput | string | null
-    submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    esicNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    drivingLicense?: NullableStringFieldUpdateOperationsInput | string | null
+    accountHolderName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    branchName?: NullableStringFieldUpdateOperationsInput | string | null
+    salaryPaymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    disabilityStatus?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    disabilityDetails?: NullableStringFieldUpdateOperationsInput | string | null
+    companyEmailCreated?: BoolFieldUpdateOperationsInput | boolean
+    hrmsAccessEnabled?: BoolFieldUpdateOperationsInput | boolean
+    roleAndPermissions?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceIssued?: NullableStringFieldUpdateOperationsInput | string | null
+    assetId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyPolicyAccepted?: BoolFieldUpdateOperationsInput | boolean
+    ndaAccepted?: BoolFieldUpdateOperationsInput | boolean
+    codeOfConductAccepted?: BoolFieldUpdateOperationsInput | boolean
+    digitalConsentSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceIp?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    experiences?: OnboardingExperienceUncheckedUpdateManyWithoutOnboardingNestedInput
+    education?: OnboardingEducationUncheckedUpdateManyWithoutOnboardingNestedInput
+    documents?: OnboardingDocumentUncheckedUpdateManyWithoutOnboardingNestedInput
+  }
+
+  export type OnboardingCreateWithoutExperiencesInput = {
+    id?: string
+    status?: string
+    fullName?: string | null
+    fatherName?: string | null
+    motherName?: string | null
+    guardianName?: string | null
+    dateOfBirth?: Date | string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    bloodGroup?: string | null
+    nationality?: string | null
+    profilePhoto?: string | null
+    personalMobile?: string | null
+    officialMobile?: string | null
+    personalEmail?: string | null
+    officialEmail?: string | null
+    currentAddress?: string | null
+    permanentAddress?: string | null
+    sameAsCurrentAddress?: boolean
+    department?: string | null
+    designation?: string | null
+    employmentType?: string | null
+    dateOfJoining?: Date | string | null
+    workLocation?: string | null
+    reportingManagerId?: string | null
+    shift?: string | null
+    workingHours?: string | null
+    probationPeriodMonths?: number | null
+    noticePeriodDays?: number | null
+    totalYearsExperience?: number | null
+    aadhaarNumber?: string | null
+    panNumber?: string | null
+    passportNumber?: string | null
+    uanNumber?: string | null
+    esicNumber?: string | null
+    drivingLicense?: string | null
+    accountHolderName?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    branchName?: string | null
+    salaryPaymentMode?: string | null
+    medicalConditions?: string | null
+    allergies?: string | null
+    disabilityStatus?: boolean | null
+    disabilityDetails?: string | null
+    companyEmailCreated?: boolean
+    hrmsAccessEnabled?: boolean
+    roleAndPermissions?: string | null
+    deviceIssued?: string | null
+    assetId?: string | null
+    companyPolicyAccepted?: boolean
+    ndaAccepted?: boolean
+    codeOfConductAccepted?: boolean
+    digitalConsentSignature?: string | null
+    acceptanceTimestamp?: Date | string | null
+    acceptanceIp?: string | null
+    submittedAt?: Date | string | null
+    updatedAt?: Date | string
+    emergencyContacts?: OnboardingEmergencyContactCreateNestedManyWithoutOnboardingInput
+    education?: OnboardingEducationCreateNestedManyWithoutOnboardingInput
+    documents?: OnboardingDocumentCreateNestedManyWithoutOnboardingInput
+    user: UserCreateNestedOneWithoutOnboardingInput
+  }
+
+  export type OnboardingUncheckedCreateWithoutExperiencesInput = {
+    id?: string
+    userId: string
+    status?: string
+    fullName?: string | null
+    fatherName?: string | null
+    motherName?: string | null
+    guardianName?: string | null
+    dateOfBirth?: Date | string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    bloodGroup?: string | null
+    nationality?: string | null
+    profilePhoto?: string | null
+    personalMobile?: string | null
+    officialMobile?: string | null
+    personalEmail?: string | null
+    officialEmail?: string | null
+    currentAddress?: string | null
+    permanentAddress?: string | null
+    sameAsCurrentAddress?: boolean
+    department?: string | null
+    designation?: string | null
+    employmentType?: string | null
+    dateOfJoining?: Date | string | null
+    workLocation?: string | null
+    reportingManagerId?: string | null
+    shift?: string | null
+    workingHours?: string | null
+    probationPeriodMonths?: number | null
+    noticePeriodDays?: number | null
+    totalYearsExperience?: number | null
+    aadhaarNumber?: string | null
+    panNumber?: string | null
+    passportNumber?: string | null
+    uanNumber?: string | null
+    esicNumber?: string | null
+    drivingLicense?: string | null
+    accountHolderName?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    branchName?: string | null
+    salaryPaymentMode?: string | null
+    medicalConditions?: string | null
+    allergies?: string | null
+    disabilityStatus?: boolean | null
+    disabilityDetails?: string | null
+    companyEmailCreated?: boolean
+    hrmsAccessEnabled?: boolean
+    roleAndPermissions?: string | null
+    deviceIssued?: string | null
+    assetId?: string | null
+    companyPolicyAccepted?: boolean
+    ndaAccepted?: boolean
+    codeOfConductAccepted?: boolean
+    digitalConsentSignature?: string | null
+    acceptanceTimestamp?: Date | string | null
+    acceptanceIp?: string | null
+    submittedAt?: Date | string | null
+    updatedAt?: Date | string
+    emergencyContacts?: OnboardingEmergencyContactUncheckedCreateNestedManyWithoutOnboardingInput
+    education?: OnboardingEducationUncheckedCreateNestedManyWithoutOnboardingInput
+    documents?: OnboardingDocumentUncheckedCreateNestedManyWithoutOnboardingInput
+  }
+
+  export type OnboardingCreateOrConnectWithoutExperiencesInput = {
+    where: OnboardingWhereUniqueInput
+    create: XOR<OnboardingCreateWithoutExperiencesInput, OnboardingUncheckedCreateWithoutExperiencesInput>
+  }
+
+  export type OnboardingUpsertWithoutExperiencesInput = {
+    update: XOR<OnboardingUpdateWithoutExperiencesInput, OnboardingUncheckedUpdateWithoutExperiencesInput>
+    create: XOR<OnboardingCreateWithoutExperiencesInput, OnboardingUncheckedCreateWithoutExperiencesInput>
+    where?: OnboardingWhereInput
+  }
+
+  export type OnboardingUpdateToOneWithWhereWithoutExperiencesInput = {
+    where?: OnboardingWhereInput
+    data: XOR<OnboardingUpdateWithoutExperiencesInput, OnboardingUncheckedUpdateWithoutExperiencesInput>
+  }
+
+  export type OnboardingUpdateWithoutExperiencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    guardianName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    officialEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    currentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsCurrentAddress?: BoolFieldUpdateOperationsInput | boolean
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    reportingManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shift?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
+    probationPeriodMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    totalYearsExperience?: NullableFloatFieldUpdateOperationsInput | number | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    esicNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    drivingLicense?: NullableStringFieldUpdateOperationsInput | string | null
+    accountHolderName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    branchName?: NullableStringFieldUpdateOperationsInput | string | null
+    salaryPaymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    disabilityStatus?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    disabilityDetails?: NullableStringFieldUpdateOperationsInput | string | null
+    companyEmailCreated?: BoolFieldUpdateOperationsInput | boolean
+    hrmsAccessEnabled?: BoolFieldUpdateOperationsInput | boolean
+    roleAndPermissions?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceIssued?: NullableStringFieldUpdateOperationsInput | string | null
+    assetId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyPolicyAccepted?: BoolFieldUpdateOperationsInput | boolean
+    ndaAccepted?: BoolFieldUpdateOperationsInput | boolean
+    codeOfConductAccepted?: BoolFieldUpdateOperationsInput | boolean
+    digitalConsentSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceIp?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emergencyContacts?: OnboardingEmergencyContactUpdateManyWithoutOnboardingNestedInput
+    education?: OnboardingEducationUpdateManyWithoutOnboardingNestedInput
+    documents?: OnboardingDocumentUpdateManyWithoutOnboardingNestedInput
+    user?: UserUpdateOneRequiredWithoutOnboardingNestedInput
+  }
+
+  export type OnboardingUncheckedUpdateWithoutExperiencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    guardianName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    officialEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    currentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsCurrentAddress?: BoolFieldUpdateOperationsInput | boolean
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    reportingManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shift?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
+    probationPeriodMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    totalYearsExperience?: NullableFloatFieldUpdateOperationsInput | number | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    esicNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    drivingLicense?: NullableStringFieldUpdateOperationsInput | string | null
+    accountHolderName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    branchName?: NullableStringFieldUpdateOperationsInput | string | null
+    salaryPaymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    disabilityStatus?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    disabilityDetails?: NullableStringFieldUpdateOperationsInput | string | null
+    companyEmailCreated?: BoolFieldUpdateOperationsInput | boolean
+    hrmsAccessEnabled?: BoolFieldUpdateOperationsInput | boolean
+    roleAndPermissions?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceIssued?: NullableStringFieldUpdateOperationsInput | string | null
+    assetId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyPolicyAccepted?: BoolFieldUpdateOperationsInput | boolean
+    ndaAccepted?: BoolFieldUpdateOperationsInput | boolean
+    codeOfConductAccepted?: BoolFieldUpdateOperationsInput | boolean
+    digitalConsentSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceIp?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emergencyContacts?: OnboardingEmergencyContactUncheckedUpdateManyWithoutOnboardingNestedInput
+    education?: OnboardingEducationUncheckedUpdateManyWithoutOnboardingNestedInput
+    documents?: OnboardingDocumentUncheckedUpdateManyWithoutOnboardingNestedInput
+  }
+
+  export type OnboardingCreateWithoutEducationInput = {
+    id?: string
+    status?: string
+    fullName?: string | null
+    fatherName?: string | null
+    motherName?: string | null
+    guardianName?: string | null
+    dateOfBirth?: Date | string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    bloodGroup?: string | null
+    nationality?: string | null
+    profilePhoto?: string | null
+    personalMobile?: string | null
+    officialMobile?: string | null
+    personalEmail?: string | null
+    officialEmail?: string | null
+    currentAddress?: string | null
+    permanentAddress?: string | null
+    sameAsCurrentAddress?: boolean
+    department?: string | null
+    designation?: string | null
+    employmentType?: string | null
+    dateOfJoining?: Date | string | null
+    workLocation?: string | null
+    reportingManagerId?: string | null
+    shift?: string | null
+    workingHours?: string | null
+    probationPeriodMonths?: number | null
+    noticePeriodDays?: number | null
+    totalYearsExperience?: number | null
+    aadhaarNumber?: string | null
+    panNumber?: string | null
+    passportNumber?: string | null
+    uanNumber?: string | null
+    esicNumber?: string | null
+    drivingLicense?: string | null
+    accountHolderName?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    branchName?: string | null
+    salaryPaymentMode?: string | null
+    medicalConditions?: string | null
+    allergies?: string | null
+    disabilityStatus?: boolean | null
+    disabilityDetails?: string | null
+    companyEmailCreated?: boolean
+    hrmsAccessEnabled?: boolean
+    roleAndPermissions?: string | null
+    deviceIssued?: string | null
+    assetId?: string | null
+    companyPolicyAccepted?: boolean
+    ndaAccepted?: boolean
+    codeOfConductAccepted?: boolean
+    digitalConsentSignature?: string | null
+    acceptanceTimestamp?: Date | string | null
+    acceptanceIp?: string | null
+    submittedAt?: Date | string | null
+    updatedAt?: Date | string
+    emergencyContacts?: OnboardingEmergencyContactCreateNestedManyWithoutOnboardingInput
+    experiences?: OnboardingExperienceCreateNestedManyWithoutOnboardingInput
+    documents?: OnboardingDocumentCreateNestedManyWithoutOnboardingInput
+    user: UserCreateNestedOneWithoutOnboardingInput
+  }
+
+  export type OnboardingUncheckedCreateWithoutEducationInput = {
+    id?: string
+    userId: string
+    status?: string
+    fullName?: string | null
+    fatherName?: string | null
+    motherName?: string | null
+    guardianName?: string | null
+    dateOfBirth?: Date | string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    bloodGroup?: string | null
+    nationality?: string | null
+    profilePhoto?: string | null
+    personalMobile?: string | null
+    officialMobile?: string | null
+    personalEmail?: string | null
+    officialEmail?: string | null
+    currentAddress?: string | null
+    permanentAddress?: string | null
+    sameAsCurrentAddress?: boolean
+    department?: string | null
+    designation?: string | null
+    employmentType?: string | null
+    dateOfJoining?: Date | string | null
+    workLocation?: string | null
+    reportingManagerId?: string | null
+    shift?: string | null
+    workingHours?: string | null
+    probationPeriodMonths?: number | null
+    noticePeriodDays?: number | null
+    totalYearsExperience?: number | null
+    aadhaarNumber?: string | null
+    panNumber?: string | null
+    passportNumber?: string | null
+    uanNumber?: string | null
+    esicNumber?: string | null
+    drivingLicense?: string | null
+    accountHolderName?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    branchName?: string | null
+    salaryPaymentMode?: string | null
+    medicalConditions?: string | null
+    allergies?: string | null
+    disabilityStatus?: boolean | null
+    disabilityDetails?: string | null
+    companyEmailCreated?: boolean
+    hrmsAccessEnabled?: boolean
+    roleAndPermissions?: string | null
+    deviceIssued?: string | null
+    assetId?: string | null
+    companyPolicyAccepted?: boolean
+    ndaAccepted?: boolean
+    codeOfConductAccepted?: boolean
+    digitalConsentSignature?: string | null
+    acceptanceTimestamp?: Date | string | null
+    acceptanceIp?: string | null
+    submittedAt?: Date | string | null
+    updatedAt?: Date | string
+    emergencyContacts?: OnboardingEmergencyContactUncheckedCreateNestedManyWithoutOnboardingInput
+    experiences?: OnboardingExperienceUncheckedCreateNestedManyWithoutOnboardingInput
+    documents?: OnboardingDocumentUncheckedCreateNestedManyWithoutOnboardingInput
+  }
+
+  export type OnboardingCreateOrConnectWithoutEducationInput = {
+    where: OnboardingWhereUniqueInput
+    create: XOR<OnboardingCreateWithoutEducationInput, OnboardingUncheckedCreateWithoutEducationInput>
+  }
+
+  export type OnboardingUpsertWithoutEducationInput = {
+    update: XOR<OnboardingUpdateWithoutEducationInput, OnboardingUncheckedUpdateWithoutEducationInput>
+    create: XOR<OnboardingCreateWithoutEducationInput, OnboardingUncheckedCreateWithoutEducationInput>
+    where?: OnboardingWhereInput
+  }
+
+  export type OnboardingUpdateToOneWithWhereWithoutEducationInput = {
+    where?: OnboardingWhereInput
+    data: XOR<OnboardingUpdateWithoutEducationInput, OnboardingUncheckedUpdateWithoutEducationInput>
+  }
+
+  export type OnboardingUpdateWithoutEducationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    guardianName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    officialEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    currentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsCurrentAddress?: BoolFieldUpdateOperationsInput | boolean
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    reportingManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shift?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
+    probationPeriodMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    totalYearsExperience?: NullableFloatFieldUpdateOperationsInput | number | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    esicNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    drivingLicense?: NullableStringFieldUpdateOperationsInput | string | null
+    accountHolderName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    branchName?: NullableStringFieldUpdateOperationsInput | string | null
+    salaryPaymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    disabilityStatus?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    disabilityDetails?: NullableStringFieldUpdateOperationsInput | string | null
+    companyEmailCreated?: BoolFieldUpdateOperationsInput | boolean
+    hrmsAccessEnabled?: BoolFieldUpdateOperationsInput | boolean
+    roleAndPermissions?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceIssued?: NullableStringFieldUpdateOperationsInput | string | null
+    assetId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyPolicyAccepted?: BoolFieldUpdateOperationsInput | boolean
+    ndaAccepted?: BoolFieldUpdateOperationsInput | boolean
+    codeOfConductAccepted?: BoolFieldUpdateOperationsInput | boolean
+    digitalConsentSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceIp?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emergencyContacts?: OnboardingEmergencyContactUpdateManyWithoutOnboardingNestedInput
+    experiences?: OnboardingExperienceUpdateManyWithoutOnboardingNestedInput
+    documents?: OnboardingDocumentUpdateManyWithoutOnboardingNestedInput
+    user?: UserUpdateOneRequiredWithoutOnboardingNestedInput
+  }
+
+  export type OnboardingUncheckedUpdateWithoutEducationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    guardianName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    officialEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    currentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsCurrentAddress?: BoolFieldUpdateOperationsInput | boolean
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    reportingManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shift?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
+    probationPeriodMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    totalYearsExperience?: NullableFloatFieldUpdateOperationsInput | number | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    esicNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    drivingLicense?: NullableStringFieldUpdateOperationsInput | string | null
+    accountHolderName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    branchName?: NullableStringFieldUpdateOperationsInput | string | null
+    salaryPaymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    disabilityStatus?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    disabilityDetails?: NullableStringFieldUpdateOperationsInput | string | null
+    companyEmailCreated?: BoolFieldUpdateOperationsInput | boolean
+    hrmsAccessEnabled?: BoolFieldUpdateOperationsInput | boolean
+    roleAndPermissions?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceIssued?: NullableStringFieldUpdateOperationsInput | string | null
+    assetId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyPolicyAccepted?: BoolFieldUpdateOperationsInput | boolean
+    ndaAccepted?: BoolFieldUpdateOperationsInput | boolean
+    codeOfConductAccepted?: BoolFieldUpdateOperationsInput | boolean
+    digitalConsentSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceIp?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emergencyContacts?: OnboardingEmergencyContactUncheckedUpdateManyWithoutOnboardingNestedInput
+    experiences?: OnboardingExperienceUncheckedUpdateManyWithoutOnboardingNestedInput
+    documents?: OnboardingDocumentUncheckedUpdateManyWithoutOnboardingNestedInput
+  }
+
+  export type OnboardingCreateWithoutDocumentsInput = {
+    id?: string
+    status?: string
+    fullName?: string | null
+    fatherName?: string | null
+    motherName?: string | null
+    guardianName?: string | null
+    dateOfBirth?: Date | string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    bloodGroup?: string | null
+    nationality?: string | null
+    profilePhoto?: string | null
+    personalMobile?: string | null
+    officialMobile?: string | null
+    personalEmail?: string | null
+    officialEmail?: string | null
+    currentAddress?: string | null
+    permanentAddress?: string | null
+    sameAsCurrentAddress?: boolean
+    department?: string | null
+    designation?: string | null
+    employmentType?: string | null
+    dateOfJoining?: Date | string | null
+    workLocation?: string | null
+    reportingManagerId?: string | null
+    shift?: string | null
+    workingHours?: string | null
+    probationPeriodMonths?: number | null
+    noticePeriodDays?: number | null
+    totalYearsExperience?: number | null
+    aadhaarNumber?: string | null
+    panNumber?: string | null
+    passportNumber?: string | null
+    uanNumber?: string | null
+    esicNumber?: string | null
+    drivingLicense?: string | null
+    accountHolderName?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    branchName?: string | null
+    salaryPaymentMode?: string | null
+    medicalConditions?: string | null
+    allergies?: string | null
+    disabilityStatus?: boolean | null
+    disabilityDetails?: string | null
+    companyEmailCreated?: boolean
+    hrmsAccessEnabled?: boolean
+    roleAndPermissions?: string | null
+    deviceIssued?: string | null
+    assetId?: string | null
+    companyPolicyAccepted?: boolean
+    ndaAccepted?: boolean
+    codeOfConductAccepted?: boolean
+    digitalConsentSignature?: string | null
+    acceptanceTimestamp?: Date | string | null
+    acceptanceIp?: string | null
+    submittedAt?: Date | string | null
+    updatedAt?: Date | string
+    emergencyContacts?: OnboardingEmergencyContactCreateNestedManyWithoutOnboardingInput
+    experiences?: OnboardingExperienceCreateNestedManyWithoutOnboardingInput
+    education?: OnboardingEducationCreateNestedManyWithoutOnboardingInput
+    user: UserCreateNestedOneWithoutOnboardingInput
+  }
+
+  export type OnboardingUncheckedCreateWithoutDocumentsInput = {
+    id?: string
+    userId: string
+    status?: string
+    fullName?: string | null
+    fatherName?: string | null
+    motherName?: string | null
+    guardianName?: string | null
+    dateOfBirth?: Date | string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    bloodGroup?: string | null
+    nationality?: string | null
+    profilePhoto?: string | null
+    personalMobile?: string | null
+    officialMobile?: string | null
+    personalEmail?: string | null
+    officialEmail?: string | null
+    currentAddress?: string | null
+    permanentAddress?: string | null
+    sameAsCurrentAddress?: boolean
+    department?: string | null
+    designation?: string | null
+    employmentType?: string | null
+    dateOfJoining?: Date | string | null
+    workLocation?: string | null
+    reportingManagerId?: string | null
+    shift?: string | null
+    workingHours?: string | null
+    probationPeriodMonths?: number | null
+    noticePeriodDays?: number | null
+    totalYearsExperience?: number | null
+    aadhaarNumber?: string | null
+    panNumber?: string | null
+    passportNumber?: string | null
+    uanNumber?: string | null
+    esicNumber?: string | null
+    drivingLicense?: string | null
+    accountHolderName?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    branchName?: string | null
+    salaryPaymentMode?: string | null
+    medicalConditions?: string | null
+    allergies?: string | null
+    disabilityStatus?: boolean | null
+    disabilityDetails?: string | null
+    companyEmailCreated?: boolean
+    hrmsAccessEnabled?: boolean
+    roleAndPermissions?: string | null
+    deviceIssued?: string | null
+    assetId?: string | null
+    companyPolicyAccepted?: boolean
+    ndaAccepted?: boolean
+    codeOfConductAccepted?: boolean
+    digitalConsentSignature?: string | null
+    acceptanceTimestamp?: Date | string | null
+    acceptanceIp?: string | null
+    submittedAt?: Date | string | null
+    updatedAt?: Date | string
+    emergencyContacts?: OnboardingEmergencyContactUncheckedCreateNestedManyWithoutOnboardingInput
+    experiences?: OnboardingExperienceUncheckedCreateNestedManyWithoutOnboardingInput
+    education?: OnboardingEducationUncheckedCreateNestedManyWithoutOnboardingInput
+  }
+
+  export type OnboardingCreateOrConnectWithoutDocumentsInput = {
+    where: OnboardingWhereUniqueInput
+    create: XOR<OnboardingCreateWithoutDocumentsInput, OnboardingUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type OnboardingUpsertWithoutDocumentsInput = {
+    update: XOR<OnboardingUpdateWithoutDocumentsInput, OnboardingUncheckedUpdateWithoutDocumentsInput>
+    create: XOR<OnboardingCreateWithoutDocumentsInput, OnboardingUncheckedCreateWithoutDocumentsInput>
+    where?: OnboardingWhereInput
+  }
+
+  export type OnboardingUpdateToOneWithWhereWithoutDocumentsInput = {
+    where?: OnboardingWhereInput
+    data: XOR<OnboardingUpdateWithoutDocumentsInput, OnboardingUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type OnboardingUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    guardianName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    officialEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    currentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsCurrentAddress?: BoolFieldUpdateOperationsInput | boolean
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    reportingManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shift?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
+    probationPeriodMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    totalYearsExperience?: NullableFloatFieldUpdateOperationsInput | number | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    esicNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    drivingLicense?: NullableStringFieldUpdateOperationsInput | string | null
+    accountHolderName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    branchName?: NullableStringFieldUpdateOperationsInput | string | null
+    salaryPaymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    disabilityStatus?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    disabilityDetails?: NullableStringFieldUpdateOperationsInput | string | null
+    companyEmailCreated?: BoolFieldUpdateOperationsInput | boolean
+    hrmsAccessEnabled?: BoolFieldUpdateOperationsInput | boolean
+    roleAndPermissions?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceIssued?: NullableStringFieldUpdateOperationsInput | string | null
+    assetId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyPolicyAccepted?: BoolFieldUpdateOperationsInput | boolean
+    ndaAccepted?: BoolFieldUpdateOperationsInput | boolean
+    codeOfConductAccepted?: BoolFieldUpdateOperationsInput | boolean
+    digitalConsentSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceIp?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emergencyContacts?: OnboardingEmergencyContactUpdateManyWithoutOnboardingNestedInput
+    experiences?: OnboardingExperienceUpdateManyWithoutOnboardingNestedInput
+    education?: OnboardingEducationUpdateManyWithoutOnboardingNestedInput
+    user?: UserUpdateOneRequiredWithoutOnboardingNestedInput
+  }
+
+  export type OnboardingUncheckedUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherName?: NullableStringFieldUpdateOperationsInput | string | null
+    motherName?: NullableStringFieldUpdateOperationsInput | string | null
+    guardianName?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
+    personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    officialEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    currentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    sameAsCurrentAddress?: BoolFieldUpdateOperationsInput | boolean
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    reportingManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shift?: NullableStringFieldUpdateOperationsInput | string | null
+    workingHours?: NullableStringFieldUpdateOperationsInput | string | null
+    probationPeriodMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    noticePeriodDays?: NullableIntFieldUpdateOperationsInput | number | null
+    totalYearsExperience?: NullableFloatFieldUpdateOperationsInput | number | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    esicNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    drivingLicense?: NullableStringFieldUpdateOperationsInput | string | null
+    accountHolderName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    branchName?: NullableStringFieldUpdateOperationsInput | string | null
+    salaryPaymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    disabilityStatus?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    disabilityDetails?: NullableStringFieldUpdateOperationsInput | string | null
+    companyEmailCreated?: BoolFieldUpdateOperationsInput | boolean
+    hrmsAccessEnabled?: BoolFieldUpdateOperationsInput | boolean
+    roleAndPermissions?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceIssued?: NullableStringFieldUpdateOperationsInput | string | null
+    assetId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyPolicyAccepted?: BoolFieldUpdateOperationsInput | boolean
+    ndaAccepted?: BoolFieldUpdateOperationsInput | boolean
+    codeOfConductAccepted?: BoolFieldUpdateOperationsInput | boolean
+    digitalConsentSignature?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceIp?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emergencyContacts?: OnboardingEmergencyContactUncheckedUpdateManyWithoutOnboardingNestedInput
+    experiences?: OnboardingExperienceUncheckedUpdateManyWithoutOnboardingNestedInput
+    education?: OnboardingEducationUncheckedUpdateManyWithoutOnboardingNestedInput
   }
 
   export type ExitInterviewCreateWithoutOffboardingInput = {
@@ -43640,25 +49987,106 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type OnboardingTaskUpdateWithoutOnboardingInput = {
+  export type OnboardingEmergencyContactUpdateWithoutOnboardingInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    relationship?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: StringFieldUpdateOperationsInput | string
+    alternateMobile?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type OnboardingTaskUncheckedUpdateWithoutOnboardingInput = {
+  export type OnboardingEmergencyContactUncheckedUpdateWithoutOnboardingInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    relationship?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: StringFieldUpdateOperationsInput | string
+    alternateMobile?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type OnboardingTaskUncheckedUpdateManyWithoutOnboardingInput = {
+  export type OnboardingEmergencyContactUncheckedUpdateManyWithoutOnboardingInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    relationship?: NullableStringFieldUpdateOperationsInput | string | null
+    mobile?: StringFieldUpdateOperationsInput | string
+    alternateMobile?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OnboardingExperienceUpdateWithoutOnboardingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    reasonForLeaving?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OnboardingExperienceUncheckedUpdateWithoutOnboardingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    reasonForLeaving?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OnboardingExperienceUncheckedUpdateManyWithoutOnboardingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyName?: StringFieldUpdateOperationsInput | string
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    reasonForLeaving?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OnboardingEducationUpdateWithoutOnboardingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    institutionName?: StringFieldUpdateOperationsInput | string
+    degreeOrCourse?: StringFieldUpdateOperationsInput | string
+    highestQualification?: NullableStringFieldUpdateOperationsInput | string | null
+    yearOfPassing?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type OnboardingEducationUncheckedUpdateWithoutOnboardingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    institutionName?: StringFieldUpdateOperationsInput | string
+    degreeOrCourse?: StringFieldUpdateOperationsInput | string
+    highestQualification?: NullableStringFieldUpdateOperationsInput | string | null
+    yearOfPassing?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type OnboardingEducationUncheckedUpdateManyWithoutOnboardingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    institutionName?: StringFieldUpdateOperationsInput | string
+    degreeOrCourse?: StringFieldUpdateOperationsInput | string
+    highestQualification?: NullableStringFieldUpdateOperationsInput | string | null
+    yearOfPassing?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type OnboardingDocumentUpdateWithoutOnboardingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type OnboardingDocumentUncheckedUpdateWithoutOnboardingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type OnboardingDocumentUncheckedUpdateManyWithoutOnboardingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
   }
 
   export type JobApplicationUpdateWithoutJobInput = {
@@ -43904,9 +50332,21 @@ export namespace Prisma {
      */
     export type OnboardingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OnboardingDefaultArgs<ExtArgs>
     /**
-     * @deprecated Use OnboardingTaskDefaultArgs instead
+     * @deprecated Use OnboardingEmergencyContactDefaultArgs instead
      */
-    export type OnboardingTaskArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OnboardingTaskDefaultArgs<ExtArgs>
+    export type OnboardingEmergencyContactArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OnboardingEmergencyContactDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use OnboardingExperienceDefaultArgs instead
+     */
+    export type OnboardingExperienceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OnboardingExperienceDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use OnboardingEducationDefaultArgs instead
+     */
+    export type OnboardingEducationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OnboardingEducationDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use OnboardingDocumentDefaultArgs instead
+     */
+    export type OnboardingDocumentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OnboardingDocumentDefaultArgs<ExtArgs>
     /**
      * @deprecated Use OffboardingDefaultArgs instead
      */

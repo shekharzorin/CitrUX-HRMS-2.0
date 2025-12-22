@@ -337,61 +337,88 @@ export const deleteUser = async (req: Request, res: Response) => {
             return res.status(403).json({ message: 'Cannot delete Super Admin account' });
         }
 
-        // Transaction to delete relations if necessary? 
-        // Delete all related records first to satisfy foreign keys
-        // Note: Using a transaction to ensure atomicity
+        // 1. Update subordinates to remove manager reference
+        const updateSubordinates = prisma.user.updateMany({
+            where: { managerId: id },
+            data: { managerId: null }
+        });
+
+        // 2. Delete Breaks (must be before Attendance)
+        const deleteBreaks = prisma.break.deleteMany({
+            where: { attendance: { userId: id } }
+        });
+
+        // 3. Delete Attendance
         const deleteAttendance = prisma.attendance.deleteMany({ where: { userId: id } });
+
+        // 4. Delete Leave balances and requests
         const deleteLeaveBalance = prisma.leaveBalance.deleteMany({ where: { userId: id } });
         const deleteLeaveRequest = prisma.leaveRequest.deleteMany({ where: { userId: id } });
-        // @ts-ignore
+
+        // 5. Delete Salary and Payslips
         const deleteSalary = prisma.salaryStructure.deleteMany({ where: { userId: id } });
-        // @ts-ignore
         const deletePayslips = prisma.payslip.deleteMany({ where: { userId: id } });
 
-        // Handle Nested Onboarding/Offboarding deletions
-        // @ts-ignore
-        const deleteOnboardingTasks = prisma.onboardingTask.deleteMany({ where: { onboarding: { userId: id } } });
-        // @ts-ignore
+        // 6. Handle Onboarding
         const deleteOnboarding = prisma.onboarding.deleteMany({ where: { userId: id } });
 
-        // @ts-ignore
-        const deleteExitInterview = prisma.exitInterview.deleteMany({ where: { offboarding: { userId: id } } });
-        // @ts-ignore
+        // 7. Handle Offboarding
+        const deleteExitInterview = prisma.exitInterview.deleteMany({
+            where: { offboarding: { userId: id } }
+        });
         const deleteOffboarding = prisma.offboarding.deleteMany({ where: { userId: id } });
 
+        // 8. Performance and Goals
         const deleteNotifications = prisma.notification.deleteMany({ where: { userId: id } });
         const deleteGoals = prisma.goal.deleteMany({ where: { userId: id } });
         const deleteReviews = prisma.performanceReview.deleteMany({ where: { userId: id } });
         const deleteGivenReviews = prisma.performanceReview.deleteMany({ where: { reviewerId: id } });
-        const deleteClaims = prisma.expenseClaim.deleteMany({ where: { userId: id } });
-        const deleteAssets = prisma.asset.updateMany({ where: { assignedTo: id }, data: { assignedTo: null, status: 'AVAILABLE' } });
 
+        // 9. Expenses and Assets
+        const deleteClaims = prisma.expenseClaim.deleteMany({ where: { userId: id } });
+        const detachAssets = prisma.asset.updateMany({
+            where: { assignedTo: id },
+            data: { assignedTo: null, status: 'AVAILABLE' }
+        });
+
+        // 10. Certificates and Timesheets
+        const deleteCertificates = prisma.certificate.deleteMany({ where: { userId: id } });
+        const deleteTimesheets = prisma.timesheet.deleteMany({ where: { userId: id } });
+
+        // 11. Profile and User (User must be last)
         const deleteProfile = prisma.profile.deleteMany({ where: { userId: id } });
-        const deleteUser = prisma.user.delete({ where: { id } });
+        const deleteUserRecord = prisma.user.delete({ where: { id } });
 
         await prisma.$transaction([
+            updateSubordinates,
+            deleteBreaks,
             deleteAttendance,
             deleteLeaveBalance,
             deleteLeaveRequest,
             deleteSalary,
             deletePayslips,
-            deleteOnboardingTasks, // Delete tasks first
             deleteOnboarding,
-            deleteExitInterview, // Delete interview first
+            deleteExitInterview,
             deleteOffboarding,
             deleteNotifications,
             deleteGoals,
             deleteReviews,
             deleteGivenReviews,
             deleteClaims,
-            deleteAssets,
+            detachAssets,
+            deleteCertificates,
+            deleteTimesheets,
             deleteProfile,
-            deleteUser
+            deleteUserRecord
         ]);
 
         res.json({ message: 'User and all related data deleted successfully' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+    } catch (error: any) {
+        console.error('Delete User Error:', error);
+        res.status(500).json({
+            message: 'Internal Server Error',
+            error: error.message,
+            code: error.code
+        });
     }
 };

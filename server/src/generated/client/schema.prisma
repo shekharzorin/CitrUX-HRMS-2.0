@@ -161,35 +161,134 @@ model Holiday {
 model Onboarding {
   id             String           @id @default(uuid())
   userId         String           @unique
-  status         String           @default("PENDING")
-  firstName      String?
-  lastName       String?
+  status         String           @default("DRAFT") // DRAFT, SUBMITTED, PENDING_VERIFICATION, APPROVED, REJECTED
+  
+  // Step 1: Personal
+  fullName       String?
   fatherName     String?
+  motherName     String?
+  guardianName   String?
   dateOfBirth    DateTime?
-  currAddress    String?
-  permAddress    String?
+  gender         String?
+  maritalStatus  String?
+  bloodGroup     String?
+  nationality    String?
+  profilePhoto   String?
+
+  // Step 2: Contact
+  personalMobile String?
+  officialMobile String?
+  personalEmail  String?
+  officialEmail  String?
+  currentAddress String?
+  permanentAddress String?
+  sameAsCurrentAddress Boolean @default(false)
+  emergencyContacts OnboardingEmergencyContact[]
+
+  // Step 3: Employment
+  department     String?
+  designation    String?
+  employmentType String?
+  dateOfJoining  DateTime?
+  workLocation   String?
+  reportingManagerId String?
+  shift          String?
+  workingHours   String?
+  probationPeriodMonths Int?
+  noticePeriodDays Int?
+  
+  // Step 4: Work Experience
+  experiences    OnboardingExperience[]
+  totalYearsExperience Float?
+
+  // Step 5: Education
+  education      OnboardingEducation[]
+
+  // Step 6: Identity
   aadhaarNumber  String?
   panNumber      String?
-  aadhaarUrl     String?
-  panUrl         String?
-  passbookUrl    String?
-  offerLetterUrl String?
-  documents      String?
-  educationDocumentsUrl String?
-  experienceDocumentsUrl String?
-  bankDetails    String?
-  submittedAt    DateTime         @default(now())
+  passportNumber String?
+  uanNumber      String?
+  esicNumber     String?
+  drivingLicense String?
+
+  // Step 7: Bank
+  accountHolderName String?
+  bankName       String?
+  accountNumber  String?
+  ifscCode       String?
+  branchName     String?
+  salaryPaymentMode String?
+
+  // Step 8: Health
+  medicalConditions String?
+  allergies      String?
+  disabilityStatus Boolean?
+  disabilityDetails String?
+
+  // Step 9: Documents
+  documents      OnboardingDocument[]
+
+  // Step 10: System Access
+  companyEmailCreated Boolean @default(false)
+  hrmsAccessEnabled   Boolean @default(false)
+  roleAndPermissions  String?
+  deviceIssued        String?
+  assetId             String?
+
+  // Step 11: Policies
+  companyPolicyAccepted Boolean @default(false)
+  ndaAccepted           Boolean @default(false)
+  codeOfConductAccepted Boolean @default(false)
+  digitalConsentSignature String?
+  acceptanceTimestamp   DateTime?
+  acceptanceIp          String?
+
+  submittedAt    DateTime?
+  updatedAt      DateTime         @updatedAt
   user           User             @relation(fields: [userId], references: [id])
-  tasks          OnboardingTask[]
 }
 
-model OnboardingTask {
+model OnboardingEmergencyContact {
   id           String     @id @default(uuid())
   onboardingId String
-  title        String
+  name         String
+  relationship String?
+  mobile       String
+  alternateMobile String?
+  onboarding   Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
+}
+
+model OnboardingExperience {
+  id           String     @id @default(uuid())
+  onboardingId String
+  companyName  String
+  designation  String?
+  employmentType String?
+  startDate    DateTime?
+  endDate      DateTime?
+  isCurrent    Boolean    @default(false)
+  reasonForLeaving String?
+  onboarding   Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
+}
+
+model OnboardingEducation {
+  id           String     @id @default(uuid())
+  onboardingId String
+  institutionName String
+  degreeOrCourse String
+  highestQualification String?
+  yearOfPassing Int?
+  onboarding   Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
+}
+
+model OnboardingDocument {
+  id           String     @id @default(uuid())
+  onboardingId String
+  type         String // aadhaar_card, pan_card, resume, etc.
+  url          String
   status       String     @default("PENDING")
-  completedAt  DateTime?
-  onboarding   Onboarding @relation(fields: [onboardingId], references: [id])
+  onboarding   Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
 }
 
 model Offboarding {

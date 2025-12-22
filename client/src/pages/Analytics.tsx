@@ -19,51 +19,109 @@ const Analytics: React.FC = () => {
 
     if (!stats) return <div className="p-6">Loading Analytics...</div>;
 
-    const Card = ({ title, value, sub, color }: any) => (
-        <div className="dashboard-card">
-            <div className="text-bold-caps">{title}</div>
-            <div className={`text-value-lg ${color}`}>{value}</div>
-            {sub && <div className="text-muted-sm mt-2">{sub}</div>}
-        </div>
+    const Card = ({ title, value, sub, icon, colorClass, link }: any) => (
+        <Link to={link || "#"} className="glass-panel hover:translate-y-[-2px]" style={{
+            textDecoration: 'none',
+            color: 'inherit',
+            display: 'flex',
+            flexDirection: 'column',
+            transition: 'all 0.2s ease',
+            cursor: link ? 'pointer' : 'default',
+            padding: '1.5rem',
+            border: '1px solid var(--border-color)'
+        }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1.5rem' }}>
+                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{title}</span>
+                {icon && (
+                    <div style={{
+                        width: '42px',
+                        height: '42px',
+                        borderRadius: '10px',
+                        background: colorClass ? `var(--${colorClass})` : 'var(--bg-body)',
+                        opacity: 0.15,
+                        position: 'absolute',
+                        right: '1.5rem',
+                        top: '1.5rem',
+                        pointerEvents: 'none'
+                    }}></div>
+                )}
+                {icon && (
+                    <span style={{
+                        fontSize: '1.5rem',
+                        color: colorClass ? `var(--${colorClass})` : 'var(--text-main)',
+                        zIndex: 1
+                    }}>{icon}</span>
+                )}
+            </div>
+
+            <div style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text-main)', lineHeight: 1, marginBottom: '0.75rem' }}>
+                {value}
+            </div>
+
+            <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                {sub}
+            </div>
+        </Link>
     );
 
     return (
         <div className="page-container">
-            <h1 className="text-xl font-bold mb-6 text-slate-800">HR Analytics Dashboard</h1>
+            <h1 style={{ marginBottom: '2.5rem', fontSize: '1.5rem', fontWeight: 700 }}>HR Analytics Dashboard</h1>
 
-            <div className="grid-3">
-                <Link to="/users" style={{ textDecoration: 'none' }}>
-                    <Card title="Total Employees" value={stats.users.total} sub={`${stats.users.active} Active Users`} color="text-slate-800" />
-                </Link>
-                <Link to="/attendance" style={{ textDecoration: 'none' }}>
-                    <Card title="Present Today" value={stats.attendance.presentToday || 0} sub="Check-ins recorded" color="text-green-600" />
-                </Link>
-                <Link to="/recruitment/jobs" style={{ textDecoration: 'none' }}>
-                    <Card title="Open Jobs" value={stats.recruitment.openJobs} sub="Role vacancies" color="text-blue-600" />
-                </Link>
-                <Link to="/expenses/approvals" style={{ textDecoration: 'none' }}>
-                    <Card title="Pending Expenses" value={stats.finance.pendingClaims} sub={`$${stats.finance.approvedTotal} Approved YTD`} color="text-amber-600" />
-                </Link>
-                <Link to="/assets" style={{ textDecoration: 'none' }}>
-                    <Card title="Assigned Assets" value={stats.assets.assigned} sub="Devices in use" color="text-purple-600" />
-                </Link>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
+                <Card
+                    title="Total Employees"
+                    value={stats.users.total}
+                    sub={`${stats.users.active} Active Users`}
+                    icon="👥"
+                    link="/users"
+                />
+                <Card
+                    title="Present Today"
+                    value={stats.attendance.presentToday || 0}
+                    sub="Check-ins recorded"
+                    colorClass="success"
+                    icon="⏱️"
+                    link="/attendance"
+                />
+                <Card
+                    title="Open Jobs"
+                    value={stats.recruitment.openJobs}
+                    sub="Role vacancies"
+                    colorClass="info"
+                    icon="💼"
+                    link="/recruitment/jobs"
+                />
+                <Card
+                    title="Pending Expenses"
+                    value={stats.finance.pendingClaims}
+                    sub={`$${stats.finance.approvedTotal} Approved YTD`}
+                    colorClass="warning"
+                    icon="💸"
+                    link="/expenses/approvals"
+                />
+                <Card
+                    title="Assigned Assets"
+                    value={stats.assets.assigned}
+                    sub="Devices in use"
+                    colorClass="primary"
+                    icon="💻"
+                    link="/assets"
+                />
             </div>
 
-            <div className="grid-3">
+            <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', fontWeight: 600 }}>Performance & Trends</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
                 {/* Placeholder for future charts */}
-                <div className="dashboard-card h-64 flex items-center justify-center">
-                    <div className="text-center" style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>📊</div>
-                        <div className="text-bold-caps">Expense Trends</div>
-                        <div className="text-muted-sm">(Coming Soon in v2.1)</div>
-                    </div>
+                <div className="glass-panel" style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', border: '1px solid var(--border-color)' }}>
+                    <div style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.5 }}>📊</div>
+                    <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>Expense Trends</div>
+                    <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>(Coming Soon in v2.1)</div>
                 </div>
-                <div className="dashboard-card h-64 flex items-center justify-center">
-                    <div className="text-center" style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>🥧</div>
-                        <div className="text-bold-caps">Dept Distribution</div>
-                        <div className="text-muted-sm">(Coming Soon in v2.1)</div>
-                    </div>
+                <div className="glass-panel" style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', border: '1px solid var(--border-color)' }}>
+                    <div style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.5 }}>🥧</div>
+                    <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>Department Distribution</div>
+                    <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>(Coming Soon in v2.1)</div>
                 </div>
             </div>
         </div>

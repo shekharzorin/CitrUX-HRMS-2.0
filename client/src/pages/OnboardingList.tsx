@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 const OnboardingList: React.FC = () => {
     const { token } = useAuth();
     const [onboardings, setOnboardings] = useState<any[]>([]);
+    const [expandedId, setExpandedId] = useState<string | null>(null);
 
     useEffect(() => {
         fetchOnboardings();
@@ -19,6 +20,7 @@ const OnboardingList: React.FC = () => {
     };
 
     const handleApprove = async (id: string) => {
+        if (!window.confirm('Confirm approval? This will generate the employee profile.')) return;
         try {
             const res = await fetch(`http://localhost:5000/api/onboarding/${id}/approve`, {
                 method: 'PUT',
@@ -36,48 +38,66 @@ const OnboardingList: React.FC = () => {
             <h1 className="text-2xl font-bold mb-6 text-slate-800">Onboarding Approvals</h1>
 
             <div className="grid gap-4">
-                {onboardings.length === 0 && <p className="text-slate-500">No pending approvals.</p>}
+                {onboardings.length === 0 && <p style={{ color: 'var(--text-muted)' }}>No pending approvals.</p>}
 
                 {onboardings.map(o => (
-                    <div key={o.id} className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <div key={o.id} className="glass-panel">
                         <div className="flex justify-between items-start">
                             <div>
-                                <h3 className="font-bold text-lg text-slate-800">
-                                    {o.user?.profile?.firstName} <span className="text-slate-400 font-normal">({o.user?.email})</span>
+                                <h3 className="font-bold text-lg" style={{ color: 'var(--text-main)' }}>
+                                    {o.fullName || 'Unknown'} <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>({o.user?.email})</span>
                                 </h3>
-                                <p className="text-sm text-slate-500 mt-1">Submitted: {new Date(o.submittedAt).toLocaleDateString()}</p>
+                                <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>Submitted: {o.submittedAt ? new Date(o.submittedAt).toLocaleDateString() : 'N/A'}</p>
 
-                                <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                                    <div>
-                                        <p><strong>Name:</strong> {o.firstName} {o.lastName}</p>
-                                        <p><strong>Father's Name:</strong> {o.fatherName}</p>
-                                        <p><strong>DOB:</strong> {o.dateOfBirth ? new Date(o.dateOfBirth).toLocaleDateString() : 'N/A'}</p>
-                                        <p><strong>PAN:</strong> {o.panNumber}</p>
-                                        <p><strong>Aadhaar:</strong> {o.aadhaarNumber}</p>
-                                    </div>
-                                    <div>
-                                        <p><strong>Current Address:</strong> {o.currAddress}</p>
-                                        <p><strong>Permanent Address:</strong> {o.permAddress}</p>
-                                    </div>
-                                </div>
+                                <button onClick={() => setExpandedId(expandedId === o.id ? null : o.id)} style={{ color: 'var(--primary)', fontSize: '0.875rem', marginTop: '0.5rem', background: 'none', border: 'none', padding: 0, cursor: 'pointer', textDecoration: 'underline' }}>
+                                    {expandedId === o.id ? 'Hide Details' : 'View Full Application'}
+                                </button>
 
-                                <div className="mt-4 flex flex-wrap gap-2">
-                                    {o.aadhaarUrl && <a href={o.aadhaarUrl} target="_blank" className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded border border-blue-200 hover:underline">📄 Aadhaar</a>}
-                                    {o.panUrl && <a href={o.panUrl} target="_blank" className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded border border-blue-200 hover:underline">📄 PAN</a>}
-                                    {o.passbookUrl && <a href={o.passbookUrl} target="_blank" className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded border border-blue-200 hover:underline">📄 Passbook</a>}
-                                    {o.offerLetterUrl && <a href={o.offerLetterUrl} target="_blank" className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded border border-blue-200 hover:underline">📄 Signed Offer</a>}
-                                </div>
+                                {expandedId === o.id && (
+                                    <div className="mt-4 space-y-4 text-sm pt-4" style={{ borderTop: '1px solid var(--border-color)' }}>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <p className="font-semibold">Personal</p>
+                                                <p>DOB: {o.dateOfBirth}</p>
+                                                <p>Mobile: {o.personalMobile}</p>
+                                                <p>Addr: {o.currentAddress}</p>
+                                            </div>
+                                            <div>
+                                                <p className="font-semibold">Professional</p>
+                                                <p>Dept: {o.department}</p>
+                                                <p>Role: {o.designation}</p>
+                                            </div>
+                                        </div>
 
-                                {o.bankDetails && (
-                                    <div className="mt-4 bg-slate-50 p-3 rounded">
-                                        <h4 className="text-xs font-bold text-slate-500 uppercase">Bank Details</h4>
-                                        <pre className="text-sm mt-1 overflow-auto whitespace-pre-wrap">{JSON.stringify(JSON.parse(o.bankDetails), null, 2)}</pre>
+                                        {o.experiences?.length > 0 && (
+                                            <div>
+                                                <p className="font-semibold">Experience</p>
+                                                <ul className="list-disc pl-4" style={{ color: 'var(--text-muted)' }}>
+                                                    {o.experiences.map((e: any, i: number) => (
+                                                        <li key={i}>{e.designation} at {e.companyName} ({e.startDate ? e.startDate.split('T')[0] : ''} - {e.endDate ? e.endDate.split('T')[0] : 'Present'})</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+
+                                        {o.documents?.length > 0 && (
+                                            <div>
+                                                <p className="font-semibold">Documents</p>
+                                                <div className="flex flex-wrap gap-2 mt-1">
+                                                    {o.documents.map((d: any, i: number) => (
+                                                        <a key={i} href={d.url} target="_blank" rel="noreferrer" style={{ fontSize: '0.75rem', background: 'var(--bg-body)', color: 'var(--primary)', padding: '0.25rem 0.5rem', borderRadius: '4px', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+                                                            📄 {d.type}
+                                                        </a>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </div>
 
                             <div className="flex gap-2">
-                                <button onClick={() => handleApprove(o.id)} className="btn-primary bg-green-600 hover:bg-green-700">
+                                <button onClick={() => handleApprove(o.id)} className="btn btn-success">
                                     Approve & Onboard
                                 </button>
                             </div>

@@ -4,7 +4,7 @@ import {
     getOnboardingStatus,
     approveOnboarding,
     getPendingOnboardings,
-    updateTaskStatus
+    updateOnboarding
 } from '../controllers/onboarding.controller';
 import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware';
 
@@ -18,9 +18,11 @@ router.post('/upload', authenticateToken, upload.single('file'), (req: any, res)
     res.json({ url });
 });
 
+// router.post('/submit', authenticateToken, submitOnboarding); // submit is final
+router.put('/update', authenticateToken, updateOnboarding); // save as draft
 router.post('/submit', authenticateToken, submitOnboarding);
 router.get('/status', authenticateToken, getOnboardingStatus);
-router.put('/task/status', authenticateToken, updateTaskStatus);
+// router.put('/task/status', authenticateToken, updateTaskStatus); // Removed
 
 router.get('/pending', authenticateToken, authorizeRole(['ADMIN', 'HR']), getPendingOnboardings);
 router.put('/:id/approve', authenticateToken, authorizeRole(['ADMIN', 'HR']), approveOnboarding);

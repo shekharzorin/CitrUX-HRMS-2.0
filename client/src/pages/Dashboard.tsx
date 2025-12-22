@@ -41,86 +41,159 @@ const Dashboard: React.FC = () => {
         }
     };
 
-    const Card = ({ title, value, sub, color }: any) => (
-        <div className="dashboard-card">
-            <div className="text-bold-caps">{title}</div>
-            <div className={`text-value-lg ${color}`}>{value}</div>
-            {sub && <div className="text-muted-sm mt-2">{sub}</div>}
-        </div>
+    const Card = ({ title, value, sub, icon, colorClass, link }: any) => (
+        <Link to={link || "#"} className="glass-panel hover:translate-y-[-2px]" style={{
+            textDecoration: 'none',
+            color: 'inherit',
+            display: 'flex',
+            flexDirection: 'column',
+            transition: 'all 0.2s ease',
+            cursor: link ? 'pointer' : 'default',
+            padding: '1.5rem',
+            border: '1px solid var(--border-color)'
+        }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1.5rem' }}>
+                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{title}</span>
+                {icon && (
+                    <div style={{
+                        width: '42px',
+                        height: '42px',
+                        borderRadius: '10px',
+                        background: colorClass ? `var(--${colorClass})` : 'var(--bg-body)',
+                        opacity: 0.15,
+                        position: 'absolute',
+                        right: '1.5rem',
+                        top: '1.5rem',
+                        pointerEvents: 'none'
+                    }}></div>
+                )}
+                {icon && (
+                    <span style={{
+                        fontSize: '1.5rem',
+                        color: colorClass ? `var(--${colorClass})` : 'var(--text-main)',
+                        zIndex: 1
+                    }}>{icon}</span>
+                )}
+            </div>
+
+            <div style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text-main)', lineHeight: 1, marginBottom: '0.75rem' }}>
+                {value}
+            </div>
+
+            <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                {sub}
+            </div>
+        </Link>
     );
 
     return (
         <div className="page-container">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                <div>
-                    <h1 style={{ marginBottom: '0.25rem' }}>Welcome, {user?.profile?.firstName || user?.email} 👋</h1>
-                    <p style={{ color: 'var(--text-muted)' }}>{user?.profile?.designation || user?.role}</p>
-                </div>
+            <div style={{ marginBottom: '2.5rem' }}>
+                <h1 style={{ marginBottom: '0.25rem' }}>Welcome, {user?.profile?.firstName || user?.email?.split('@')[0]} 👋</h1>
+                <p style={{ color: 'var(--text-muted)' }}>Here's what's happening in your workspace today.</p>
             </div>
 
             {/* Notifications Section */}
             {notifications.length > 0 && (
-                <div className="glass-panel" style={{ padding: '1.5rem', marginBottom: '2rem', borderLeft: '4px solid var(--primary)' }}>
-                    <h3 style={{ marginBottom: '1rem' }}>📢 Announcements</h3>
-                    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                <div className="glass-panel" style={{ padding: '1.25rem', marginBottom: '2rem', borderLeft: '4px solid var(--primary)', display: 'flex', alignItems: 'center', gap: '1rem', background: 'var(--bg-surface)' }}>
+                    <span style={{ fontSize: '1.25rem' }}>📢</span>
+                    <div style={{ flex: 1 }}>
                         {notifications.map(n => (
-                            <li key={n.id} style={{ padding: '0.75rem 0', borderBottom: '1px solid var(--border)', opacity: n.read ? 0.6 : 1, display: 'flex', gap: '0.5rem' }}>
-                                <span style={{ color: 'var(--primary)' }}>•</span> {n.message}
-                            </li>
+                            <div key={n.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span style={{ fontWeight: 500, color: 'var(--text-main)' }}>{n.message}</span>
+                                {n.date && <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{new Date(n.date).toLocaleDateString()}</span>}
+                            </div>
                         ))}
-                    </ul>
-                </div>
-            )}
-
-            {/* Admin Stats */}
-            {(user?.role === 'ADMIN' || user?.role === 'HR') && stats && (
-                <div className="grid-3">
-                    <Link to="/users" style={{ textDecoration: 'none' }}>
-                        <Card title="Total Employees" value={stats.users?.total} sub={`${stats.users?.active} Active Users`} color="text-slate-800" />
-                    </Link>
-                    <Link to="/attendance" style={{ textDecoration: 'none' }}>
-                        <Card title="Present Today" value={stats.attendance?.presentToday || 0} sub="Check-ins recorded" color="text-green-600" />
-                    </Link>
-                    <Link to="/recruitment/jobs" style={{ textDecoration: 'none' }}>
-                        <Card title="Open Jobs" value={stats.recruitment?.openJobs} sub="Role vacancies" color="text-blue-600" />
-                    </Link>
-                    <Link to="/expenses/approvals" style={{ textDecoration: 'none' }}>
-                        <Card title="Pending Expenses" value={stats.finance?.pendingClaims} sub={`$${stats.finance?.approvedTotal} Approved YTD`} color="text-amber-600" />
-                    </Link>
-                    <Link to="/assets" style={{ textDecoration: 'none' }}>
-                        <Card title="Assigned Assets" value={stats.assets?.assigned} sub="Devices in use" color="text-purple-600" />
-                    </Link>
-                </div>
-            )}
-
-            {/* Employee Widgets */}
-            {(user?.role === 'EMPLOYEE' || user?.role === 'INTERN') && (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
-                    <div className="glass-panel" style={{ padding: '2rem', background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%)', color: 'white' }}>
-                        <h3 style={{ marginTop: 0, color: 'white' }}>⏱️ Attendance Status</h3>
-                        <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.9)' }}>Don't forget to mark your attendance today.</p>
-                        <Link to="/attendance" style={{ display: 'inline-block', marginTop: '1rem', background: 'white', color: 'var(--primary)', padding: '0.5rem 1rem', borderRadius: '6px', textDecoration: 'none', fontWeight: 600 }}>Check In/Out</Link>
                     </div>
-                    <div className="glass-panel" style={{ padding: '2rem' }}>
-                        <h3 style={{ marginTop: 0 }}>💰 Latest Payslip</h3>
-                        <p>View your earnings and deductions.</p>
-                        <Link to="/payslips" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>View Statement &rarr;</Link>
+                </div>
+            )}
+
+            {/* Admin Stats Grid */}
+            {(user?.role === 'ADMIN' || user?.role === 'HR') && stats && (
+                <>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
+                        <Card
+                            title="Total Employees"
+                            value={stats.users?.total || 0}
+                            sub={`${stats.users?.active || 0} Active Users`}
+                            icon="👥"
+                            link="/users"
+                        />
+                        <Card
+                            title="Present Today"
+                            value={stats.attendance?.presentToday || 0}
+                            sub="Check-ins recorded"
+                            colorClass="success"
+                            icon="⏱️"
+                            link="/attendance"
+                        />
+                        <Card
+                            title="Open Jobs"
+                            value={stats.recruitment?.openJobs || 0}
+                            sub="Role vacancies"
+                            colorClass="info"
+                            icon="💼"
+                            link="/recruitment/jobs"
+                        />
+                        <Card
+                            title="Pending Expenses"
+                            value={stats.finance?.pendingClaims || 0}
+                            sub={`$${stats.finance?.approvedTotal || 0} Approved YTD`}
+                            colorClass="warning"
+                            icon="💸"
+                            link="/expenses/approvals"
+                        />
+                        <Card
+                            title="Assigned Assets"
+                            value={stats.assets?.assigned || 0}
+                            sub="Devices in use"
+                            colorClass="primary"
+                            icon="💻"
+                            link="/assets"
+                        />
+                    </div>
+                </>
+            )}
+
+            {/* Employee Widgets Grid */}
+            {(user?.role === 'EMPLOYEE' || user?.role === 'INTERN') && (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
+                    <div className="glass-panel" style={{ padding: '2rem', background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%)', color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '200px' }}>
+                        <div>
+                            <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>⏱️</div>
+                            <h3 style={{ marginTop: 0, color: 'white', fontSize: '1.5rem' }}>Attendance</h3>
+                            <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.9)', margin: 0 }}>Mark your attendance for today.</p>
+                        </div>
+                        <Link to="/attendance" className="btn" style={{ background: 'white', color: 'var(--primary)', alignSelf: 'start', marginTop: '1.5rem', border: 'none' }}>Check In/Out &rarr;</Link>
+                    </div>
+
+                    <div className="glass-panel" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '200px' }}>
+                        <div>
+                            <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>💰</div>
+                            <h3 style={{ marginTop: 0, fontSize: '1.5rem' }}>Payslips</h3>
+                            <p style={{ color: 'var(--text-muted)', margin: 0 }}>View earnings & deductions.</p>
+                        </div>
+                        <Link to="/payslips" className="btn-secondary" style={{ alignSelf: 'start', marginTop: '1.5rem' }}>View Statement</Link>
                     </div>
                 </div>
             )}
 
             {/* Quick Actions */}
             <div className="glass-panel" style={{ padding: '2rem' }}>
-                <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem' }}>⚡ Quick Actions</h2>
-                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                    <Link to="/attendance" className="btn-primary" style={{ textDecoration: 'none', background: 'white', color: 'var(--text)', border: '1px solid var(--border)', boxShadow: 'none' }}>Attendance</Link>
-                    <Link to="/payslips" className="btn-primary" style={{ textDecoration: 'none', background: 'white', color: 'var(--text)', border: '1px solid var(--border)', boxShadow: 'none' }}>Payslips</Link>
+                <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <span>⚡</span> Quick Actions
+                </h2>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '2rem' }}>
+                    <Link to="/attendance" className="btn-secondary quick-action-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', textDecoration: 'none', background: 'var(--bg-body)' }}>⏱️ Attendance</Link>
+                    <Link to="/payslips" className="btn-secondary quick-action-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', textDecoration: 'none', background: 'var(--bg-body)' }}>💰 Payslips</Link>
+                    <Link to="/leaves" className="btn-secondary quick-action-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', textDecoration: 'none', background: 'var(--bg-body)' }}>🌴 Apply Leave</Link>
 
                     {(user?.role === 'ADMIN' || user?.role === 'HR') && (
                         <>
-                            <Link to="/users" className="btn-primary" style={{ textDecoration: 'none', background: 'white', color: 'var(--text)', border: '1px solid var(--border)', boxShadow: 'none' }}>Manage Users</Link>
-                            <Link to="/users/create" className="btn-primary" style={{ textDecoration: 'none' }}>➕ Add User</Link>
-                            <Link to="/certificates/issue" className="btn-primary" style={{ textDecoration: 'none', background: 'white', color: 'var(--text)', border: '1px solid var(--border)', boxShadow: 'none' }}>Issue Certificate</Link>
+                            <Link to="/users" className="btn-secondary quick-action-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', textDecoration: 'none', background: 'var(--bg-body)' }}>👥 Manage Users</Link>
+                            <Link to="/users/create" className="btn-primary quick-action-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>➕ Add User</Link>
+                            <Link to="/certificates/issue" className="btn-secondary quick-action-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', textDecoration: 'none', background: 'var(--bg-body)' }}>🎓 Issue Certificate</Link>
+                            <Link to="/settings" className="btn-secondary quick-action-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', textDecoration: 'none', background: 'var(--bg-body)' }}>⚙️ Settings</Link>
                         </>
                     )}
                 </div>
