@@ -1,105 +1,67 @@
-# Citrux HRMS - Deployment Guide (Lifetime Free Tier)
+# Citrux HRMS - Deployment Guide (No Credit Card)
 
-This guide shows you how to deploy the Citrux HRMS application for **free** on a cloud VPS (Virtual Private Server) using the automated scripts we've created.
-
-## Recommended Free Provider
-**Oracle Cloud "Always Free" Tier**
-- **Resources**: ARM Ampere A1 Compute (4 OCPUs, 24 GB RAM) - *Very powerful and free forever.*
-- **OS**: Ubuntu 24.04 or 22.04 LTS.
+This guide shows you how to deploy Citrux HRMS for **free** using services that do **not** require a credit card:
+1.  **Neon.tech**: Database (PostgreSQL)
+2.  **Render**: Backend API
+3.  **Vercel**: Frontend UI
 
 ---
 
-## Phase 1: Initial Server Setup (One-Time)
+## Step 1: Database Setup (Neon.tech)
 
-### 1. Get Access to your Server
-SSH into your fresh Ubuntu instance:
-```bash
-ssh -i /path/to/your/key.pem ubuntu@<YOUR_SERVER_IP>
-```
-
-### 2. Clone the Repository
-Inside your server, clone the project code:
-```bash
-git clone https://github.com/shekharzorin/hrms.git ~/citrux-hrms
-cd ~/citrux-hrms
-```
-*(If the repo is private, you'll need to use a Personal Access Token or SSH keys to clone)*
-
-### 3. Run the Setup Script
-We have created a magic script that installs **Node.js, Nginx, PM2, and configures the Firewall** for you.
-```bash
-chmod +x scripts/setup.sh
-./scripts/setup.sh
-```
-
-### 4. Configure Domain & Nginx
-This script generates the correct Nginx configuration to serve your site and proxy the API.
-```bash
-chmod +x scripts/nginx-conf-gen.sh
-./scripts/nginx-conf-gen.sh
-```
-- Enter your **Domain Name** (e.g., `hrms.mycompany.com`) or **Public IP** if you don't have a domain.
-- Say **Yes (y)** to SSL setup if you have a domain name connected.
-
-### 5. Setup Environment Variables
-Create the production environment file:
-```bash
-cd ~/citrux-hrms/server
-cp .env.example .env
-nano .env
-```
-- **IMPORTANT**: Change `JWT_SECRET` to a random long string.
-- You can keep `DATABASE_URL="file:./dev.db"`.
-
-### 6. Start the App Manually (First Time)
-To make sure everything is working:
-```bash
-# Build & Start Backend
-npm install
-npm run build
-npx prisma migrate deploy
-pm2 start dist/index.js --name "citrux-api"
-pm2 save
-```
-Now, open your browser and visit your Domain or IP. You should see the login screen!
+1.  Go to [Neon.tech](https://neon.tech) and sign up (Free).
+2.  Create a new **Project**.
+3.  It will show you a **Connection String** that looks like: `postgres://user:password@ep-xyz.aws.neon.tech/neondb...`
+4.  **Copy this string**. We will need it later.
 
 ---
 
-## Phase 2: Automated Deployment (CI/CD)
+## Step 2: Backend Deployment (Render)
 
-We have included a GitHub Action (`.github/workflows/deploy.yml`) that automatically updates your server whenever you push code to the `main` branch.
-
-### 1. Configure GitHub Secrets
-Go to your GitHub Repository -> **Settings** -> **Secrets and variables** -> **Actions** -> **New repository secret**.
-
-Add the following secrets:
-
-| Secret Name | Value |
-| :--- | :--- |
-| `HOST` | Your Server's Public IP (e.g., `123.45.67.89`) |
-| `USERNAME` | Your SSH Username (usually `ubuntu` or `opc`) |
-| `SSH_KEY` | The content of your private SSH key (`.pem` file). Copy the whole text including `-----BEGIN RSA PRIVATE KEY-----`. |
-
-### 2. Trigger a Deploy
-Make a change to your code on your local computer, commit, and push:
-```bash
-git add .
-git commit -m "Testing auto deploy"
-git push origin main
-```
-Watch the "Actions" tab in GitHub. It will login to your server, pull the code, rebuild everything, and restart the app automatically!
+1.  Go to [Render.com](https://render.com) and sign up (Free).
+2.  Click **New +** -> **Web Service**.
+3.  Connect your **GitHub Repository**.
+4.  Select the `server` directory (if asked for Root Directory).
+5.  **Settings**:
+    - **Name**: `citrux-api`
+    - **Runtime**: `Node`
+    - **Build Command**: `npm install && npm run build`
+    - **Start Command**: `node dist/index.js`
+6.  **Environment Variables** (Add these):
+    - `DATABASE_URL`: *Paste your Neon Connection String mostly here*
+    - `JWT_SECRET`: *Any random secret password*
+    - `NODE_ENV`: `production`
+7.  Click **Create Web Service**.
+8.  Wait for it to deploy. Once done, copy your **Backend URL** (e.g., `https://citrux-api.onrender.com`).
 
 ---
 
-## Backup & Maintenance
+## Step 3: Frontend Deployment (Vercel)
 
-### Database Backup
-Your data lives in `server/prisma/dev.db`.
-To backup, simply download this file:
-```bash
-scp -i key.pem ubuntu@<IP>:~/citrux-hrms/server/prisma/dev.db ./backup-date.db
-```
+1.  Go to [Vercel.com](https://vercel.com) and sign up (Free).
+2.  Click **Add New...** -> **Project**.
+3.  Import your **GitHub Repository**.
+4.  **Configure Project**:
+    - **Framework Preset**: `Vite`
+    - **Root Directory**: Click `Edit` and select `client`.
+5.  **Environment Variables**:
+    - `VITE_API_URL`: *Paste your Render Backend URL* (e.g., `https://citrux-api.onrender.com/api`) -> **IMPORTANT**: Add `/api` at the end.
+6.  Click **Deploy**.
 
-### Logs
-- **App Logs**: `pm2 logs citrux-api`
-- **Nginx Logs**: `sudo tail -f /var/log/nginx/error.log`
+---
+
+## Final Step: Connect Them
+
+1.  Go back to your **server** code in GitHub (or on your computer).
+2.  Look at `client/vercel.json`. Update the `destination` URL to match your real Render backend if you want Vercel to proxy requests (optional, but good for avoiding CORS).
+    ```json
+    "destination": "https://YOUR-REAL-APP-NAME.onrender.com/api/$1"
+    ```
+3.  Push that change to GitHub.
+
+---
+
+## Important Limitations (Free Tier)
+
+- **Sleeping Server**: Render's free server goes to sleep after 15 minutes of inactivity. The first time you open the app, it might take **30-60 seconds** to wake up. This is normal.
+- **Uploads**: Since Render's filesystem is ephemeral/temporary, **any profile photos or documents you upload will be DELETED** when the server restarts. To fix this, you would need to integrate a cloud storage service like Cloudinary in the future.
