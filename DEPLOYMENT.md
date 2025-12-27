@@ -1,246 +1,105 @@
-# Deployment Guide for AWS EC2
+# Citrux HRMS - Deployment Guide (Lifetime Free Tier)
 
-This guide outlines the steps to deploy the Citrux HRMS application (React Frontend + Node.js/Express Backend + SQLite Database) on an AWS EC2 instance running Ubuntu.
+This guide shows you how to deploy the Citrux HRMS application for **free** on a cloud VPS (Virtual Private Server) using the automated scripts we've created.
 
-## Prerequisites
-
-1.  **AWS Account**: Access to the AWS Console.
-2.  **Domain Name (Optional)**: If you want to use a custom domain (e.g., `hrms.yourcompany.com`).
-3.  **SSH Client**: To connect to the server (Terminal on Mac/Linux, PowerShell or PuTTY on Windows).
-
----
-
-## Step 1: Launch an EC2 Instance
-
-1.  Log in to the **AWS Management Console**.
-2.  Navigate to **EC2** and click **Launch Instance**.
-3.  **Name**: `Citrux-HRMS-Server`.
-4.  **AMI**: Select **Ubuntu Server 24.04 LTS (HVM)** (or 22.04).
-5.  **Instance Type**: `t3.micro` (Free Tier eligible) or `t3.small` (recommended for better performance).
-6.  **Key Pair**: Create a new key pair or select an existing one. **Download the `.pem` file** and keep it safe.
-7.  **Network Settings**:
-    *   Allow SSH traffic from anywhere (0.0.0.0/0) or My IP.
-    *   Allow HTTP traffic from the internet (0.0.0.0/0).
-    *   Allow HTTPS traffic from the internet (0.0.0.0/0).
-8.  **Storage**: 8GB or more (gp3).
-9.  Click **Launch Instance**.
+## Recommended Free Provider
+**Oracle Cloud "Always Free" Tier**
+- **Resources**: ARM Ampere A1 Compute (4 OCPUs, 24 GB RAM) - *Very powerful and free forever.*
+- **OS**: Ubuntu 24.04 or 22.04 LTS.
 
 ---
 
-## Step 2: Connect to the Server
+## Phase 1: Initial Server Setup (One-Time)
 
-Open your terminal (PowerShell on Windows) and run the following command (replace with your key path and instance IP):
-
+### 1. Get Access to your Server
+SSH into your fresh Ubuntu instance:
 ```bash
-# Set permissions for key file (Linux/Mac only)
-chmod 400 your-key.pem
-
-# Connect via SSH
-ssh -i "path/to/your-key.pem" ubuntu@<your-ec2-public-ip>
+ssh -i /path/to/your/key.pem ubuntu@<YOUR_SERVER_IP>
 ```
 
----
-
-## Step 3: Server Setup & Installation
-
-Update the system and install necessary packages:
-
+### 2. Clone the Repository
+Inside your server, clone the project code:
 ```bash
-sudo apt update && sudo apt upgrade -y
-sudo apt install -y curl git unzip nginx
+git clone https://github.com/shekharzorin/hrms.git ~/citrux-hrms
+cd ~/citrux-hrms
+```
+*(If the repo is private, you'll need to use a Personal Access Token or SSH keys to clone)*
+
+### 3. Run the Setup Script
+We have created a magic script that installs **Node.js, Nginx, PM2, and configures the Firewall** for you.
+```bash
+chmod +x scripts/setup.sh
+./scripts/setup.sh
 ```
 
-### Install Node.js (v20)
+### 4. Configure Domain & Nginx
+This script generates the correct Nginx configuration to serve your site and proxy the API.
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
+chmod +x scripts/nginx-conf-gen.sh
+./scripts/nginx-conf-gen.sh
 ```
+- Enter your **Domain Name** (e.g., `hrms.mycompany.com`) or **Public IP** if you don't have a domain.
+- Say **Yes (y)** to SSL setup if you have a domain name connected.
 
-### Install PM2 (Process Manager)
-```bash
-sudo npm install -g pm2
-```
-
----
-
-## Step 4: Clone the Repository
-
-We will clone the project into the home directory.
-
-```bash
-cd ~
-git clone <your-repository-url> citrux-hrms
-cd citrux-hrms
-```
-
-*(Note: If your repo is private, you may need to set up an SSH deployment key or use HTTPS with a Personal Access Token).*
-
----
-
-## Step 5: Backend Deployment
-
-1.  Navigate to the server directory:
-    ```bash
-    cd ~/citrux-hrms/server
-    ```
-
-2.  Install dependencies:
-    ```bash
-    npm install
-    ```
-
-3.  Configure Environment Variables:
-    Create a `.env` file:
-    ```bash
-    nano .env
-    ```
-    Paste your production variables:
-    ```env
-    PORT=5000
-    DATABASE_URL="file:./dev.db"
-    JWT_SECRET="your-super-secret-key"
-    # Add other variables from your local .env
-    ```
-    (Press `Ctrl+X`, then `Y`, then `Enter` to save).
-
-4.  Build the TypeScript code:
-    ```bash
-    npm run build
-    ```
-
-5.  Initialize the Database:
-    ```bash
-    npx prisma migrate deploy
-    npx prisma generate
-    ```
-
-6.  Create Uploads Directory:
-    ```bash
-    mkdir -p uploads
-    ```
-
-7.  Start the Server with PM2:
-    ```bash
-    pm2 start dist/index.js --name "citrux-api"
-    pm2 save
-    pm2 startup
-    # Follow the instructions output by the startup command to persistence
-    ```
-
----
-
-## Step 6: Frontend Deployment
-
-1.  Navigate to the client directory:
-    ```bash
-    cd ~/citrux-hrms/client
-    ```
-
-2.  Install dependencies:
-    ```bash
-    npm install
-    ```
-
-3.  Build the project:
-    ```bash
-    npm run build
-    ```
-    This will create a `dist` folder containing the static files.
-
----
-
-## Step 7: Configure Nginx
-
-We will configure Nginx to serve the React frontend and reverse-proxy API requests to the Node.js backend.
-
-1.  Create a new Nginx configuration file:
-    ```bash
-    sudo nano /etc/nginx/sites-available/citrux
-    ```
-
-2.  Paste the following configuration (replace `your_domain_or_ip`):
-
-    ```nginx
-    server {
-        listen 80;
-        server_name <your-ec2-public-ip-or-domain>;
-
-        root /home/ubuntu/citrux-hrms/client/dist;
-        index index.html;
-
-        # Frontend - Support React Router
-        location / {
-            try_files $uri $uri/ /index.html;
-        }
-
-        # Backend API Proxy
-        location /api/ {
-            proxy_pass http://localhost:5000;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection 'upgrade';
-            proxy_set_header Host $host;
-            proxy_cache_bypass $http_upgrade;
-        }
-
-        # Serve Uploaded Files
-        location /uploads/ {
-            alias /home/ubuntu/citrux-hrms/server/uploads/;
-        }
-    }
-    ```
-
-3.  Enable the configuration:
-    ```bash
-    sudo ln -s /etc/nginx/sites-available/citrux /etc/nginx/sites-enabled/
-    sudo rm /etc/nginx/sites-enabled/default
-    ```
-
-4.  Test and Restart Nginx:
-    ```bash
-    sudo nginx -t
-    sudo systemctl restart nginx
-    ```
-
-Now, navigating to your EC2 Public IP in a browser should show the application!
-
----
-
-## Step 8: SSL Configuration (Optional but Recommended)
-
-If you have a customized domain pointing to this IP:
-
-1.  Install Certbot:
-    ```bash
-    sudo apt install -y certbot python3-certbot-nginx
-    ```
-
-2.  Generate SSL Certificate:
-    ```bash
-    sudo certbot --nginx -d yourdomain.com
-    ```
-
----
-
-## Updating the Application
-
-When you have new changes to deploy:
-
-**Backend:**
+### 5. Setup Environment Variables
+Create the production environment file:
 ```bash
 cd ~/citrux-hrms/server
-git pull
+cp .env.example .env
+nano .env
+```
+- **IMPORTANT**: Change `JWT_SECRET` to a random long string.
+- You can keep `DATABASE_URL="file:./dev.db"`.
+
+### 6. Start the App Manually (First Time)
+To make sure everything is working:
+```bash
+# Build & Start Backend
 npm install
 npm run build
 npx prisma migrate deploy
-pm2 restart citrux-api
+pm2 start dist/index.js --name "citrux-api"
+pm2 save
+```
+Now, open your browser and visit your Domain or IP. You should see the login screen!
+
+---
+
+## Phase 2: Automated Deployment (CI/CD)
+
+We have included a GitHub Action (`.github/workflows/deploy.yml`) that automatically updates your server whenever you push code to the `main` branch.
+
+### 1. Configure GitHub Secrets
+Go to your GitHub Repository -> **Settings** -> **Secrets and variables** -> **Actions** -> **New repository secret**.
+
+Add the following secrets:
+
+| Secret Name | Value |
+| :--- | :--- |
+| `HOST` | Your Server's Public IP (e.g., `123.45.67.89`) |
+| `USERNAME` | Your SSH Username (usually `ubuntu` or `opc`) |
+| `SSH_KEY` | The content of your private SSH key (`.pem` file). Copy the whole text including `-----BEGIN RSA PRIVATE KEY-----`. |
+
+### 2. Trigger a Deploy
+Make a change to your code on your local computer, commit, and push:
+```bash
+git add .
+git commit -m "Testing auto deploy"
+git push origin main
+```
+Watch the "Actions" tab in GitHub. It will login to your server, pull the code, rebuild everything, and restart the app automatically!
+
+---
+
+## Backup & Maintenance
+
+### Database Backup
+Your data lives in `server/prisma/dev.db`.
+To backup, simply download this file:
+```bash
+scp -i key.pem ubuntu@<IP>:~/citrux-hrms/server/prisma/dev.db ./backup-date.db
 ```
 
-**Frontend:**
-```bash
-cd ~/citrux-hrms/client
-git pull
-npm install
-npm run build
-# No restart needed for Nginx, as it serves static files
-```
+### Logs
+- **App Logs**: `pm2 logs citrux-api`
+- **Nginx Logs**: `sudo tail -f /var/log/nginx/error.log`
