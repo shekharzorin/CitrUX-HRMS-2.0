@@ -24,14 +24,22 @@ import timesheetRoutes from './routes/timesheet.routes';
 import holidayRoutes from './routes/holiday.routes';
 
 import statsRoutes from './routes/stats.routes';
+import importRoutes from './routes/import.routes';
+
 import path from 'path';
 
 dotenv.config();
 
 import { prisma } from './db';
+import { initAttendanceScheduler } from './schedulers/attendance.scheduler';
+import { initLeaveScheduler } from './schedulers/leave.scheduler';
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+// Initialize Schedulers
+initAttendanceScheduler();
+initLeaveScheduler();
 
 app.use(cors());
 app.use(express.json());
@@ -64,6 +72,8 @@ app.use('/api/timesheets', timesheetRoutes);
 app.use('/api/holidays', holidayRoutes);
 
 app.use('/api/stats', statsRoutes);
+app.use('/api/import', importRoutes);
+
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

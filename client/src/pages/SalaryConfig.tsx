@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { api } from '../services/api';
 
-const SalaryConfig: React.FC = () => {
-    const { token } = useAuth();
+const SalaryConfig: React.FC<{ embedded?: boolean }> = ({ embedded }) => {
+    const { } = useAuth(); // Token unused by api service but kept for context
     const [userId, setUserId] = useState('');
     const [users, setUsers] = useState<any[]>([]);
     const [formData, setFormData] = useState({
@@ -19,32 +20,25 @@ const SalaryConfig: React.FC = () => {
 
     const fetchUsers = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/users', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) setUsers(await res.json());
+            const data = await api.get<any[]>('/users');
+            setUsers(data || []);
         } catch (error) { console.error(error); }
     };
 
     const fetchSalary = async (uid: string) => {
         try {
-            const res = await fetch(`http://localhost:5000/api/salary/structure/${uid}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) {
-                const data = await res.json();
-                if (data) {
-                    setFormData({
-                        basic: data.basic,
-                        hra: data.hra,
-                        da: data.da,
-                        allowances: data.allowances,
-                        deductions: data.deductions
-                    });
-                } else {
-                    // Reset if no data
-                    setFormData({ basic: 0, hra: 0, da: 0, allowances: 0, deductions: 0 });
-                }
+            const data = await api.get<any>(`/salary/structure/${uid}`);
+            if (data) {
+                setFormData({
+                    basic: data.basic,
+                    hra: data.hra,
+                    da: data.da,
+                    allowances: data.allowances,
+                    deductions: data.deductions
+                });
+            } else {
+                // Reset if no data
+                setFormData({ basic: 0, hra: 0, da: 0, allowances: 0, deductions: 0 });
             }
         } catch (error) { console.error(error); }
     };
@@ -58,15 +52,8 @@ const SalaryConfig: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:5000/api/salary/structure', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify({ userId, ...formData })
-            });
-            if (res.ok) alert('Salary Structure Updated!');
+            await api.post('/salary/structure', { userId, ...formData });
+            alert('Salary Structure Updated!');
         } catch (error) { console.error(error); }
     };
 
@@ -75,13 +62,13 @@ const SalaryConfig: React.FC = () => {
     const net = gross - Number(formData.deductions);
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-6 text-slate-800">Salary Configuration</h1>
+        <div className={embedded ? "" : "p-6"}>
+            {!embedded && <h1 className="text-2xl font-bold mb-6 text-slate-800">Salary Configuration</h1>}
 
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 max-w-2xl">
                 <div className="mb-6">
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Select Employee</label>
-                    <select className="input-field" value={userId} onChange={handleUserChange}>
+                    <label htmlFor="userSelect" className="block text-sm font-medium text-slate-700 mb-2">Select Employee</label>
+                    <select id="userSelect" className="input-field" value={userId} onChange={handleUserChange}>
                         <option value="">-- Select --</option>
                         {users.map(u => <option key={u.id} value={u.id}>{u.profile?.firstName} ( {u.email} )</option>)}
                     </select>
@@ -91,24 +78,24 @@ const SalaryConfig: React.FC = () => {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1">Basic Salary</label>
-                                <input type="number" className="input-field" value={formData.basic} onChange={e => setFormData({ ...formData, basic: Number(e.target.value) })} required />
+                                <label htmlFor="basicSalary" className="block text-sm font-medium text-slate-700 mb-1">Basic Salary</label>
+                                <input id="basicSalary" type="number" className="input-field" value={formData.basic} onChange={e => setFormData({ ...formData, basic: Number(e.target.value) })} required />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1">HRA</label>
-                                <input type="number" className="input-field" value={formData.hra} onChange={e => setFormData({ ...formData, hra: Number(e.target.value) })} required />
+                                <label htmlFor="hra" className="block text-sm font-medium text-slate-700 mb-1">HRA</label>
+                                <input id="hra" type="number" className="input-field" value={formData.hra} onChange={e => setFormData({ ...formData, hra: Number(e.target.value) })} required />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1">DA</label>
-                                <input type="number" className="input-field" value={formData.da} onChange={e => setFormData({ ...formData, da: Number(e.target.value) })} required />
+                                <label htmlFor="da" className="block text-sm font-medium text-slate-700 mb-1">DA</label>
+                                <input id="da" type="number" className="input-field" value={formData.da} onChange={e => setFormData({ ...formData, da: Number(e.target.value) })} required />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1">Allowances</label>
-                                <input type="number" className="input-field" value={formData.allowances} onChange={e => setFormData({ ...formData, allowances: Number(e.target.value) })} required />
+                                <label htmlFor="allowances" className="block text-sm font-medium text-slate-700 mb-1">Allowances</label>
+                                <input id="allowances" type="number" className="input-field" value={formData.allowances} onChange={e => setFormData({ ...formData, allowances: Number(e.target.value) })} required />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1">Deductions</label>
-                                <input type="number" className="input-field" value={formData.deductions} onChange={e => setFormData({ ...formData, deductions: Number(e.target.value) })} required />
+                                <label htmlFor="deductions" className="block text-sm font-medium text-slate-700 mb-1">Deductions</label>
+                                <input id="deductions" type="number" className="input-field" value={formData.deductions} onChange={e => setFormData({ ...formData, deductions: Number(e.target.value) })} required />
                             </div>
                         </div>
 

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
+import { api } from '../services/api';
 
 const EditUser: React.FC = () => {
-    const { token } = useAuth();
+    const { token: _token } = useAuth();
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
     const [loading, setLoading] = useState(true);
@@ -21,20 +22,16 @@ const EditUser: React.FC = () => {
     const [managers, setManagers] = useState<any[]>([]);
 
     useEffect(() => {
-        // ... (fetchData logic kept same, simplified replacement) ...
         const fetchData = async () => {
-            // ... existing fetch logic for roles/managers ...
             try {
-                const headers = { Authorization: `Bearer ${token}` };
-                const [rolesRes, usersRes] = await Promise.all([
-                    fetch('http://localhost:5000/api/job-roles', { headers }),
-                    fetch('http://localhost:5000/api/users', { headers })
+                const [rolesData, usersData] = await Promise.all([
+                    api.get<any[]>('/job-roles'),
+                    api.get<any[]>('/users')
                 ]);
 
-                if (rolesRes.ok) setJobRoles(await rolesRes.json());
-                if (usersRes.ok) {
-                    const allUsers = await usersRes.json();
-                    setManagers(allUsers.filter((u: any) => u.id !== id));
+                if (rolesData) setJobRoles(rolesData);
+                if (usersData && id) {
+                    setManagers(usersData.filter((u: any) => u.id !== id));
                 }
             } catch (error) { console.error(error); }
         };
@@ -42,21 +39,16 @@ const EditUser: React.FC = () => {
 
         const fetchUser = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/users/${id}`, {
-                    headers: { Authorization: `Bearer ${token}` }
+                const data = await api.get<any>(`/users/${id}`);
+                setFormData({
+                    role: data.role,
+                    firstName: data.profile?.firstName || '',
+                    lastName: data.profile?.lastName || '',
+                    phone: data.profile?.phone || '',
+                    designation: data.profile?.designation || '',
+                    managerId: data.managerId || '',
+                    employeeId: data.employeeId || ''
                 });
-                const data = await response.json();
-                if (response.ok) {
-                    setFormData({
-                        role: data.role,
-                        firstName: data.profile?.firstName || '',
-                        lastName: data.profile?.lastName || '',
-                        phone: data.profile?.phone || '',
-                        designation: data.profile?.designation || '',
-                        managerId: data.managerId || '',
-                        employeeId: data.employeeId || ''
-                    });
-                }
             } catch (error) {
                 console.error('Error fetching user:', error);
             } finally {
@@ -65,7 +57,7 @@ const EditUser: React.FC = () => {
         };
 
         if (id) fetchUser();
-    }, [id, token]);
+    }, [id]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -74,23 +66,11 @@ const EditUser: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:5000/api/users/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify(formData)
-            });
-
-            if (response.ok) {
-                navigate('/users');
-            } else {
-                alert('Failed to update user');
-            }
+            await api.put(`/users/${id}`, formData);
+            navigate('/users');
         } catch (error) {
             console.error(error);
-            alert('Error updating user');
+            alert('Failed to update user');
         }
     };
 
@@ -98,28 +78,28 @@ const EditUser: React.FC = () => {
 
     return (
         <div className="page-container">
-            <h1 style={{ marginBottom: '1.5rem' }}>Edit Employee</h1>
-            <div className="glass-panel" style={{ padding: '2rem', maxWidth: '600px', background: 'white' }}>
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <h1 className="page-title">Edit Employee</h1>
+            <div className="glass-panel form-container">
+                <form onSubmit={handleSubmit} className="form-layout">
+                    <div className="form-grid-2col">
                         <div>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.9rem' }}>First Name</label>
-                            <input name="firstName" className="input-field" value={formData.firstName} onChange={handleChange} required />
+                            <label htmlFor="firstName" className="form-label">First Name</label>
+                            <input id="firstName" name="firstName" className="input-field" value={formData.firstName} onChange={handleChange} required placeholder="Enter first name" />
                         </div>
                         <div>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.9rem' }}>Last Name</label>
-                            <input name="lastName" className="input-field" value={formData.lastName} onChange={handleChange} required />
+                            <label htmlFor="lastName" className="form-label">Last Name</label>
+                            <input id="lastName" name="lastName" className="input-field" value={formData.lastName} onChange={handleChange} required placeholder="Enter last name" />
                         </div>
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.9rem' }}>Employee ID</label>
-                        <input name="employeeId" className="input-field" value={formData.employeeId} onChange={handleChange} placeholder="Optional" />
+                        <label htmlFor="employeeId" className="form-label">Employee ID</label>
+                        <input id="employeeId" name="employeeId" className="input-field" value={formData.employeeId} onChange={handleChange} placeholder="Optional" />
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.9rem' }}>Role</label>
-                        <select name="role" className="input-field" value={formData.role} onChange={handleChange}>
+                        <label htmlFor="role" className="form-label">Role</label>
+                        <select id="role" name="role" className="input-field" value={formData.role} onChange={handleChange} title="Select Role">
                             <option value="EMPLOYEE">Employee</option>
                             <option value="INTERN">Intern</option>
                             <option value="HR">HR</option>
@@ -128,13 +108,13 @@ const EditUser: React.FC = () => {
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.9rem' }}>Phone</label>
-                        <input name="phone" className="input-field" value={formData.phone} onChange={handleChange} />
+                        <label htmlFor="phone" className="form-label">Phone</label>
+                        <input id="phone" name="phone" className="input-field" value={formData.phone} onChange={handleChange} placeholder="Enter phone number" />
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.9rem' }}>Designation</label>
-                        <select name="designation" className="input-field" value={formData.designation} onChange={handleChange} required>
+                        <label htmlFor="designation" className="form-label">Designation</label>
+                        <select id="designation" name="designation" className="input-field" value={formData.designation} onChange={handleChange} required title="Select Designation">
                             <option value="">Select Designation...</option>
                             {jobRoles.map(role => (
                                 <option key={role.id} value={role.title}>{role.title}</option>
@@ -144,8 +124,8 @@ const EditUser: React.FC = () => {
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.9rem' }}>Reporting Manager</label>
-                        <select name="managerId" className="input-field" value={formData.managerId} onChange={handleChange}>
+                        <label htmlFor="managerId" className="form-label">Reporting Manager</label>
+                        <select id="managerId" name="managerId" className="input-field" value={formData.managerId} onChange={handleChange} title="Select Reporting Manager">
                             <option value="">None (Top Level)</option>
                             {managers.map(mgr => (
                                 <option key={mgr.id} value={mgr.id}>
@@ -155,12 +135,11 @@ const EditUser: React.FC = () => {
                         </select>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                    <div className="form-actions">
                         <button type="submit" className="btn-primary">Save Changes</button>
                         <button
                             type="button"
-                            className="btn-primary"
-                            style={{ background: 'white', color: 'var(--text)', border: '1px solid var(--border)', boxShadow: 'none' }}
+                            className="btn-primary btn-cancel"
                             onClick={() => navigate('/users')}
                         >
                             Cancel

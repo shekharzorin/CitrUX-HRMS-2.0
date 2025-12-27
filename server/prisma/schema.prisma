@@ -69,11 +69,15 @@ model Profile {
   firstName      String
   lastName       String
   phone          String?
+  address        String?
+  emergencyContact String?
   designation    String?
   department     String?
   employmentType String    @default("FULL_TIME")
   dateOfJoining  DateTime?
   documents      String?
+  profilePhoto   String?
+  profilePhotoSettings String? // JSON string for zoom/position
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -174,6 +178,7 @@ model Onboarding {
   bloodGroup     String?
   nationality    String?
   profilePhoto   String?
+  profilePhotoSettings String? // JSON string for zoom/position
 
   // Step 2: Contact
   personalMobile String?

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { api } from '../services/api';
 
 const EmployeeDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const { token } = useAuth();
+    const { token: _token } = useAuth(); // Token unused by api service but kept for context
     const [employee, setEmployee] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('overview');
@@ -12,11 +13,8 @@ const EmployeeDetails: React.FC = () => {
     useEffect(() => {
         const fetchEmployee = async () => {
             try {
-                const res = await fetch(`http://localhost:5000/api/users/${id}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                if (res.ok) {
-                    const data = await res.json();
+                const data = await api.get<any>(`/users/${id}`);
+                if (data) {
                     setEmployee(data);
                 }
             } catch (error) {
@@ -26,7 +24,7 @@ const EmployeeDetails: React.FC = () => {
             }
         };
         fetchEmployee();
-    }, [id, token]);
+    }, [id]);
 
     if (loading) return <div className="p-8 text-center text-slate-500">Loading profile...</div>;
     if (!employee) return <div className="p-8 text-center text-slate-500">Employee not found</div>;
@@ -50,8 +48,39 @@ const EmployeeDetails: React.FC = () => {
         <div className="page-container">
             {/* Header Profile Card */}
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6 flex flex-col md:flex-row items-center gap-6">
-                <div className="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center text-3xl font-bold text-slate-600 border-4 border-white shadow-lg">
-                    {profile?.firstName?.charAt(0)}{profile?.lastName?.charAt(0)}
+                <div className="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center text-3xl font-bold text-slate-600 border-4 border-white shadow-lg overflow-hidden">
+                    {profile?.profilePhoto ? (
+                        <img
+                            src={profile.profilePhoto}
+                            alt="Profile"
+                            className="w-full h-full object-cover profile-photo-dynamic"
+                            // eslint-disable-next-line react-dom/no-unsafe-target-blank
+                            style={{
+                                '--zoom': (() => {
+                                    const settings = typeof profile.profilePhotoSettings === 'string'
+                                        ? JSON.parse(profile.profilePhotoSettings)
+                                        : profile.profilePhotoSettings;
+                                    return settings?.zoom || 1;
+                                })(),
+                                '--x': (() => {
+                                    const settings = typeof profile.profilePhotoSettings === 'string'
+                                        ? JSON.parse(profile.profilePhotoSettings)
+                                        : profile.profilePhotoSettings;
+                                    return (settings?.x || 0) + '%';
+                                })(),
+                                '--y': (() => {
+                                    const settings = typeof profile.profilePhotoSettings === 'string'
+                                        ? JSON.parse(profile.profilePhotoSettings)
+                                        : profile.profilePhotoSettings;
+                                    return (settings?.y || 0) + '%';
+                                })()
+                            } as React.CSSProperties}
+                        />
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-purple-600 text-white">
+                            {(profile?.firstName?.charAt(0) || '') + (profile?.lastName?.charAt(0) || '')}
+                        </div>
+                    )}
                 </div>
                 <div className="flex-1 text-center md:text-left">
                     <h1 className="text-2xl font-bold text-slate-800 mb-1">{profile?.firstName} {profile?.lastName}</h1>

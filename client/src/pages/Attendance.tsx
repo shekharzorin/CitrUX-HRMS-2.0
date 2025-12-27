@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { api } from '../services/api';
 
 interface AttendanceRecord {
     id: string;
@@ -11,6 +12,7 @@ interface AttendanceRecord {
         id: string;
         email: string;
         role: string;
+        employeeId?: string;
         profile?: {
             firstName: string;
             lastName: string;
@@ -21,7 +23,7 @@ interface AttendanceRecord {
 }
 
 const Attendance: React.FC = () => {
-    const { token, user } = useAuth();
+    const { user } = useAuth(); // Token unused by api service but kept for context if needed
     const [history, setHistory] = useState<AttendanceRecord[]>([]);
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState('');
@@ -36,11 +38,8 @@ const Attendance: React.FC = () => {
     const fetchHistory = async () => {
         if (!user) return;
         try {
-            const endpoint = canViewAll ? 'http://localhost:5000/api/attendance/all' : 'http://localhost:5000/api/attendance/my-history';
-            const response = await fetch(endpoint, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            const data = await response.json();
+            const endpoint = canViewAll ? '/attendance/all' : '/attendance/my-history';
+            const data = await api.get<AttendanceRecord[]>(endpoint);
             setHistory(data);
         } catch (error) {
             console.error(error);
@@ -53,69 +52,48 @@ const Attendance: React.FC = () => {
         setMessage('');
         try {
             // Mock location for now
-            const response = await fetch('http://localhost:5000/api/attendance/punch-in', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify({ location: 'Office' })
-            });
-            const data = await response.json();
-            if (response.ok) {
-                setMessage('Clocked In successfully!');
-                fetchHistory();
-            } else {
-                setMessage(data.message || 'Clock In failed');
-            }
-        } catch (error) {
-            setMessage('Error connecting to server');
+            await api.post('/attendance/punch-in', { location: 'Office' });
+            setMessage('Clocked In successfully!');
+            fetchHistory();
+        } catch (error: any) {
+            setMessage(error.message || 'Clock In failed');
         }
     };
 
     const handleClockOut = async () => {
         setMessage('');
         try {
-            const response = await fetch('http://localhost:5000/api/attendance/punch-out', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify({})
-            });
-            const data = await response.json();
-            if (response.ok) {
-                setMessage('Clocked Out successfully!');
-                fetchHistory();
-            } else {
-                setMessage(data.message || 'Clock Out failed');
-            }
-        } catch (error) {
-            setMessage('Error connecting to server');
+            await api.post('/attendance/punch-out', {});
+            setMessage('Clocked Out successfully!');
+            fetchHistory();
+        } catch (error: any) {
+            setMessage(error.message || 'Clock Out failed');
         }
     };
 
     return (
         <div className="page-container">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+
+            {/* Header removed as it is now in Layout.tsx */}
+            {/* <div className="attendance-header">
                 <h1>{canViewAll ? 'Attendance Overview' : 'Daily Attendance'}</h1>
-            </div>
+            </div> */}
+
 
             {user && !isSuperAdmin && (
-                <div className="glass-panel" style={{ padding: '1.5rem', marginBottom: '2rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
-                        <div style={{ flex: 1, minWidth: '250px' }}>
-                            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem', color: 'var(--text-main)' }}>
+                <div className="glass-panel profile-summary-card">
+                    <div className="profile-summary-content">
+                        <div className="profile-details">
+                            <h2 className="profile-name">
                                 {user.profile?.firstName ? `${user.profile.firstName} ${user.profile.lastName || ''}` : user.email}
                             </h2>
-                            <p style={{ color: 'var(--text-muted)', margin: 0 }}>
+                            <p className="profile-role">
                                 {user.profile?.designation || user.role} {user.profile?.department && ` • ${user.profile.department}`}
                             </p>
                         </div>
-                        <div style={{ textAlign: 'right', minWidth: '200px' }}>
-                            <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Employee ID</div>
-                            <div style={{ fontFamily: 'monospace', fontSize: '1rem', background: 'var(--bg-body)', padding: '0.5rem 1rem', borderRadius: '0.5rem', border: '1px solid var(--border-color)', color: 'var(--text-main)', minWidth: '120px', textAlign: 'center' }}>
+                        <div className="employee-id-section">
+                            <div className="employee-id-label">Employee ID</div>
+                            <div className="employee-id-badge">
                                 {user.employeeId || 'NA'}
                             </div>
                         </div>
@@ -124,63 +102,63 @@ const Attendance: React.FC = () => {
             )}
 
             {!isSuperAdmin && (
-                <div className="glass-panel" style={{ padding: '2rem', marginBottom: '2rem', textAlign: 'center' }}>
+                <div className="glass-panel action-panel">
                     <h2>Today's Action</h2>
-                    <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1rem' }}>
-                        <button onClick={handleClockIn} className="btn-primary" style={{ background: 'var(--success)', boxShadow: 'none' }}>Clock In</button>
-                        <button onClick={handleClockOut} className="btn-primary" style={{ background: 'var(--warning)', boxShadow: 'none' }}>Clock Out</button>
+                    <div className="action-buttons-container">
+                        <button onClick={handleClockIn} className="btn-primary btn-clock-in">Clock In</button>
+                        <button onClick={handleClockOut} className="btn-primary btn-clock-out">Clock Out</button>
                     </div>
-                    {message && <p style={{ marginTop: '1rem', color: 'var(--text-main)' }}>{message}</p>}
+                    {message && <p className="action-message">{message}</p>}
                 </div>
             )}
 
-            <div className="glass-panel" style={{ padding: '1rem' }}>
+            <div className="glass-panel records-panel">
                 <h3>{canViewAll ? 'All Employee Records' : 'History'}</h3>
                 {loading ? <p>Loading...</p> : (
-                    <table style={{ width: '100%', borderCollapse: 'collapse', color: 'var(--text-main)' }}>
+                    <table className="attendance-table">
                         <thead>
-                            <tr style={{ borderBottom: '1px solid var(--border-color)', textAlign: 'left' }}>
+                            <tr className="table-header-row">
                                 {canViewAll && (
                                     <>
-                                        <th style={{ padding: '1rem', color: 'var(--text-muted)' }}>Employee</th>
-                                        <th style={{ padding: '1rem', color: 'var(--text-muted)' }}>Emp ID</th>
+                                        <th className="table-header-cell">Employee</th>
+                                        <th className="table-header-cell">Emp ID</th>
                                     </>
                                 )}
-                                <th style={{ padding: '1rem', color: 'var(--text-muted)' }}>Date</th>
-                                <th style={{ padding: '1rem', color: 'var(--text-muted)' }}>Check In</th>
-                                <th style={{ padding: '1rem', color: 'var(--text-muted)' }}>Check Out</th>
-                                <th style={{ padding: '1rem', color: 'var(--text-muted)' }}>Hours</th>
+                                <th className="table-header-cell">Date</th>
+                                <th className="table-header-cell">Check In</th>
+                                <th className="table-header-cell">Check Out</th>
+                                <th className="table-header-cell">Hours</th>
                             </tr>
                         </thead>
                         <tbody>
                             {history.map(record => (
-                                <tr key={record.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                                <tr key={record.id} className="table-row">
                                     {canViewAll && (
                                         <>
-                                            <td style={{ padding: '1rem' }}>
-                                                <div style={{ fontWeight: 500 }}>
+                                            <td className="table-cell">
+                                                <div className="table-user-name">
                                                     {record.user?.profile?.firstName
                                                         ? `${record.user.profile.firstName} ${record.user.profile.lastName || ''}`
                                                         : record.user?.email}
                                                 </div>
-                                                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                                                <div className="table-user-role">
                                                     {record.user?.profile?.designation || record.user?.role}
                                                 </div>
                                             </td>
-                                            <td style={{ padding: '1rem', fontFamily: 'monospace', fontSize: '0.875rem' }}>
+                                            <td className="table-emp-id-cell">
                                                 {record.user?.employeeId || 'NA'}
                                             </td>
                                         </>
                                     )}
-                                    <td style={{ padding: '1rem' }}>{new Date(record.date).toLocaleDateString()}</td>
-                                    <td style={{ padding: '1rem' }}>{record.checkIn ? new Date(record.checkIn).toLocaleTimeString() : '-'}</td>
-                                    <td style={{ padding: '1rem' }}>{record.checkOut ? new Date(record.checkOut).toLocaleTimeString() : '-'}</td>
-                                    <td style={{ padding: '1rem' }}>{record.hours ? record.hours.toFixed(2) : '-'}</td>
+                                    <td className="table-cell">{new Date(record.date).toLocaleDateString()}</td>
+                                    <td className="table-cell">{record.checkIn ? new Date(record.checkIn).toLocaleTimeString() : '-'}</td>
+                                    <td className="table-cell">{record.checkOut ? new Date(record.checkOut).toLocaleTimeString() : '-'}</td>
+                                    <td className="table-cell">{record.hours ? record.hours.toFixed(2) : '-'}</td>
                                 </tr>
                             ))}
                             {history.length === 0 && (
                                 <tr>
-                                    <td colSpan={canViewAll ? 6 : 4} style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+                                    <td colSpan={canViewAll ? 6 : 4} className="table-empty-message">
                                         No attendance records found.
                                     </td>
                                 </tr>

@@ -144,11 +144,15 @@ exports.Prisma.ProfileScalarFieldEnum = {
   firstName: 'firstName',
   lastName: 'lastName',
   phone: 'phone',
+  address: 'address',
+  emergencyContact: 'emergencyContact',
   designation: 'designation',
   department: 'department',
   employmentType: 'employmentType',
   dateOfJoining: 'dateOfJoining',
-  documents: 'documents'
+  documents: 'documents',
+  profilePhoto: 'profilePhoto',
+  profilePhotoSettings: 'profilePhotoSettings'
 };
 
 exports.Prisma.AttendanceScalarFieldEnum = {
@@ -230,6 +234,7 @@ exports.Prisma.OnboardingScalarFieldEnum = {
   bloodGroup: 'bloodGroup',
   nationality: 'nationality',
   profilePhoto: 'profilePhoto',
+  profilePhotoSettings: 'profilePhotoSettings',
   personalMobile: 'personalMobile',
   officialMobile: 'officialMobile',
   personalEmail: 'personalEmail',

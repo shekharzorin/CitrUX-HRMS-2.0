@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { sendEmail, leaveStatusTemplate } from '../utils/email.util';
 
 // Get available Leave Types
 export const getLeaveTypes = async (req: Request, res: Response) => {
@@ -155,6 +156,21 @@ export const updateLeaveStatus = async (req: Request, res: Response) => {
                 message: `Your leave request for ${new Date(request.startDate).toDateString()} was ${status}`
             }
         });
+
+        // Send Email Notification
+        const user = await prisma.user.findUnique({ where: { id: request.userId }, select: { email: true, profile: { select: { firstName: true } } } });
+        if (user?.email) {
+            await sendEmail(
+                user.email,
+                `Leave Request ${status}`,
+                leaveStatusTemplate(
+                    user.profile?.firstName || 'Employee',
+                    status,
+                    new Date(request.startDate).toDateString(),
+                    new Date(request.endDate).toDateString()
+                )
+            ).catch(err => console.error('[Email] Failed to send leave status email:', err));
+        }
 
         res.json(updated);
     } catch (error) {

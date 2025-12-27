@@ -7112,11 +7112,15 @@ export namespace Prisma {
     firstName: string | null
     lastName: string | null
     phone: string | null
+    address: string | null
+    emergencyContact: string | null
     designation: string | null
     department: string | null
     employmentType: string | null
     dateOfJoining: Date | null
     documents: string | null
+    profilePhoto: string | null
+    profilePhotoSettings: string | null
   }
 
   export type ProfileMaxAggregateOutputType = {
@@ -7125,11 +7129,15 @@ export namespace Prisma {
     firstName: string | null
     lastName: string | null
     phone: string | null
+    address: string | null
+    emergencyContact: string | null
     designation: string | null
     department: string | null
     employmentType: string | null
     dateOfJoining: Date | null
     documents: string | null
+    profilePhoto: string | null
+    profilePhotoSettings: string | null
   }
 
   export type ProfileCountAggregateOutputType = {
@@ -7138,11 +7146,15 @@ export namespace Prisma {
     firstName: number
     lastName: number
     phone: number
+    address: number
+    emergencyContact: number
     designation: number
     department: number
     employmentType: number
     dateOfJoining: number
     documents: number
+    profilePhoto: number
+    profilePhotoSettings: number
     _all: number
   }
 
@@ -7153,11 +7165,15 @@ export namespace Prisma {
     firstName?: true
     lastName?: true
     phone?: true
+    address?: true
+    emergencyContact?: true
     designation?: true
     department?: true
     employmentType?: true
     dateOfJoining?: true
     documents?: true
+    profilePhoto?: true
+    profilePhotoSettings?: true
   }
 
   export type ProfileMaxAggregateInputType = {
@@ -7166,11 +7182,15 @@ export namespace Prisma {
     firstName?: true
     lastName?: true
     phone?: true
+    address?: true
+    emergencyContact?: true
     designation?: true
     department?: true
     employmentType?: true
     dateOfJoining?: true
     documents?: true
+    profilePhoto?: true
+    profilePhotoSettings?: true
   }
 
   export type ProfileCountAggregateInputType = {
@@ -7179,11 +7199,15 @@ export namespace Prisma {
     firstName?: true
     lastName?: true
     phone?: true
+    address?: true
+    emergencyContact?: true
     designation?: true
     department?: true
     employmentType?: true
     dateOfJoining?: true
     documents?: true
+    profilePhoto?: true
+    profilePhotoSettings?: true
     _all?: true
   }
 
@@ -7265,11 +7289,15 @@ export namespace Prisma {
     firstName: string
     lastName: string
     phone: string | null
+    address: string | null
+    emergencyContact: string | null
     designation: string | null
     department: string | null
     employmentType: string
     dateOfJoining: Date | null
     documents: string | null
+    profilePhoto: string | null
+    profilePhotoSettings: string | null
     _count: ProfileCountAggregateOutputType | null
     _min: ProfileMinAggregateOutputType | null
     _max: ProfileMaxAggregateOutputType | null
@@ -7295,11 +7323,15 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     phone?: boolean
+    address?: boolean
+    emergencyContact?: boolean
     designation?: boolean
     department?: boolean
     employmentType?: boolean
     dateOfJoining?: boolean
     documents?: boolean
+    profilePhoto?: boolean
+    profilePhotoSettings?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["profile"]>
 
@@ -7309,11 +7341,15 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     phone?: boolean
+    address?: boolean
+    emergencyContact?: boolean
     designation?: boolean
     department?: boolean
     employmentType?: boolean
     dateOfJoining?: boolean
     documents?: boolean
+    profilePhoto?: boolean
+    profilePhotoSettings?: boolean
   }
 
   export type ProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7332,11 +7368,15 @@ export namespace Prisma {
       firstName: string
       lastName: string
       phone: string | null
+      address: string | null
+      emergencyContact: string | null
       designation: string | null
       department: string | null
       employmentType: string
       dateOfJoining: Date | null
       documents: string | null
+      profilePhoto: string | null
+      profilePhotoSettings: string | null
     }, ExtArgs["result"]["profile"]>
     composites: {}
   }
@@ -7721,11 +7761,15 @@ export namespace Prisma {
     readonly firstName: FieldRef<"Profile", 'String'>
     readonly lastName: FieldRef<"Profile", 'String'>
     readonly phone: FieldRef<"Profile", 'String'>
+    readonly address: FieldRef<"Profile", 'String'>
+    readonly emergencyContact: FieldRef<"Profile", 'String'>
     readonly designation: FieldRef<"Profile", 'String'>
     readonly department: FieldRef<"Profile", 'String'>
     readonly employmentType: FieldRef<"Profile", 'String'>
     readonly dateOfJoining: FieldRef<"Profile", 'DateTime'>
     readonly documents: FieldRef<"Profile", 'String'>
+    readonly profilePhoto: FieldRef<"Profile", 'String'>
+    readonly profilePhotoSettings: FieldRef<"Profile", 'String'>
   }
     
 
@@ -14725,6 +14769,7 @@ export namespace Prisma {
     bloodGroup: string | null
     nationality: string | null
     profilePhoto: string | null
+    profilePhotoSettings: string | null
     personalMobile: string | null
     officialMobile: string | null
     personalEmail: string | null
@@ -14788,6 +14833,7 @@ export namespace Prisma {
     bloodGroup: string | null
     nationality: string | null
     profilePhoto: string | null
+    profilePhotoSettings: string | null
     personalMobile: string | null
     officialMobile: string | null
     personalEmail: string | null
@@ -14851,6 +14897,7 @@ export namespace Prisma {
     bloodGroup: number
     nationality: number
     profilePhoto: number
+    profilePhotoSettings: number
     personalMobile: number
     officialMobile: number
     personalEmail: number
@@ -14928,6 +14975,7 @@ export namespace Prisma {
     bloodGroup?: true
     nationality?: true
     profilePhoto?: true
+    profilePhotoSettings?: true
     personalMobile?: true
     officialMobile?: true
     personalEmail?: true
@@ -14991,6 +15039,7 @@ export namespace Prisma {
     bloodGroup?: true
     nationality?: true
     profilePhoto?: true
+    profilePhotoSettings?: true
     personalMobile?: true
     officialMobile?: true
     personalEmail?: true
@@ -15054,6 +15103,7 @@ export namespace Prisma {
     bloodGroup?: true
     nationality?: true
     profilePhoto?: true
+    profilePhotoSettings?: true
     personalMobile?: true
     officialMobile?: true
     personalEmail?: true
@@ -15204,6 +15254,7 @@ export namespace Prisma {
     bloodGroup: string | null
     nationality: string | null
     profilePhoto: string | null
+    profilePhotoSettings: string | null
     personalMobile: string | null
     officialMobile: string | null
     personalEmail: string | null
@@ -15286,6 +15337,7 @@ export namespace Prisma {
     bloodGroup?: boolean
     nationality?: boolean
     profilePhoto?: boolean
+    profilePhotoSettings?: boolean
     personalMobile?: boolean
     officialMobile?: boolean
     personalEmail?: boolean
@@ -15355,6 +15407,7 @@ export namespace Prisma {
     bloodGroup?: boolean
     nationality?: boolean
     profilePhoto?: boolean
+    profilePhotoSettings?: boolean
     personalMobile?: boolean
     officialMobile?: boolean
     personalEmail?: boolean
@@ -15437,6 +15490,7 @@ export namespace Prisma {
       bloodGroup: string | null
       nationality: string | null
       profilePhoto: string | null
+      profilePhotoSettings: string | null
       personalMobile: string | null
       officialMobile: string | null
       personalEmail: string | null
@@ -15884,6 +15938,7 @@ export namespace Prisma {
     readonly bloodGroup: FieldRef<"Onboarding", 'String'>
     readonly nationality: FieldRef<"Onboarding", 'String'>
     readonly profilePhoto: FieldRef<"Onboarding", 'String'>
+    readonly profilePhotoSettings: FieldRef<"Onboarding", 'String'>
     readonly personalMobile: FieldRef<"Onboarding", 'String'>
     readonly officialMobile: FieldRef<"Onboarding", 'String'>
     readonly personalEmail: FieldRef<"Onboarding", 'String'>
@@ -34866,11 +34921,15 @@ export namespace Prisma {
     firstName: 'firstName',
     lastName: 'lastName',
     phone: 'phone',
+    address: 'address',
+    emergencyContact: 'emergencyContact',
     designation: 'designation',
     department: 'department',
     employmentType: 'employmentType',
     dateOfJoining: 'dateOfJoining',
-    documents: 'documents'
+    documents: 'documents',
+    profilePhoto: 'profilePhoto',
+    profilePhotoSettings: 'profilePhotoSettings'
   };
 
   export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
@@ -34976,6 +35035,7 @@ export namespace Prisma {
     bloodGroup: 'bloodGroup',
     nationality: 'nationality',
     profilePhoto: 'profilePhoto',
+    profilePhotoSettings: 'profilePhotoSettings',
     personalMobile: 'personalMobile',
     officialMobile: 'officialMobile',
     personalEmail: 'personalEmail',
@@ -35620,11 +35680,15 @@ export namespace Prisma {
     firstName?: StringFilter<"Profile"> | string
     lastName?: StringFilter<"Profile"> | string
     phone?: StringNullableFilter<"Profile"> | string | null
+    address?: StringNullableFilter<"Profile"> | string | null
+    emergencyContact?: StringNullableFilter<"Profile"> | string | null
     designation?: StringNullableFilter<"Profile"> | string | null
     department?: StringNullableFilter<"Profile"> | string | null
     employmentType?: StringFilter<"Profile"> | string
     dateOfJoining?: DateTimeNullableFilter<"Profile"> | Date | string | null
     documents?: StringNullableFilter<"Profile"> | string | null
+    profilePhoto?: StringNullableFilter<"Profile"> | string | null
+    profilePhotoSettings?: StringNullableFilter<"Profile"> | string | null
     user?: XOR<UserRelationFilter, UserWhereInput>
   }
 
@@ -35634,11 +35698,15 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     phone?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    emergencyContact?: SortOrderInput | SortOrder
     designation?: SortOrderInput | SortOrder
     department?: SortOrderInput | SortOrder
     employmentType?: SortOrder
     dateOfJoining?: SortOrderInput | SortOrder
     documents?: SortOrderInput | SortOrder
+    profilePhoto?: SortOrderInput | SortOrder
+    profilePhotoSettings?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -35651,11 +35719,15 @@ export namespace Prisma {
     firstName?: StringFilter<"Profile"> | string
     lastName?: StringFilter<"Profile"> | string
     phone?: StringNullableFilter<"Profile"> | string | null
+    address?: StringNullableFilter<"Profile"> | string | null
+    emergencyContact?: StringNullableFilter<"Profile"> | string | null
     designation?: StringNullableFilter<"Profile"> | string | null
     department?: StringNullableFilter<"Profile"> | string | null
     employmentType?: StringFilter<"Profile"> | string
     dateOfJoining?: DateTimeNullableFilter<"Profile"> | Date | string | null
     documents?: StringNullableFilter<"Profile"> | string | null
+    profilePhoto?: StringNullableFilter<"Profile"> | string | null
+    profilePhotoSettings?: StringNullableFilter<"Profile"> | string | null
     user?: XOR<UserRelationFilter, UserWhereInput>
   }, "id" | "userId">
 
@@ -35665,11 +35737,15 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     phone?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    emergencyContact?: SortOrderInput | SortOrder
     designation?: SortOrderInput | SortOrder
     department?: SortOrderInput | SortOrder
     employmentType?: SortOrder
     dateOfJoining?: SortOrderInput | SortOrder
     documents?: SortOrderInput | SortOrder
+    profilePhoto?: SortOrderInput | SortOrder
+    profilePhotoSettings?: SortOrderInput | SortOrder
     _count?: ProfileCountOrderByAggregateInput
     _max?: ProfileMaxOrderByAggregateInput
     _min?: ProfileMinOrderByAggregateInput
@@ -35684,11 +35760,15 @@ export namespace Prisma {
     firstName?: StringWithAggregatesFilter<"Profile"> | string
     lastName?: StringWithAggregatesFilter<"Profile"> | string
     phone?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    address?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    emergencyContact?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     designation?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     department?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     employmentType?: StringWithAggregatesFilter<"Profile"> | string
     dateOfJoining?: DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
     documents?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    profilePhoto?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    profilePhotoSettings?: StringNullableWithAggregatesFilter<"Profile"> | string | null
   }
 
   export type AttendanceWhereInput = {
@@ -36167,6 +36247,7 @@ export namespace Prisma {
     bloodGroup?: StringNullableFilter<"Onboarding"> | string | null
     nationality?: StringNullableFilter<"Onboarding"> | string | null
     profilePhoto?: StringNullableFilter<"Onboarding"> | string | null
+    profilePhotoSettings?: StringNullableFilter<"Onboarding"> | string | null
     personalMobile?: StringNullableFilter<"Onboarding"> | string | null
     officialMobile?: StringNullableFilter<"Onboarding"> | string | null
     personalEmail?: StringNullableFilter<"Onboarding"> | string | null
@@ -36235,6 +36316,7 @@ export namespace Prisma {
     bloodGroup?: SortOrderInput | SortOrder
     nationality?: SortOrderInput | SortOrder
     profilePhoto?: SortOrderInput | SortOrder
+    profilePhotoSettings?: SortOrderInput | SortOrder
     personalMobile?: SortOrderInput | SortOrder
     officialMobile?: SortOrderInput | SortOrder
     personalEmail?: SortOrderInput | SortOrder
@@ -36306,6 +36388,7 @@ export namespace Prisma {
     bloodGroup?: StringNullableFilter<"Onboarding"> | string | null
     nationality?: StringNullableFilter<"Onboarding"> | string | null
     profilePhoto?: StringNullableFilter<"Onboarding"> | string | null
+    profilePhotoSettings?: StringNullableFilter<"Onboarding"> | string | null
     personalMobile?: StringNullableFilter<"Onboarding"> | string | null
     officialMobile?: StringNullableFilter<"Onboarding"> | string | null
     personalEmail?: StringNullableFilter<"Onboarding"> | string | null
@@ -36374,6 +36457,7 @@ export namespace Prisma {
     bloodGroup?: SortOrderInput | SortOrder
     nationality?: SortOrderInput | SortOrder
     profilePhoto?: SortOrderInput | SortOrder
+    profilePhotoSettings?: SortOrderInput | SortOrder
     personalMobile?: SortOrderInput | SortOrder
     officialMobile?: SortOrderInput | SortOrder
     personalEmail?: SortOrderInput | SortOrder
@@ -36445,6 +36529,7 @@ export namespace Prisma {
     bloodGroup?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
     nationality?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
     profilePhoto?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
+    profilePhotoSettings?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
     personalMobile?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
     officialMobile?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
     personalEmail?: StringNullableWithAggregatesFilter<"Onboarding"> | string | null
@@ -38045,11 +38130,15 @@ export namespace Prisma {
     firstName: string
     lastName: string
     phone?: string | null
+    address?: string | null
+    emergencyContact?: string | null
     designation?: string | null
     department?: string | null
     employmentType?: string
     dateOfJoining?: Date | string | null
     documents?: string | null
+    profilePhoto?: string | null
+    profilePhotoSettings?: string | null
     user: UserCreateNestedOneWithoutProfileInput
   }
 
@@ -38059,11 +38148,15 @@ export namespace Prisma {
     firstName: string
     lastName: string
     phone?: string | null
+    address?: string | null
+    emergencyContact?: string | null
     designation?: string | null
     department?: string | null
     employmentType?: string
     dateOfJoining?: Date | string | null
     documents?: string | null
+    profilePhoto?: string | null
+    profilePhotoSettings?: string | null
   }
 
   export type ProfileUpdateInput = {
@@ -38071,11 +38164,15 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     department?: NullableStringFieldUpdateOperationsInput | string | null
     employmentType?: StringFieldUpdateOperationsInput | string
     dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     documents?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutProfileNestedInput
   }
 
@@ -38085,11 +38182,15 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     department?: NullableStringFieldUpdateOperationsInput | string | null
     employmentType?: StringFieldUpdateOperationsInput | string
     dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     documents?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProfileUpdateManyMutationInput = {
@@ -38097,11 +38198,15 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     department?: NullableStringFieldUpdateOperationsInput | string | null
     employmentType?: StringFieldUpdateOperationsInput | string
     dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     documents?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProfileUncheckedUpdateManyInput = {
@@ -38110,11 +38215,15 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     department?: NullableStringFieldUpdateOperationsInput | string | null
     employmentType?: StringFieldUpdateOperationsInput | string
     dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     documents?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AttendanceCreateInput = {
@@ -38533,6 +38642,7 @@ export namespace Prisma {
     bloodGroup?: string | null
     nationality?: string | null
     profilePhoto?: string | null
+    profilePhotoSettings?: string | null
     personalMobile?: string | null
     officialMobile?: string | null
     personalEmail?: string | null
@@ -38601,6 +38711,7 @@ export namespace Prisma {
     bloodGroup?: string | null
     nationality?: string | null
     profilePhoto?: string | null
+    profilePhotoSettings?: string | null
     personalMobile?: string | null
     officialMobile?: string | null
     personalEmail?: string | null
@@ -38667,6 +38778,7 @@ export namespace Prisma {
     bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
     nationality?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
     officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
     personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38735,6 +38847,7 @@ export namespace Prisma {
     bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
     nationality?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
     officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
     personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38801,6 +38914,7 @@ export namespace Prisma {
     bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
     nationality?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
     officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
     personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38864,6 +38978,7 @@ export namespace Prisma {
     bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
     nationality?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
     officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
     personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40513,11 +40628,15 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     phone?: SortOrder
+    address?: SortOrder
+    emergencyContact?: SortOrder
     designation?: SortOrder
     department?: SortOrder
     employmentType?: SortOrder
     dateOfJoining?: SortOrder
     documents?: SortOrder
+    profilePhoto?: SortOrder
+    profilePhotoSettings?: SortOrder
   }
 
   export type ProfileMaxOrderByAggregateInput = {
@@ -40526,11 +40645,15 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     phone?: SortOrder
+    address?: SortOrder
+    emergencyContact?: SortOrder
     designation?: SortOrder
     department?: SortOrder
     employmentType?: SortOrder
     dateOfJoining?: SortOrder
     documents?: SortOrder
+    profilePhoto?: SortOrder
+    profilePhotoSettings?: SortOrder
   }
 
   export type ProfileMinOrderByAggregateInput = {
@@ -40539,11 +40662,15 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     phone?: SortOrder
+    address?: SortOrder
+    emergencyContact?: SortOrder
     designation?: SortOrder
     department?: SortOrder
     employmentType?: SortOrder
     dateOfJoining?: SortOrder
     documents?: SortOrder
+    profilePhoto?: SortOrder
+    profilePhotoSettings?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -40945,6 +41072,7 @@ export namespace Prisma {
     bloodGroup?: SortOrder
     nationality?: SortOrder
     profilePhoto?: SortOrder
+    profilePhotoSettings?: SortOrder
     personalMobile?: SortOrder
     officialMobile?: SortOrder
     personalEmail?: SortOrder
@@ -41014,6 +41142,7 @@ export namespace Prisma {
     bloodGroup?: SortOrder
     nationality?: SortOrder
     profilePhoto?: SortOrder
+    profilePhotoSettings?: SortOrder
     personalMobile?: SortOrder
     officialMobile?: SortOrder
     personalEmail?: SortOrder
@@ -41077,6 +41206,7 @@ export namespace Prisma {
     bloodGroup?: SortOrder
     nationality?: SortOrder
     profilePhoto?: SortOrder
+    profilePhotoSettings?: SortOrder
     personalMobile?: SortOrder
     officialMobile?: SortOrder
     personalEmail?: SortOrder
@@ -43980,6 +44110,7 @@ export namespace Prisma {
     bloodGroup?: string | null
     nationality?: string | null
     profilePhoto?: string | null
+    profilePhotoSettings?: string | null
     personalMobile?: string | null
     officialMobile?: string | null
     personalEmail?: string | null
@@ -44046,6 +44177,7 @@ export namespace Prisma {
     bloodGroup?: string | null
     nationality?: string | null
     profilePhoto?: string | null
+    profilePhotoSettings?: string | null
     personalMobile?: string | null
     officialMobile?: string | null
     personalEmail?: string | null
@@ -44182,11 +44314,15 @@ export namespace Prisma {
     firstName: string
     lastName: string
     phone?: string | null
+    address?: string | null
+    emergencyContact?: string | null
     designation?: string | null
     department?: string | null
     employmentType?: string
     dateOfJoining?: Date | string | null
     documents?: string | null
+    profilePhoto?: string | null
+    profilePhotoSettings?: string | null
   }
 
   export type ProfileUncheckedCreateWithoutUserInput = {
@@ -44194,11 +44330,15 @@ export namespace Prisma {
     firstName: string
     lastName: string
     phone?: string | null
+    address?: string | null
+    emergencyContact?: string | null
     designation?: string | null
     department?: string | null
     employmentType?: string
     dateOfJoining?: Date | string | null
     documents?: string | null
+    profilePhoto?: string | null
+    profilePhotoSettings?: string | null
   }
 
   export type ProfileCreateOrConnectWithoutUserInput = {
@@ -44687,6 +44827,7 @@ export namespace Prisma {
     bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
     nationality?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
     officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
     personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44753,6 +44894,7 @@ export namespace Prisma {
     bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
     nationality?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
     officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
     personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44898,11 +45040,15 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     department?: NullableStringFieldUpdateOperationsInput | string | null
     employmentType?: StringFieldUpdateOperationsInput | string
     dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     documents?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProfileUncheckedUpdateWithoutUserInput = {
@@ -44910,11 +45056,15 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     department?: NullableStringFieldUpdateOperationsInput | string | null
     employmentType?: StringFieldUpdateOperationsInput | string
     dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     documents?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SalaryStructureUpsertWithoutUserInput = {
@@ -46656,6 +46806,7 @@ export namespace Prisma {
     bloodGroup?: string | null
     nationality?: string | null
     profilePhoto?: string | null
+    profilePhotoSettings?: string | null
     personalMobile?: string | null
     officialMobile?: string | null
     personalEmail?: string | null
@@ -46723,6 +46874,7 @@ export namespace Prisma {
     bloodGroup?: string | null
     nationality?: string | null
     profilePhoto?: string | null
+    profilePhotoSettings?: string | null
     personalMobile?: string | null
     officialMobile?: string | null
     personalEmail?: string | null
@@ -46804,6 +46956,7 @@ export namespace Prisma {
     bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
     nationality?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
     officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
     personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46871,6 +47024,7 @@ export namespace Prisma {
     bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
     nationality?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
     officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
     personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46936,6 +47090,7 @@ export namespace Prisma {
     bloodGroup?: string | null
     nationality?: string | null
     profilePhoto?: string | null
+    profilePhotoSettings?: string | null
     personalMobile?: string | null
     officialMobile?: string | null
     personalEmail?: string | null
@@ -47003,6 +47158,7 @@ export namespace Prisma {
     bloodGroup?: string | null
     nationality?: string | null
     profilePhoto?: string | null
+    profilePhotoSettings?: string | null
     personalMobile?: string | null
     officialMobile?: string | null
     personalEmail?: string | null
@@ -47084,6 +47240,7 @@ export namespace Prisma {
     bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
     nationality?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
     officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
     personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47151,6 +47308,7 @@ export namespace Prisma {
     bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
     nationality?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
     officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
     personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47216,6 +47374,7 @@ export namespace Prisma {
     bloodGroup?: string | null
     nationality?: string | null
     profilePhoto?: string | null
+    profilePhotoSettings?: string | null
     personalMobile?: string | null
     officialMobile?: string | null
     personalEmail?: string | null
@@ -47283,6 +47442,7 @@ export namespace Prisma {
     bloodGroup?: string | null
     nationality?: string | null
     profilePhoto?: string | null
+    profilePhotoSettings?: string | null
     personalMobile?: string | null
     officialMobile?: string | null
     personalEmail?: string | null
@@ -47364,6 +47524,7 @@ export namespace Prisma {
     bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
     nationality?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
     officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
     personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47431,6 +47592,7 @@ export namespace Prisma {
     bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
     nationality?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
     officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
     personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47496,6 +47658,7 @@ export namespace Prisma {
     bloodGroup?: string | null
     nationality?: string | null
     profilePhoto?: string | null
+    profilePhotoSettings?: string | null
     personalMobile?: string | null
     officialMobile?: string | null
     personalEmail?: string | null
@@ -47563,6 +47726,7 @@ export namespace Prisma {
     bloodGroup?: string | null
     nationality?: string | null
     profilePhoto?: string | null
+    profilePhotoSettings?: string | null
     personalMobile?: string | null
     officialMobile?: string | null
     personalEmail?: string | null
@@ -47644,6 +47808,7 @@ export namespace Prisma {
     bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
     nationality?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
     officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
     personalEmail?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47711,6 +47876,7 @@ export namespace Prisma {
     bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
     nationality?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     personalMobile?: NullableStringFieldUpdateOperationsInput | string | null
     officialMobile?: NullableStringFieldUpdateOperationsInput | string | null
     personalEmail?: NullableStringFieldUpdateOperationsInput | string | null

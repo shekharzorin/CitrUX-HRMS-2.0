@@ -256,3 +256,171 @@ The table `main.User` does not exist in the current database.
     at async l (D:\citrux-hrms\server\src\generated\client\runtime\library.js:128:10871)
     at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
 
+2025-12-22T12:20:03.763Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The column `main.Profile.profilePhotoSettings` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The column `main.Profile.profilePhotoSettings` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\src\generated\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-22T12:20:05.696Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The column `main.Profile.profilePhotoSettings` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The column `main.Profile.profilePhotoSettings` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\src\generated\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-22T12:20:06.346Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The column `main.Profile.profilePhotoSettings` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The column `main.Profile.profilePhotoSettings` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\src\generated\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-22T12:20:06.512Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The column `main.Profile.profilePhotoSettings` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The column `main.Profile.profilePhotoSettings` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\src\generated\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-22T12:20:47.517Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The column `main.Profile.profilePhotoSettings` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The column `main.Profile.profilePhotoSettings` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\src\generated\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-22T12:21:00.593Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The column `main.Profile.profilePhotoSettings` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The column `main.Profile.profilePhotoSettings` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\src\generated\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-22T12:21:17.915Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The column `main.Profile.profilePhotoSettings` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The column `main.Profile.profilePhotoSettings` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\src\generated\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\src\generated\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+

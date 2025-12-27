@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { api } from '../services/api';
 
 const IssueCertificate: React.FC = () => {
-    const { token } = useAuth();
+    const { } = useAuth(); // Token unused by api service but kept for context
     const [formData, setFormData] = useState({
         userId: '',
         title: '',
@@ -17,16 +18,8 @@ const IssueCertificate: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/api/certificates/issue', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify(formData)
-            });
-            const data = await response.json();
-            if (response.ok) {
+            const data = await api.post<{ verificationLink: string }>('/certificates/issue', formData);
+            if (data && data.verificationLink) {
                 setLink(data.verificationLink);
                 alert('Certificate Issued!');
             } else {
@@ -34,26 +27,32 @@ const IssueCertificate: React.FC = () => {
             }
         } catch (error) {
             console.error(error);
+            alert('Failed to issue certificate');
         }
     };
 
     return (
         <div className="page-container">
             <h1>Issue Certificate</h1>
-            <div className="glass-panel" style={{ padding: '2rem', maxWidth: '500px' }}>
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    <input name="userId" placeholder="User ID" className="input-field" onChange={handleChange} required />
-                    <input name="title" placeholder="Certificate Title (e.g. Internship Completion)" className="input-field" onChange={handleChange} required />
-                    <select name="type" className="input-field" onChange={handleChange}>
+            <div className="glass-panel issue-card">
+                <form onSubmit={handleSubmit} className="issue-form">
+                    <label htmlFor="userId" className="sr-only">User ID</label>
+                    <input id="userId" name="userId" placeholder="User ID" className="input-field" onChange={handleChange} required />
+
+                    <label htmlFor="title" className="sr-only">Certificate Title</label>
+                    <input id="title" name="title" placeholder="Certificate Title (e.g. Internship Completion)" className="input-field" onChange={handleChange} required />
+
+                    <label htmlFor="type" className="sr-only">Certificate Type</label>
+                    <select id="type" name="type" className="input-field" onChange={handleChange} title="Certificate Type">
                         <option value="Employment">Employment</option>
                         <option value="Internship">Internship</option>
                     </select>
                     <button type="submit" className="btn-primary">Issue</button>
                 </form>
                 {link && (
-                    <div style={{ marginTop: '1rem', padding: '1rem', background: 'var(--surface)', borderRadius: '8px' }}>
+                    <div className="verification-container">
                         <p>Verification Link:</p>
-                        <a href={link} target="_blank" rel="noopener noreferrer" style={{ wordBreak: 'break-all', color: 'var(--primary-light)' }}>{link}</a>
+                        <a href={link} target="_blank" rel="noopener noreferrer" className="verification-link">{link}</a>
                     </div>
                 )}
             </div>

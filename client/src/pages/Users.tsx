@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import ConfirmModal from '../components/ConfirmModal';
+import { api } from '../services/api';
 
 const Users: React.FC = () => {
     const [users, setUsers] = useState<any[]>([]);
-    const { token } = useAuth();
+    const { } = useAuth(); // Token unused by api service but kept for context
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -31,21 +32,13 @@ const Users: React.FC = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/users', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log("Fetched users:", data);
-                if (Array.isArray(data)) {
-                    setUsers(data);
-                } else {
-                    console.error("Received invalid users data:", data);
-                    setUsers([]);
-                }
+            const data = await api.get<any[]>('/users');
+            console.log("Fetched users:", data);
+            if (Array.isArray(data)) {
+                setUsers(data);
             } else {
-                console.error("Failed to fetch users:", response.status);
+                console.error("Received invalid users data:", data);
+                setUsers([]);
             }
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -63,16 +56,8 @@ const Users: React.FC = () => {
             onConfirm: async () => {
                 setDeletingId(id);
                 try {
-                    const response = await fetch(`http://localhost:5000/api/users/${id}`, {
-                        method: 'DELETE',
-                        headers: { Authorization: `Bearer ${token}` }
-                    });
-
-                    if (response.ok) {
-                        setUsers(users.filter(u => u.id !== id));
-                    } else {
-                        alert('Failed to delete user');
-                    }
+                    await api.delete(`/users/${id}`);
+                    setUsers(users.filter(u => u.id !== id));
                 } catch (error) {
                     console.error(error);
                     alert('Error deleting user');
@@ -143,25 +128,12 @@ const Users: React.FC = () => {
                 onConfirm: async () => {
                     setLoading(true);
                     try {
-                        const response = await fetch('http://localhost:5000/api/users/import', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                Authorization: `Bearer ${token}`
-                            },
-                            body: JSON.stringify({ users: usersToImport })
-                        });
-
-                        const data = await response.json();
-                        if (response.ok) {
-                            alert(`Import Complete!\nSuccess: ${data.results.success}\nFailed: ${data.results.failed}\n${data.results.errors.length > 0 ? 'Errors:\n' + data.results.errors.join('\n') : ''}`);
-                            fetchUsers();
-                        } else {
-                            alert('Import Failed: ' + data.message);
-                        }
-                    } catch (err) {
+                        const data = await api.post<any>('/users/import', { users: usersToImport });
+                        alert(`Import Complete!\nSuccess: ${data.results.success}\nFailed: ${data.results.failed}\n${data.results.errors.length > 0 ? 'Errors:\n' + data.results.errors.join('\n') : ''}`);
+                        fetchUsers();
+                    } catch (err: any) {
                         console.error(err);
-                        alert('Error importing users');
+                        alert('Error importing users: ' + (err.message || 'Unknown error'));
                     } finally {
                         setLoading(false);
                         if (fileInputRef.current) fileInputRef.current.value = '';
@@ -174,93 +146,88 @@ const Users: React.FC = () => {
 
     return (
         <div className="page-container">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                 <div>
-                    <h1 style={{ marginBottom: '0.5rem' }}>User Management</h1>
-                    <p>Manage access and update employee information.</p>
+                    <h1 className="text-2xl font-bold mb-2">User Management</h1>
+                    <p className="text-slate-500">Manage access and update employee information.</p>
                 </div>
-                <div style={{ display: 'flex', gap: '1rem' }}>
+                <div className="flex flex-wrap gap-3 w-full md:w-auto">
                     <input
                         type="file"
                         accept=".csv"
                         ref={fileInputRef}
-                        style={{ display: 'none' }}
+                        className="hidden-input"
                         onChange={handleFileUpload}
+                        title="Import CSV"
                     />
                     <button
                         onClick={() => fileInputRef.current?.click()}
-                        className="btn-primary"
-                        style={{ background: 'white', color: 'var(--primary)', border: '1px solid var(--primary)' }}>
+                        className="btn-primary bg-white text-[var(--primary)] border border-[var(--primary)] text-sm px-4 py-2"
+                    >
                         📥 Import CSV
                     </button>
-                    <Link to="/users/create" className="btn-primary" style={{ textDecoration: 'none' }}>+ Add Employee</Link>
+                    <Link to="/users/create" className="btn-primary text-decoration-none text-sm px-4 py-2">+ Add Employee</Link>
                 </div>
             </div>
 
-            <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '1rem' }}>
+            <div className="mb-6">
                 <input
                     type="text"
                     placeholder="Search by name or email..."
-                    className="input-field"
-                    style={{ maxWidth: '300px', background: 'white' }}
+                    className="input-field max-w-sm bg-white"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
             </div>
 
-            <div className="glass-panel" style={{ padding: 0, overflow: 'hidden', background: 'white' }}>
+            <div className="glass-panel p-0 overflow-hidden bg-white overflow-x-auto">
 
-                {loading ? <div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div> : (
-                    <table style={{ width: '100%', borderCollapse: 'collapse', color: 'var(--text)' }}>
-                        <thead style={{ background: '#F9FAFB', borderBottom: '1px solid var(--border)' }}>
-                            <tr style={{ textAlign: 'left' }}>
-                                <th style={{ padding: '1rem', color: '#6B7280', fontSize: '0.85rem', textTransform: 'uppercase', fontWeight: 600 }}>Employee Name</th>
-                                <th style={{ padding: '1rem', color: '#6B7280', fontSize: '0.85rem', textTransform: 'uppercase', fontWeight: 600 }}>ID</th>
-                                <th style={{ padding: '1rem', color: '#6B7280', fontSize: '0.85rem', textTransform: 'uppercase', fontWeight: 600 }}>Role</th>
-                                <th style={{ padding: '1rem', color: '#6B7280', fontSize: '0.85rem', textTransform: 'uppercase', fontWeight: 600 }}>Phone</th>
-                                <th style={{ padding: '1rem', color: '#6B7280', fontSize: '0.85rem', textTransform: 'uppercase', fontWeight: 600 }}>Designation</th>
-                                <th style={{ padding: '1rem', color: '#6B7280', fontSize: '0.85rem', textTransform: 'uppercase', fontWeight: 600, textAlign: 'right' }}>Actions</th>
+                {loading ? <div className="p-8 text-center text-slate-500">Loading...</div> : (
+                    <table className="table-container min-w-[900px]">
+                        <thead className="table-header">
+                            <tr className="table-header-row">
+                                <th className="table-header-cell">Employee Name</th>
+                                <th className="table-header-cell">ID</th>
+                                <th className="table-header-cell">Role</th>
+                                <th className="table-header-cell">Phone</th>
+                                <th className="table-header-cell">Designation</th>
+                                <th className="table-header-cell-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredUsers.length > 0 ? filteredUsers.map(user => (
-                                <tr key={user.id} style={{ borderBottom: '1px solid var(--border)', transition: 'background 0.2s' }}>
-                                    <td style={{ padding: '1rem' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                                            <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#E0E7FF', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '0.85rem' }}>
+                                <tr key={user.id} className="table-row">
+                                    <td className="table-cell">
+                                        <div className="user-info-row">
+                                            <div className="user-avatar">
                                                 {user.profile?.firstName?.charAt(0) || user.email.charAt(0).toUpperCase()}
                                             </div>
                                             <div>
-                                                <div style={{ fontWeight: 500, color: '#111827' }}>{user.profile?.firstName} {user.profile?.lastName}</div>
-                                                <div style={{ fontSize: '0.85rem', color: '#6B7280' }}>{user.email}</div>
+                                                <div className="user-name">{user.profile?.firstName} {user.profile?.lastName}</div>
+                                                <div className="user-email">{user.email}</div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td style={{ padding: '1rem', fontSize: '0.9rem', color: '#374151', fontFamily: 'monospace' }}>
+                                    <td className="table-cell-mono">
                                         {user.employeeId || '-'}
                                     </td>
-                                    <td style={{ padding: '1rem' }}>
-                                        <span style={{
-                                            background: user.role === 'ADMIN' ? '#FEF3C7' : user.role === 'HR' ? '#DBEAFE' : '#ECFDF5',
-                                            color: user.role === 'ADMIN' ? '#D97706' : user.role === 'HR' ? '#2563EB' : '#059669',
-                                            padding: '0.25rem 0.75rem',
-                                            borderRadius: '999px',
-                                            fontSize: '0.75rem',
-                                            fontWeight: 600,
-                                            display: 'inline-block'
-                                        }}>{user.role}</span>
+                                    <td className="table-cell">
+                                        <span className={`role-badge ${user.role === 'ADMIN' ? 'role-badge-admin' :
+                                            user.role === 'HR' ? 'role-badge-hr' :
+                                                user.role === 'MANAGER' ? 'role-badge-manager' :
+                                                    'role-badge-employee'
+                                            }`}>{user.role}</span>
                                     </td>
-                                    <td style={{ padding: '1rem', color: '#374151' }}>{user.profile?.phone || '-'}</td>
-                                    <td style={{ padding: '1rem', color: '#374151' }}>{user.profile?.designation || '-'}</td>
-                                    <td style={{ padding: '1rem', textAlign: 'right' }}>
-                                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
-                                            <Link to={`/employees/${user.id}`} className="btn-primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', background: 'white', color: 'var(--primary)', border: '1px solid var(--border)', boxShadow: 'none' }}>View</Link>
-                                            <Link to={`/users/edit/${user.id}`} className="btn-primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', background: 'white', color: 'var(--primary)', border: '1px solid var(--border)', boxShadow: 'none' }}>Edit</Link>
+                                    <td className="table-cell-text">{user.profile?.phone || '-'}</td>
+                                    <td className="table-cell-text">{user.profile?.designation || '-'}</td>
+                                    <td className="table-cell-right">
+                                        <div className="action-buttons">
+                                            <Link to={`/employees/${user.id}`} className="btn-view">View</Link>
+                                            <Link to={`/users/edit/${user.id}`} className="btn-edit">Edit</Link>
                                             {user.email !== 'admin@citrux.com' && user.role !== 'SUPER_ADMIN' && (
                                                 <button
                                                     onClick={() => handleDelete(user.id, user.profile?.firstName || user.email)}
-                                                    className="btn-primary"
-                                                    style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', background: 'white', color: 'var(--error)', border: '1px solid var(--border)', boxShadow: 'none' }}
+                                                    className="btn-delete"
                                                     disabled={deletingId === user.id}
                                                 >
                                                     {deletingId === user.id ? '...' : 'Delete'}
@@ -271,7 +238,7 @@ const Users: React.FC = () => {
                                 </tr>
                             )) : (
                                 <tr>
-                                    <td colSpan={5} style={{ padding: '2rem', textAlign: 'center', color: '#6B7280' }}>No users found matching your search.</td>
+                                    <td colSpan={6} className="table-empty">No users found matching your search.</td>
                                 </tr>
                             )}
                         </tbody>

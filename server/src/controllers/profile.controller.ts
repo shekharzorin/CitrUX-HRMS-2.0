@@ -25,18 +25,32 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
 export const updateMyProfile = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user.userId;
-        const { phone, firstName, lastName, designation, department } = req.body;
+        const { phone, address, emergencyContact, firstName, lastName, designation, department, profilePhoto, profilePhotoSettings } = req.body;
 
         const profile = await prisma.profile.upsert({
             where: { userId },
-            update: { phone, firstName, lastName, designation, department },
+            update: {
+                phone,
+                address,
+                emergencyContact,
+                firstName,
+                lastName,
+                designation,
+                department,
+                profilePhoto,
+                profilePhotoSettings: typeof profilePhotoSettings === 'object' ? JSON.stringify(profilePhotoSettings) : profilePhotoSettings
+            },
             create: {
                 userId,
                 phone,
+                address,
+                emergencyContact,
                 firstName: firstName || 'Employee',
                 lastName: lastName || '',
                 designation: designation || 'Staff',
-                department: department || 'General'
+                department: department || 'General',
+                profilePhoto,
+                profilePhotoSettings: typeof profilePhotoSettings === 'object' ? JSON.stringify(profilePhotoSettings) : profilePhotoSettings
             }
         });
         res.json(profile);

@@ -38,23 +38,26 @@ const OnboardingList: React.FC = () => {
             <h1 className="text-2xl font-bold mb-6 text-slate-800">Onboarding Approvals</h1>
 
             <div className="grid gap-4">
-                {onboardings.length === 0 && <p style={{ color: 'var(--text-muted)' }}>No pending approvals.</p>}
+                {onboardings.length === 0 && <p className="onboarding-empty">No pending approvals.</p>}
 
                 {onboardings.map(o => (
                     <div key={o.id} className="glass-panel">
                         <div className="flex justify-between items-start">
                             <div>
-                                <h3 className="font-bold text-lg" style={{ color: 'var(--text-main)' }}>
-                                    {o.fullName || 'Unknown'} <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>({o.user?.email})</span>
+                                <h3 className="onboarding-title">
+                                    {o.fullName || 'Unknown'} <span className="onboarding-email">({o.user?.email})</span>
                                 </h3>
-                                <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>Submitted: {o.submittedAt ? new Date(o.submittedAt).toLocaleDateString() : 'N/A'}</p>
+                                <p className="onboarding-date">Submitted: {o.submittedAt ? new Date(o.submittedAt).toLocaleDateString() : 'N/A'}</p>
 
-                                <button onClick={() => setExpandedId(expandedId === o.id ? null : o.id)} style={{ color: 'var(--primary)', fontSize: '0.875rem', marginTop: '0.5rem', background: 'none', border: 'none', padding: 0, cursor: 'pointer', textDecoration: 'underline' }}>
+                                <button
+                                    onClick={() => setExpandedId(expandedId === o.id ? null : o.id)}
+                                    className="onboarding-toggle-btn"
+                                >
                                     {expandedId === o.id ? 'Hide Details' : 'View Full Application'}
                                 </button>
 
                                 {expandedId === o.id && (
-                                    <div className="mt-4 space-y-4 text-sm pt-4" style={{ borderTop: '1px solid var(--border-color)' }}>
+                                    <div className="onboarding-details mt-4 space-y-4 text-sm">
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
                                                 <p className="font-semibold">Personal</p>
@@ -72,7 +75,7 @@ const OnboardingList: React.FC = () => {
                                         {o.experiences?.length > 0 && (
                                             <div>
                                                 <p className="font-semibold">Experience</p>
-                                                <ul className="list-disc pl-4" style={{ color: 'var(--text-muted)' }}>
+                                                <ul className="list-disc pl-4 onboarding-list-text">
                                                     {o.experiences.map((e: any, i: number) => (
                                                         <li key={i}>{e.designation} at {e.companyName} ({e.startDate ? e.startDate.split('T')[0] : ''} - {e.endDate ? e.endDate.split('T')[0] : 'Present'})</li>
                                                     ))}
@@ -85,7 +88,13 @@ const OnboardingList: React.FC = () => {
                                                 <p className="font-semibold">Documents</p>
                                                 <div className="flex flex-wrap gap-2 mt-1">
                                                     {o.documents.map((d: any, i: number) => (
-                                                        <a key={i} href={d.url} target="_blank" rel="noreferrer" style={{ fontSize: '0.75rem', background: 'var(--bg-body)', color: 'var(--primary)', padding: '0.25rem 0.5rem', borderRadius: '4px', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+                                                        <a
+                                                            key={i}
+                                                            href={d.url}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                            className="onboarding-doc-link"
+                                                        >
                                                             📄 {d.type}
                                                         </a>
                                                     ))}

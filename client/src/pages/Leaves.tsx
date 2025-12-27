@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { api } from '../services/api';
 
 const Leaves: React.FC = () => {
-    const { token } = useAuth();
+    const { } = useAuth(); // Token unused by api service but kept for context
     const [balances, setBalances] = useState<any[]>([]);
     const [requests, setRequests] = useState<any[]>([]);
     const [leaveTypes, setLeaveTypes] = useState<any[]>([]);
@@ -24,15 +25,15 @@ const Leaves: React.FC = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const [balRes, reqRes, typeRes] = await Promise.all([
-                fetch('http://localhost:5000/api/leaves/balances', { headers: { Authorization: `Bearer ${token}` } }),
-                fetch('http://localhost:5000/api/leaves/my-requests', { headers: { Authorization: `Bearer ${token}` } }),
-                fetch('http://localhost:5000/api/leaves/types', { headers: { Authorization: `Bearer ${token}` } })
+            const [balData, reqData, typeData] = await Promise.all([
+                api.get<any[]>('/leaves/balances'),
+                api.get<any[]>('/leaves/my-requests'),
+                api.get<any[]>('/leaves/types')
             ]);
 
-            if (balRes.ok) setBalances(await balRes.json());
-            if (reqRes.ok) setRequests(await reqRes.json());
-            if (typeRes.ok) setLeaveTypes(await typeRes.json());
+            if (balData) setBalances(balData);
+            if (reqData) setRequests(reqData);
+            if (typeData) setLeaveTypes(typeData);
         } catch (error) {
             console.error(error);
         } finally {
@@ -43,25 +44,14 @@ const Leaves: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:5000/api/leaves/apply', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify(formData)
-            });
-            if (res.ok) {
-                setShowModal(false);
-                setFormData({ leaveTypeId: '', startDate: '', endDate: '', reason: '' });
-                fetchData();
-                alert('Leave applied successfully!');
-            } else {
-                const err = await res.json();
-                alert(err.message);
-            }
-        } catch (error) {
+            await api.post('/leaves/apply', formData);
+            setShowModal(false);
+            setFormData({ leaveTypeId: '', startDate: '', endDate: '', reason: '' });
+            fetchData();
+            alert('Leave applied successfully!');
+        } catch (error: any) {
             console.error(error);
+            alert(error.message || 'Failed to apply leave');
         }
     };
 
@@ -69,7 +59,8 @@ const Leaves: React.FC = () => {
         <div className="p-6 max-w-7xl mx-auto min-h-screen">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">My Leaves & Time Off</h1>
+                    {/* Header removed via Layout dynamic title */}
+                    {/* <h1 className="text-2xl font-bold text-slate-800 tracking-tight">My Leaves & Time Off</h1> */}
                     <p className="text-slate-500 text-sm mt-1">View your balances and track your leave history.</p>
                 </div>
                 <button
@@ -84,7 +75,9 @@ const Leaves: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 {balances.map(b => (
                     <div key={b.id} className="glass-panel relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
-                        <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundColor: getColorForLeave(b.leaveType.code) }}></div>
+                        {/* Dynamic style for colored bar kept as style prop is appropriate here */}
+                        {/* Dynamic style for colored bar kept as style prop is appropriate here */}
+                        <div className={`absolute top-0 left-0 w-full h-1 ${getColorClassForLeave(b.leaveType.code)}`}></div>
                         <div className="p-5">
                             <div className="flex justify-between items-start mb-4">
                                 <div>
@@ -131,7 +124,7 @@ const Leaves: React.FC = () => {
                                 <tr key={r.id} className="hover:bg-slate-50 transition-colors group">
                                     <td className="p-4 pl-6">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: getColorForLeave(r.leaveType.code) }}></div>
+                                            <div className={`w-2 h-2 rounded-full ${getColorClassForLeave(r.leaveType.code)}`}></div>
                                             <span className="font-semibold text-slate-700">{r.leaveType.name}</span>
                                         </div>
                                     </td>
@@ -187,16 +180,18 @@ const Leaves: React.FC = () => {
                     <div className="glass-panel w-full max-w-md p-0 overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
                         <div className="p-5 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
                             <h2 className="text-lg font-bold text-slate-800">Apply for Leave</h2>
-                            <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-600 transition-colors">✕</button>
+                            <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-600 transition-colors" aria-label="Close modal">✕</button>
                         </div>
                         <form onSubmit={handleSubmit} className="p-6 space-y-5">
                             <div>
-                                <label className="label">Leave Type</label>
+                                <label htmlFor="leaveType" className="label">Leave Type</label>
                                 <select
+                                    id="leaveType"
                                     className="input-field"
                                     value={formData.leaveTypeId}
                                     onChange={e => setFormData({ ...formData, leaveTypeId: e.target.value })}
                                     required
+                                    title="Select Leave Type"
                                 >
                                     <option value="">Select a leave type...</option>
                                     {leaveTypes.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
@@ -204,8 +199,9 @@ const Leaves: React.FC = () => {
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="label">Start Date</label>
+                                    <label htmlFor="startDate" className="label">Start Date</label>
                                     <input
+                                        id="startDate"
                                         type="date"
                                         className="input-field"
                                         value={formData.startDate}
@@ -214,8 +210,9 @@ const Leaves: React.FC = () => {
                                     />
                                 </div>
                                 <div>
-                                    <label className="label">End Date</label>
+                                    <label htmlFor="endDate" className="label">End Date</label>
                                     <input
+                                        id="endDate"
                                         type="date"
                                         className="input-field"
                                         value={formData.endDate}
@@ -225,8 +222,9 @@ const Leaves: React.FC = () => {
                                 </div>
                             </div>
                             <div>
-                                <label className="label">Reason</label>
+                                <label htmlFor="reason" className="label">Reason</label>
                                 <textarea
+                                    id="reason"
                                     className="input-field min-h-[100px]"
                                     placeholder="Please describe the reason for your leave..."
                                     rows={3}
@@ -248,12 +246,12 @@ const Leaves: React.FC = () => {
 };
 
 // Helper for colors
-const getColorForLeave = (code: string) => {
+const getColorClassForLeave = (code: string) => {
     switch (code?.toLowerCase()) {
-        case 'cl': return '#3B82F6'; // Blue
-        case 'sl': return '#EF4444'; // Red
-        case 'pl': return '#10B981'; // Green
-        default: return '#8B5CF6'; // Purple
+        case 'cl': return 'leave-type-cl'; // Blue
+        case 'sl': return 'leave-type-sl'; // Red
+        case 'pl': return 'leave-type-pl'; // Green
+        default: return 'leave-type-default'; // Purple
     }
 };
 

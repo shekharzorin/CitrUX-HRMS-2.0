@@ -35,3 +35,10 @@ yarn-error.log*
 
 # OS
 Thumbs.db
+
+# Agent
+.gemini/
+
+# Uploads
+server/uploads/*
+!server/uploads/.gitkeep

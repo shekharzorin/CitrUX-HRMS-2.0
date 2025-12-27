@@ -214,17 +214,17 @@ const DesignSystem: React.FC = () => {
 // Helper component to render color swatches
 const ColorSwatches = () => {
     const colors = [
-        { name: 'Primary', var: 'var(--primary)', hex: '#9d316e' },
-        { name: 'Primary Hover', var: 'var(--primary-hover)', hex: '#83275a' },
-        { name: 'Success', var: 'var(--success)', hex: '#10b981' },
-        { name: 'Warning', var: 'var(--warning)', hex: '#f59e0b' },
-        { name: 'Error', var: 'var(--error)', hex: '#ef4444' },
-        { name: 'Info', var: 'var(--info)', hex: '#3b82f6' },
-        { name: 'Body Bg', var: 'var(--bg-body)', hex: '#f3f4f6' },
-        { name: 'Surface Bg', var: 'var(--bg-surface)', hex: '#ffffff' },
-        { name: 'Text Main', var: 'var(--text-main)', hex: '#111827' },
-        { name: 'Text Muted', var: 'var(--text-muted)', hex: '#6b7280' },
-        { name: 'Border', var: 'var(--border-color)', hex: '#e5e7eb' },
+        { name: 'Primary', className: 'bg-[var(--primary)]', hex: '#9d316e', var: 'var(--primary)' },
+        { name: 'Primary Hover', className: 'bg-[var(--primary-hover)]', hex: '#83275a', var: 'var(--primary-hover)' },
+        { name: 'Success', className: 'bg-[var(--success)]', hex: '#10b981', var: 'var(--success)' },
+        { name: 'Warning', className: 'bg-[var(--warning)]', hex: '#f59e0b', var: 'var(--warning)' },
+        { name: 'Error', className: 'bg-[var(--error)]', hex: '#ef4444', var: 'var(--error)' },
+        { name: 'Info', className: 'bg-[var(--info)]', hex: '#3b82f6', var: 'var(--info)' },
+        { name: 'Body Bg', className: 'bg-[var(--bg-body)]', hex: '#f3f4f6', var: 'var(--bg-body)' },
+        { name: 'Surface Bg', className: 'bg-[var(--bg-surface)]', hex: '#ffffff', var: 'var(--bg-surface)' },
+        { name: 'Text Main', className: 'bg-[var(--text-main)]', hex: '#111827', var: 'var(--text-main)' },
+        { name: 'Text Muted', className: 'bg-[var(--text-muted)]', hex: '#6b7280', var: 'var(--text-muted)' },
+        { name: 'Border', className: 'bg-[var(--border-color)]', hex: '#e5e7eb', var: 'var(--border-color)' },
     ];
 
     return (
@@ -232,13 +232,12 @@ const ColorSwatches = () => {
             {colors.map((c) => (
                 <div key={c.name} className="flex flex-col gap-2">
                     <div
-                        className="h-24 w-full rounded-lg shadow-sm border border-gray-200"
-                        style={{ backgroundColor: c.var }}
+                        className={`h-24 w-full rounded-lg shadow-sm border border-gray-200 ${c.className}`}
                         title={c.hex}
                     ></div>
                     <div className="text-xs">
                         <p className="font-semibold">{c.name}</p>
-                        <p className="text-muted font-mono">{c.var}</p>
+                        <p className="text-slate-500 font-mono">{c.var}</p>
                     </div>
                 </div>
             ))}

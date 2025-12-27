@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
+import { api } from '../services/api';
 
 const Analytics: React.FC = () => {
-    const { token } = useAuth();
+    const { } = useAuth(); // Token kept for consistency
     const [stats, setStats] = useState<any>(null);
 
     useEffect(() => {
@@ -12,53 +13,37 @@ const Analytics: React.FC = () => {
 
     const fetchStats = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/stats', { headers: { Authorization: `Bearer ${token}` } });
-            if (res.ok) setStats(await res.json());
+            const data = await api.get<any>('/stats');
+            setStats(data);
         } catch (error) { console.error(error); }
     };
 
     if (!stats) return <div className="p-6">Loading Analytics...</div>;
 
     const Card = ({ title, value, sub, icon, colorClass, link }: any) => (
-        <Link to={link || "#"} className="glass-panel hover:translate-y-[-2px]" style={{
-            textDecoration: 'none',
-            color: 'inherit',
-            display: 'flex',
-            flexDirection: 'column',
-            transition: 'all 0.2s ease',
-            cursor: link ? 'pointer' : 'default',
-            padding: '1.5rem',
-            border: '1px solid var(--border-color)'
-        }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1.5rem' }}>
-                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{title}</span>
+        <Link
+            to={link || "#"}
+            className={`glass-panel analytics-card hover:translate-y-[-2px] ${link ? 'analytics-card-clickable' : ''}`}
+        >
+            <div className="analytics-card-header">
+                <span className="analytics-card-title">{title}</span>
                 {icon && (
-                    <div style={{
-                        width: '42px',
-                        height: '42px',
-                        borderRadius: '10px',
-                        background: colorClass ? `var(--${colorClass})` : 'var(--bg-body)',
-                        opacity: 0.15,
-                        position: 'absolute',
-                        right: '1.5rem',
-                        top: '1.5rem',
-                        pointerEvents: 'none'
-                    }}></div>
+                    <div
+                        className={`analytics-card-icon-bg ${colorClass ? `bg-${colorClass}` : 'bg-default-bg'}`}
+                    ></div>
                 )}
                 {icon && (
-                    <span style={{
-                        fontSize: '1.5rem',
-                        color: colorClass ? `var(--${colorClass})` : 'var(--text-main)',
-                        zIndex: 1
-                    }}>{icon}</span>
+                    <span
+                        className={`analytics-card-icon ${colorClass ? `text-${colorClass}` : 'text-main'}`}
+                    >{icon}</span>
                 )}
             </div>
 
-            <div style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text-main)', lineHeight: 1, marginBottom: '0.75rem' }}>
+            <div className="analytics-card-value">
                 {value}
             </div>
 
-            <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+            <div className="analytics-card-subtitle">
                 {sub}
             </div>
         </Link>
@@ -66,9 +51,9 @@ const Analytics: React.FC = () => {
 
     return (
         <div className="page-container">
-            <h1 style={{ marginBottom: '2.5rem', fontSize: '1.5rem', fontWeight: 700 }}>HR Analytics Dashboard</h1>
+            <h1 className="analytics-title">HR Analytics Dashboard</h1>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
+            <div className="analytics-grid">
                 <Card
                     title="Total Employees"
                     value={stats.users.total}
@@ -110,18 +95,18 @@ const Analytics: React.FC = () => {
                 />
             </div>
 
-            <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', fontWeight: 600 }}>Performance & Trends</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+            <h2 className="analytics-section-title">Performance & Trends</h2>
+            <div className="analytics-charts-grid">
                 {/* Placeholder for future charts */}
-                <div className="glass-panel" style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', border: '1px solid var(--border-color)' }}>
-                    <div style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.5 }}>📊</div>
-                    <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>Expense Trends</div>
-                    <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>(Coming Soon in v2.1)</div>
+                <div className="glass-panel analytics-chart-placeholder">
+                    <div className="analytics-chart-icon">📊</div>
+                    <div className="analytics-chart-title">Expense Trends</div>
+                    <div className="analytics-chart-subtitle">(Coming Soon in v2.1)</div>
                 </div>
-                <div className="glass-panel" style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', border: '1px solid var(--border-color)' }}>
-                    <div style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.5 }}>🥧</div>
-                    <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>Department Distribution</div>
-                    <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>(Coming Soon in v2.1)</div>
+                <div className="glass-panel analytics-chart-placeholder">
+                    <div className="analytics-chart-icon">🥧</div>
+                    <div className="analytics-chart-title">Department Distribution</div>
+                    <div className="analytics-chart-subtitle">(Coming Soon in v2.1)</div>
                 </div>
             </div>
         </div>

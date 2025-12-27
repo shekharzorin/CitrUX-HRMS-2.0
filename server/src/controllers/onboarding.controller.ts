@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
 import { notifyRole, notifyUser } from '../utils/notification';
+import { sendEmail, welcomeEmailTemplate } from '../utils/email.util';
 
 interface AuthRequest extends Request {
     user?: {
@@ -118,6 +119,11 @@ export const updateOnboarding = async (req: AuthRequest, res: Response) => {
         if (updateData.dateOfBirth) updateData.dateOfBirth = new Date(updateData.dateOfBirth);
         if (updateData.dateOfJoining) updateData.dateOfJoining = new Date(updateData.dateOfJoining);
 
+        // Handle JSON stringification for settings if object passed
+        if (updateData.profilePhotoSettings && typeof updateData.profilePhotoSettings === 'object') {
+            updateData.profilePhotoSettings = JSON.stringify(updateData.profilePhotoSettings);
+        }
+
 
         const onboarding = await prisma.onboarding.update({
             where: { userId },
@@ -217,7 +223,9 @@ export const approveOnboarding = async (req: Request, res: Response) => {
                     designation: onboarding.designation,
                     employmentType: onboarding.employmentType || "FULL_TIME",
                     dateOfJoining: onboarding.dateOfJoining,
-                    documents: JSON.stringify(onboarding.documents)
+                    documents: JSON.stringify(onboarding.documents),
+                    profilePhoto: onboarding.profilePhoto,
+                    profilePhotoSettings: onboarding.profilePhotoSettings
                 },
                 update: {
                     firstName: onboarding.fullName?.split(' ')[0] || undefined,
@@ -227,13 +235,25 @@ export const approveOnboarding = async (req: Request, res: Response) => {
                     designation: onboarding.designation,
                     employmentType: onboarding.employmentType || undefined,
                     dateOfJoining: onboarding.dateOfJoining,
-                    documents: JSON.stringify(onboarding.documents)
+                    documents: JSON.stringify(onboarding.documents),
+                    profilePhoto: onboarding.profilePhoto,
+                    profilePhotoSettings: onboarding.profilePhotoSettings
                 }
             });
         });
 
         // Notify User
         await notifyUser(onboarding.userId, 'Congratulations! Your onboarding has been approved. Welcome aboard!');
+
+        // Send Welcome Email
+        const user = await prisma.user.findUnique({ where: { id: onboarding.userId }, select: { email: true } });
+        if (user?.email) {
+            await sendEmail(
+                user.email,
+                'Welcome to Citrux HRMS!',
+                welcomeEmailTemplate(onboarding.fullName || 'Employee', user.email)
+            ).catch(err => console.error('[Email] Failed to send welcome email:', err));
+        }
 
         res.json({ message: 'Approved and Profile Updated' });
     } catch (error) {
