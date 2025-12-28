@@ -1,18 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
-import multer from 'multer';
-import path from 'path';
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Make sure this directory exists
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-});
-
-export const upload = multer({ storage });
+// Remove local multer config - use src/middlewares/upload.middleware.ts in routes instead
 
 interface AuthRequest extends Request {
     user?: any;

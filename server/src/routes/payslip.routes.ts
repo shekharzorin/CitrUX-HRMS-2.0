@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { upload, uploadPayslip, getMyPayslips } from '../controllers/payslip.controller';
+import { uploadPayslip, getMyPayslips } from '../controllers/payslip.controller';
+import { upload } from '../middlewares/upload.middleware';
 import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware';
 
 const router = Router();
