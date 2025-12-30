@@ -19,7 +19,7 @@ const Login: React.FC = () => {
     React.useEffect(() => {
         const fetchSettings = async () => {
             try {
-                const data = await api.get<any>('/settings');
+                const data = await api.get<any>('/settings/public');
                 if (data['company_logo']) setLogo(data['company_logo']);
                 if (data['company_name']) setCompanyName(data['company_name']);
             } catch (error) {

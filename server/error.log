@@ -424,3 +424,1561 @@ The column `main.Profile.profilePhotoSettings` does not exist in the current dat
     at async l (D:\citrux-hrms\server\src\generated\client\runtime\library.js:128:10871)
     at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
 
+2025-12-30T03:52:21.320Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:52:23.383Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:52:24.311Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:52:25.366Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:52:26.240Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:52:27.030Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:52:37.008Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:54:46.817Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:54:47.787Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:54:49.553Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:54:50.414Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:54:51.255Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:57:27.083Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:57:28.115Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:57:28.984Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:57:29.793Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:57:30.508Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:57:34.707Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:58:49.310Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+Authentication failed against database server at `ep-cool-db.us-east-2.aws.neon.tech`, the provided database credentials for `(not available)` are not valid.
+
+Please make sure to provide valid database credentials for the database server at `ep-cool-db.us-east-2.aws.neon.tech`.
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+Authentication failed against database server at `ep-cool-db.us-east-2.aws.neon.tech`, the provided database credentials for `(not available)` are not valid.
+
+Please make sure to provide valid database credentials for the database server at `ep-cool-db.us-east-2.aws.neon.tech`.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:58:52.441Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+Authentication failed against database server at `ep-cool-db.us-east-2.aws.neon.tech`, the provided database credentials for `(not available)` are not valid.
+
+Please make sure to provide valid database credentials for the database server at `ep-cool-db.us-east-2.aws.neon.tech`.
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+Authentication failed against database server at `ep-cool-db.us-east-2.aws.neon.tech`, the provided database credentials for `(not available)` are not valid.
+
+Please make sure to provide valid database credentials for the database server at `ep-cool-db.us-east-2.aws.neon.tech`.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:58:55.470Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+Authentication failed against database server at `ep-cool-db.us-east-2.aws.neon.tech`, the provided database credentials for `(not available)` are not valid.
+
+Please make sure to provide valid database credentials for the database server at `ep-cool-db.us-east-2.aws.neon.tech`.
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+Authentication failed against database server at `ep-cool-db.us-east-2.aws.neon.tech`, the provided database credentials for `(not available)` are not valid.
+
+Please make sure to provide valid database credentials for the database server at `ep-cool-db.us-east-2.aws.neon.tech`.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:58:59.046Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+Authentication failed against database server at `ep-cool-db.us-east-2.aws.neon.tech`, the provided database credentials for `(not available)` are not valid.
+
+Please make sure to provide valid database credentials for the database server at `ep-cool-db.us-east-2.aws.neon.tech`.
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+Authentication failed against database server at `ep-cool-db.us-east-2.aws.neon.tech`, the provided database credentials for `(not available)` are not valid.
+
+Please make sure to provide valid database credentials for the database server at `ep-cool-db.us-east-2.aws.neon.tech`.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T03:59:30.989Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+Authentication failed against database server at `ep-cool-db.us-east-2.aws.neon.tech`, the provided database credentials for `(not available)` are not valid.
+
+Please make sure to provide valid database credentials for the database server at `ep-cool-db.us-east-2.aws.neon.tech`.
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+Authentication failed against database server at `ep-cool-db.us-east-2.aws.neon.tech`, the provided database credentials for `(not available)` are not valid.
+
+Please make sure to provide valid database credentials for the database server at `ep-cool-db.us-east-2.aws.neon.tech`.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T04:03:24.935Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T04:03:26.159Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T04:03:32.656Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T04:27:30.416Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T04:30:15.034Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T04:30:16.595Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T04:30:17.341Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T04:30:17.538Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T04:30:39.070Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T04:34:41.269Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T09:58:07.180Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T09:58:08.647Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T09:58:09.320Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T10:06:20.522Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T10:06:21.567Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T10:06:23.077Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T10:06:30.189Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:7154)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T10:06:58.507Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T10:06:59.781Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T10:07:00.855Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T10:07:02.244Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T10:07:03.077Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+
+2025-12-30T10:07:08.208Z - CWD: D:\citrux-hrms\server - Login Error: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:40
+
+   8 const { email, password } = req.body;
+   9 console.log('Login attempt:', email);
+  10 
+→ 11 const user = await prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+    at _n.handleRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6854)
+    at _n.handleAndLogRequestError (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:6188)
+    at _n.request (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:123:5896)
+    at async l (D:\citrux-hrms\server\node_modules\@prisma\client\runtime\library.js:128:10871)
+    at async login (D:\citrux-hrms\server\src\controllers\auth.controller.ts:11:22)
+

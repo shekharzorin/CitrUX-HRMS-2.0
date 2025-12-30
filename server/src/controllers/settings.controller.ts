@@ -19,6 +19,22 @@ export const getSettings = async (req: Request, res: Response) => {
     }
 };
 
+export const getPublicSettings = async (req: Request, res: Response) => {
+    try {
+        const settings = await prisma.$queryRaw`SELECT key, value FROM SystemSetting WHERE key IN ('company_name', 'company_logo')` as { key: string, value: string }[];
+
+        const settingsMap = settings.reduce((acc, curr) => {
+            acc[curr.key] = curr.value;
+            return acc;
+        }, {} as Record<string, string>);
+
+        res.json(settingsMap);
+    } catch (error) {
+        console.error('Error fetching public settings:', error);
+        res.json({});
+    }
+};
+
 export const updateSettings = async (req: Request, res: Response) => {
     try {
         const { settings } = req.body;
