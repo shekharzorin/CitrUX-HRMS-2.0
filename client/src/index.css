@@ -3059,4 +3059,4 @@ label {
   width: 100%;
   height: 100%;
   transform: scale(var(--zoom, 1)) translate(var(--x, 0), var(--y, 0));
-}
+}.login-loading-message { margin-top: 1rem; text-align: center; font-size: 0.9rem; color: #666; animation: fadeIn 0.5s ease-in; }

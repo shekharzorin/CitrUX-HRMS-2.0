@@ -11,6 +11,7 @@ const Login: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState('');
     const [logo, setLogo] = useState('');
     const [companyName, setCompanyName] = useState('');
     const { login } = useAuth();
@@ -33,6 +34,12 @@ const Login: React.FC = () => {
         e.preventDefault();
         setError('');
         setIsLoading(true);
+        setLoadingMessage('Waking up server, please wait...');
+
+        // Cold start timer
+        const timer = setTimeout(() => {
+            setLoadingMessage('First login may take up to 1 minute on free servers.');
+        }, 8000);
 
         try {
             const data = await api.post<{ token: string; user: any }>('/auth/login', { email, password });
@@ -41,7 +48,9 @@ const Login: React.FC = () => {
         } catch (err: any) {
             setError(err.message || 'Failed to connect to server');
         } finally {
+            clearTimeout(timer);
             setIsLoading(false);
+            setLoadingMessage('');
         }
     };
 
@@ -97,6 +106,11 @@ const Login: React.FC = () => {
                     <button type="submit" className="btn-primary login-submit-btn" disabled={isLoading}>
                         {isLoading ? 'Signing In...' : 'Sign In'}
                     </button>
+                    {isLoading && (
+                        <div className="login-loading-message" role="status">
+                            {loadingMessage}
+                        </div>
+                    )}
                 </form>
             </div>
             {/* Optional: Add ThemeSettings here if desired, but user didn't explicitly ask for it on login */}
