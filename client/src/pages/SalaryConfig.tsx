@@ -3,7 +3,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
 
 const SalaryConfig: React.FC<{ embedded?: boolean }> = ({ embedded }) => {
-    const { } = useAuth(); // Token unused by api service but kept for context
+    // const { } = useAuth(); // Token unused by api service
+    const { } = useAuth();
     const [userId, setUserId] = useState('');
     const [users, setUsers] = useState<any[]>([]);
     const [formData, setFormData] = useState({

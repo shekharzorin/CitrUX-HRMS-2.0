@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
 
 const ShiftConfig: React.FC<{ embedded?: boolean }> = ({ embedded }) => {
-    const { token: _token } = useAuth(); // Token unused by api service but kept for context
+    const { } = useAuth(); // Token unused by api service but kept for context
     const [shifts, setShifts] = useState<any[]>([]);
     const [formData, setFormData] = useState({
         name: '',

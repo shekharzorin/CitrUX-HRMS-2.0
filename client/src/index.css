@@ -1341,7 +1341,7 @@ label {
 .logo-text {
   color: var(--text-sidebar-active);
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   font-family: var(--font-heading);
   letter-spacing: -1px;

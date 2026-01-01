@@ -91,13 +91,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <>
             <div className={`
                 ${collapsed ? 'sidebar-content-collapsed' : 'sidebar-content-expanded'} 
-                ${!isMobile ? 'border-b border-[var(--border-color)]' : ''}
                 sidebar-content-wrapper
             `}>
                 <div className="sidebar-header">
                     {companyLogo ? (
-                        <div className="w-8 h-8 rounded bg-transparent flex items-center justify-center overflow-hidden">
-                            <img src={companyLogo} alt="Logo" className="w-full h-full object-contain" />
+                        <div className="h-10 w-auto max-w-[150px] flex items-center justify-start">
+                            <img src={companyLogo} alt="Logo" className="h-full w-auto object-contain" />
                         </div>
                     ) : (
                         <div className="logo-box">{companyName.charAt(0)}</div>

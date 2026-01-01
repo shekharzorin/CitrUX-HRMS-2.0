@@ -283,10 +283,19 @@ const Settings: React.FC = () => {
                                 <div className="space-y-2">
                                     <label htmlFor="companyLogo" className="label">Company Logo</label>
                                     <div className="flex items-center gap-4">
-                                        <div className="w-24 h-24 rounded-lg border-2 border-dashed border-slate-300 flex items-center justify-center bg-slate-50 relative group">
+                                        <div className="w-20 h-20 rounded-lg border-2 border-dashed border-slate-300 flex items-center justify-center bg-slate-50 relative group overflow-hidden">
                                             {companyLogo ? <img src={companyLogo} alt="Logo" className="w-full h-full object-contain p-2" /> : <span className="text-xs text-slate-400">No Logo</span>}
                                             <input id="companyLogo" type="file" accept="image/*" onChange={handleLogoUpload} className="absolute inset-0 opacity-0 cursor-pointer" title="Upload Company Logo" />
                                         </div>
+                                        {companyLogo && (
+                                            <button
+                                                onClick={() => setCompanyLogo('')}
+                                                className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-2 font-bold text-xs uppercase tracking-wider"
+                                                title="Remove Logo"
+                                            >
+                                                <Icon name="delete" size={16} /> Remove
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             </div>
