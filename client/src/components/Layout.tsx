@@ -28,13 +28,32 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [companyLogo, setCompanyLogo] = useState(localStorage.getItem('company_logo') || '');
 
     // Listen for setting updates
+    // Listen for setting updates
     useEffect(() => {
-        const handleStorageChange = () => {
-            setCompanyName(localStorage.getItem('company_name') || 'Citrux');
-            setCompanyLogo(localStorage.getItem('company_logo') || '');
+        const updateBranding = () => {
+            const name = localStorage.getItem('company_name') || 'Citrux HS';
+            const logo = localStorage.getItem('company_logo') || '';
+            const favicon = localStorage.getItem('company_favicon');
+
+            setCompanyName(name);
+            setCompanyLogo(logo);
+            document.title = name;
+
+            if (favicon) {
+                const link = (document.querySelector("link[rel*='icon']") as HTMLLinkElement) || document.createElement('link');
+                link.type = 'image/x-icon';
+                link.rel = 'shortcut icon';
+                link.href = favicon;
+                const head = document.getElementsByTagName('head')[0];
+                if (!head.contains(link)) {
+                    head.appendChild(link);
+                }
+            }
         };
-        window.addEventListener('storage', handleStorageChange);
-        return () => window.removeEventListener('storage', handleStorageChange);
+
+        updateBranding(); // Initial Load
+        window.addEventListener('storage', updateBranding);
+        return () => window.removeEventListener('storage', updateBranding);
     }, []);
 
     const navigate = useNavigate();

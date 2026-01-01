@@ -16,6 +16,7 @@ const Settings: React.FC = () => {
     // General Settings State
     const [companyName, setCompanyName] = useState(localStorage.getItem('company_name') || '');
     const [companyLogo, setCompanyLogo] = useState(localStorage.getItem('company_logo') || '');
+    const [companyFavicon, setCompanyFavicon] = useState(localStorage.getItem('company_favicon') || '');
 
     // Employee ID Settings State
     const [empSettings, setEmpSettings] = useState({
@@ -67,6 +68,7 @@ const Settings: React.FC = () => {
             if (data) {
                 if (data['company_name']) setCompanyName(data['company_name']);
                 if (data['company_logo']) setCompanyLogo(data['company_logo']);
+                if (data['company_favicon']) setCompanyFavicon(data['company_favicon']);
                 setEmpSettings({
                     autoGenerate: data['EMP_ID_AUTO_GENERATE'] === 'true',
                     prefix: data['EMP_ID_PREFIX'] || 'EMP-',
@@ -126,10 +128,11 @@ const Settings: React.FC = () => {
 
     const handleUpdateGeneral = async () => {
         try {
-            const settingsToSave = { 'company_name': companyName, 'company_logo': companyLogo };
+            const settingsToSave = { 'company_name': companyName, 'company_logo': companyLogo, 'company_favicon': companyFavicon };
             await api.post('/settings', { settings: settingsToSave });
             localStorage.setItem('company_name', companyName);
             localStorage.setItem('company_logo', companyLogo);
+            localStorage.setItem('company_favicon', companyFavicon);
             window.dispatchEvent(new Event('storage'));
             alert('General settings updated successfully!');
         } catch (error) { console.error(error); }
@@ -147,6 +150,25 @@ const Settings: React.FC = () => {
                         e.target.value = ''; return;
                     }
                     if (readerEvent.target?.result) setCompanyLogo(readerEvent.target.result as string);
+                };
+                if (readerEvent.target?.result) image.src = readerEvent.target.result as string;
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleFaviconUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (readerEvent) => {
+                const image = new Image();
+                image.onload = () => {
+                    if (image.width > 256 || image.height > 256) {
+                        alert(`Favicon dimensions (${image.width}x${image.height}px) are too large. Max 256x256px.`);
+                        e.target.value = ''; return;
+                    }
+                    if (readerEvent.target?.result) setCompanyFavicon(readerEvent.target.result as string);
                 };
                 if (readerEvent.target?.result) image.src = readerEvent.target.result as string;
             };
@@ -292,6 +314,24 @@ const Settings: React.FC = () => {
                                                 onClick={() => setCompanyLogo('')}
                                                 className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-2 font-bold text-xs uppercase tracking-wider"
                                                 title="Remove Logo"
+                                            >
+                                                <Icon name="delete" size={16} /> Remove
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label htmlFor="companyFavicon" className="label">Favicon (Tab Icon)</label>
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-16 h-16 rounded-lg border-2 border-dashed border-slate-300 flex items-center justify-center bg-slate-50 relative group overflow-hidden">
+                                            {companyFavicon ? <img src={companyFavicon} alt="Favicon" className="w-8 h-8 object-contain" /> : <span className="text-[10px] text-slate-400">Icon</span>}
+                                            <input id="companyFavicon" type="file" accept="image/*" onChange={handleFaviconUpload} className="absolute inset-0 opacity-0 cursor-pointer" title="Upload Favicon" />
+                                        </div>
+                                        {companyFavicon && (
+                                            <button
+                                                onClick={() => setCompanyFavicon('')}
+                                                className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-2 font-bold text-xs uppercase tracking-wider"
+                                                title="Remove Favicon"
                                             >
                                                 <Icon name="delete" size={16} /> Remove
                                             </button>
