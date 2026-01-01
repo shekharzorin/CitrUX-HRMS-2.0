@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { Icon } from '../components/ui/Icons';
+import { FaCheck, FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaUserTie, FaBuilding, FaMapMarkerAlt, FaFileAlt } from 'react-icons/fa';
 
 const OnboardingList: React.FC = () => {
     const { token } = useAuth();
     const [onboardings, setOnboardings] = useState<any[]>([]);
     const [expandedId, setExpandedId] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchOnboardings();
     }, []);
 
     const fetchOnboardings = async () => {
+        setLoading(true);
         try {
             const res = await fetch('http://localhost:5000/api/onboarding/pending', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (res.ok) setOnboardings(await res.json());
         } catch (error) { console.error(error); }
+        setLoading(false);
     };
 
     const handleApprove = async (id: string) => {
@@ -27,92 +32,161 @@ const OnboardingList: React.FC = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (res.ok) {
-                alert('Onboarding Approved');
                 fetchOnboardings();
             }
         } catch (error) { console.error(error); }
     };
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-6 text-slate-800">Onboarding Approvals</h1>
+        <div className="onboarding-container p-4 sm:p-8">
+            <div className="mb-10">
+                <h1 className="text-3xl font-extrabold text-[var(--text-main)] mb-2 tracking-tight">Onboarding Approvals</h1>
+                <p className="text-[var(--text-muted)]">Review and approve pending employee registrations.</p>
+            </div>
 
-            <div className="grid gap-4">
-                {onboardings.length === 0 && <p className="onboarding-empty">No pending approvals.</p>}
-
-                {onboardings.map(o => (
-                    <div key={o.id} className="glass-panel">
-                        <div className="flex justify-between items-start">
-                            <div>
-                                <h3 className="onboarding-title">
-                                    {o.fullName || 'Unknown'} <span className="onboarding-email">({o.user?.email})</span>
-                                </h3>
-                                <p className="onboarding-date">Submitted: {o.submittedAt ? new Date(o.submittedAt).toLocaleDateString() : 'N/A'}</p>
-
-                                <button
-                                    onClick={() => setExpandedId(expandedId === o.id ? null : o.id)}
-                                    className="onboarding-toggle-btn"
-                                >
-                                    {expandedId === o.id ? 'Hide Details' : 'View Full Application'}
-                                </button>
-
-                                {expandedId === o.id && (
-                                    <div className="onboarding-details mt-4 space-y-4 text-sm">
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <p className="font-semibold">Personal</p>
-                                                <p>DOB: {o.dateOfBirth}</p>
-                                                <p>Mobile: {o.personalMobile}</p>
-                                                <p>Addr: {o.currentAddress}</p>
-                                            </div>
-                                            <div>
-                                                <p className="font-semibold">Professional</p>
-                                                <p>Dept: {o.department}</p>
-                                                <p>Role: {o.designation}</p>
-                                            </div>
-                                        </div>
-
-                                        {o.experiences?.length > 0 && (
-                                            <div>
-                                                <p className="font-semibold">Experience</p>
-                                                <ul className="list-disc pl-4 onboarding-list-text">
-                                                    {o.experiences.map((e: any, i: number) => (
-                                                        <li key={i}>{e.designation} at {e.companyName} ({e.startDate ? e.startDate.split('T')[0] : ''} - {e.endDate ? e.endDate.split('T')[0] : 'Present'})</li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        )}
-
-                                        {o.documents?.length > 0 && (
-                                            <div>
-                                                <p className="font-semibold">Documents</p>
-                                                <div className="flex flex-wrap gap-2 mt-1">
-                                                    {o.documents.map((d: any, i: number) => (
-                                                        <a
-                                                            key={i}
-                                                            href={d.url}
-                                                            target="_blank"
-                                                            rel="noreferrer"
-                                                            className="onboarding-doc-link"
-                                                        >
-                                                            📄 {d.type}
-                                                        </a>
-                                                    ))}
-                                                </div>
+            <div className="space-y-6">
+                {loading ? (
+                    <div className="text-center py-20 bg-[var(--bg-surface)] rounded-3xl border border-[var(--border-color)]">
+                        <div className="animate-spin w-10 h-10 border-4 border-[var(--primary)] border-t-transparent rounded-full mx-auto mb-4"></div>
+                        <p className="text-[var(--text-muted)] font-bold">Loading pending approvals...</p>
+                    </div>
+                ) : onboardings.length === 0 ? (
+                    <div className="text-center py-20 bg-[var(--bg-surface)] rounded-3xl border border-[var(--border-color)] border-dashed">
+                        <div className="w-20 h-20 bg-[var(--bg-body)] text-[var(--text-muted)] rounded-full flex items-center justify-center mx-auto mb-6">
+                            <Icon name="onboarding" size={40} strokeWidth={1} />
+                        </div>
+                        <h3 className="text-xl font-bold text-[var(--text-main)] mb-2">Queue is Clear!</h3>
+                        <p className="text-[var(--text-muted)]">No pending onboarding applications at the moment.</p>
+                    </div>
+                ) : (
+                    onboardings.map(o => (
+                        <div key={o.id} className="onboarding-list-card">
+                            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+                                <div className="flex items-center gap-5">
+                                    <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-lg border-2 border-white bg-[var(--bg-body)] flex-shrink-0">
+                                        {o.profilePhoto ? (
+                                            <img src={o.profilePhoto} alt="" className="w-full h-full object-cover" />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-[var(--text-muted)]">
+                                                <FaUserTie size={28} />
                                             </div>
                                         )}
                                     </div>
-                                )}
+                                    <div>
+                                        <h3 className="text-xl font-bold text-[var(--text-main)] flex items-center gap-2">
+                                            {o.fullName || 'Candidate'}
+                                            <span className="onboarding-stat-badge bg-blue-100 text-blue-700">Pending</span>
+                                        </h3>
+                                        <p className="onboarding-email">{o.user?.email}</p>
+                                        <div className="flex items-center gap-4 mt-2 text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider">
+                                            <span className="flex items-center gap-1"><FaBuilding size={10} /> {o.department || 'N/A'}</span>
+                                            <span className="flex items-center gap-1"><FaMapMarkerAlt size={10} /> {o.workLocation || 'N/A'}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center gap-3 w-full lg:w-auto">
+                                    <button
+                                        onClick={() => setExpandedId(expandedId === o.id ? null : o.id)}
+                                        className="onboarding-toggle-btn flex-1 lg:flex-none flex items-center justify-center gap-2 h-12"
+                                    >
+                                        {expandedId === o.id ? <><FaChevronUp size={12} /> Hide Details</> : <><FaChevronDown size={12} /> View Details</>}
+                                    </button>
+                                    <button
+                                        onClick={() => handleApprove(o.id)}
+                                        className="h-12 px-8 bg-[var(--primary)] text-white font-bold rounded-2xl shadow-xl shadow-purple-200 hover:scale-105 active:scale-95 transition-all flex-1 lg:flex-none flex items-center justify-center gap-2"
+                                    >
+                                        <FaCheck size={14} /> Approve
+                                    </button>
+                                </div>
                             </div>
 
-                            <div className="flex gap-2">
-                                <button onClick={() => handleApprove(o.id)} className="btn btn-success">
-                                    Approve & Onboard
-                                </button>
-                            </div>
+                            {expandedId === o.id && (
+                                <div className="mt-8 pt-8 border-t border-[var(--border-color)] animate-fade-in">
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                                        <div className="space-y-4">
+                                            <h4 className="text-xs font-bold uppercase text-[var(--text-muted)] tracking-[0.2em] mb-4">Personal Details</h4>
+                                            <div className="space-y-3">
+                                                <div className="flex justify-between border-b border-[var(--border-color)] pb-2">
+                                                    <span className="text-xs text-[var(--text-muted)]">DOB</span>
+                                                    <span className="text-xs font-bold">{o.dateOfBirth?.split('T')[0] || 'N/A'}</span>
+                                                </div>
+                                                <div className="flex justify-between border-b border-[var(--border-color)] pb-2">
+                                                    <span className="text-xs text-[var(--text-muted)]">Gender</span>
+                                                    <span className="text-xs font-bold">{o.gender || 'N/A'}</span>
+                                                </div>
+                                                <div className="flex justify-between border-b border-[var(--border-color)] pb-2">
+                                                    <span className="text-xs text-[var(--text-muted)]">Blood Group</span>
+                                                    <span className="text-xs font-bold">{o.bloodGroup || 'N/A'}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-4">
+                                            <h4 className="text-xs font-bold uppercase text-[var(--text-muted)] tracking-[0.2em] mb-4">Professional</h4>
+                                            <div className="space-y-3">
+                                                <div className="flex justify-between border-b border-[var(--border-color)] pb-2">
+                                                    <span className="text-xs text-[var(--text-muted)]">Designation</span>
+                                                    <span className="text-xs font-bold">{o.designation || 'N/A'}</span>
+                                                </div>
+                                                <div className="flex justify-between border-b border-[var(--border-color)] pb-2">
+                                                    <span className="text-xs text-[var(--text-muted)]">Join Date</span>
+                                                    <span className="text-xs font-bold">{o.dateOfJoining?.split('T')[0] || 'N/A'}</span>
+                                                </div>
+                                                <div className="flex justify-between border-b border-[var(--border-color)] pb-2">
+                                                    <span className="text-xs text-[var(--text-muted)]">PAN Number</span>
+                                                    <span className="text-xs font-bold font-mono">{o.panNumber || 'N/A'}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-4">
+                                            <h4 className="text-xs font-bold uppercase text-[var(--text-muted)] tracking-[0.2em] mb-4">Uploaded Documents</h4>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {o.documents && o.documents.length > 0 ? o.documents.map((d: any, idx: number) => (
+                                                    <a
+                                                        key={idx}
+                                                        href={d.url}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        className="flex items-center gap-2 p-3 bg-[var(--bg-body)] rounded-xl border border-[var(--border-color)] hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all"
+                                                    >
+                                                        <FaFileAlt size={12} className="shrink-0" />
+                                                        <span className="text-[10px] font-bold uppercase truncate">{d.type.replace('_', ' ')}</span>
+                                                        <FaExternalLinkAlt size={8} className="ml-auto opacity-50" />
+                                                    </a>
+                                                )) : (
+                                                    <p className="text-xs text-[var(--text-muted)] italic col-span-2">No documents uploaded.</p>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {o.experiences && o.experiences.length > 0 && (
+                                        <div className="mt-8">
+                                            <h4 className="text-xs font-bold uppercase text-[var(--text-muted)] tracking-[0.2em] mb-4">Work History</h4>
+                                            <div className="space-y-3">
+                                                {o.experiences.map((exp: any, idx: number) => (
+                                                    <div key={idx} className="p-4 bg-[var(--bg-body)] rounded-2xl border border-[var(--border-color)] flex justify-between items-center">
+                                                        <div>
+                                                            <p className="text-sm font-bold text-[var(--text-main)]">{exp.designation}</p>
+                                                            <p className="text-xs text-[var(--text-muted)]">{exp.companyName}</p>
+                                                        </div>
+                                                        <div className="text-right">
+                                                            <p className="text-xs font-bold text-[var(--text-muted)]">
+                                                                {exp.startDate?.split('T')[0]} — {exp.endDate?.split('T')[0] || 'Present'}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
-                    </div>
-                ))}
+                    ))
+                )}
             </div>
         </div>
     );

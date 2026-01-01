@@ -62,3 +62,39 @@ export const getUnreadCount = async (req: AuthRequest, res: Response) => {
         res.status(500).json({ message: 'Error counting unread' });
     }
 };
+
+// Broadcast Notification (Admin Only)
+export const broadcastNotification = async (req: AuthRequest, res: Response) => {
+    try {
+        const { message } = req.body;
+        const senderId = req.user.userId;
+
+        // Verify Admin/HR Role (Double check mostly redundant if route middleware handles it but safe)
+        if (req.user.role !== 'ADMIN' && req.user.role !== 'HR') {
+            return res.status(403).json({ message: 'Access denied' });
+        }
+
+        // 1. Get all active users
+        const users = await prisma.user.findMany({
+            where: { status: 'ACTIVE' },
+            select: { id: true }
+        });
+
+        // 2. Prepare notifications (exclude sender if desired, but usually admins want to see it too to confirm)
+        const notifications = users.map(u => ({
+            userId: u.id,
+            message: `📢 ANNOUNCEMENT: ${message}`,
+            read: false
+        }));
+
+        // 3. Bulk Create
+        await prisma.notification.createMany({
+            data: notifications
+        });
+
+        res.json({ message: `Broadcast sent to ${users.length} users` });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error sending broadcast' });
+    }
+};

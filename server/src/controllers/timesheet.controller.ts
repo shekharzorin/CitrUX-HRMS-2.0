@@ -169,3 +169,42 @@ export const deleteEntry = async (req: AuthRequest, res: Response) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
+export const getPendingTimesheets = async (req: AuthRequest, res: Response) => {
+    try {
+        const timesheets = await prisma.timesheet.findMany({
+            where: { status: 'SUBMITTED' },
+            include: {
+                user: { include: { profile: true } },
+                entries: true
+            },
+            orderBy: { startDate: 'desc' }
+        });
+        res.json(timesheets);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching pending timesheets' });
+    }
+};
+
+export const approveTimesheet = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id, status, comment } = req.body; // status: APPROVED or REJECTED
+
+        const updated = await prisma.timesheet.update({
+            where: { id },
+            data: { status }
+        });
+
+        // Optionally create notification for user
+        await prisma.notification.create({
+            data: {
+                userId: updated.userId,
+                message: `Your timesheet for ${updated.startDate.toLocaleDateString()} has been ${status}. ${comment || ''}`
+            }
+        });
+
+        res.json(updated);
+    } catch (error) {
+        res.status(500).json({ message: 'Error approving timesheet' });
+    }
+};

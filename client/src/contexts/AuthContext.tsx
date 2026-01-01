@@ -21,27 +21,16 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
-    const [token, setToken] = useState<string | null>(null);
-
-    useEffect(() => {
-        const storedToken = localStorage.getItem('token');
+    const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
+    const [user, setUser] = useState<User | null>(() => {
         const storedUser = localStorage.getItem('user');
-
-        if (storedToken && storedUser) {
-            // Optional: Check token validity with backend or decode JWT expiry
-            // For now, let's assume valid but add a basic expiry check if possible, 
-            // or rely on API 401s (which we need to handle globally, but this is a start)
-            setToken(storedToken);
-            try {
-                setUser(JSON.parse(storedUser));
-            } catch (e) {
-                console.error("Failed to parse user", e);
-                localStorage.removeItem('user');
-                setToken(null);
-            }
+        try {
+            return storedUser ? JSON.parse(storedUser) : null;
+        } catch (error) {
+            console.error("Failed to parse stored user", error);
+            return null;
         }
-    }, []);
+    });
 
     // Add a global fetch interceptor/wrapper if we could, but that's complex to inject.
     // Instead we can expose a 'logoutIfInvalid' helper or relying on components to call logout.

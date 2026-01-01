@@ -54,3 +54,33 @@ export const leaveStatusTemplate = (name: string, status: string, startDate: str
         <p>Best Regards,<br>HR Team</p>
     </div>
 `;
+
+export const newLeaveRequestTemplate = (requesterName: string, type: string, days: number, startDate: string, endDate: string, reason: string) => `
+    <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 5px;">
+        <h3 style="color: #2196F3;">New Leave Request</h3>
+        <p><strong>Employee:</strong> ${requesterName}</p>
+        <p><strong>Type:</strong> ${type}</p>
+        <p><strong>Duration:</strong> ${startDate} to ${endDate} (${days} days)</p>
+        <p><strong>Reason:</strong> ${reason}</p>
+        <br>
+        <p>Please log in to the HRMS portal to approve or reject this request.</p>
+        <br>
+        <p>Best Regards,<br>Citrux HRMS System</p>
+    </div>
+`;
+
+export const escalationTemplate = (requesterName: string, days: number, reason: string, level: string) => `
+    <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ff9800; border-radius: 5px; background-color: #fff3e0;">
+        <h3 style="color: #e65100;">Action Required: Escalated Leave Request</h3>
+        <p><strong>Escalation Level:</strong> ${level}</p>
+        <p>The following leave request has been pending for over 3 days and requires your immediate attention.</p>
+        <hr style="border: 0; border-top: 1px solid #ffcc80;">
+        <p><strong>Employee:</strong> ${requesterName}</p>
+        <p><strong>Duration:</strong> ${days} days</p>
+        <p><strong>Reason:</strong> ${reason}</p>
+        <br>
+        <p>Please log in to the HRMS portal to review this request.</p>
+        <br>
+        <p>Best Regards,<br>Citrux HRMS Automations</p>
+    </div>
+`;

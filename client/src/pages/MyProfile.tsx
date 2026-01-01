@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { FaCloudUploadAlt, FaPlus, FaTrash, FaCheck } from 'react-icons/fa';
+import { api } from '../services/api';
+import { Icon } from '../components/ui/Icons';
 import { Button } from '../components/ui/Button';
 import Cropper from 'react-easy-crop';
-import { api } from '../services/api';
 
 const MyProfile: React.FC = () => {
     const { user, updateUser } = useAuth(); // Token unused by api service but kept for context
@@ -108,6 +108,23 @@ const MyProfile: React.FC = () => {
         return (first + last).toUpperCase() || profile.email?.charAt(0).toUpperCase();
     };
 
+    // Memoized style to avoid inline object lints
+    const setPhotoRef = (el: HTMLImageElement | null) => {
+        if (!el || !form.profilePhoto) return;
+        const settings = form.profilePhotoSettings;
+        if (settings?.croppedAreaPixels) {
+            const scale = 100 / settings.croppedAreaPixels.width;
+            el.style.setProperty('--scale', String(scale));
+            el.style.setProperty('--x', -settings.croppedAreaPixels.x + 'px');
+            el.style.setProperty('--y', -settings.croppedAreaPixels.y + 'px');
+        } else {
+            el.style.setProperty('--scale', '1');
+            el.style.setProperty('--x', (settings?.crop?.x || 0) + '%');
+            el.style.setProperty('--y', (settings?.crop?.y || 0) + '%');
+        }
+        el.style.setProperty('--zoom', String(settings?.zoom || 1));
+    };
+
     return (
         <div className="p-6 max-w-4xl">
             <h1 className="text-2xl font-bold mb-6 text-slate-800">My Profile</h1>
@@ -122,12 +139,7 @@ const MyProfile: React.FC = () => {
                                     src={form.profilePhoto}
                                     alt="Profile"
                                     className={`w-full h-full profile-photo-img ${form.profilePhotoSettings?.croppedAreaPixels ? 'profile-photo-cropped' : 'profile-photo-full'}`}
-                                    style={{
-                                        '--scale': form.profilePhotoSettings?.croppedAreaPixels ? (100 / form.profilePhotoSettings.croppedAreaPixels.width) : 1,
-                                        '--x': form.profilePhotoSettings?.croppedAreaPixels ? (-form.profilePhotoSettings.croppedAreaPixels.x + 'px') : ((form.profilePhotoSettings?.crop?.x || 0) + '%'),
-                                        '--y': form.profilePhotoSettings?.croppedAreaPixels ? (-form.profilePhotoSettings.croppedAreaPixels.y + 'px') : ((form.profilePhotoSettings?.crop?.y || 0) + '%'),
-                                        '--zoom': form.profilePhotoSettings?.zoom || 1
-                                    } as React.CSSProperties}
+                                    ref={setPhotoRef}
                                 />
                             ) : (
                                 <div className="w-full h-full flex flex-col items-center justify-center text-slate-200 bg-slate-50 font-bold text-7xl select-none">
@@ -137,8 +149,8 @@ const MyProfile: React.FC = () => {
                         </div>
                         {isEditing && (
                             <div className="absolute bottom-4 right-4 flex flex-col gap-3 z-[60]">
-                                <label className="profile-upload-btn w-14 h-14 items-center justify-center rounded-full cursor-pointer shadow-[0_8px_30px_rgb(0,0,0,0.3)] transition-all hover:scale-110 active:scale-95 border-4 border-white text-white">
-                                    <FaCloudUploadAlt size={24} />
+                                <label className="profile-upload-btn w-14 h-14 items-center justify-center rounded-full cursor-pointer shadow-[0_8px_30px_rgb(0,0,0,0.3)] transition-all hover:scale-110 active:scale-95 border-4 border-white text-white flex">
+                                    <Icon name="upload" size={24} />
                                     <input type="file" className="hidden" onChange={handleFileUpload} accept="image/*" aria-label="Upload profile photo" />
                                 </label>
                                 {form.profilePhoto && (
@@ -157,7 +169,7 @@ const MyProfile: React.FC = () => {
                                         className="bg-white text-slate-700 w-12 h-12 flex items-center justify-center rounded-full border-4 border-white shadow-xl transition-all hover:scale-110 active:scale-95"
                                         title="Adjust View"
                                     >
-                                        <FaPlus size={18} />
+                                        <Icon name="plus" size={18} />
                                     </button>
                                 )}
                             </div>
@@ -242,10 +254,10 @@ const MyProfile: React.FC = () => {
                             </div>
                             <button
                                 onClick={() => setShowPhotoAdjust(false)}
-                                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200 text-slate-400 hover:text-slate-600 transition-colors"
+                                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors"
                                 aria-label="Delete"
                             >
-                                <FaTrash size={18} />
+                                <Icon name="delete" size={18} />
                             </button>
                         </div>
 
@@ -304,7 +316,7 @@ const MyProfile: React.FC = () => {
                                     }}
                                     className="flex-1 justify-center py-4 text-lg shadow-xl shadow-purple-200"
                                 >
-                                    <FaCheck className="mr-2" /> Save Adjustment
+                                    <Icon name="check_circle" size={20} className="mr-2" /> Save Adjustment
                                 </Button>
                             </div>
                         </div>

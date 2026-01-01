@@ -4,6 +4,8 @@ import ConfirmModal from '../components/ConfirmModal';
 import ShiftConfig from './ShiftConfig';
 import SalaryConfig from './SalaryConfig';
 import { api } from '../services/api';
+import { Icon } from '../components/ui/Icons';
+import { Button } from '../components/ui/Button';
 
 const Settings: React.FC = () => {
     const { logout } = useAuth(); // Token unused by api service but kept for confirm modal/logic
@@ -232,25 +234,26 @@ const Settings: React.FC = () => {
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-6 text-slate-800">Settings</h1>
 
-            <div className="flex gap-4 mb-8 border-b border-slate-200 overflow-x-auto">
+            <div className="flex gap-2 mb-8 border-b border-slate-200 overflow-x-auto no-scrollbar">
                 {[
-                    { id: 'general', label: 'General' },
-                    { id: 'roles', label: 'Job Roles' },
-                    { id: 'leaves', label: 'Leave Policies' },
-                    { id: 'holidays', label: 'Holidays' },
-                    { id: 'shifts', label: 'Shifts' },
-                    { id: 'salary', label: 'Salary' },
-                    { id: 'security', label: 'Security' },
-                    { id: 'danger', label: 'Danger Zone' }
+                    { id: 'general', label: 'General', icon: 'settings' },
+                    { id: 'roles', label: 'Job Roles', icon: 'roles' },
+                    { id: 'leaves', label: 'Leave Policies', icon: 'leaves' },
+                    { id: 'holidays', label: 'Holidays', icon: 'holidays' },
+                    { id: 'shifts', label: 'Shifts', icon: 'shifts' },
+                    { id: 'salary', label: 'Salary', icon: 'payroll' },
+                    { id: 'security', label: 'Security', icon: 'profile' },
+                    { id: 'danger', label: 'Sign Out', icon: 'logout' }
                 ].map(tab => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id as any)}
-                        className={`pb-3 px-1 font-medium transition-colors border-b-2 whitespace-nowrap ${activeTab === tab.id
-                            ? 'border-purple-600 text-purple-600'
-                            : 'border-transparent text-slate-500 hover:text-slate-700'
-                            } ${tab.id === 'danger' ? 'hover:text-red-600' : ''}`}
+                        className={`pb-3 px-4 font-bold transition-all border-b-2 flex items-center gap-2 whitespace-nowrap ${activeTab === tab.id
+                            ? 'border-[var(--primary)] text-[var(--primary)]'
+                            : 'border-transparent text-slate-400 hover:text-slate-600'
+                            } ${tab.id === 'danger' && activeTab !== 'danger' ? 'hover:text-red-500' : ''}`}
                     >
+                        <Icon name={tab.icon as any} size={16} />
                         {tab.label}
                     </button>
                 ))}
@@ -259,21 +262,23 @@ const Settings: React.FC = () => {
             <div className="max-w-4xl">
                 {activeTab === 'general' && (
                     <div className="space-y-6 animation-fade-in">
-                        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                            <div className="flex items-center gap-3 mb-6">
-                                <span className="text-2xl">🏢</span>
+                        <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="w-12 h-12 rounded-2xl bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center shadow-inner">
+                                    <Icon name="settings" size={24} />
+                                </div>
                                 <div>
-                                    <h2 className="text-lg font-bold text-slate-800">Organization Profile</h2>
-                                    <p className="text-sm text-slate-500">Manage your company branding</p>
+                                    <h2 className="text-xl font-bold text-slate-800">Organization Profile</h2>
+                                    <p className="text-sm text-slate-500 font-medium">Manage your company branding</p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div className="space-y-4">
+                                <div className="space-y-6">
                                     <div>
-                                        <label htmlFor="companyName" className="label">Company Name</label>
+                                        <label htmlFor="companyName" className="label font-bold text-xs uppercase tracking-wider text-slate-400 mb-2 block">Company Name</label>
                                         <input id="companyName" type="text" className="input-field" value={companyName} onChange={e => setCompanyName(e.target.value)} />
                                     </div>
-                                    <button onClick={handleUpdateGeneral} className="btn-primary">Save Changes</button>
+                                    <Button onClick={handleUpdateGeneral} className="px-8">Save Changes</Button>
                                 </div>
                                 <div className="space-y-2">
                                     <label htmlFor="companyLogo" className="label">Company Logo</label>
@@ -287,45 +292,71 @@ const Settings: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                            <div className="flex items-center gap-3 mb-6">
-                                <span className="text-2xl">🆔</span>
+                        <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center shadow-inner">
+                                    <Icon name="onboarding" size={24} />
+                                </div>
                                 <div>
-                                    <h2 className="text-lg font-bold text-slate-800">Employee IDs</h2>
-                                    <p className="text-sm text-slate-500">Auto-generation settings</p>
+                                    <h2 className="text-xl font-bold text-slate-800">Employee IDs</h2>
+                                    <p className="text-sm text-slate-500 font-medium">Auto-generation settings</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-3 mb-6 bg-slate-50 p-4 rounded-lg border border-slate-100">
-                                <input id="autoGenerate" type="checkbox" checked={empSettings.autoGenerate} onChange={e => setEmpSettings({ ...empSettings, autoGenerate: e.target.checked })} className="w-5 h-5 rounded" />
-                                <label htmlFor="autoGenerate" className="font-medium text-slate-800 cursor-pointer">Enable Auto-Generation</label>
+                            <div className="flex items-center gap-3 mb-8 bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                                <input id="autoGenerate" type="checkbox" checked={empSettings.autoGenerate} onChange={e => setEmpSettings({ ...empSettings, autoGenerate: e.target.checked })} className="w-5 h-5 rounded accent-[var(--primary)]" />
+                                <label htmlFor="autoGenerate" className="font-bold text-slate-700 cursor-pointer">Enable Auto-Generation</label>
                             </div>
                             {empSettings.autoGenerate && (
-                                <div className="grid grid-cols-3 gap-4 mb-6">
-                                    <div><label htmlFor="prefix" className="label">Prefix</label><input id="prefix" className="input-field" value={empSettings.prefix} onChange={e => setEmpSettings({ ...empSettings, prefix: e.target.value })} /></div>
-                                    <div><label htmlFor="sequence" className="label">Sequence</label><input id="sequence" type="number" className="input-field" value={empSettings.sequence} onChange={e => setEmpSettings({ ...empSettings, sequence: e.target.value })} /></div>
-                                    <div><label htmlFor="padding" className="label">Padding</label><input id="padding" type="number" className="input-field" value={empSettings.padding} onChange={e => setEmpSettings({ ...empSettings, padding: e.target.value })} /></div>
+                                <div className="grid grid-cols-3 gap-6 mb-8">
+                                    <div><label htmlFor="prefix" className="label font-bold text-[10px] uppercase text-slate-400 mb-2 block">Prefix</label><input id="prefix" className="input-field" value={empSettings.prefix} onChange={e => setEmpSettings({ ...empSettings, prefix: e.target.value })} /></div>
+                                    <div><label htmlFor="sequence" className="label font-bold text-[10px] uppercase text-slate-400 mb-2 block">Sequence</label><input id="sequence" type="number" className="input-field" value={empSettings.sequence} onChange={e => setEmpSettings({ ...empSettings, sequence: e.target.value })} /></div>
+                                    <div><label htmlFor="padding" className="label font-bold text-[10px] uppercase text-slate-400 mb-2 block">Padding</label><input id="padding" type="number" className="input-field" value={empSettings.padding} onChange={e => setEmpSettings({ ...empSettings, padding: e.target.value })} /></div>
                                 </div>
                             )}
-                            <button onClick={saveEmpSettings} className="btn-primary">Save Configuration</button>
+                            <Button onClick={saveEmpSettings} className="px-8">Save Configuration</Button>
                         </div>
                     </div>
                 )}
 
                 {activeTab === 'roles' && (
                     <div className="space-y-6 animation-fade-in">
-                        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                            <h2 className="text-lg font-bold mb-4">Create Job Role</h2>
-                            <form onSubmit={handleCreateRole} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div><label htmlFor="roleTitle" className="label">Title</label><input id="roleTitle" className="input-field" required value={newRole.title} onChange={e => setNewRole({ ...newRole, title: e.target.value })} /></div>
-                                <div><label htmlFor="roleDept" className="label">Department</label><input id="roleDept" className="input-field" value={newRole.department} onChange={e => setNewRole({ ...newRole, department: e.target.value })} /></div>
-                                <div><label htmlFor="roleLevel" className="label">Level</label><input id="roleLevel" type="number" className="input-field" value={newRole.level} onChange={e => setNewRole({ ...newRole, level: Number(e.target.value) })} /></div>
-                                <div><label htmlFor="roleDesc" className="label">Description</label><input id="roleDesc" className="input-field" value={newRole.description} onChange={e => setNewRole({ ...newRole, description: e.target.value })} /></div>
-                                <div className="md:col-span-2"><button type="submit" className="btn-primary">Add Role</button></div>
+                        <div className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100">
+                            <h2 className="text-xl font-bold mb-6">Create Job Role</h2>
+                            <form onSubmit={handleCreateRole} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div><label htmlFor="roleTitle" className="label font-bold text-[10px] uppercase text-slate-400 mb-2 block">Title</label><input id="roleTitle" className="input-field" required value={newRole.title} onChange={e => setNewRole({ ...newRole, title: e.target.value })} /></div>
+                                <div><label htmlFor="roleDept" className="label font-bold text-[10px] uppercase text-slate-400 mb-2 block">Department</label><input id="roleDept" className="input-field" value={newRole.department} onChange={e => setNewRole({ ...newRole, department: e.target.value })} /></div>
+                                <div><label htmlFor="roleLevel" className="label font-bold text-[10px] uppercase text-slate-400 mb-2 block">Level</label><input id="roleLevel" type="number" className="input-field" value={newRole.level} onChange={e => setNewRole({ ...newRole, level: Number(e.target.value) })} /></div>
+                                <div><label htmlFor="roleDesc" className="label font-bold text-[10px] uppercase text-slate-400 mb-2 block">Description</label><input id="roleDesc" className="input-field" value={newRole.description} onChange={e => setNewRole({ ...newRole, description: e.target.value })} /></div>
+                                <div className="md:col-span-2"><Button type="submit" className="px-8">Add Role</Button></div>
                             </form>
                         </div>
-                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden overflow-x-auto">
-                            <table className="w-full text-left text-sm min-w-[600px]"><thead className="bg-slate-50 border-b"><tr><th className="p-4">Title</th><th className="p-4">Dept</th><th className="p-4">Level</th><th className="p-4"></th></tr></thead>
-                                <tbody className="divide-y">{roles.map(r => <tr key={r.id}><td className="p-4 font-medium">{r.title}</td><td className="p-4">{r.department}</td><td className="p-4">{r.level}</td><td className="p-4 text-right"><button onClick={() => handleDeleteRole(r.id)} className="text-red-500 hover:text-red-700">Delete</button></td></tr>)}</tbody></table>
+                        <div className="bg-white rounded-[32px] shadow-sm border border-slate-100 overflow-hidden overflow-x-auto">
+                            <table className="table-premium w-full text-left text-sm min-w-[600px]">
+                                <thead className="bg-slate-50 border-b">
+                                    <tr>
+                                        <th className="p-4">Title</th>
+                                        <th className="p-4">Dept</th>
+                                        <th className="p-4">Level</th>
+                                        <th className="p-4 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-50">
+                                    {roles.map(r => (
+                                        <tr key={r.id}>
+                                            <td className="p-4 font-bold text-slate-700">{r.title}</td>
+                                            <td className="p-4">{r.department}</td>
+                                            <td className="p-4">
+                                                <span className="px-2 py-1 bg-slate-100 rounded text-[10px] font-bold">LVL {r.level}</span>
+                                            </td>
+                                            <td className="p-4 text-right">
+                                                <button onClick={() => handleDeleteRole(r.id)} className="p-2 hover:bg-red-50 rounded-lg text-red-500 transition-colors" title="Delete Role">
+                                                    <Icon name="delete" size={18} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 )}
@@ -426,12 +457,15 @@ const Settings: React.FC = () => {
                 )}
 
                 {activeTab === 'danger' && (
-                    <div className="bg-red-50 p-6 rounded-xl border border-red-100 animation-fade-in">
-                        <h2 className="text-lg font-bold mb-4 text-red-700">Danger Zone</h2>
-                        <p className="text-sm text-red-600 mb-6">Once you sign out, you will need to log in again to access your account.</p>
-                        <button onClick={handleLogoutConfirm} className="flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-bold shadow-sm">
-                            <span>🚪</span> Sign Out
-                        </button>
+                    <div className="bg-red-50 p-10 rounded-[40px] border border-red-100 animation-fade-in text-center max-w-lg mx-auto">
+                        <div className="w-20 h-20 bg-white text-red-500 rounded-full flex items-center justify-center shadow-lg mx-auto mb-6">
+                            <Icon name="logout" size={32} />
+                        </div>
+                        <h2 className="text-2xl font-black mb-4 text-red-700">Danger Zone</h2>
+                        <p className="text-red-600 mb-8 font-medium">Be careful. Signing out will end your current session. Make sure all your progress is saved.</p>
+                        <Button variant="danger" onClick={handleLogoutConfirm} className="w-full h-14 text-lg shadow-xl shadow-red-200">
+                            Sign Out Now
+                        </Button>
                     </div>
                 )}
             </div>

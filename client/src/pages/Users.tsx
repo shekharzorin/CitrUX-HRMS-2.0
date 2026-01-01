@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import ConfirmModal from '../components/ConfirmModal';
 import { api } from '../services/api';
+import { Icon } from '../components/ui/Icons';
+import { Button } from '../components/ui/Button';
 
 const Users: React.FC = () => {
     const [users, setUsers] = useState<any[]>([]);
@@ -146,103 +148,124 @@ const Users: React.FC = () => {
 
     return (
         <div className="page-container">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-                <div>
-                    <h1 className="text-2xl font-bold mb-2">User Management</h1>
-                    <p className="text-slate-500">Manage access and update employee information.</p>
+            {/* Search and Action Bar */}
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+                <div className="relative w-full md:w-96">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                        <Icon name="search" size={18} />
+                    </span>
+                    <input
+                        type="text"
+                        placeholder="Search by name or email..."
+                        className="input-field pl-12"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        title="Search Employees"
+                    />
                 </div>
-                <div className="flex flex-wrap gap-3 w-full md:w-auto">
+
+                <div className="flex items-center gap-3 w-full md:w-auto">
                     <input
                         type="file"
                         accept=".csv"
                         ref={fileInputRef}
-                        className="hidden-input"
+                        className="hidden"
                         onChange={handleFileUpload}
-                        title="Import CSV"
+                        title="Upload Employee CSV"
                     />
-                    <button
+                    <Button
+                        variant="secondary"
                         onClick={() => fileInputRef.current?.click()}
-                        className="btn-primary bg-white text-[var(--primary)] border border-[var(--primary)] text-sm px-4 py-2"
+                        className="px-6"
                     >
-                        📥 Import CSV
-                    </button>
-                    <Link to="/users/create" className="btn-primary text-decoration-none text-sm px-4 py-2">+ Add Employee</Link>
+                        <Icon name="download" size={18} className="rotate-180" /> Import
+                    </Button>
+                    <Link to="/users/create">
+                        <Button className="px-6">
+                            <Icon name="plus" size={18} /> Add Employee
+                        </Button>
+                    </Link>
                 </div>
             </div>
 
-            <div className="mb-6">
-                <input
-                    type="text"
-                    placeholder="Search by name or email..."
-                    className="input-field max-w-sm bg-white"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-            </div>
-
-            <div className="glass-panel p-0 overflow-hidden bg-white overflow-x-auto">
-
-                {loading ? <div className="p-8 text-center text-slate-500">Loading...</div> : (
-                    <table className="table-container min-w-[900px]">
-                        <thead className="table-header">
-                            <tr className="table-header-row">
-                                <th className="table-header-cell">Employee Name</th>
-                                <th className="table-header-cell">ID</th>
-                                <th className="table-header-cell">Role</th>
-                                <th className="table-header-cell">Phone</th>
-                                <th className="table-header-cell">Designation</th>
-                                <th className="table-header-cell-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredUsers.length > 0 ? filteredUsers.map(user => (
-                                <tr key={user.id} className="table-row">
-                                    <td className="table-cell">
-                                        <div className="user-info-row">
-                                            <div className="user-avatar">
-                                                {user.profile?.firstName?.charAt(0) || user.email.charAt(0).toUpperCase()}
-                                            </div>
-                                            <div>
-                                                <div className="user-name">{user.profile?.firstName} {user.profile?.lastName}</div>
-                                                <div className="user-email">{user.email}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="table-cell-mono">
-                                        {user.employeeId || '-'}
-                                    </td>
-                                    <td className="table-cell">
-                                        <span className={`role-badge ${user.role === 'ADMIN' ? 'role-badge-admin' :
-                                            user.role === 'HR' ? 'role-badge-hr' :
-                                                user.role === 'MANAGER' ? 'role-badge-manager' :
-                                                    'role-badge-employee'
-                                            }`}>{user.role}</span>
-                                    </td>
-                                    <td className="table-cell-text">{user.profile?.phone || '-'}</td>
-                                    <td className="table-cell-text">{user.profile?.designation || '-'}</td>
-                                    <td className="table-cell-right">
-                                        <div className="action-buttons">
-                                            <Link to={`/employees/${user.id}`} className="btn-view">View</Link>
-                                            <Link to={`/users/edit/${user.id}`} className="btn-edit">Edit</Link>
-                                            {user.email !== 'admin@citrux.com' && user.role !== 'SUPER_ADMIN' && (
-                                                <button
-                                                    onClick={() => handleDelete(user.id, user.profile?.firstName || user.email)}
-                                                    className="btn-delete"
-                                                    disabled={deletingId === user.id}
-                                                >
-                                                    {deletingId === user.id ? '...' : 'Delete'}
-                                                </button>
-                                            )}
-                                        </div>
-                                    </td>
-                                </tr>
-                            )) : (
+            <div className="table-container-premium">
+                {loading ? (
+                    <div className="p-20 text-center">
+                        <div className="animate-spin w-10 h-10 border-4 border-[var(--primary)] border-t-transparent rounded-full mx-auto mb-4"></div>
+                        <p className="text-slate-500 font-bold">Loading Employees...</p>
+                    </div>
+                ) : (
+                    <div className="overflow-x-auto">
+                        <table className="table-premium">
+                            <thead>
                                 <tr>
-                                    <td colSpan={6} className="table-empty">No users found matching your search.</td>
+                                    <th>Employee Name</th>
+                                    <th>ID</th>
+                                    <th>Role</th>
+                                    <th>Phone</th>
+                                    <th>Designation</th>
+                                    <th className="text-right">Actions</th>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {filteredUsers.length > 0 ? filteredUsers.map(user => (
+                                    <tr key={user.id}>
+                                        <td>
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-10 h-10 rounded-xl bg-[var(--bg-body)] border border-[var(--border-color)] flex items-center justify-center font-bold text-[var(--primary)] shadow-sm">
+                                                    {user.profile?.firstName?.charAt(0) || user.email.charAt(0).toUpperCase()}
+                                                </div>
+                                                <div>
+                                                    <div className="font-bold text-slate-900">{user.profile?.firstName} {user.profile?.lastName}</div>
+                                                    <div className="text-xs text-slate-500">{user.email}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="font-mono text-sm text-slate-500">
+                                            {user.employeeId || '-'}
+                                        </td>
+                                        <td>
+                                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${user.role === 'ADMIN' ? 'bg-purple-100 text-purple-700' :
+                                                user.role === 'HR' ? 'bg-blue-100 text-blue-700' :
+                                                    user.role === 'MANAGER' ? 'bg-amber-100 text-amber-700' :
+                                                        'bg-slate-100 text-slate-600'
+                                                }`}>
+                                                {user.role}
+                                            </span>
+                                        </td>
+                                        <td className="text-sm text-slate-600">{user.profile?.phone || '-'}</td>
+                                        <td className="text-sm text-slate-600">{user.profile?.designation || '-'}</td>
+                                        <td>
+                                            <div className="flex justify-end gap-2">
+                                                <Link to={`/employees/${user.id}`} className="p-2 hover:bg-slate-100 rounded-lg text-slate-500 transition-colors" title="View Profile">
+                                                    <Icon name="eye" size={18} />
+                                                </Link>
+                                                <Link to={`/users/edit/${user.id}`} className="p-2 hover:bg-blue-50 rounded-lg text-blue-600 transition-colors" title="Edit User">
+                                                    <Icon name="edit" size={18} />
+                                                </Link>
+                                                {user.email !== 'admin@citrux-hrms.com' && user.role !== 'SUPER_ADMIN' && (
+                                                    <button
+                                                        onClick={() => handleDelete(user.id, user.profile?.firstName || user.email)}
+                                                        className="p-2 hover:bg-red-50 rounded-lg text-red-500 transition-colors"
+                                                        disabled={deletingId === user.id}
+                                                        title="Delete User"
+                                                    >
+                                                        {deletingId === user.id ? '...' : <Icon name="delete" size={18} />}
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )) : (
+                                    <tr>
+                                        <td colSpan={6} className="p-12 text-center text-slate-400">
+                                            No users found matching your search.
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 )}
             </div>
 

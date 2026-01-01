@@ -1,59 +1,50 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useTheme } from '../contexts/ThemeContext';
+
 
 import ConfirmModal from './ConfirmModal';
 import { Button } from './ui/Button';
 import { Icon } from './ui/Icons';
+import { NotificationBell } from './Header/NotificationBell';
+import { ProfileDropdown } from './Header/ProfileDropdown';
+import { Avatar } from './ui/Avatar';
+
+
+
+import { PageHeader } from './ui/PageHeader';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { user, logout } = useAuth();
-    const { theme, toggleTheme, primaryColor, setPrimaryColor } = useTheme();
+
 
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
-    const dropdownRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Page Title Mapping
-    const pageTitles: Record<string, string> = {
-        '/': 'Dashboard',
-        '/attendance': 'Attendance Overview',
-        '/leaves': 'Leave Management',
-        '/payslips': 'Payroll & Payslips',
-        '/onboarding/submit': 'Onboarding',
-        '/settings': 'System Settings',
-        '/users': 'Employee Directory',
-        '/analytics': 'Analytics & Reports',
-        '/profile': 'My Profile'
+    // Enhanced Page Config for Hero Header
+    const pageConfig: Record<string, { title: string; subtitle?: string; icon: any; gradient: string }> = {
+        '/attendance': { title: 'Attendance Tracking', subtitle: 'View and manage employee daily presence', icon: 'schedule', gradient: 'gradient-green' },
+        '/leaves': { title: 'Leave Management', subtitle: 'Submit and approve leave requests', icon: 'event', gradient: 'gradient-purple' },
+        '/timesheets': { title: 'Time Tracking', subtitle: 'Weekly task and hour reporting', icon: 'timesheet', gradient: 'gradient-blue' },
+        '/timesheets/approvals': { title: 'Timesheet Approvals', subtitle: 'Review and approve team timesheets', icon: 'timesheet', gradient: 'gradient-orange' },
+        '/payslips': { title: 'Payroll & Payslips', subtitle: 'Download and manage your monthly earnings', icon: 'payroll', gradient: 'gradient-blue' },
+        '/onboarding/submit': { title: 'Employee Onboarding', subtitle: 'Complete your joining formalities', icon: 'onboarding', gradient: 'gradient-purple' },
+        '/settings': { title: 'System Settings', subtitle: 'Configure HRMS rules and preferences', icon: 'settings', gradient: 'gradient-purple' },
+        '/users': { title: 'Employee Directory', subtitle: 'Search and manage all staff members', icon: 'employees', gradient: 'gradient-blue' },
+        '/analytics': { title: 'Analytics & Insights', subtitle: 'Global HR metrics and reporting', icon: 'analytics', gradient: 'gradient-purple' },
+        '/profile': { title: 'My Profile', subtitle: 'Manage your personal and professional info', icon: 'profile', gradient: 'gradient-orange' },
+        '/recruitment/jobs': { title: 'Job Openings', subtitle: 'Manage active career opportunities', icon: 'careers', gradient: 'gradient-blue' },
+        '/expenses': { title: 'Expense Claims', subtitle: 'Submit your business reimbursement requests', icon: 'expenses', gradient: 'gradient-orange' }
     };
 
-    const getPageTitle = () => {
-        const path = location.pathname;
-        // Handle exact matches first
-        if (pageTitles[path]) return pageTitles[path];
+    const isDashboard = location.pathname === '/';
+    const currentPage = pageConfig[location.pathname] || { title: 'Citrux HRMS', icon: 'dashboard', gradient: 'gradient-purple' };
 
-        // Handle nested routes (simple fallback)
-        if (path.startsWith('/onboarding')) return 'Onboarding';
-        if (path.startsWith('/users')) return 'Employee Directory';
-
-        return 'Citrux HRMS'; // Fallback
-    };
-
-    const colors = [
-        '#9d316e', // Default Citrux
-        '#2563eb', // Blue
-        '#16a34a', // Green
-        '#d97706', // Amber
-        '#9333ea', // Purple
-        '#020617', // Slate
-    ];
 
     // Handle Window Resize
     useEffect(() => {
@@ -66,68 +57,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const getInitials = () => {
-        if (!user) return '?';
-        const firstName = user.profile?.firstName || '';
-        const lastName = user.profile?.lastName || '';
-        if (firstName && lastName) {
-            return (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
-        }
-        return (user.profile?.firstName?.charAt(0) || user.email[0]).toUpperCase();
-    };
 
-    const renderAvatar = (size: string = '32px', fontSize: string = '0.75rem') => {
-        const photo = user?.profile?.profilePhoto;
-        const settings = typeof user?.profile?.profilePhotoSettings === 'string'
-            ? JSON.parse(user.profile.profilePhotoSettings)
-            : user?.profile?.profilePhotoSettings;
 
-        if (photo) {
-            let transform = `scale(${settings?.zoom || 1}) translate(${settings?.x || 0}%, ${settings?.y || 0}%)`;
 
-            if (settings?.croppedAreaPixels) {
-                const { x, y, width } = settings.croppedAreaPixels;
-                const scale = 100 / width;
-                transform = `scale(${scale}) translate(${-x}px, ${-y}px)`;
-            }
-
-            return (
-                <div className="avatar-container avatar-container-dynamic">
-                    <img
-                        src={photo}
-                        alt="Avatar"
-                        className="avatar-img"
-                        id={`avatar-img-${size}`}
-                    />
-                    <style>{`
-                        .avatar-container-dynamic {
-                            width: ${size};
-                            height: ${size};
-                        }
-                        .avatar-img { 
-                            transform: ${transform}; 
-                        }
-                    `}</style>
-                </div>
-            );
-        }
-
-        return (
-            <div className="avatar-placeholder avatar-placeholder-dynamic">
-                <style>{`
-                    .avatar-placeholder-dynamic {
-                        width: ${size};
-                        height: ${size};
-                        font-size: ${fontSize};
-                    }
-                `}</style>
-                {getInitials()}
-            </div>
-        );
-    };
 
     const handleLogout = () => {
-        setIsProfileDropdownOpen(false);
         setIsMobileMenuOpen(false);
         setShowLogoutConfirm(true);
     };
@@ -137,15 +71,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         navigate('/login');
     };
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsProfileDropdownOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+
 
     const sidebarContent = (
         <>
@@ -183,6 +109,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <Icon name="attendance" size={20} />
                     {(!collapsed || isMobile) && <span>Attendance</span>}
                 </Link>
+                <Link to="/timesheets" className="nav-link" onClick={() => isMobile && setIsMobileMenuOpen(false)}>
+                    <Icon name="timesheet" size={20} />
+                    {(!collapsed || isMobile) && <span>Timesheet</span>}
+                </Link>
                 <Link to="/leaves" className="nav-link" onClick={() => isMobile && setIsMobileMenuOpen(false)}>
                     <Icon name="leaves" size={20} />
                     {(!collapsed || isMobile) && <span>Leaves</span>}
@@ -201,6 +131,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         <div className="nav-divider"></div>
                         {(!collapsed || isMobile) && <p className="nav-section-title">Administration</p>}
 
+                        <Link to="/timesheets/approvals" className="nav-link" onClick={() => isMobile && setIsMobileMenuOpen(false)}>
+                            <Icon name="timesheet" size={20} />
+                            {(!collapsed || isMobile) && <span>TS Approvals</span>}
+                        </Link>
                         <Link to="/settings" className="nav-link" onClick={() => isMobile && setIsMobileMenuOpen(false)}>
                             <Icon name="settings" size={20} />
                             {(!collapsed || isMobile) && <span>Settings</span>}
@@ -220,7 +154,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             {isMobile && (
                 <div className={collapsed && !isMobile ? "user-info-box-collapsed" : "user-info-box"}>
                     <div className={collapsed && !isMobile ? "user-info-header-center" : "user-info-header"}>
-                        {renderAvatar('40px', '0.9rem')}
+                        <Avatar size="40px" fontSize="0.9rem" />
                         {(!collapsed || isMobile) && (
                             <div className="user-details">
                                 <div className="user-name">{user?.profile?.firstName || 'User'}</div>
@@ -267,7 +201,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         <Icon name="menu" size={24} />
                     </button>
                     <h2 className="mobile-logo-text">Citrux</h2>
-                    {renderAvatar('36px', '0.8rem')}
+                    <Avatar size="36px" fontSize="0.8rem" />
                 </div>
             )}
 
@@ -276,79 +210,25 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 {/* Desktop Header */}
                 {!isMobile && (
                     <header className="desktop-header">
-                        <h2 className="page-title">
-                            {getPageTitle()}
-                        </h2>
-                        <div className="flex items-center gap-8">
-                            <div className="relative" ref={dropdownRef}>
-                                <div
-                                    onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                                    className="profile-dropdown-trigger"
-                                >
-                                    {renderAvatar('36px', '0.8rem')}
-                                    <div className="flex flex-col">
-                                        <span className="text-[0.95rem] font-semibold text-[var(--text-main)] leading-tight">{user?.profile?.firstName || 'User'}</span>
-                                        <span className="text-xs text-[var(--text-muted)]">{user?.role}</span>
-                                    </div>
-                                    <Icon name="arrow_down" size={14} className="text-[var(--text-muted)]" />
-                                </div>
-
-                                {isProfileDropdownOpen && (
-                                    <div className="glass-card absolute right-0 mt-3 w-80 p-2 animate-fade-in profile-dropdown-menu">
-                                        <div className="p-4 border-b flex flex-col items-center text-center profile-dropdown-header">
-                                            <div className="mb-4">{renderAvatar('64px', '1.5rem')}</div>
-                                            <h3 className="profile-dropdown-name">{user?.profile?.firstName} {user?.profile?.lastName}</h3>
-                                            <p className="profile-dropdown-email">{user?.email}</p>
-                                        </div>
-
-                                        <div className="p-4 border-b border-[var(--border-color)]">
-                                            <p className="nav-section-title pl-0">Theme Settings</p>
-                                            <div className="theme-toggle-container">
-                                                <button onClick={() => theme === 'dark' && toggleTheme()} className={`theme-toggle-btn ${theme === 'light' ? 'theme-toggle-active' : 'theme-toggle-inactive'}`}>Light</button>
-                                                <button onClick={() => theme === 'light' && toggleTheme()} className={`theme-toggle-btn ${theme === 'dark' ? 'theme-toggle-active' : 'theme-toggle-inactive'}`}>Dark</button>
-                                            </div>
-                                            <div className="flex flex-wrap gap-2.5">
-                                                {colors.map((c) => {
-                                                    const getColorClass = (color: string) => {
-                                                        const map: Record<string, string> = {
-                                                            '#9d316e': 'theme-citrux',
-                                                            '#2563eb': 'theme-blue',
-                                                            '#16a34a': 'theme-green',
-                                                            '#d97706': 'theme-amber',
-                                                            '#9333ea': 'theme-purple',
-                                                            '#020617': 'theme-slate',
-                                                        };
-                                                        return map[color] || '';
-                                                    };
-
-                                                    return (
-                                                        <button
-                                                            key={c}
-                                                            onClick={() => setPrimaryColor(c)}
-                                                            className={`color-btn ${getColorClass(c)} ${primaryColor === c ? 'color-btn-selected' : ''}`}
-                                                            title={`Set color ${c}`}
-                                                        ></button>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
-
-                                        <div className="p-2">
-                                            <Link to="/profile" className="nav-link" onClick={() => setIsProfileDropdownOpen(false)}>
-                                                <Icon name="profile" size={18} /> Profile
-                                            </Link>
-                                            <button onClick={handleLogout} className="nav-link w-full border-none bg-transparent text-[var(--error)]" title="Sign Out">
-                                                <Icon name="logout" size={18} /> Sign Out
-                                            </button>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+                        <div className="flex-1">
+                            {/* We can put a search bar here later */}
+                        </div>
+                        <div className="flex items-center gap-6">
+                            <NotificationBell />
+                            <ProfileDropdown onLogoutRequest={handleLogout} />
                         </div>
                     </header>
                 )}
 
                 <main className={`main-scroll-area ${isMobile ? 'main-scroll-padding-mobile' : 'main-scroll-padding-desktop'}`}>
+                    {!isDashboard && (
+                        <PageHeader
+                            title={currentPage.title}
+                            subtitle={currentPage.subtitle}
+                            icon={currentPage.icon}
+                            gradient={currentPage.gradient}
+                        />
+                    )}
                     {children}
                 </main>
             </div>

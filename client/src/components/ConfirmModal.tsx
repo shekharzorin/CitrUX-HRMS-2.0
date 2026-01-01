@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { Icon } from './ui/Icons';
+import { Button } from './ui/Button';
 
 interface ConfirmModalProps {
     isOpen: boolean;
@@ -41,10 +43,19 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
     const getIcon = () => {
         switch (type) {
-            case 'danger': return '⚠️';
-            case 'warning': return '⚠️';
-            case 'info': return 'ℹ️';
-            default: return '⚠️';
+            case 'danger': return 'delete';
+            case 'warning': return 'campaign';
+            case 'info': return 'check_circle';
+            default: return 'campaign';
+        }
+    };
+
+    const getTypeColor = () => {
+        switch (type) {
+            case 'danger': return 'bg-red-50 text-red-600 border-red-100';
+            case 'warning': return 'bg-amber-50 text-amber-600 border-amber-100';
+            case 'info': return 'bg-blue-50 text-blue-600 border-blue-100';
+            default: return 'bg-slate-50 text-slate-600 border-slate-100';
         }
     };
 
@@ -52,11 +63,11 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div
-                className="animation-scale-up confirm-modal-content"
+                className="animation-scale-up confirm-modal-content bg-[var(--bg-surface)] rounded-[32px] p-8 shadow-2xl border border-[var(--border-color)] max-w-sm w-full text-center"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className={`modal-icon-wrapper modal-icon-${type}`}>
-                    {getIcon()}
+                <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 border shadow-inner ${getTypeColor()}`}>
+                    <Icon name={getIcon() as any} size={32} />
                 </div>
 
                 <h3 className="confirm-modal-title">
@@ -67,20 +78,21 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
                     {message}
                 </p>
 
-                <div className="confirm-modal-actions">
-                    <button
+                <div className="flex gap-4 mt-8">
+                    <Button
+                        variant="secondary"
                         onClick={onClose}
-                        className="btn-secondary"
-                        style={{ flex: 1, justifyContent: 'center' }}
+                        className="flex-1 h-12 rounded-xl"
                     >
                         {cancelText}
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                        variant={type === 'danger' ? 'danger' : 'primary'}
                         onClick={() => { onConfirm(); onClose(); }}
-                        className={`confirm-btn confirm-btn-${type}`}
+                        className="flex-1 h-12 rounded-xl shadow-lg"
                     >
                         {confirmText}
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
+import { Icon } from '../components/ui/Icons';
+import { Button } from '../components/ui/Button';
 
 const EmployeeDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -44,70 +46,88 @@ const EmployeeDetails: React.FC = () => {
         { id: 'attendance', label: 'Attendance & Leaves' }
     ];
 
+    // Memoized style to avoid inline object lints and redundant parses
+    // Memoized settings parsing
+    const photoSettings = React.useMemo(() => {
+        if (!profile?.profilePhotoSettings) return null;
+        try {
+            return typeof profile.profilePhotoSettings === 'string'
+                ? JSON.parse(profile.profilePhotoSettings)
+                : profile.profilePhotoSettings;
+        } catch (e) {
+            return null;
+        }
+    }, [profile?.profilePhotoSettings]);
+
+    const setPhotoRef = (el: HTMLImageElement | null) => {
+        if (!el) return;
+        if (photoSettings) {
+            el.style.setProperty('--zoom', String(photoSettings.zoom || 1));
+            el.style.setProperty('--x', (photoSettings.x || 0) + '%');
+            el.style.setProperty('--y', (photoSettings.y || 0) + '%');
+        }
+    };
+
     return (
         <div className="page-container">
             {/* Header Profile Card */}
-            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6 flex flex-col md:flex-row items-center gap-6">
-                <div className="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center text-3xl font-bold text-slate-600 border-4 border-white shadow-lg overflow-hidden">
+            <div className="bg-white rounded-[32px] shadow-sm border border-slate-100 p-8 mb-8 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-fuchsia-50 rounded-full blur-3xl opacity-50 -mr-32 -mt-32"></div>
+
+                <div className="w-32 h-32 rounded-3xl bg-slate-100 flex items-center justify-center text-4xl font-bold text-slate-600 border-4 border-white shadow-xl overflow-hidden relative z-10">
                     {profile?.profilePhoto ? (
                         <img
                             src={profile.profilePhoto}
                             alt="Profile"
                             className="w-full h-full object-cover profile-photo-dynamic"
-                            // eslint-disable-next-line react-dom/no-unsafe-target-blank
-                            style={{
-                                '--zoom': (() => {
-                                    const settings = typeof profile.profilePhotoSettings === 'string'
-                                        ? JSON.parse(profile.profilePhotoSettings)
-                                        : profile.profilePhotoSettings;
-                                    return settings?.zoom || 1;
-                                })(),
-                                '--x': (() => {
-                                    const settings = typeof profile.profilePhotoSettings === 'string'
-                                        ? JSON.parse(profile.profilePhotoSettings)
-                                        : profile.profilePhotoSettings;
-                                    return (settings?.x || 0) + '%';
-                                })(),
-                                '--y': (() => {
-                                    const settings = typeof profile.profilePhotoSettings === 'string'
-                                        ? JSON.parse(profile.profilePhotoSettings)
-                                        : profile.profilePhotoSettings;
-                                    return (settings?.y || 0) + '%';
-                                })()
-                            } as React.CSSProperties}
+                            ref={setPhotoRef}
                         />
                     ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-purple-600 text-white">
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[var(--primary)] to-[var(--primary-dark)] text-white">
                             {(profile?.firstName?.charAt(0) || '') + (profile?.lastName?.charAt(0) || '')}
                         </div>
                     )}
                 </div>
-                <div className="flex-1 text-center md:text-left">
-                    <h1 className="text-2xl font-bold text-slate-800 mb-1">{profile?.firstName} {profile?.lastName}</h1>
-                    <p className="text-slate-500 font-medium mb-4">{profile?.designation} • {employee.email}</p>
+                <div className="flex-1 text-center md:text-left relative z-10">
+                    <h1 className="text-3xl font-black text-slate-900 mb-2 tracking-tight">{profile?.firstName} {profile?.lastName}</h1>
+                    <div className="flex items-center justify-center md:justify-start gap-4 mb-6">
+                        <div className="flex items-center gap-2 text-slate-500 font-bold text-sm bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100">
+                            <Icon name="onboarding" size={14} className="text-[var(--primary)]" />
+                            {profile?.designation}
+                        </div>
+                        <div className="flex items-center gap-2 text-slate-500 font-bold text-sm bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100">
+                            <Icon name="notifications" size={14} className="text-blue-500" />
+                            {employee.email}
+                        </div>
+                    </div>
                     <div className="flex flex-wrap gap-3 justify-center md:justify-start">
-                        <span className="px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold border border-blue-100">
+                        <span className="px-4 py-1.5 rounded-2xl bg-fuchsia-50 text-fuchsia-700 text-xs font-black uppercase tracking-widest border border-fuchsia-100 shadow-sm">
                             {employee.role}
                         </span>
-                        <span className={`px-3 py-1 rounded-full text-sm font-semibold border ${employee.status === 'ACTIVE' ? 'bg-green-50 text-green-700 border-green-100' : 'bg-red-50 text-red-700 border-red-100'}`}>
+                        <span className={`px-4 py-1.5 rounded-2xl text-xs font-black uppercase tracking-widest border shadow-sm ${employee.status === 'ACTIVE' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-red-50 text-red-700 border-red-100'}`}>
                             {employee.status}
                         </span>
                     </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                    <Link to={`/users/edit/${id}`} className="btn-primary bg-white text-slate-700 border border-slate-300 hover:bg-slate-50">
-                        ✏️ Edit Profile
+                <div className="relative z-10">
+                    <Link to={`/users/edit/${id}`}>
+                        <Button variant="secondary" className="px-6 h-12 shadow-sm">
+                            <Icon name="edit" size={18} /> Edit Profile
+                        </Button>
                     </Link>
                 </div>
             </div>
 
             {/* Tabs */}
-            <div className="flex border-b border-slate-200 mb-6 bg-white rounded-t-lg px-4 pt-2">
+            {/* Tabs */}
+            <div className="flex gap-2 mb-8 border-b border-slate-200 overflow-x-auto no-scrollbar">
                 {tabs.map(tab => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === tab.id ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:text-slate-700'
+                        className={`pb-3 px-6 font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === tab.id
+                            ? 'border-[var(--primary)] text-[var(--primary)]'
+                            : 'border-transparent text-slate-400 hover:text-slate-600'
                             }`}
                     >
                         {tab.label}
@@ -169,9 +189,12 @@ const EmployeeDetails: React.FC = () => {
                                 </div>
                             </div>
                         ) : (
-                            <div className="text-center py-10 text-slate-400">
-                                <div className="text-4xl mb-3">📄</div>
-                                <p>Onboarding has not been completed for this employee yet.</p>
+                            <div className="text-center py-20 text-slate-400">
+                                <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300">
+                                    <Icon name="onboarding" size={32} />
+                                </div>
+                                <p className="font-bold">Onboarding has not been completed.</p>
+                                <p className="text-sm">Please follow up with the employee to complete their profile.</p>
                             </div>
                         )}
                     </div>
@@ -276,11 +299,13 @@ const InfoRow = ({ label, value }: { label: string, value: string }) => (
 const DocLink = ({ url, label }: { url?: string, label: string }) => {
     if (!url) return null;
     return (
-        <a href={url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-3 rounded-lg border border-slate-200 hover:bg-blue-50 hover:border-blue-200 transition-colors group">
-            <span className="text-2xl">📄</span>
+        <a href={url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-4 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-fuchsia-50 hover:border-fuchsia-200 transition-all group">
+            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[var(--primary)] shadow-sm group-hover:scale-110 transition-transform">
+                <Icon name="eye" size={20} />
+            </div>
             <div className="overflow-hidden">
-                <div className="text-sm font-medium text-slate-700 group-hover:text-blue-700 truncate">{label}</div>
-                <div className="text-xs text-slate-400">Click to view</div>
+                <div className="text-sm font-bold text-slate-700 group-hover:text-[var(--primary)] truncate">{label}</div>
+                <div className="text-xs text-slate-400 font-medium">Click to view</div>
             </div>
         </a>
     );

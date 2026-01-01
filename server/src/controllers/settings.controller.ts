@@ -3,8 +3,7 @@ import { prisma } from '../db';
 
 export const getSettings = async (req: Request, res: Response) => {
     try {
-        // Use Raw SQL to bypass outdated Prisma Client types
-        const settings = await prisma.$queryRaw`SELECT key, value FROM SystemSetting` as { key: string, value: string }[];
+        const settings = await prisma.systemSetting.findMany();
 
         const settingsMap = settings.reduce((acc, curr) => {
             acc[curr.key] = curr.value;
@@ -14,14 +13,17 @@ export const getSettings = async (req: Request, res: Response) => {
         res.json(settingsMap);
     } catch (error) {
         console.error('Error fetching settings:', error);
-        // Fallback to empty if table doesn't exist yet (though it should)
         res.json({});
     }
 };
 
 export const getPublicSettings = async (req: Request, res: Response) => {
     try {
-        const settings = await prisma.$queryRaw`SELECT key, value FROM SystemSetting WHERE key IN ('company_name', 'company_logo')` as { key: string, value: string }[];
+        const settings = await prisma.systemSetting.findMany({
+            where: {
+                key: { in: ['company_name', 'company_logo'] }
+            }
+        });
 
         const settingsMap = settings.reduce((acc, curr) => {
             acc[curr.key] = curr.value;
@@ -43,10 +45,15 @@ export const updateSettings = async (req: Request, res: Response) => {
             return res.status(400).json({ message: 'Settings data required' });
         }
 
-        // Use Raw SQL for upsert
-        for (const [key, value] of Object.entries(settings)) {
-            await prisma.$executeRaw`INSERT INTO SystemSetting (key, value) VALUES (${key}, ${String(value)}) ON CONFLICT(key) DO UPDATE SET value=excluded.value`;
-        }
+        const updates = Object.entries(settings).map(([key, value]) =>
+            prisma.systemSetting.upsert({
+                where: { key },
+                update: { value: String(value) },
+                create: { key, value: String(value) },
+            })
+        );
+
+        await prisma.$transaction(updates);
 
         res.json({ message: 'Settings updated successfully' });
     } catch (error) {

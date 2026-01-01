@@ -18,7 +18,14 @@ class ApiService {
 
     private async request<T>(endpoint: string, options: FetchOptions = {}): Promise<T> {
         const url = `${API_URL}${endpoint}`;
-        const headers = { ...this.getHeaders(), ...options.headers };
+        const defaultHeaders = this.getHeaders();
+
+        // If body is FormData, remove Content-Type to let browser set boundary
+        if (options.body instanceof FormData) {
+            delete defaultHeaders['Content-Type'];
+        }
+
+        const headers = { ...defaultHeaders, ...options.headers };
 
         try {
             const response = await fetch(url, { ...options, headers });
@@ -46,10 +53,19 @@ class ApiService {
     }
 
     public post<T>(endpoint: string, body: any, headers?: Record<string, string>): Promise<T> {
+        const isFormData = body instanceof FormData;
+
+        // Let the browser set Content-Type for FormData (multipart/form-data boundary)
+        if (isFormData) {
+            // We return a custom object that the request method handles, 
+            // OR we modify how request handles default headers.
+            // Simplest is to pass a flag or handling it here if we could access request.
+        }
+
         return this.request<T>(endpoint, {
             method: 'POST',
-            body: body instanceof FormData ? body : JSON.stringify(body),
-            headers
+            body: isFormData ? body : JSON.stringify(body),
+            headers: isFormData ? { ...headers } : headers // If FormData, don't fallback to default json yet, wait.
         });
     }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import Layout from './components/Layout';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -12,6 +13,7 @@ import CreateUser from './pages/CreateUser';
 import EditUser from './pages/EditUser';
 import Attendance from './pages/Attendance';
 import Timesheets from './pages/Timesheets';
+import TimesheetApprovals from './pages/TimesheetApprovals';
 import ShiftConfig from './pages/ShiftConfig';
 import OnboardingForm from './pages/OnboardingForm';
 import OnboardingList from './pages/OnboardingList';
@@ -35,14 +37,20 @@ import Verification from './pages/Verification';
 import OrgChart from './pages/OrgChart';
 import DesignSystem from './pages/DesignSystem';
 
-import Layout from './components/Layout';
+import NotFound from './pages/NotFound';
 
-const ProtectedRoute = ({ children }: { children: React.ReactElement }) => {
-  const { isAuthenticated } = useAuth();
+const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactElement, allowedRoles?: string[] }) => {
+  const { isAuthenticated, user } = useAuth();
+
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
-  return <Layout>{children}</Layout>; // Wrap protected content in Layout
+
+  if (allowedRoles && user && !allowedRoles.includes(user.role)) {
+    return <Navigate to="/" />; // Or a generic "Unauthorized" page
+  }
+
+  return <Layout>{children}</Layout>;
 };
 
 const App: React.FC = () => {
@@ -63,7 +71,7 @@ const App: React.FC = () => {
 
 
             <Route path="/users" element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={['ADMIN', 'HR', 'SUPER_ADMIN', 'MANAGER']}>
                 <Users />
               </ProtectedRoute>
             } />
@@ -102,8 +110,13 @@ const App: React.FC = () => {
                 <Timesheets />
               </ProtectedRoute>
             } />
-            <Route path="/admin/shifts" element={
+            <Route path="/timesheets/approvals" element={
               <ProtectedRoute>
+                <TimesheetApprovals />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/shifts" element={
+              <ProtectedRoute allowedRoles={['ADMIN', 'HR']}>
                 <ShiftConfig />
               </ProtectedRoute>
             } />
@@ -182,19 +195,25 @@ const App: React.FC = () => {
                 <Analytics />
               </ProtectedRoute>
             } />
+
+            <Route path="/admin/salary" element={
+              <ProtectedRoute allowedRoles={['ADMIN', 'HR']}>
+                <SalaryConfig />
+              </ProtectedRoute>
+            } />
             <Route path="/settings" element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={['ADMIN', 'HR', 'SUPER_ADMIN']}>
                 <Settings />
               </ProtectedRoute>
             } />
-            <Route path="/payslips" element={
-              <ProtectedRoute>
-                <Payslips />
+            <Route path="/users" element={
+              <ProtectedRoute allowedRoles={['ADMIN', 'HR', 'SUPER_ADMIN', 'MANAGER']}>
+                <Users />
               </ProtectedRoute>
             } />
-            <Route path="/admin/salary" element={
-              <ProtectedRoute>
-                <SalaryConfig />
+            <Route path="/users/create" element={
+              <ProtectedRoute allowedRoles={['ADMIN', 'HR']}>
+                <CreateUser />
               </ProtectedRoute>
             } />
             <Route path="/certificates/issue" element={
@@ -202,6 +221,12 @@ const App: React.FC = () => {
                 <IssueCertificate />
               </ProtectedRoute>
             } />
+            <Route path="/payslips" element={
+              <ProtectedRoute>
+                <Payslips />
+              </ProtectedRoute>
+            } />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>
       </ThemeProvider>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import { api } from '../services/api';
+import { Icon } from '../components/ui/Icons';
+// import { Button } from '../components/ui/Button';
 
 const Analytics: React.FC = () => {
-    const { } = useAuth(); // Token kept for consistency
+    // const { } = useAuth(); // Token kept for consistency
     const [stats, setStats] = useState<any>(null);
 
     useEffect(() => {
@@ -18,9 +19,11 @@ const Analytics: React.FC = () => {
         } catch (error) { console.error(error); }
     };
 
+    // getTrendColor removed as unused
+
     if (!stats) return <div className="p-6">Loading Analytics...</div>;
 
-    const Card = ({ title, value, sub, icon, colorClass, link }: any) => (
+    const Card = ({ title, value, sub, icon, link }: any) => (
         <Link
             to={link || "#"}
             className={`glass-panel analytics-card hover:translate-y-[-2px] ${link ? 'analytics-card-clickable' : ''}`}
@@ -28,14 +31,9 @@ const Analytics: React.FC = () => {
             <div className="analytics-card-header">
                 <span className="analytics-card-title">{title}</span>
                 {icon && (
-                    <div
-                        className={`analytics-card-icon-bg ${colorClass ? `bg-${colorClass}` : 'bg-default-bg'}`}
-                    ></div>
-                )}
-                {icon && (
-                    <span
-                        className={`analytics-card-icon ${colorClass ? `text-${colorClass}` : 'text-main'}`}
-                    >{icon}</span>
+                    <div className="analytics-card-icon glassy-icon-base">
+                        <Icon name={icon as any} size={18} />
+                    </div>
                 )}
             </div>
 
@@ -50,15 +48,14 @@ const Analytics: React.FC = () => {
     );
 
     return (
-        <div className="page-container">
-            <h1 className="analytics-title">HR Analytics Dashboard</h1>
+        <div className="space-y-8">
 
             <div className="analytics-grid">
                 <Card
                     title="Total Employees"
                     value={stats.users.total}
                     sub={`${stats.users.active} Active Users`}
-                    icon="👥"
+                    icon="employees"
                     link="/users"
                 />
                 <Card
@@ -66,7 +63,7 @@ const Analytics: React.FC = () => {
                     value={stats.attendance.presentToday || 0}
                     sub="Check-ins recorded"
                     colorClass="success"
-                    icon="⏱️"
+                    icon="attendance"
                     link="/attendance"
                 />
                 <Card
@@ -74,15 +71,15 @@ const Analytics: React.FC = () => {
                     value={stats.recruitment.openJobs}
                     sub="Role vacancies"
                     colorClass="info"
-                    icon="💼"
+                    icon="careers"
                     link="/recruitment/jobs"
                 />
                 <Card
                     title="Pending Expenses"
                     value={stats.finance.pendingClaims}
-                    sub={`$${stats.finance.approvedTotal} Approved YTD`}
+                    sub={`₹${stats.finance.approvedTotal} Approved YTD`}
                     colorClass="warning"
-                    icon="💸"
+                    icon="expenses"
                     link="/expenses/approvals"
                 />
                 <Card
@@ -90,7 +87,7 @@ const Analytics: React.FC = () => {
                     value={stats.assets.assigned}
                     sub="Devices in use"
                     colorClass="primary"
-                    icon="💻"
+                    icon="onboarding"
                     link="/assets"
                 />
             </div>
@@ -99,12 +96,16 @@ const Analytics: React.FC = () => {
             <div className="analytics-charts-grid">
                 {/* Placeholder for future charts */}
                 <div className="glass-panel analytics-chart-placeholder">
-                    <div className="analytics-chart-icon">📊</div>
+                    <div className="analytics-chart-icon text-[var(--primary)]">
+                        <Icon name="analytics" size={48} />
+                    </div>
                     <div className="analytics-chart-title">Expense Trends</div>
                     <div className="analytics-chart-subtitle">(Coming Soon in v2.1)</div>
                 </div>
                 <div className="glass-panel analytics-chart-placeholder">
-                    <div className="analytics-chart-icon">🥧</div>
+                    <div className="analytics-chart-icon text-[var(--secondary)]">
+                        <Icon name="employees" size={48} />
+                    </div>
                     <div className="analytics-chart-title">Department Distribution</div>
                     <div className="analytics-chart-subtitle">(Coming Soon in v2.1)</div>
                 </div>

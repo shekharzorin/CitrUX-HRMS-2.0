@@ -37,7 +37,29 @@ export type IconName =
     | 'chevron_left'
     | 'chevron_right'
     | 'menu'
-    | 'close';
+    | 'close'
+    | 'schedule'
+    | 'bolt'
+    | 'event'
+    | 'arrow_forward'
+    | 'campaign'
+    | 'check_circle'
+    | 'trending_up'
+    | 'save'
+    | 'upload'
+    | 'plus'
+    | 'minus'
+    | 'search'
+    | 'delete'
+    | 'edit'
+    | 'eye'
+    | 'download'
+    | 'play'
+    | 'pause'
+    | 'copy'
+    | 'send'
+    | 'rotate_ccw'
+    | 'file_text';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
     name: IconName;
@@ -334,6 +356,146 @@ export const Icon: React.FC<IconProps> = ({ name, size = 24, className = '', ...
                     <>
                         <line x1="18" y1="6" x2="6" y2="18" />
                         <line x1="6" y1="6" x2="18" y2="18" />
+                    </>
+                );
+            case 'schedule':
+                return (
+                    <>
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </>
+                );
+            case 'bolt':
+                return <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />;
+            case 'event':
+                return (
+                    <>
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </>
+                );
+            case 'arrow_forward':
+                return <polyline points="9 18 15 12 9 6" />;
+            case 'campaign':
+                return (
+                    <>
+                        <path d="M18 8c0 4.5-3 6.5-3 6.5s-2-2-2-6.5c0-4.5 2-6.5 2-6.5s3 2 3 6.5z" />
+                        <path d="M11 8c0 4.5-2 6.5-2 6.5s-2-2-2-6.5c0-4.5 2-6.5 2-6.5s2 2 2 6.5z" />
+                        <path d="M13 19h-2a2 2 0 0 1-2-2v-1h6v1a2 2 0 0 1-2 2z" />
+                    </>
+                );
+            case 'check_circle':
+                return (
+                    <>
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                    </>
+                );
+            case 'trending_up':
+                return <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />;
+            case 'save':
+                return (
+                    <>
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                        <polyline points="17 21 17 13 7 13 7 21" />
+                        <polyline points="7 3 7 8 15 8" />
+                    </>
+                );
+            case 'upload':
+                return (
+                    <>
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                    </>
+                );
+            case 'plus':
+                return (
+                    <>
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                    </>
+                );
+            case 'minus':
+                return <line x1="5" y1="12" x2="19" y2="12" />;
+            case 'search':
+                return (
+                    <>
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </>
+                );
+            case 'delete':
+                return (
+                    <>
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        <line x1="10" y1="11" x2="10" y2="17" />
+                        <line x1="14" y1="11" x2="14" y2="17" />
+                    </>
+                );
+            case 'edit':
+                return (
+                    <>
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                    </>
+                );
+            case 'eye':
+                return (
+                    <>
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </>
+                );
+            case 'download':
+                return (
+                    <>
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </>
+                );
+            case 'play':
+                return <polygon points="5 3 19 12 5 21 5 3" />;
+            case 'pause':
+                return (
+                    <>
+                        <rect x="6" y="4" width="4" height="16" />
+                        <rect x="14" y="4" width="4" height="16" />
+                    </>
+                );
+            case 'copy':
+                return (
+                    <>
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </>
+                );
+            case 'send':
+                return (
+                    <>
+                        <line x1="22" y1="2" x2="11" y2="13" />
+                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                    </>
+                );
+            case 'rotate_ccw':
+                return (
+                    <>
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                        <polyline points="3 3 3 8 8 8" />
+                    </>
+                );
+            case 'file_text':
+                return (
+                    <>
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <line x1="10" y1="9" x2="8" y2="9" />
                     </>
                 );
             default:

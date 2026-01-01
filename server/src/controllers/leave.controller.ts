@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
-import { sendEmail, leaveStatusTemplate } from '../utils/email.util';
+import { sendEmail, leaveStatusTemplate, newLeaveRequestTemplate } from '../utils/email.util';
+import { notifyUser, notifyRole } from '../utils/notification';
 
 // Get available Leave Types
 export const getLeaveTypes = async (req: Request, res: Response) => {
@@ -62,8 +63,62 @@ export const applyLeave = async (req: Request, res: Response) => {
                 days,
                 reason,
                 status: 'PENDING'
-            }
+            },
+            include: { leaveType: true } // Include leave type name
         });
+
+        // --- Notification Logic ---
+
+        // 1. Get User Details (Name & Manager)
+        // @ts-ignore
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            include: { profile: true, manager: true }
+        });
+
+        const requesterName = user?.profile ? `${user.profile.firstName} ${user.profile.lastName}` : 'Employee';
+        // @ts-ignore
+        const leaveTypeName = request.leaveType.name;
+        const msg = `New Leave Request from ${requesterName}: ${leaveTypeName} (${days} days)`;
+
+        // 2. Notify Manager
+        if (user?.managerId) {
+            // In-App
+            await notifyUser(user.managerId, msg);
+
+            // Email
+            if (user.manager?.email) {
+                sendEmail(
+                    user.manager.email,
+                    `New Leave Request: ${requesterName}`,
+                    newLeaveRequestTemplate(requesterName, leaveTypeName, days, start.toDateString(), end.toDateString(), reason)
+                ).catch(e => console.error('Failed to email manager', e));
+            }
+        }
+
+        // 3. Notify HR & Admins
+        await notifyRole(['HR', 'ADMIN'], msg);
+
+        // Email HR & Admins (optional, avoiding spam if many admins, but good for small teams)
+        // Fetch all HR/Admin emails
+        // @ts-ignore
+        const admins = await prisma.user.findMany({
+            where: { role: { in: ['HR', 'ADMIN'] } },
+            select: { email: true }
+        });
+
+        const adminEmails = admins.map(a => a.email).filter(e => e);
+        if (adminEmails.length > 0) {
+            adminEmails.forEach(email => {
+                if (email) {
+                    sendEmail(
+                        email,
+                        `New Leave Request: ${requesterName}`,
+                        newLeaveRequestTemplate(requesterName, leaveTypeName, days, start.toDateString(), end.toDateString(), reason)
+                    ).catch(e => console.error('Failed to email admin', e));
+                }
+            });
+        }
 
         res.json(request);
     } catch (error) {
@@ -90,11 +145,27 @@ export const getMyRequests = async (req: Request, res: Response) => {
 };
 
 // Get Team Requests (For Manager)
+// Get Team Requests (For Manager or Admin)
 export const getTeamRequests = async (req: Request, res: Response) => {
     try {
         // @ts-ignore
-        const userId = req.user.userId; // Current User is the Manager
+        const { userId, role } = req.user;
 
+        // If Admin or HR, return ALL requests
+        if (role === 'ADMIN' || role === 'HR') {
+            const requests = await prisma.leaveRequest.findMany({
+                include: {
+                    leaveType: true,
+                    user: {
+                        include: { profile: true }
+                    }
+                },
+                orderBy: { createdAt: 'desc' }
+            });
+            return res.json(requests);
+        }
+
+        // If Manager, return Team requests
         // Find users reporting to this manager
         const subordinates = await prisma.user.findMany({
             // @ts-ignore

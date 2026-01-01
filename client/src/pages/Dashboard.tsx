@@ -2,18 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import { api } from '../services/api';
+import { Icon } from '../components/ui/Icons';
 
 const Dashboard: React.FC = () => {
-    const { user } = useAuth(); // Token kept if needed for prop drilling, but api handles auth.
+    const { user } = useAuth();
     const [stats, setStats] = useState<any>(null);
     const [notifications, setNotifications] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
     const [currentTime, setCurrentTime] = useState(new Date());
 
     useEffect(() => {
-        if (user?.role === 'ADMIN' || user?.role === 'HR') {
-            fetchStats();
-        }
-        fetchNotifications();
+        const loadData = async () => {
+            setLoading(true);
+            await Promise.all([
+                (user?.role === 'ADMIN' || user?.role === 'HR') ? fetchStats() : Promise.resolve(),
+                fetchNotifications()
+            ]);
+            setLoading(false);
+        };
+        loadData();
 
         const timer = setInterval(() => setCurrentTime(new Date()), 1000);
         return () => clearInterval(timer);
@@ -31,206 +38,273 @@ const Dashboard: React.FC = () => {
     const fetchNotifications = async () => {
         try {
             const data = await api.get<any[]>('/notifications');
-            setNotifications(data);
+            setNotifications(data || []);
         } catch (error) {
             console.error(error);
+            setNotifications([]);
         }
     };
 
-    const Card = ({ title, value, sub, icon, colorClass, link }: any) => (
-        <Link to={link || "#"} className="dashboard-stat-card glass-card">
-            <div className={`dashboard-stat-bg-circle ${colorClass || 'bg-primary'}`}></div>
-
-            <div className="dashboard-stat-header">
-                <span className="dashboard-stat-title">{title}</span>
-                <span className="dashboard-stat-icon">{icon}</span>
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
             </div>
+        );
+    }
 
-            <div className="dashboard-stat-value">
-                {value}
-            </div>
+    // Enhanced stat card with gradient backgrounds and icons
+    const StatCard = ({ title, value, sub, icon, gradient, link }: any) => {
+        const isClickable = link && link !== "#";
+        const content = (
+            <>
+                <div className={`stat-card-gradient ${gradient}`}></div>
+                <div className="stat-card-content">
+                    <div className={`stat-card-icon-wrapper glassy-icon-base ${gradient.replace('gradient', 'glassy')}`}>
+                        <Icon name={icon as any} size={24} />
+                    </div>
+                    <div className="stat-card-info">
+                        <div className="stat-card-label">{title}</div>
+                        <div className="stat-card-value">{value}</div>
+                        <div className="stat-card-subtitle">{sub}</div>
+                    </div>
+                </div>
+            </>
+        );
 
-            <div className="dashboard-stat-sub">
-                {sub}
+        if (isClickable) {
+            return (
+                <Link to={link} className="stat-card stat-card-clickable">
+                    {content}
+                </Link>
+            );
+        }
+
+        return <div className="stat-card">{content}</div>;
+    };
+
+    // Quick action button component
+    const QuickActionButton = ({ to, icon, label, color }: any) => (
+        <Link to={to} className="quick-action-link">
+            <div className="quick-action-card">
+                <div className={`quick-action-icon glassy-icon-base ${color.replace('action', 'glassy')}`}>
+                    <Icon name={icon as any} size={32} />
+                </div>
+                <div className="quick-action-label">{label}</div>
             </div>
         </Link>
     );
 
     return (
-        <div className="dashboard-container">
-            <div className="dashboard-header-row">
-                <div>
-                    <h1 className="dashboard-greeting">
-                        Hi, {user?.profile?.firstName || user?.email?.split('@')[0]} 👋
-                    </h1>
-                    <p className="dashboard-subtitle">
-                        Welcome back! Here's a snapshot of your organization.
-                    </p>
-                </div>
-
-                {/* Live Clock Widget */}
-                <div className="dashboard-clock-card glass-card">
-                    <div className="dashboard-clock-time-section">
-                        <div className="dashboard-clock-time">
-                            {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-                        </div>
-                        <div className="dashboard-clock-label">Current Time</div>
+        <div className="dashboard-premium">
+            {/* Hero Section with Greeting */}
+            <div className="dashboard-hero">
+                <div className="dashboard-hero-content">
+                    <div className="dashboard-greeting-section">
+                        <h1 className="dashboard-hero-title">
+                            Welcome back, {user?.profile?.firstName || user?.email?.split('@')[0]}! 👋
+                        </h1>
+                        <p className="dashboard-hero-subtitle">
+                            {currentTime.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+                        </p>
                     </div>
-                    <div>
-                        <div className="dashboard-clock-date">
-                            {currentTime.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' })}
+
+                    {/* Live Clock Widget - Redesigned */}
+                    <div className="dashboard-clock-widget">
+                        <div className="clock-time-display">
+                            <div className="clock-time">
+                                {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </div>
+                            <div className="clock-seconds">
+                                {currentTime.toLocaleTimeString([], { second: '2-digit' })}
+                            </div>
                         </div>
-                        <div className="dashboard-clock-year">{currentTime.getFullYear()}</div>
+                        <div className="clock-icon">
+                            <Icon name="schedule" size={32} />
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* Admin Stats Grid */}
+            {/* Admin Stats - Enhanced Design */}
             {(user?.role === 'ADMIN' || user?.role === 'HR') && stats && (
-                <div className="dashboard-stats-grid">
-                    <Card
+                <div className="stats-grid-premium">
+                    <StatCard
                         title="Total Workforce"
                         value={stats.users?.total || 0}
-                        sub={`${stats.users?.active || 0} currently active`}
-                        icon="👥"
-                        colorClass="bg-primary"
+                        sub={`${stats.users?.active || 0} active employees`}
+                        icon="employees"
+                        gradient="gradient-purple"
                         link="/users"
                     />
-                    <Card
-                        title="Attendance"
+                    <StatCard
+                        title="Attendance Today"
                         value={stats.attendance?.presentToday || 0}
-                        sub="Employees present today"
-                        icon="⏱️"
-                        colorClass="bg-success"
+                        sub="Employees checked in"
+                        icon="attendance"
+                        gradient="gradient-green"
                         link="/attendance"
                     />
-                    <Card
+                    <StatCard
                         title="Open Positions"
                         value={stats.recruitment?.openJobs || 0}
                         sub="Active job listings"
-                        icon="💼"
-                        colorClass="bg-info"
+                        icon="careers"
+                        gradient="gradient-blue"
                         link="/recruitment/jobs"
                     />
-                    <Card
-                        title="Finance"
+                    <StatCard
+                        title="Pending Claims"
                         value={`₹${stats.finance?.pendingClaims || 0}`}
-                        sub="Pending expense claims"
-                        icon="💸"
-                        colorClass="bg-warning"
+                        sub="Expense approvals"
+                        icon="expenses"
+                        gradient="gradient-orange"
                         link="/expenses/approvals"
                     />
                 </div>
             )}
 
-            {/* Main Content Layout */}
-            <div className="dashboard-main-layout">
-
-                {/* Left Column: Team Status & Actions */}
-                <div className="dashboard-column">
-                    {/* Who's Out Today */}
-                    <div className="card dashboard-card-padding">
-                        <div className="dashboard-section-header">
-                            <h2 className="dashboard-section-title">
-                                <span className="dashboard-section-icon">🌴</span> Who's Out Today
-                            </h2>
-                            <span className="dashboard-date-badge">Dec 24, 2025</span>
+            {/* Main Dashboard Grid */}
+            <div className="dashboard-grid-premium">
+                {/* Quick Actions Section */}
+                <div className="dashboard-section quick-actions-section">
+                    <div className="section-header-premium">
+                        <div className="section-icon-badge glassy-icon-base glassy-purple">
+                            <Icon name="bolt" size={20} />
                         </div>
-
-                        <div className="dashboard-whos-out-grid">
-                            {[
-                                { name: 'Sarah J.', colorClass: 'bg-primary', status: 'Sick' },
-                                { name: 'Mike R.', colorClass: 'bg-info', status: 'Vacation' },
-                                { name: 'John D.', colorClass: 'bg-success', status: 'Personal' },
-                                { name: 'Emma W.', colorClass: 'bg-warning', status: 'Travel' }
-                            ].map((person, idx) => (
-                                <div key={idx} className="dashboard-out-item" title={`${person.name} (${person.status})`}>
-                                    <div className={`dashboard-out-avatar ${person.colorClass}`}>
-                                        {person.name.charAt(0)}
-                                    </div>
-                                    <div className="dashboard-out-status-dot" />
-                                </div>
-                            ))}
-                            <div className="dashboard-out-more">
-                                +3
-                            </div>
-                        </div>
-                        <p className="dashboard-out-summary">
-                            7 employees are on leave today. <Link to="/leaves" className="dashboard-link">View Calendar &rarr;</Link>
-                        </p>
+                        <h2 className="section-title-premium">Quick Actions</h2>
                     </div>
-
-                    {/* Quick Actions */}
-                    <div className="card dashboard-card-padding">
-                        <h2 className="dashboard-section-title mb-8">
-                            <span className="dashboard-section-icon">⚡</span> Quick Actions
-                        </h2>
-                        <div className="dashboard-quick-actions-grid">
-                            <Link to="/leaves" style={{ textDecoration: 'none' }}>
-                                <div className="btn-secondary dashboard-action-btn">
-                                    <span className="dashboard-action-icon">🌴</span>
-                                    <span className="dashboard-action-label">Leave</span>
-                                </div>
-                            </Link>
-                            <Link to="/attendance" style={{ textDecoration: 'none' }}>
-                                <div className="btn-secondary dashboard-action-btn">
-                                    <span className="dashboard-action-icon">⏱️</span>
-                                    <span className="dashboard-action-label">Check-in</span>
-                                </div>
-                            </Link>
-                            <Link to="/payslips" style={{ textDecoration: 'none' }}>
-                                <div className="btn-secondary dashboard-action-btn">
-                                    <span className="dashboard-action-icon">📄</span>
-                                    <span className="dashboard-action-label">Payslip</span>
-                                </div>
-                            </Link>
-                            <Link to="/profile" style={{ textDecoration: 'none' }}>
-                                <div className="btn-secondary dashboard-action-btn">
-                                    <span className="dashboard-action-icon">👤</span>
-                                    <span className="dashboard-action-label">Profile</span>
-                                </div>
-                            </Link>
-                        </div>
+                    <div className="quick-actions-grid-premium">
+                        <QuickActionButton to="/leaves" icon="event" label="Request Leave" color="action-purple" />
+                        <QuickActionButton to="/attendance" icon="schedule" label="Check In" color="action-green" />
+                        <QuickActionButton to="/payslips" icon="payroll" label="View Payslip" color="action-blue" />
+                        <QuickActionButton to="/profile" icon="profile" label="My Profile" color="action-orange" />
                     </div>
                 </div>
 
-                {/* Right Column: Announcements */}
-                <div className="card dashboard-card-padding">
-                    <div className="dashboard-section-header">
-                        <h2 className="dashboard-section-title">
-                            <span className="dashboard-section-icon">📢</span> Announcements
-                        </h2>
+                {/* Who's Out Today */}
+                <div className="dashboard-section whos-out-section">
+                    <div className="section-header-premium">
+                        <div className="section-icon-badge glassy-icon-base glassy-green">
+                            <Icon name="event" size={20} />
+                        </div>
+                        <div className="flex-1">
+                            <h2 className="section-title-premium">Who's Out Today</h2>
+                            <p className="section-subtitle-premium">Team availability status</p>
+                        </div>
+                        <span className="status-badge">7 on leave</span>
+                    </div>
+
+                    <div className="team-avatars-grid">
+                        {[
+                            { name: 'Sarah Johnson', icon: 'profile', status: 'Sick Leave', color: 'glassy-purple' },
+                            { name: 'Mike Rodriguez', icon: 'profile', status: 'Vacation', color: 'glassy-blue' },
+                            { name: 'John Davis', icon: 'profile', status: 'Personal', color: 'glassy-green' },
+                            { name: 'Emma Wilson', icon: 'profile', status: 'Travel', color: 'glassy-orange' },
+                        ].map((person, idx) => (
+                            <div key={idx} className="team-member-card">
+                                <div className={`team-avatar glassy-icon-base ${person.color}`}>
+                                    <Icon name={person.icon as any} size={20} />
+                                </div>
+                                <div className="team-member-info">
+                                    <div className="team-member-name">{person.name}</div>
+                                    <div className="team-member-status">{person.status}</div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <Link to="/leaves" className="section-footer-link">
+                        <span>View full calendar</span>
+                        <Icon name="arrow_forward" size={16} />
+                    </Link>
+                </div>
+
+                {/* Announcements Section */}
+                <div className="dashboard-section announcements-section">
+                    <div className="section-header-premium">
+                        <div className="section-icon-badge glassy-icon-base glassy-blue">
+                            <Icon name="notifications" size={20} />
+                        </div>
+                        <div className="flex-1">
+                            <h2 className="section-title-premium">Announcements</h2>
+                            <p className="section-subtitle-premium">Latest updates</p>
+                        </div>
                         {notifications.length > 0 && (
-                            <span className="dashboard-new-badge">
-                                {notifications.length} NEW
-                            </span>
+                            <span className="notification-count-badge">{notifications.length}</span>
                         )}
                     </div>
 
-                    <div className="dashboard-announcement-list">
+                    <div className="announcements-list-premium">
                         {notifications.length > 0 ? (
-                            notifications.map(n => (
-                                <div key={n.id} className="dashboard-announcement-item">
-                                    <div className="dashboard-announcement-msg">{n.message}</div>
-                                    <div className="dashboard-announcement-date">
-                                        {new Date(n.date).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
+                            notifications.slice(0, 4).map(n => (
+                                <div key={n.id} className="announcement-card-premium">
+                                    <div className="announcement-icon">
+                                        <Icon name="campaign" size={20} />
+                                    </div>
+                                    <div className="announcement-content">
+                                        <div className="announcement-message">{n.message}</div>
+                                        <div className="announcement-time">
+                                            {new Date(n.date).toLocaleDateString([], { month: 'short', day: 'numeric' })}
+                                        </div>
                                     </div>
                                 </div>
                             ))
                         ) : (
-                            <div className="dashboard-empty-state">
-                                <div className="dashboard-empty-icon">✨</div>
-                                <p className="dashboard-empty-text">All caught up! No new announcements.</p>
+                            <div className="empty-state-premium">
+                                <div className="empty-state-icon">
+                                    <Icon name="check_circle" size={48} />
+                                </div>
+                                <div className="empty-state-title">All caught up!</div>
+                                <div className="empty-state-text">No new announcements at the moment.</div>
                             </div>
                         )}
                     </div>
 
-                    {/* Feedback Widget */}
-                    <div className="glass-card dashboard-feedback-card">
-                        <div className="dashboard-feedback-title">Enjoying Citrux?</div>
-                        <p className="dashboard-feedback-text">Share your feedback to help us improve your experience.</p>
-                        <button className="btn dashboard-feedback-btn">Give Feedback</button>
+                    {notifications.length > 4 && (
+                        <Link to="/notifications" className="section-footer-link">
+                            <span>View all announcements</span>
+                            <Icon name="arrow_forward" size={16} />
+                        </Link>
+                    )}
+                </div>
+
+                {/* Performance Snapshot - New Section */}
+                <div className="dashboard-section performance-section">
+                    <div className="section-header-premium">
+                        <div className="section-icon-badge glassy-icon-base glassy-orange">
+                            <Icon name="trending_up" size={20} />
+                        </div>
+                        <h2 className="section-title-premium">Your Performance</h2>
                     </div>
+
+                    <div className="performance-metrics">
+                        <div className="metric-item">
+                            <div className="metric-label">Attendance Rate</div>
+                            <div className="metric-value-row">
+                                <div className="metric-value">96%</div>
+                                <div className="metric-trend positive">+2%</div>
+                            </div>
+                            <div className="metric-bar">
+                                <div className="performance-bar-fill bg-success w-[96%]"></div>
+                            </div>
+                        </div>
+                        <div className="metric-item">
+                            <div className="metric-label">Tasks Completed</div>
+                            <div className="metric-value-row">
+                                <div className="metric-value">24/30</div>
+                                <div className="metric-trend positive">+5</div>
+                            </div>
+                            <div className="metric-bar">
+                                <div className="performance-bar-fill bg-primary w-[80%]"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <Link to="/performance" className="section-footer-link">
+                        <span>View detailed report</span>
+                        <Icon name="arrow_forward" size={16} />
+                    </Link>
                 </div>
             </div>
         </div>

@@ -21,9 +21,12 @@ export const issueCertificate = async (req: Request, res: Response) => {
             }
         });
 
-        const verificationLink = `http://localhost:5173/verify/${verificationId}`;
+        const verificationLink = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/verify/${verificationId}`;
 
-        res.json({ ...certificate, verificationLink });
+        // Generate QR Code
+        const qrCodeDataUrl = await QRCode.toDataURL(verificationLink);
+
+        res.json({ ...certificate, verificationLink, qrCodeDataUrl });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });

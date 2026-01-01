@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { authenticateToken } from '../middlewares/auth.middleware';
-import { getMyTimesheet, saveTimesheet, submitTimesheet, deleteEntry } from '../controllers/timesheet.controller';
+import { getMyTimesheet, saveTimesheet, submitTimesheet, deleteEntry, getPendingTimesheets, approveTimesheet } from '../controllers/timesheet.controller';
+import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware';
 
 const router = Router();
 
-router.use(authenticateToken);
-
-router.get('/my', getMyTimesheet);
-router.post('/save', saveTimesheet);
-router.post('/submit', submitTimesheet);
-router.delete('/entry/:id', deleteEntry);
+router.get('/my', authenticateToken, getMyTimesheet);
+router.post('/save', authenticateToken, saveTimesheet);
+router.post('/submit', authenticateToken, submitTimesheet);
+router.delete('/entry/:id', authenticateToken, deleteEntry);
+router.get('/pending', authenticateToken, authorizeRole(['ADMIN', 'HR']), getPendingTimesheets);
+router.post('/approve', authenticateToken, authorizeRole(['ADMIN', 'HR']), approveTimesheet);
 
 export default router;

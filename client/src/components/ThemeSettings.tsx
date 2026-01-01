@@ -18,95 +18,70 @@ const ThemeSettings: React.FC = () => {
         return (
             <button
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-primary text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform z-50 cursor-pointer border-none"
-                style={{ backgroundColor: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-[var(--primary)] text-white shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 cursor-pointer border-none"
                 title="Theme Settings"
             >
-                <span style={{ fontSize: '1.5rem' }}>🎨</span>
+                <span className="text-2xl">🎨</span>
             </button>
         );
     }
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: 'rgba(0,0,0,0.5)', position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div className="bg-surface p-6 rounded-xl shadow-xl max-w-sm w-full relative animation-scale-up"
-                style={{ backgroundColor: 'var(--bg-surface)', padding: '1.5rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-lg)', width: '100%', maxWidth: '320px', border: '1px solid var(--border-color)' }}>
-
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fade-in">
+            <div className="bg-[var(--bg-surface)] p-8 rounded-[32px] shadow-2xl max-w-[320px] w-full relative border border-[var(--border-color)] animate-scale-up">
                 <button
                     onClick={() => setIsOpen(false)}
-                    className="absolute top-4 right-4 text-muted hover:text-main cursor-pointer bg-transparent border-none"
-                    style={{ position: 'absolute', top: '1rem', right: '1rem', fontSize: '1.2rem', color: 'var(--text-muted)' }}
+                    className="absolute top-6 right-6 text-[var(--text-muted)] hover:text-[var(--text-main)] cursor-pointer bg-transparent border-none text-xl"
                 >
                     ✕
                 </button>
 
-                <h3 style={{ marginTop: 0, color: 'var(--text-main)' }}>Theme Settings</h3>
-                <p style={{ marginBottom: '1.5rem', fontSize: '0.9rem' }}>Customize your workspace appearance.</p>
+                <h3 className="mt-0 text-[var(--text-main)] font-black text-xl mb-1">Theme Settings</h3>
+                <p className="mb-8 text-sm text-[var(--text-muted)] font-medium">Customize your workspace appearance.</p>
 
-                <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-main)', fontWeight: 500 }}>Mode</label>
-                    <div style={{ display: 'flex', gap: '0.5rem', background: 'var(--bg-body)', padding: '0.25rem', borderRadius: 'var(--radius-md)' }}>
+                <div className="mb-8">
+                    <label className="block mb-3 text-[var(--text-main)] font-bold text-xs uppercase tracking-wider">Interface Mode</label>
+                    <div className="flex gap-2 bg-[var(--bg-body)] p-1.5 rounded-2xl border border-[var(--border-color)]">
                         <button
                             onClick={() => theme === 'dark' && toggleTheme()}
-                            style={{
-                                flex: 1,
-                                padding: '0.5rem',
-                                border: 'none',
-                                borderRadius: '4px',
-                                background: theme === 'light' ? 'var(--bg-surface)' : 'transparent',
-                                color: theme === 'light' ? 'var(--text-main)' : 'var(--text-muted)',
-                                boxShadow: theme === 'light' ? '0 1px 2px rgba(0,0,0,0.1)' : 'none',
-                                cursor: 'pointer',
-                                fontWeight: 500
-                            }}
+                            className={`flex-1 py-3 px-4 border-none rounded-xl font-bold text-sm transition-all cursor-pointer flex items-center justify-center gap-2 ${theme === 'light'
+                                ? 'bg-[var(--bg-surface)] text-[var(--primary)] shadow-sm'
+                                : 'bg-transparent text-[var(--text-muted)]'
+                                }`}
                         >
                             ☀️ Light
                         </button>
                         <button
                             onClick={() => theme === 'light' && toggleTheme()}
-                            style={{
-                                flex: 1,
-                                padding: '0.5rem',
-                                border: 'none',
-                                borderRadius: '4px',
-                                background: theme === 'dark' ? 'var(--bg-surface)' : 'transparent',
-                                color: theme === 'dark' ? 'var(--text-main)' : 'var(--text-muted)',
-                                boxShadow: theme === 'dark' ? '0 1px 2px rgba(0,0,0,0.1)' : 'none',
-                                cursor: 'pointer',
-                                fontWeight: 500
-                            }}
+                            className={`flex-1 py-3 px-4 border-none rounded-xl font-bold text-sm transition-all cursor-pointer flex items-center justify-center gap-2 ${theme === 'dark'
+                                ? 'bg-[var(--bg-surface)] text-[var(--primary)] shadow-sm'
+                                : 'bg-transparent text-[var(--text-muted)]'
+                                }`}
                         >
                             🌙 Dark
                         </button>
                     </div>
                 </div>
 
-                <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-main)', fontWeight: 500 }}>Primary Color</label>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '0.5rem' }}>
+                <div className="mb-2">
+                    <label className="block mb-3 text-[var(--text-main)] font-bold text-xs uppercase tracking-wider">Primary Accent</label>
+                    <div className="grid grid-cols-6 gap-3">
                         {colors.map((c) => (
                             <button
                                 key={c}
                                 onClick={() => setPrimaryColor(c)}
-                                style={{
-                                    width: '32px',
-                                    height: '32px',
-                                    borderRadius: '50%',
-                                    backgroundColor: c,
-                                    border: primaryColor === c ? '2px solid var(--text-main)' : '2px solid transparent',
-                                    cursor: 'pointer',
-                                    transition: 'transform 0.2s',
-                                    padding: 0
-                                }}
+                                className={`w-8 h-8 rounded-full cursor-pointer transition-all hover:scale-125 border-2 p-0 ${primaryColor === c ? 'border-[var(--text-main)]' : 'border-transparent'
+                                    }`}
+                                ref={(el: HTMLButtonElement | null) => { if (el) el.style.backgroundColor = c; }}
                                 title={c}
                             />
                         ))}
                     </div>
                 </div>
 
-                <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
-                    <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>
-                        Changes are saved automatically to your device.
+                <div className="mt-10 pt-6 border-t border-[var(--border-color)]">
+                    <p className="text-[10px] text-[var(--text-muted)] font-medium uppercase tracking-widest text-center">
+                        Preferences saved locally
                     </p>
                 </div>
             </div>
