@@ -23,6 +23,20 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
+    // Company Settings State
+    const [companyName, setCompanyName] = useState(localStorage.getItem('company_name') || 'Citrux');
+    const [companyLogo, setCompanyLogo] = useState(localStorage.getItem('company_logo') || '');
+
+    // Listen for setting updates
+    useEffect(() => {
+        const handleStorageChange = () => {
+            setCompanyName(localStorage.getItem('company_name') || 'Citrux');
+            setCompanyLogo(localStorage.getItem('company_logo') || '');
+        };
+        window.addEventListener('storage', handleStorageChange);
+        return () => window.removeEventListener('storage', handleStorageChange);
+    }, []);
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -81,9 +95,15 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 sidebar-content-wrapper
             `}>
                 <div className="sidebar-header">
-                    <div className="logo-box">C</div>
+                    {companyLogo ? (
+                        <div className="w-8 h-8 rounded bg-transparent flex items-center justify-center overflow-hidden">
+                            <img src={companyLogo} alt="Logo" className="w-full h-full object-contain" />
+                        </div>
+                    ) : (
+                        <div className="logo-box">{companyName.charAt(0)}</div>
+                    )}
                     {(!collapsed || isMobile) && (
-                        <h2 className="logo-text">Citrux</h2>
+                        <h2 className="logo-text">{companyName}</h2>
                     )}
                 </div>
                 {!isMobile && (
@@ -200,7 +220,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <button onClick={() => setIsMobileMenuOpen(true)} className="mobile-menu-btn" title="Open Menu">
                         <Icon name="menu" size={24} />
                     </button>
-                    <h2 className="mobile-logo-text">Citrux</h2>
+                    <h2 className="mobile-logo-text">{companyName}</h2>
                     <Avatar size="36px" fontSize="0.8rem" />
                 </div>
             )}
