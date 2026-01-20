@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { requireString } from '../utils/requestUtils';
 
 interface AuthRequest extends Request {
     user?: any;
@@ -35,7 +36,7 @@ export const getAllAssets = async (req: Request, res: Response) => {
 // Assign Asset (Admin)
 export const assignAsset = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
         const { userId } = req.body;
         // @ts-ignore
         const updated = await prisma.asset.update({
@@ -51,7 +52,7 @@ export const assignAsset = async (req: Request, res: Response) => {
 // Return Asset (Admin)
 export const returnAsset = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
         // @ts-ignore
         const updated = await prisma.asset.update({
             where: { id },

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { prisma } from '../db';
 import { sendEmail, leaveStatusTemplate, newLeaveRequestTemplate } from '../utils/email.util';
 import { notifyUser, notifyRole } from '../utils/notification';
+import { requireString } from '../utils/requestUtils';
 
 // Get available Leave Types
 export const getLeaveTypes = async (req: Request, res: Response) => {
@@ -220,7 +221,7 @@ export const getTeamRequests = async (req: Request, res: Response) => {
 // Approve/Reject Leave
 export const updateLeaveStatus = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
         const { status, comment } = req.body; // APPROVED or   REJECTED
 
         // @ts-ignore
@@ -296,7 +297,7 @@ export const createLeaveType = async (req: Request, res: Response) => {
 // Delete Leave Type
 export const deleteLeaveType = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
         // @ts-ignore
         await prisma.leaveType.delete({ where: { id } });
         res.json({ message: 'Leave type deleted' });
@@ -308,7 +309,7 @@ export const deleteLeaveType = async (req: Request, res: Response) => {
 // Delete Leave Request (Cancel)
 export const deleteLeaveRequest = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
         // @ts-ignore
         const userId = req.user.userId;
 

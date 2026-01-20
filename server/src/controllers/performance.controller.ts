@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { requireString } from '../utils/requestUtils';
 
 interface AuthRequest extends Request {
     user?: any;
@@ -78,7 +79,7 @@ export const getMyReviews = async (req: AuthRequest, res: Response) => {
 // Update Goal
 export const updateGoal = async (req: AuthRequest, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
         const { title, description, deadline, status } = req.body;
         const userId = req.user.userId;
 
@@ -103,7 +104,7 @@ export const updateGoal = async (req: AuthRequest, res: Response) => {
 // Delete Goal
 export const deleteGoal = async (req: AuthRequest, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
         const userId = req.user.userId;
 
         // @ts-ignore

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { requireString } from '../utils/requestUtils';
 
 export const getHolidays = async (req: Request, res: Response) => {
     try {
@@ -27,7 +28,7 @@ export const createHoliday = async (req: Request, res: Response) => {
 
 export const deleteHoliday = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
         await prisma.holiday.delete({ where: { id } });
         res.json({ message: 'Holiday deleted' });
     } catch (error) {

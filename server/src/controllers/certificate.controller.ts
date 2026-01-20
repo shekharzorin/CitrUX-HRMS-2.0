@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { requireString } from '../utils/requestUtils';
 import { v4 as uuidv4 } from 'uuid';
 import QRCode from 'qrcode'; // I probably didn't install this, but I can just return the link
 
@@ -35,7 +36,7 @@ export const issueCertificate = async (req: Request, res: Response) => {
 
 export const verifyCertificate = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
         const certificate = await prisma.certificate.findUnique({
             where: { verificationId: id },
             include: { user: { include: { profile: true } } }

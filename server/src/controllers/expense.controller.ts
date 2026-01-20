@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { requireString } from '../utils/requestUtils';
 
 interface AuthRequest extends Request {
     user?: any;
@@ -86,7 +87,7 @@ export const getPendingClaims = async (req: Request, res: Response) => {
 // Update Claim Status (Approve/Reject)
 export const updateClaimStatus = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
         const { status } = req.body;
         // @ts-ignore
         const updated = await prisma.expenseClaim.update({

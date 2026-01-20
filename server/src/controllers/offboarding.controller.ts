@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
 import { notifyRole, notifyUser } from '../utils/notification';
+import { requireString } from '../utils/requestUtils';
 
 interface AuthRequest extends Request {
     user?: any;
@@ -75,7 +76,7 @@ export const getResignations = async (req: Request, res: Response) => {
 // Approve/Update Status (Admin)
 export const updateOffboardingStatus = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
         const { status } = req.body;
         // @ts-ignore
         const updated = await prisma.offboarding.update({

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { requireString } from '../utils/requestUtils';
 
 // Create Job Posting (Admin)
 export const createJob = async (req: Request, res: Response) => {
@@ -58,7 +59,7 @@ export const getApplications = async (req: Request, res: Response) => {
 // Update Application Status (Admin)
 export const updateApplicationStatus = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
         const { status } = req.body;
         // @ts-ignore
         const updated = await prisma.jobApplication.update({

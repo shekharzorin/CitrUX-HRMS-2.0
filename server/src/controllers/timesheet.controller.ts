@@ -6,7 +6,7 @@ interface AuthRequest extends Request {
     user?: any;
 }
 
-import { safeString } from '../utils/requestUtils';
+import { safeString, requireString } from '../utils/requestUtils';
 
 // Get or Create Timesheet for a specific week
 export const getMyTimesheet = async (req: AuthRequest, res: Response) => {
@@ -154,14 +154,14 @@ export const submitTimesheet = async (req: AuthRequest, res: Response) => {
 export const deleteEntry = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user.userId;
-        const { id } = req.params; // Entry ID
+        const id = requireString(req.params.id); // Entry ID
 
         const entry = await prisma.timesheetEntry.findUnique({
             where: { id },
             include: { timesheet: true }
         });
 
-        if (!entry || entry.timesheet.userId !== userId) {
+        if (!entry || (entry as any).timesheet.userId !== userId) {
             return res.status(403).json({ message: 'Access Denied' });
         }
 

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { prisma } from '../db';
 import { notifyRole, notifyUser } from '../utils/notification';
 import { sendEmail, welcomeEmailTemplate } from '../utils/email.util';
+import { requireString } from '../utils/requestUtils';
 
 interface AuthRequest extends Request {
     user?: {
@@ -182,7 +183,7 @@ export const getPendingOnboardings = async (req: Request, res: Response) => {
 // Admin: Approve Onboarding
 export const approveOnboarding = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
 
         const onboarding = await prisma.onboarding.findUnique({
             where: { id },
@@ -223,7 +224,7 @@ export const approveOnboarding = async (req: Request, res: Response) => {
                     designation: onboarding.designation,
                     employmentType: onboarding.employmentType || "FULL_TIME",
                     dateOfJoining: onboarding.dateOfJoining,
-                    documents: JSON.stringify(onboarding.documents),
+                    documents: JSON.stringify((onboarding as any).documents),
                     profilePhoto: onboarding.profilePhoto,
                     profilePhotoSettings: onboarding.profilePhotoSettings
                 },

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { requireString } from '../utils/requestUtils';
 
 interface AuthRequest extends Request {
     user?: any;
@@ -23,7 +24,7 @@ export const getNotifications = async (req: AuthRequest, res: Response) => {
 // Mark as Read
 export const markRead = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
         // @ts-ignore
         await prisma.notification.update({
             where: { id },
