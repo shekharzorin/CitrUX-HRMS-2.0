@@ -64,7 +64,7 @@ const AttendanceApprovals: React.FC = () => {
             <PageHeader
                 title="Attendance Approvals"
                 subtitle="Review and process attendance adjustment requests from team members."
-                icon="check-circle"
+                icon="check_circle"
             />
 
             {loading ? (
@@ -74,7 +74,7 @@ const AttendanceApprovals: React.FC = () => {
             ) : requests.length === 0 ? (
                 <div className="text-center py-16 bg-white rounded-3xl border border-dashed border-slate-200">
                     <div className="inline-flex p-4 bg-slate-50 rounded-full text-slate-400 mb-4">
-                        <Icon name="check-circle" size={32} />
+                        <Icon name="check_circle" size={32} />
                     </div>
                     <h3 className="text-lg font-bold text-slate-700">All Caught Up!</h3>
                     <p className="text-slate-500">No pending attendance adjustment requests.</p>
