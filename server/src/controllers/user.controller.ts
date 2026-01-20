@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 // ...existing code...
 export const createUser = async (req: Request, res: Response) => {
     try {
-        const { email, password, role, firstName, lastName, phone, designation, employmentType, joiningDate, employeeId } = req.body;
+        const { email, password, role, firstName, lastName, phone, designation, employmentType, joiningDate, employeeId, shiftId } = req.body;
 
         const existingUser = await prisma.user.findUnique({ where: { email } });
         if (existingUser) {
@@ -56,6 +56,7 @@ export const createUser = async (req: Request, res: Response) => {
                 employeeId: finalEmployeeId ? finalEmployeeId.toString() : undefined,
                 passwordHash,
                 role: role || 'EMPLOYEE',
+                shiftId: shiftId || null,
                 profile: {
                     create: {
                         firstName,
@@ -66,8 +67,21 @@ export const createUser = async (req: Request, res: Response) => {
                     }
                 }
             },
-            include: { profile: true }
+            include: { profile: true, shift: true }
         });
+
+        // 3. Update DOB using Raw SQL (until Prisma Client is regenerated)
+        // Check if dob is provided
+        const { dob } = req.body;
+        if (dob && user.profile) {
+            try {
+                const dobDate = new Date(dob);
+                // Postgres format or Parameterized
+                await prisma.$executeRaw`UPDATE "Profile" SET "dob" = ${dobDate} WHERE "id" = ${user.profile.id}`;
+            } catch (err) {
+                console.error("Failed to save DOB:", err);
+            }
+        }
 
         // Initialize Leave Balances
         try {
@@ -266,7 +280,8 @@ export const getUserById = async (req: Request, res: Response) => {
                     orderBy: { date: 'desc' },
                     take: 5
                 },
-                leaveBalances: true
+                leaveBalances: true,
+                shift: true
             }
         });
 
@@ -284,7 +299,7 @@ export const getUserById = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { role, firstName, lastName, phone, designation, employeeId } = req.body;
+        const { role, firstName, lastName, phone, designation, employeeId, dob, shiftId } = req.body;
 
         // First check if user exists
         const existing = await prisma.user.findUnique({ where: { id } });
@@ -297,22 +312,38 @@ export const updateUser = async (req: Request, res: Response) => {
             }
         }
 
+        const dataToUpdate: any = {
+            role,
+            employeeId: employeeId ? employeeId.toString() : undefined,
+            profile: {
+                update: {
+                    firstName,
+                    lastName,
+                    phone,
+                    designation
+                }
+            }
+        };
+
+        if (shiftId !== undefined) {
+            dataToUpdate.shiftId = shiftId || null;
+        }
+
         const updatedUser = await prisma.user.update({
             where: { id },
-            data: {
-                role,
-                employeeId: employeeId ? employeeId.toString() : undefined,
-                profile: {
-                    update: {
-                        firstName,
-                        lastName,
-                        phone,
-                        designation
-                    }
-                }
-            },
-            include: { profile: true }
+            data: dataToUpdate,
+            include: { profile: true, shift: true }
         });
+
+        // Update DOB via Raw SQL if provided
+        if (dob && updatedUser.profile) {
+            try {
+                const dobDate = new Date(dob);
+                await prisma.$executeRaw`UPDATE "Profile" SET "dob" = ${dobDate} WHERE "id" = ${updatedUser.profile.id}`;
+            } catch (e) {
+                console.error("Failed to update DOB", e);
+            }
+        }
 
         const { passwordHash, ...userData } = updatedUser;
         res.json(userData);

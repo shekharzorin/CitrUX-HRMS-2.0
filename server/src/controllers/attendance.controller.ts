@@ -8,8 +8,14 @@ interface AuthRequest extends Request {
 export const punchIn = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user.userId;
-        const { location } = req.body;
-        const today = new Date();
+        const { location, workDate } = req.body;
+
+        let today = new Date();
+        if (workDate) {
+            // workDate is expected to be YYYY-MM-DD
+            // Creating date from this string in Node defaults to UTC 00:00:00
+            today = new Date(workDate);
+        }
         today.setHours(0, 0, 0, 0);
 
         const existingAttendance = await prisma.attendance.findFirst({
@@ -72,7 +78,8 @@ export const punchOut = async (req: AuthRequest, res: Response) => {
         today.setHours(0, 0, 0, 0);
 
         const attendance = await prisma.attendance.findFirst({
-            where: { userId, date: today }
+            where: { userId, date: today },
+            include: { breaks: true }
         });
 
         if (!attendance) {
@@ -84,14 +91,53 @@ export const punchOut = async (req: AuthRequest, res: Response) => {
         }
 
         const checkOutTime = new Date();
+
+        // 1. Check for Active Break
+        const activeBreak = attendance.breaks.find(b => !b.endTime);
+        if (activeBreak) {
+            // Auto-end the break or throw error. User requirement: "break time must reset"
+            // We will end the break to ensure data integrity and no "accumulation" error.
+            const breakDuration = (checkOutTime.getTime() - new Date(activeBreak.startTime).getTime()) / (1000 * 60); // minutes
+            await prisma.break.update({
+                where: { id: activeBreak.id },
+                data: { endTime: checkOutTime, duration: breakDuration }
+            });
+            // Update local breaks array for calculation
+            activeBreak.endTime = checkOutTime;
+            activeBreak.duration = breakDuration; // Optional field in Prisma, might need checking schema but logical here
+        }
+
+        // 2. Calculate Total Break Time
+        // Reload breaks if needed or use updated array? We updated one item.
+        // Let's refetch or calculate manually from the list we have + the one we just updated.
+        // But to be safe and simple, let's recalculate total break duration from DB or mapped array.
+        // Actually, we can just sum up known durations.
+
+        // Let's re-fetch breaks to be 100% sure of duration sums
+        const updatedAttendanceForCalc = await prisma.attendance.findUnique({
+            where: { id: attendance.id },
+            include: { breaks: true }
+        });
+
+        const totalBreakMinutes = updatedAttendanceForCalc?.breaks.reduce((acc, b) => {
+            if (b.duration) return acc + b.duration;
+            // If duration not stored, calc it
+            if (b.startTime && b.endTime) {
+                return acc + (new Date(b.endTime).getTime() - new Date(b.startTime).getTime()) / (1000 * 60);
+            }
+            return acc;
+        }, 0) || 0;
+
+
         const checkInTime = new Date(attendance.checkIn!);
-        const hours = (checkOutTime.getTime() - checkInTime.getTime()) / (1000 * 60 * 60);
+        const totalDurationHours = (checkOutTime.getTime() - checkInTime.getTime()) / (1000 * 60 * 60);
+        const workHours = totalDurationHours - (totalBreakMinutes / 60);
 
         const updatedAttendance = await prisma.attendance.update({
             where: { id: attendance.id },
             data: {
                 checkOut: checkOutTime,
-                hours
+                hours: workHours > 0 ? workHours : 0 // Enforce non-negative
             }
         });
 
@@ -194,5 +240,238 @@ export const endBreak = async (req: AuthRequest, res: Response) => {
         res.json(updatedBreak);
     } catch (error) {
         res.status(500).json({ message: 'Error ending break' });
+    }
+};
+
+export const requestAdjustment = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = req.user.userId;
+        const { date, clockIn, clockOut, reason } = req.body;
+
+        if (!date || !clockIn || !clockOut || !reason) {
+            return res.status(400).json({ message: 'Missing required fields' });
+        }
+
+        const requestDate = new Date(date);
+
+        // Check for existing request for this date
+        const existingRequest = await prisma.attendanceRequest.findFirst({
+            where: {
+                userId,
+                date: requestDate,
+                status: 'PENDING'
+            }
+        });
+
+        if (existingRequest) {
+            return res.status(400).json({ message: 'Pending adjustment request already exists for this date' });
+        }
+
+        const adjustment = await prisma.attendanceRequest.create({
+            data: {
+                userId,
+                date: requestDate,
+                clockIn: new Date(clockIn),
+                clockOut: new Date(clockOut),
+                reason
+            }
+        });
+
+        res.json(adjustment);
+    } catch (error) {
+        console.error("Adjustment Request Error", error);
+        res.status(500).json({ message: 'Error processing adjustment request' });
+    }
+};
+
+
+export const overrideAttendance = async (req: AuthRequest, res: Response) => {
+    try {
+        const adminId = req.user.userId;
+        const { userId, date, checkIn, checkOut, reason } = req.body;
+
+        if (!userId || !date || !checkIn || !reason) {
+            return res.status(400).json({ message: 'Missing required fields' });
+        }
+
+        const targetDate = new Date(date);
+        targetDate.setHours(0, 0, 0, 0);
+
+        const result = await prisma.$transaction(async (tx) => {
+            // 1. Fetch existing
+            const existing = await tx.attendance.findUnique({
+                where: {
+                    userId_date: {
+                        userId,
+                        date: targetDate
+                    }
+                }
+            });
+
+            // 2. Prepare new values
+            const newCheckIn = new Date(checkIn);
+            const newCheckOut = checkOut ? new Date(checkOut) : null;
+
+            let hours = 0;
+            if (newCheckIn && newCheckOut) {
+                const diff = newCheckOut.getTime() - newCheckIn.getTime();
+                hours = diff / (1000 * 60 * 60);
+            }
+
+            // 3. Update/Create Attendance
+            const updated = await tx.attendance.upsert({
+                where: {
+                    userId_date: { userId, date: targetDate }
+                },
+                update: {
+                    checkIn: newCheckIn,
+                    checkOut: newCheckOut,
+                    hours: hours > 0 ? hours : 0,
+                    status: 'PRESENT',
+                    isLate: false // Admin override assumes correct time
+                },
+                create: {
+                    userId,
+                    date: targetDate,
+                    checkIn: newCheckIn,
+                    checkOut: newCheckOut,
+                    hours: hours > 0 ? hours : 0,
+                    status: 'PRESENT',
+                    isLate: false
+                }
+            });
+
+            // 4. Create Audit Log
+            const changes = {
+                before: existing ? {
+                    checkIn: existing.checkIn,
+                    checkOut: existing.checkOut,
+                    hours: existing.hours
+                } : 'DOES_NOT_EXIST',
+                after: {
+                    checkIn: newCheckIn,
+                    checkOut: newCheckOut,
+                    hours
+                },
+                reason
+            };
+
+            await tx.auditLog.create({
+                data: {
+                    action: 'ATTENDANCE_OVERRIDE',
+                    entityType: 'ATTENDANCE',
+                    entityId: updated.id,
+                    details: JSON.stringify(changes),
+                    performedBy: adminId
+                }
+            });
+
+            return updated;
+        });
+
+        res.json(result);
+    } catch (error: any) {
+        console.error("Override Error", error);
+        res.status(500).json({ message: 'Failed to override attendance' });
+    }
+};
+
+export const getPendingAdjustments = async (req: AuthRequest, res: Response) => {
+    try {
+        const managerId = req.user.userId;
+        const requests = await prisma.attendanceRequest.findMany({
+            where: {
+                status: 'PENDING',
+                user: {
+                    managerId: managerId
+                }
+            },
+            include: {
+                user: {
+                    include: {
+                        profile: true
+                    }
+                }
+            },
+            orderBy: { createdAt: 'desc' }
+        });
+        res.json(requests);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching pending adjustments' });
+    }
+};
+
+export const respondToAdjustment = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id, status, comment } = req.body; // status: APPROVED | REJECTED
+
+        // Transaction to ensure atomicity
+        const result = await prisma.$transaction(async (tx) => {
+            const request = await tx.attendanceRequest.findUnique({
+                where: { id },
+                include: { user: true }
+            });
+
+            if (!request) throw new Error('Request not found');
+            if (request.status !== 'PENDING') throw new Error('Request already processed');
+
+            // Update request status
+            const updatedRequest = await tx.attendanceRequest.update({
+                where: { id },
+                data: {
+                    status,
+                    managerComment: comment
+                }
+            });
+
+            if (status === 'APPROVED') {
+                // Calculate hours
+                const start = new Date(request.clockIn);
+                const end = new Date(request.clockOut);
+                const durationMs = end.getTime() - start.getTime();
+                const hours = durationMs / (1000 * 60 * 60);
+
+                // Upsert Attendance Record
+                // We match by userId + date (composite unique key would be ideal, currently schema has @@unique([userId, date]))
+                // Ensure date is normalized to midnight UTC or whatever convention we use
+                // logic in punchIn uses: today.setHours(0, 0, 0, 0); local time?
+                // The schema stores `date` as DateTime.
+                // We should respect the date from the request.
+                const recordDate = new Date(request.date);
+                recordDate.setHours(0, 0, 0, 0);
+
+                await tx.attendance.upsert({
+                    where: {
+                        userId_date: {
+                            userId: request.userId,
+                            date: recordDate
+                        }
+                    },
+                    update: {
+                        checkIn: request.clockIn,
+                        checkOut: request.clockOut,
+                        hours: hours > 0 ? hours : 0,
+                        status: 'PRESENT', // Assume present if adjusting
+                        isLate: false // Reset or keep? Let's reset as manual override implies correction
+                    },
+                    create: {
+                        userId: request.userId,
+                        date: recordDate,
+                        checkIn: request.clockIn,
+                        checkOut: request.clockOut,
+                        hours: hours > 0 ? hours : 0,
+                        status: 'PRESENT',
+                        isLate: false
+                    }
+                });
+            }
+
+            return updatedRequest;
+        });
+
+        res.json(result);
+    } catch (error: any) {
+        console.error("Respond Adjustment Error", error);
+        res.status(400).json({ message: error.message || 'Error processing request' });
     }
 };

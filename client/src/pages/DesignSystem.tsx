@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FaInfoCircle } from 'react-icons/fa';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Card } from '../components/ui/Card';
@@ -148,11 +147,11 @@ const DesignSystem: React.FC = () => {
                         <h3>Simple Card</h3>
                         <p className="text-muted">A basic card component with padding and shadow.</p>
                     </Card>
-                    <Card variant="glass">
+                    <Card>
                         <h3>Glass Panel</h3>
                         <p className="text-muted">Similar to card but semantically named for transparency effects if configured.</p>
                     </Card>
-                    <Card variant="dashboard" className="border-none bg-blue-50 dark:bg-slate-800">
+                    <Card className="border-none bg-blue-50 dark:bg-slate-800">
                         <div className="flex items-start justify-between">
                             <div>
                                 <p className="text-muted">Total Users</p>
@@ -160,7 +159,7 @@ const DesignSystem: React.FC = () => {
                                 <Badge variant="success" className="text-sm">+12% from last month</Badge>
                             </div>
                             <div className="p-3 bg-blue-100 rounded-lg text-blue-600">
-                                <FaInfoCircle size={24} />
+                                <Icon name="info" size={24} />
                             </div>
                         </div>
                     </Card>

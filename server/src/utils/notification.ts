@@ -1,11 +1,13 @@
 import { prisma } from '../db';
 
-export const notifyUser = async (userId: string, message: string) => {
+export const notifyUser = async (userId: string, message: string, link: string | null = null, type: string = 'INFO') => {
     try {
         await prisma.notification.create({
             data: {
                 userId,
                 message,
+                link,
+                type,
                 read: false
             }
         });
@@ -14,7 +16,7 @@ export const notifyUser = async (userId: string, message: string) => {
     }
 };
 
-export const notifyRole = async (roles: string[], message: string) => {
+export const notifyRole = async (roles: string[], message: string, link: string | null = null, type: string = 'INFO') => {
     try {
         const users = await prisma.user.findMany({
             where: {
@@ -30,6 +32,8 @@ export const notifyRole = async (roles: string[], message: string) => {
                 data: {
                     userId: u.id,
                     message,
+                    link,
+                    type,
                     read: false
                 }
             });

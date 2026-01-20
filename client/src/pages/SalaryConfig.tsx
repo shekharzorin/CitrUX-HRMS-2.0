@@ -63,12 +63,12 @@ const SalaryConfig: React.FC<{ embedded?: boolean }> = ({ embedded }) => {
     const net = gross - Number(formData.deductions);
 
     return (
-        <div className={embedded ? "" : "p-6"}>
-            {!embedded && <h1 className="text-2xl font-bold mb-6 text-slate-800">Salary Configuration</h1>}
+        <div className={embedded ? "animate-fade-in" : "p-6 animate-fade-in"}>
+            {!embedded && <h1 className="text-2xl font-bold mb-6 text-slate-800 dark:text-white">Salary Configuration</h1>}
 
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 max-w-2xl">
-                <div className="mb-6">
-                    <label htmlFor="userSelect" className="block text-sm font-medium text-slate-700 mb-2">Select Employee</label>
+            <div className="glass-panel p-6 md:p-8 max-w-2xl">
+                <div className="mb-8">
+                    <label htmlFor="userSelect" className="form-label">Select Employee</label>
                     <select id="userSelect" className="input-field" value={userId} onChange={handleUserChange}>
                         <option value="">-- Select --</option>
                         {users.map(u => <option key={u.id} value={u.id}>{u.profile?.firstName} ( {u.email} )</option>)}
@@ -76,37 +76,46 @@ const SalaryConfig: React.FC<{ embedded?: boolean }> = ({ embedded }) => {
                 </div>
 
                 {userId && (
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div className="grid grid-cols-2 gap-4">
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label htmlFor="basicSalary" className="block text-sm font-medium text-slate-700 mb-1">Basic Salary</label>
+                                <label htmlFor="basicSalary" className="form-label">Basic Salary</label>
                                 <input id="basicSalary" type="number" className="input-field" value={formData.basic} onChange={e => setFormData({ ...formData, basic: Number(e.target.value) })} required />
                             </div>
                             <div>
-                                <label htmlFor="hra" className="block text-sm font-medium text-slate-700 mb-1">HRA</label>
+                                <label htmlFor="hra" className="form-label">HRA</label>
                                 <input id="hra" type="number" className="input-field" value={formData.hra} onChange={e => setFormData({ ...formData, hra: Number(e.target.value) })} required />
                             </div>
                             <div>
-                                <label htmlFor="da" className="block text-sm font-medium text-slate-700 mb-1">DA</label>
+                                <label htmlFor="da" className="form-label">DA</label>
                                 <input id="da" type="number" className="input-field" value={formData.da} onChange={e => setFormData({ ...formData, da: Number(e.target.value) })} required />
                             </div>
                             <div>
-                                <label htmlFor="allowances" className="block text-sm font-medium text-slate-700 mb-1">Allowances</label>
+                                <label htmlFor="allowances" className="form-label">Allowances</label>
                                 <input id="allowances" type="number" className="input-field" value={formData.allowances} onChange={e => setFormData({ ...formData, allowances: Number(e.target.value) })} required />
                             </div>
                             <div>
-                                <label htmlFor="deductions" className="block text-sm font-medium text-slate-700 mb-1">Deductions</label>
+                                <label htmlFor="deductions" className="form-label">Deductions</label>
                                 <input id="deductions" type="number" className="input-field" value={formData.deductions} onChange={e => setFormData({ ...formData, deductions: Number(e.target.value) })} required />
                             </div>
                         </div>
 
-                        <div className="bg-slate-50 p-4 rounded-lg mt-4">
-                            <div className="flex justify-between mb-1"><span>Gross Salary:</span> <span className="font-bold">₹{gross}</span></div>
-                            <div className="flex justify-between mb-1 text-slate-600"><span>Annual CTC (Approx):</span> <span className="font-bold">₹{ctc}</span></div>
-                            <div className="flex justify-between mb-1 text-red-600"><span>Net Salary (Monthly):</span> <span className="font-bold">₹{net}</span></div>
+                        <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-100 dark:border-slate-700 space-y-2">
+                            <div className="flex justify-between text-sm">
+                                <span className="text-slate-600 dark:text-slate-400">Gross Salary</span>
+                                <span className="font-bold text-slate-900 dark:text-white">₹{gross}</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                                <span className="text-slate-600 dark:text-slate-400">Annual CTC (Approx)</span>
+                                <span className="font-bold text-slate-900 dark:text-white">₹{ctc}</span>
+                            </div>
+                            <div className="pt-2 mt-2 border-t border-slate-200 dark:border-slate-700 flex justify-between text-base">
+                                <span className="font-bold text-slate-900 dark:text-white">Net Salary (Monthly)</span>
+                                <span className="font-bold text-emerald-600 dark:text-emerald-400">₹{net}</span>
+                            </div>
                         </div>
 
-                        <button type="submit" className="btn-primary w-full">Save Structure</button>
+                        <button type="submit" className="btn btn-primary w-full">Save Structure</button>
                     </form>
                 )}
             </div>

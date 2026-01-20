@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { api } from '../services/api';
 import { Icon } from '../components/ui/Icons';
-// import { Button } from '../components/ui/Button';
+import { StatBox, WidgetHeader } from '../components/ui/DashboardElements';
+import { EmptyState } from '../components/ui/EmptyState';
 
 const Analytics: React.FC = () => {
-    // const { } = useAuth(); // Token kept for consistency
     const [stats, setStats] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchStats();
@@ -16,98 +16,125 @@ const Analytics: React.FC = () => {
         try {
             const data = await api.get<any>('/stats');
             setStats(data);
-        } catch (error) { console.error(error); }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    // getTrendColor removed as unused
-
-    if (!stats) return <div className="p-6">Loading Analytics...</div>;
-
-    const Card = ({ title, value, sub, icon, link }: any) => (
-        <Link
-            to={link || "#"}
-            className={`glass-panel analytics-card hover:translate-y-[-2px] ${link ? 'analytics-card-clickable' : ''}`}
-        >
-            <div className="analytics-card-header">
-                <span className="analytics-card-title">{title}</span>
-                {icon && (
-                    <div className="analytics-card-icon glassy-icon-base">
-                        <Icon name={icon as any} size={18} />
-                    </div>
-                )}
-            </div>
-
-            <div className="analytics-card-value">
-                {value}
-            </div>
-
-            <div className="analytics-card-subtitle">
-                {sub}
-            </div>
-        </Link>
+    if (loading) return (
+        <div className="flex items-center justify-center min-h-[60vh]">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+        </div>
     );
 
-    return (
-        <div className="space-y-8">
+    if (!stats) return <EmptyState title="No Data" description="Unable to load analytics data." icon="analytics" />;
 
-            <div className="analytics-grid">
-                <Card
-                    title="Total Employees"
-                    value={stats.users.total}
-                    sub={`${stats.users.active} Active Users`}
-                    icon="employees"
-                    link="/users"
-                />
-                <Card
-                    title="Present Today"
-                    value={stats.attendance.presentToday || 0}
-                    sub="Check-ins recorded"
-                    colorClass="success"
-                    icon="attendance"
-                    link="/attendance"
-                />
-                <Card
-                    title="Open Jobs"
-                    value={stats.recruitment.openJobs}
-                    sub="Role vacancies"
-                    colorClass="info"
-                    icon="careers"
-                    link="/recruitment/jobs"
-                />
-                <Card
-                    title="Pending Expenses"
-                    value={stats.finance.pendingClaims}
-                    sub={`₹${stats.finance.approvedTotal} Approved YTD`}
-                    colorClass="warning"
-                    icon="expenses"
-                    link="/expenses/approvals"
-                />
-                <Card
-                    title="Assigned Assets"
-                    value={stats.assets.assigned}
-                    sub="Devices in use"
-                    colorClass="primary"
-                    icon="onboarding"
-                    link="/assets"
-                />
+    return (
+        <div className="space-y-8 pb-12">
+
+            {/* Hero Section */}
+            <div className="page-hero-premium bg-gradient-to-br from-cyan-900 via-blue-900 to-indigo-900">
+                <div className="page-hero-pattern"></div>
+                <div className="page-hero-content">
+                    <div>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-xs font-medium text-cyan-100 mb-6 shadow-sm">
+                            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.5)]"></span>
+                            Real-time Insights
+                        </div>
+                        <h1 className="page-hero-title">Analytics Dashboard</h1>
+                        <p className="page-hero-subtitle text-cyan-100/80 max-w-xl">
+                            Monitor key performance indicators, workforce trends, and operational metrics across your organization.
+                        </p>
+                    </div>
+                    <div className="page-hero-icon text-cyan-200 bg-cyan-500/10">
+                        <Icon name="analytics" size={32} />
+                    </div>
+                </div>
             </div>
 
-            <h2 className="analytics-section-title">Performance & Trends</h2>
-            <div className="analytics-charts-grid">
-                {/* Placeholder for future charts */}
-                <div className="glass-panel analytics-chart-placeholder">
-                    <div className="analytics-chart-icon text-[var(--primary)]">
-                        <Icon name="analytics" size={48} />
-                    </div>
-                    <div className="analytics-chart-title">Expense Trends</div>
-                    <div className="analytics-chart-subtitle">(Coming Soon in v2.1)</div>
+            {/* Key Metrics Grid */}
+            <div className="space-y-4">
+                <div className="flex items-center justify-between px-1">
+                    <h2 className="text-xl font-bold text-[var(--text-main)]">Key Metrics</h2>
+                    <div className="text-sm text-[var(--text-muted)]">Snapshot for today</div>
                 </div>
-                <div className="glass-panel analytics-chart-placeholder">
-                    <div className="analytics-chart-icon text-[var(--secondary)]">
-                        <Icon name="employees" size={48} />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <StatBox
+                        label="Total Workforce"
+                        value={stats.users.total}
+                        sub={`${stats.users.active} Active Users`}
+                        icon="employees"
+                        color="text-indigo-600 dark:text-indigo-400"
+                        className="cursor-pointer hover:border-indigo-200 dark:hover:border-indigo-800"
+                    />
+                    <StatBox
+                        label="Attendance Rate"
+                        value={stats.attendance?.presentToday || 0}
+                        sub="Present Today"
+                        icon="attendance"
+                        color="text-emerald-600 dark:text-emerald-400"
+                        className="cursor-pointer hover:border-emerald-200 dark:hover:border-emerald-800"
+                    />
+                    <StatBox
+                        label="Pending Expenses"
+                        value={stats.finance?.pendingClaims || 0}
+                        sub={`₹${stats.finance?.approvedTotal || 0} Approved`}
+                        icon="expenses"
+                        color="text-amber-500 dark:text-amber-400"
+                        className="cursor-pointer hover:border-amber-200 dark:hover:border-amber-800"
+                    />
+                    <StatBox
+                        label="Hiring Pipeline"
+                        value={stats.recruitment?.openJobs || 0}
+                        sub="Open Positions"
+                        icon="careers"
+                        color="text-rose-500 dark:text-rose-400"
+                        className="cursor-pointer hover:border-rose-200 dark:hover:border-rose-800"
+                    />
+                </div>
+            </div>
+
+            {/* Secondary Metrics */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <StatBox
+                    label="Asset Utilization"
+                    value={stats.assets?.assigned || 0}
+                    sub="Devices Assigned"
+                    icon="assets"
+                    color="text-blue-500 dark:text-blue-400"
+                />
+                {/* Placeholder for future specific stats if available, otherwise generic placeholders */}
+                <div className="lg:col-span-2 card-premium p-6 flex flex-col justify-center items-center text-center space-y-2 opacity-70 border-dashed border-2 border-slate-200 dark:border-slate-700">
+                    <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-400">
+                        <Icon name="trending_up" size={24} />
                     </div>
-                    <div className="analytics-chart-title">Department Distribution</div>
-                    <div className="analytics-chart-subtitle">(Coming Soon in v2.1)</div>
+                    <h3 className="text-sm font-bold text-[var(--text-main)]">More Insights Coming Soon</h3>
+                    <p className="text-xs text-[var(--text-muted)]">We are gathering more data to show you trends.</p>
+                </div>
+            </div>
+
+            {/* Charts Section */}
+            <div className="space-y-4 pt-4">
+                <h2 className="text-xl font-bold text-[var(--text-main)] px-1">Deep Dive</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="card-premium p-8 min-h-[300px] flex flex-col items-center justify-center text-center">
+                        <WidgetHeader title="Expense Trends (YTD)" className="w-full" icon="expenses" />
+                        <div className="flex-1 flex flex-col items-center justify-center space-y-4 opacity-50">
+                            <Icon name="analytics" size={48} className="text-slate-300" />
+                            <div className="text-sm text-[var(--text-muted)]">Chart visualization requires historical data collection.</div>
+                        </div>
+                    </div>
+
+                    <div className="card-premium p-8 min-h-[300px] flex flex-col items-center justify-center text-center">
+                        <WidgetHeader title="Department Headcount" className="w-full" icon="departments" />
+                        <div className="flex-1 flex flex-col items-center justify-center space-y-4 opacity-50">
+                            <Icon name="org_chart" size={48} className="text-slate-300" />
+                            <div className="text-sm text-[var(--text-muted)]">Department breakdown will be available in v2.1.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

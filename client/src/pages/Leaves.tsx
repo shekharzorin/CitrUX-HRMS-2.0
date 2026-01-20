@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
+import { useToast } from '../contexts/ToastContext';
+import { StatBox, WidgetHeader } from '../components/ui/DashboardElements';
+import { Icon } from '../components/ui/Icons';
+import { Button } from '../components/ui/Button';
+import { PageHeader } from '../components/ui/PageHeader';
 
 const Leaves: React.FC = () => {
-    const { } = useAuth(); // Token unused by api service but kept for context
+    const { showToast } = useToast();
     const [balances, setBalances] = useState<any[]>([]);
     const [requests, setRequests] = useState<any[]>([]);
     const [leaveTypes, setLeaveTypes] = useState<any[]>([]);
@@ -34,6 +38,19 @@ const Leaves: React.FC = () => {
             if (typeData) setLeaveTypes(typeData);
         } catch (error) {
             console.error(error);
+            showToast('Failed to fetch leave data.', 'error');
+        }
+    };
+
+    // Helper for safe date formatting
+    const formatDate = (dateString: any, options: Intl.DateTimeFormatOptions = {}) => {
+        if (!dateString) return 'N/A';
+        try {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return 'Invalid Date';
+            return date.toLocaleDateString([], options);
+        } catch (e) {
+            return '-';
         }
     };
 
@@ -44,52 +61,49 @@ const Leaves: React.FC = () => {
             setShowModal(false);
             setFormData({ leaveTypeId: '', startDate: '', endDate: '', reason: '' });
             fetchData();
-            alert('Leave applied successfully!');
+            showToast('Leave applied successfully!', 'success');
         } catch (error: any) {
             console.error(error);
-            alert(error.message || 'Failed to apply leave');
+            showToast(error.message || 'Failed to apply leave', 'error');
         }
     };
 
     return (
-        <div className="page-container">
+        <div className="page-container space-y-8">
+            <PageHeader
+                title="Leave Management"
+                subtitle="Manage your time off requests and view leave balances."
+                icon="leaves"
+            />
+
             {/* Top Stats of Leave Balances */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {balances.map((b) => (
-                    <div
+                    <StatBox
                         key={b.id}
-                        className={`dashboard-section group hover:-translate-y-1 transition-all duration-300 border-l-4 ${getBorderClassForLeave(b.leaveType.code)}`}
-                    >
-                        <div className="flex justify-between items-start mb-4">
-                            <div className={`p-3 rounded-xl glassy-icon-base ${getGlassyClassForLeave(b.leaveType.code)}`}>
-                                <span className="text-xl">{getIconForLeave(b.leaveType.code)}</span>
-                            </div>
-                            <div className="text-right">
-                                <div className="text-2xl font-black text-slate-800">{b.balance}</div>
-                                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Available</div>
-                            </div>
-                        </div>
-                        <h3 className="text-sm font-bold text-slate-700 m-0">{b.leaveType.name}</h3>
-                        <p className="text-[10px] text-slate-400 mt-1 uppercase font-bold tracking-tighter">Usage: {b.used || 0} days taken</p>
-                    </div>
+                        label={b.leaveType.name}
+                        value={b.balance}
+                        sub={`${b.used || 0} days taken`}
+                        icon={getIconForStatBox(b.leaveType.code)}
+                        color={getColorForLeave(b.leaveType.code)}
+                    />
                 ))}
             </div>
 
             {/* List and Actions */}
-            <div className="table-container-premium">
-                <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4 bg-white">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl glassy-icon-base glassy-purple">
-                            <span>📅</span>
-                        </div>
-                        <h3 className="font-bold text-slate-800 m-0">Leave History</h3>
-                    </div>
-                    <button
-                        className="btn-primary flex items-center gap-2 h-11 px-6 font-bold"
+            <div className="glass-panel overflow-hidden border-none shadow-sm">
+                <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4 bg-white dark:bg-slate-800">
+                    <WidgetHeader
+                        title="Leave History"
+                        icon="schedule"
+                        className="mb-0"
+                    />
+                    <Button
                         onClick={() => setShowModal(true)}
+                        leftIcon={<Icon name="plus" size={18} />}
                     >
-                        <span>+</span> Apply for Leave
-                    </button>
+                        Apply for Leave
+                    </Button>
                 </div>
 
                 <div className="overflow-x-auto">
@@ -116,9 +130,9 @@ const Leaves: React.FC = () => {
                                     </td>
                                     <td>
                                         <div className="font-bold text-slate-800">
-                                            {new Date(r.startDate).toLocaleDateString([], { month: 'short', day: 'numeric' })} - {new Date(r.endDate).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
+                                            {formatDate(r.startDate, { month: 'short', day: 'numeric' })} - {formatDate(r.endDate, { month: 'short', day: 'numeric', year: 'numeric' })}
                                         </div>
-                                        <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Requested on {new Date(r.createdAt).toLocaleDateString()}</div>
+                                        <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Requested on {formatDate(r.createdAt)}</div>
                                     </td>
                                     <td>
                                         <span className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 text-[10px] font-black uppercase tracking-widest border border-slate-200">
@@ -129,12 +143,32 @@ const Leaves: React.FC = () => {
                                         {r.reason}
                                     </td>
                                     <td className="text-right">
-                                        <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${r.status === 'APPROVED' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                                            r.status === 'REJECTED' ? 'bg-red-50 text-red-700 border-red-200' :
-                                                'bg-amber-50 text-amber-700 border-amber-200'
-                                            }`}>
-                                            {r.status}
-                                        </span>
+                                        <div className="flex justify-end items-center gap-2">
+                                            <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${r.status === 'APPROVED' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                                                r.status === 'REJECTED' ? 'bg-red-50 text-red-700 border-red-200' :
+                                                    'bg-amber-50 text-amber-700 border-amber-200'
+                                                }`}>
+                                                {r.status}
+                                            </span>
+                                            {r.status === 'PENDING' && (
+                                                <button
+                                                    onClick={async () => {
+                                                        if (confirm('Are you sure you want to cancel this leave request?')) {
+                                                            try {
+                                                                await api.delete(`/leaves/requests/${r.id}`);
+                                                                fetchData();
+                                                            } catch (err: any) {
+                                                                alert(err.message || 'Failed to cancel leave');
+                                                            }
+                                                        }
+                                                    }}
+                                                    className="p-1 text-red-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                                                    title="Cancel Request"
+                                                >
+                                                    <span className="text-xs font-bold">✕</span>
+                                                </button>
+                                            )}
+                                        </div>
                                     </td>
                                 </tr>
                             )) : (
@@ -223,21 +257,21 @@ const Leaves: React.FC = () => {
 };
 
 // Helper for classes
-const getBorderClassForLeave = (code: string) => {
+const getColorForLeave = (code: string) => {
     switch (code?.toLowerCase()) {
-        case 'cl': return 'leave-border-cl'; // Blue
-        case 'sl': return 'leave-border-sl'; // Red
-        case 'pl': return 'leave-border-pl'; // Green
-        default: return 'leave-border-default'; // Purple
+        case 'cl': return 'text-indigo-600 dark:text-indigo-400';
+        case 'sl': return 'text-rose-600 dark:text-rose-400';
+        case 'pl': return 'text-emerald-600 dark:text-emerald-400';
+        default: return 'text-amber-600 dark:text-amber-400';
     }
 };
 
-const getGlassyClassForLeave = (code: string) => {
+const getIconForStatBox = (code: string) => {
     switch (code?.toLowerCase()) {
-        case 'cl': return 'glassy-blue';
-        case 'sl': return 'glassy-orange'; // Red isn't in glassy yet, using orange
-        case 'pl': return 'glassy-green';
-        default: return 'glassy-purple';
+        case 'cl': return 'employees' as const;
+        case 'sl': return 'attendance' as const;
+        case 'pl': return 'leaves' as const;
+        default: return 'event' as const;
     }
 };
 

@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Icon } from './ui/Icons';
 import { Button } from './ui/Button';
+import { Modal } from './ui/Modal';
 
 interface ConfirmModalProps {
     isOpen: boolean;
@@ -23,24 +24,6 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
     cancelText = 'Cancel',
     type = 'danger'
 }) => {
-    // Esc key handling
-    useEffect(() => {
-        const handleEsc = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') onClose();
-        };
-        if (isOpen) {
-            window.addEventListener('keydown', handleEsc);
-            // Prevent body scroll
-            document.body.style.overflow = 'hidden';
-        }
-        return () => {
-            window.removeEventListener('keydown', handleEsc);
-            document.body.style.overflow = 'unset';
-        };
-    }, [isOpen, onClose]);
-
-    if (!isOpen) return null;
-
     const getIcon = () => {
         switch (type) {
             case 'danger': return 'delete';
@@ -52,50 +35,46 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
     const getTypeColor = () => {
         switch (type) {
-            case 'danger': return 'bg-red-50 text-red-600 border-red-100';
-            case 'warning': return 'bg-amber-50 text-amber-600 border-amber-100';
-            case 'info': return 'bg-blue-50 text-blue-600 border-blue-100';
-            default: return 'bg-slate-50 text-slate-600 border-slate-100';
+            case 'danger': return 'bg-red-50 text-red-600 border-red-100 dark:bg-red-900/20 dark:text-red-400 dark:border-red-900/30';
+            case 'warning': return 'bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-900/30';
+            case 'info': return 'bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-900/30';
+            default: return 'bg-slate-50 text-slate-600 border-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700';
         }
     };
 
-
     return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div
-                className="animation-scale-up confirm-modal-content bg-[var(--bg-surface)] rounded-[32px] p-8 shadow-2xl border border-[var(--border-color)] max-w-sm w-full text-center"
-                onClick={(e) => e.stopPropagation()}
-            >
-                <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 border shadow-inner ${getTypeColor()}`}>
-                    <Icon name={getIcon() as any} size={32} />
+        <Modal isOpen={isOpen} onClose={onClose} size="sm" showCloseButton={false}>
+            <div className="text-center">
+                <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border shadow-sm ${getTypeColor()}`}>
+                    <Icon name={getIcon() as any} size={28} />
                 </div>
 
-                <h3 className="confirm-modal-title">
+                <h3 className="text-lg font-bold text-[var(--text-main)] mb-2">
                     {title}
                 </h3>
 
-                <p className="confirm-modal-message">
+                <p className="text-[var(--text-muted)] text-sm mb-6">
                     {message}
                 </p>
 
-                <div className="flex gap-4 mt-8">
+                <div className="flex gap-3">
                     <Button
                         variant="secondary"
                         onClick={onClose}
-                        className="flex-1 h-12 rounded-xl"
+                        className="flex-1"
                     >
                         {cancelText}
                     </Button>
                     <Button
                         variant={type === 'danger' ? 'danger' : 'primary'}
                         onClick={() => { onConfirm(); onClose(); }}
-                        className="flex-1 h-12 rounded-xl shadow-lg"
+                        className="flex-1"
                     >
                         {confirmText}
                     </Button>
                 </div>
             </div>
-        </div>
+        </Modal>
     );
 };
 

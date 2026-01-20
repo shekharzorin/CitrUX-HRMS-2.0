@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
+import { useToast } from '../contexts/ToastContext';
+
 const Jobs: React.FC = () => {
     const { token, user } = useAuth();
+    const { showToast } = useToast();
     const [jobs, setJobs] = useState<any[]>([]);
     const [title, setTitle] = useState('');
     const [department, setDepartment] = useState('');
@@ -45,11 +48,16 @@ const Jobs: React.FC = () => {
                 body: JSON.stringify({ jobId: showApply, applicantName: application.name, email: application.email, phone: application.phone, resumeUrl: application.resumeUrl })
             });
             if (res.ok) {
-                alert('Application Submitted!');
+                showToast('Application Submitted!', 'success');
                 setShowApply(null);
                 setApplication({ name: '', email: '', phone: '', resumeUrl: '' });
+            } else {
+                showToast('Failed to apply', 'error');
             }
-        } catch (error) { console.error(error); }
+        } catch (error) {
+            console.error(error);
+            showToast('Network error', 'error');
+        }
     };
 
     return (

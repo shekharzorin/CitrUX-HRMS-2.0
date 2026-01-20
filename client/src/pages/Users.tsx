@@ -5,13 +5,18 @@ import ConfirmModal from '../components/ConfirmModal';
 import { api } from '../services/api';
 import { Icon } from '../components/ui/Icons';
 import { Button } from '../components/ui/Button';
+import { EmptyState } from '../components/ui/EmptyState';
+import { Skeleton } from '../components/ui/Skeleton';
+import { useToast } from '../contexts/ToastContext';
 
 const Users: React.FC = () => {
     const [users, setUsers] = useState<any[]>([]);
     const { } = useAuth(); // Token unused by api service but kept for context
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
     const [search, setSearch] = useState('');
     const [deletingId, setDeletingId] = useState<string | null>(null);
+    const { showToast } = useToast();
 
     // Modal State
     const [confirmState, setConfirmState] = useState<{
@@ -33,6 +38,7 @@ const Users: React.FC = () => {
     }, []);
 
     const fetchUsers = async () => {
+        setError(false);
         try {
             const data = await api.get<any[]>('/users');
             console.log("Fetched users:", data);
@@ -44,6 +50,7 @@ const Users: React.FC = () => {
             }
         } catch (error) {
             console.error("Error fetching users:", error);
+            setError(true);
         } finally {
             setLoading(false);
         }
@@ -60,9 +67,10 @@ const Users: React.FC = () => {
                 try {
                     await api.delete(`/users/${id}`);
                     setUsers(users.filter(u => u.id !== id));
+                    showToast(`Successfully deleted ${name}`, 'success');
                 } catch (error) {
                     console.error(error);
-                    alert('Error deleting user');
+                    showToast('Failed to delete user', 'error');
                 } finally {
                     setDeletingId(null);
                 }
@@ -118,7 +126,7 @@ const Users: React.FC = () => {
             }
 
             if (usersToImport.length === 0) {
-                alert('No valid users found in CSV. Please ensure headers include "email" and "firstName".');
+                showToast('No valid users found in CSV. Ensure "email" and "firstName" headers exist.', 'warning');
                 return;
             }
 
@@ -131,11 +139,11 @@ const Users: React.FC = () => {
                     setLoading(true);
                     try {
                         const data = await api.post<any>('/users/import', { users: usersToImport });
-                        alert(`Import Complete!\nSuccess: ${data.results.success}\nFailed: ${data.results.failed}\n${data.results.errors.length > 0 ? 'Errors:\n' + data.results.errors.join('\n') : ''}`);
+                        showToast(`Import Complete! Success: ${data.results.success}, Failed: ${data.results.failed}`, 'success');
                         fetchUsers();
                     } catch (err: any) {
                         console.error(err);
-                        alert('Error importing users: ' + (err.message || 'Unknown error'));
+                        showToast('Error importing users: ' + (err.message || 'Unknown error'), 'error');
                     } finally {
                         setLoading(false);
                         if (fileInputRef.current) fileInputRef.current.value = '';
@@ -145,6 +153,23 @@ const Users: React.FC = () => {
         };
         reader.readAsText(file);
     };
+
+    if (error) {
+        return (
+            <div className="page-container flex items-center justify-center min-h-[60vh]">
+                <EmptyState
+                    title="Unable to Load Users"
+                    description="We encountered an error while fetching the employee list. Please check your connection and try again."
+                    icon="warning"
+                    action={
+                        <Button onClick={fetchUsers} variant="primary" leftIcon={<Icon name="refresh" size={18} />}>
+                            Retry Connection
+                        </Button>
+                    }
+                />
+            </div>
+        );
+    }
 
     return (
         <div className="page-container">
@@ -190,9 +215,39 @@ const Users: React.FC = () => {
 
             <div className="table-container-premium">
                 {loading ? (
-                    <div className="p-20 text-center">
-                        <div className="animate-spin w-10 h-10 border-4 border-[var(--primary)] border-t-transparent rounded-full mx-auto mb-4"></div>
-                        <p className="text-slate-500 font-bold">Loading Employees...</p>
+                    <div className="overflow-x-auto">
+                        <table className="table-premium">
+                            <thead>
+                                <tr>
+                                    <th>Employee Name</th>
+                                    <th>ID</th>
+                                    <th>Role</th>
+                                    <th>Phone</th>
+                                    <th>Designation</th>
+                                    <th className="text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {[...Array(5)].map((_, i) => (
+                                    <tr key={i}>
+                                        <td className="p-4">
+                                            <div className="flex items-center gap-4">
+                                                <Skeleton variant="rounded" width={40} height={40} />
+                                                <div className="space-y-2">
+                                                    <Skeleton width={120} height={16} />
+                                                    <Skeleton width={150} height={12} />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="p-4"><Skeleton width={60} height={16} /></td>
+                                        <td className="p-4"><Skeleton width={80} height={24} variant="rounded" /></td>
+                                        <td className="p-4"><Skeleton width={100} height={16} /></td>
+                                        <td className="p-4"><Skeleton width={100} height={16} /></td>
+                                        <td className="p-4"><Skeleton width={80} height={32} className="ml-auto" /></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 ) : (
                     <div className="overflow-x-auto">
@@ -217,7 +272,7 @@ const Users: React.FC = () => {
                                                 </div>
                                                 <div>
                                                     <div className="font-bold text-slate-900">{user.profile?.firstName} {user.profile?.lastName}</div>
-                                                    <div className="text-xs text-slate-500">{user.email}</div>
+                                                    <div className="text-xs text-slate-500 max-w-[200px] truncate" title={user.email}>{user.email}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -258,8 +313,18 @@ const Users: React.FC = () => {
                                     </tr>
                                 )) : (
                                     <tr>
-                                        <td colSpan={6} className="p-12 text-center text-slate-400">
-                                            No users found matching your search.
+                                        <td colSpan={6} className="p-0">
+                                            <EmptyState
+                                                title="No Users Found"
+                                                description="Try adjusting your search criteria or add a new employee."
+                                                icon="search"
+                                                className="py-12"
+                                                action={
+                                                    <Button onClick={() => window.location.reload()} variant="outline" size="sm" className="mt-4">
+                                                        Clear Search
+                                                    </Button>
+                                                }
+                                            />
                                         </td>
                                     </tr>
                                 )}

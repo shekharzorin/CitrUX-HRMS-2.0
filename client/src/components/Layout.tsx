@@ -1,34 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-
-
 import ConfirmModal from './ConfirmModal';
 import { Button } from './ui/Button';
-import { Icon } from './ui/Icons';
+import { Icon, type IconName } from './ui/Icons';
 import { NotificationBell } from './Header/NotificationBell';
 import { ProfileDropdown } from './Header/ProfileDropdown';
-import { Avatar } from './ui/Avatar';
 
 
-
-import { PageHeader } from './ui/PageHeader';
+const NavItem = ({ to, icon, label, precise = false, collapsed, isMobile, onCloseMobile }: { to: string; icon: IconName; label: string; precise?: boolean; collapsed: boolean; isMobile: boolean; onCloseMobile: () => void }) => {
+    const location = useLocation();
+    const isActive = precise ? location.pathname === to : location.pathname.startsWith(to);
+    return (
+        <Link to={to} className={`nav-link ${isActive ? 'active' : ''} ${collapsed && !isMobile ? 'justify-center px-2' : ''}`} onClick={onCloseMobile} title={collapsed ? label : ''}>
+            <span className="flex-shrink-0"><Icon name={icon} size={20} /></span>
+            {(!collapsed || isMobile) && <span className="whitespace-nowrap overflow-hidden text-ellipsis">{label}</span>}
+        </Link>
+    );
+};
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { user, logout } = useAuth();
-
-
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
-    // Company Settings State
+    // Company Settings
     const [companyName, setCompanyName] = useState(localStorage.getItem('company_name') || 'Citrux');
     const [companyLogo, setCompanyLogo] = useState(localStorage.getItem('company_logo') || '');
 
-    // Listen for setting updates
-    // Listen for setting updates
     useEffect(() => {
         const updateBranding = () => {
             const name = localStorage.getItem('company_name') || 'Citrux HS';
@@ -50,36 +51,34 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 }
             }
         };
-
-        updateBranding(); // Initial Load
+        updateBranding();
         window.addEventListener('storage', updateBranding);
-        return () => window.removeEventListener('storage', updateBranding);
+        window.addEventListener('branding-update', updateBranding);
+        return () => {
+            window.removeEventListener('storage', updateBranding);
+            window.removeEventListener('branding-update', updateBranding);
+        };
     }, []);
 
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Enhanced Page Config for Hero Header
-    const pageConfig: Record<string, { title: string; subtitle?: string; icon: any; gradient: string }> = {
-        '/attendance': { title: 'Attendance Tracking', subtitle: 'View and manage employee daily presence', icon: 'schedule', gradient: 'gradient-green' },
-        '/leaves': { title: 'Leave Management', subtitle: 'Submit and approve leave requests', icon: 'event', gradient: 'gradient-purple' },
-        '/timesheets': { title: 'Time Tracking', subtitle: 'Weekly task and hour reporting', icon: 'timesheet', gradient: 'gradient-blue' },
-        '/timesheets/approvals': { title: 'Timesheet Approvals', subtitle: 'Review and approve team timesheets', icon: 'timesheet', gradient: 'gradient-orange' },
-        '/payslips': { title: 'Payroll & Payslips', subtitle: 'Download and manage your monthly earnings', icon: 'payroll', gradient: 'gradient-blue' },
-        '/onboarding/submit': { title: 'Employee Onboarding', subtitle: 'Complete your joining formalities', icon: 'onboarding', gradient: 'gradient-purple' },
-        '/settings': { title: 'System Settings', subtitle: 'Configure HRMS rules and preferences', icon: 'settings', gradient: 'gradient-purple' },
-        '/users': { title: 'Employee Directory', subtitle: 'Search and manage all staff members', icon: 'employees', gradient: 'gradient-blue' },
-        '/analytics': { title: 'Analytics & Insights', subtitle: 'Global HR metrics and reporting', icon: 'analytics', gradient: 'gradient-purple' },
-        '/profile': { title: 'My Profile', subtitle: 'Manage your personal and professional info', icon: 'profile', gradient: 'gradient-orange' },
-        '/recruitment/jobs': { title: 'Job Openings', subtitle: 'Manage active career opportunities', icon: 'careers', gradient: 'gradient-blue' },
-        '/expenses': { title: 'Expense Claims', subtitle: 'Submit your business reimbursement requests', icon: 'expenses', gradient: 'gradient-orange' }
+    // Page Config
+    const pageConfig: Record<string, { title: string; subtitle?: string; icon: IconName; gradient: string }> = {
+        '/attendance': { title: 'Attendance', subtitle: 'Manage daily presence', icon: 'schedule', gradient: 'gradient-green' },
+        '/leaves': { title: 'Leave Management', subtitle: 'Track and approve leaves', icon: 'event', gradient: 'gradient-purple' },
+        '/timesheets': { title: 'Timesheets', subtitle: 'Track work hours', icon: 'timesheet', gradient: 'gradient-blue' },
+        '/timesheets/approvals': { title: 'Timesheet Approvals', subtitle: 'Review team timesheets', icon: 'timesheet', gradient: 'gradient-orange' },
+        '/payslips': { title: 'Payroll', subtitle: 'View payslips', icon: 'payroll', gradient: 'gradient-blue' },
+        '/onboarding/submit': { title: 'Onboarding', subtitle: 'Join the team', icon: 'onboarding', gradient: 'gradient-purple' },
+        '/settings': { title: 'Settings', subtitle: 'System configuration', icon: 'settings', gradient: 'gradient-purple' },
+        '/users': { title: 'Employees', subtitle: 'Directory & Management', icon: 'employees', gradient: 'gradient-blue' },
+        '/analytics': { title: 'Analytics', subtitle: 'HR Insights', icon: 'analytics', gradient: 'gradient-purple' },
+        '/profile': { title: 'My Profile', subtitle: 'Personal information', icon: 'profile', gradient: 'gradient-orange' },
+        '/recruitment/jobs': { title: 'Careers', subtitle: 'Open positions', icon: 'careers', gradient: 'gradient-blue' },
+        '/expenses': { title: 'Expenses', subtitle: 'Reimbursements', icon: 'expenses', gradient: 'gradient-orange' }
     };
 
-    const isDashboard = location.pathname === '/';
-    const currentPage = pageConfig[location.pathname] || { title: 'Citrux HRMS', icon: 'dashboard', gradient: 'gradient-purple' };
-
-
-    // Handle Window Resize
     useEffect(() => {
         const handleResize = () => {
             const mobile = window.innerWidth < 1024;
@@ -89,10 +88,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
-
-
-
 
     const handleLogout = () => {
         setIsMobileMenuOpen(false);
@@ -104,170 +99,171 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         navigate('/login');
     };
 
-
-
     const sidebarContent = (
-        <>
+        <div className="flex flex-col h-full bg-[var(--bg-sidebar)] text-[var(--sidebar-text)]">
+            {/* Logo Area */}
             <div className={`
-                ${collapsed ? 'sidebar-content-collapsed' : 'sidebar-content-expanded'} 
-                sidebar-content-wrapper
+                flex items-center ${collapsed && !isMobile ? 'justify-center px-2' : 'px-6'} 
+                h-[var(--header-height)] border-b border-[rgba(255,255,255,0.1)] transition-all duration-300
             `}>
-                <div className="sidebar-header">
-                    {companyLogo ? (
-                        <div className="h-10 w-auto max-w-[150px] flex items-center justify-start">
-                            <img src={companyLogo} alt="Logo" className="h-full w-auto object-contain" />
+                {companyLogo ? (
+                    <img src={companyLogo} alt="Logo" className="max-h-8 w-auto object-contain" />
+                ) : (
+                    <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                            {companyName.charAt(0)}
                         </div>
-                    ) : (
-                        <div className="logo-box">{companyName.charAt(0)}</div>
-                    )}
-                    {(!collapsed || isMobile) && (
-                        <h2 className="logo-text">{companyName}</h2>
-                    )}
-                </div>
-                {!isMobile && (
-                    <button onClick={() => setCollapsed(!collapsed)} className="collapse-btn" title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}>
-                        <Icon name={collapsed ? "chevron_right" : "chevron_left"} size={20} />
-                    </button>
-                )}
-                {isMobile && (
-                    <button onClick={() => setIsMobileMenuOpen(false)} className="mobile-close-btn" title="Close Menu">
-                        <Icon name="close" size={24} />
-                    </button>
+                        {(!collapsed || isMobile) && <span className="font-bold text-white text-lg tracking-tight">{companyName}</span>}
+                    </div>
                 )}
             </div>
 
-            <nav className={`nav-container ${collapsed && !isMobile ? 'nav-collapsed' : 'nav-expanded'}`}>
-                {(!collapsed || isMobile) && <p className="nav-section-title">Main Menu</p>}
+            {/* Navigation */}
+            <nav className="flex-1 overflow-y-auto py-6 px-3 space-y-1">
+                {(!collapsed || isMobile) && <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-indigo-200/70">Main</div>}
+                <NavItem to="/" icon="dashboard" label="Home" precise collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/users" icon="employees" label="My Team" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/profile" icon="profile" label="Me" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
 
-                <Link to="/" className="nav-link" onClick={() => isMobile && setIsMobileMenuOpen(false)}>
-                    <Icon name="dashboard" size={20} />
-                    {(!collapsed || isMobile) && <span>Dashboard</span>}
-                </Link>
-                <Link to="/attendance" className="nav-link" onClick={() => isMobile && setIsMobileMenuOpen(false)}>
-                    <Icon name="attendance" size={20} />
-                    {(!collapsed || isMobile) && <span>Attendance</span>}
-                </Link>
-                <Link to="/timesheets" className="nav-link" onClick={() => isMobile && setIsMobileMenuOpen(false)}>
-                    <Icon name="timesheet" size={20} />
-                    {(!collapsed || isMobile) && <span>Timesheet</span>}
-                </Link>
-                <Link to="/leaves" className="nav-link" onClick={() => isMobile && setIsMobileMenuOpen(false)}>
-                    <Icon name="leaves" size={20} />
-                    {(!collapsed || isMobile) && <span>Leaves</span>}
-                </Link>
-                <Link to="/payslips" className="nav-link" onClick={() => isMobile && setIsMobileMenuOpen(false)}>
-                    <Icon name="payroll" size={20} />
-                    {(!collapsed || isMobile) && <span>Payroll</span>}
-                </Link>
-                <Link to="/onboarding/submit" className="nav-link" onClick={() => isMobile && setIsMobileMenuOpen(false)}>
-                    <Icon name="onboarding" size={20} />
-                    {(!collapsed || isMobile) && <span>Onboarding</span>}
-                </Link>
+                <div className="my-4 border-t border-[rgba(255,255,255,0.05)]"></div>
+                {(!collapsed || isMobile) && <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-indigo-200/70">Work</div>}
+                <NavItem to="/attendance" icon="attendance" label="Time" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/leaves" icon="leaves" label="Leaves" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/expenses" icon="expenses" label="Expenses" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
 
                 {(user?.role === 'ADMIN' || user?.role === 'HR') && (
                     <>
-                        <div className="nav-divider"></div>
-                        {(!collapsed || isMobile) && <p className="nav-section-title">Administration</p>}
-
-                        <Link to="/timesheets/approvals" className="nav-link" onClick={() => isMobile && setIsMobileMenuOpen(false)}>
-                            <Icon name="timesheet" size={20} />
-                            {(!collapsed || isMobile) && <span>TS Approvals</span>}
-                        </Link>
-                        <Link to="/settings" className="nav-link" onClick={() => isMobile && setIsMobileMenuOpen(false)}>
-                            <Icon name="settings" size={20} />
-                            {(!collapsed || isMobile) && <span>Settings</span>}
-                        </Link>
-                        <Link to="/users" className="nav-link" onClick={() => isMobile && setIsMobileMenuOpen(false)}>
-                            <Icon name="employees" size={20} />
-                            {(!collapsed || isMobile) && <span>Employees</span>}
-                        </Link>
-                        <Link to="/analytics" className="nav-link" onClick={() => isMobile && setIsMobileMenuOpen(false)}>
-                            <Icon name="analytics" size={20} />
-                            {(!collapsed || isMobile) && <span>Analytics</span>}
-                        </Link>
+                        <div className="my-4 border-t border-[rgba(255,255,255,0.05)]"></div>
+                        {(!collapsed || isMobile) && <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-indigo-200/70">Org</div>}
+                        <NavItem to="/users" icon="employees" label="Employees" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                        <NavItem to="/analytics" icon="analytics" label="Analytics" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                        <NavItem to="/settings" icon="settings" label="Settings" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                     </>
                 )}
             </nav>
 
-            {isMobile && (
-                <div className={collapsed && !isMobile ? "user-info-box-collapsed" : "user-info-box"}>
-                    <div className={collapsed && !isMobile ? "user-info-header-center" : "user-info-header"}>
-                        <Avatar size="40px" fontSize="0.9rem" />
-                        {(!collapsed || isMobile) && (
-                            <div className="user-details">
-                                <div className="user-name">{user?.profile?.firstName || 'User'}</div>
-                                <div className="user-role">{user?.role}</div>
-                            </div>
-                        )}
-                    </div>
-                    <Button
-                        variant="danger"
-                        onClick={handleLogout}
-                        className={(collapsed && !isMobile) ? "nav-logout-btn-collapsed" : "nav-logout-btn"}
-                        title="Sign Out"
+            {/* Collapse / User Mobile Footer */}
+            {!isMobile && (
+                <div className="p-4 border-t border-[rgba(255,255,255,0.1)] flex justify-end">
+                    <button
+                        onClick={() => setCollapsed(!collapsed)}
+                        className="p-2 rounded-lg hover:bg-[rgba(255,255,255,0.1)] text-[var(--sidebar-text)] transition-colors"
+                        title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
                     >
-                        {(collapsed && !isMobile) ? <Icon name="logout" size={20} /> : "Sign Out"}
+                        <Icon name={collapsed ? "chevron_right" : "chevron_left"} size={20} />
+                    </button>
+                </div>
+            )}
+
+            {isMobile && (
+                <div className="p-4 border-t border-[rgba(255,255,255,0.1)]">
+                    <Button variant="danger" onClick={handleLogout} className="w-full justify-center">
+                        <Icon name="logout" size={18} />
+                        Sign Out
                     </Button>
                 </div>
             )}
-        </>
+        </div>
     );
 
     return (
-        <div className="main-content-wrapper">
+        <div className="flex bg-[var(--bg-body)] min-h-screen font-sans text-[var(--text-main)]">
             {/* Sidebar Desktop */}
             {!isMobile && (
-                <aside className={`sidebar-transition desktop-sidebar ${collapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
+                <aside
+                    className={`fixed inset-y-0 left-0 z-50 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] 
+                        ${collapsed ? 'w-[var(--sidebar-width-collapsed)]' : 'w-[var(--sidebar-width-expanded)]'}
+                        bg-[var(--bg-sidebar)] border-r border-[var(--sidebar-border)] shadow-2xl`}
+                >
                     {sidebarContent}
                 </aside>
             )}
 
-            {/* Mobile Menu Overlay */}
-            {isMobile && isMobileMenuOpen && (
+            {/* Mobile Sidebar */}
+            {isMobile && (
                 <>
-                    <div className="sidebar-overlay" onClick={() => setIsMobileMenuOpen(false)} />
-                    <aside className="mobile-sidebar-container">
+                    {/* Overlay */}
+                    <div
+                        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    />
+                    {/* Sidebar Drawer */}
+                    <aside
+                        className={`fixed inset-y-0 left-0 z-50 w-[280px] bg-[var(--bg-sidebar)] transition-transform duration-300 shadow-2xl ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+                    >
                         {sidebarContent}
                     </aside>
                 </>
             )}
 
-            {/* Mobile Header */}
-            {isMobile && (
-                <div className="mobile-header">
-                    <button onClick={() => setIsMobileMenuOpen(true)} className="mobile-menu-btn" title="Open Menu">
-                        <Icon name="menu" size={24} />
-                    </button>
-                    <h2 className="mobile-logo-text">{companyName}</h2>
-                    <Avatar size="36px" fontSize="0.8rem" />
-                </div>
-            )}
+            {/* Main Content Area */}
+            <div
+                className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] 
+                    ${!isMobile ? (collapsed ? 'ml-[var(--sidebar-width-collapsed)]' : 'ml-[var(--sidebar-width-expanded)]') : ''}`}
+            >
+                {/* Modern Header */}
+                <header className="sticky top-0 z-30 h-[var(--header-height)] bg-[var(--bg-surface)]/80 backdrop-blur-md border-b border-[var(--border-color)] flex items-center justify-between px-6 shadow-sm">
+                    {/* Left: Check page config or default */}
+                    <div className="flex items-center gap-4">
+                        {isMobile && (
+                            <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 -ml-2 text-[var(--text-muted)] hover:text-[var(--primary)] transition-colors" title="Open Menu">
+                                <Icon name="menu" size={24} />
+                            </button>
+                        )}
 
-            {/* Main Content */}
-            <div className={`content-transition main-content ${isMobile ? 'content-mobile' : 'content-desktop'} ${!isMobile && (collapsed ? 'content-collapsed' : 'content-expanded')}`}>
-                {/* Desktop Header */}
-                {!isMobile && (
-                    <header className="desktop-header">
-                        <div className="flex-1">
-                            {/* We can put a search bar here later */}
+                        {/* Dynamic Page Header (Breadcrumb style) */}
+                        <div className="hidden md:flex flex-col">
+                            <h2 className="text-lg font-bold text-[var(--text-main)] tracking-tight">
+                                {pageConfig[location.pathname]?.title || 'Dashboard'}
+                            </h2>
+                            {pageConfig[location.pathname]?.subtitle && (
+                                <span className="text-xs text-[var(--text-muted)]">{pageConfig[location.pathname]?.subtitle}</span>
+                            )}
                         </div>
-                        <div className="flex items-center gap-6">
-                            <NotificationBell />
-                            <ProfileDropdown onLogoutRequest={handleLogout} />
+                        {/* Fallback for unknown routes or mobile */}
+                        <div className="md:hidden">
+                            <h2 className="text-lg font-bold text-[var(--text-main)]">{companyName}</h2>
                         </div>
-                    </header>
-                )}
+                    </div>
 
-                <main className={`main-scroll-area ${isMobile ? 'main-scroll-padding-mobile' : 'main-scroll-padding-desktop'}`}>
-                    {!isDashboard && (
-                        <PageHeader
-                            title={currentPage.title}
-                            subtitle={currentPage.subtitle}
-                            icon={currentPage.icon}
-                            gradient={currentPage.gradient}
-                        />
+                    {/* Center: Global Search (Desktop) */}
+                    {!isMobile && (
+                        <div className="flex-1 max-w-md mx-6">
+                            <div className="relative group">
+                                <Icon name="search" size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[var(--primary)] transition-colors" />
+                                <input
+                                    type="text"
+                                    placeholder="Search employees, leaves, policies..."
+                                    className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800/50 border-none rounded-lg text-sm text-[var(--text-main)] placeholder-slate-400 
+                                    ring-1 ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-[var(--primary)] focus:bg-white dark:focus:bg-slate-800 transition-all outline-none"
+                                />
+                                <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
+                                    <span className="text-[10px] text-slate-400 border border-slate-200 dark:border-slate-700 rounded px-1.5 py-0.5 bg-white dark:bg-slate-700">CTRL</span>
+                                    <span className="text-[10px] text-slate-400 border border-slate-200 dark:border-slate-700 rounded px-1.5 py-0.5 bg-white dark:bg-slate-700">K</span>
+                                </div>
+                            </div>
+                        </div>
                     )}
-                    {children}
+
+                    {/* Right: Actions */}
+                    {/* Right: Actions */}
+                    <div className="flex items-center gap-1 sm:gap-2">
+                        <button className="header-icon-button" title="Announcements">
+                            <Icon name="campaign" size={20} />
+                            <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border border-white dark:border-slate-900"></span>
+                        </button>
+                        <NotificationBell />
+                        <div className="h-8 w-[1px] bg-slate-200 dark:bg-slate-700/50 mx-2 sm:mx-4"></div>
+                        <ProfileDropdown onLogoutRequest={handleLogout} />
+                    </div>
+                </header>
+
+                {/* Content */}
+                <main className="flex-1 p-6 md:p-8 overflow-y-auto overflow-x-hidden">
+                    {/* Optional: Add a top gradient fade */}
+                    <div className="max-w-[1600px] mx-auto animate-fade-in">
+                        {children}
+                    </div>
                 </main>
             </div>
 
@@ -275,8 +271,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 isOpen={showLogoutConfirm}
                 onClose={() => setShowLogoutConfirm(false)}
                 onConfirm={confirmLogout}
-                title="Confirm Logout"
-                message="Are you sure you want to log out?"
+                title="Sign Out"
+                message="Are you sure you want to sign out?"
                 confirmText="Logout"
                 type="danger"
             />

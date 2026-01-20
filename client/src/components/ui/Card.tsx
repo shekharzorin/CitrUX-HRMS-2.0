@@ -1,23 +1,23 @@
 import React, { type HTMLAttributes } from 'react';
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
-    variant?: 'default' | 'glass' | 'dashboard';
+    noPadding?: boolean;
+    onClick?: () => void;
 }
 
 export const Card: React.FC<CardProps> = ({
     className = '',
-    variant = 'default',
     children,
+    noPadding = false,
+    onClick,
     ...props
 }) => {
-    const variantClasses = {
-        default: 'card',
-        glass: 'glass-panel',
-        dashboard: 'dashboard-card',
-    };
-
     return (
-        <div className={`${variantClasses[variant]} ${className}`} {...props}>
+        <div
+            className={`card-premium ${noPadding ? '' : 'p-6'} ${onClick ? 'cursor-pointer hover:shadow-lg' : ''} ${className}`}
+            onClick={onClick}
+            {...props}
+        >
             {children}
         </div>
     );

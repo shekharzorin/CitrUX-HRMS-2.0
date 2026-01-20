@@ -1,0 +1,92 @@
+﻿
+> client@0.0.0 build
+> tsc -b && vite build
+
+[36mvite v7.2.7 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32mΓ£ô[39m 3 modules transformed.
+node.exe : 
+[31mΓ£ù[39m Build 
+failed in 964ms
+At line:1 char:1
++ & "C:\Program Files\
+nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: ([31mΓ£ù[   
+ 39m Build failed     
+in 964ms:String)     
+[], RemoteExcepti    
+on
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+[31merror during 
+build:
+[31m[@tailwindcss/vit
+e:generate:build] 
+Cannot apply unknown 
+utility class `animate
+-scale-up`[31m
+file: [36mD:/citrux-h
+rms/client/src/index.c
+ss[31m
+    at 
+onInvalidCandidate (fi
+le:///D:/citrux-hrms/c
+lient/node_modules/tai
+lwindcss/dist/chunk-CT
+46QCH7.mjs:21:1511)
+    at Ce (file:///D:/
+citrux-hrms/client/nod
+e_modules/tailwindcss/
+dist/chunk-CT46QCH7.mj
+s:16:36652)
+    at file:///D:/citr
+ux-hrms/client/node_mo
+dules/tailwindcss/dist
+/chunk-CT46QCH7.mjs:21
+:355
+    at br (file:///D:/
+citrux-hrms/client/nod
+e_modules/tailwindcss/
+dist/chunk-CT46QCH7.mj
+s:3:1718)
+    at I (file:///D:/c
+itrux-hrms/client/node
+_modules/tailwindcss/d
+ist/chunk-CT46QCH7.mjs
+:3:1377)
+    at Ae (file:///D:/
+citrux-hrms/client/nod
+e_modules/tailwindcss/
+dist/chunk-CT46QCH7.mj
+s:21:172)
+    at Wi (file:///D:/
+citrux-hrms/client/nod
+e_modules/tailwindcss/
+dist/chunk-CT46QCH7.mj
+s:38:294)
+    at async Za (file:
+///D:/citrux-hrms/clie
+nt/node_modules/tailwi
+ndcss/dist/chunk-CT46Q
+CH7.mjs:38:631)
+    at async rf (file:
+///D:/citrux-hrms/clie
+nt/node_modules/tailwi
+ndcss/dist/chunk-CT46Q
+CH7.mjs:38:1406)
+    at async lu (file:
+///D:/citrux-hrms/clie
+nt/node_modules/@tailw
+indcss/node/dist/index
+.mjs:10:3458)[39m

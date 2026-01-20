@@ -53,6 +53,31 @@ export const applyLeave = async (req: Request, res: Response) => {
         }
 
         // Create Request
+        // Check for Overlaps with APPROVED or PENDING requests
+        const overlappingParams = {
+            userId,
+            AND: [
+                {
+                    OR: [
+                        { startDate: { lte: end }, endDate: { gte: start } }
+                    ]
+                },
+                {
+                    status: { in: ['APPROVED', 'PENDING'] }
+                }
+            ]
+        };
+
+        // Use count for efficiency
+        // @ts-ignore
+        const overlapCount = await prisma.leaveRequest.count({
+            where: overlappingParams
+        });
+
+        if (overlapCount > 0) {
+            return res.status(400).json({ message: 'Leave request overlaps with an existing approved or pending leave.' });
+        }
+
         // @ts-ignore
         const request = await prisma.leaveRequest.create({
             data: {
@@ -84,7 +109,7 @@ export const applyLeave = async (req: Request, res: Response) => {
         // 2. Notify Manager
         if (user?.managerId) {
             // In-App
-            await notifyUser(user.managerId, msg);
+            await notifyUser(user.managerId, msg, '/manager/leaves', 'TASK');
 
             // Email
             if (user.manager?.email) {
@@ -97,7 +122,7 @@ export const applyLeave = async (req: Request, res: Response) => {
         }
 
         // 3. Notify HR & Admins
-        await notifyRole(['HR', 'ADMIN'], msg);
+        await notifyRole(['HR', 'ADMIN'], msg, '/manager/leaves', 'TASK');
 
         // Email HR & Admins (optional, avoiding spam if many admins, but good for small teams)
         // Fetch all HR/Admin emails
@@ -221,10 +246,13 @@ export const updateLeaveStatus = async (req: Request, res: Response) => {
         });
 
         // Create Notification
+        // @ts-ignore
         await prisma.notification.create({
             data: {
                 userId: request.userId,
-                message: `Your leave request for ${new Date(request.startDate).toDateString()} was ${status}`
+                message: `Your leave request for ${new Date(request.startDate).toDateString()} was ${status}`,
+                link: '/leaves',
+                type: 'LEAVE'
             }
         });
 
@@ -274,5 +302,37 @@ export const deleteLeaveType = async (req: Request, res: Response) => {
         res.json({ message: 'Leave type deleted' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting leave type' });
+    }
+};
+
+// Delete Leave Request (Cancel)
+export const deleteLeaveRequest = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        // @ts-ignore
+        const userId = req.user.userId;
+
+        // @ts-ignore
+        const request = await prisma.leaveRequest.findUnique({ where: { id } });
+
+        if (!request) {
+            return res.status(404).json({ message: 'Leave request not found' });
+        }
+
+        if (request.userId !== userId) {
+            return res.status(403).json({ message: 'Unauthorized to delete this request' });
+        }
+
+        if (request.status === 'APPROVED') {
+            return res.status(400).json({ message: 'Cannot delete approved leave. Ask manager to reject it.' });
+        }
+
+        // @ts-ignore
+        await prisma.leaveRequest.delete({ where: { id } });
+
+        res.json({ message: 'Leave request deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error deleting leave request' });
     }
 };

@@ -35,6 +35,8 @@ model User {
   manager       User?               @relation("ManagerSubordinates", fields: [managerId], references: [id])
   subordinates  User[]              @relation("ManagerSubordinates")
   timesheets    Timesheet[]
+  attendanceRequests AttendanceRequest[]
+  audits        AuditLog[]          @relation("UserAudits")
 }
 
 model SalaryStructure {
@@ -74,6 +76,7 @@ model Profile {
   department     String?
   employmentType String    @default("FULL_TIME")
   dateOfJoining  DateTime?
+  dob            DateTime?
   documents      String?
   profilePhoto   String?
   profilePhotoSettings String? // JSON string for zoom/position
@@ -408,6 +411,8 @@ model Notification {
   id        String   @id @default(uuid())
   userId    String
   message   String
+  type      String   @default("INFO") // INFO, LEAVE, TASK, SYSTEM
+  link      String?
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
   User      User     @relation(fields: [userId], references: [id])
@@ -465,4 +470,29 @@ model Task {
   status      String           @default("ACTIVE")
   entries     TimesheetEntry[]
   createdAt   DateTime         @default(now())
+}
+
+model AttendanceRequest {
+  id             String   @id @default(uuid())
+  userId         String
+  date           DateTime
+  clockIn        DateTime
+  clockOut       DateTime
+  reason         String
+  status         String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  managerComment String?
+  createdAt      DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [id])
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  action      String   // e.g., ATTENDANCE_OVERRIDE, USER_UPDATE
+  entityType  String   // e.g., ATTENDANCE
+  entityId    String
+  details     String   // JSON string of changes (old vs new)
+  performedBy String
+  createdAt   DateTime @default(now())
+  
+  actor       User     @relation("UserAudits", fields: [performedBy], references: [id])
 }

@@ -5,8 +5,11 @@ import { Icon } from '../components/ui/Icons';
 import { api } from '../services/api';
 import { Button } from '../components/ui/Button';
 
+import { useToast } from '../contexts/ToastContext';
+
 const Timesheets: React.FC = () => {
     const { } = useAuth(); // kept for context if needed later, or remove completely if not used.
+    const { showToast } = useToast();
     const [currentDate, setCurrentDate] = useState(new Date());
     const [timesheet, setTimesheet] = useState<any>(null);
     const [entries, setEntries] = useState<any[]>([]);
@@ -62,12 +65,13 @@ const Timesheets: React.FC = () => {
     const handleDeleteRow = async (index: number) => {
         const entry = entries[index];
         if (entry.id) {
+            // Can replace confirm with ConfirmModal later or keep specific confirm for now
             if (!confirm('Are you sure you want to delete this specific entry?')) return;
             try {
                 await api.delete(`/timesheets/entry/${entry.id}`);
             } catch (e) {
                 console.error(e);
-                alert('Failed to delete entry');
+                showToast('Failed to delete entry', 'error');
                 return;
             }
         }
@@ -87,12 +91,13 @@ const Timesheets: React.FC = () => {
             if (updated) {
                 setTimesheet(updated);
                 setEntries(updated.entries);
-                alert('Timesheet Saved Successfully');
+                showToast('Timesheet Saved Successfully', 'success');
             } else {
-                alert('Failed to save');
+                showToast('Failed to save', 'error');
             }
         } catch (error) {
             console.error(error);
+            showToast('Network error', 'error');
         } finally {
             setSaving(false);
         }

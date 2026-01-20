@@ -30,9 +30,9 @@ class ApiService {
         try {
             const response = await fetch(url, { ...options, headers });
 
-            // Handle 401 Unauthorized globally if needed (e.g., dispatch logout event)
+            // Handle 401 Unauthorized globally
             if (response.status === 401) {
-                // Optional: window.dispatchEvent(new Event('auth:logout'));
+                window.dispatchEvent(new Event('auth:logout'));
             }
 
             const data = await response.json();

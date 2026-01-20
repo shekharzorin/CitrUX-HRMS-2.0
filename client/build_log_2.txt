@@ -1,0 +1,5 @@
+﻿
+> client@0.0.0 build
+> tsc -b && vite build
+
+src/pages/DesignSystem.tsx(77,29): error TS2322: Type '"success"' is not assignable to type '"primary" | "secondary" | "danger" | "ghost" | "outline" | undefined'.

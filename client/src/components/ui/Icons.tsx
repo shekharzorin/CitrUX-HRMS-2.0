@@ -59,7 +59,14 @@ export type IconName =
     | 'copy'
     | 'send'
     | 'rotate_ccw'
-    | 'file_text';
+    | 'file_text'
+    | 'more_horizontal'
+    | 'info'
+    | 'info'
+    | 'warning'
+    | 'alert'
+    | 'login'
+    | 'refresh';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
     name: IconName;
@@ -89,6 +96,15 @@ export const Icon: React.FC<IconProps> = ({ name, size = 24, className = '', ...
                         <circle cx="9" cy="7" r="4" />
                         <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
                         <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </>
+                );
+
+            case 'more_horizontal':
+                return (
+                    <>
+                        <circle cx="12" cy="12" r="1" />
+                        <circle cx="19" cy="12" r="1" />
+                        <circle cx="5" cy="12" r="1" />
                     </>
                 );
             case 'attendance':
@@ -493,9 +509,42 @@ export const Icon: React.FC<IconProps> = ({ name, size = 24, className = '', ...
                     <>
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                         <polyline points="14 2 14 8 20 8" />
-                        <line x1="16" y1="13" x2="8" y2="13" />
                         <line x1="16" y1="17" x2="8" y2="17" />
                         <line x1="10" y1="9" x2="8" y2="9" />
+                    </>
+                );
+            case 'info':
+                return (
+                    <>
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="16" x2="12" y2="12" />
+                        <line x1="12" y1="8" x2="12.01" y2="8" />
+                    </>
+                );
+            case 'warning':
+                return (
+                    <>
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                        <line x1="12" y1="9" x2="12" y2="13" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </>
+                );
+            case 'refresh':
+                return <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />;
+            case 'login':
+                return (
+                    <>
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                        <polyline points="10 17 15 12 10 7" />
+                        <line x1="15" y1="12" x2="3" y2="12" />
+                    </>
+                );
+            case 'alert':
+                return (
+                    <>
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
                     </>
                 );
             default:

@@ -7,6 +7,6 @@ const router = Router();
 router.use(authenticateToken);
 
 // Admin Only
-router.get('/', authorizeRole(['ADMIN', 'HR', 'MANAGER']), getDashboardStats);
+router.get('/', getDashboardStats);
 
 export default router;

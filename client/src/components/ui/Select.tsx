@@ -4,6 +4,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
     label?: string;
     error?: string;
     options?: string[] | { label: string; value: string | number }[];
+    containerClassName?: string;
 }
 
 export const Select: React.FC<SelectProps> = ({
@@ -14,20 +15,28 @@ export const Select: React.FC<SelectProps> = ({
     options = [],
     required,
     children,
+    containerClassName = '',
+    disabled,
     ...props
 }) => {
     return (
-        <div className="w-full">
+        <div className={`w-full ${containerClassName}`}>
             {label && (
-                <label htmlFor={id} className="block text-sm font-medium text-[var(--text-main)] mb-1">
-                    {label} {required && <span className="text-[var(--error)]">*</span>}
+                <label htmlFor={id} className="form-label">
+                    {label} {required && <span className="text-rose-500">*</span>}
                 </label>
             )}
             <div className="relative">
                 <select
                     id={id}
                     required={required}
-                    className={`input-field appearance-none w-full ${error ? 'border-[var(--error)] focus:border-[var(--error)]' : ''} ${className}`}
+                    disabled={disabled}
+                    className={`
+                        input-field appearance-none w-full pr-10
+                        ${error ? 'input-error' : ''} 
+                        ${className}
+                        ${disabled ? 'opacity-70 cursor-not-allowed bg-slate-100 dark:bg-slate-800/50' : ''}
+                    `}
                     {...props}
                 >
                     {children ? children : (
@@ -44,10 +53,12 @@ export const Select: React.FC<SelectProps> = ({
                 </select>
                 {/* Chevron Icon */}
                 <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-[var(--text-muted)]">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
                 </div>
             </div>
-            {error && <p className="text-[var(--error)] text-xs mt-1">{error}</p>}
+            {error && <p className="text-[var(--error)] text-xs mt-1 animate-slide-up">{error}</p>}
         </div>
     );
 };

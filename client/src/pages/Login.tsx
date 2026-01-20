@@ -14,8 +14,15 @@ const Login: React.FC = () => {
     const [loadingMessage, setLoadingMessage] = useState('');
     const [logo, setLogo] = useState('');
     const [companyName, setCompanyName] = useState('');
-    const { login } = useAuth();
+    const { login, isAuthenticated } = useAuth();
     const navigate = useNavigate();
+
+    // specific effect to redirect when auth state updates
+    React.useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/', { replace: true });
+        }
+    }, [isAuthenticated, navigate]);
 
     React.useEffect(() => {
         const fetchSettings = async () => {
@@ -44,7 +51,7 @@ const Login: React.FC = () => {
         try {
             const data = await api.post<{ token: string; user: any }>('/auth/login', { email, password });
             login(data.token, data.user);
-            navigate('/');
+            // Navigation handled by useEffect
         } catch (err: any) {
             setError(err.message || 'Failed to connect to server');
         } finally {
@@ -69,7 +76,7 @@ const Login: React.FC = () => {
 
                 <form onSubmit={handleSubmit} className="login-form">
                     <div>
-                        <label className="login-label">Email</label>
+                        <label className="form-label">Email</label>
                         <input
                             type="email"
                             className="input-field"
@@ -81,7 +88,7 @@ const Login: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="login-label">Password</label>
+                        <label className="form-label">Password</label>
                         <div className="password-input-wrapper">
                             <input
                                 type={showPassword ? "text" : "password"}
@@ -107,8 +114,12 @@ const Login: React.FC = () => {
                         {isLoading ? 'Signing In...' : 'Sign In'}
                     </button>
                     {isLoading && (
-                        <div className="login-loading-message" role="status">
-                            {loadingMessage}
+                        <div className="mt-4 p-4 bg-blue-50 text-blue-800 rounded-lg text-sm text-center animate-pulse">
+                            <div className="font-bold mb-1">Server is Waking Up 🚀</div>
+                            <p>{loadingMessage}</p>
+                            <div className="mt-2 w-full bg-blue-200 rounded-full h-1.5 dark:bg-blue-700">
+                                <div className="bg-blue-600 h-1.5 rounded-full animate-progress w-full"></div>
+                            </div>
                         </div>
                     )}
                 </form>

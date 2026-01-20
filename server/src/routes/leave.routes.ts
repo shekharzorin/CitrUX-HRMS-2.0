@@ -5,6 +5,7 @@ import {
     getMyBalances,
     applyLeave,
     getMyRequests,
+    deleteLeaveRequest,
     getTeamRequests,
     updateLeaveStatus,
     createLeaveType,
@@ -19,6 +20,7 @@ router.get('/types', getLeaveTypes);
 router.get('/balances', getMyBalances);
 router.post('/apply', applyLeave);
 router.get('/my-requests', getMyRequests);
+router.delete('/requests/:id', deleteLeaveRequest);
 router.get('/team-requests', getTeamRequests); // For Managers
 router.put('/:id/status', updateLeaveStatus); // Approve/Reject
 

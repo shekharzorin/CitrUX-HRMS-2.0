@@ -38,14 +38,14 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onLogoutReques
         <div className="profile-dropdown-container" ref={dropdownRef}>
             <div
                 onClick={() => setIsOpen(!isOpen)}
-                className="profile-trigger"
+                className="profile-trigger group hover:bg-slate-100 dark:hover:bg-slate-800/50 p-1.5 pr-3 rounded-full transition-all duration-200 cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-slate-700 select-none"
             >
-                <Avatar size="36px" fontSize="0.8rem" />
-                <div className="flex flex-col hidden md:flex">
-                    <span className="text-[0.95rem] font-semibold text-[var(--text-main)] leading-tight">{user?.profile?.firstName || 'User'}</span>
-                    <span className="text-xs text-[var(--text-muted)]">{user?.role}</span>
+                <Avatar size="32px" fontSize="0.8rem" className="shadow-sm group-hover:scale-105 transition-transform" />
+                <div className="flex flex-col hidden md:flex min-w-[80px]">
+                    <span className="text-[0.9rem] font-bold text-slate-700 dark:text-slate-200 leading-none mb-0.5 group-hover:text-[var(--primary)] transition-colors">{user?.profile?.firstName || 'User'}</span>
+                    <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">{user?.role}</span>
                 </div>
-                <Icon name="arrow_down" size={14} className="text-[var(--text-muted)] hidden md:block" />
+                <Icon name="arrow_down" size={14} className="text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300 hidden md:block transition-transform duration-300 group-hover:translate-y-0.5" />
             </div>
 
             {isOpen && (
@@ -81,12 +81,12 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onLogoutReques
                             {colors.map((c) => {
                                 const getColorClass = (color: string) => {
                                     const map: Record<string, string> = {
-                                        '#9d316e': 'theme-citrux',
-                                        '#2563eb': 'theme-blue',
-                                        '#16a34a': 'theme-green',
-                                        '#d97706': 'theme-amber',
-                                        '#9333ea': 'theme-purple',
-                                        '#020617': 'theme-slate',
+                                        '#9d316e': 'bg-theme-citrux',
+                                        '#2563eb': 'bg-theme-blue',
+                                        '#16a34a': 'bg-theme-green',
+                                        '#d97706': 'bg-theme-amber',
+                                        '#9333ea': 'bg-theme-purple',
+                                        '#020617': 'bg-theme-slate',
                                     };
                                     return map[color] || '';
                                 };
@@ -95,7 +95,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onLogoutReques
                                     <button
                                         key={c}
                                         onClick={() => setPrimaryColor(c)}
-                                        className={`color-btn ${getColorClass(c)} ${primaryColor === c ? 'color-btn-selected ring-2 ring-offset-2 ring-blue-500' : ''} w-6 h-6 rounded-full transition-transform hover:scale-110`}
+                                        className={`w-6 h-6 rounded-full transition-transform hover:scale-110 ${getColorClass(c)} ${primaryColor === c ? 'ring-2 ring-offset-2 ring-[var(--primary)]' : ''}`}
                                         title={`Set color ${c}`}
                                         aria-label={`Set accent color to ${c}`}
                                     ></button>

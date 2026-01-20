@@ -74,13 +74,13 @@ export const NotificationBell = () => {
         <div className="notification-bell-container" ref={bellRef}>
             <button
                 onClick={toggleDropdown}
-                className="header-icon-button"
+                className="header-icon-button relative group"
                 title="Notifications"
             >
-                <Icon name="notifications" size={22} />
+                <Icon name="notifications" size={22} className="group-hover:text-[var(--primary)] transition-colors" />
                 {unreadCount > 0 && (
-                    <span className="notification-badge">
-                        {unreadCount > 9 ? '9+' : unreadCount}
+                    <span className="absolute top-1.5 right-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white border-[1.5px] border-white dark:border-slate-900 shadow-sm pointer-events-none">
+                        {unreadCount > 9 ? '' : unreadCount}
                     </span>
                 )}
             </button>
@@ -100,11 +100,26 @@ export const NotificationBell = () => {
                             recent.map(n => (
                                 <div
                                     key={n.id}
-                                    onClick={() => !n.read && markAsRead(n.id)}
-                                    className={`notification-item ${!n.read ? 'notification-item-unread' : ''}`}
+                                    onClick={() => {
+                                        if (!n.read) markAsRead(n.id);
+                                        setIsOpen(false);
+                                    }}
+                                    className={`notification-item ${!n.read ? 'notification-item-unread' : ''} cursor-pointer hover:bg-slate-50`}
                                 >
-                                    <p className="notification-message">{n.message}</p>
-                                    <span className="notification-time">{new Date(n.createdAt).toLocaleString()}</span>
+                                    {n.link ? (
+                                        <Link to={n.link} className="block">
+                                            <div className="flex justify-between items-start gap-2">
+                                                <p className="notification-message flex-1">{n.message}</p>
+                                                {n.type === 'TASK' && <span className="text-[10px] bg-blue-100 text-blue-600 px-1.5 py-0.5 rounded font-bold">ACTION</span>}
+                                            </div>
+                                            <span className="notification-time">{new Date(n.createdAt).toLocaleString()}</span>
+                                        </Link>
+                                    ) : (
+                                        <>
+                                            <p className="notification-message">{n.message}</p>
+                                            <span className="notification-time">{new Date(n.createdAt).toLocaleString()}</span>
+                                        </>
+                                    )}
                                 </div>
                             ))
                         )}

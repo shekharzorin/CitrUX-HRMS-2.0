@@ -74,3 +74,49 @@ export const getMyReviews = async (req: AuthRequest, res: Response) => {
         res.status(500).json({ message: 'Error fetching reviews' });
     }
 };
+
+// Update Goal
+export const updateGoal = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { title, description, deadline, status } = req.body;
+        const userId = req.user.userId;
+
+        // @ts-ignore
+        const goal = await prisma.goal.findUnique({ where: { id } });
+        if (!goal) return res.status(404).json({ message: 'Goal not found' });
+
+        // @ts-ignore
+        if (goal.userId !== userId) return res.status(403).json({ message: 'Unauthorized' });
+
+        // @ts-ignore
+        const updated = await prisma.goal.update({
+            where: { id },
+            data: { title, description, deadline: deadline ? new Date(deadline) : undefined, status }
+        });
+        res.json(updated);
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating goal' });
+    }
+};
+
+// Delete Goal
+export const deleteGoal = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user.userId;
+
+        // @ts-ignore
+        const goal = await prisma.goal.findUnique({ where: { id } });
+        if (!goal) return res.status(404).json({ message: 'Goal not found' });
+
+        // @ts-ignore
+        if (goal.userId !== userId) return res.status(403).json({ message: 'Unauthorized' });
+
+        // @ts-ignore
+        await prisma.goal.delete({ where: { id } });
+        res.json({ message: 'Goal deleted' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting goal' });
+    }
+};

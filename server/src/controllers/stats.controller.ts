@@ -3,6 +3,12 @@ import { prisma } from '../db';
 
 export const getDashboardStats = async (req: Request, res: Response) => {
     try {
+        // 0. Ensure Date parsing handle
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const nextWeek = new Date(today);
+        nextWeek.setDate(today.getDate() + 7);
+
         // 1. User Stats
         const totalUsers = await prisma.user.count();
         const activeUsers = await prisma.user.count({ where: { status: 'ACTIVE' } });
@@ -47,12 +53,65 @@ export const getDashboardStats = async (req: Request, res: Response) => {
             where: { status: 'ASSIGNED' }
         });
 
+        // 7. Who is Out (Leaves)
+        // @ts-ignore
+        const approvedLeaves = await prisma.leaveRequest.findMany({
+            where: {
+                status: 'APPROVED',
+                startDate: { lte: endOfDay },
+                endDate: { gte: startOfDay }
+            },
+            include: {
+                user: {
+                    include: { profile: true }
+                },
+                leaveType: true
+            }
+        });
+
+        const whoIsOut = approvedLeaves.map((l: any) => ({
+            name: l.user.profile ? `${l.user.profile.firstName} ${l.user.profile.lastName}` : l.user.email,
+            role: l.user.profile?.designation || 'Employee',
+            status: l.leaveType.name,
+            color: 'bg-rose-100 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400' // Dynamic color todo
+        }));
+
+        // 8. Birthdays (Raw Query because dob is new/raw)
+        // We need month and day match.
+        // Postgres: EXTRACT(MONTH FROM dob) ...
+        const profiles = await prisma.$queryRaw`
+            SELECT "firstName", "lastName", "dob", "profilePhoto" 
+            FROM "Profile" 
+            WHERE "dob" IS NOT NULL
+        ` as any[];
+
+        const upcomingBirthdays = profiles.filter((p: any) => {
+            if (!p.dob) return false;
+            const dob = new Date(p.dob);
+            const thisYearDob = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+            const nextYearDob = new Date(today.getFullYear() + 1, dob.getMonth(), dob.getDate());
+
+            return (thisYearDob >= today && thisYearDob <= nextWeek) ||
+                (nextYearDob >= today && nextYearDob <= nextWeek);
+        }).map((p: any) => ({
+            name: `${p.firstName} ${p.lastName}`,
+            date: p.dob,
+            photo: p.profilePhoto
+        })).slice(0, 5);
+
+        // Check Role
+        // @ts-ignore
+        const userRole = req.user?.role || 'EMPLOYEE';
+        const isAdminOrHR = ['ADMIN', 'HR'].includes(userRole);
+
         res.json({
-            users: { total: totalUsers, active: activeUsers },
-            attendance: { presentToday }, // Simple count
-            finance: { pendingClaims, approvedTotal: totalClaimAmount._sum.amount || 0 },
-            recruitment: { openJobs },
-            assets: { assigned: assignedAssets }
+            users: isAdminOrHR ? { total: totalUsers, active: activeUsers } : undefined,
+            attendance: isAdminOrHR ? { presentToday } : undefined,
+            finance: isAdminOrHR ? { pendingClaims, approvedTotal: totalClaimAmount._sum.amount || 0 } : undefined,
+            recruitment: { openJobs }, // Visible to all? optional
+            assets: isAdminOrHR ? { assigned: assignedAssets } : undefined,
+            whoIsOut,
+            birthdays: upcomingBirthdays
         });
     } catch (error) {
         console.error("Stats Error:", error);

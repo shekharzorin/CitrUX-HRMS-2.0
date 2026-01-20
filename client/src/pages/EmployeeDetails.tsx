@@ -2,15 +2,57 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
+import { useToast } from '../contexts/ToastContext';
 import { Icon } from '../components/ui/Icons';
 import { Button } from '../components/ui/Button';
+import { Tabs } from '../components/ui/Tabs';
 
 const EmployeeDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const { token: _token } = useAuth(); // Token unused by api service but kept for context
+    const { token: _token, user } = useAuth(); // Token unused by api service but kept for context
+    const { showToast } = useToast();
     const [employee, setEmployee] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('overview');
+
+    // Override State
+    const [editingAttendance, setEditingAttendance] = useState<any>(null);
+    const [overrideForm, setOverrideForm] = useState({ checkIn: '', checkOut: '', reason: '' });
+
+    const openOverrideModal = (log: any) => {
+        setEditingAttendance(log);
+        // Format for input[type="time"]
+        const toTime = (d: string) => {
+            if (!d) return '';
+            const date = new Date(d);
+            return date.toTimeString().substring(0, 5); // HH:mm
+        };
+        setOverrideForm({
+            checkIn: toTime(log.checkIn),
+            checkOut: toTime(log.checkOut),
+            reason: ''
+        });
+    };
+
+    const handleOverrideSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await api.post('/attendance/override', {
+                userId: id,
+                date: editingAttendance.date,
+                checkIn: `${new Date(editingAttendance.date).toLocaleDateString()} ${overrideForm.checkIn}`,
+                checkOut: overrideForm.checkOut ? `${new Date(editingAttendance.date).toLocaleDateString()} ${overrideForm.checkOut}` : null,
+                reason: overrideForm.reason
+            });
+            showToast('Attendance updated successfully', 'success');
+            setEditingAttendance(null);
+            // Refresh logic
+            const updated = await api.get<any>(`/users/${id}`);
+            setEmployee(updated);
+        } catch (error: any) {
+            showToast(error.message || 'Update failed', 'error');
+        }
+    };
 
     useEffect(() => {
         const fetchEmployee = async () => {
@@ -33,10 +75,40 @@ const EmployeeDetails: React.FC = () => {
 
     const { profile, onboarding, salary, attendance, leaveBalances } = employee;
 
+    // Helper for safe date formatting
+    const formatDate = (dateString: any) => {
+        if (!dateString) return 'N/A';
+        try {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return 'Invalid Date';
+            return date.toLocaleDateString();
+        } catch (e) {
+            return 'Error';
+        }
+    };
+
+    // Helper for safe time formatting
+    const formatTime = (dateString: any) => {
+        if (!dateString) return '-';
+        try {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return '-';
+            return date.toLocaleTimeString();
+        } catch (e) {
+            return '-';
+        }
+    };
+
     // Parse bank details safely
     let bankDetails: any = {};
     if (onboarding?.bankDetails) {
-        try { bankDetails = JSON.parse(onboarding.bankDetails); } catch { }
+        try {
+            bankDetails = typeof onboarding.bankDetails === 'string'
+                ? JSON.parse(onboarding.bankDetails)
+                : onboarding.bankDetails;
+        } catch (e) {
+            console.error("Failed to parse bank details", e);
+        }
     }
 
     const tabs = [
@@ -46,7 +118,6 @@ const EmployeeDetails: React.FC = () => {
         { id: 'attendance', label: 'Attendance & Leaves' }
     ];
 
-    // Memoized style to avoid inline object lints and redundant parses
     // Memoized settings parsing
     const photoSettings = React.useMemo(() => {
         if (!profile?.profilePhotoSettings) return null;
@@ -81,6 +152,11 @@ const EmployeeDetails: React.FC = () => {
                             alt="Profile"
                             className="w-full h-full object-cover profile-photo-dynamic"
                             ref={setPhotoRef}
+                            onError={(e) => {
+                                // Fallback if image fails to load
+                                (e.target as HTMLImageElement).style.display = 'none';
+                                (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                            }}
                         />
                     ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[var(--primary)] to-[var(--primary-dark)] text-white">
@@ -89,11 +165,13 @@ const EmployeeDetails: React.FC = () => {
                     )}
                 </div>
                 <div className="flex-1 text-center md:text-left relative z-10">
-                    <h1 className="text-3xl font-black text-slate-900 mb-2 tracking-tight">{profile?.firstName} {profile?.lastName}</h1>
+                    <h1 className="text-3xl font-black text-slate-900 mb-2 tracking-tight">
+                        {profile?.firstName || 'Unknown'} {profile?.lastName || ''}
+                    </h1>
                     <div className="flex items-center justify-center md:justify-start gap-4 mb-6">
                         <div className="flex items-center gap-2 text-slate-500 font-bold text-sm bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100">
                             <Icon name="onboarding" size={14} className="text-[var(--primary)]" />
-                            {profile?.designation}
+                            {profile?.designation || 'No Designation'}
                         </div>
                         <div className="flex items-center gap-2 text-slate-500 font-bold text-sm bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100">
                             <Icon name="notifications" size={14} className="text-blue-500" />
@@ -102,10 +180,10 @@ const EmployeeDetails: React.FC = () => {
                     </div>
                     <div className="flex flex-wrap gap-3 justify-center md:justify-start">
                         <span className="px-4 py-1.5 rounded-2xl bg-fuchsia-50 text-fuchsia-700 text-xs font-black uppercase tracking-widest border border-fuchsia-100 shadow-sm">
-                            {employee.role}
+                            {employee.role || 'EMPLOYEE'}
                         </span>
                         <span className={`px-4 py-1.5 rounded-2xl text-xs font-black uppercase tracking-widest border shadow-sm ${employee.status === 'ACTIVE' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-red-50 text-red-700 border-red-100'}`}>
-                            {employee.status}
+                            {employee.status || 'UNKNOWN'}
                         </span>
                     </div>
                 </div>
@@ -119,21 +197,12 @@ const EmployeeDetails: React.FC = () => {
             </div>
 
             {/* Tabs */}
-            {/* Tabs */}
-            <div className="flex gap-2 mb-8 border-b border-slate-200 overflow-x-auto no-scrollbar">
-                {tabs.map(tab => (
-                    <button
-                        key={tab.id}
-                        onClick={() => setActiveTab(tab.id)}
-                        className={`pb-3 px-6 font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === tab.id
-                            ? 'border-[var(--primary)] text-[var(--primary)]'
-                            : 'border-transparent text-slate-400 hover:text-slate-600'
-                            }`}
-                    >
-                        {tab.label}
-                    </button>
-                ))}
-            </div>
+            <Tabs
+                tabs={tabs}
+                activeTab={activeTab}
+                onChange={setActiveTab}
+                variant="underline"
+            />
 
             {/* Content Area */}
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 min-h-[400px]">
@@ -143,11 +212,11 @@ const EmployeeDetails: React.FC = () => {
                         <div>
                             <h3 className="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Basic Information</h3>
                             <div className="space-y-4">
-                                <InfoRow label="Employee Name" value={`${profile?.firstName} ${profile?.lastName}`} />
+                                <InfoRow label="Employee Name" value={`${profile?.firstName || ''} ${profile?.lastName || ''}`} />
                                 <InfoRow label="Email Address" value={employee.email} />
                                 <InfoRow label="Phone" value={profile?.phone || 'Not Provided'} />
                                 <InfoRow label="Designation" value={profile?.designation || 'Not Provided'} />
-                                <InfoRow label="Date of Joining" value={profile?.dateOfJoining ? new Date(profile.dateOfJoining).toLocaleDateString() : 'N/A'} />
+                                <InfoRow label="Date of Joining" value={formatDate(profile?.dateOfJoining)} />
                             </div>
                         </div>
                         <div>
@@ -168,7 +237,7 @@ const EmployeeDetails: React.FC = () => {
                                     <h3 className="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Personal Details</h3>
                                     <div className="space-y-4">
                                         <InfoRow label="Father's Name" value={onboarding.fatherName} />
-                                        <InfoRow label="Date of Birth" value={onboarding.dateOfBirth ? new Date(onboarding.dateOfBirth).toLocaleDateString() : 'N/A'} />
+                                        <InfoRow label="Date of Birth" value={formatDate(onboarding.dateOfBirth)} />
                                         <InfoRow label="Current Address" value={onboarding.currAddress} />
                                         <InfoRow label="Permanent Address" value={onboarding.permAddress} />
                                     </div>
@@ -208,19 +277,19 @@ const EmployeeDetails: React.FC = () => {
                                 <div className="space-y-3">
                                     <div className="flex justify-between p-2 bg-slate-50 rounded">
                                         <span className="text-slate-600">Basic Salary</span>
-                                        <span className="font-bold">₹{salary.basic.toLocaleString()}</span>
+                                        <span className="font-bold">₹{(salary.basic || 0).toLocaleString()}</span>
                                     </div>
                                     <div className="flex justify-between p-2">
                                         <span className="text-slate-600">HRA</span>
-                                        <span className="font-bold">₹{salary.hra.toLocaleString()}</span>
+                                        <span className="font-bold">₹{(salary.hra || 0).toLocaleString()}</span>
                                     </div>
                                     <div className="flex justify-between p-2 bg-slate-50 rounded">
                                         <span className="text-slate-600">Allowances</span>
-                                        <span className="font-bold">₹{salary.allowances.toLocaleString()}</span>
+                                        <span className="font-bold">₹{(salary.allowances || 0).toLocaleString()}</span>
                                     </div>
                                     <div className="flex justify-between p-2 border-t pt-2 mt-2">
                                         <span className="text-slate-800 font-bold">Total CTC</span>
-                                        <span className="font-bold text-green-600">₹{salary.ctc.toLocaleString()}</span>
+                                        <span className="font-bold text-green-600">₹{(salary.ctc || 0).toLocaleString()}</span>
                                     </div>
                                 </div>
                             ) : (
@@ -231,9 +300,9 @@ const EmployeeDetails: React.FC = () => {
                             <h3 className="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Bank Account</h3>
                             {onboarding?.bankDetails ? (
                                 <div className="space-y-4">
-                                    <InfoRow label="Bank Name" value={bankDetails.bankName} />
-                                    <InfoRow label="Account Number" value={bankDetails.accountNumber} />
-                                    <InfoRow label="IFSC Code" value={bankDetails.ifsc} />
+                                    <InfoRow label="Bank Name" value={bankDetails?.bankName} />
+                                    <InfoRow label="Account Number" value={bankDetails?.accountNumber} />
+                                    <InfoRow label="IFSC Code" value={bankDetails?.ifsc} />
                                 </div>
                             ) : (
                                 <p className="text-slate-400 italic">Bank details not available.</p>
@@ -246,18 +315,26 @@ const EmployeeDetails: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <h3 className="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Recent Attendance</h3>
-                            {attendance?.length > 0 ? (
+                            {Array.isArray(attendance) && attendance.length > 0 ? (
                                 <div className="space-y-2">
                                     {attendance.map((log: any) => (
-                                        <div key={log.id} className="flex justify-between items-center p-3 border rounded-lg bg-slate-50">
+                                        <div key={log.id} className="flex justify-between items-center p-3 border rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors">
                                             <div className="flex flex-col">
-                                                <span className="font-medium text-slate-700">{new Date(log.date).toDateString()}</span>
+                                                <span className="font-medium text-slate-700">{formatDate(log.date)}</span>
                                                 <span className="text-xs text-slate-500">{log.status}</span>
                                             </div>
-                                            <div className="text-sm">
-                                                <span className="text-green-600 font-mono">In: {log.checkIn ? new Date(log.checkIn).toLocaleTimeString() : '-'}</span>
-                                                <br />
-                                                <span className="text-red-600 font-mono">Out: {log.checkOut ? new Date(log.checkOut).toLocaleTimeString() : '-'}</span>
+                                            <div className="flex items-center gap-4">
+                                                <div className="text-sm text-right">
+                                                    <span className="text-green-600 font-mono">In: {formatTime(log.checkIn)}</span>
+                                                    <br />
+                                                    <span className="text-red-600 font-mono">Out: {formatTime(log.checkOut)}</span>
+                                                    {log.hours > 0 && <div className="text-xs text-slate-400 mt-1 font-bold">{log.hours.toFixed(1)} hrs</div>}
+                                                </div>
+                                                {(user?.role === 'ADMIN' || user?.role === 'HR') && (
+                                                    <Button variant="ghost" className="h-8 w-8 p-0" onClick={() => openOverrideModal(log)} title="Edit Attendance">
+                                                        <Icon name="edit" size={16} />
+                                                    </Button>
+                                                )}
                                             </div>
                                         </div>
                                     ))}
@@ -268,12 +345,12 @@ const EmployeeDetails: React.FC = () => {
                         </div>
                         <div>
                             <h3 className="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Leave Balances</h3>
-                            {leaveBalances?.length > 0 ? (
+                            {Array.isArray(leaveBalances) && leaveBalances.length > 0 ? (
                                 <div className="grid grid-cols-2 gap-4">
                                     {leaveBalances.map((lb: any) => (
                                         <div key={lb.id} className="p-4 bg-blue-50 rounded-xl text-center border border-blue-100">
                                             <div className="text-2xl font-bold text-blue-700">{lb.balance}</div>
-                                            <div className="text-xs text-blue-500 uppercase font-semibold">{lb.type}</div>
+                                            <div className="text-xs text-blue-500 uppercase font-semibold">{lb.type || 'LEAVE'}</div>
                                         </div>
                                     ))}
                                 </div>
@@ -284,6 +361,47 @@ const EmployeeDetails: React.FC = () => {
                     </div>
                 )}
             </div>
+            {/* Override Modal */}
+            {editingAttendance && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-white rounded-2xl w-full max-w-md shadow-xl overflow-hidden">
+                        <div className="p-4 border-b flex justify-between items-center bg-slate-50">
+                            <h3 className="font-bold">Edit Attendance: {formatDate(editingAttendance.date)}</h3>
+                            <button onClick={() => setEditingAttendance(null)} aria-label="Close Modal"><Icon name="close" size={20} /></button>
+                        </div>
+                        <form onSubmit={handleOverrideSubmit} className="p-6 space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="label" htmlFor="overrideCheckIn">Check In</label>
+                                    <input id="overrideCheckIn" type="time" required className="input-field"
+                                        value={overrideForm.checkIn}
+                                        onChange={e => setOverrideForm({ ...overrideForm, checkIn: e.target.value })}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="label" htmlFor="overrideCheckOut">Check Out</label>
+                                    <input id="overrideCheckOut" type="time" className="input-field"
+                                        value={overrideForm.checkOut}
+                                        onChange={e => setOverrideForm({ ...overrideForm, checkOut: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="label" htmlFor="overrideReason">Reason (Mandatory for Audit)</label>
+                                <textarea id="overrideReason" required className="input-field" rows={2}
+                                    value={overrideForm.reason}
+                                    onChange={e => setOverrideForm({ ...overrideForm, reason: e.target.value })}
+                                    placeholder="Explain why you are changing this record..."
+                                ></textarea>
+                            </div>
+                            <div className="flex gap-2 justify-end pt-2">
+                                <Button variant="ghost" type="button" onClick={() => setEditingAttendance(null)}>Cancel</Button>
+                                <Button variant="primary" type="submit">Save Changes</Button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
