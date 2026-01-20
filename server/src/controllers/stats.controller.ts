@@ -54,7 +54,6 @@ export const getDashboardStats = async (req: Request, res: Response) => {
         });
 
         // 7. Who is Out (Leaves)
-        // @ts-ignore
         const approvedLeaves = await prisma.leaveRequest.findMany({
             where: {
                 status: 'APPROVED',
@@ -100,8 +99,7 @@ export const getDashboardStats = async (req: Request, res: Response) => {
         })).slice(0, 5);
 
         // Check Role
-        // @ts-ignore
-        const userRole = req.user?.role || 'EMPLOYEE';
+        const userRole = (req as any).user?.role || 'EMPLOYEE';
         const isAdminOrHR = ['ADMIN', 'HR'].includes(userRole);
 
         res.json({

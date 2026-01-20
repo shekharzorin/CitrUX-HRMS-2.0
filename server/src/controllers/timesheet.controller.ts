@@ -6,11 +6,13 @@ interface AuthRequest extends Request {
     user?: any;
 }
 
+import { safeString } from '../utils/requestUtils';
+
 // Get or Create Timesheet for a specific week
 export const getMyTimesheet = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user.userId;
-        const { date } = req.query; // optional date to focus on, defaults to today
+        const date = safeString(req.query.date); // optional date to focus on, defaults to today
 
         const focusDate = date ? new Date(date as string) : new Date();
         const weekStart = startOfWeek(focusDate, { weekStartsOn: 1 }); // Monday
