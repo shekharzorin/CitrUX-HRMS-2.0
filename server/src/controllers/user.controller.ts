@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
 import bcrypt from 'bcrypt';
+import { requireString } from '../utils/requestUtils';
 
-// ...existing code...
 export const createUser = async (req: Request, res: Response) => {
     try {
         const { email, password, role, firstName, lastName, phone, designation, employmentType, joiningDate, employeeId, shiftId } = req.body;
@@ -238,7 +238,6 @@ export const importUsers = async (req: Request, res: Response) => {
     }
 };
 
-
 export const getUsers = async (req: Request, res: Response) => {
     try {
         console.log('GET /api/users HIT');
@@ -269,7 +268,7 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id);
         const user = await prisma.user.findUnique({
             where: { id },
             include: {
@@ -298,7 +297,7 @@ export const getUserById = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id, 'User ID');
         const { role, firstName, lastName, phone, designation, employeeId, dob, shiftId } = req.body;
 
         // First check if user exists
@@ -336,10 +335,10 @@ export const updateUser = async (req: Request, res: Response) => {
         });
 
         // Update DOB via Raw SQL if provided
-        if (dob && updatedUser.profile) {
+        if (dob && (updatedUser as any).profile) {
             try {
                 const dobDate = new Date(dob);
-                await prisma.$executeRaw`UPDATE "Profile" SET "dob" = ${dobDate} WHERE "id" = ${updatedUser.profile.id}`;
+                await prisma.$executeRaw`UPDATE "Profile" SET "dob" = ${dobDate} WHERE "id" = ${(updatedUser as any).profile.id}`;
             } catch (e) {
                 console.error("Failed to update DOB", e);
             }
@@ -355,7 +354,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
 export const deleteUser = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = requireString(req.params.id, 'User ID');
 
         // Check if attempting to delete Super Admin
         const userToDelete = await prisma.user.findUnique({ where: { id } });
