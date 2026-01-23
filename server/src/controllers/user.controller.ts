@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { prisma } from '../db';
 import bcrypt from 'bcrypt';
 import { requireString } from '../utils/requestUtils';
+import { AuthRequest } from '../middlewares/auth.middleware';
 
 export const createUser = async (req: Request, res: Response) => {
     try {
