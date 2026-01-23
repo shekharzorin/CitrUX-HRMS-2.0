@@ -139,6 +139,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                     // Final Consistency Check
                     if (storedToken && hydratedUser) {
                         setToken(storedToken);
+                        // Normalize Role
+                        if (hydratedUser.role) {
+                            hydratedUser.role = hydratedUser.role.toUpperCase();
+                        }
                         setUser(hydratedUser);
                     } else {
                         // If we have a token but couldn't get a user, we must logout to prevent UI crash

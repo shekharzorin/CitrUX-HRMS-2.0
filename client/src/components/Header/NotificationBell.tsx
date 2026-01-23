@@ -104,7 +104,7 @@ export const NotificationBell = () => {
                                         if (!n.read) markAsRead(n.id);
                                         setIsOpen(false);
                                     }}
-                                    className={`notification-item ${!n.read ? 'notification-item-unread' : ''} cursor-pointer hover:bg-slate-50`}
+                                    className={`notification-item ${!n.read ? 'notification-item-unread' : ''} cursor-pointer hover:bg-slate-50 dark:hover:bg-white/5`}
                                 >
                                     {n.link ? (
                                         <Link to={n.link} className="block">

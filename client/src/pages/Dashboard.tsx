@@ -279,7 +279,7 @@ const Dashboard: React.FC = () => {
                                             <div className="flex-1">
                                                 <div className="flex items-center justify-between mb-0.5">
                                                     <div className="text-sm font-bold text-[var(--text-main)] group-hover:text-[var(--primary)] transition-colors">{person.name}</div>
-                                                    <div className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md ${person.color || 'bg-slate-100'}`}>
+                                                    <div className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md ${person.color || 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'}`}>
                                                         {person.status}
                                                     </div>
                                                 </div>

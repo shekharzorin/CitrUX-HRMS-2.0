@@ -156,7 +156,34 @@ export const getAttendance = async (req: AuthRequest, res: Response) => {
             include: { breaks: true },
             orderBy: { date: 'desc' }
         });
-        res.json(attendance);
+
+        // Computed consistency fix
+        const fixedAttendance = attendance.map(record => {
+            if (!record.hours && record.checkIn && record.checkOut) {
+                const start = new Date(record.checkIn).getTime();
+                const end = new Date(record.checkOut).getTime();
+                let durationHrs = (end - start) / (1000 * 60 * 60);
+
+                // Subtract breaks
+                const breakMins = record.breaks.reduce((acc, b) => {
+                    if (b.duration) return acc + b.duration;
+                    if (b.startTime && b.endTime) {
+                        return acc + (new Date(b.endTime).getTime() - new Date(b.startTime).getTime()) / (1000 * 60);
+                    }
+                    return acc;
+                }, 0);
+
+                durationHrs -= (breakMins / 60);
+
+                return {
+                    ...record,
+                    hours: durationHrs > 0 ? durationHrs : 0
+                };
+            }
+            return record;
+        });
+
+        res.json(fixedAttendance);
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' });
     }

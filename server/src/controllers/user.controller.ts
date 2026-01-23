@@ -55,7 +55,7 @@ export const createUser = async (req: Request, res: Response) => {
                 email,
                 employeeId: finalEmployeeId ? finalEmployeeId.toString() : undefined,
                 passwordHash,
-                role: role || 'EMPLOYEE',
+                role: role ? role.toUpperCase() : 'EMPLOYEE',
                 shiftId: shiftId || null,
                 profile: {
                     create: {
@@ -238,16 +238,26 @@ export const importUsers = async (req: Request, res: Response) => {
     }
 };
 
-export const getUsers = async (req: Request, res: Response) => {
+export const getUsers = async (req: AuthRequest, res: Response) => {
     try {
         console.log('GET /api/users HIT');
-        console.log('CWD:', process.cwd());
-        console.log('DATABASE_URL env:', process.env.DATABASE_URL);
+        const { role, userId } = req.user;
 
-        const count = await prisma.user.count();
-        console.log('Prisma User Count:', count);
+        let whereClause: any = {};
+
+        if (role === 'ADMIN' || role === 'HR' || role === 'SUPER_ADMIN' || role === 'EMPLOYEE') {
+            // View all users - Employees can view directory
+            whereClause = {};
+        } else if (role === 'MANAGER') {
+            // View only reportees
+            whereClause = { managerId: userId };
+        } else {
+            // Fallback
+            return res.json([]);
+        }
 
         const users = await prisma.user.findMany({
+            where: whereClause,
             select: {
                 id: true,
                 employeeId: true,
@@ -258,7 +268,7 @@ export const getUsers = async (req: Request, res: Response) => {
                 // Exclude passwordHash
             }
         });
-        console.log(`Returning ${users.length} users`);
+        console.log(`Returning ${users.length} users for role ${role}`);
         res.json(users);
     } catch (error) {
         console.error('Error in getUsers:', error);
@@ -295,14 +305,27 @@ export const getUserById = async (req: Request, res: Response) => {
     }
 };
 
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id, 'User ID');
         const { role, firstName, lastName, phone, designation, employeeId, dob, shiftId } = req.body;
+        const actorRole = req.user.role;
 
         // First check if user exists
         const existing = await prisma.user.findUnique({ where: { id } });
         if (!existing) return res.status(404).json({ message: 'User not found' });
+
+        // Enforce Role Hierarchy
+        if (actorRole === 'HR') {
+            if (existing.role === 'ADMIN' || existing.role === 'SUPER_ADMIN' || existing.role === 'HR') {
+                return res.status(403).json({ message: 'Insufficient permissions to modify this user' });
+            }
+            // Prevent promoting to Admin/HR
+            if (role && (role === 'ADMIN' || role === 'SUPER_ADMIN' || role === 'HR')) {
+                return res.status(403).json({ message: 'Insufficient permissions to assign this role' });
+            }
+        }
+
 
         if (employeeId && employeeId !== existing.employeeId) {
             const duplicate = await prisma.user.findUnique({ where: { employeeId: employeeId.toString() } });
@@ -312,7 +335,7 @@ export const updateUser = async (req: Request, res: Response) => {
         }
 
         const dataToUpdate: any = {
-            role,
+            role: role ? role.toUpperCase() : undefined,
             employeeId: employeeId ? employeeId.toString() : undefined,
             profile: {
                 update: {
@@ -352,15 +375,23 @@ export const updateUser = async (req: Request, res: Response) => {
     }
 };
 
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUser = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id, 'User ID');
+        const actorRole = req.user.role;
 
         // Check if attempting to delete Super Admin
         const userToDelete = await prisma.user.findUnique({ where: { id } });
 
         if (!userToDelete) {
             return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Enforce Role Hierarchy
+        if (actorRole === 'HR') {
+            if (userToDelete.role === 'ADMIN' || userToDelete.role === 'SUPER_ADMIN' || userToDelete.role === 'HR') {
+                return res.status(403).json({ message: 'Insufficient permissions to delete this user' });
+            }
         }
 
         if (userToDelete.email === 'admin@citrux.com' || userToDelete.role === 'SUPER_ADMIN') {

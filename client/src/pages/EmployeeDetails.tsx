@@ -70,10 +70,23 @@ const EmployeeDetails: React.FC = () => {
         fetchEmployee();
     }, [id]);
 
+    // Safe destructuring (moved up for hook dependencies)
+    const { profile = {}, onboarding = {}, salary = {}, attendance = [], leaveBalances = [] } = employee || {};
+
+    // Memoized settings parsing (Moved up to avoid conditional hook execution error)
+    const photoSettings = React.useMemo(() => {
+        if (!profile?.profilePhotoSettings) return null;
+        try {
+            return typeof profile.profilePhotoSettings === 'string'
+                ? JSON.parse(profile.profilePhotoSettings)
+                : profile.profilePhotoSettings;
+        } catch (e) {
+            return null;
+        }
+    }, [profile?.profilePhotoSettings]);
+
     if (loading) return <div className="p-8 text-center text-slate-500">Loading profile...</div>;
     if (!employee) return <div className="p-8 text-center text-slate-500">Employee not found</div>;
-
-    const { profile, onboarding, salary, attendance, leaveBalances } = employee;
 
     // Helper for safe date formatting
     const formatDate = (dateString: any) => {
@@ -117,18 +130,6 @@ const EmployeeDetails: React.FC = () => {
         { id: 'financial', label: 'Financial' },
         { id: 'attendance', label: 'Attendance & Leaves' }
     ];
-
-    // Memoized settings parsing
-    const photoSettings = React.useMemo(() => {
-        if (!profile?.profilePhotoSettings) return null;
-        try {
-            return typeof profile.profilePhotoSettings === 'string'
-                ? JSON.parse(profile.profilePhotoSettings)
-                : profile.profilePhotoSettings;
-        } catch (e) {
-            return null;
-        }
-    }, [profile?.profilePhotoSettings]);
 
     const setPhotoRef = (el: HTMLImageElement | null) => {
         if (!el) return;
@@ -175,15 +176,15 @@ const EmployeeDetails: React.FC = () => {
                         </div>
                         <div className="flex items-center gap-2 text-slate-500 font-bold text-sm bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100">
                             <Icon name="notifications" size={14} className="text-blue-500" />
-                            {employee.email}
+                            {employee?.email || 'No Email'}
                         </div>
                     </div>
                     <div className="flex flex-wrap gap-3 justify-center md:justify-start">
                         <span className="px-4 py-1.5 rounded-2xl bg-fuchsia-50 text-fuchsia-700 text-xs font-black uppercase tracking-widest border border-fuchsia-100 shadow-sm">
-                            {employee.role || 'EMPLOYEE'}
+                            {employee?.role || 'EMPLOYEE'}
                         </span>
-                        <span className={`px-4 py-1.5 rounded-2xl text-xs font-black uppercase tracking-widest border shadow-sm ${employee.status === 'ACTIVE' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-red-50 text-red-700 border-red-100'}`}>
-                            {employee.status || 'UNKNOWN'}
+                        <span className={`px-4 py-1.5 rounded-2xl text-xs font-black uppercase tracking-widest border shadow-sm ${employee?.status === 'ACTIVE' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-red-50 text-red-700 border-red-100'}`}>
+                            {employee?.status || 'UNKNOWN'}
                         </span>
                     </div>
                 </div>
@@ -213,7 +214,7 @@ const EmployeeDetails: React.FC = () => {
                             <h3 className="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Basic Information</h3>
                             <div className="space-y-4">
                                 <InfoRow label="Employee Name" value={`${profile?.firstName || ''} ${profile?.lastName || ''}`} />
-                                <InfoRow label="Email Address" value={employee.email} />
+                                <InfoRow label="Email Address" value={employee?.email || '-'} />
                                 <InfoRow label="Phone" value={profile?.phone || 'Not Provided'} />
                                 <InfoRow label="Designation" value={profile?.designation || 'Not Provided'} />
                                 <InfoRow label="Date of Joining" value={formatDate(profile?.dateOfJoining)} />
@@ -273,7 +274,7 @@ const EmployeeDetails: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <h3 className="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Salary Structure</h3>
-                            {salary ? (
+                            {salary && Object.keys(salary).length > 0 ? (
                                 <div className="space-y-3">
                                     <div className="flex justify-between p-2 bg-slate-50 rounded">
                                         <span className="text-slate-600">Basic Salary</span>
@@ -318,17 +319,17 @@ const EmployeeDetails: React.FC = () => {
                             {Array.isArray(attendance) && attendance.length > 0 ? (
                                 <div className="space-y-2">
                                     {attendance.map((log: any) => (
-                                        <div key={log.id} className="flex justify-between items-center p-3 border rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors">
+                                        <div key={log?.id || Math.random()} className="flex justify-between items-center p-3 border rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors">
                                             <div className="flex flex-col">
-                                                <span className="font-medium text-slate-700">{formatDate(log.date)}</span>
-                                                <span className="text-xs text-slate-500">{log.status}</span>
+                                                <span className="font-medium text-slate-700">{formatDate(log?.date)}</span>
+                                                <span className="text-xs text-slate-500">{log?.status}</span>
                                             </div>
                                             <div className="flex items-center gap-4">
                                                 <div className="text-sm text-right">
-                                                    <span className="text-green-600 font-mono">In: {formatTime(log.checkIn)}</span>
+                                                    <span className="text-green-600 font-mono">In: {formatTime(log?.checkIn)}</span>
                                                     <br />
-                                                    <span className="text-red-600 font-mono">Out: {formatTime(log.checkOut)}</span>
-                                                    {log.hours > 0 && <div className="text-xs text-slate-400 mt-1 font-bold">{log.hours.toFixed(1)} hrs</div>}
+                                                    <span className="text-red-600 font-mono">Out: {formatTime(log?.checkOut)}</span>
+                                                    {(log?.hours || 0) > 0 && <div className="text-xs text-slate-400 mt-1 font-bold">{(log?.hours || 0).toFixed(1)} hrs</div>}
                                                 </div>
                                                 {(user?.role === 'ADMIN' || user?.role === 'HR') && (
                                                     <Button variant="ghost" className="h-8 w-8 p-0" onClick={() => openOverrideModal(log)} title="Edit Attendance">
@@ -348,9 +349,9 @@ const EmployeeDetails: React.FC = () => {
                             {Array.isArray(leaveBalances) && leaveBalances.length > 0 ? (
                                 <div className="grid grid-cols-2 gap-4">
                                     {leaveBalances.map((lb: any) => (
-                                        <div key={lb.id} className="p-4 bg-blue-50 rounded-xl text-center border border-blue-100">
-                                            <div className="text-2xl font-bold text-blue-700">{lb.balance}</div>
-                                            <div className="text-xs text-blue-500 uppercase font-semibold">{lb.type || 'LEAVE'}</div>
+                                        <div key={lb?.id || Math.random()} className="p-4 bg-blue-50 rounded-xl text-center border border-blue-100">
+                                            <div className="text-2xl font-bold text-blue-700">{lb?.balance || 0}</div>
+                                            <div className="text-xs text-blue-500 uppercase font-semibold">{lb?.type || 'LEAVE'}</div>
                                         </div>
                                     ))}
                                 </div>

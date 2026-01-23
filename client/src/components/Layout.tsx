@@ -122,7 +122,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <nav className="flex-1 overflow-y-auto py-6 px-3 space-y-1">
                 {(!collapsed || isMobile) && <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-indigo-200/70">Main</div>}
                 <NavItem to="/" icon="dashboard" label="Home" precise collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
-                <NavItem to="/users" icon="employees" label="My Team" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                {(user?.role === 'ADMIN' || user?.role === 'HR' || user?.role === 'SUPER_ADMIN' || user?.role === 'MANAGER' || user?.role === 'EMPLOYEE') && (
+                    <NavItem to="/users" icon="employees" label="My Team" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                )}
                 <NavItem to="/profile" icon="profile" label="Me" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
 
                 <div className="my-4 border-t border-[rgba(255,255,255,0.05)]"></div>
@@ -230,7 +232,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     {!isMobile && (
                         <div className="flex-1 max-w-md mx-6">
                             <div className="relative group">
-                                <Icon name="search" size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[var(--primary)] transition-colors" />
+                                <Icon name="search" size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-[var(--primary)] transition-colors" />
                                 <input
                                     type="text"
                                     placeholder="Search employees, leaves, policies..."
@@ -253,7 +255,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border border-white dark:border-slate-900"></span>
                         </button>
                         <NotificationBell />
-                        <div className="h-8 w-[1px] bg-slate-200 dark:bg-slate-700/50 mx-2 sm:mx-4"></div>
+                        <div className="h-8 w-[1px] bg-[var(--border-light)] mx-2 sm:mx-4"></div>
                         <ProfileDropdown onLogoutRequest={handleLogout} />
                     </div>
                 </header>

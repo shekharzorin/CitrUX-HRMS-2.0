@@ -75,7 +75,7 @@ const App: React.FC = () => {
 
 
               <Route path="/users" element={
-                <ProtectedRoute allowedRoles={['ADMIN', 'HR', 'SUPER_ADMIN', 'MANAGER']}>
+                <ProtectedRoute allowedRoles={['ADMIN', 'HR', 'SUPER_ADMIN', 'MANAGER', 'EMPLOYEE']}>
                   <Users />
                 </ProtectedRoute>
               } />

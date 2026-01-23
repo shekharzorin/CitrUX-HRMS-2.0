@@ -8,10 +8,11 @@ import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Skeleton } from '../components/ui/Skeleton';
 import { useToast } from '../contexts/ToastContext';
+import { canManageUser } from '../utils/permissions';
 
 const Users: React.FC = () => {
     const [users, setUsers] = useState<any[]>([]);
-    const { } = useAuth(); // Token unused by api service but kept for context
+    const { user: useUser } = useAuth(); // Token unused by api service but kept for context
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [search, setSearch] = useState('');
@@ -190,26 +191,30 @@ const Users: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-3 w-full md:w-auto">
-                    <input
-                        type="file"
-                        accept=".csv"
-                        ref={fileInputRef}
-                        className="hidden"
-                        onChange={handleFileUpload}
-                        title="Upload Employee CSV"
-                    />
-                    <Button
-                        variant="secondary"
-                        onClick={() => fileInputRef.current?.click()}
-                        className="px-6"
-                    >
-                        <Icon name="download" size={18} className="rotate-180" /> Import
-                    </Button>
-                    <Link to="/users/create">
-                        <Button className="px-6">
-                            <Icon name="plus" size={18} /> Add Employee
-                        </Button>
-                    </Link>
+                    {['ADMIN', 'HR', 'SUPER_ADMIN'].includes(useUser?.role?.toUpperCase() || '') && (
+                        <>
+                            <input
+                                type="file"
+                                accept=".csv"
+                                ref={fileInputRef}
+                                className="hidden"
+                                onChange={handleFileUpload}
+                                title="Upload Employee CSV"
+                            />
+                            <Button
+                                variant="secondary"
+                                onClick={() => fileInputRef.current?.click()}
+                                className="px-6"
+                            >
+                                <Icon name="download" size={18} className="rotate-180" /> Import
+                            </Button>
+                            <Link to="/users/create">
+                                <Button className="px-6">
+                                    <Icon name="plus" size={18} /> Add Employee
+                                </Button>
+                            </Link>
+                        </>
+                    )}
                 </div>
             </div>
 
@@ -259,7 +264,7 @@ const Users: React.FC = () => {
                                     <th>Role</th>
                                     <th>Phone</th>
                                     <th>Designation</th>
-                                    <th className="text-right">Actions</th>
+                                    {['ADMIN', 'HR', 'SUPER_ADMIN'].includes(useUser?.role?.toUpperCase() || '') && <th className="text-right">Actions</th>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -271,57 +276,64 @@ const Users: React.FC = () => {
                                                     {user.profile?.firstName?.charAt(0) || user.email.charAt(0).toUpperCase()}
                                                 </div>
                                                 <div>
-                                                    <div className="font-bold text-slate-900">{user.profile?.firstName} {user.profile?.lastName}</div>
-                                                    <div className="text-xs text-slate-500 max-w-[200px] truncate" title={user.email}>{user.email}</div>
+                                                    <div className="font-bold text-[var(--text-main)]">{user.profile?.firstName} {user.profile?.lastName}</div>
+                                                    <div className="text-xs text-[var(--text-muted)] max-w-[200px] truncate" title={user.email}>{user.email}</div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="font-mono text-sm text-slate-500">
+                                        <td className="font-mono text-sm text-[var(--text-muted)]">
                                             {user.employeeId || '-'}
                                         </td>
                                         <td>
-                                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${user.role === 'ADMIN' ? 'bg-purple-100 text-purple-700' :
-                                                user.role === 'HR' ? 'bg-blue-100 text-blue-700' :
-                                                    user.role === 'MANAGER' ? 'bg-amber-100 text-amber-700' :
-                                                        'bg-slate-100 text-slate-600'
+                                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest border ${user.role === 'ADMIN' ? 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-500/10 dark:text-purple-300 dark:border-purple-500/20' :
+                                                user.role === 'HR' ? 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-300 dark:border-blue-500/20' :
+                                                    user.role === 'MANAGER' ? 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-300 dark:border-amber-500/20' :
+                                                        'bg-slate-50 text-slate-600 border-slate-200 dark:bg-slate-800/50 dark:text-slate-400 dark:border-slate-700'
                                                 }`}>
                                                 {user.role}
                                             </span>
                                         </td>
-                                        <td className="text-sm text-slate-600">{user.profile?.phone || '-'}</td>
-                                        <td className="text-sm text-slate-600">{user.profile?.designation || '-'}</td>
-                                        <td>
-                                            <div className="flex justify-end gap-2">
-                                                <Link to={`/employees/${user.id}`} className="p-2 hover:bg-slate-100 rounded-lg text-slate-500 transition-colors" title="View Profile">
-                                                    <Icon name="eye" size={18} />
-                                                </Link>
-                                                <Link to={`/users/edit/${user.id}`} className="p-2 hover:bg-blue-50 rounded-lg text-blue-600 transition-colors" title="Edit User">
-                                                    <Icon name="edit" size={18} />
-                                                </Link>
-                                                {user.email !== 'admin@citrux-hrms.com' && user.role !== 'SUPER_ADMIN' && (
-                                                    <button
-                                                        onClick={() => handleDelete(user.id, user.profile?.firstName || user.email)}
-                                                        className="p-2 hover:bg-red-50 rounded-lg text-red-500 transition-colors"
-                                                        disabled={deletingId === user.id}
-                                                        title="Delete User"
-                                                    >
-                                                        {deletingId === user.id ? '...' : <Icon name="delete" size={18} />}
-                                                    </button>
-                                                )}
-                                            </div>
-                                        </td>
+                                        <td className="text-sm text-[var(--text-main)]">{user.profile?.phone || '-'}</td>
+                                        <td className="text-sm text-[var(--text-main)]">{user.profile?.designation || '-'}</td>
+                                        {['ADMIN', 'HR', 'SUPER_ADMIN'].includes(useUser?.role?.toUpperCase() || '') && (
+                                            <td>
+                                                <div className="flex justify-end gap-2">
+                                                    <Link to={`/employees/${user.id}`} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[var(--primary)] transition-colors" title="View Profile">
+                                                        <Icon name="eye" size={18} />
+                                                    </Link>
+
+                                                    {canManageUser(useUser?.role, user.role) && (
+                                                        <>
+                                                            <Link to={`/users/edit/${user.id}`} className="p-2 hover:bg-blue-50 rounded-lg text-blue-600 transition-colors" title="Edit User">
+                                                                <Icon name="edit" size={18} />
+                                                            </Link>
+                                                            {user.email !== 'admin@citrux-hrms.com' && user.role !== 'SUPER_ADMIN' && user.id !== useUser?.id && (
+                                                                <button
+                                                                    onClick={() => handleDelete(user.id, user.profile?.firstName || user.email)}
+                                                                    className="p-2 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg text-red-500 transition-colors"
+                                                                    disabled={deletingId === user.id}
+                                                                    title="Delete User"
+                                                                >
+                                                                    {deletingId === user.id ? '...' : <Icon name="delete" size={18} />}
+                                                                </button>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </td>
+                                        )}
                                     </tr>
                                 )) : (
                                     <tr>
                                         <td colSpan={6} className="p-0">
                                             <EmptyState
-                                                title="No Users Found"
-                                                description="Try adjusting your search criteria or add a new employee."
-                                                icon="search"
+                                                title="No Team Members Found"
+                                                description="There are no users to display. If you are a manager, you may not have any reportees assigned yet."
+                                                icon="employees"
                                                 className="py-12"
                                                 action={
                                                     <Button onClick={() => window.location.reload()} variant="outline" size="sm" className="mt-4">
-                                                        Clear Search
+                                                        Refresh List
                                                     </Button>
                                                 }
                                             />
