@@ -333,9 +333,9 @@ const MyProfile: React.FC = () => {
                                         {attendanceHistory.slice(0, 7).map((record: any) => (
                                             <tr key={record.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50">
                                                 <td className="p-3 font-medium text-slate-800">{new Date(record.date).toLocaleDateString()}</td>
-                                                <td className="p-3 text-emerald-600 font-mono">{record.punchIn ? new Date(record.punchIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}</td>
-                                                <td className="p-3 text-red-600 font-mono">{record.punchOut ? new Date(record.punchOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}</td>
-                                                <td className="p-3 font-bold text-slate-700">{record.totalHours ? record.totalHours.toFixed(1) + ' hrs' : '-'}</td>
+                                                <td className="p-3 text-emerald-600 font-mono">{record.checkIn ? new Date(record.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}</td>
+                                                <td className="p-3 text-red-600 font-mono">{record.checkOut ? new Date(record.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}</td>
+                                                <td className="p-3 font-bold text-slate-700">{record.hours ? String(Number(record.hours).toFixed(1)) + ' hrs' : '-'}</td>
                                             </tr>
                                         ))}
                                     </tbody>
