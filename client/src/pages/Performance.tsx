@@ -10,11 +10,6 @@ const Performance: React.FC = () => {
     const [newGoal, setNewGoal] = useState({ title: '', deadline: '' });
     const [editingGoal, setEditingGoal] = useState<any>(null);
 
-    useEffect(() => {
-        fetchGoals();
-        fetchReviews();
-    }, []);
-
     const fetchGoals = async () => {
         try {
             const data = await api.get<any[]>('/performance/goals');
@@ -28,6 +23,14 @@ const Performance: React.FC = () => {
             setReviews(data);
         } catch (error) { console.error(error); }
     };
+
+    useEffect(() => {
+        const init = async () => {
+            await fetchGoals();
+            await fetchReviews();
+        };
+        init();
+    }, []);
 
     const handleAddGoal = async (e: React.FormEvent) => {
         e.preventDefault();

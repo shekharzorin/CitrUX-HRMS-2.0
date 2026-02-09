@@ -7,17 +7,82 @@ import { Icon } from '../components/ui/Icons';
 import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Skeleton } from '../components/ui/Skeleton';
+import { Avatar } from '../components/ui/Avatar';
 import { useToast } from '../contexts/ToastContext';
 import { canManageUser } from '../utils/permissions';
 
+const UserCard = ({ user, currentUser, onDelete }: { user: any, currentUser: any, onDelete: (id: string, name: string) => void }) => {
+    return (
+        <div className="card-premium p-6 flex flex-col items-center text-center relative group hover:-translate-y-1 transition-transform duration-300 border border-[var(--border-light)] dark:border-slate-800 bg-[var(--bg-surface)]">
+            {/* Top Pattern */}
+            <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-slate-50 to-transparent dark:from-white/5 rounded-t-3xl -z-10 opacity-60 dark:opacity-30"></div>
+
+            <div className="relative mb-4">
+                <Avatar
+                    name={user.profile?.firstName ? `${user.profile.firstName} ${user.profile.lastName}` : user.email}
+                    src={user.profile?.photo}
+                    size="80px"
+                    className="border-4 border-white dark:border-slate-800 shadow-md bg-[var(--bg-surface)]"
+                />
+                <div className={`absolute bottom-1 right-1 w-5 h-5 rounded-full border-2 border-white dark:border-slate-800 flex items-center justify-center ${user.isActive !== false ? 'bg-emerald-500' : 'bg-slate-400'}`}>
+                    <Icon name={user.isActive !== false ? "check_circle" : "minus"} size={12} className="text-white" />
+                </div>
+            </div>
+
+            <div className="mb-1">
+                <h3 className="font-bold text-lg text-[var(--text-main)] truncate max-w-[200px]">
+                    {user.profile?.firstName} {user.profile?.lastName}
+                </h3>
+                <p className="text-xs text-[var(--text-muted)] font-medium uppercase tracking-wide">{user.profile?.designation || 'Team Member'}</p>
+            </div>
+
+            <span className={`mt-2 mb-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${user.role === 'ADMIN' ? 'bg-purple-100 text-purple-700 border-purple-200' :
+                user.role === 'HR' ? 'bg-blue-100 text-blue-700 border-blue-200' :
+                    user.role === 'MANAGER' ? 'bg-amber-100 text-amber-700 border-amber-200' :
+                        'bg-slate-100 text-slate-600 border-slate-200'
+                }`}>
+                {user.role}
+            </span>
+
+            <div className="w-full border-t border-[var(--border-light)] my-4"></div>
+
+            <div className="flex items-center justify-center gap-3 w-full">
+                <Link to={`/employees/${user.id}`} className="flex-1">
+                    <Button variant="outline" size="sm" fullWidth className="text-xs">Profile</Button>
+                </Link>
+
+                {['ADMIN', 'HR', 'SUPER_ADMIN'].includes(currentUser?.role?.toUpperCase() || '') && canManageUser(currentUser?.role, user.role) && (
+                    <div className="flex gap-2">
+                        <Link to={`/users/edit/${user.id}`} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-500 hover:text-blue-600 transition-colors" title="Edit User" aria-label="Edit User">
+                            <Icon name="edit" size={16} />
+                        </Link>
+                        {user.email !== 'admin@citrux-hrms.com' && user.role !== 'SUPER_ADMIN' && user.id !== currentUser?.id && (
+                            <button
+                                onClick={() => onDelete(user.id, user.profile?.firstName || user.email)}
+                                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-rose-50 text-slate-500 hover:text-rose-600 transition-colors"
+                                title="Delete User"
+                                aria-label="Delete User"
+                            >
+                                <Icon name="delete" size={16} />
+                            </button>
+                        )}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
 const Users: React.FC = () => {
     const [users, setUsers] = useState<any[]>([]);
-    const { user: useUser } = useAuth(); // Token unused by api service but kept for context
+    const { user: useUser } = useAuth();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [search, setSearch] = useState('');
-    const [deletingId, setDeletingId] = useState<string | null>(null);
     const { showToast } = useToast();
+
+    // Import Ref
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
 
     // Modal State
     const [confirmState, setConfirmState] = useState<{
@@ -42,15 +107,13 @@ const Users: React.FC = () => {
         setError(false);
         try {
             const data = await api.get<any[]>('/users');
-            console.log("Fetched users:", data);
             if (Array.isArray(data)) {
                 setUsers(data);
             } else {
-                console.error("Received invalid users data:", data);
                 setUsers([]);
             }
         } catch (error) {
-            console.error("Error fetching users:", error);
+            console.error(error);
             setError(true);
         } finally {
             setLoading(false);
@@ -64,28 +127,17 @@ const Users: React.FC = () => {
             message: `Are you sure you want to delete ${name}? This action cannot be undone.`,
             type: 'danger',
             onConfirm: async () => {
-                setDeletingId(id);
+                // Future: Use a loading state if needed
                 try {
                     await api.delete(`/users/${id}`);
                     setUsers(users.filter(u => u.id !== id));
                     showToast(`Successfully deleted ${name}`, 'success');
                 } catch (error) {
-                    console.error(error);
                     showToast('Failed to delete user', 'error');
-                } finally {
-                    setDeletingId(null);
                 }
             }
         });
     };
-
-    const filteredUsers = Array.isArray(users) ? users.filter(user =>
-        (user.email && user.email.toLowerCase().includes(search.toLowerCase())) ||
-        (user.profile?.firstName && user.profile.firstName.toLowerCase().includes(search.toLowerCase())) ||
-        (user.profile?.lastName && user.profile.lastName.toLowerCase().includes(search.toLowerCase()))
-    ) : [];
-
-    const fileInputRef = React.useRef<HTMLInputElement>(null);
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -95,121 +147,80 @@ const Users: React.FC = () => {
         reader.onload = async (event) => {
             const text = event.target?.result as string;
             if (!text) return;
-
-            // Simple CSV Parser
+            // ... (Keep existing CSV logic if needed, simplified here for brevity but logic remains same)
             const lines = text.split('\n');
-            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '')); // Remove quotes
-
+            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
             const usersToImport: any[] = [];
-
             for (let i = 1; i < lines.length; i++) {
                 if (!lines[i].trim()) continue;
-
                 const values = lines[i].split(',').map(v => v.trim().replace(/^"|"$/g, ''));
                 const userObj: any = {};
-
                 headers.forEach((header, index) => {
-                    // map common CSV headers to our schema keys
                     let key = header.toLowerCase();
                     if (key === 'firstname' || key === 'first name') key = 'firstName';
                     else if (key === 'lastname' || key === 'last name') key = 'lastName';
                     else if (key === 'joiningdate' || key === 'date of joining') key = 'joiningDate';
                     else if (key === 'employeeid' || key === 'empid' || key === 'id') key = 'employeeId';
-
-                    if (values[index]) {
-                        userObj[key] = values[index];
-                    }
+                    if (values[index]) userObj[key] = values[index];
                 });
-
-                if (userObj.email && userObj.firstName) {
-                    usersToImport.push(userObj);
-                }
+                if (userObj.email && userObj.firstName) usersToImport.push(userObj);
             }
 
             if (usersToImport.length === 0) {
-                showToast('No valid users found in CSV. Ensure "email" and "firstName" headers exist.', 'warning');
+                showToast('No valid users found in CSV.', 'warning');
                 return;
             }
 
             setConfirmState({
-                isOpen: true,
-                title: 'Import Users',
-                message: `Found ${usersToImport.length} users in the CSV file. Do you want to proceed with the import?`,
-                type: 'info',
+                isOpen: true, title: 'Import Users', message: `Import ${usersToImport.length} users?`, type: 'info',
                 onConfirm: async () => {
                     setLoading(true);
                     try {
                         const data = await api.post<any>('/users/import', { users: usersToImport });
-                        showToast(`Import Complete! Success: ${data.results.success}, Failed: ${data.results.failed}`, 'success');
+                        showToast(`Imported: ${data.results.success} Success, ${data.results.failed} Failed`, 'success');
                         fetchUsers();
                     } catch (err: any) {
-                        console.error(err);
-                        showToast('Error importing users: ' + (err.message || 'Unknown error'), 'error');
-                    } finally {
-                        setLoading(false);
-                        if (fileInputRef.current) fileInputRef.current.value = '';
-                    }
+                        showToast('Error importing users', 'error');
+                    } finally { setLoading(false); if (fileInputRef.current) fileInputRef.current.value = ''; }
                 }
             });
         };
         reader.readAsText(file);
     };
 
+    const filteredUsers = Array.isArray(users) ? users.filter(user =>
+        (user.email && user.email.toLowerCase().includes(search.toLowerCase())) ||
+        (user.profile?.firstName && user.profile.firstName.toLowerCase().includes(search.toLowerCase())) ||
+        (user.profile?.lastName && user.profile.lastName.toLowerCase().includes(search.toLowerCase()))
+    ) : [];
+
     if (error) {
         return (
             <div className="page-container flex items-center justify-center min-h-[60vh]">
-                <EmptyState
-                    title="Unable to Load Users"
-                    description="We encountered an error while fetching the employee list. Please check your connection and try again."
-                    icon="warning"
-                    action={
-                        <Button onClick={fetchUsers} variant="primary" leftIcon={<Icon name="refresh" size={18} />}>
-                            Retry Connection
-                        </Button>
-                    }
-                />
+                <EmptyState title="Unable to Load Users" description="Connection error." icon="warning" action={<Button onClick={fetchUsers}>Retry</Button>} />
             </div>
         );
     }
 
     return (
-        <div className="page-container">
-            {/* Search and Action Bar */}
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
-                <div className="relative w-full md:w-96">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
-                        <Icon name="search" size={18} />
-                    </span>
-                    <input
-                        type="text"
-                        placeholder="Search by name or email..."
-                        className="input-field pl-12"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        title="Search Employees"
-                    />
+        <div className="space-y-8 pb-12">
+
+            {/* Header Area */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                    <h1 className="text-3xl font-bold text-[var(--text-main)] tracking-tight">Employees</h1>
+                    <p className="text-[var(--text-muted)] mt-1">Manage your team members and permissions.</p>
                 </div>
 
-                <div className="flex items-center gap-3 w-full md:w-auto">
+                <div className="flex items-center gap-3">
                     {['ADMIN', 'HR', 'SUPER_ADMIN'].includes(useUser?.role?.toUpperCase() || '') && (
                         <>
-                            <input
-                                type="file"
-                                accept=".csv"
-                                ref={fileInputRef}
-                                className="hidden"
-                                onChange={handleFileUpload}
-                                title="Upload Employee CSV"
-                            />
-                            <Button
-                                variant="secondary"
-                                onClick={() => fileInputRef.current?.click()}
-                                className="px-6"
-                            >
-                                <Icon name="download" size={18} className="rotate-180" /> Import
+                            <input type="file" accept=".csv" ref={fileInputRef} className="hidden" onChange={handleFileUpload} title="Import CSV" />
+                            <Button variant="secondary" onClick={() => fileInputRef.current?.click()}>
+                                <Icon name="upload" size={18} /> Import CSV
                             </Button>
                             <Link to="/users/create">
-                                <Button className="px-6">
+                                <Button className="shadow-lg shadow-lime-500/20">
                                     <Icon name="plus" size={18} /> Add Employee
                                 </Button>
                             </Link>
@@ -218,133 +229,60 @@ const Users: React.FC = () => {
                 </div>
             </div>
 
-            <div className="table-container-premium">
-                {loading ? (
-                    <div className="overflow-x-auto">
-                        <table className="table-premium">
-                            <thead>
-                                <tr>
-                                    <th>Employee Name</th>
-                                    <th>ID</th>
-                                    <th>Role</th>
-                                    <th>Phone</th>
-                                    <th>Designation</th>
-                                    <th className="text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {[...Array(5)].map((_, i) => (
-                                    <tr key={i}>
-                                        <td className="p-4">
-                                            <div className="flex items-center gap-4">
-                                                <Skeleton variant="rounded" width={40} height={40} />
-                                                <div className="space-y-2">
-                                                    <Skeleton width={120} height={16} />
-                                                    <Skeleton width={150} height={12} />
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="p-4"><Skeleton width={60} height={16} /></td>
-                                        <td className="p-4"><Skeleton width={80} height={24} variant="rounded" /></td>
-                                        <td className="p-4"><Skeleton width={100} height={16} /></td>
-                                        <td className="p-4"><Skeleton width={100} height={16} /></td>
-                                        <td className="p-4"><Skeleton width={80} height={32} className="ml-auto" /></td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                ) : (
-                    <div className="overflow-x-auto">
-                        <table className="table-premium">
-                            <thead>
-                                <tr>
-                                    <th>Employee Name</th>
-                                    <th>ID</th>
-                                    <th>Role</th>
-                                    <th>Phone</th>
-                                    <th>Designation</th>
-                                    {['ADMIN', 'HR', 'SUPER_ADMIN'].includes(useUser?.role?.toUpperCase() || '') && <th className="text-right">Actions</th>}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredUsers.length > 0 ? filteredUsers.map(user => (
-                                    <tr key={user.id}>
-                                        <td>
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-xl bg-[var(--bg-body)] border border-[var(--border-color)] flex items-center justify-center font-bold text-[var(--primary)] shadow-sm">
-                                                    {user.profile?.firstName?.charAt(0) || user.email.charAt(0).toUpperCase()}
-                                                </div>
-                                                <div>
-                                                    <div className="font-bold text-[var(--text-main)]">{user.profile?.firstName} {user.profile?.lastName}</div>
-                                                    <div className="text-xs text-[var(--text-muted)] max-w-[200px] truncate" title={user.email}>{user.email}</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="font-mono text-sm text-[var(--text-muted)]">
-                                            {user.employeeId || '-'}
-                                        </td>
-                                        <td>
-                                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest border ${user.role === 'ADMIN' ? 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-500/10 dark:text-purple-300 dark:border-purple-500/20' :
-                                                user.role === 'HR' ? 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-300 dark:border-blue-500/20' :
-                                                    user.role === 'MANAGER' ? 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-300 dark:border-amber-500/20' :
-                                                        'bg-slate-50 text-slate-600 border-slate-200 dark:bg-slate-800/50 dark:text-slate-400 dark:border-slate-700'
-                                                }`}>
-                                                {user.role}
-                                            </span>
-                                        </td>
-                                        <td className="text-sm text-[var(--text-main)]">{user.profile?.phone || '-'}</td>
-                                        <td className="text-sm text-[var(--text-main)]">{user.profile?.designation || '-'}</td>
-                                        {['ADMIN', 'HR', 'SUPER_ADMIN'].includes(useUser?.role?.toUpperCase() || '') && (
-                                            <td>
-                                                <div className="flex justify-end gap-2">
-                                                    <Link to={`/employees/${user.id}`} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[var(--primary)] transition-colors" title="View Profile">
-                                                        <Icon name="eye" size={18} />
-                                                    </Link>
-
-                                                    {canManageUser(useUser?.role, user.role) && (
-                                                        <>
-                                                            <Link to={`/users/edit/${user.id}`} className="p-2 hover:bg-blue-50 rounded-lg text-blue-600 transition-colors" title="Edit User">
-                                                                <Icon name="edit" size={18} />
-                                                            </Link>
-                                                            {user.email !== 'admin@citrux-hrms.com' && user.role !== 'SUPER_ADMIN' && user.id !== useUser?.id && (
-                                                                <button
-                                                                    onClick={() => handleDelete(user.id, user.profile?.firstName || user.email)}
-                                                                    className="p-2 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg text-red-500 transition-colors"
-                                                                    disabled={deletingId === user.id}
-                                                                    title="Delete User"
-                                                                >
-                                                                    {deletingId === user.id ? '...' : <Icon name="delete" size={18} />}
-                                                                </button>
-                                                            )}
-                                                        </>
-                                                    )}
-                                                </div>
-                                            </td>
-                                        )}
-                                    </tr>
-                                )) : (
-                                    <tr>
-                                        <td colSpan={6} className="p-0">
-                                            <EmptyState
-                                                title="No Team Members Found"
-                                                description="There are no users to display. If you are a manager, you may not have any reportees assigned yet."
-                                                icon="employees"
-                                                className="py-12"
-                                                action={
-                                                    <Button onClick={() => window.location.reload()} variant="outline" size="sm" className="mt-4">
-                                                        Refresh List
-                                                    </Button>
-                                                }
-                                            />
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+            {/* Search Filter */}
+            <div className="bg-white dark:bg-slate-800 p-2 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex items-center gap-2 max-w-xl">
+                <div className="p-3 text-slate-400">
+                    <Icon name="search" size={20} />
+                </div>
+                <input
+                    type="text"
+                    placeholder="Search employees by name, email, or role..."
+                    className="flex-1 bg-transparent border-none outline-none text-sm font-medium h-full"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+                {search && (
+                    <button onClick={() => setSearch('')} className="p-2 text-slate-400 hover:text-slate-600" aria-label="Clear Search">
+                        <Icon name="close" size={16} />
+                    </button>
                 )}
             </div>
+
+            {/* Grid Content */}
+            {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {[...Array(8)].map((_, i) => (
+                        <div key={i} className="card-premium p-6 flex flex-col items-center">
+                            <Skeleton variant="circular" width={80} height={80} className="mb-4" />
+                            <Skeleton width={120} height={20} className="mb-2" />
+                            <Skeleton width={80} height={16} className="mb-4" />
+                            <Skeleton width="100%" height={32} className="mt-auto" />
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <>
+                    {filteredUsers.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {filteredUsers.map(user => (
+                                <UserCard
+                                    key={user.id}
+                                    user={user}
+                                    currentUser={useUser}
+                                    onDelete={handleDelete}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <EmptyState
+                            title="No Employees Found"
+                            description={search ? `No results found for "${search}"` : "Get started by adding your first employee."}
+                            icon="search"
+                            className="py-12"
+                        />
+                    )}
+                </>
+            )}
 
             <ConfirmModal
                 isOpen={confirmState.isOpen}

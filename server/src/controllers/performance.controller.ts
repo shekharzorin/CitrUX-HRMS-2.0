@@ -76,6 +76,37 @@ export const getMyReviews = async (req: AuthRequest, res: Response) => {
     }
 };
 
+// Get Team Reviews (Admin/HR/Manager)
+export const getTeamReviews = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = req.user.userId;
+        const role = req.user.role;
+
+        let whereClause: any = {};
+        if (role === 'MANAGER') {
+            whereClause = { reviewerId: userId };
+        } else if (['ADMIN', 'HR', 'SUPER_ADMIN'].includes(role)) {
+            whereClause = {}; // Fetch all
+        } else {
+            return res.status(403).json({ message: 'Unauthorized' });
+        }
+
+        // @ts-ignore
+        const reviews = await prisma.performanceReview.findMany({
+            where: whereClause,
+            include: {
+                user: { include: { profile: true } },
+                reviewer: { include: { profile: true } }
+            },
+            orderBy: { createdAt: 'desc' }
+        });
+        res.json(reviews);
+    } catch (error) {
+        console.error("Error fetching team reviews:", error);
+        res.status(500).json({ message: 'Error fetching team reviews' });
+    }
+};
+
 // Update Goal
 export const updateGoal = async (req: AuthRequest, res: Response) => {
     try {

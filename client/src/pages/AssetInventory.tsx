@@ -17,15 +17,6 @@ const AssetInventory: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const init = async () => {
-            setLoading(true);
-            await Promise.all([fetchAssets(), fetchUsers()]);
-            setLoading(false);
-        };
-        init();
-    }, []);
-
     const fetchAssets = async () => {
         try {
             const data = await api.get<any[]>('/assets');
@@ -39,6 +30,15 @@ const AssetInventory: React.FC = () => {
             if (data) setUsers(data);
         } catch (error) { console.error(error); }
     };
+
+    useEffect(() => {
+        const init = async () => {
+            setLoading(true);
+            await Promise.all([fetchAssets(), fetchUsers()]);
+            setLoading(false);
+        };
+        init();
+    }, []);
 
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();

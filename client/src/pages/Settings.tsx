@@ -198,7 +198,10 @@ const Settings: React.FC = () => {
             reader.onload = (readerEvent) => {
                 const image = new Image();
                 image.onload = async () => {
-                    if (image.width > 256 || image.height > 256) {
+                    // Check dimensions (skip for SVGs or 0-dimension detection issues)
+                    const isSvg = file.type === 'image/svg+xml' || file.name.endsWith('.svg');
+                    // Relaxed validation: Only check if NOT svg and dimensions are clearly read
+                    if (!isSvg && image.width > 0 && (image.width > 256 || image.height > 256)) {
                         alert(`Favicon dimensions (${image.width}x${image.height}px) are too large. Max 256x256px.`);
                         e.target.value = ''; return;
                     }
@@ -212,13 +215,35 @@ const Settings: React.FC = () => {
                         if (data?.url) {
                             setCompanyFavicon(data.url);
                         }
-                    } catch (error) {
-                        console.error("Upload failed", error);
-                        alert("Failed to upload favicon");
+                    } catch (error: any) {
+                        console.error("Favicon Upload Error", error);
+                        // Show specific error if available
+                        alert(error.response?.data?.message || error.message || "Failed to upload favicon. Please ensure it is a valid image file.");
                     } finally {
                         setLoading(false);
                     }
                 };
+
+                // Fallback for load error (e.g. ICO not supported by Image in some envs, or corrupt)
+                image.onerror = async () => {
+                    // If client-side parse fails, try uploading anyway (let backend decide)
+                    console.warn("Client-side image parsing failed, attempting upload anyway...");
+                    try {
+                        const formData = new FormData();
+                        formData.append('file', file);
+                        setLoading(true);
+                        const data = await api.post<{ url: string }>('/onboarding/upload', formData);
+                        if (data?.url) {
+                            setCompanyFavicon(data.url);
+                        }
+                    } catch (error: any) {
+                        console.error("Upload failed", error);
+                        alert(error.response?.data?.message || "Failed to upload favicon.");
+                    } finally {
+                        setLoading(false);
+                    }
+                };
+
                 if (readerEvent.target?.result) image.src = readerEvent.target.result as string;
             };
             reader.readAsDataURL(file);
@@ -352,14 +377,20 @@ const Settings: React.FC = () => {
                                                 {companyLogo ? <img src={companyLogo} alt="Logo" className="w-full h-full object-contain p-2" /> : <span className="text-[10px] text-slate-400">Upload</span>}
                                                 <input id="companyLogo" type="file" accept="image/*" onChange={handleLogoUpload} className="absolute inset-0 opacity-0 cursor-pointer" title="Upload Company Logo" />
                                             </div>
-                                            {companyLogo && (
-                                                <button
-                                                    onClick={() => setCompanyLogo('')}
-                                                    className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center gap-2 text-xs font-bold uppercase tracking-wider"
-                                                >
-                                                    <Icon name="delete" size={16} /> Remove
-                                                </button>
-                                            )}
+                                            <div className="flex flex-col gap-1">
+                                                {companyLogo && (
+                                                    <button
+                                                        onClick={() => setCompanyLogo('')}
+                                                        className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center gap-2 text-xs font-bold uppercase tracking-wider self-start"
+                                                    >
+                                                        <Icon name="delete" size={16} /> Remove
+                                                    </button>
+                                                )}
+                                                <p className="text-[10px] text-slate-400 max-w-[150px]">
+                                                    Max size: 500x500px <br />
+                                                    Formats: PNG, JPG, SVG
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                     <div>
@@ -369,14 +400,20 @@ const Settings: React.FC = () => {
                                                 {companyFavicon ? <img src={companyFavicon} alt="Favicon" className="w-8 h-8 object-contain" /> : <span className="text-[10px] text-slate-400">Upload</span>}
                                                 <input id="companyFavicon" type="file" accept="image/*" onChange={handleFaviconUpload} className="absolute inset-0 opacity-0 cursor-pointer" title="Upload Favicon" />
                                             </div>
-                                            {companyFavicon && (
-                                                <button
-                                                    onClick={() => setCompanyFavicon('')}
-                                                    className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center gap-2 text-xs font-bold uppercase tracking-wider"
-                                                >
-                                                    <Icon name="delete" size={16} /> Remove
-                                                </button>
-                                            )}
+                                            <div className="flex flex-col gap-1">
+                                                {companyFavicon && (
+                                                    <button
+                                                        onClick={() => setCompanyFavicon('')}
+                                                        className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center gap-2 text-xs font-bold uppercase tracking-wider self-start"
+                                                    >
+                                                        <Icon name="delete" size={16} /> Remove
+                                                    </button>
+                                                )}
+                                                <p className="text-[10px] text-slate-400 max-w-[150px]">
+                                                    Max size: 256x256px <br />
+                                                    Formats: PNG, ICO, SVG
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

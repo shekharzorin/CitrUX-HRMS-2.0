@@ -13,16 +13,17 @@ const Jobs: React.FC = () => {
     const [showApply, setShowApply] = useState<string | null>(null);
     const [application, setApplication] = useState({ name: '', email: '', phone: '', resumeUrl: '' });
 
-    useEffect(() => {
-        fetchJobs();
-    }, []);
-
     const fetchJobs = async () => {
         try {
             const res = await fetch('http://localhost:5000/api/recruitment/jobs');
             if (res.ok) setJobs(await res.json());
         } catch (error) { console.error(error); }
     };
+
+    useEffect(() => {
+        const init = async () => { await fetchJobs(); };
+        init();
+    }, []);
 
     const handlePostJob = async (e: React.FormEvent) => {
         e.preventDefault();

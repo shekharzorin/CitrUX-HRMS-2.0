@@ -12,6 +12,8 @@ model User {
   employeeId    String?             @unique
   email         String              @unique
   passwordHash  String
+  resetToken    String?
+  resetTokenExpiry DateTime?
   status        String              @default("ACTIVE")
   role          String              @default("EMPLOYEE")
   managerId     String?

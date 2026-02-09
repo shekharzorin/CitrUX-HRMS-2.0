@@ -5,10 +5,6 @@ const ExpenseApprovals: React.FC = () => {
     const { token } = useAuth();
     const [claims, setClaims] = useState<any[]>([]);
 
-    useEffect(() => {
-        fetchPending();
-    }, []);
-
     const fetchPending = async () => {
         try {
             const res = await fetch('http://localhost:5000/api/expenses/approvals', {
@@ -17,6 +13,11 @@ const ExpenseApprovals: React.FC = () => {
             if (res.ok) setClaims(await res.json());
         } catch (error) { console.error(error); }
     };
+
+    useEffect(() => {
+        const init = async () => { await fetchPending(); };
+        init();
+    }, []);
 
     const handleUpdate = async (id: string, status: string) => {
         try {

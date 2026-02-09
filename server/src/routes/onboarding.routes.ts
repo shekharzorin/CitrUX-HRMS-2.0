@@ -11,10 +11,26 @@ import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware
 import { upload } from '../middlewares/upload.middleware';
 
 const router = Router();
+console.log('[Onboarding Routes] Initializing...');
 
-router.post('/upload', authenticateToken, upload.single('file'), (req: any, res) => {
+
+const uploadMiddleware = (req: any, res: any, next: any) => {
+    upload.single('file')(req, res, (err: any) => {
+        if (err) {
+            console.error('[Upload Middleware] Error:', err);
+            return res.status(400).json({ message: err.message || 'File upload failed' });
+        }
+        next();
+    });
+};
+
+router.post('/upload', authenticateToken, uploadMiddleware, (req: any, res) => {
     if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
-    const url = req.file?.path;
+    // Multer provides absolute path in req.file.path
+    // We need to return the URL relative to the server
+    const filename = req.file.filename;
+    const url = `${process.env.API_URL || 'http://localhost:5001'}/uploads/${filename}`;
+    console.log('[Upload Middleware] Success, URL:', url);
     res.json({ url });
 });
 

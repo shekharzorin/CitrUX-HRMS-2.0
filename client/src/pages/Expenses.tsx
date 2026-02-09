@@ -14,15 +14,6 @@ const Expenses: React.FC = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const init = async () => {
-            setLoading(true);
-            await Promise.all([fetchClaims(), fetchCategories()]);
-            setLoading(false);
-        };
-        init();
-    }, []);
-
     const fetchClaims = async () => {
         try {
             const data = await api.get<any[]>('/expenses/claims');
@@ -36,6 +27,15 @@ const Expenses: React.FC = () => {
             setCategories(data || []);
         } catch (error) { console.error(error); }
     };
+
+    useEffect(() => {
+        const init = async () => {
+            setLoading(true);
+            await Promise.all([fetchClaims(), fetchCategories()]);
+            setLoading(false);
+        };
+        init();
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

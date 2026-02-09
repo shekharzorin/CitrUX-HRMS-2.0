@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
 
 const ShiftConfig: React.FC<{ embedded?: boolean }> = ({ embedded }) => {
-    const { } = useAuth(); // Token unused by api service but kept for context
+    useAuth(); // Token unused by api service but kept for context
     const [shifts, setShifts] = useState<any[]>([]);
     const [formData, setFormData] = useState({
         name: '',
@@ -11,10 +11,6 @@ const ShiftConfig: React.FC<{ embedded?: boolean }> = ({ embedded }) => {
         endTime: '18:00',
         graceTime: 15
     });
-
-    useEffect(() => {
-        fetchShifts();
-    }, []);
 
     const fetchShifts = async () => {
         try {
@@ -24,6 +20,11 @@ const ShiftConfig: React.FC<{ embedded?: boolean }> = ({ embedded }) => {
             console.error(error);
         }
     };
+
+    useEffect(() => {
+        const init = async () => { await fetchShifts(); };
+        init();
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

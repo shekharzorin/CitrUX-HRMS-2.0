@@ -70,8 +70,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 try {
                     storedToken = localStorage.getItem('token');
                     storedUser = localStorage.getItem('user');
-                } catch (e) {
-                    console.error("LocalStorage access denied", e);
+                } catch {
+                    // console.error("LocalStorage access denied", e);
                     setIsLoading(false);
                     return;
                 }
@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                         if (parts.length === 3) {
                             payload = JSON.parse(atob(parts[1]));
                         }
-                    } catch (e) {
+                    } catch {
                         console.error("Invalid token format");
                         logout();
                         setIsLoading(false);
@@ -111,7 +111,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                     if (storedUser) {
                         try {
                             hydratedUser = JSON.parse(storedUser);
-                        } catch (e) {
+                        } catch {
                             console.warn("Corrupted user data in storage");
                             // Fallback to fetch below
                         }
@@ -128,7 +128,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                                     // Update storage with fresh data
                                     try {
                                         localStorage.setItem('user', JSON.stringify(fetchedUser));
-                                    } catch (e) { /* ignore write errors */ }
+                                    } catch { /* ignore write errors */ }
                                 }
                             } catch (err) {
                                 console.error("Failed to fetch user profile", err);

@@ -1,125 +1,154 @@
 @import "tailwindcss";
 
+@theme {
+  /* Link Tailwind theme tokens to CSS variables */
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-text: var(--primary-text);
+
+  --color-accent-purple: var(--accent-purple);
+  --color-accent-blue: var(--accent-blue);
+  --color-accent-orange: var(--accent-orange);
+  --color-accent-green: var(--accent-green);
+  --color-accent-pink: var(--accent-pink);
+
+  --color-bg-body: var(--bg-body);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-sidebar: var(--bg-sidebar);
+
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+  --color-text-light: var(--text-light);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
+
+  /* Fonts */
+  --font-main: var(--font-main);
+  --font-heading: var(--font-heading);
+
+  /* Radius */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+}
+
 :root {
   /* =========================================
-     Premium Design System Tokens
+     New Citrux Design System Tokens (Lime & Pastel)
      ========================================= */
 
-  /* Primary Brand - Sophisticated Indigo/Violet */
-  --primary: #6366f1;
-  /* Indigo 500 */
-  --primary-rgb: 99, 102, 241;
-  --primary-hover: #4f46e5;
-  /* Indigo 600 */
-  --primary-light: #e0e7ff;
-  /* Indigo 100 */
-  --primary-dark: #3730a3;
-  /* Indigo 800 */
+  /* Primary Brand - Deep Pink/Magenta from Reference */
+  --primary: #be185d;
+  /* Pink 700 */
+  --primary-rgb: 190, 24, 93;
+  --primary-hover: #9d174d;
+  --primary-dark: #831843;
+  --primary-text: #ffffff;
+  /* White text on primary */
 
-  --secondary: #64748b;
-  /* Slate 500 */
-  --secondary-hover: #475569;
-  /* Slate 600 */
-  --secondary-light: #f1f5f9;
-  /* Slate 100 */
-
-  --accent: #f43f5e;
-  /* Rose 500 */
-  --accent-hover: #e11d48;
-  /* Rose 600 */
+  /* Secondary / Accents - Pastels for Solid Cards */
+  --accent-purple: #D8B4FE;
+  /* Lighter Purple */
+  --accent-blue: #BAE6FD;
+  /* Lighter Blue */
+  --accent-orange: #FFedd5;
+  /* Very Light Orange */
+  --accent-green: #bef264;
+  /* Lime Green */
+  --accent-pink: #fbcfe8;
 
   /* Backgrounds */
-  --bg-body: #f8fafc;
+  --bg-body: #F8FAFC;
   /* Slate 50 */
-  --bg-surface: #ffffff;
-  --bg-sidebar: #0f172a;
-  /* Slate 900 */
-  --sidebar-border: rgba(255, 255, 255, 0.05);
+  --bg-surface: #FFFFFF;
+  --bg-sidebar: #FFFFFF;
+  --sidebar-border: rgba(0, 0, 0, 0);
+  /* No visible border in reference? */
 
   /* Text Colors */
-  --text-main: #1e293b;
-  /* Slate 800 */
+  --text-main: #0f172a;
+  /* Slate 900 */
   --text-muted: #64748b;
   /* Slate 500 */
   --text-light: #94a3b8;
   /* Slate 400 */
-  --text-on-dark: #f8fafc;
 
-  --sidebar-text: #94a3b8;
+  --sidebar-text: #334155;
+  /* Slate 700 */
   --sidebar-text-active: #ffffff;
-  --sidebar-active-bg: rgba(255, 255, 255, 0.1);
+  /* White text on active pink */
+  --sidebar-active-bg: var(--primary);
+  /* Deep Pink */
 
-  /* Borders & Dividers */
-  --border-color: #e2e8f0;
-  /* Slate 200 */
-  --border-light: #f1f5f9;
-  /* Slate 100 */
-  --input-border: #cbd5e1;
-  /* Slate 300 */
+  /* Borders */
+  --border-color: #E5E7EB;
+  --border-light: #F3F4F6;
+  --input-border: #D1D5DB;
 
   /* Status Colors */
-  --success: #10b981;
-  /* Emerald 500 */
-  --success-bg: #ecfdf5;
-  /* Emerald 50 */
-  --warning: #f59e0b;
-  /* Amber 500 */
-  --warning-bg: #fffbeb;
-  /* Amber 50 */
-  --error: #ef4444;
-  /* Red 500 */
-  --error-bg: #fef2f2;
-  /* Red 50 */
-  --info: #3b82f6;
-  /* Blue 500 */
-  --info-bg: #eff6ff;
-  /* Blue 50 */
+  --success: #10B981;
+  --success-bg: #ECFDF5;
+  --warning: #F59E0B;
+  --warning-bg: #FFFBEB;
+  --error: #EF4444;
+  --error-bg: #FEF2F2;
+  --info: #3B82F6;
+  --info-bg: #EFF6FF;
 
-  /* Global Radius - Modern & Soft */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* Global Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
   --radius-full: 9999px;
 
   /* Global Spacing */
-  --header-height: 64px;
-  --sidebar-width-expanded: 260px;
-  --sidebar-width-collapsed: 80px;
+  --header-height: 80px;
+  --sidebar-width-expanded: 280px;
+  --sidebar-width-collapsed: 90px;
 
-  /* Elevated Shadows */
+  /* Basic Shadows (Tailwind has defaults, we extend if needed) */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadow-card: 0 0 0 1px rgba(0, 0, 0, 0.03), 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.15);
-  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.03);
 
   /* Fonts */
-  --font-main: 'Inter', sans-serif;
-  --font-heading: 'Plus Jakarta Sans', sans-serif;
+  --font-main: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --font-heading: 'Plus Jakarta Sans', 'Inter', sans-serif;
 }
 
 /* Dark Theme Overrides */
 .dark {
-  --bg-body: #020617;
-  /* Slate 950 */
-  --bg-surface: #0f172a;
-  /* Slate 900 */
-  --bg-sidebar: #020617;
+  /* Matte Charcoal Theme (Reference Match) */
+  --bg-body: #131417;
+  /* Deep Gunmetal */
+  --bg-surface: #1E2025;
+  /* Lighter Charcoal */
+  --bg-sidebar: #131417;
+  /* Match body for seamless look, or slightly lighter */
   --sidebar-border: rgba(255, 255, 255, 0.05);
 
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
+  --text-main: #FFFFFF;
+  /* Pure White for headings/primary text */
+  --text-muted: #9CA3AF;
+  /* Cool Grey 400 */
 
-  --border-color: #1e293b;
-  /* Slate 800 */
-  --border-light: #334155;
-  --input-border: #475569;
-  /* Slate 600 */
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.06);
+  --input-border: #3F444E;
+  /* Dark Grey for Inputs */
 
-  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.5);
+  /* Deeper shadow for depth */
+
+  --sidebar-text: #94a3b8;
+  /* Slate 400 for better contrast on dark */
 }
 
 /* Base Styles */

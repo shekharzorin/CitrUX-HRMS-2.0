@@ -1,22 +1,46 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Icon } from '../ui/Icons';
+
+interface Notification {
+    id: string;
+    message: string;
+    read: boolean;
+    createdAt: string;
+    link?: string;
+    type?: string;
+}
 
 export const NotificationBell = () => {
     const { token } = useAuth();
     const [unreadCount, setUnreadCount] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
-    const [recent, setRecent] = useState<any[]>([]);
+    const [recent, setRecent] = useState<Notification[]>([]);
 
     const bellRef = useRef<HTMLDivElement>(null);
 
+    const fetchCount = useCallback(async () => {
+        try {
+            const res = await fetch('http://localhost:5000/api/notifications/unread-count', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setUnreadCount(data.count);
+            }
+        } catch {
+            // ignore
+        }
+    }, [token]);
+
     useEffect(() => {
         if (!token) return;
-        fetchCount();
+        const init = async () => { await fetchCount(); };
+        init();
         const interval = setInterval(fetchCount, 30000); // Poll every 30s
         return () => clearInterval(interval);
-    }, [token]);
+    }, [token, fetchCount]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -27,20 +51,6 @@ export const NotificationBell = () => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
-
-    const fetchCount = async () => {
-        try {
-            const res = await fetch('http://localhost:5000/api/notifications/unread-count', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) {
-                const data = await res.json();
-                setUnreadCount(data.count);
-            }
-        } catch (e) {
-            // console.error(e); 
-        }
-    };
 
     const toggleDropdown = async () => {
         if (!isOpen) {

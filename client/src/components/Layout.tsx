@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import ConfirmModal from './ConfirmModal';
@@ -12,25 +12,41 @@ const NavItem = ({ to, icon, label, precise = false, collapsed, isMobile, onClos
     const location = useLocation();
     const isActive = precise ? location.pathname === to : location.pathname.startsWith(to);
     return (
-        <Link to={to} className={`nav-link ${isActive ? 'active' : ''} ${collapsed && !isMobile ? 'justify-center px-2' : ''}`} onClick={onCloseMobile} title={collapsed ? label : ''}>
-            <span className="flex-shrink-0"><Icon name={icon} size={20} /></span>
+        <Link
+            to={to}
+            className={`
+                flex items-center gap-3 px-4 py-3 mx-2 rounded-xl transition-all duration-200 font-medium text-sm
+                ${isActive
+                    ? 'bg-[var(--primary)] text-white shadow-sm font-bold'
+                    : 'text-[var(--sidebar-text)] hover:bg-slate-50 dark:hover:bg-white/5 hover:text-black dark:hover:text-white'}
+                ${collapsed && !isMobile ? 'justify-center px-0' : ''}
+            `}
+            onClick={onCloseMobile}
+            title={collapsed ? label : ''}
+        >
+            <span className={`flex-shrink-0 ${isActive ? 'text-white' : ''}`}><Icon name={icon} size={22} /></span>
             {(!collapsed || isMobile) && <span className="whitespace-nowrap overflow-hidden text-ellipsis">{label}</span>}
         </Link>
     );
 };
 
+/* ... Component imports ... */
+
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    /* ... state ... */
     const { user, logout } = useAuth();
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+    const searchInputRef = useRef<HTMLInputElement>(null);
 
     // Company Settings
     const [companyName, setCompanyName] = useState(localStorage.getItem('company_name') || 'Citrux');
     const [companyLogo, setCompanyLogo] = useState(localStorage.getItem('company_logo') || '');
 
     useEffect(() => {
+        /* ... existing branding effect ... */
         const updateBranding = () => {
             const name = localStorage.getItem('company_name') || 'Citrux HS';
             const logo = localStorage.getItem('company_logo') || '';
@@ -42,8 +58,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
             if (favicon) {
                 const link = (document.querySelector("link[rel*='icon']") as HTMLLinkElement) || document.createElement('link');
-                link.type = 'image/x-icon';
-                link.rel = 'shortcut icon';
+                // Allow browser to detect type or infer from extension. specific type causing issues with SVGs/PNGs
+                // link.type = 'image/x-icon'; 
+                link.rel = 'icon';
                 link.href = favicon;
                 const head = document.getElementsByTagName('head')[0];
                 if (!head.contains(link)) {
@@ -63,8 +80,21 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInputRef.current?.focus();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
+
     // Page Config
     const pageConfig: Record<string, { title: string; subtitle?: string; icon: IconName; gradient: string }> = {
+        /* ... same config ... */
         '/attendance': { title: 'Attendance', subtitle: 'Manage daily presence', icon: 'schedule', gradient: 'gradient-green' },
         '/leaves': { title: 'Leave Management', subtitle: 'Track and approve leaves', icon: 'event', gradient: 'gradient-purple' },
         '/timesheets': { title: 'Timesheets', subtitle: 'Track work hours', icon: 'timesheet', gradient: 'gradient-blue' },
@@ -80,6 +110,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     };
 
     useEffect(() => {
+        /* ... existing resize effect ... */
         const handleResize = () => {
             const mobile = window.innerWidth < 1024;
             setIsMobile(mobile);
@@ -100,56 +131,49 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     };
 
     const sidebarContent = (
-        <div className="flex flex-col h-full bg-[var(--bg-sidebar)] text-[var(--sidebar-text)]">
-            {/* Logo Area */}
+        <div className="flex flex-col h-full bg-[var(--bg-sidebar)] border-r border-[var(--border-light)]">
+            {/* Logo Area - Clean & Minimal */}
             <div className={`
-                flex items-center ${collapsed && !isMobile ? 'justify-center px-2' : 'px-6'} 
-                h-[var(--header-height)] border-b border-[rgba(255,255,255,0.1)] transition-all duration-300
+                flex items-center ${collapsed && !isMobile ? 'justify-center px-2' : 'px-8'} 
+                h-24 transition-all duration-300
             `}>
                 {companyLogo ? (
-                    <img src={companyLogo} alt="Logo" className="max-h-8 w-auto object-contain" />
+                    <img src={companyLogo} alt="Logo" className="max-h-10 w-auto object-contain" />
                 ) : (
-                    <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-[var(--primary)] flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-pink-200">
                             {companyName.charAt(0)}
                         </div>
-                        {(!collapsed || isMobile) && <span className="font-bold text-white text-lg tracking-tight">{companyName}</span>}
+                        {(!collapsed || isMobile) && <span className="font-bold text-slate-900 text-xl tracking-tight">{companyName}</span>}
                     </div>
                 )}
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 overflow-y-auto py-6 px-3 space-y-1">
-                {(!collapsed || isMobile) && <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-indigo-200/70">Main</div>}
-                <NavItem to="/" icon="dashboard" label="Home" precise collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
-                {(user?.role === 'ADMIN' || user?.role === 'HR' || user?.role === 'SUPER_ADMIN' || user?.role === 'MANAGER' || user?.role === 'EMPLOYEE') && (
-                    <NavItem to="/users" icon="employees" label="My Team" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
-                )}
-                <NavItem to="/profile" icon="profile" label="Me" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+            <nav className="flex-1 overflow-y-auto py-2 space-y-1 custom-scrollbar">
+                <NavItem to="/" icon="dashboard" label="Dashboard" precise collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
 
-                <div className="my-4 border-t border-[rgba(255,255,255,0.05)]"></div>
-                {(!collapsed || isMobile) && <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-indigo-200/70">Work</div>}
-                <NavItem to="/attendance" icon="attendance" label="Time" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                {(user?.role === 'ADMIN' || user?.role === 'HR' || user?.role === 'SUPER_ADMIN' || user?.role === 'MANAGER' || user?.role === 'EMPLOYEE') && (
+                    <NavItem to="/users" icon="employees" label="Employees" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                )}
+
+                <NavItem to="/attendance" icon="attendance" label="Time & Attendance" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/leaves" icon="leaves" label="Leaves" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/expenses" icon="expenses" label="Expenses" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/analytics" icon="analytics" label="Reports" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
 
-                {(user?.role === 'ADMIN' || user?.role === 'HR') && (
-                    <>
-                        <div className="my-4 border-t border-[rgba(255,255,255,0.05)]"></div>
-                        {(!collapsed || isMobile) && <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-indigo-200/70">Org</div>}
-                        <NavItem to="/users" icon="employees" label="Employees" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
-                        <NavItem to="/analytics" icon="analytics" label="Analytics" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
-                        <NavItem to="/settings" icon="settings" label="Settings" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
-                    </>
-                )}
+                <div className="my-6 mx-6 border-t border-slate-100"></div>
+
+                <NavItem to="/settings" icon="settings" label="Settings" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/profile" icon="profile" label="My Profile" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
             </nav>
 
             {/* Collapse / User Mobile Footer */}
             {!isMobile && (
-                <div className="p-4 border-t border-[rgba(255,255,255,0.1)] flex justify-end">
+                <div className="p-6 flex justify-center">
                     <button
                         onClick={() => setCollapsed(!collapsed)}
-                        className="p-2 rounded-lg hover:bg-[rgba(255,255,255,0.1)] text-[var(--sidebar-text)] transition-colors"
+                        className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
                         title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
                     >
                         <Icon name={collapsed ? "chevron_right" : "chevron_left"} size={20} />
@@ -158,8 +182,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             )}
 
             {isMobile && (
-                <div className="p-4 border-t border-[rgba(255,255,255,0.1)]">
-                    <Button variant="danger" onClick={handleLogout} className="w-full justify-center">
+                <div className="p-6 border-t border-slate-100">
+                    <Button variant="danger" onClick={handleLogout} className="w-full justify-center rounded-xl">
                         <Icon name="logout" size={18} />
                         Sign Out
                     </Button>
@@ -229,33 +253,40 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     </div>
 
                     {/* Center: Global Search (Desktop) */}
+                    {/* Center: Global Search (Desktop) */}
                     {!isMobile && (
                         <div className="flex-1 max-w-md mx-6">
-                            <div className="relative group">
-                                <Icon name="search" size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-[var(--primary)] transition-colors" />
+                            <div className="relative group flex items-center">
+                                <div className="absolute left-3.5 text-[var(--text-muted)] group-focus-within:text-[var(--primary)] transition-colors pointer-events-none flex items-center justify-center">
+                                    <Icon name="search" size={20} />
+                                </div>
                                 <input
+                                    ref={searchInputRef}
                                     type="text"
                                     placeholder="Search employees, leaves, policies..."
-                                    className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800/50 border-none rounded-lg text-sm text-[var(--text-main)] placeholder-slate-400 
+                                    className="w-full h-11 pl-11 pr-14 bg-slate-50 dark:bg-slate-800/50 border-none rounded-xl text-sm font-medium text-[var(--text-main)] placeholder-slate-400 
                                     ring-1 ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-[var(--primary)] focus:bg-white dark:focus:bg-slate-800 transition-all outline-none"
                                 />
-                                <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
-                                    <span className="text-[10px] text-slate-400 border border-slate-200 dark:border-slate-700 rounded px-1.5 py-0.5 bg-white dark:bg-slate-700">CTRL</span>
-                                    <span className="text-[10px] text-slate-400 border border-slate-200 dark:border-slate-700 rounded px-1.5 py-0.5 bg-white dark:bg-slate-700">K</span>
+                                <div className="absolute right-3 flex items-center gap-1.5 pointer-events-none">
+                                    <kbd className="hidden sm:inline-flex items-center h-5 px-1.5 text-[10px] font-bold text-slate-400 bg-white border border-slate-200 rounded-md shadow-sm">CTRL</kbd>
+                                    <kbd className="hidden sm:inline-flex items-center h-5 px-1.5 text-[10px] font-bold text-slate-400 bg-white border border-slate-200 rounded-md shadow-sm">K</kbd>
                                 </div>
                             </div>
                         </div>
                     )}
 
                     {/* Right: Actions */}
-                    {/* Right: Actions */}
-                    <div className="flex items-center gap-1 sm:gap-2">
-                        <button className="header-icon-button" title="Announcements">
+                    <div className="flex items-center gap-2 sm:gap-4">
+                        <button className="relative w-10 h-10 flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--primary)] hover:bg-slate-100 dark:hover:bg-white/5 rounded-full transition-all" title="Announcements">
                             <Icon name="campaign" size={20} />
-                            <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border border-white dark:border-slate-900"></span>
+                            <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white dark:ring-slate-900"></span>
                         </button>
-                        <NotificationBell />
-                        <div className="h-8 w-[1px] bg-[var(--border-light)] mx-2 sm:mx-4"></div>
+
+                        <div className="flex items-center justify-center h-10 w-10">
+                            <NotificationBell />
+                        </div>
+
+                        <div className="h-8 w-[1px] bg-[var(--border-light)] mx-2"></div>
                         <ProfileDropdown onLogoutRequest={handleLogout} />
                     </div>
                 </header>

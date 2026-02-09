@@ -9,7 +9,7 @@ import { Tabs } from '../components/ui/Tabs';
 
 const EmployeeDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const { token: _token, user } = useAuth(); // Token unused by api service but kept for context
+    const { user } = useAuth(); // Token unused by api service but kept for context
     const { showToast } = useToast();
     const [employee, setEmployee] = useState<any>(null);
     const [loading, setLoading] = useState(true);
@@ -80,7 +80,7 @@ const EmployeeDetails: React.FC = () => {
             return typeof profile.profilePhotoSettings === 'string'
                 ? JSON.parse(profile.profilePhotoSettings)
                 : profile.profilePhotoSettings;
-        } catch (e) {
+        } catch {
             return null;
         }
     }, [profile?.profilePhotoSettings]);
@@ -95,7 +95,7 @@ const EmployeeDetails: React.FC = () => {
             const date = new Date(dateString);
             if (isNaN(date.getTime())) return 'Invalid Date';
             return date.toLocaleDateString();
-        } catch (e) {
+        } catch {
             return 'Error';
         }
     };
@@ -107,7 +107,7 @@ const EmployeeDetails: React.FC = () => {
             const date = new Date(dateString);
             if (isNaN(date.getTime())) return '-';
             return date.toLocaleTimeString();
-        } catch (e) {
+        } catch {
             return '-';
         }
     };
@@ -119,8 +119,8 @@ const EmployeeDetails: React.FC = () => {
             bankDetails = typeof onboarding.bankDetails === 'string'
                 ? JSON.parse(onboarding.bankDetails)
                 : onboarding.bankDetails;
-        } catch (e) {
-            console.error("Failed to parse bank details", e);
+        } catch {
+            console.error("Failed to parse bank details");
         }
     }
 

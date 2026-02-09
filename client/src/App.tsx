@@ -4,6 +4,8 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Layout from './components/Layout';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Login from './pages/Login';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import Users from './pages/Users';
 import EmployeeDetails from './pages/EmployeeDetails';
@@ -64,6 +66,8 @@ const App: React.FC = () => {
           <Router>
             <Routes>
               <Route path="/login" element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/verify/:id" element={<Verification />} /> {/* Public Route */}
               <Route path="/design-system" element={<DesignSystem />} /> {/* Public Design System */}
 

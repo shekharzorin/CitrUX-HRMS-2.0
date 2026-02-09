@@ -13,11 +13,12 @@ export const getDashboardStats = async (req: Request, res: Response) => {
         const totalUsers = await prisma.user.count();
         const activeUsers = await prisma.user.count({ where: { status: 'ACTIVE' } });
 
-        // 2. Headcount by Department (using Profile)
-        // Note: GroupBy is not fully supported on relations in all Prisma versions in this direct way?
-        // We might need raw query or just fetch and reduce if db is small, but let's try counts.
-        // Actually Profile is 1:1.
-        // Let's do a simple count for now.
+        // 2. Headcount by Department
+        const departmentStats = await prisma.profile.groupBy({
+            by: ['department'],
+            _count: { userId: true },
+            where: { department: { not: null } }
+        });
 
         // 3. Attendance Today
         const startOfDay = new Date();
@@ -34,7 +35,7 @@ export const getDashboardStats = async (req: Request, res: Response) => {
             }
         });
 
-        // 4. Pending Claims
+        // 4. Pending Claims & Trend
         const pendingClaims = await prisma.expenseClaim.count({
             where: { status: 'PENDING' }
         });
@@ -42,6 +43,41 @@ export const getDashboardStats = async (req: Request, res: Response) => {
             _sum: { amount: true },
             where: { status: 'APPROVED' }
         });
+
+        // Expense Trend (Last 6 months)
+        const sixMonthsAgo = new Date();
+        sixMonthsAgo.setMonth(today.getMonth() - 5);
+        sixMonthsAgo.setDate(1); // Start of 6 months ago
+
+        const expenseHistory = await prisma.expenseClaim.findMany({
+            where: {
+                status: 'APPROVED',
+                date: { gte: sixMonthsAgo }
+            },
+            select: { date: true, amount: true }
+        });
+
+        // Aggregate by Month in JS
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const expenseTrendMap = new Map<string, number>();
+
+        // Initialize last 6 months zero
+        for (let i = 5; i >= 0; i--) {
+            const d = new Date();
+            d.setMonth(today.getMonth() - i);
+            const key = `${monthNames[d.getMonth()]}`;
+            expenseTrendMap.set(key, 0);
+        }
+
+        expenseHistory.forEach(ex => {
+            const d = new Date(ex.date);
+            const key = `${monthNames[d.getMonth()]}`;
+            if (expenseTrendMap.has(key)) {
+                expenseTrendMap.set(key, (expenseTrendMap.get(key) || 0) + ex.amount);
+            }
+        });
+
+        const expenseTrend = Array.from(expenseTrendMap.entries()).map(([month, amount]) => ({ month, amount }));
 
         // 5. Open Jobs
         const openJobs = await prisma.jobPosting.count({
@@ -75,9 +111,7 @@ export const getDashboardStats = async (req: Request, res: Response) => {
             color: 'bg-rose-100 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400' // Dynamic color todo
         }));
 
-        // 8. Birthdays (Raw Query because dob is new/raw)
-        // We need month and day match.
-        // Postgres: EXTRACT(MONTH FROM dob) ...
+        // 8. Birthdays
         const profiles = await prisma.$queryRaw`
             SELECT "firstName", "lastName", "dob", "profilePhoto" 
             FROM "Profile" 
@@ -105,9 +139,14 @@ export const getDashboardStats = async (req: Request, res: Response) => {
         res.json({
             users: isAdminOrHR ? { total: totalUsers, active: activeUsers } : undefined,
             attendance: isAdminOrHR ? { presentToday } : undefined,
-            finance: isAdminOrHR ? { pendingClaims, approvedTotal: totalClaimAmount._sum.amount || 0 } : undefined,
-            recruitment: { openJobs }, // Visible to all? optional
+            finance: isAdminOrHR ? {
+                pendingClaims,
+                approvedTotal: totalClaimAmount._sum.amount || 0,
+                trend: expenseTrend
+            } : undefined,
+            recruitment: { openJobs },
             assets: isAdminOrHR ? { assigned: assignedAssets } : undefined,
+            departments: isAdminOrHR ? departmentStats.map(d => ({ name: d.department, count: d._count.userId })) : undefined,
             whoIsOut,
             birthdays: upcomingBirthdays
         });

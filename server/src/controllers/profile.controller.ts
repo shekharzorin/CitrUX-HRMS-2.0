@@ -12,7 +12,11 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
         const userId = req.user.userId;
         const user = await prisma.user.findUnique({
             where: { id: userId },
-            include: { profile: true }
+            include: {
+                profile: true,
+                salary: true,
+                onboarding: true
+            }
         });
 
         res.json(user);

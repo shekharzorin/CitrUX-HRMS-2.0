@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
@@ -9,6 +9,59 @@ import { Icon } from '../components/ui/Icons';
 import Cropper from 'react-easy-crop';
 
 // --- Types & Constants ---
+
+interface ProfilePhotoSettings {
+    zoom: number;
+    crop: { x: number; y: number };
+    croppedAreaPixels: any;
+}
+
+interface OnboardingFormData {
+    fullName: string;
+    fatherName: string;
+    motherName: string;
+    guardianName: string;
+    dateOfBirth: string;
+    gender: string;
+    maritalStatus: string;
+    bloodGroup: string;
+    nationality: string;
+    profilePhoto: string;
+    profilePhotoSettings: ProfilePhotoSettings | any; // relaxed for now to mix
+    personalMobile: string;
+    officialMobile: string;
+    personalEmail: string;
+    officialEmail: string;
+    currentAddress: string;
+    permanentAddress: string;
+    sameAsCurrentAddress: boolean;
+    emergencyContacts: any[];
+    department: string;
+    designation: string;
+    employmentType: string;
+    dateOfJoining: string;
+    workLocation: string;
+    shift: string;
+    workingHours: string;
+    probationPeriodMonths: number;
+    noticePeriodDays: number;
+    experiences: any[];
+    education: any[];
+    documents: any[];
+    medicalConditions: string;
+    allergies: string;
+    aadhaarNumber: string;
+    panNumber: string;
+    uanNumber: string;
+    bankName: string;
+    accountNumber: string;
+    ifscCode: string;
+    companyPolicyAccepted: boolean;
+    ndaAccepted: boolean;
+    codeOfConductAccepted: boolean;
+    status?: string;
+    [key: string]: any; // Allow indexing
+}
 
 const STEPS = [
     { id: 1, title: 'Personal Profile', subtitle: 'Basic & Info', icon: 'profile', color: 'glassy-purple' },
@@ -34,6 +87,30 @@ const SectionHeader = ({ title, description, icon, color }: { title: string, des
     </div>
 );
 
+// --- Helper Functions ---
+
+const getStepErrors = (step: number, data: OnboardingFormData) => {
+    const newErrors: any = {};
+    if (step === 1) {
+        if (!data.fullName) newErrors.fullName = 'Required';
+        if (!data.personalMobile) newErrors.personalMobile = 'Required';
+        if (!data.personalEmail) newErrors.personalEmail = 'Required';
+        if (!data.currentAddress) newErrors.currentAddress = 'Required';
+    }
+    if (step === 2) {
+        if (!data.department) newErrors.department = 'Required';
+        if (!data.designation) newErrors.designation = 'Required';
+        if (!data.dateOfJoining) newErrors.dateOfJoining = 'Required';
+    }
+    if (step === 3) {
+        if (!data.aadhaarNumber) newErrors.aadhaarNumber = 'Required';
+        if (!data.panNumber) newErrors.panNumber = 'Required';
+        if (!data.bankName) newErrors.bankName = 'Required';
+        if (!data.accountNumber) newErrors.accountNumber = 'Required';
+    }
+    return newErrors;
+};
+
 // --- Main Component ---
 
 const OnboardingForm: React.FC = () => {
@@ -42,7 +119,7 @@ const OnboardingForm: React.FC = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [isSaving, setIsSaving] = useState(false);
     const [status, setStatus] = useState('DRAFT');
-    const [formData, setFormData] = useState<any>({
+    const [formData, setFormData] = useState<OnboardingFormData>({
         fullName: '', fatherName: '', motherName: '', guardianName: '',
         dateOfBirth: '', gender: '', maritalStatus: '', bloodGroup: '', nationality: '',
         profilePhoto: '', profilePhotoSettings: { zoom: 1, crop: { x: 0, y: 0 }, croppedAreaPixels: null },
@@ -67,11 +144,7 @@ const OnboardingForm: React.FC = () => {
 
     // --- Effects & API ---
 
-    useEffect(() => {
-        fetchStatus();
-    }, []);
-
-    const fetchStatus = async () => {
+    const fetchStatus = useCallback(async () => {
         try {
             const res = await fetch('http://localhost:5000/api/onboarding/status', {
                 headers: { Authorization: `Bearer ${token}` }
@@ -83,7 +156,7 @@ const OnboardingForm: React.FC = () => {
                 if (data.profilePhotoSettings && typeof data.profilePhotoSettings === 'string') {
                     try {
                         data.profilePhotoSettings = JSON.parse(data.profilePhotoSettings);
-                    } catch (e) {
+                    } catch (_) {
                         data.profilePhotoSettings = { zoom: 1, crop: { x: 0, y: 0 }, croppedAreaPixels: null };
                     }
                 }
@@ -103,7 +176,12 @@ const OnboardingForm: React.FC = () => {
                 }
             }
         } catch (error) { console.error('Error fetching status:', error); }
-    };
+    }, [token]);
+
+    useEffect(() => {
+        const init = async () => { await fetchStatus(); };
+        init();
+    }, [fetchStatus]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -116,7 +194,7 @@ const OnboardingForm: React.FC = () => {
     };
 
 
-    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, _?: string, docType?: string) => {
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, _unused?: string, docType?: string) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
@@ -143,27 +221,7 @@ const OnboardingForm: React.FC = () => {
         } catch (e) { console.error(e); }
     };
 
-    const getStepErrors = (step: number, data: any) => {
-        const newErrors: any = {};
-        if (step === 1) {
-            if (!data.fullName) newErrors.fullName = 'Required';
-            if (!data.personalMobile) newErrors.personalMobile = 'Required';
-            if (!data.personalEmail) newErrors.personalEmail = 'Required';
-            if (!data.currentAddress) newErrors.currentAddress = 'Required';
-        }
-        if (step === 2) {
-            if (!data.department) newErrors.department = 'Required';
-            if (!data.designation) newErrors.designation = 'Required';
-            if (!data.dateOfJoining) newErrors.dateOfJoining = 'Required';
-        }
-        if (step === 3) {
-            if (!data.aadhaarNumber) newErrors.aadhaarNumber = 'Required';
-            if (!data.panNumber) newErrors.panNumber = 'Required';
-            if (!data.bankName) newErrors.bankName = 'Required';
-            if (!data.accountNumber) newErrors.accountNumber = 'Required';
-        }
-        return newErrors;
-    };
+
 
     const isStepComplete = (stepId: number) => {
         return Object.keys(getStepErrors(stepId, formData)).length === 0;

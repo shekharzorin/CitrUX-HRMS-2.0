@@ -1,0 +1,866 @@
+﻿
+D:\citrux-hrms\client\src\components\ConfirmModal.tsx
+  49:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\components\Header\NotificationBell.tsx
+  10:42  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-explicit-any
+  16:9   error    Error: Cannot access variable before it is declared
+
+`fetchCount` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\components\Header\NotificationBell.tsx:16:9
+  14 |     useEffect(() => {
+  15 |         if (!token) return;
+> 16 |         fetchCount();
+     |         ^^^^^^^^^^ `fetchCount` accessed before it is declared
+  17 |         const interval = setInterval(fetchCount, 30000); // Poll every 30s
+  18 |         return () => clearInterval(interval);
+  19 |     }, [token]);
+
+D:\citrux-hrms\client\src\components\Header\NotificationBell.tsx:31:5
+  29 |     }, []);
+  30 |
+> 31 |     const fetchCount = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 32 |         try {
+     | ^^^^^^^^^^^^^
+> 33 |             const res = await fetch('http://localhost:5000/api/notifications/unread-count', {
+     ΓÇª
+     | ^^^^^^^^^^^^^
+> 42 |         }
+     | ^^^^^^^^^^^^^
+> 43 |     };
+     | ^^^^^^^ `fetchCount` is declared here
+  44 |
+  45 |     const toggleDropdown = async () => {
+  46 |         if (!isOpen) {  react-hooks/immutability
+  19:8   warning  React Hook useEffect has a missing dependency: 'fetchCount'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react-hooks/exhaustive-deps
+  40:18  error    'e' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-unused-vars
+
+D:\citrux-hrms\client\src\components\ui\EmptyState.tsx
+  41:67  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\components\ui\PageHeader.tsx
+  37:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\contexts\AuthContext.tsx
+   10:15  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+   81:34  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+   87:30  error  'e' is defined but never used                                                                                                   @typescript-eslint/no-unused-vars
+  114:34  error  'e' is defined but never used                                                                                                   @typescript-eslint/no-unused-vars
+  131:46  error  'e' is defined but never used                                                                                                   @typescript-eslint/no-unused-vars
+  189:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\citrux-hrms\client\src\contexts\ThemeContext.tsx
+  71:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\citrux-hrms\client\src\contexts\ToastContext.tsx
+  18:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\citrux-hrms\client\src\hooks\useAttendanceWidget.ts
+  23:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  59:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  69:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  79:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\Analytics.tsx
+   8:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  17:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\AssetInventory.tsx
+  14:42  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-explicit-any
+  15:40  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-explicit-any
+  23:32  error  Error: Cannot access variable before it is declared
+
+`fetchAssets` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\AssetInventory.tsx:23:32
+  21 |         const init = async () => {
+  22 |             setLoading(true);
+> 23 |             await Promise.all([fetchAssets(), fetchUsers()]);
+     |                                ^^^^^^^^^^^ `fetchAssets` accessed before it is declared
+  24 |             setLoading(false);
+  25 |         };
+  26 |         init();
+
+D:\citrux-hrms\client\src\pages\AssetInventory.tsx:29:5
+  27 |     }, []);
+  28 |
+> 29 |     const fetchAssets = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 30 |         try {
+     | ^^^^^^^^^^^^^
+> 31 |             const data = await api.get<any[]>('/assets');
+     | ^^^^^^^^^^^^^
+> 32 |             if (data) setAssets(data);
+     | ^^^^^^^^^^^^^
+> 33 |         } catch (error) { console.error(error); }
+     | ^^^^^^^^^^^^^
+> 34 |     };
+     | ^^^^^^^ `fetchAssets` is declared here
+  35 |
+  36 |     const fetchUsers = async () => {
+  37 |         try {                                      react-hooks/immutability
+  23:47  error  Error: Cannot access variable before it is declared
+
+`fetchUsers` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\AssetInventory.tsx:23:47
+  21 |         const init = async () => {
+  22 |             setLoading(true);
+> 23 |             await Promise.all([fetchAssets(), fetchUsers()]);
+     |                                               ^^^^^^^^^^ `fetchUsers` accessed before it is declared
+  24 |             setLoading(false);
+  25 |         };
+  26 |         init();
+
+D:\citrux-hrms\client\src\pages\AssetInventory.tsx:36:5
+  34 |     };
+  35 |
+> 36 |     const fetchUsers = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 37 |         try {
+     | ^^^^^^^^^^^^^
+> 38 |             const data = await api.get<any[]>('/users');
+     | ^^^^^^^^^^^^^
+> 39 |             if (data) setUsers(data);
+     | ^^^^^^^^^^^^^
+> 40 |         } catch (error) { console.error(error); }
+     | ^^^^^^^^^^^^^
+> 41 |     };
+     | ^^^^^^^ `fetchUsers` is declared here
+  42 |
+  43 |     const handleCreate = async (e: React.FormEvent) => {
+  44 |         e.preventDefault();  react-hooks/immutability
+  31:40  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-explicit-any
+  38:40  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\Attendance.tsx
+   55:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  119:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  130:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  140:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  150:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  163:18  error  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  163:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  216:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\AttendanceApprovals.tsx
+  54:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\CreateUser.tsx
+   7:20  error  '_token' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  21:46  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  22:46  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  23:42  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  29:29  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  30:29  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  31:29  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\Dashboard.tsx
+   47:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   49:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   81:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   93:51  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  313:68  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\EditUser.tsx
+  24:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  25:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  26:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  32:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  33:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  34:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  39:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  48:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\EmployeeDetails.tsx
+   12:20  error  '_token' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   14:46  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+   19:64  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+   22:37  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+   50:43  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+   52:25  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+   60:44  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+   83:18  error  'e' is defined but never used                @typescript-eslint/no-unused-vars
+   92:37  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+   98:18  error  'e' is defined but never used                @typescript-eslint/no-unused-vars
+  104:37  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  110:18  error  'e' is defined but never used                @typescript-eslint/no-unused-vars
+  116:22  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  321:59  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  351:61  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\ExpenseApprovals.tsx
+   6:42  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-explicit-any
+   9:9   error    Error: Cannot access variable before it is declared
+
+`fetchPending` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\ExpenseApprovals.tsx:9:9
+   7 |
+   8 |     useEffect(() => {
+>  9 |         fetchPending();
+     |         ^^^^^^^^^^^^ `fetchPending` accessed before it is declared
+  10 |     }, []);
+  11 |
+  12 |     const fetchPending = async () => {
+
+D:\citrux-hrms\client\src\pages\ExpenseApprovals.tsx:12:5
+  10 |     }, []);
+  11 |
+> 12 |     const fetchPending = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 13 |         try {
+     | ^^^^^^^^^^^^^
+> 14 |             const res = await fetch('http://localhost:5000/api/expenses/approvals', {
+     | ^^^^^^^^^^^^^
+> 15 |                 headers: { Authorization: `Bearer ${token}` }
+     | ^^^^^^^^^^^^^
+> 16 |             });
+     | ^^^^^^^^^^^^^
+> 17 |             if (res.ok) setClaims(await res.json());
+     | ^^^^^^^^^^^^^
+> 18 |         } catch (error) { console.error(error); }
+     | ^^^^^^^^^^^^^
+> 19 |     };
+     | ^^^^^^^ `fetchPending` is declared here
+  20 |
+  21 |     const handleUpdate = async (id: string, status: string) => {
+  22 |         try {  react-hooks/immutability
+  10:8   warning  React Hook useEffect has a missing dependency: 'fetchPending'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react-hooks/exhaustive-deps
+
+D:\citrux-hrms\client\src\pages\Expenses.tsx
+  11:42  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  12:50  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  20:32  error  Error: Cannot access variable before it is declared
+
+`fetchClaims` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\Expenses.tsx:20:32
+  18 |         const init = async () => {
+  19 |             setLoading(true);
+> 20 |             await Promise.all([fetchClaims(), fetchCategories()]);
+     |                                ^^^^^^^^^^^ `fetchClaims` accessed before it is declared
+  21 |             setLoading(false);
+  22 |         };
+  23 |         init();
+
+D:\citrux-hrms\client\src\pages\Expenses.tsx:26:5
+  24 |     }, []);
+  25 |
+> 26 |     const fetchClaims = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |         try {
+     | ^^^^^^^^^^^^^
+> 28 |             const data = await api.get<any[]>('/expenses/claims');
+     | ^^^^^^^^^^^^^
+> 29 |             setClaims(data || []);
+     | ^^^^^^^^^^^^^
+> 30 |         } catch (error) { console.error(error); }
+     | ^^^^^^^^^^^^^
+> 31 |     };
+     | ^^^^^^^ `fetchClaims` is declared here
+  32 |
+  33 |     const fetchCategories = async () => {
+  34 |         try {                                                                         react-hooks/immutability
+  20:47  error  Error: Cannot access variable before it is declared
+
+`fetchCategories` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\Expenses.tsx:20:47
+  18 |         const init = async () => {
+  19 |             setLoading(true);
+> 20 |             await Promise.all([fetchClaims(), fetchCategories()]);
+     |                                               ^^^^^^^^^^^^^^^ `fetchCategories` accessed before it is declared
+  21 |             setLoading(false);
+  22 |         };
+  23 |         init();
+
+D:\citrux-hrms\client\src\pages\Expenses.tsx:33:5
+  31 |     };
+  32 |
+> 33 |     const fetchCategories = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 34 |         try {
+     | ^^^^^^^^^^^^^
+> 35 |             const data = await api.get<any[]>('/expenses/categories');
+     | ^^^^^^^^^^^^^
+> 36 |             setCategories(data || []);
+     | ^^^^^^^^^^^^^
+> 37 |         } catch (error) { console.error(error); }
+     | ^^^^^^^^^^^^^
+> 38 |     };
+     | ^^^^^^^ `fetchCategories` is declared here
+  39 |
+  40 |     const handleSubmit = async (e: React.FormEvent) => {
+  41 |         e.preventDefault();  react-hooks/immutability
+  28:40  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  35:40  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\IssueCertificate.tsx
+  6:11  error  Unexpected empty object pattern  no-empty-pattern
+
+D:\citrux-hrms\client\src\pages\JobApplications.tsx
+   6:38  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+   9:9   error    Error: Cannot access variable before it is declared
+
+`fetchApps` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\JobApplications.tsx:9:9
+   7 |
+   8 |     useEffect(() => {
+>  9 |         fetchApps();
+     |         ^^^^^^^^^ `fetchApps` accessed before it is declared
+  10 |     }, []);
+  11 |
+  12 |     const fetchApps = async () => {
+
+D:\citrux-hrms\client\src\pages\JobApplications.tsx:12:5
+  10 |     }, []);
+  11 |
+> 12 |     const fetchApps = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 13 |         try {
+     | ^^^^^^^^^^^^^
+> 14 |             const res = await fetch('http://localhost:5000/api/recruitment/applications', {
+     | ^^^^^^^^^^^^^
+> 15 |                 headers: { Authorization: `Bearer ${token}` }
+     | ^^^^^^^^^^^^^
+> 16 |             });
+     | ^^^^^^^^^^^^^
+> 17 |             if (res.ok) setApps(await res.json());
+     | ^^^^^^^^^^^^^
+> 18 |         } catch (error) { console.error(error); }
+     | ^^^^^^^^^^^^^
+> 19 |     };
+     | ^^^^^^^ `fetchApps` is declared here
+  20 |
+  21 |     const handleStatus = async (id: string, status: string) => {
+  22 |         try {  react-hooks/immutability
+  10:8   warning  React Hook useEffect has a missing dependency: 'fetchApps'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/exhaustive-deps
+
+D:\citrux-hrms\client\src\pages\Jobs.tsx
+   9:38  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  17:9   error  Error: Cannot access variable before it is declared
+
+`fetchJobs` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\Jobs.tsx:17:9
+  15 |
+  16 |     useEffect(() => {
+> 17 |         fetchJobs();
+     |         ^^^^^^^^^ `fetchJobs` accessed before it is declared
+  18 |     }, []);
+  19 |
+  20 |     const fetchJobs = async () => {
+
+D:\citrux-hrms\client\src\pages\Jobs.tsx:20:5
+  18 |     }, []);
+  19 |
+> 20 |     const fetchJobs = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 21 |         try {
+     | ^^^^^^^^^^^^^
+> 22 |             const res = await fetch('http://localhost:5000/api/recruitment/jobs');
+     | ^^^^^^^^^^^^^
+> 23 |             if (res.ok) setJobs(await res.json());
+     | ^^^^^^^^^^^^^
+> 24 |         } catch (error) { console.error(error); }
+     | ^^^^^^^^^^^^^
+> 25 |     };
+     | ^^^^^^^ `fetchJobs` is declared here
+  26 |
+  27 |     const handlePostJob = async (e: React.FormEvent) => {
+  28 |         e.preventDefault();  react-hooks/immutability
+
+D:\citrux-hrms\client\src\pages\Leaves.tsx
+   11:46  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   12:46  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   13:50  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   25:9   error    Error: Cannot access variable before it is declared
+
+`fetchData` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\Leaves.tsx:25:9
+  23 |
+  24 |     useEffect(() => {
+> 25 |         fetchData();
+     |         ^^^^^^^^^ `fetchData` accessed before it is declared
+  26 |     }, []);
+  27 |
+  28 |     const fetchData = async () => {
+
+D:\citrux-hrms\client\src\pages\Leaves.tsx:28:5
+  26 |     }, []);
+  27 |
+> 28 |     const fetchData = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 29 |         try {
+     | ^^^^^^^^^^^^^
+> 30 |             const [balData, reqData, typeData] = await Promise.all([
+     ΓÇª
+     | ^^^^^^^^^^^^^
+> 42 |         }
+     | ^^^^^^^^^^^^^
+> 43 |     };
+     | ^^^^^^^ `fetchData` is declared here
+  44 |
+  45 |     // Helper for safe date formatting
+  46 |     const formatDate = (dateString: any, options: Intl.DateTimeFormatOptions = {}) => {  react-hooks/immutability
+   26:8   warning  React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             react-hooks/exhaustive-deps
+   31:25  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   32:25  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   33:25  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   46:37  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   52:18  error    'e' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+   65:25  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  160:75  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\Login.tsx
+  30:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  52:64  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  55:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\ManagerLeaves.tsx
+  13:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  18:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  34:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\MyAssets.tsx
+   8:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  17:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\MyProfile.tsx
+   16:44   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+   23:91   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+   37:42   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+   38:56   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+   39:64   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+   40:46   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+   57:48   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+   61:48   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+   65:48   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+   69:48   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+   79:8    warning  React Hook useEffect has missing dependencies: 'assets.length', 'attendanceHistory.length', 'leaveBalances.length', and 'payslips.length'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+   83:40   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+   87:96   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+  133:103  error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+  138:54   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+  158:50   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+  304:58   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+  333:85   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+  374:17   error    Unexpected lexical declaration in case block                                                                                                                                                   no-case-declarations
+  384:49   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+  474:53   error    Unexpected any. Specify a different type                                                                                                                                                       @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\Notifications.tsx
+   6:56  error    Unexpected any. Specify a different type                                                                       @typescript-eslint/no-explicit-any
+  12:8   warning  React Hook useEffect has a missing dependency: 'fetchNotes'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\citrux-hrms\client\src\pages\Offboarding.tsx
+   6:42  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-explicit-any
+   7:38  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-explicit-any
+  13:13  error    Error: Cannot access variable before it is declared
+
+`fetchResignations` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\Offboarding.tsx:13:13
+  11 |     useEffect(() => {
+  12 |         if (user?.role === 'ADMIN' || user?.role === 'HR') {
+> 13 |             fetchResignations();
+     |             ^^^^^^^^^^^^^^^^^ `fetchResignations` accessed before it is declared
+  14 |         } else {
+  15 |             fetchStatus();
+  16 |         }
+
+D:\citrux-hrms\client\src\pages\Offboarding.tsx:28:5
+  26 |     };
+  27 |
+> 28 |     const fetchResignations = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 29 |         try {
+     | ^^^^^^^^^^^^^
+> 30 |             const res = await fetch('http://localhost:5000/api/offboarding/all', {
+     | ^^^^^^^^^^^^^
+> 31 |                 headers: { Authorization: `Bearer ${token}` }
+     | ^^^^^^^^^^^^^
+> 32 |             });
+     | ^^^^^^^^^^^^^
+> 33 |             if (res.ok) setList(await res.json());
+     | ^^^^^^^^^^^^^
+> 34 |         } catch (error) { console.error(error); }
+     | ^^^^^^^^^^^^^
+> 35 |     };
+     | ^^^^^^^ `fetchResignations` is declared here
+  36 |
+  37 |     const handleResign = async (e: React.FormEvent) => {
+  38 |         e.preventDefault();  react-hooks/immutability
+  15:13  error    Error: Cannot access variable before it is declared
+
+`fetchStatus` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\Offboarding.tsx:15:13
+  13 |             fetchResignations();
+  14 |         } else {
+> 15 |             fetchStatus();
+     |             ^^^^^^^^^^^ `fetchStatus` accessed before it is declared
+  16 |         }
+  17 |     }, [user]);
+  18 |
+
+D:\citrux-hrms\client\src\pages\Offboarding.tsx:19:5
+  17 |     }, [user]);
+  18 |
+> 19 |     const fetchStatus = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 20 |         try {
+     | ^^^^^^^^^^^^^
+> 21 |             const res = await fetch('http://localhost:5000/api/offboarding/status', {
+     | ^^^^^^^^^^^^^
+> 22 |                 headers: { Authorization: `Bearer ${token}` }
+     | ^^^^^^^^^^^^^
+> 23 |             });
+     | ^^^^^^^^^^^^^
+> 24 |             if (res.ok) setStatus(await res.json());
+     | ^^^^^^^^^^^^^
+> 25 |         } catch (error) { console.error(error); }
+     | ^^^^^^^^^^^^^
+> 26 |     };
+     | ^^^^^^^ `fetchStatus` is declared here
+  27 |
+  28 |     const fetchResignations = async () => {
+  29 |         try {                                                                                                                      react-hooks/immutability
+  17:8   warning  React Hook useEffect has missing dependencies: 'fetchResignations' and 'fetchStatus'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/exhaustive-deps
+
+D:\citrux-hrms\client\src\pages\OnboardingForm.tsx
+   23:107  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+   45:46   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+   59:42   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+   66:64   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+   71:9    error    Error: Cannot access variable before it is declared
+
+`fetchStatus` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\OnboardingForm.tsx:71:9
+  69 |
+  70 |     useEffect(() => {
+> 71 |         fetchStatus();
+     |         ^^^^^^^^^^^ `fetchStatus` accessed before it is declared
+  72 |     }, []);
+  73 |
+  74 |     const fetchStatus = async () => {
+
+D:\citrux-hrms\client\src\pages\OnboardingForm.tsx:74:5
+   72 |     }, []);
+   73 |
+>  74 |     const fetchStatus = async () => {
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  75 |         try {
+      | ^^^^^^^^^^^^^
+>  76 |             const res = await fetch('http://localhost:5000/api/onboarding/status', {
+      ΓÇª
+      | ^^^^^^^^^^^^^
+> 105 |         } catch (error) { console.error('Error fetching status:', error); }
+      | ^^^^^^^^^^^^^
+> 106 |     };
+      | ^^^^^^^ `fetchStatus` is declared here
+  107 |
+  108 |     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  109 |         const { name, value } = e.target;  react-hooks/immutability
+   72:8    warning  React Hook useEffect has a missing dependency: 'fetchStatus'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+   86:30   error    'e' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+   91:36   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  110:28   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  111:44   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  131:40   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  138:88   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  140:37   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  146:48   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  147:26   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  299:131  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\OnboardingList.tsx
+    8:52   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+   13:9    error    Error: Cannot access variable before it is declared
+
+`fetchOnboardings` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\OnboardingList.tsx:13:9
+  11 |
+  12 |     useEffect(() => {
+> 13 |         fetchOnboardings();
+     |         ^^^^^^^^^^^^^^^^ `fetchOnboardings` accessed before it is declared
+  14 |     }, []);
+  15 |
+  16 |     const fetchOnboardings = async () => {
+
+D:\citrux-hrms\client\src\pages\OnboardingList.tsx:16:5
+  14 |     }, []);
+  15 |
+> 16 |     const fetchOnboardings = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 17 |         setLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 18 |         try {
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 19 |             const res = await fetch('http://localhost:5000/api/onboarding/pending', {
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 20 |                 headers: { Authorization: `Bearer ${token}` }
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 21 |             });
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |             if (res.ok) setOnboardings(await res.json());
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |         } catch (error) { console.error(error); }
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 24 |         setLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 25 |     };
+     | ^^^^^^^ `fetchOnboardings` is declared here
+  26 |
+  27 |     const handleApprove = async (id: string) => {
+  28 |         if (!window.confirm('Confirm approval? This will generate the employee profile.')) return;  react-hooks/immutability
+   14:8    warning  React Hook useEffect has a missing dependency: 'fetchOnboardings'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react-hooks/exhaustive-deps
+  146:110  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  169:74   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\OrgChart.tsx
+   33:8   warning  React Hook useEffect has a missing dependency: 'fetchUsers'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  131:37  warning  Unused eslint-disable directive (no problems were reported)
+
+D:\citrux-hrms\client\src\pages\Payslips.tsx
+  64:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\Performance.tsx
+   8:40  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-explicit-any
+   9:44  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-explicit-any
+  11:52  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-explicit-any
+  14:9   error  Error: Cannot access variable before it is declared
+
+`fetchGoals` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\Performance.tsx:14:9
+  12 |
+  13 |     useEffect(() => {
+> 14 |         fetchGoals();
+     |         ^^^^^^^^^^ `fetchGoals` accessed before it is declared
+  15 |         fetchReviews();
+  16 |     }, []);
+  17 |
+
+D:\citrux-hrms\client\src\pages\Performance.tsx:18:5
+  16 |     }, []);
+  17 |
+> 18 |     const fetchGoals = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 19 |         try {
+     | ^^^^^^^^^^^^^
+> 20 |             const data = await api.get<any[]>('/performance/goals');
+     | ^^^^^^^^^^^^^
+> 21 |             setGoals(data);
+     | ^^^^^^^^^^^^^
+> 22 |         } catch (error) { console.error(error); }
+     | ^^^^^^^^^^^^^
+> 23 |     };
+     | ^^^^^^^ `fetchGoals` is declared here
+  24 |
+  25 |     const fetchReviews = async () => {
+  26 |         try {                                                                                   react-hooks/immutability
+  15:9   error  Error: Cannot access variable before it is declared
+
+`fetchReviews` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\Performance.tsx:15:9
+  13 |     useEffect(() => {
+  14 |         fetchGoals();
+> 15 |         fetchReviews();
+     |         ^^^^^^^^^^^^ `fetchReviews` accessed before it is declared
+  16 |     }, []);
+  17 |
+  18 |     const fetchGoals = async () => {
+
+D:\citrux-hrms\client\src\pages\Performance.tsx:25:5
+  23 |     };
+  24 |
+> 25 |     const fetchReviews = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 26 |         try {
+     | ^^^^^^^^^^^^^
+> 27 |             const data = await api.get<any[]>('/performance/reviews');
+     | ^^^^^^^^^^^^^
+> 28 |             setReviews(data);
+     | ^^^^^^^^^^^^^
+> 29 |         } catch (error) { console.error(error); }
+     | ^^^^^^^^^^^^^
+> 30 |     };
+     | ^^^^^^^ `fetchReviews` is declared here
+  31 |
+  32 |     const handleAddGoal = async (e: React.FormEvent) => {
+  33 |         e.preventDefault();  react-hooks/immutability
+  20:40  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-explicit-any
+  27:40  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\PerformanceReviews.tsx
+   6:40  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  15:9   error    Error: Cannot access variable before it is declared
+
+`fetchUsers` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\PerformanceReviews.tsx:15:9
+  13 |
+  14 |     useEffect(() => {
+> 15 |         fetchUsers();
+     |         ^^^^^^^^^^ `fetchUsers` accessed before it is declared
+  16 |     }, []);
+  17 |
+  18 |     const fetchUsers = async () => {
+
+D:\citrux-hrms\client\src\pages\PerformanceReviews.tsx:18:5
+  16 |     }, []);
+  17 |
+> 18 |     const fetchUsers = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 19 |         try {
+     | ^^^^^^^^^^^^^
+> 20 |             const res = await fetch('http://localhost:5000/api/users', {
+     | ^^^^^^^^^^^^^
+> 21 |                 headers: { Authorization: `Bearer ${token}` }
+     | ^^^^^^^^^^^^^
+> 22 |             });
+     | ^^^^^^^^^^^^^
+> 23 |             if (res.ok) setUsers(await res.json());
+     | ^^^^^^^^^^^^^
+> 24 |         } catch (error) { console.error(error); }
+     | ^^^^^^^^^^^^^
+> 25 |     };
+     | ^^^^^^^ `fetchUsers` is declared here
+  26 |
+  27 |     const handleSubmit = async (e: React.FormEvent) => {
+  28 |         e.preventDefault();  react-hooks/immutability
+  16:8   warning  React Hook useEffect has a missing dependency: 'fetchUsers'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             react-hooks/exhaustive-deps
+
+D:\citrux-hrms\client\src\pages\SalaryConfig.tsx
+   7:11  error  Unexpected empty object pattern                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 no-empty-pattern
+   9:40  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  19:9   error  Error: Cannot access variable before it is declared
+
+`fetchUsers` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\SalaryConfig.tsx:19:9
+  17 |
+  18 |     useEffect(() => {
+> 19 |         fetchUsers();
+     |         ^^^^^^^^^^ `fetchUsers` accessed before it is declared
+  20 |     }, []);
+  21 |
+  22 |     const fetchUsers = async () => {
+
+D:\citrux-hrms\client\src\pages\SalaryConfig.tsx:22:5
+  20 |     }, []);
+  21 |
+> 22 |     const fetchUsers = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |         try {
+     | ^^^^^^^^^^^^^
+> 24 |             const data = await api.get<any[]>('/users');
+     | ^^^^^^^^^^^^^
+> 25 |             setUsers(data || []);
+     | ^^^^^^^^^^^^^
+> 26 |         } catch (error) { console.error(error); }
+     | ^^^^^^^^^^^^^
+> 27 |     };
+     | ^^^^^^^ `fetchUsers` is declared here
+  28 |
+  29 |     const fetchSalary = async (uid: string) => {
+  30 |         try {  react-hooks/immutability
+  24:40  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  31:40  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\Settings.tsx
+   33:42  error    Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+   34:46  error    Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+   54:40  error    Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+   61:8   warning  React Hook useEffect has a missing dependency: 'fetchSettings'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   72:40  error    Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+   95:40  error    Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+  102:40  error    Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+  109:40  error    Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+  134:25  error    Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+  218:37  error    Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+  239:37  error    Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+  350:58  error    Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\ShiftConfig.tsx
+   6:11  error  Unexpected empty object pattern                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           no-empty-pattern
+   7:42  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  16:9   error  Error: Cannot access variable before it is declared
+
+`fetchShifts` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\citrux-hrms\client\src\pages\ShiftConfig.tsx:16:9
+  14 |
+  15 |     useEffect(() => {
+> 16 |         fetchShifts();
+     |         ^^^^^^^^^^^ `fetchShifts` accessed before it is declared
+  17 |     }, []);
+  18 |
+  19 |     const fetchShifts = async () => {
+
+D:\citrux-hrms\client\src\pages\ShiftConfig.tsx:19:5
+  17 |     }, []);
+  18 |
+> 19 |     const fetchShifts = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 20 |         try {
+     | ^^^^^^^^^^^^^
+> 21 |             const data = await api.get<any[]>('/shifts');
+     | ^^^^^^^^^^^^^
+> 22 |             setShifts(data || []);
+     | ^^^^^^^^^^^^^
+> 23 |         } catch (error) {
+     | ^^^^^^^^^^^^^
+> 24 |             console.error(error);
+     | ^^^^^^^^^^^^^
+> 25 |         }
+     | ^^^^^^^^^^^^^
+> 26 |     };
+     | ^^^^^^^ `fetchShifts` is declared here
+  27 |
+  28 |     const handleSubmit = async (e: React.FormEvent) => {
+  29 |         e.preventDefault();  react-hooks/immutability
+  21:40  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\TimesheetApprovals.tsx
+    7:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   18:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   89:81  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  123:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\Timesheets.tsx
+  11:11  error    Unexpected empty object pattern                                                                                    no-empty-pattern
+  14:48  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  15:44  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  21:8   warning  React Hook useEffect has a missing dependency: 'fetchTimesheet'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  27:40  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  86:44  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\Users.tsx
+   14:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   44:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  103:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  109:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  142:53  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  145:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\pages\Verification.tsx
+  6:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\citrux-hrms\client\src\services\api.ts
+  55:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  72:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 209 problems (195 errors, 14 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+

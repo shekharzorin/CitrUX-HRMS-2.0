@@ -11,7 +11,7 @@ import { useAttendanceWidget } from '../hooks/useAttendanceWidget';
 
 const MyProfile: React.FC = () => {
     const { user, updateUser } = useAuth();
-    const { clockedIn, workDuration, clockingLoading, handleClockIn } = useAttendanceWidget();
+    const { clockedIn, workDuration, clockingLoading, handleClockIn, handleClockOut } = useAttendanceWidget();
 
     const [profile, setProfile] = useState<any>(null);
     const [activeTab, setActiveTab] = useState('general');
@@ -347,7 +347,78 @@ const MyProfile: React.FC = () => {
             case 'bank':
                 return (
                     <div className="space-y-6 animate-fade-in">
-                        <h3 className="section-title-premium">Payslips & Payroll</h3>
+                        <h3 className="section-title-premium">Bank & Payroll</h3>
+
+                        {/* Bank Details */}
+                        <div className="card-premium p-6">
+                            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                                <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
+                                    <Icon name="payroll" size={24} />
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-bold text-slate-800">Bank Account Details</h4>
+                                    <p className="text-xs text-slate-500">For salary crediting</p>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
+                                <DetailItem label="Bank Name" value={profile.onboarding?.bankName} icon="business" />
+                                <DetailItem label="Branch" value={profile.onboarding?.branchName} />
+                                <DetailItem label="Account Number" value={profile.onboarding?.accountNumber ? `••••${profile.onboarding.accountNumber.slice(-4)}` : 'N/A'} isCopyable copyValue={profile.onboarding?.accountNumber} />
+                                <DetailItem label="IFSC Code" value={profile.onboarding?.ifscCode} isCopyable />
+                                <DetailItem label="Account Holder" value={profile.onboarding?.accountHolderName} />
+                                <DetailItem label="Payment Mode" value={profile.onboarding?.salaryPaymentMode} />
+                            </div>
+                        </div>
+
+                        {/* Salary Structure */}
+                        <div className="card-premium p-6">
+                            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                                <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                                    <Icon name="payroll" size={24} />
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-bold text-slate-800">Salary Structure</h4>
+                                    <p className="text-xs text-slate-500">Breakdown of your compensation</p>
+                                </div>
+                            </div>
+
+                            {!profile.salary ? (
+                                <div className="text-center py-8 text-slate-400">
+                                    Salary structure not configured. Contact HR.
+                                </div>
+                            ) : (
+                                <div className="space-y-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12 text-sm">
+                                        <div className="flex justify-between p-2 rounded hover:bg-slate-50">
+                                            <span className="text-slate-500">Basic Salary</span>
+                                            <span className="font-mono font-medium text-slate-700">₹{profile.salary.basic?.toLocaleString()}</span>
+                                        </div>
+                                        <div className="flex justify-between p-2 rounded hover:bg-slate-50">
+                                            <span className="text-slate-500">Net Salary</span>
+                                            <span className="font-mono font-medium text-emerald-600">₹{profile.salary.net?.toLocaleString() || 'N/A'}</span>
+                                        </div>
+                                        <div className="flex justify-between p-2 rounded hover:bg-slate-50">
+                                            <span className="text-slate-500">HRA</span>
+                                            <span className="font-mono font-medium text-slate-700">₹{profile.salary.hra?.toLocaleString()}</span>
+                                        </div>
+                                        <div className="flex justify-between p-2 rounded hover:bg-slate-50">
+                                            <span className="text-slate-500">Allowances</span>
+                                            <span className="font-mono font-medium text-slate-700">₹{profile.salary.allowances?.toLocaleString()}</span>
+                                        </div>
+                                        <div className="flex justify-between p-2 rounded hover:bg-slate-50">
+                                            <span className="text-slate-500">Deductions</span>
+                                            <span className="font-mono font-medium text-rose-600">-₹{profile.salary.deductions?.toLocaleString()}</span>
+                                        </div>
+                                    </div>
+                                    <div className="mt-4 pt-4 border-t border-dashed border-slate-200 flex justify-between items-center bg-slate-50 p-4 rounded-xl">
+                                        <span className="font-bold text-slate-800">Annual CTC</span>
+                                        <span className="font-bold text-xl text-indigo-600 font-mono">₹{profile.salary.ctc?.toLocaleString()}</span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <h3 className="section-title-premium pt-4">Payslips</h3>
                         {dataLoading ? Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} height={60} className="mb-2" />) : payslips.length === 0 ? (
                             <EmptyState title="No Payslips" description="No payslips generated for you yet." icon="payroll" />
                         ) : (
@@ -370,7 +441,7 @@ const MyProfile: React.FC = () => {
                         )}
                     </div>
                 );
-            case 'docs':
+            case 'docs': {
                 const docs = profile?.profile?.documents ? JSON.parse(profile.profile.documents) : [];
                 return (
                     <div className="space-y-6 animate-fade-in">
@@ -401,6 +472,8 @@ const MyProfile: React.FC = () => {
                         )}
                     </div>
                 );
+            }
+
             default:
                 return (
                     <div className="bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl p-12 text-center animate-fade-in">
@@ -433,8 +506,11 @@ const MyProfile: React.FC = () => {
                             <input type="file" className="hidden" onChange={handleFileUpload} accept="image/*" aria-label="Upload Profile Photo" />
                         </label>
                     </div>
-                    <h2 className="font-bold text-slate-800 text-lg">{form.firstName} {form.lastName}</h2>
-                    <p className="text-xs text-slate-500 font-bold uppercase mb-4">{form.designation}</p>
+                    <div className="mb-4">
+                        <h2 className="font-bold text-slate-800 text-lg">{form.firstName} {form.lastName}</h2>
+                        <p className="text-xs text-slate-500 font-bold uppercase mb-1">{form.designation}</p>
+                        <p className="text-[10px] text-slate-400">Allowed: JPG, PNG, SVG</p>
+                    </div>
 
                     <div className="pt-4 border-t border-slate-100">
                         {clockedIn ? (
@@ -445,7 +521,7 @@ const MyProfile: React.FC = () => {
                         ) : null}
                         <Button
                             className={`w-full justify-center ${clockedIn ? '!bg-rose-50 !text-rose-600 hover:!bg-rose-100 border border-rose-200' : 'btn-primary'}`}
-                            onClick={handleClockIn}
+                            onClick={clockedIn ? handleClockOut : handleClockIn}
                             disabled={clockingLoading}
                         >
                             {clockingLoading ? (
@@ -491,5 +567,28 @@ const InfoItem = ({ label, value, fullWidth = false }: { label: string, value: s
         <div className="font-semibold text-slate-700 text-sm">{value || 'Not set'}</div>
     </div>
 );
+
+const DetailItem = ({ label, value, isCopyable, copyValue }: { label: string, value: string | undefined, icon?: string, isCopyable?: boolean, copyValue?: string }) => {
+    const handleCopy = () => {
+        if (copyValue || value) {
+            navigator.clipboard.writeText(copyValue || value || '');
+            alert('Copied to clipboard');
+        }
+    };
+    return (
+        <div>
+            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{label}</div>
+            <div className="font-semibold text-slate-700 text-sm flex items-center gap-2">
+                {/* {icon && <Icon name={icon as any} size={14} className="text-slate-400" />} */}
+                {value || 'Not set'}
+                {isCopyable && (
+                    <button onClick={handleCopy} className="text-slate-400 hover:text-purple-600 ml-1" title="Copy">
+                        <Icon name="copy" size={12} />
+                    </button>
+                )}
+            </div>
+        </div>
+    );
+};
 
 export default MyProfile;

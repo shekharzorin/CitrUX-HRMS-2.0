@@ -128,7 +128,7 @@ const OrgChart: React.FC = () => {
                             {node.children.length > 1 && (
                                 <div
                                     className="tree-children-connector-horizontal"
-                                    // eslint-disable-next-line
+                                     
                                     style={{ '--child-count': node.children.length } as React.CSSProperties}
                                 />
                             )}

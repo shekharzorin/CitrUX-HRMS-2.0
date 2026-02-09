@@ -8,7 +8,7 @@ import { Button } from '../components/ui/Button';
 import { useToast } from '../contexts/ToastContext';
 
 const Timesheets: React.FC = () => {
-    const { } = useAuth(); // kept for context if needed later, or remove completely if not used.
+    useAuth(); // kept for context if needed later, or remove completely if not used.
     const { showToast } = useToast();
     const [currentDate, setCurrentDate] = useState(new Date());
     const [timesheet, setTimesheet] = useState<any>(null);

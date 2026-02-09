@@ -9,10 +9,6 @@ const OnboardingList: React.FC = () => {
     const [expandedId, setExpandedId] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetchOnboardings();
-    }, []);
-
     const fetchOnboardings = async () => {
         setLoading(true);
         try {
@@ -23,6 +19,11 @@ const OnboardingList: React.FC = () => {
         } catch (error) { console.error(error); }
         setLoading(false);
     };
+
+    useEffect(() => {
+        const init = async () => { await fetchOnboardings(); };
+        init();
+    }, []);
 
     const handleApprove = async (id: string) => {
         if (!window.confirm('Confirm approval? This will generate the employee profile.')) return;

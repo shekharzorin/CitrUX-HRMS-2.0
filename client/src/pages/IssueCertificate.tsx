@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
 
 const IssueCertificate: React.FC = () => {
-    const { } = useAuth(); // Token unused by api service but kept for context
+    useAuth(); // Token unused by api service but kept for context
     const [formData, setFormData] = useState({
         userId: '',
         title: '',

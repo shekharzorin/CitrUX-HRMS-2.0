@@ -1,0 +1,16 @@
+[2026-02-08T04:15:07.740Z] Attempting to send email to: vadidek570@cimario.com
+[2026-02-08T04:15:28.979Z] ❌ Error sending email: connect ETIMEDOUT 192.178.211.108:587
+[2026-02-08T04:20:41.183Z] Attempting to send email to: vadidek570@cimario.com
+[2026-02-08T04:21:00.140Z] ❌ Error sending email: connect ECONNABORTED 192.178.211.108:587
+[2026-02-08T04:25:40.614Z] Attempting to send email to: vadidek570@cimario.com
+[2026-02-08T04:25:47.774Z] ✅ Email sent successfully! MessageID: <73514656-805a-9a74-a90d-9030dfc14249@gmail.com>
+[2026-02-08T04:25:47.776Z] Response: 250 2.0.0 OK  1770524755 41be03b00d2f7-c6dda030abfsm3992244a12.32 - gsmtp
+[2026-02-09T08:09:05.962Z] Attempting to send email to: shekharzorin@gmail.com
+[2026-02-09T08:09:09.534Z] ✅ Email sent successfully! MessageID: <75b2c871-a906-d5a8-a823-fe7787ac46c7@gmail.com>
+[2026-02-09T08:09:09.535Z] Response: 250 2.0.0 OK  1770624550 d9443c01a7336-2a951c8605fsm101186955ad.31 - gsmtp
+[2026-02-09T08:10:40.409Z] Attempting to send email to: shekharzorin@gmail.com
+[2026-02-09T08:10:44.407Z] ✅ Email sent successfully! MessageID: <cefe322e-6029-1adf-1086-e043703178f9@gmail.com>
+[2026-02-09T08:10:44.407Z] Response: 250 2.0.0 OK  1770624645 d9443c01a7336-2a9522287adsm92587135ad.92 - gsmtp
+[2026-02-09T08:16:45.117Z] Attempting to send email to: shekharzorin@gmail.com
+[2026-02-09T08:16:47.956Z] ✅ Email sent successfully! MessageID: <1d257f8d-75af-3196-0a97-06d4c0e46c61@gmail.com>
+[2026-02-09T08:16:47.957Z] Response: 250 2.0.0 OK  1770625009 d9443c01a7336-2a9521b9b2dsm98184035ad.65 - gsmtp

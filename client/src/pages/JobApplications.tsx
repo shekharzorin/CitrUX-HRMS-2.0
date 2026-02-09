@@ -5,10 +5,6 @@ const JobApplications: React.FC = () => {
     const { token } = useAuth();
     const [apps, setApps] = useState<any[]>([]);
 
-    useEffect(() => {
-        fetchApps();
-    }, []);
-
     const fetchApps = async () => {
         try {
             const res = await fetch('http://localhost:5000/api/recruitment/applications', {
@@ -17,6 +13,11 @@ const JobApplications: React.FC = () => {
             if (res.ok) setApps(await res.json());
         } catch (error) { console.error(error); }
     };
+
+    useEffect(() => {
+        const init = async () => { await fetchApps(); };
+        init();
+    }, []);
 
     const handleStatus = async (id: string, status: string) => {
         try {

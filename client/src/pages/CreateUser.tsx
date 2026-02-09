@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 
 const CreateUser: React.FC = () => {
-    const { token: _token } = useAuth(); // Keeping token for consistency if needed by other logic, though api service handles it.
+    useAuth(); // Ensure context subscription
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',

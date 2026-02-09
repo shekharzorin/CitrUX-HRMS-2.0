@@ -1,0 +1,8 @@
+[2026-02-09T08:10:39.365Z] Forgot Password Request for: shekharzorin@gmail.com
+[2026-02-09T08:10:39.975Z] User found in DB: YES (ID: ec635de0-438f-4414-a0ba-87d1ee845de8)
+[2026-02-09T08:10:39.989Z] DEBUG_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYzYzNWRlMC00MzhmLTQ0MTQtYTBiYS04N2QxZWU4NDVkZTgiLCJpYXQiOjE3NzA2MjQ2MzksImV4cCI6MTc3MDYyODIzOX0.J-2t7s2DdlERNNNzNS5TKTMB5Lej1-z7YF_b69zSSMQ
+[2026-02-09T08:16:42.930Z] Forgot Password Request for: shekharzorin@gmail.com
+[2026-02-09T08:16:44.384Z] User found in DB: YES (ID: ec635de0-438f-4414-a0ba-87d1ee845de8)
+[2026-02-09T09:33:09.074Z] Forgot Password Request for: shekharux@gmail.com
+[2026-02-09T09:33:09.279Z] User found in DB: NO (ID: undefined)
+[2026-02-09T09:33:09.280Z] User not found, returning fake success.

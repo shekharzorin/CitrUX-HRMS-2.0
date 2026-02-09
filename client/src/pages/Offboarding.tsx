@@ -8,14 +8,6 @@ const Offboarding: React.FC = () => {
     const [reason, setReason] = useState('');
     const [lastDay, setLastDay] = useState('');
 
-    useEffect(() => {
-        if (user?.role === 'ADMIN' || user?.role === 'HR') {
-            fetchResignations();
-        } else {
-            fetchStatus();
-        }
-    }, [user]);
-
     const fetchStatus = async () => {
         try {
             const res = await fetch('http://localhost:5000/api/offboarding/status', {
@@ -33,6 +25,17 @@ const Offboarding: React.FC = () => {
             if (res.ok) setList(await res.json());
         } catch (error) { console.error(error); }
     };
+
+    useEffect(() => {
+        const init = async () => {
+            if (user?.role === 'ADMIN' || user?.role === 'HR') {
+                await fetchResignations();
+            } else {
+                await fetchStatus();
+            }
+        };
+        init();
+    }, [user]);
 
     const handleResign = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -120,12 +123,12 @@ const Offboarding: React.FC = () => {
                 <p className="text-slate-500 mb-6 text-sm">We're sorry to see you go. Please fill out the details below to initiate the exit process.</p>
                 <form onSubmit={handleResign} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Last Working Day</label>
-                        <input type="date" className="input-field" value={lastDay} onChange={e => setLastDay(e.target.value)} required />
+                        <label htmlFor="lastDay" className="block text-sm font-medium text-slate-700 mb-1">Last Working Day</label>
+                        <input id="lastDay" type="date" className="input-field" value={lastDay} onChange={e => setLastDay(e.target.value)} required />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Reason for Leaving</label>
-                        <textarea className="input-field min-h-[100px]" value={reason} onChange={e => setReason(e.target.value)} required />
+                        <label htmlFor="reason" className="block text-sm font-medium text-slate-700 mb-1">Reason for Leaving</label>
+                        <textarea id="reason" className="input-field min-h-[100px]" value={reason} onChange={e => setReason(e.target.value)} required />
                     </div>
                     <button type="submit" className="btn-primary bg-red-600 hover:bg-red-700 text-white w-full">Submit Resignation</button>
                 </form>

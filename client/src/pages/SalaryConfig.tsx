@@ -4,7 +4,7 @@ import { api } from '../services/api';
 
 const SalaryConfig: React.FC<{ embedded?: boolean }> = ({ embedded }) => {
     // const { } = useAuth(); // Token unused by api service
-    const { } = useAuth();
+    useAuth();
     const [userId, setUserId] = useState('');
     const [users, setUsers] = useState<any[]>([]);
     const [formData, setFormData] = useState({
@@ -15,16 +15,17 @@ const SalaryConfig: React.FC<{ embedded?: boolean }> = ({ embedded }) => {
         deductions: 0
     });
 
-    useEffect(() => {
-        fetchUsers();
-    }, []);
-
     const fetchUsers = async () => {
         try {
             const data = await api.get<any[]>('/users');
             setUsers(data || []);
         } catch (error) { console.error(error); }
     };
+
+    useEffect(() => {
+        const init = async () => { await fetchUsers(); };
+        init();
+    }, []);
 
     const fetchSalary = async (uid: string) => {
         try {

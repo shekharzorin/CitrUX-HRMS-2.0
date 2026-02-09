@@ -1,10 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
 import { useToast } from '../contexts/ToastContext';
-import { StatBox, WidgetHeader } from '../components/ui/DashboardElements';
+import { StatsCardPremium } from '../components/ui/DashboardElements';
 import { Icon } from '../components/ui/Icons';
 import { Button } from '../components/ui/Button';
 import { PageHeader } from '../components/ui/PageHeader';
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, addMonths, subMonths, getDay, isWithinInterval, parseISO } from 'date-fns';
+
+// Helper for classes
+
+
+const getIconForLeave = (code: string) => {
+    switch (code?.toLowerCase()) {
+        case 'cl': return 'profile';
+        case 'sl': return 'plus';
+        case 'pl': return 'reviews';
+        default: return 'event';
+    }
+};
+
+const getLeaveVariant = (code: string) => {
+    switch (code?.toLowerCase()) {
+        case 'cl': return 'blue';
+        case 'sl': return 'orange';
+        case 'pl': return 'purple';
+        default: return 'green';
+    }
+};
 
 const Leaves: React.FC = () => {
     const { showToast } = useToast();
@@ -12,6 +34,8 @@ const Leaves: React.FC = () => {
     const [requests, setRequests] = useState<any[]>([]);
     const [leaveTypes, setLeaveTypes] = useState<any[]>([]);
     const [showModal, setShowModal] = useState(false);
+    const [viewMode, setViewMode] = useState<'calendar' | 'list'>('calendar');
+    const [currentDate, setCurrentDate] = useState(new Date());
 
     // Form State
     const [formData, setFormData] = useState({
@@ -20,10 +44,6 @@ const Leaves: React.FC = () => {
         endDate: '',
         reason: ''
     });
-
-    useEffect(() => {
-        fetchData();
-    }, []);
 
     const fetchData = async () => {
         try {
@@ -42,17 +62,9 @@ const Leaves: React.FC = () => {
         }
     };
 
-    // Helper for safe date formatting
-    const formatDate = (dateString: any, options: Intl.DateTimeFormatOptions = {}) => {
-        if (!dateString) return 'N/A';
-        try {
-            const date = new Date(dateString);
-            if (isNaN(date.getTime())) return 'Invalid Date';
-            return date.toLocaleDateString([], options);
-        } catch (e) {
-            return '-';
-        }
-    };
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -68,121 +80,193 @@ const Leaves: React.FC = () => {
         }
     };
 
+    // Calendar Helpers
+    const monthStart = startOfMonth(currentDate);
+    const monthEnd = endOfMonth(currentDate);
+    const monthDays = eachDayOfInterval({ start: monthStart, end: monthEnd });
+    const startDay = getDay(monthStart); // 0 = Sunday
+
+    // Map leave types to colors
+    const getLeaveColor = (code: string) => {
+        switch (code?.toLowerCase()) {
+            case 'cl': return 'bg-blue-100 text-blue-700 border-blue-200';
+            case 'sl': return 'bg-rose-100 text-rose-700 border-rose-200';
+            case 'pl': return 'bg-purple-100 text-purple-700 border-purple-200';
+            default: return 'bg-amber-100 text-amber-700 border-amber-200';
+        }
+    };
+
+    const getLeaveForDay = (day: Date) => {
+        return requests.find(r => {
+            if (r.status === 'REJECTED') return false;
+            const start = parseISO(r.startDate);
+            const end = parseISO(r.endDate);
+            return isWithinInterval(day, { start, end }) || isSameDay(day, start) || isSameDay(day, end);
+        });
+    };
+
     return (
-        <div className="page-container space-y-8">
+        <div className="space-y-8 pb-12">
             <PageHeader
                 title="Leave Management"
-                subtitle="Manage your time off requests and view leave balances."
+                subtitle="Track your time off and plan your schedule."
                 icon="leaves"
+                actions={
+                    <Button onClick={() => setShowModal(true)}>
+                        <Icon name="plus" size={18} /> Apply Leave
+                    </Button>
+                }
             />
 
-            {/* Top Stats of Leave Balances */}
+            {/* Balances Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {balances.map((b) => (
-                    <StatBox
+                    <StatsCardPremium
                         key={b.id}
-                        label={b.leaveType.name}
+                        title={b.leaveType.name}
                         value={b.balance}
-                        sub={`${b.used || 0} days taken`}
-                        icon={getIconForStatBox(b.leaveType.code)}
-                        color={getColorForLeave(b.leaveType.code)}
+                        subtext={`${b.used || 0} days used`}
+                        icon={getIconForLeave(b.leaveType.code)}
+                        variant={getLeaveVariant(b.leaveType.code) as any}
                     />
                 ))}
             </div>
 
-            {/* List and Actions */}
-            <div className="glass-panel overflow-hidden border-none shadow-sm">
-                <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4 bg-white dark:bg-slate-800">
-                    <WidgetHeader
-                        title="Leave History"
-                        icon="schedule"
-                        className="mb-0"
-                    />
-                    <Button
-                        onClick={() => setShowModal(true)}
-                        leftIcon={<Icon name="plus" size={18} />}
-                    >
-                        Apply for Leave
-                    </Button>
+            {/* Content Area */}
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-800">
+
+                {/* Tabs */}
+                <div className="flex items-center justify-between mb-6">
+                    <h3 className="font-bold text-lg">My Schedule</h3>
+                    <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                        <button
+                            onClick={() => setViewMode('calendar')}
+                            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${viewMode === 'calendar' ? 'bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500'}`}
+                        >
+                            Calendar
+                        </button>
+                        <button
+                            onClick={() => setViewMode('list')}
+                            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${viewMode === 'list' ? 'bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500'}`}
+                        >
+                            List View
+                        </button>
+                    </div>
                 </div>
 
-                <div className="overflow-x-auto">
-                    <table className="table-premium">
-                        <thead>
-                            <tr>
-                                <th>Leave Type</th>
-                                <th>Duration & Dates</th>
-                                <th>Period</th>
-                                <th>Reason</th>
-                                <th className="text-right">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {requests.length > 0 ? requests.map(r => (
-                                <tr key={r.id}>
-                                    <td>
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-50 text-sm">
-                                                {getIconForLeave(r.leaveType.code)}
-                                            </div>
-                                            <span className="font-bold text-slate-700">{r.leaveType.name}</span>
+                {viewMode === 'calendar' ? (
+                    <div className="animate-fade-in">
+                        {/* Calendar Header */}
+                        <div className="flex items-center justify-between mb-6">
+                            <h2 className="text-xl font-bold font-heading">{format(currentDate, 'MMMM yyyy')}</h2>
+                            <div className="flex gap-2">
+                                <button onClick={() => setCurrentDate(subMonths(currentDate, 1))} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" aria-label="Previous Month" title="Previous Month">
+                                    <Icon name="chevron_left" size={20} />
+                                </button>
+                                <button onClick={() => setCurrentDate(new Date())} className="px-3 py-1 text-sm font-bold bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-slate-200" aria-label="Go to Today" title="Go to Today">
+                                    Today
+                                </button>
+                                <button onClick={() => setCurrentDate(addMonths(currentDate, 1))} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" aria-label="Next Month" title="Next Month">
+                                    <Icon name="chevron_right" size={20} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Calendar Grid */}
+                        <div className="border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden">
+                            {/* Days Header */}
+                            <div className="grid grid-cols-7 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800">
+                                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
+                                    <div key={d} className="py-3 text-center text-xs font-bold uppercase tracking-wider text-slate-400">
+                                        {d}
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Days Cells */}
+                            <div className="grid grid-cols-7 auto-rows-fr bg-white dark:bg-slate-900">
+                                {/* Empty cells for start padding */}
+                                {[...Array(startDay)].map((_, i) => (
+                                    <div key={`empty-${i}`} className="min-h-[100px] border-b border-r border-slate-50 dark:border-slate-800/50"></div>
+                                ))}
+
+                                {monthDays.map(day => {
+                                    const leave = getLeaveForDay(day);
+                                    const isToday = isSameDay(day, new Date());
+                                    const isWeekend = day.getDay() === 0 || day.getDay() === 6;
+
+                                    return (
+                                        <div key={day.toString()} className={`min-h-[100px] border-b border-r border-slate-50 dark:border-slate-800/50 p-2 relative group hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors ${isWeekend ? 'bg-slate-50/50 dark:bg-slate-800/20' : ''}`}>
+                                            <span className={`text-sm font-medium ${isToday ? 'bg-primary text-white w-7 h-7 flex items-center justify-center rounded-full shadow-md' : 'text-slate-500'}`}>
+                                                {format(day, 'd')}
+                                            </span>
+
+                                            {leave && (
+                                                <div
+                                                    className={`mt-2 p-1.5 rounded-lg text-[10px] font-bold border truncate cursor-pointer ${getLeaveColor(leave.leaveType.code)}`}
+                                                    title={`${leave.leaveType.name}: ${leave.reason}`}
+                                                >
+                                                    {leave.leaveType.code} - {leave.status}
+                                                </div>
+                                            )}
                                         </div>
-                                    </td>
-                                    <td>
-                                        <div className="font-bold text-slate-800">
-                                            {formatDate(r.startDate, { month: 'short', day: 'numeric' })} - {formatDate(r.endDate, { month: 'short', day: 'numeric', year: 'numeric' })}
-                                        </div>
-                                        <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Requested on {formatDate(r.createdAt)}</div>
-                                    </td>
-                                    <td>
-                                        <span className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 text-[10px] font-black uppercase tracking-widest border border-slate-200">
-                                            {r.days} Days
-                                        </span>
-                                    </td>
-                                    <td className="text-sm text-slate-500 max-w-[200px] truncate" title={r.reason}>
-                                        {r.reason}
-                                    </td>
-                                    <td className="text-right">
-                                        <div className="flex justify-end items-center gap-2">
-                                            <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${r.status === 'APPROVED' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                                                r.status === 'REJECTED' ? 'bg-red-50 text-red-700 border-red-200' :
-                                                    'bg-amber-50 text-amber-700 border-amber-200'
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Legend */}
+                        <div className="flex flex-wrap gap-4 mt-6 text-xs text-slate-500">
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full bg-blue-100 border border-blue-200"></div> <span>Casual Leave (CL)</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full bg-purple-100 border border-purple-200"></div> <span>Privilege Leave (PL)</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full bg-rose-100 border border-rose-200"></div> <span>Sick Leave (SL)</span>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="animate-fade-in overflow-x-auto">
+                        <table className="table-premium w-full text-left">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Date Range</th>
+                                    <th>Days</th>
+                                    <th>Reason</th>
+                                    <th className="text-right">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {requests.map(r => (
+                                    <tr key={r.id} className="border-b border-slate-50 dark:border-slate-800 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                                        <td className="p-4 font-bold text-slate-700 dark:text-slate-300">{r.leaveType.name}</td>
+                                        <td className="p-4 text-sm">
+                                            {format(parseISO(r.startDate), 'MMM d, yyyy')} - {format(parseISO(r.endDate), 'MMM d, yyyy')}
+                                        </td>
+                                        <td className="p-4 font-mono text-sm">{r.days}</td>
+                                        <td className="p-4 text-sm text-slate-500 max-w-[200px] truncate">{r.reason}</td>
+                                        <td className="p-4 text-right">
+                                            <span className={`px-2 py-1 rounded-full text-xs font-bold ${r.status === 'APPROVED' ? 'bg-emerald-100 text-emerald-700' :
+                                                r.status === 'REJECTED' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
                                                 }`}>
                                                 {r.status}
                                             </span>
-                                            {r.status === 'PENDING' && (
-                                                <button
-                                                    onClick={async () => {
-                                                        if (confirm('Are you sure you want to cancel this leave request?')) {
-                                                            try {
-                                                                await api.delete(`/leaves/requests/${r.id}`);
-                                                                fetchData();
-                                                            } catch (err: any) {
-                                                                alert(err.message || 'Failed to cancel leave');
-                                                            }
-                                                        }
-                                                    }}
-                                                    className="p-1 text-red-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
-                                                    title="Cancel Request"
-                                                >
-                                                    <span className="text-xs font-bold">✕</span>
-                                                </button>
-                                            )}
-                                        </div>
-                                    </td>
-                                </tr>
-                            )) : (
-                                <tr>
-                                    <td colSpan={5} className="p-20 text-center text-slate-400">
-                                        <div className="text-4xl mb-4">🏜️</div>
-                                        <p className="font-bold">No leave history found</p>
-                                        <p className="text-xs">Your requested time off will appear here.</p>
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                                {requests.length === 0 && (
+                                    <tr>
+                                        <td colSpan={5} className="p-8 text-center text-slate-400">No leave requests found.</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
 
             {/* Apply Leave Modal */}
@@ -190,92 +274,28 @@ const Leaves: React.FC = () => {
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={() => setShowModal(false)}>
                     <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden animate-scale-up border border-slate-100 dark:border-slate-800" onClick={e => e.stopPropagation()}>
                         <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-white dark:bg-slate-900">
-                            <div>
-                                <h2 className="text-xl font-bold text-slate-900 dark:text-white font-heading">Apply for Leave</h2>
-                                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Submit a new request for time off.</p>
-                            </div>
-                            <button
-                                onClick={() => setShowModal(false)}
-                                className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
-                                aria-label="Close modal"
-                            >
-                                <Icon name="close" size={24} />
-                            </button>
+                            <h2 className="text-xl font-bold font-heading">Apply for Leave</h2>
+                            <button onClick={() => setShowModal(false)} aria-label="Close Modal" title="Close"><Icon name="close" size={24} className="text-slate-400 hover:text-slate-600" /></button>
                         </div>
-
                         <form onSubmit={handleSubmit} className="p-6 space-y-5">
                             <div>
-                                <label htmlFor="leaveType" className="form-label">Leave Type</label>
-                                <div className="relative">
-                                    <select
-                                        id="leaveType"
-                                        className="input-field appearance-none cursor-pointer"
-                                        value={formData.leaveTypeId}
-                                        onChange={e => setFormData({ ...formData, leaveTypeId: e.target.value })}
-                                        required
-                                        title="Select Leave Type"
-                                    >
-                                        <option value="">Select a leave type...</option>
-                                        {leaveTypes.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-                                    </select>
-                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                                        <Icon name="arrow_down" size={16} />
-                                    </div>
-                                </div>
+                                <label className="form-label">Type</label>
+                                <select className="input-field" value={formData.leaveTypeId} onChange={e => setFormData({ ...formData, leaveTypeId: e.target.value })} required title="Leave Type">
+                                    <option value="">Select Type...</option>
+                                    {leaveTypes.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+                                </select>
                             </div>
-
-                            <div className="grid grid-cols-2 gap-5">
-                                <div>
-                                    <label htmlFor="startDate" className="form-label">Start Date</label>
-                                    <input
-                                        id="startDate"
-                                        type="date"
-                                        className="input-field"
-                                        value={formData.startDate}
-                                        onChange={e => setFormData({ ...formData, startDate: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label htmlFor="endDate" className="form-label">End Date</label>
-                                    <input
-                                        id="endDate"
-                                        type="date"
-                                        className="input-field"
-                                        value={formData.endDate}
-                                        onChange={e => setFormData({ ...formData, endDate: e.target.value })}
-                                        required
-                                    />
-                                </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div><label className="form-label">Start</label><input type="date" className="input-field" value={formData.startDate} onChange={e => setFormData({ ...formData, startDate: e.target.value })} required title="Start Date" /></div>
+                                <div><label className="form-label">End</label><input type="date" className="input-field" value={formData.endDate} onChange={e => setFormData({ ...formData, endDate: e.target.value })} required title="End Date" /></div>
                             </div>
-
                             <div>
-                                <label htmlFor="reason" className="form-label">Reason for Request</label>
-                                <textarea
-                                    id="reason"
-                                    className="input-field min-h-[120px] py-3 resize-none"
-                                    placeholder="Please describe why you are requesting this leave..."
-                                    rows={4}
-                                    value={formData.reason}
-                                    onChange={e => setFormData({ ...formData, reason: e.target.value })}
-                                    required
-                                ></textarea>
+                                <label className="form-label">Reason</label>
+                                <textarea className="input-field" rows={3} value={formData.reason} onChange={e => setFormData({ ...formData, reason: e.target.value })} required title="Reason for leave" placeholder="Enter reason"></textarea>
                             </div>
-
-                            <div className="pt-4 flex gap-3 border-t border-slate-50 dark:border-slate-800 mt-2">
-                                <button
-                                    type="button"
-                                    className="btn-ghost flex-1 h-12 rounded-xl text-slate-600 font-medium hover:bg-slate-100"
-                                    onClick={() => setShowModal(false)}
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="btn-primary flex-1 h-12 rounded-xl font-bold shadow-lg shadow-indigo-500/20"
-                                >
-                                    Submit Request
-                                </button>
+                            <div className="flex gap-3 pt-4">
+                                <Button variant="ghost" onClick={() => setShowModal(false)} fullWidth>Cancel</Button>
+                                <Button type="submit" fullWidth>Submit Request</Button>
                             </div>
                         </form>
                     </div>
@@ -285,32 +305,5 @@ const Leaves: React.FC = () => {
     );
 };
 
-// Helper for classes
-const getColorForLeave = (code: string) => {
-    switch (code?.toLowerCase()) {
-        case 'cl': return 'text-indigo-600 dark:text-indigo-400';
-        case 'sl': return 'text-rose-600 dark:text-rose-400';
-        case 'pl': return 'text-emerald-600 dark:text-emerald-400';
-        default: return 'text-amber-600 dark:text-amber-400';
-    }
-};
-
-const getIconForStatBox = (code: string) => {
-    switch (code?.toLowerCase()) {
-        case 'cl': return 'employees' as const;
-        case 'sl': return 'attendance' as const;
-        case 'pl': return 'leaves' as const;
-        default: return 'event' as const;
-    }
-};
-
-const getIconForLeave = (code: string) => {
-    switch (code?.toLowerCase()) {
-        case 'cl': return '👔';
-        case 'sl': return '🤒';
-        case 'pl': return '🌴';
-        default: return '📄';
-    }
-};
-
 export default Leaves;
+

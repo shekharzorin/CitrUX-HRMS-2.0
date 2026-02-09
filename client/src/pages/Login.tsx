@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { api } from '../services/api';
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -108,6 +108,11 @@ const Login: React.FC = () => {
                                 {showPassword ? <FaEyeSlash /> : <FaEye />}
                             </button>
                         </div>
+                    </div>
+                    <div className="text-right mb-4">
+                        <Link to="/forgot-password" className="text-sm text-primary hover:underline">
+                            Forgot Password?
+                        </Link>
                     </div>
                     {error && <div className="text-error login-error">{error}</div>}
                     <button type="submit" className="btn-primary login-submit-btn" disabled={isLoading}>

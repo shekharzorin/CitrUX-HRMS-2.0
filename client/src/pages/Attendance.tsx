@@ -160,7 +160,7 @@ const Attendance: React.FC = () => {
             showToast('Missed entry corrected', 'success');
             setMissedPunchRecord(null);
             fetchHistory();
-        } catch (error: any) {
+        } catch {
             // Fallback if no specific endpoint: just punch out (might not work for yesterday)
             // or alert user to contact admin.
             showToast('Please contact Admin to correct this record', 'warning');
