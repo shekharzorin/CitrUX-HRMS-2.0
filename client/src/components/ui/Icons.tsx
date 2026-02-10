@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type IconName =
+export type AppIconName =
     | 'dashboard'
     | 'employees'
     | 'attendance'
@@ -62,14 +62,13 @@ export type IconName =
     | 'file_text'
     | 'more_horizontal'
     | 'info'
-    | 'info'
     | 'warning'
     | 'alert'
     | 'login'
     | 'refresh';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
-    name: IconName;
+    name: AppIconName;
     size?: number | string;
 }
 

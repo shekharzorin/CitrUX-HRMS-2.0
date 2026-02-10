@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { api } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 import { Icon } from '../components/ui/Icons';
-import { FaCheck, FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaUserTie, FaBuilding, FaMapMarkerAlt, FaFileAlt } from 'react-icons/fa';
+import { FaCheck, FaTimes, FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaUserTie, FaBuilding, FaMapMarkerAlt, FaFileAlt } from 'react-icons/fa'; // Added FaTimes
 
 const OnboardingList: React.FC = () => {
     const { token } = useAuth();
@@ -12,10 +13,8 @@ const OnboardingList: React.FC = () => {
     const fetchOnboardings = async () => {
         setLoading(true);
         try {
-            const res = await fetch('http://localhost:5000/api/onboarding/pending', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) setOnboardings(await res.json());
+            const data = await api.get<any[]>('/onboarding/pending');
+            setOnboardings(data || []);
         } catch (error) { console.error(error); }
         setLoading(false);
     };
@@ -25,16 +24,21 @@ const OnboardingList: React.FC = () => {
         init();
     }, []);
 
+    const handleReject = async (id: string) => {
+        const reason = window.prompt("Enter reason for rejection:");
+        if (reason === null) return; // Cancelled
+
+        try {
+            await api.put(`/onboarding/${id}/reject`, { reason });
+            fetchOnboardings();
+        } catch (error) { console.error(error); }
+    };
+
     const handleApprove = async (id: string) => {
         if (!window.confirm('Confirm approval? This will generate the employee profile.')) return;
         try {
-            const res = await fetch(`http://localhost:5000/api/onboarding/${id}/approve`, {
-                method: 'PUT',
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) {
-                fetchOnboardings();
-            }
+            await api.put(`/onboarding/${id}/approve`, {});
+            fetchOnboardings();
         } catch (error) { console.error(error); }
     };
 
@@ -66,7 +70,7 @@ const OnboardingList: React.FC = () => {
                                 <div className="flex items-center gap-5">
                                     <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-lg border-2 border-white bg-[var(--bg-body)] flex-shrink-0">
                                         {o.profilePhoto ? (
-                                            <img src={o.profilePhoto} alt="" className="w-full h-full object-cover" />
+                                            <img src={o.profilePhoto.includes('http') ? o.profilePhoto + (o.profilePhoto.includes('?') ? '&' : '?') + `token=${token}` : o.profilePhoto} alt="" className="w-full h-full object-cover" />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center text-[var(--text-muted)]">
                                                 <FaUserTie size={28} />
@@ -92,6 +96,12 @@ const OnboardingList: React.FC = () => {
                                         className="onboarding-toggle-btn flex-1 lg:flex-none flex items-center justify-center gap-2 h-12"
                                     >
                                         {expandedId === o.id ? <><FaChevronUp size={12} /> Hide Details</> : <><FaChevronDown size={12} /> View Details</>}
+                                    </button>
+                                    <button
+                                        onClick={() => handleReject(o.id)}
+                                        className="h-12 px-6 bg-rose-100 text-rose-700 font-bold rounded-2xl hover:bg-rose-200 active:scale-95 transition-all flex-1 lg:flex-none flex items-center justify-center gap-2"
+                                    >
+                                        <FaTimes size={14} /> Reject
                                     </button>
                                     <button
                                         onClick={() => handleApprove(o.id)}
@@ -147,7 +157,7 @@ const OnboardingList: React.FC = () => {
                                                 {o.documents && o.documents.length > 0 ? o.documents.map((d: any, idx: number) => (
                                                     <a
                                                         key={idx}
-                                                        href={d.url}
+                                                        href={d.url + (d.url.includes('?') ? '&' : '?') + `token=${token}`}
                                                         target="_blank"
                                                         rel="noreferrer"
                                                         className="flex items-center gap-2 p-3 bg-[var(--bg-body)] rounded-xl border border-[var(--border-color)] hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all"

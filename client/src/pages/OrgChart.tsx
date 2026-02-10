@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { api } from '../services/api';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { Icon } from '../components/ui/Icons';
@@ -23,7 +23,6 @@ interface TreeNode {
 }
 
 const OrgChart: React.FC = () => {
-    const { token } = useAuth();
     const [trees, setTrees] = useState<TreeNode[]>([]);
     const [orphans, setOrphans] = useState<TreeNode[]>([]);
     const [loading, setLoading] = useState(true);
@@ -34,11 +33,8 @@ const OrgChart: React.FC = () => {
 
     const fetchUsers = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/users', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) {
-                const users: User[] = await res.json();
+            const users = await api.get<User[]>('/users');
+            if (users) {
                 const { treeRoots, orphanNodes } = buildTree(users);
                 setTrees(treeRoots);
                 setOrphans(orphanNodes);
@@ -128,7 +124,7 @@ const OrgChart: React.FC = () => {
                             {node.children.length > 1 && (
                                 <div
                                     className="tree-children-connector-horizontal"
-                                     
+
                                     style={{ '--child-count': node.children.length } as React.CSSProperties}
                                 />
                             )}

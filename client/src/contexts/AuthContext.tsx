@@ -8,6 +8,11 @@ export interface User {
     email: string;
     role: string;
     profile?: any;
+    shift?: {
+        startTime: string;
+        endTime: string;
+        name: string;
+    };
 }
 
 

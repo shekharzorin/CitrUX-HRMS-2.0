@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticateToken } from '../middlewares/auth.middleware';
+import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware';
 import {
     getLeaveTypes,
     getMyBalances,
@@ -9,7 +9,10 @@ import {
     getTeamRequests,
     updateLeaveStatus,
     createLeaveType,
-    deleteLeaveType
+    deleteLeaveType,
+    processYearEnd,
+    encashLeave,
+    updateEncashmentStatus
 } from '../controllers/leave.controller';
 
 const router = Router();
@@ -21,11 +24,16 @@ router.get('/balances', getMyBalances);
 router.post('/apply', applyLeave);
 router.get('/my-requests', getMyRequests);
 router.delete('/requests/:id', deleteLeaveRequest);
-router.get('/team-requests', getTeamRequests); // For Managers
-router.put('/:id/status', updateLeaveStatus); // Approve/Reject
+router.get('/team-requests', authorizeRole(['MANAGER', 'ADMIN', 'HR']), getTeamRequests); // For Managers
+router.put('/:id/status', authorizeRole(['MANAGER', 'ADMIN', 'HR']), updateLeaveStatus); // Approve/Reject
 
 // Admin Configuration
-router.post('/types', createLeaveType);
-router.delete('/types/:id', deleteLeaveType);
+router.post('/types', authorizeRole(['ADMIN', 'HR']), createLeaveType);
+router.delete('/types/:id', authorizeRole(['ADMIN', 'HR']), deleteLeaveType);
+router.post('/year-end', authorizeRole(['ADMIN', 'HR']), processYearEnd);
+
+// Encashment
+router.post('/encash', encashLeave);
+router.put('/encash/:id/status', authorizeRole(['ADMIN', 'HR']), updateEncashmentStatus);
 
 export default router;

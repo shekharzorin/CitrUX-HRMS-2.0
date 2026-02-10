@@ -1,11 +1,11 @@
 import React from 'react';
-import { Icon, type IconName } from './Icons';
+import { Icon, type AppIconName } from './Icons';
 import { Button } from './Button';
 
 interface EmptyStateProps {
     title: string;
     description?: string;
-    icon?: IconName;
+    icon?: AppIconName;
     action?: React.ReactNode | {
         label: string;
         onClick: () => void;

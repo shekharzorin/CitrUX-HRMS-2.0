@@ -16,7 +16,7 @@ export const useAttendanceWidget = () => {
     // New States for Keka Style
     const [shiftProgress, setShiftProgress] = useState(0);
     const [shiftDetails, setShiftDetails] = useState<{ start: string; end: string; name: string } | null>(null);
-    const [location, setLocation] = useState('Office'); // Default or user preference
+    const [location] = useState('Office'); // Default or user preference
     const [status, setStatus] = useState<'ontime' | 'late' | 'none'>('none');
 
     const getLocalToday = () => {

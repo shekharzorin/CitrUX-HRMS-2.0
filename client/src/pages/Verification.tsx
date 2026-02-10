@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { api } from '../services/api';
 
 const Verification: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -10,9 +11,8 @@ const Verification: React.FC = () => {
     useEffect(() => {
         const verify = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/certificates/verify/${id}`);
-                const result = await response.json();
-                if (response.ok && result.valid) {
+                const result = await api.get<any>(`/certificates/verify/${id}`);
+                if (result && result.valid) {
                     setData(result.certificate);
                 } else {
                     setError('Invalid Certificate');

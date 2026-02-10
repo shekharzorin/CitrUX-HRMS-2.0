@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Icon, type IconName } from './Icons';
+import { Icon, type AppIconName } from './Icons';
 
 interface DropdownItem {
     label: string;
-    icon?: IconName;
+    icon?: AppIconName;
     onClick: () => void;
     variant?: 'default' | 'danger';
 }

@@ -1,0 +1,17 @@
+﻿src/controllers/salary.controller.ts(60,50): error TS2339: Property 'calculateSalary' does not exist on type 'typeof PayrollService'.
+src/routes/payroll.routes.ts(3,50): error TS2307: Cannot find module '../middleware/auth.middleware' or its corresponding type declarations.
+src/services/payroll.service.ts(240,13): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(text: string, x?: number | undefined, y?: number | undefined, options?: TextOptions | undefined): PDFDocument', gave the following error.
+    Argument of type '{ bold: boolean; }' is not assignable to parameter of type 'number'.
+  Overload 2 of 2, '(text: string, options?: TextOptions | undefined): PDFDocument', gave the following error.
+    Object literal may only specify known properties, and 'bold' does not exist in type 'TextOptions'.
+src/services/payroll.service.ts(249,13): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(text: string, x?: number | undefined, y?: number | undefined, options?: TextOptions | undefined): PDFDocument', gave the following error.
+    Argument of type '{ bold: boolean; }' is not assignable to parameter of type 'number'.
+  Overload 2 of 2, '(text: string, options?: TextOptions | undefined): PDFDocument', gave the following error.
+    Object literal may only specify known properties, and 'bold' does not exist in type 'TextOptions'.
+src/services/payroll.service.ts(253,26): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(text: string, x?: number | undefined, y?: number | undefined, options?: TextOptions | undefined): PDFDocument', gave the following error.
+    Argument of type '{ align: string; bold: boolean; }' is not assignable to parameter of type 'number'.
+  Overload 2 of 2, '(text: string, options?: TextOptions | undefined): PDFDocument', gave the following error.
+    Object literal may only specify known properties, and 'bold' does not exist in type 'TextOptions'.

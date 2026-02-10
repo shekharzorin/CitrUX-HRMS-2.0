@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { notifyUser, notifyRole } from '../utils/notification';
 
 interface AuthRequest extends Request {
     user?: any;
@@ -64,6 +65,11 @@ export const punchIn = async (req: AuthRequest, res: Response) => {
             }
         });
 
+        // NOTIFICATION: Late Arrival
+        if (isLate) {
+            await notifyUser(userId, 'You have been marked as Late today.', '/attendance', 'WARNING');
+        }
+
         res.json(attendance);
     } catch (error) {
         console.error(error);
@@ -77,13 +83,18 @@ export const punchOut = async (req: AuthRequest, res: Response) => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
+        // Fix: Find the last OPEN session (allows night shifts crossing midnight)
         const attendance = await prisma.attendance.findFirst({
-            where: { userId, date: today },
+            where: {
+                userId,
+                checkOut: null
+            },
+            orderBy: { checkIn: 'desc' },
             include: { breaks: true }
         });
 
         if (!attendance) {
-            return res.status(400).json({ message: 'No punch in record found for today' });
+            return res.status(400).json({ message: 'No active punch-in record found.' });
         }
 
         if (attendance.checkOut) {
@@ -304,6 +315,16 @@ export const requestAdjustment = async (req: AuthRequest, res: Response) => {
             }
         });
 
+        // NOTIFICATION: Notify Manager or Admin
+        const user = await prisma.user.findUnique({ where: { id: userId }, select: { managerId: true, profile: { select: { firstName: true, lastName: true } } } });
+        const name = user?.profile ? `${user.profile.firstName} ${user.profile.lastName}` : 'Employee';
+
+        if (user?.managerId) {
+            await notifyUser(user.managerId, `Attendance Adjustment Request from ${name}`, '/manager/attendance', 'TASK');
+        } else {
+            await notifyRole(['ADMIN', 'HR'], `Attendance Adjustment Request from ${name}`, '/admin/attendance', 'TASK');
+        }
+
         res.json(adjustment);
     } catch (error) {
         console.error("Adjustment Request Error", error);
@@ -451,6 +472,13 @@ export const respondToAdjustment = async (req: AuthRequest, res: Response) => {
                 }
             });
 
+            // NOTIFICATION: Notify Employee
+            // We need to do this AFTER transaction or usually outside, but inside works if we don't await strictly or if we do simple insert.
+            // Using a side-effect here is risky if tx fails, but notification persistence is also DB call. 
+            // Better to add notification creation to the transaction if possible, OR return flag to do it after.
+            // Since `notifyUser` uses `prisma.notification.create`, we can't easily wrap it in *this* tx unless we pass tx to it.
+            // For now, we'll do it after the transaction block to ensure we only notify on success.
+
             if (status === 'APPROVED') {
                 // Calculate hours
                 const start = new Date(request.clockIn);
@@ -497,6 +525,13 @@ export const respondToAdjustment = async (req: AuthRequest, res: Response) => {
         });
 
         res.json(result);
+
+        // NOTIFICATION: Post-transaction
+        try {
+            await notifyUser(result.userId, `Your attendance adjustment request was ${result.status}`, '/attendance', result.status === 'APPROVED' ? 'SUCCESS' : 'ERROR');
+        } catch (nErr) {
+            console.error('Failed to send stats notification', nErr);
+        }
     } catch (error: any) {
         console.error("Respond Adjustment Error", error);
         res.status(400).json({ message: error.message || 'Error processing request' });

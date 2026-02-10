@@ -4,7 +4,8 @@ import {
     getOnboardingStatus,
     approveOnboarding,
     getPendingOnboardings,
-    updateOnboarding
+    updateOnboarding,
+    rejectOnboarding
 } from '../controllers/onboarding.controller';
 import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware';
 
@@ -42,5 +43,6 @@ router.get('/status', authenticateToken, getOnboardingStatus);
 
 router.get('/pending', authenticateToken, authorizeRole(['ADMIN', 'HR']), getPendingOnboardings);
 router.put('/:id/approve', authenticateToken, authorizeRole(['ADMIN', 'HR']), approveOnboarding);
+router.put('/:id/reject', authenticateToken, authorizeRole(['ADMIN', 'HR']), rejectOnboarding);
 
 export default router;

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Icon } from './Icons';
-import type { IconName } from './Icons';
+import type { AppIconName } from './Icons';
 
 export interface TabItem {
     id: string;
     label: string;
-    icon?: IconName;
+    icon?: AppIconName;
 }
 
 interface TabsProps {

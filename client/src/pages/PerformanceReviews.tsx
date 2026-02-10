@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
 
 const PerformanceReviews: React.FC = () => {
-    const { user, token } = useAuth();
+    const { user } = useAuth();
     const [activeTab, setActiveTab] = useState<'my' | 'team'>('my');
     const [users, setUsers] = useState<any[]>([]);
     const [myReviews, setMyReviews] = useState<any[]>([]);
@@ -49,16 +49,10 @@ const PerformanceReviews: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:5000/api/performance/reviews', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                body: JSON.stringify(formData)
-            });
-            if (res.ok) {
-                alert('Review Submitted');
-                setFormData({ ...formData, feedback: '', userId: '' });
-                fetchTeamReviews(); // Refresh list
-            }
+            await api.post('/performance/reviews', formData);
+            alert('Review Submitted');
+            setFormData({ ...formData, feedback: '', userId: '' });
+            fetchTeamReviews(); // Refresh list
         } catch (error) { console.error(error); }
     };
 

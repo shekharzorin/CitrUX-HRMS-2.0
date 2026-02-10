@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-
+import { api } from '../services/api';
 const JobApplications: React.FC = () => {
-    const { token } = useAuth();
     const [apps, setApps] = useState<any[]>([]);
 
     const fetchApps = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/recruitment/applications', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) setApps(await res.json());
+            const data = await api.get<any[]>('/recruitment/applications');
+            setApps(data || []);
         } catch (error) { console.error(error); }
     };
 
@@ -21,12 +17,8 @@ const JobApplications: React.FC = () => {
 
     const handleStatus = async (id: string, status: string) => {
         try {
-            const res = await fetch(`http://localhost:5000/api/recruitment/applications/${id}/status`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                body: JSON.stringify({ status })
-            });
-            if (res.ok) fetchApps();
+            await api.put(`/recruitment/applications/${id}/status`, { status });
+            fetchApps();
         } catch (error) { console.error(error); }
     };
 

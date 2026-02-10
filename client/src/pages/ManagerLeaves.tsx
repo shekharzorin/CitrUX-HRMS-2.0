@@ -159,7 +159,7 @@ const ManagerLeaves: React.FC = () => {
                                                         aria-label={`Approve leave for ${req.user.profile?.firstName}`}
                                                         title="Approve"
                                                     >
-                                                        <Icon name="check" size={14} className="mr-1" /> Approve
+                                                        <Icon name="check_circle" size={14} className="mr-1" /> Approve
                                                     </Button>
                                                     <Button
                                                         size="sm"

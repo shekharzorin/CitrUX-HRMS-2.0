@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { api } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 
 import { useToast } from '../contexts/ToastContext';
 
 const Jobs: React.FC = () => {
-    const { token, user } = useAuth();
+    const { user } = useAuth();
     const { showToast } = useToast();
     const [jobs, setJobs] = useState<any[]>([]);
     const [title, setTitle] = useState('');
@@ -15,8 +16,8 @@ const Jobs: React.FC = () => {
 
     const fetchJobs = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/recruitment/jobs');
-            if (res.ok) setJobs(await res.json());
+            const data = await api.get<any[]>('/recruitment/jobs');
+            setJobs(data || []);
         } catch (error) { console.error(error); }
     };
 
@@ -28,36 +29,23 @@ const Jobs: React.FC = () => {
     const handlePostJob = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:5000/api/recruitment/jobs', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                body: JSON.stringify({ title, department, description })
-            });
-            if (res.ok) {
-                fetchJobs();
-                setTitle(''); setDepartment(''); setDescription('');
-            }
-        } catch (error) { console.error(error); }
+            await api.post('/recruitment/jobs', { title, department, description });
+            showToast('Job Posted Successfully!', 'success');
+            fetchJobs();
+            setTitle(''); setDepartment(''); setDescription('');
+        } catch (error: any) { console.error(error); showToast(error.message || 'Failed to post job', 'error'); }
     };
 
     const handleApply = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:5000/api/recruitment/apply', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ jobId: showApply, applicantName: application.name, email: application.email, phone: application.phone, resumeUrl: application.resumeUrl })
-            });
-            if (res.ok) {
-                showToast('Application Submitted!', 'success');
-                setShowApply(null);
-                setApplication({ name: '', email: '', phone: '', resumeUrl: '' });
-            } else {
-                showToast('Failed to apply', 'error');
-            }
-        } catch (error) {
+            await api.post('/recruitment/apply', { jobId: showApply, applicantName: application.name, email: application.email, phone: application.phone, resumeUrl: application.resumeUrl });
+            showToast('Application Submitted!', 'success');
+            setShowApply(null);
+            setApplication({ name: '', email: '', phone: '', resumeUrl: '' });
+        } catch (error: any) {
             console.error(error);
-            showToast('Network error', 'error');
+            showToast(error.message || 'Failed to apply', 'error');
         }
     };
 

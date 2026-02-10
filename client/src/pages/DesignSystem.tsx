@@ -4,7 +4,7 @@ import { Input } from '../components/ui/Input';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { Select } from '../components/ui/Select';
-import { Icon, type IconName } from '../components/ui/Icons';
+import { Icon, type AppIconName } from '../components/ui/Icons';
 
 const DesignSystem: React.FC = () => {
     const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -128,7 +128,7 @@ const DesignSystem: React.FC = () => {
             <Card>
                 <h2 className="border-b pl-4 pb-4 mb-4">HRMS Icon Set</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                    {(['dashboard', 'employees', 'attendance', 'leaves', 'payroll', 'holidays', 'reports', 'settings', 'profile', 'notifications', 'onboarding', 'roles', 'departments', 'timesheet', 'offboarding', 'performance', 'careers', 'expenses', 'assets', 'team_leaves', 'org_chart', 'approvals', 'certificates', 'reviews', 'ats', 'exp_approvals', 'inventory', 'shifts', 'analytics', 'logout', 'arrow_down', 'light_mode', 'dark_mode'] as IconName[]).map(icon => (
+                    {(['dashboard', 'employees', 'attendance', 'leaves', 'payroll', 'holidays', 'reports', 'settings', 'profile', 'notifications', 'onboarding', 'roles', 'departments', 'timesheet', 'offboarding', 'performance', 'careers', 'expenses', 'assets', 'team_leaves', 'org_chart', 'approvals', 'certificates', 'reviews', 'ats', 'exp_approvals', 'inventory', 'shifts', 'analytics', 'logout', 'arrow_down', 'light_mode', 'dark_mode'] as AppIconName[]).map(icon => (
                         <div key={icon} className="flex flex-col items-center gap-3 p-4 rounded-xl border border-transparent hover:border-[var(--border-color)] hover:bg-[var(--bg-body)] transition-all group">
                             <div className="text-[var(--primary)] group-hover:scale-110 transition-transform">
                                 <Icon name={icon} size={32} />

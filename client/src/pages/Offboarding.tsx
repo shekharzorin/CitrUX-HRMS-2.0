@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { api } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 
 const Offboarding: React.FC = () => {
-    const { token, user } = useAuth();
+    const { user } = useAuth();
     const [status, setStatus] = useState<any>(null);
     const [list, setList] = useState<any[]>([]);
     const [reason, setReason] = useState('');
@@ -10,19 +11,15 @@ const Offboarding: React.FC = () => {
 
     const fetchStatus = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/offboarding/status', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) setStatus(await res.json());
+            const data = await api.get<any>('/offboarding/status');
+            setStatus(data);
         } catch (error) { console.error(error); }
     };
 
     const fetchResignations = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/offboarding/all', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) setList(await res.json());
+            const data = await api.get<any[]>('/offboarding/all');
+            setList(data || []);
         } catch (error) { console.error(error); }
     };
 
@@ -40,23 +37,15 @@ const Offboarding: React.FC = () => {
     const handleResign = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:5000/api/offboarding/resign', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                body: JSON.stringify({ reason, lastDay })
-            });
-            if (res.ok) fetchStatus();
+            await api.post('/offboarding/resign', { reason, lastDay });
+            fetchStatus();
         } catch (error) { console.error(error); }
     };
 
     const handleUpdate = async (id: string, newStatus: string) => {
         try {
-            const res = await fetch(`http://localhost:5000/api/offboarding/${id}/status`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                body: JSON.stringify({ status: newStatus })
-            });
-            if (res.ok) fetchResignations();
+            await api.put(`/offboarding/${id}/status`, { status: newStatus });
+            fetchResignations();
         } catch (error) { console.error(error); }
     };
 

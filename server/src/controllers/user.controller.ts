@@ -3,6 +3,7 @@ import { prisma } from '../db';
 import bcrypt from 'bcrypt';
 import { requireString } from '../utils/requestUtils';
 import { AuthRequest } from '../middlewares/auth.middleware';
+import { IdService } from '../services/id.service';
 
 export const createUser = async (req: Request, res: Response) => {
     try {
@@ -18,23 +19,8 @@ export const createUser = async (req: Request, res: Response) => {
         // Auto-generate Employee ID if not provided
         if (!finalEmployeeId) {
             try {
-                // Use Raw SQL
-                const settings = await prisma.$queryRaw`SELECT key, value FROM SystemSetting` as { key: string, value: string }[];
-                const settingsMap = settings.reduce((acc: any, curr: any) => {
-                    acc[curr.key] = curr.value;
-                    return acc;
-                }, {} as Record<string, string>);
-
-                if (settingsMap['EMP_ID_AUTO_GENERATE'] === 'true') {
-                    const prefix = settingsMap['EMP_ID_PREFIX'] || 'EMP-';
-                    const sequence = parseInt(settingsMap['EMP_ID_SEQUENCE'] || '1');
-                    const padding = parseInt(settingsMap['EMP_ID_PADDING'] || '4');
-
-                    finalEmployeeId = `${prefix}${sequence.toString().padStart(padding, '0')}`;
-
-                    // Increment sequence atomically via Raw SQL
-                    const nextVal = (sequence + 1).toString();
-                    await prisma.$executeRaw`INSERT INTO SystemSetting (key, value) VALUES ('EMP_ID_SEQUENCE', ${nextVal}) ON CONFLICT(key) DO UPDATE SET value=excluded.value`;
+                if (await IdService.shouldAutoGenerate('EMP')) {
+                    finalEmployeeId = await IdService.generateId('EMP');
                 }
             } catch (err) {
                 console.error("Error auto-generating Employee ID:", err);
@@ -65,24 +51,14 @@ export const createUser = async (req: Request, res: Response) => {
                         phone,
                         designation,
                         dateOfJoining: joiningDate ? new Date(joiningDate) : new Date(),
+                        dob: req.body.dob ? new Date(req.body.dob) : undefined
                     }
                 }
             },
             include: { profile: true, shift: true }
         });
 
-        // 3. Update DOB using Raw SQL (until Prisma Client is regenerated)
-        // Check if dob is provided
-        const { dob } = req.body;
-        if (dob && user.profile) {
-            try {
-                const dobDate = new Date(dob);
-                // Postgres format or Parameterized
-                await prisma.$executeRaw`UPDATE "Profile" SET "dob" = ${dobDate} WHERE "id" = ${user.profile.id}`;
-            } catch (err) {
-                console.error("Failed to save DOB:", err);
-            }
-        }
+
 
         // Initialize Leave Balances
         try {
@@ -124,22 +100,14 @@ export const importUsers = async (req: Request, res: Response) => {
         };
 
         let autoGenEnabled = false;
-        let idPrefix = 'EMP-';
-        let idSequence = 1;
-        let idPadding = 4;
-        let sequenceIncrement = 0;
 
         try {
-            const settings = await prisma.$queryRaw`SELECT key, value FROM SystemSetting` as { key: string, value: string }[];
-            const settingsMap = settings.reduce((acc: any, curr: any) => {
-                acc[curr.key] = curr.value;
-                return acc;
-            }, {} as Record<string, string>);
-            if (settingsMap['EMP_ID_AUTO_GENERATE'] === 'true') {
+            if (await IdService.shouldAutoGenerate('EMP')) {
                 autoGenEnabled = true;
-                idPrefix = settingsMap['EMP_ID_PREFIX'] || 'EMP-';
-                idSequence = parseInt(settingsMap['EMP_ID_SEQUENCE'] || '1');
-                idPadding = parseInt(settingsMap['EMP_ID_PADDING'] || '4');
+                // We'll let `generateId` handle fetches, but imports need speed.
+                // However, doing one-by-one is safer for atomicity.
+                // Optimizing bulk imports is complex with IdService unless we reserve a range.
+                // For now, let's call generateId for each user to ensure safety.
             }
         } catch (e) {
             console.error("Failed to load settings for import:", e);
@@ -166,8 +134,7 @@ export const importUsers = async (req: Request, res: Response) => {
                 let empId = u.employeeId || u.id || u.empId;
 
                 if (!empId && autoGenEnabled) {
-                    empId = `${idPrefix}${(idSequence + sequenceIncrement).toString().padStart(idPadding, '0')}`;
-                    sequenceIncrement++;
+                    empId = await IdService.generateId('EMP');
                 }
 
                 // Check duplicate Employee ID
@@ -210,7 +177,7 @@ export const importUsers = async (req: Request, res: Response) => {
                         balance: lt.daysPerYear,
                         used: 0
                     }));
-                    await (prisma as any).leaveBalance.createMany({ data: balances });
+                    await prisma.leaveBalance.createMany({ data: balances });
                 }
 
                 results.success++;
@@ -221,15 +188,7 @@ export const importUsers = async (req: Request, res: Response) => {
             }
         }
 
-        // Update sequence if used
-        if (sequenceIncrement > 0) {
-            try {
-                const nextVal = (idSequence + sequenceIncrement).toString();
-                await prisma.$executeRaw`INSERT INTO SystemSetting (key, value) VALUES ('EMP_ID_SEQUENCE', ${nextVal}) ON CONFLICT(key) DO UPDATE SET value=excluded.value`;
-            } catch (e) {
-                console.error("Failed to update ID sequence after import:", e);
-            }
-        }
+
 
         res.json({ message: 'Import processed', results });
 
@@ -362,7 +321,10 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
         if (dob && (updatedUser as any).profile) {
             try {
                 const dobDate = new Date(dob);
-                await prisma.$executeRaw`UPDATE "Profile" SET "dob" = ${dobDate} WHERE "id" = ${(updatedUser as any).profile.id}`;
+                await prisma.profile.update({
+                    where: { id: (updatedUser as any).profile.id },
+                    data: { dob: dobDate }
+                });
             } catch (e) {
                 console.error("Failed to update DOB", e);
             }

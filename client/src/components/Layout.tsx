@@ -3,12 +3,12 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import ConfirmModal from './ConfirmModal';
 import { Button } from './ui/Button';
-import { Icon, type IconName } from './ui/Icons';
+import { Icon, type AppIconName } from './ui/Icons';
 import { NotificationBell } from './Header/NotificationBell';
 import { ProfileDropdown } from './Header/ProfileDropdown';
 
 
-const NavItem = ({ to, icon, label, precise = false, collapsed, isMobile, onCloseMobile }: { to: string; icon: IconName; label: string; precise?: boolean; collapsed: boolean; isMobile: boolean; onCloseMobile: () => void }) => {
+const NavItem = ({ to, icon, label, precise = false, collapsed, isMobile, onCloseMobile }: { to: string; icon: AppIconName; label: string; precise?: boolean; collapsed: boolean; isMobile: boolean; onCloseMobile: () => void }) => {
     const location = useLocation();
     const isActive = precise ? location.pathname === to : location.pathname.startsWith(to);
     return (
@@ -93,7 +93,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     }, []);
 
     // Page Config
-    const pageConfig: Record<string, { title: string; subtitle?: string; icon: IconName; gradient: string }> = {
+    const pageConfig: Record<string, { title: string; subtitle?: string; icon: AppIconName; gradient: string }> = {
         /* ... same config ... */
         '/attendance': { title: 'Attendance', subtitle: 'Manage daily presence', icon: 'schedule', gradient: 'gradient-green' },
         '/leaves': { title: 'Leave Management', subtitle: 'Track and approve leaves', icon: 'event', gradient: 'gradient-purple' },
@@ -159,6 +159,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
                 <NavItem to="/attendance" icon="attendance" label="Time & Attendance" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/leaves" icon="leaves" label="Leaves" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+
+                {(user?.role === 'ADMIN' || user?.role === 'HR') && (
+                    <NavItem to="/admin/payroll" icon="payroll" label="Payroll Manager" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                )}
+
                 <NavItem to="/expenses" icon="expenses" label="Expenses" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/analytics" icon="analytics" label="Reports" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
 

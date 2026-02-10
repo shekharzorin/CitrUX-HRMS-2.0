@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { api } from '../../services/api';
 import { Icon } from '../ui/Icons';
 
 interface Notification {
@@ -13,7 +14,7 @@ interface Notification {
 }
 
 export const NotificationBell = () => {
-    const { token } = useAuth();
+    const { user } = useAuth();
     const [unreadCount, setUnreadCount] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
     const [recent, setRecent] = useState<Notification[]>([]);
@@ -22,25 +23,20 @@ export const NotificationBell = () => {
 
     const fetchCount = useCallback(async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/notifications/unread-count', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) {
-                const data = await res.json();
-                setUnreadCount(data.count);
-            }
+            const data = await api.get<{ count: number }>('/notifications/unread-count');
+            if (data) setUnreadCount(data.count);
         } catch {
             // ignore
         }
-    }, [token]);
+    }, []);
 
     useEffect(() => {
-        if (!token) return;
+        if (!user) return;
         const init = async () => { await fetchCount(); };
         init();
         const interval = setInterval(fetchCount, 30000); // Poll every 30s
         return () => clearInterval(interval);
-    }, [token, fetchCount]);
+    }, [user, fetchCount]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -56,13 +52,8 @@ export const NotificationBell = () => {
         if (!isOpen) {
             // Fetch recent
             try {
-                const res = await fetch('http://localhost:5000/api/notifications', {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    setRecent(data.slice(0, 5)); // Top 5
-                }
+                const data = await api.get<Notification[]>('/notifications');
+                if (data) setRecent(data.slice(0, 5)); // Top 5
             } catch (e) { console.error(e); }
         }
         setIsOpen(!isOpen);
@@ -70,10 +61,7 @@ export const NotificationBell = () => {
 
     const markAsRead = async (id: string) => {
         try {
-            await fetch(`http://localhost:5000/api/notifications/${id}/read`, {
-                method: 'PUT',
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            await api.put(`/notifications/${id}/read`, {});
             // Update local state deeply
             setRecent(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
             setUnreadCount(prev => Math.max(0, prev - 1));

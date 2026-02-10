@@ -39,6 +39,7 @@ import IssueCertificate from './pages/IssueCertificate';
 import Verification from './pages/Verification';
 import OrgChart from './pages/OrgChart';
 import DesignSystem from './pages/DesignSystem';
+import Payroll from './pages/admin/Payroll';
 
 import NotFound from './pages/NotFound';
 
@@ -134,7 +135,7 @@ const App: React.FC = () => {
                 </ProtectedRoute>
               } />
               <Route path="/manager/leaves" element={
-                <ProtectedRoute>
+                <ProtectedRoute allowedRoles={['MANAGER', 'ADMIN', 'HR']}>
                   <ManagerLeaves />
                 </ProtectedRoute>
               } />
@@ -227,6 +228,11 @@ const App: React.FC = () => {
               <Route path="/payslips" element={
                 <ProtectedRoute>
                   <Payslips />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/payroll" element={
+                <ProtectedRoute allowedRoles={['ADMIN', 'HR']}>
+                  <Payroll />
                 </ProtectedRoute>
               } />
               <Route path="*" element={<NotFound />} />

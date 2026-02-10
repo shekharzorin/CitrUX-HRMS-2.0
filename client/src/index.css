@@ -149,6 +149,13 @@
 
   --sidebar-text: #94a3b8;
   /* Slate 400 for better contrast on dark */
+
+  /* User requested override for borders */
+}
+
+/* User requested override for borders (Un-nested for safety) */
+.dark .border-slate-100 {
+  border-color: oklch(0.41 0 0);
 }
 
 /* Base Styles */

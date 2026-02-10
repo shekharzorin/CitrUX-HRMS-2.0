@@ -1,0 +1,11 @@
+﻿src/components/payroll/RunPayrollModal.tsx(3,1): error TS6133: 'Input' is declared but its value is never read.
+src/components/payroll/RunPayrollModal.tsx(4,1): error TS6133: 'Select' is declared but its value is never read.
+src/components/payroll/RunPayrollModal.tsx(5,26): error TS2305: Module '"../../services/payroll"' has no exported member 'PayrollCalculation'.
+src/components/payroll/RunPayrollModal.tsx(7,23): error TS2307: Cannot find module 'react-hot-toast' or its corresponding type declarations.
+src/components/ui/DashboardElements.tsx(59,11): error TS2304: Cannot find name 'IconName'.
+src/hooks/useAttendanceWidget.ts(19,22): error TS6133: 'setLocation' is declared but its value is never read.
+src/pages/admin/Payroll.tsx(6,26): error TS1484: 'PayrollStats' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/pages/admin/Payroll.tsx(8,23): error TS2307: Cannot find module 'react-hot-toast' or its corresponding type declarations.
+src/pages/ManagerLeaves.tsx(162,63): error TS2322: Type '"check"' is not assignable to type 'AppIconName'.
+src/pages/TimesheetApprovals.tsx(79,58): error TS2552: Cannot find name 'format'. Did you mean 'FormData'?
+src/pages/TimesheetApprovals.tsx(79,103): error TS2552: Cannot find name 'format'. Did you mean 'FormData'?

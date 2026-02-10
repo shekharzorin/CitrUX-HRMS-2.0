@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-
+import { api } from '../services/api';
 const ExpenseApprovals: React.FC = () => {
-    const { token } = useAuth();
     const [claims, setClaims] = useState<any[]>([]);
 
     const fetchPending = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/expenses/approvals', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) setClaims(await res.json());
+            const data = await api.get<any[]>('/expenses/approvals');
+            setClaims(data || []);
         } catch (error) { console.error(error); }
     };
 
@@ -21,12 +17,8 @@ const ExpenseApprovals: React.FC = () => {
 
     const handleUpdate = async (id: string, status: string) => {
         try {
-            const res = await fetch(`http://localhost:5000/api/expenses/claims/${id}/status`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                body: JSON.stringify({ status })
-            });
-            if (res.ok) fetchPending();
+            await api.put(`/expenses/claims/${id}/status`, { status });
+            fetchPending();
         } catch (error) { console.error(error); }
     };
 

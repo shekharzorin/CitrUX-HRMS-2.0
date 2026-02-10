@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { api } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 
 const Notifications: React.FC = () => {
-    const { token, user } = useAuth();
+    const { user } = useAuth();
     const [notifications, setNotifications] = useState<any[]>([]);
     const [message, setMessage] = useState('');
     const [sending, setSending] = useState(false);
@@ -13,18 +14,15 @@ const Notifications: React.FC = () => {
 
     const fetchNotes = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/notifications', { headers: { Authorization: `Bearer ${token}` } });
-            if (res.ok) setNotifications(await res.json());
+            const data = await api.get<any[]>('/notifications');
+            setNotifications(data || []);
         } catch (error) { console.error(error); }
     };
 
     const markRead = async (id: string) => {
         try {
-            const res = await fetch(`http://localhost:5000/api/notifications/${id}/read`, {
-                method: 'PUT',
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) fetchNotes();
+            await api.put(`/notifications/${id}/read`, {});
+            fetchNotes();
         } catch (error) { console.error(error); }
     };
 
@@ -33,21 +31,10 @@ const Notifications: React.FC = () => {
         if (!message.trim()) return;
         setSending(true);
         try {
-            const res = await fetch('http://localhost:5000/api/notifications/broadcast', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ message })
-            });
-            if (res.ok) {
-                alert('Announcement sent successfully!');
-                setMessage('');
-                fetchNotes(); // Refresh list to see it
-            } else {
-                alert('Failed to send announcement');
-            }
+            await api.post('/notifications/broadcast', { message });
+            alert('Announcement sent successfully!');
+            setMessage('');
+            fetchNotes(); // Refresh list to see it
         } catch (error) {
             console.error(error);
             alert('Error sending announcement');

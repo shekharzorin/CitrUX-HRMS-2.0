@@ -226,7 +226,19 @@ export const approveOnboarding = async (req: Request, res: Response) => {
                     dateOfJoining: onboarding.dateOfJoining,
                     documents: JSON.stringify((onboarding as any).documents),
                     profilePhoto: onboarding.profilePhoto,
-                    profilePhotoSettings: onboarding.profilePhotoSettings
+                    profilePhotoSettings: onboarding.profilePhotoSettings,
+
+                    // Bank Details
+                    bankName: onboarding.bankName,
+                    accountNumber: onboarding.accountNumber,
+                    ifscCode: onboarding.ifscCode,
+
+                    // ID Details
+                    aadhaarNumber: onboarding.aadhaarNumber,
+                    panNumber: onboarding.panNumber,
+                    uanNumber: onboarding.uanNumber,
+
+                    dob: onboarding.dateOfBirth
                 },
                 update: {
                     firstName: onboarding.fullName?.split(' ')[0] || undefined,
@@ -238,7 +250,19 @@ export const approveOnboarding = async (req: Request, res: Response) => {
                     dateOfJoining: onboarding.dateOfJoining,
                     documents: JSON.stringify(onboarding.documents),
                     profilePhoto: onboarding.profilePhoto,
-                    profilePhotoSettings: onboarding.profilePhotoSettings
+                    profilePhotoSettings: onboarding.profilePhotoSettings,
+
+                    // Bank Details
+                    bankName: onboarding.bankName,
+                    accountNumber: onboarding.accountNumber,
+                    ifscCode: onboarding.ifscCode,
+
+                    // ID Details
+                    aadhaarNumber: onboarding.aadhaarNumber,
+                    panNumber: onboarding.panNumber,
+                    uanNumber: onboarding.uanNumber,
+
+                    dob: onboarding.dateOfBirth
                 }
             });
         });
@@ -260,6 +284,40 @@ export const approveOnboarding = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error approving onboarding' });
+    }
+};
+
+// Admin: Reject Onboarding
+export const rejectOnboarding = async (req: Request, res: Response) => {
+    try {
+        const id = requireString(req.params.id);
+        const { reason } = req.body;
+
+        const onboarding = await prisma.onboarding.findUnique({ where: { id } });
+        if (!onboarding) return res.status(404).json({ message: 'Record not found' });
+
+        await prisma.onboarding.update({
+            where: { id },
+            data: { status: 'REJECTED' } // Or 'CHANGES_REQUESTED'
+        });
+
+        // Notify User
+        await notifyUser(onboarding.userId, `Action Required: Your onboarding application was returned. Reason: ${reason || 'Please check details.'}`);
+
+        // Email
+        const user = await prisma.user.findUnique({ where: { id: onboarding.userId } });
+        if (user?.email) {
+            await sendEmail(
+                user.email,
+                'Onboarding Update: Action Required',
+                `<p>Hello ${onboarding.fullName},</p><p>Your onboarding application has been returned for the following reason:</p><blockquote>${reason}</blockquote><p>Please log in to update and resubmit.</p>`
+            ).catch(console.error);
+        }
+
+        res.json({ message: 'Application returned to candidate' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error rejecting onboarding' });
     }
 };
 

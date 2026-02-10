@@ -1,9 +1,9 @@
 import React from 'react';
-import { Icon, type IconName } from './Icons';
+import { Icon, type AppIconName } from './Icons';
 
 interface WidgetHeaderProps {
     title: string;
-    icon?: IconName;
+    icon?: AppIconName;
     action?: React.ReactNode;
     className?: string;
 }
@@ -28,7 +28,7 @@ interface StatBoxProps {
     value: string | number;
     sub?: string;
     color?: string;
-    icon?: IconName;
+    icon?: AppIconName;
     className?: string;
 }
 
@@ -56,7 +56,7 @@ interface StatsCardPremiumProps {
     title: string;
     value: string | number;
     subtext: string;
-    icon: IconName;
+    icon: AppIconName;
     variant: 'purple' | 'green' | 'orange' | 'blue';
     trend?: string;
 }
@@ -64,18 +64,18 @@ interface StatsCardPremiumProps {
 export const StatsCardPremium = ({ title, value, subtext, icon, variant, trend }: StatsCardPremiumProps) => {
     // Reference Image matching: SOLID pastel backgrounds
     const variants = {
-        purple: 'bg-[#E0C6FD] dark:bg-purple-900/20 text-[#581c87] dark:text-purple-200 border border-transparent dark:border-purple-800/30',
-        green: 'bg-[#bef264] dark:bg-lime-900/20 text-[#365314] dark:text-lime-200 border border-transparent dark:border-lime-800/30',
-        orange: 'bg-[#FFedd5] dark:bg-orange-900/20 text-[#7c2d12] dark:text-orange-200 border border-transparent dark:border-orange-800/30',
-        blue: 'bg-[#BAE6FD] dark:bg-sky-900/20 text-[#0c4a6e] dark:text-sky-200 border border-transparent dark:border-sky-800/30',
+        purple: 'bg-purple-200 dark:bg-purple-900/20 text-purple-900 dark:text-purple-200 border border-transparent dark:border-purple-800/30',
+        green: 'bg-lime-200 dark:bg-lime-900/20 text-lime-900 dark:text-lime-200 border border-transparent dark:border-lime-800/30',
+        orange: 'bg-orange-200 dark:bg-orange-900/20 text-orange-900 dark:text-orange-200 border border-transparent dark:border-orange-800/30',
+        blue: 'bg-sky-200 dark:bg-sky-900/20 text-sky-900 dark:text-sky-200 border border-transparent dark:border-sky-800/30',
     };
 
     // Icons: simple outline style, usually just slightly darker or white bg
     const iconColors = {
-        purple: 'bg-white/20 text-[#581c87] dark:text-purple-200',
-        green: 'bg-white/20 text-[#365314] dark:text-lime-200',
-        orange: 'bg-white/20 text-[#7c2d12] dark:text-orange-200',
-        blue: 'bg-white/20 text-[#0c4a6e] dark:text-sky-200',
+        purple: 'bg-white/40 text-purple-900 dark:text-purple-200',
+        green: 'bg-white/40 text-lime-900 dark:text-lime-200',
+        orange: 'bg-white/40 text-orange-900 dark:text-orange-200',
+        blue: 'bg-white/40 text-sky-900 dark:text-sky-200',
     };
 
     return (

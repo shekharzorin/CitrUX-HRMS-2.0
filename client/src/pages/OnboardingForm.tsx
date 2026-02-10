@@ -146,11 +146,8 @@ const OnboardingForm: React.FC = () => {
 
     const fetchStatus = useCallback(async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/onboarding/status', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) {
-                const data = await res.json();
+            const data = await api.get<any>('/onboarding/status');
+            if (data) {
                 setStatus(data.status);
 
                 if (data.profilePhotoSettings && typeof data.profilePhotoSettings === 'string') {
@@ -176,7 +173,7 @@ const OnboardingForm: React.FC = () => {
                 }
             }
         } catch (error) { console.error('Error fetching status:', error); }
-    }, [token]);
+    }, []);
 
     useEffect(() => {
         const init = async () => { await fetchStatus(); };
@@ -192,7 +189,6 @@ const OnboardingForm: React.FC = () => {
     const handleBlur = () => {
         saveProgress(true);
     };
-
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, _unused?: string, docType?: string) => {
         const file = e.target.files?.[0];
@@ -221,26 +217,20 @@ const OnboardingForm: React.FC = () => {
         } catch (e) { console.error(e); }
     };
 
-
-
-    const isStepComplete = (stepId: number) => {
-        return Object.keys(getStepErrors(stepId, formData)).length === 0;
-    };
-
     const saveProgress = async (quiet = false) => {
         if (quiet) setIsSaving(true);
 
         try {
-            await fetch('http://localhost:5000/api/onboarding/update', {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                body: JSON.stringify(formData)
-            });
+            await api.put('/onboarding/update', formData);
             setShowSavedMessage(true);
             setTimeout(() => setShowSavedMessage(false), 3000);
         } catch (error) { console.error('Save draft failed', error); }
 
         if (quiet) setIsSaving(false);
+    };
+
+    const isStepComplete = (stepId: number) => {
+        return Object.keys(getStepErrors(stepId, formData)).length === 0;
     };
 
     const handleNext = async () => {
@@ -267,14 +257,8 @@ const OnboardingForm: React.FC = () => {
     const handleSubmit = async () => {
         if (!window.confirm('Are you sure you want to submit?')) return;
         try {
-            const res = await fetch('http://localhost:5000/api/onboarding/submit', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                body: JSON.stringify(formData)
-            });
-            if (res.ok) {
-                navigate('/');
-            }
+            await api.post('/onboarding/submit', formData);
+            navigate('/');
         } catch (error) { console.error(error); }
     };
 
@@ -399,7 +383,7 @@ const OnboardingForm: React.FC = () => {
                                     <div className="shrink-0">
                                         <div className="photo-upload-zone">
                                             {formData.profilePhoto ? (
-                                                <img src={formData.profilePhoto} alt="Profile" className="profile-photo-dynamic" />
+                                                <img src={formData.profilePhoto.includes('http') ? formData.profilePhoto + (formData.profilePhoto.includes('?') ? '&' : '?') + `token=${token}` : formData.profilePhoto} alt="Profile" className="profile-photo-dynamic" />
                                             ) : (
                                                 <div className="w-full h-full flex flex-col items-center justify-center text-[var(--text-muted)] bg-[var(--bg-body)] opacity-50">
                                                     <Icon name="profile" size={64} strokeWidth={1} />
@@ -533,7 +517,7 @@ const OnboardingForm: React.FC = () => {
                             </button>
                         </div>
                         <div className="h-[300px] relative bg-slate-900">
-                            <Cropper image={formData.profilePhoto} crop={crop} zoom={zoom} aspect={1} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={(_, p) => setCroppedAreaPixels(p)} cropShape="round" />
+                            <Cropper image={formData.profilePhoto + (formData.profilePhoto.includes('?') ? '&' : '?') + `token=${token}`} crop={crop} zoom={zoom} aspect={1} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={(_, p) => setCroppedAreaPixels(p)} cropShape="round" />
                         </div>
                         <div className="p-8">
                             <input type="range" min={1} max={3} step={0.1} value={zoom} onChange={e => setZoom(Number(e.target.value))} className="w-full h-2 mb-8 accent-[var(--primary)] cursor-pointer" title="Zoom Scale" aria-label="Zoom Scale" />
