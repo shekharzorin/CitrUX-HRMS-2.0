@@ -76,6 +76,13 @@ const Dashboard: React.FC = () => {
         );
     }
 
+    const getGreeting = () => {
+        const hour = currentTime.getHours();
+        if (hour < 12) return 'Good Morning';
+        if (hour < 17) return 'Good Afternoon';
+        return 'Good Evening';
+    };
+
     return (
         <div className="space-y-8 pb-12">
 
@@ -83,7 +90,7 @@ const Dashboard: React.FC = () => {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-[var(--text-main)] tracking-tight">
-                        Good Morning, {user?.profile?.firstName || 'User'}! 👋
+                        {getGreeting()}, {user?.profile?.firstName || 'User'}! 👋
                     </h1>
                     <p className="text-[var(--text-muted)] mt-1">Here's what's happening at Citrux today.</p>
                 </div>

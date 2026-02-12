@@ -51,9 +51,11 @@ export const useAttendanceWidget = () => {
         try {
             const currentData = await api.get<any[]>('/attendance/my-history');
             if (currentData && currentData.length > 0) {
-                const todayStr = getLocalToday();
-                const latest = currentData.find((r: any) => r.date.startsWith(todayStr));
+                // Backend sorts by date desc, so the first record is the latest
+                const latest = currentData[0];
 
+                // Check if the latest record is an active session (no check-out)
+                // We trust the latest record regardless of date to handle cross-midnight or timezone shifts correctly
                 if (latest && latest.checkIn && !latest.checkOut) {
                     setClockedIn(true);
                     setStartTime(new Date(latest.checkIn));

@@ -566,3 +566,21 @@ model AuditLog {
   
   actor       User     @relation("UserAudits", fields: [performedBy], references: [id])
 }
+
+model SystemError {
+  id        String   @id @default(uuid())
+  module    String   // e.g., "AUTH", "PAYROLL", "DATABASE"
+  severity  String   // "INFO", "WARNING", "CRITICAL"
+  message   String
+  stack     String?
+  timestamp DateTime @default(now())
+  resolved  Boolean  @default(false)
+}
+
+model ModuleHealth {
+  id        String   @id @default(uuid())
+  module    String   @unique
+  status    String   // "HEALTHY", "DEGRADED", "DOWN"
+  lastChecked DateTime @default(now())
+  details   String?  // JSON details
+}

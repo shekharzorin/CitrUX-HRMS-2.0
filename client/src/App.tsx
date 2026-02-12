@@ -40,6 +40,7 @@ import Verification from './pages/Verification';
 import OrgChart from './pages/OrgChart';
 import DesignSystem from './pages/DesignSystem';
 import Payroll from './pages/admin/Payroll';
+import SystemHealth from './pages/admin/SystemHealth';
 
 import NotFound from './pages/NotFound';
 
@@ -233,6 +234,11 @@ const App: React.FC = () => {
               <Route path="/admin/payroll" element={
                 <ProtectedRoute allowedRoles={['ADMIN', 'HR']}>
                   <Payroll />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/system-health" element={
+                <ProtectedRoute allowedRoles={['ADMIN', 'SUPER_ADMIN']}>
+                  <SystemHealth />
                 </ProtectedRoute>
               } />
               <Route path="*" element={<NotFound />} />

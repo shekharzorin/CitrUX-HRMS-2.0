@@ -30,6 +30,7 @@ import holidayRoutes from './routes/holiday.routes';
 import importRoutes from './routes/import.routes';
 import documentRoutes from './routes/document.routes';
 import payrollRoutes from './routes/payroll.routes';
+import healthRoutes from './routes/health.routes';
 
 import path from 'path';
 
@@ -57,7 +58,18 @@ process.on('unhandledRejection', (reason, promise) => {
 // initAttendanceScheduler();
 // initLeaveScheduler();
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Request Logging Middleware
+app.use((req, res, next) => {
+    logger.info(`${req.method} ${req.url}`);
+    next();
+});
 
 // SECURITY: Helmet & Rate Limit
 app.use(helmet());
@@ -140,6 +152,7 @@ app.use('/api/import', importRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/payroll', payrollRoutes);
 app.use('/api/reports', reportsRoutes);
+app.use('/api/health', healthRoutes);
 
 // Global Error Handler
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

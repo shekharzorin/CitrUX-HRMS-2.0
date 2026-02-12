@@ -167,6 +167,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <NavItem to="/expenses" icon="expenses" label="Expenses" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/analytics" icon="analytics" label="Reports" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
 
+                {(user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN') && (
+                    <NavItem to="/admin/system-health" icon="settings" label="System Health" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                )}
+
                 <div className="my-6 mx-6 border-t border-slate-100"></div>
 
                 <NavItem to="/settings" icon="settings" label="Settings" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />

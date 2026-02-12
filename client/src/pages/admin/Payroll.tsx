@@ -29,7 +29,12 @@ const Payroll: React.FC = () => {
                 payrollService.list(month, year)
             ]);
             setStats(statsData);
-            setPayslips(listData);
+            if (Array.isArray(listData)) {
+                setPayslips(listData);
+            } else {
+                setPayslips([]);
+                console.error('Invalid payslips data:', listData);
+            }
         } catch (error) {
             console.error(error);
             showToast('Failed to load payroll data', 'error');
@@ -121,13 +126,12 @@ const Payroll: React.FC = () => {
                         </div>
                         <div>
                             <p className="text-sm text-muted">Total Cost</p>
-                            <h3 className="text-2xl font-bold">₹{stats?.totalCost.toLocaleString() || 0}</h3>
+                            <h3 className="text-2xl font-bold">₹{(stats?.totalCost || 0).toLocaleString()}</h3>
                         </div>
                     </div>
                 </Card>
             </div>
 
-            {/* Payslips List */}
             <Card>
                 <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
                     <h3 className="font-bold">Generated Payslips</h3>
@@ -149,25 +153,29 @@ const Payroll: React.FC = () => {
                                 <tr><td colSpan={6} className="p-6 text-center text-muted">Loading...</td></tr>
                             ) : payslips.length === 0 ? (
                                 <tr><td colSpan={6} className="p-6 text-center text-muted">No payslips generated for this period.</td></tr>
-                            ) : payslips.map(slip => (
-                                <tr key={slip.id} className="hover:bg-gray-50 dark:hover:bg-slate-700/50">
-                                    <td className="px-6 py-4">
-                                        <div className="font-medium text-main">{slip.user.profile?.firstName} {slip.user.profile?.lastName}</div>
-                                        <div className="text-xs text-muted">{slip.user.employeeId}</div>
-                                    </td>
-                                    <td className="px-6 py-4 text-muted">{slip.user.profile?.department || '-'}</td>
-                                    <td className="px-6 py-4">₹{slip.gross.toLocaleString()}</td>
-                                    <td className="px-6 py-4 font-bold text-main">₹{slip.net.toLocaleString()}</td>
-                                    <td className="px-6 py-4">
-                                        <Badge variant={slip.status === 'PAID' ? 'success' : 'info'}>{slip.status}</Badge>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <Button size="sm" variant="ghost" className="text-primary hover:bg-primary/5" onClick={() => handleDownload(slip.id)}>
-                                            <Icon name="download" size={16} className="mr-2" /> Download
-                                        </Button>
-                                    </td>
-                                </tr>
-                            ))}
+                            ) : payslips.map(slip => {
+                                if (!slip || !slip.user) return null;
+                                const profile = slip.user.profile || {};
+                                return (
+                                    <tr key={slip.id} className="hover:bg-gray-50 dark:hover:bg-slate-700/50">
+                                        <td className="px-6 py-4">
+                                            <div className="font-medium text-main">{profile.firstName || 'Unknown'} {profile.lastName || ''}</div>
+                                            <div className="text-xs text-muted">{slip.user.employeeId || 'No ID'}</div>
+                                        </td>
+                                        <td className="px-6 py-4 text-muted">{profile.department || '-'}</td>
+                                        <td className="px-6 py-4">₹{(slip.gross || 0).toLocaleString()}</td>
+                                        <td className="px-6 py-4 font-bold text-main">₹{(slip.net || 0).toLocaleString()}</td>
+                                        <td className="px-6 py-4">
+                                            <Badge variant={slip.status === 'PAID' ? 'success' : 'info'}>{slip.status}</Badge>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <Button size="sm" variant="ghost" className="text-primary hover:bg-primary/5" onClick={() => handleDownload(slip.id)}>
+                                                <Icon name="download" size={16} className="mr-2" /> Download
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>
