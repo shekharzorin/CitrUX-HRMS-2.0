@@ -46,6 +46,8 @@ We use 4 services. All are free.
     *   `NODE_ENV` = `production`
     *   `JWT_SECRET` = `type_any_random_long_password_here`
     *   `DATABASE_URL` = *(Paste your Neon Connection String from Step 1)*
+    *   `CLIENT_URL` = `https://your-frontend-url.vercel.app` (The URL of your Vercel site)
+        *   **Note:** You can add multiple URLs separated by commas.
     *   `CLOUDINARY_CLOUD_NAME` = *(Paste Cloud Name from Step 1)*
     *   `CLOUDINARY_API_KEY` = *(Paste API Key from Step 1)*
     *   `CLOUDINARY_API_SECRET` = *(Paste API Secret from Step 1)*
@@ -87,4 +89,4 @@ A: Your `VITE_API_URL` in Vercel is wrong. It must end with `/api`. Go to Vercel
 A: We fixed this! Just click "Manual Deploy" -> "Clear cache and deploy" in Render if it happens.
 
 **Q: My profile picture disappears after 15 minutes.**
-A: This happens if you didn't add the usage `CLOUDINARY_...` variables in Render. Add them and the app will use Cloudinary for permanent storage.
+A: This should not happen anymore! We have integrated **Cloudinary** for permanent file storage. Just make sure you added the `CLOUDINARY_...` variables in Render exactly as shown in Step 2.
