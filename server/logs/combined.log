@@ -2073,3 +2073,118 @@
 {"level":"info","message":"Server running on port 5001"}
 {"level":"info","message":"GET /api/notifications/unread-count"}
 {"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"Login attempt: admin@citrux.com"}
+{"level":"info","message":"User found: true"}
+{"level":"info","message":"Password match: true"}
+{"level":"info","message":"Token generated"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications"}
+{"level":"info","message":"GET /api/stats"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications"}
+{"level":"info","message":"GET /api/stats"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"Login attempt: admin@citrux.com"}
+{"level":"info","message":"User found: true"}
+{"level":"info","message":"Password match: true"}
+{"level":"info","message":"Token generated"}
+{"level":"info","message":"GET /api/stats"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications"}
+{"level":"info","message":"GET /api/notifications"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/stats"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/users"}
+{"level":"info","message":"GET /api/users HIT"}
+{"level":"info","message":"Returning 13 users for role ADMIN"}
+{"level":"info","message":"GET /api/users"}
+{"level":"info","message":"GET /api/users HIT"}
+{"level":"info","message":"Returning 13 users for role ADMIN"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
