@@ -59,8 +59,11 @@ process.on('unhandledRejection', (reason: any, promise) => {
 // initAttendanceScheduler();
 // initLeaveScheduler();
 
+const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+const allowedOrigins = clientUrl.includes(',') ? clientUrl.split(',') : clientUrl;
+
 app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
