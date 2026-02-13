@@ -104,12 +104,19 @@ export const getDashboardStats = async (req: Request, res: Response) => {
             }
         });
 
-        const whoIsOut = approvedLeaves.map((l: any) => ({
-            name: l.user.profile ? `${l.user.profile.firstName} ${l.user.profile.lastName}` : l.user.email,
-            role: l.user.profile?.designation || 'Employee',
-            status: l.leaveType.name,
-            color: 'bg-rose-100 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400' // Dynamic color todo
-        }));
+        const whoIsOut = approvedLeaves.map((l: any) => {
+            const statusColors: Record<string, string> = {
+                'APPROVED': 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
+                'PENDING': 'bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400',
+                'REJECTED': 'bg-rose-100 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400',
+            };
+            return {
+                name: l.user.profile ? `${l.user.profile.firstName} ${l.user.profile.lastName}` : l.user.email,
+                role: l.user.profile?.designation || 'Employee',
+                status: l.leaveType.name,
+                color: statusColors[l.status] || 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
+            };
+        });
 
         // 8. Birthdays
         const profiles = await prisma.$queryRaw`

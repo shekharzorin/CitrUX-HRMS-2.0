@@ -74,7 +74,7 @@ const SystemHealth: React.FC = () => {
                 <div className="flex items-center gap-3">
                     <span className="text-sm text-muted">Last updated: {lastUpdated.toLocaleTimeString()}</span>
                     <Button variant="secondary" onClick={() => fetchData(true)} disabled={refreshing}>
-                        <Icon name={refreshing ? "loading" : "refresh"} size={18} className={refreshing ? "animate-spin" : ""} />
+                        <Icon name="refresh" size={18} className={refreshing ? "animate-spin" : ""} />
                         Refresh
                     </Button>
                 </div>

@@ -2,6 +2,7 @@
 import { PrismaClient } from '@prisma/client';
 import { exec } from 'child_process';
 import util from 'util';
+import logger from '../utils/logger';
 
 const execAsync = util.promisify(exec);
 const prisma = new PrismaClient();
@@ -106,7 +107,7 @@ export class HealthService {
         return { errors, total, page, totalPages: Math.ceil(total / limit) };
     }
 
-    static async logError(module: string, message: string, severity: 'INFO' | 'WARNING' | 'CRITICAL' = 'DOES NOT EXIST' as any, stack?: string) {
+    static async logError(module: string, message: string, severity: 'INFO' | 'WARNING' | 'CRITICAL' = 'INFO', stack?: string) {
         try {
             // @ts-ignore
             if (prisma.systemError) {
@@ -115,14 +116,14 @@ export class HealthService {
                     data: {
                         module,
                         message,
-                        severity: severity === 'DOES NOT EXIST' ? 'INFO' : severity,
+                        severity,
                         stack,
                         timestamp: new Date()
                     }
                 });
             }
         } catch (e) {
-            console.error("Failed to log system error:", e);
+            logger.error("Failed to log system error:", e);
         }
     }
 }

@@ -1,0 +1,5 @@
+{"level":"error","message":"[FATAL] Unhandled Rejection: [object Object]"}
+{"level":"error","message":"[FATAL] Unhandled Rejection: [object Object]"}
+{"level":"error","message":"[FATAL] Unhandled Rejection: [object Object]"}
+{"level":"error","message":"[FATAL] Unhandled Rejection: {\"message\":\"Resource is invalid\",\"name\":\"Error\",\"http_code\":400}"}
+{"level":"error","message":"[FATAL] Unhandled Rejection: {\"message\":\"An unknown file format not allowed\",\"name\":\"Error\",\"http_code\":400}"}

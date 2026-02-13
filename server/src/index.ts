@@ -49,9 +49,10 @@ process.on('uncaughtException', (err) => {
     process.exit(1);
 });
 
-process.on('unhandledRejection', (reason, promise) => {
-    logger.error(`[FATAL] Unhandled Rejection: ${reason}`);
-    process.exit(1);
+process.on('unhandledRejection', (reason: any, promise) => {
+    logger.error(`[CRITICAL] Unhandled Rejection: ${reason instanceof Error ? reason.message : JSON.stringify(reason)}`, { stack: reason instanceof Error ? reason.stack : undefined });
+    // Do not crash the server on unhandled rejection, just log it. 
+    // This prevents "Failed to fetch" on client when Cloudinary errors occur.
 });
 
 // Initialize Schedulers

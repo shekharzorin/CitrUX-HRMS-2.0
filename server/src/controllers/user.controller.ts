@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import { requireString } from '../utils/requestUtils';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { IdService } from '../services/id.service';
+import logger from '../utils/logger';
 
 export const createUser = async (req: Request, res: Response) => {
     try {
@@ -23,7 +24,7 @@ export const createUser = async (req: Request, res: Response) => {
                     finalEmployeeId = await IdService.generateId('EMP');
                 }
             } catch (err) {
-                console.error("Error auto-generating Employee ID:", err);
+                logger.error("Error auto-generating Employee ID:", err);
             }
         }
 
@@ -72,14 +73,14 @@ export const createUser = async (req: Request, res: Response) => {
                 }));
                 await (prisma as any).leaveBalance.createMany({ data: balances });
             }
-        } catch (e) {
-            console.error("Failed to init leave balances for user:", user.id, e);
+        } catch (e: any) {
+            logger.error(`Failed to init leave balances for user: ${user.id}`, e);
         }
 
         const { passwordHash: _, ...userWithoutPassword } = user;
         res.status(201).json(userWithoutPassword);
     } catch (error) {
-        console.error('Create User Error:', error);
+        logger.error('Create User Error:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
@@ -110,7 +111,7 @@ export const importUsers = async (req: Request, res: Response) => {
                 // For now, let's call generateId for each user to ensure safety.
             }
         } catch (e) {
-            console.error("Failed to load settings for import:", e);
+            logger.error("Failed to load settings for import:", e);
         }
 
         for (const u of users) {
@@ -193,14 +194,14 @@ export const importUsers = async (req: Request, res: Response) => {
         res.json({ message: 'Import processed', results });
 
     } catch (error) {
-        console.error('Bulk Import Error:', error);
+        logger.error('Bulk Import Error:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
 export const getUsers = async (req: AuthRequest, res: Response) => {
     try {
-        console.log('GET /api/users HIT');
+        logger.info('GET /api/users HIT');
         const { role, userId } = req.user;
 
         let whereClause: any = {};
@@ -228,10 +229,10 @@ export const getUsers = async (req: AuthRequest, res: Response) => {
                 // Exclude passwordHash
             }
         });
-        console.log(`Returning ${users.length} users for role ${role}`);
+        logger.info(`Returning ${users.length} users for role ${role}`);
         res.json(users);
     } catch (error) {
-        console.error('Error in getUsers:', error);
+        logger.error('Error in getUsers:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
@@ -326,14 +327,14 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
                     data: { dob: dobDate }
                 });
             } catch (e) {
-                console.error("Failed to update DOB", e);
+                logger.error("Failed to update DOB", e);
             }
         }
 
         const { passwordHash, ...userData } = updatedUser;
         res.json(userData);
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
@@ -438,7 +439,7 @@ export const deleteUser = async (req: AuthRequest, res: Response) => {
 
         res.json({ message: 'User and all related data deleted successfully' });
     } catch (error: any) {
-        console.error('Delete User Error:', error);
+        logger.error('Delete User Error:', error);
         res.status(500).json({
             message: 'Internal Server Error',
             error: error.message,

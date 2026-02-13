@@ -1,6 +1,7 @@
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import logger from '../utils/logger';
 
 // Ensure upload directory exists
 const uploadDir = path.join(__dirname, '../../uploads');
@@ -22,7 +23,7 @@ const diskStorage = multer.diskStorage({
 
 const fileFilter = (req: any, file: any, cb: any) => {
     // Accept images and PDFs
-    console.log(`[Upload Middleware] Processing file: ${file.originalname}, mimetype: ${file.mimetype}`);
+    logger.info(`[Upload Middleware] Processing file: ${file.originalname}, mimetype: ${file.mimetype}`);
     if (file.mimetype.startsWith('image/') || file.mimetype === 'application/pdf') {
         cb(null, true);
     } else {

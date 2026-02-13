@@ -30,8 +30,17 @@ router.post('/upload', authenticateToken, uploadMiddleware, (req: any, res) => {
     // Multer provides absolute path in req.file.path
     // We need to return the URL relative to the server
     const filename = req.file.filename;
-    const url = `${process.env.API_URL || 'http://localhost:5001'}/uploads/${filename}`;
-    console.log('[Upload Middleware] Success, URL:', url);
+    let url = '';
+
+    // Check if Cloudinary storage (path is already a URL)
+    if (req.file.path && req.file.path.startsWith('http')) {
+        url = req.file.path;
+    } else {
+        // Local storage fallback
+        url = `${process.env.API_URL || 'http://localhost:5001'}/uploads/${filename}`;
+    }
+
+    console.log('[Upload Endpoint] Success, URL:', url);
     res.json({ url });
 });
 

@@ -2,65 +2,58 @@ import { Request, Response } from 'express';
 import { prisma } from '../db';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import logger from '../utils/logger';
 
 export const login = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
-        console.log('Login attempt:', email);
+        logger.info(`Login attempt: ${email}`);
 
         const user = await prisma.user.findUnique({
             where: { email },
             include: { profile: true, shift: true }
         });
-        console.log('User found:', !!user);
+        logger.info(`User found: ${!!user}`);
 
         if (!user) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
         const isMatch = await bcrypt.compare(password, user.passwordHash);
-        console.log('Password match:', isMatch);
+        logger.info(`Password match: ${isMatch}`);
 
         if (!isMatch) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        if (!process.env.JWT_SECRET) console.error('JWT_SECRET is missing!');
+        if (!process.env.JWT_SECRET) logger.error('JWT_SECRET is missing!');
 
         const token = jwt.sign(
             { userId: user.id, role: user.role },
             process.env.JWT_SECRET as string,
             { expiresIn: '1d' }
         );
-        console.log('Token generated');
+        logger.info('Token generated');
 
         const { passwordHash, ...userData } = user;
 
         res.json({ token, user: userData });
     } catch (error: any) {
-        console.error('Login Error:', error);
-        const fs = require('fs');
-        const logPath = require('path').join('d:/citrux-hrms/server', 'error.log');
-        fs.appendFileSync(logPath, `${new Date().toISOString()} - CWD: ${process.cwd()} - Login Error: ${error?.message}\n${error?.stack}\n\n`);
+        logger.error(`Login Error: ${error.message}`, { stack: error.stack });
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
 export const forgotPassword = async (req: Request, res: Response) => {
-    const fs = require('fs');
-    const path = require('path');
-    const logFile = path.join(process.cwd(), 'auth_debug.log');
-    const log = (msg: string) => fs.appendFileSync(logFile, `[${new Date().toISOString()}] ${msg}\n`);
-
     try {
         const { email } = req.body;
-        log(`Forgot Password Request for: ${email}`);
+        logger.info(`Forgot Password Request for: ${email}`);
 
         const user = await prisma.user.findUnique({ where: { email } });
-        log(`User found in DB: ${user ? 'YES' : 'NO'} (ID: ${user?.id})`);
+        logger.info(`User found in DB: ${user ? 'YES' : 'NO'} (ID: ${user?.id})`);
 
         if (!user) {
-            log('User not found, returning fake success.');
+            logger.info('User not found, returning fake success.');
             return res.json({ message: 'If an account with that email exists, a reset link has been sent.' });
         }
 
@@ -91,7 +84,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
         res.json({ message: 'If an account with that email exists, a reset link has been sent.' });
 
     } catch (error) {
-        console.error('Forgot Password Error:', error);
+        logger.error('Forgot Password Error:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
@@ -145,7 +138,7 @@ export const resetPassword = async (req: Request, res: Response) => {
         res.json({ message: 'Password reset successful' });
 
     } catch (error) {
-        console.error('Reset Password Error:', error);
+        logger.error('Reset Password Error:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };

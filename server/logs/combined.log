@@ -1530,3 +1530,546 @@
 {"level":"info","message":"GET /api/notifications/unread-count"}
 {"level":"info","message":"GET /api/notifications/unread-count"}
 {"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"GET /api/users"}
+{"level":"info","message":"GET /favicon.ico"}
+{"level":"info","message":"GET /login"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /api/settings/public"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"GET /api/notifications"}
+{"level":"info","message":"GET /api/stats"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/stats"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"POST /api/attendance/punch-in"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"GET /api/notifications"}
+{"level":"info","message":"GET /api/stats"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/stats"}
+{"level":"info","message":"GET /api/notifications"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications"}
+{"level":"info","message":"GET /api/stats"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/stats"}
+{"level":"info","message":"GET /api/notifications"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications"}
+{"level":"info","message":"GET /api/stats"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/profile"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/profile"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"POST /api/attendance/punch-out"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"POST /api/onboarding/upload"}
+{"level":"info","message":"[Upload Middleware] Processing file: Gemini_Generated_Image_emi95xemi95xemi9.png, mimetype: image/png"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /uploads/citrux-hrms/file-1770984542731-335026722"}
+{"level":"info","message":"PUT /api/profile"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"GET /api/settings"}
+{"level":"info","message":"GET /api/settings"}
+{"level":"info","message":"GET /api/job-roles"}
+{"level":"info","message":"GET /api/leaves/types"}
+{"level":"info","message":"GET /api/holidays"}
+{"level":"info","message":"GET /api/job-roles"}
+{"level":"info","message":"GET /api/leaves/types"}
+{"level":"info","message":"GET /api/holidays"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"POST /api/onboarding/upload"}
+{"level":"info","message":"[Upload Middleware] Processing file: Frame 172.png, mimetype: image/png"}
+{"level":"info","message":"GET /uploads/citrux-hrms/file-1770984581771-789771343"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/settings"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/settings"}
+{"level":"info","message":"GET /api/job-roles"}
+{"level":"info","message":"GET /api/leaves/types"}
+{"level":"info","message":"GET /api/holidays"}
+{"level":"info","message":"GET /api/holidays"}
+{"level":"info","message":"GET /api/job-roles"}
+{"level":"info","message":"GET /api/leaves/types"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"POST /api/onboarding/upload"}
+{"level":"info","message":"[Upload Middleware] Processing file: Frame 172.png, mimetype: image/png"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"Login attempt: admin@citrux.com"}
+{"level":"info","message":"User found: true"}
+{"level":"info","message":"Password match: false"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"Login attempt: admin@citrux.com"}
+{"level":"info","message":"User found: true"}
+{"level":"info","message":"Password match: true"}
+{"level":"info","message":"Token generated"}
+{"level":"info","message":"POST /api/onboarding/upload"}
+{"level":"info","message":"[Upload Middleware] Processing file: test-image.jpg, mimetype: image/jpeg"}
+{"level":"error","message":"[FATAL] Unhandled Rejection: [object Object]"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"Login attempt: admin@citrux.com"}
+{"level":"info","message":"User found: true"}
+{"level":"info","message":"Password match: true"}
+{"level":"info","message":"Token generated"}
+{"level":"info","message":"POST /api/onboarding/upload"}
+{"level":"info","message":"[Upload Middleware] Processing file: test-image.jpg, mimetype: image/jpeg"}
+{"level":"error","message":"[FATAL] Unhandled Rejection: [object Object]"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"Login attempt: admin@citrux.com"}
+{"level":"info","message":"User found: true"}
+{"level":"info","message":"Password match: true"}
+{"level":"info","message":"Token generated"}
+{"level":"info","message":"POST /api/onboarding/upload"}
+{"level":"info","message":"[Upload Middleware] Processing file: test-image.jpg, mimetype: image/jpeg"}
+{"level":"error","message":"[FATAL] Unhandled Rejection: [object Object]"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"Login attempt: admin@citrux.com"}
+{"level":"info","message":"User found: true"}
+{"level":"info","message":"Password match: true"}
+{"level":"info","message":"Token generated"}
+{"level":"info","message":"POST /api/onboarding/upload"}
+{"level":"info","message":"[Upload Middleware] Processing file: test-image.jpg, mimetype: image/jpeg"}
+{"level":"error","message":"[FATAL] Unhandled Rejection: {\"message\":\"Resource is invalid\",\"name\":\"Error\",\"http_code\":400}"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"POST /api/auth/login"}
+{"level":"info","message":"Login attempt: admin@citrux.com"}
+{"level":"info","message":"User found: true"}
+{"level":"info","message":"Password match: true"}
+{"level":"info","message":"Token generated"}
+{"level":"info","message":"POST /api/onboarding/upload"}
+{"level":"info","message":"[Upload Middleware] Processing file: test-logo.png, mimetype: image/png"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"GET /api/settings"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/settings"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/job-roles"}
+{"level":"info","message":"GET /api/leaves/types"}
+{"level":"info","message":"GET /api/holidays"}
+{"level":"info","message":"GET /api/job-roles"}
+{"level":"info","message":"GET /api/leaves/types"}
+{"level":"info","message":"GET /api/holidays"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"GET /api/notifications"}
+{"level":"info","message":"GET /api/stats"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/stats"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /api/attendance/my-history"}
+{"level":"info","message":"GET /uploads/file-1770906289074-863226171.png"}
+{"level":"info","message":"GET /api/settings"}
+{"level":"info","message":"GET /api/settings"}
+{"level":"info","message":"GET /api/holidays"}
+{"level":"info","message":"GET /api/job-roles"}
+{"level":"info","message":"GET /api/leaves/types"}
+{"level":"info","message":"GET /api/holidays"}
+{"level":"info","message":"GET /api/job-roles"}
+{"level":"info","message":"GET /api/leaves/types"}
+{"level":"info","message":"POST /api/onboarding/upload"}
+{"level":"info","message":"[Upload Middleware] Processing file: Frame 172.png, mimetype: image/png"}
+{"level":"info","message":"POST /api/settings"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"POST /api/onboarding/upload"}
+{"level":"info","message":"[Upload Middleware] Processing file: Frame 205 (1).svg, mimetype: image/svg+xml"}
+{"level":"error","message":"[FATAL] Unhandled Rejection: {\"message\":\"An unknown file format not allowed\",\"name\":\"Error\",\"http_code\":400}"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"POST /api/settings"}
+{"level":"info","message":"GET /api/settings"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/holidays"}
+{"level":"info","message":"GET /api/settings"}
+{"level":"info","message":"GET /api/job-roles"}
+{"level":"info","message":"GET /api/leaves/types"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/settings"}
+{"level":"info","message":"GET /api/settings"}
+{"level":"info","message":"GET /api/leaves/types"}
+{"level":"info","message":"GET /api/job-roles"}
+{"level":"info","message":"GET /api/holidays"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/leaves/types"}
+{"level":"info","message":"GET /api/holidays"}
+{"level":"info","message":"GET /api/job-roles"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"POST /api/onboarding/upload"}
+{"level":"info","message":"[Upload Middleware] Processing file: favicon-svgrepo-com.svg, mimetype: image/svg+xml"}
+{"level":"info","message":"GET /api/settings"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/settings"}
+{"level":"info","message":"GET /api/job-roles"}
+{"level":"info","message":"GET /api/leaves/types"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/holidays"}
+{"level":"info","message":"GET /api/job-roles"}
+{"level":"info","message":"GET /api/leaves/types"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/holidays"}
+{"level":"info","message":"POST /api/onboarding/upload"}
+{"level":"info","message":"[Upload Middleware] Processing file: favicon-svgrepo-com.svg, mimetype: image/svg+xml"}
+{"level":"info","message":"POST /api/settings"}
+{"level":"info","message":"POST /api/onboarding/upload"}
+{"level":"info","message":"[Upload Middleware] Processing file: Frame 205.png, mimetype: image/png"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"POST /api/settings"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"Server running on port 5001"}
+{"level":"info","message":"GET /api/notifications/unread-count"}
+{"level":"info","message":"Server running on port 5001"}
