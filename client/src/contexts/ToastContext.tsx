@@ -40,6 +40,21 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setToasts((prev) => prev.filter((t) => t.id !== id));
     };
 
+    // Listen for global custom events to trigger toasts from outside React
+    React.useEffect(() => {
+        const handleCustomToast = (event: Event) => {
+            const customEvent = event as CustomEvent<{ message: string; type?: ToastType }>;
+            if (customEvent.detail && customEvent.detail.message) {
+                showToast(customEvent.detail.message, customEvent.detail.type || 'info');
+            }
+        };
+
+        window.addEventListener('app:toast', handleCustomToast);
+        return () => {
+            window.removeEventListener('app:toast', handleCustomToast);
+        };
+    }, [showToast]);
+
     return (
         <ToastContext.Provider value={{ showToast }}>
             {children}

@@ -45,6 +45,10 @@ const Leaves: React.FC = () => {
         reason: ''
     });
 
+    // Search and Filter State
+    const [searchQuery, setSearchQuery] = useState('');
+    const [statusFilter, setStatusFilter] = useState('ALL');
+
     const fetchData = async () => {
         try {
             const [balData, reqData, typeData] = await Promise.all([
@@ -68,6 +72,17 @@ const Leaves: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Client-side validation
+        if (!formData.leaveTypeId) {
+            showToast('Please select a leave type.', 'error');
+            return;
+        }
+        if (formData.endDate < formData.startDate) {
+            showToast('End date cannot be before start date.', 'error');
+            return;
+        }
+
         try {
             await api.post('/leaves/apply', formData);
             setShowModal(false);
@@ -118,8 +133,24 @@ const Leaves: React.FC = () => {
                 }
             />
 
+            {/* Quick Actions for Leaves */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-2">
+                <Button variant="outline" className="w-full sm:w-auto py-4 rounded-2xl" onClick={() => {
+                    setFormData(f => ({ ...f, leaveTypeId: leaveTypes.find((t: any) => t.code === 'CL')?.id || '' }));
+                    setShowModal(true);
+                }}>
+                    Apply Casual Leave
+                </Button>
+                <Button variant="outline" className="w-full sm:w-auto py-4 rounded-2xl" onClick={() => {
+                    setFormData(f => ({ ...f, leaveTypeId: leaveTypes.find((t: any) => t.code === 'SL')?.id || '' }));
+                    setShowModal(true);
+                }}>
+                    Apply Sick Leave
+                </Button>
+            </div>
+
             {/* Balances Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {balances.map((b) => (
                     <StatsCardPremium
                         key={b.id}
@@ -229,42 +260,75 @@ const Leaves: React.FC = () => {
                         </div>
                     </div>
                 ) : (
-                    <div className="animate-fade-in overflow-x-auto">
-                        <table className="table-premium w-full text-left">
-                            <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Date Range</th>
-                                    <th>Days</th>
-                                    <th>Reason</th>
-                                    <th className="text-right">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {requests.map(r => (
-                                    <tr key={r.id} className="border-b border-slate-50 dark:border-slate-800 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                                        <td className="p-4 font-bold text-slate-700 dark:text-slate-300">{r.leaveType.name}</td>
-                                        <td className="p-4 text-sm">
-                                            {format(parseISO(r.startDate), 'MMM d, yyyy')} - {format(parseISO(r.endDate), 'MMM d, yyyy')}
-                                        </td>
-                                        <td className="p-4 font-mono text-sm">{r.days}</td>
-                                        <td className="p-4 text-sm text-slate-500 max-w-[200px] truncate">{r.reason}</td>
-                                        <td className="p-4 text-right">
-                                            <span className={`px-2 py-1 rounded-full text-xs font-bold ${r.status === 'APPROVED' ? 'bg-emerald-100 text-emerald-700' :
-                                                r.status === 'REJECTED' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
-                                                }`}>
-                                                {r.status}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                                {requests.length === 0 && (
+                    <div className="animate-fade-in space-y-4">
+                        {/* Search and Filter */}
+                        <div className="flex flex-col md:flex-row gap-4 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <div className="flex-1 relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                    <Icon name="search" size={18} />
+                                </div>
+                                <input
+                                    type="text"
+                                    className="input-field pl-10 bg-white"
+                                    placeholder="Search by reason..."
+                                    value={searchQuery}
+                                    onChange={e => setSearchQuery(e.target.value)}
+                                />
+                            </div>
+                            <div className="w-full md:w-64 border-none">
+                                <select 
+                                    className="input-field bg-white" 
+                                    value={statusFilter}
+                                    onChange={e => setStatusFilter(e.target.value)}
+                                >
+                                    <option value="ALL">All Statuses</option>
+                                    <option value="PENDING">Pending</option>
+                                    <option value="APPROVED">Approved</option>
+                                    <option value="REJECTED">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="overflow-x-auto border border-slate-100 dark:border-slate-800 rounded-xl">
+                            <table className="table-premium w-full text-left">
+                                <thead>
                                     <tr>
-                                        <td colSpan={5} className="p-8 text-center text-slate-400">No leave requests found.</td>
+                                        <th>Type</th>
+                                        <th>Date Range</th>
+                                        <th>Days</th>
+                                        <th>Reason</th>
+                                        <th className="text-right">Status</th>
                                     </tr>
-                                )}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {requests
+                                        .filter(r => statusFilter === 'ALL' || r.status === statusFilter)
+                                        .filter(r => r.reason?.toLowerCase().includes(searchQuery.toLowerCase()))
+                                        .map(r => (
+                                        <tr key={r.id} className="border-b border-slate-50 dark:border-slate-800 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                                            <td className="p-4 font-bold text-slate-700 dark:text-slate-300">{r.leaveType.name}</td>
+                                            <td className="p-4 text-sm">
+                                                {format(parseISO(r.startDate), 'MMM d, yyyy')} - {format(parseISO(r.endDate), 'MMM d, yyyy')}
+                                            </td>
+                                            <td className="p-4 font-mono text-sm">{r.days}</td>
+                                            <td className="p-4 text-sm text-slate-500 max-w-[200px] truncate">{r.reason}</td>
+                                            <td className="p-4 text-right">
+                                                <span className={`px-2 py-1 rounded-full text-xs font-bold ${r.status === 'APPROVED' ? 'bg-emerald-100 text-emerald-700' :
+                                                    r.status === 'REJECTED' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
+                                                    }`}>
+                                                    {r.status}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    {requests.length === 0 && (
+                                        <tr>
+                                            <td colSpan={5} className="p-8 text-center text-slate-400">No leave requests found.</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 )}
             </div>
@@ -286,8 +350,30 @@ const Leaves: React.FC = () => {
                                 </select>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
-                                <div><label className="form-label">Start</label><input type="date" className="input-field" value={formData.startDate} onChange={e => setFormData({ ...formData, startDate: e.target.value })} required title="Start Date" /></div>
-                                <div><label className="form-label">End</label><input type="date" className="input-field" value={formData.endDate} onChange={e => setFormData({ ...formData, endDate: e.target.value })} required title="End Date" /></div>
+                                <div>
+                                    <label className="form-label">Start</label>
+                                    <input
+                                        type="date"
+                                        className="input-field"
+                                        value={formData.startDate}
+                                        min={new Date().toISOString().split('T')[0]}
+                                        onChange={e => setFormData({ ...formData, startDate: e.target.value, endDate: '' })}
+                                        required
+                                        title="Start Date"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="form-label">End</label>
+                                    <input
+                                        type="date"
+                                        className="input-field"
+                                        value={formData.endDate}
+                                        min={formData.startDate || new Date().toISOString().split('T')[0]}
+                                        onChange={e => setFormData({ ...formData, endDate: e.target.value })}
+                                        required
+                                        title="End Date"
+                                    />
+                                </div>
                             </div>
                             <div>
                                 <label className="form-label">Reason</label>

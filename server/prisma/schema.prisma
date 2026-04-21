@@ -3,9 +3,35 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  HR
+  MANAGER
+  EMPLOYEE
+}
+
+
+model Company {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  subdomain   String?  @unique
+  domain      String?
+  plan        String   @default("STARTER")
+  logoUrl     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  users       User[]
+  profiles    Profile[]
+  workLogs    WorkLog[]
+  tasks       Task[]
+}
+
 
 model User {
   id            String              @id @default(uuid())
@@ -15,9 +41,12 @@ model User {
   resetToken    String?
   resetTokenExpiry DateTime?
   status        String              @default("ACTIVE")
-  role          String              @default("EMPLOYEE")
+  role          Role                @default(EMPLOYEE)
   managerId     String?
   shiftId       String?
+  companyId     String?
+  company       Company?            @relation(fields: [companyId], references: [id])
+  
   assets        Asset[]
   attendance    Attendance[]
   certificates  Certificate[]
@@ -39,6 +68,8 @@ model User {
   manager       User?               @relation("ManagerSubordinates", fields: [managerId], references: [id])
   subordinates  User[]              @relation("ManagerSubordinates")
   timesheets    Timesheet[]
+  workLogs      WorkLog[]
+  tasks         Task[]
   attendanceRequests AttendanceRequest[]
   audits        AuditLog[]          @relation("UserAudits")
 }
@@ -119,6 +150,8 @@ model Profile {
 
   profilePhoto   String?
   profilePhotoSettings String? // JSON string for zoom/position
+  companyId      String?
+  company        Company?  @relation(fields: [companyId], references: [id])
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -534,12 +567,35 @@ model TimesheetEntry {
 
 model Task {
   id          String           @id @default(uuid())
+  userId      String?
   title       String
   description String?
   project     String?
-  status      String           @default("ACTIVE")
+  status      String           @default("TODO") // TODO, IN_PROGRESS, DONE
+  priority    String           @default("MEDIUM") // LOW, MEDIUM, HIGH
+  dueDate     DateTime?
+  companyId   String?
+  company     Company?         @relation(fields: [companyId], references: [id])
   entries     TimesheetEntry[]
   createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  user        User?            @relation(fields: [userId], references: [id])
+}
+
+model WorkLog {
+  id          String   @id @default(uuid())
+  userId      String
+  date        DateTime
+  hoursWorked Float
+  breakTime   Float    @default(0) // in minutes
+  description String
+  companyId   String?
+  company     Company? @relation(fields: [companyId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, date])
 }
 
 model AttendanceRequest {

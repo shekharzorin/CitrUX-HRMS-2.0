@@ -1,310 +1,199 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
-import { addDays, subDays, startOfWeek, endOfWeek, eachDayOfInterval, isWeekend } from 'date-fns';
 
 const prisma = new PrismaClient();
 
 async function main() {
-    console.log('🌱 Start seeding Citrux HRMS V2.0 Data...');
+    console.log('\n🌱  Citrux HRMS — Database Seed\n');
 
-    // --- CLEANUP ---
-    try {
-        console.log('Breaking Manager Links...');
-        // @ts-ignore
-        await prisma.user.updateMany({ data: { managerId: null } });
-    } catch (e: any) {
-        console.log('Manager Clean Warning:', e.message);
-    }
-
-    const tables = ['notification', 'certificate', 'payslip', 'onboarding', 'jobRole', 'holiday', 'leaveRequest', 'attendance', 'leaveBalance', 'profile', 'user', 'leaveType', 'shift'];
-    for (const table of tables) {
-        try {
-            console.log(`Purging ${table}...`);
-            if ((prisma as any)[table]) {
-                await (prisma as any)[table].deleteMany();
-            }
-        } catch (e: any) {
-            console.log(`Skipping purge for ${table}: ${e.message}`);
+    // ─── 1. Demo Company ──────────────────────────────────────────────────────
+    const company = await prisma.company.upsert({
+        where: { name: 'Citrux Technologies' },
+        update: {},
+        create: {
+            name: 'Citrux Technologies',
+            subdomain: 'citrux',
         }
-    }
+    });
+    console.log(`✅  Company   : ${company.name} [${company.id}]`);
 
-    // --- SETUP ---
-    const salt = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash('admin123', salt);
-    const empPasswordHash = await bcrypt.hash('user123', salt);
+    // ─── 2. Super Admin (global — no companyId) ───────────────────────────────
+    const superAdminPwd = await bcrypt.hash('SuperAdmin@123', 10);
+    const superAdmin = await prisma.user.upsert({
+        where: { email: 'superadmin@citrux.com' },
+        update: {},
+        create: {
+            email: 'superadmin@citrux.com',
+            passwordHash: superAdminPwd,
+            role: 'SUPER_ADMIN',
+            companyId: null,
+            profile: {
+                create: { firstName: 'Super', lastName: 'Admin' }
+            }
+        }
+    });
+    console.log(`✅  Super Admin: ${superAdmin.email}`);
 
-    // 1. Shift
-    console.log('Creating Shifts...');
-    const generalShift = await prisma.shift.create({
-        data: {
-            name: 'General Shift',
+    // ─── 3. Company Admin ─────────────────────────────────────────────────────
+    const adminPwd = await bcrypt.hash('Admin@123', 10);
+    const admin = await prisma.user.upsert({
+        where: { email: 'admin@citrux.com' },
+        update: {},
+        create: {
+            email: 'admin@citrux.com',
+            passwordHash: adminPwd,
+            role: 'ADMIN',
+            companyId: company.id,
+            profile: {
+                create: {
+                    firstName: 'Company',
+                    lastName: 'Admin',
+                    designation: 'HR Manager',
+                    department: 'Human Resources',
+                }
+            }
+        }
+    });
+    console.log(`✅  Admin     : ${admin.email}`);
+
+    // ─── 4. Default Shift ─────────────────────────────────────────────────────
+    const shift = await prisma.shift.upsert({
+        where: { id: 'shift-general-default' },
+        update: {},
+        create: {
+            id: 'shift-general-default',
+            name: 'General (9 AM – 6 PM)',
             startTime: '09:00',
             endTime: '18:00',
-            graceTime: 15
+            graceTime: 15,
         }
     });
+    console.log(`✅  Shift     : ${shift.name}`);
 
-    // 2. Leave Types
-    console.log('Creating Leave Types...');
-    const leaveTypesData = [
-        { name: 'Casual Leave', code: 'cl', days: 12 },
-        { name: 'Sick Leave', code: 'sl', days: 10 },
-        { name: 'Privilege Leave', code: 'pl', days: 15 },
-        { name: 'Work From Home', code: 'wfh', days: 24 }
+    // ─── 5. Leave Types ───────────────────────────────────────────────────────
+    const leaveTypeDefs = [
+        { name: 'Annual Leave',    code: 'AL', daysPerYear: 18, carryForward: true,  maxCarryForward: 5 },
+        { name: 'Sick Leave',      code: 'SL', daysPerYear: 12, carryForward: false, maxCarryForward: 0 },
+        { name: 'Casual Leave',    code: 'CL', daysPerYear: 6,  carryForward: false, maxCarryForward: 0 },
+        { name: 'Maternity Leave', code: 'ML', daysPerYear: 180,carryForward: false, maxCarryForward: 0 },
+        { name: 'Paternity Leave', code: 'PL', daysPerYear: 15, carryForward: false, maxCarryForward: 0 },
     ];
-    const leaveTypes: any = {};
-    for (const t of leaveTypesData) {
-        const lt = await prisma.leaveType.create({
-            data: { name: t.name, code: t.code, daysPerYear: t.days }
+    for (const lt of leaveTypeDefs) {
+        await prisma.leaveType.upsert({
+            where: { code: lt.code },
+            update: {},
+            create: lt
         });
-        leaveTypes[t.code] = lt;
     }
+    const allLeaveTypes = await prisma.leaveType.findMany();
+    console.log(`✅  Leave Types: ${allLeaveTypes.map(t => t.code).join(', ')}`);
 
-    // 3. Holidays (2024-2025 samples)
-    console.log('Creating Holidays...');
-    await prisma.holiday.createMany({
-        data: [
-            { name: 'New Year', date: new Date('2025-01-01'), type: 'National' },
-            { name: 'Republic Day', date: new Date('2025-01-26'), type: 'National' },
-            { name: 'Holi', date: new Date('2025-03-25'), type: 'Festival' },
-            { name: 'Independence Day', date: new Date('2025-08-15'), type: 'National' },
-            { name: 'Gandhi Jayanti', date: new Date('2025-10-02'), type: 'National' },
-            { name: 'Diwali', date: new Date('2025-11-12'), type: 'Festival' },
-            { name: 'Christmas', date: new Date('2025-12-25'), type: 'Festival' }
-        ]
-    });
-
-    // 4. Job Roles
-    console.log('Creating Job Roles...');
-    const roles = [
-        { title: 'CEO', department: 'Management', level: 10 },
-        { title: 'HR Manager', department: 'HR', level: 7 },
-        { title: 'Engineering Manager', department: 'Engineering', level: 8 },
-        { title: 'Senior Developer', department: 'Engineering', level: 6 },
-        { title: 'Software Engineer', department: 'Engineering', level: 4 },
-        { title: 'Product Designer', department: 'Design', level: 5 },
-        { title: 'Marketing Specialist', department: 'Marketing', level: 4 }
-    ];
-    for (const r of roles) {
-        await prisma.jobRole.create({ data: r });
-    }
-
-    // 5. Users & Profiles
-    console.log('Creating Users...');
-
-    // --- ADMIN ---
-    const admin = await prisma.user.create({
-        data: {
-            email: 'admin@citrux.com',
-            passwordHash,
-            role: 'ADMIN',
-            employeeId: 'EMP001',
-            shiftId: generalShift.id,
-            profile: {
-                create: {
-                    firstName: 'Super',
-                    lastName: 'Admin',
-                    designation: 'CEO',
-                    department: 'Management',
-                    dateOfJoining: subDays(new Date(), 365 * 2)
-                }
-            }
-        }
-    });
-
-    // --- HR MANAGER ---
-    const hrManager = await prisma.user.create({
-        data: {
-            email: 'hr@citrux.com',
-            passwordHash: empPasswordHash,
-            role: 'HR',
+    // ─── 6. Sample Manager ────────────────────────────────────────────────────
+    const managerPwd = await bcrypt.hash('Manager@123', 10);
+    const manager = await prisma.user.upsert({
+        where: { email: 'manager@citrux.com' },
+        update: {},
+        create: {
+            email: 'manager@citrux.com',
             employeeId: 'EMP002',
-            shiftId: generalShift.id,
-            managerId: admin.id,
+            passwordHash: managerPwd,
+            role: 'MANAGER',
+            companyId: company.id,
+            shiftId: shift.id,
             profile: {
                 create: {
-                    firstName: 'Sarah',
-                    lastName: 'Connor',
-                    designation: 'HR Manager',
-                    department: 'HR',
-                    dateOfJoining: subDays(new Date(), 300)
+                    firstName: 'Rahul',
+                    lastName: 'Sharma',
+                    designation: 'Engineering Manager',
+                    department: 'Engineering',
+                    dateOfJoining: new Date('2022-06-01'),
+                    employmentType: 'FULL_TIME',
                 }
             }
         }
     });
+    console.log(`✅  Manager   : ${manager.email}`);
 
-    // --- ENG MANAGER ---
-    const engManager = await prisma.user.create({
-        data: {
-            email: 'techlead@citrux.com',
-            passwordHash: empPasswordHash,
-            role: 'MANAGER',
-            employeeId: 'EMP003',
-            shiftId: generalShift.id,
-            managerId: admin.id,
+    // ─── 7. Sample Employee ───────────────────────────────────────────────────
+    const empPwd = await bcrypt.hash('Employee@123', 10);
+    const employee = await prisma.user.upsert({
+        where: { email: 'john.doe@citrux.com' },
+        update: {},
+        create: {
+            email: 'john.doe@citrux.com',
+            employeeId: 'EMP001',
+            passwordHash: empPwd,
+            role: 'EMPLOYEE',
+            companyId: company.id,
+            shiftId: shift.id,
+            managerId: manager.id,
             profile: {
                 create: {
                     firstName: 'John',
                     lastName: 'Doe',
-                    designation: 'Engineering Manager',
+                    designation: 'Software Engineer',
                     department: 'Engineering',
-                    dateOfJoining: subDays(new Date(), 400)
+                    dateOfJoining: new Date('2024-01-15'),
+                    employmentType: 'FULL_TIME',
+                    phone: '9876543210',
                 }
             }
         }
     });
+    console.log(`✅  Employee  : ${employee.email}`);
 
-    // --- EMPLOYEES ---
-    const employeesData = [
-        { first: 'Alice', last: 'Wonder', email: 'alice@citrux.com', desig: 'Senior Developer', dept: 'Engineering', mgr: engManager.id },
-        { first: 'Bob', last: 'Builder', email: 'bob@citrux.com', desig: 'Software Engineer', dept: 'Engineering', mgr: engManager.id },
-        { first: 'Charlie', last: 'Chaplin', email: 'charlie@citrux.com', desig: 'Product Designer', dept: 'Design', mgr: engManager.id },
-        { first: 'David', last: 'Beckham', email: 'david@citrux.com', desig: 'Marketing Specialist', dept: 'Marketing', mgr: hrManager.id }, // Reporting to HR for demo
+    // ─── 8. Leave Balances for all company employees ──────────────────────────
+    const companyUsers = await prisma.user.findMany({
+        where: { companyId: company.id }
+    });
+
+    for (const u of companyUsers) {
+        for (const lt of allLeaveTypes) {
+            await prisma.leaveBalance.upsert({
+                where: { userId_leaveTypeId: { userId: u.id, leaveTypeId: lt.id } },
+                update: {},
+                create: {
+                    userId: u.id,
+                    leaveTypeId: lt.id,
+                    balance: lt.daysPerYear,
+                    used: 0,
+                }
+            });
+        }
+    }
+    console.log(`✅  Leave Balances initialized for ${companyUsers.length} users`);
+
+    // ─── 9. System Settings ───────────────────────────────────────────────────
+    const settings = [
+        { key: 'EMP_ID_AUTO_GENERATE', value: 'true' },
+        { key: 'EMP_ID_PREFIX', value: 'EMP' },
+        { key: 'EMP_ID_NEXT', value: '3' },
+        { key: 'EMP_ID_PADDING', value: '3' },
     ];
-
-    const allUsers = [admin, hrManager, engManager];
-
-    for (let i = 0; i < employeesData.length; i++) {
-        const e = employeesData[i];
-        const user = await prisma.user.create({
-            data: {
-                email: e.email,
-                passwordHash: empPasswordHash,
-                role: 'EMPLOYEE',
-                employeeId: `EMP00${i + 4}`,
-                shiftId: generalShift.id,
-                managerId: e.mgr,
-                profile: {
-                    create: {
-                        firstName: e.first,
-                        lastName: e.last,
-                        designation: e.desig,
-                        department: e.dept,
-                        dateOfJoining: subDays(new Date(), 100 + i * 20),
-                        phone: '9876543210'
-                    }
-                }
-            }
+    for (const s of settings) {
+        await prisma.systemSetting.upsert({
+            where: { key: s.key },
+            update: {},
+            create: s
         });
-        allUsers.push(user);
     }
+    console.log(`✅  System Settings: ${settings.length} entries`);
 
-    // 6. Leave Balances & Attendance
-    console.log('Generating Balances & Attendance...');
-
-    // Last 10 days including today
-    const attendanceDates = eachDayOfInterval({
-        start: subDays(new Date(), 9),
-        end: new Date()
-    });
-
-    for (const user of allUsers) {
-        // Balances
-        for (const typeCode of Object.keys(leaveTypes)) {
-            await prisma.leaveBalance.create({
-                data: {
-                    userId: user.id,
-                    leaveTypeId: leaveTypes[typeCode].id,
-                    balance: leaveTypes[typeCode].daysPerYear,
-                    used: 0
-                }
-            });
-        }
-
-        // Attendance
-        for (const date of attendanceDates) {
-            if (isWeekend(date)) continue; // Skip weekends
-
-            // Randomize: 80% Present on time, 10% Late, 5% Absent, 5% Half Day
-            const rand = Math.random();
-            let status = 'PRESENT';
-            let checkIn = new Date(date);
-            checkIn.setHours(9, 0, 0, 0); // 9:00 AM
-            let checkOut = new Date(date);
-            checkOut.setHours(18, 0, 0, 0); // 6:00 PM
-            let isLate = false;
-
-            if (rand > 0.95) {
-                // Absent - No record or stored as ABSENT
-                await prisma.attendance.create({
-                    data: { userId: user.id, date: date, status: 'ABSENT', shiftId: generalShift.id }
-                });
-                continue;
-            } else if (rand > 0.9) {
-                // Half Day
-                status = 'HALF_DAY';
-                checkOut.setHours(13, 0, 0); // Leave at 1 PM
-            } else if (rand > 0.8) {
-                // Late
-                isLate = true;
-                checkIn.setMinutes(45); // 9:45 AM
-            } else {
-                // On time (add random minutes variation)
-                const variance = Math.floor(Math.random() * 15); // 0-14 mins
-                checkIn.setMinutes(variance > 10 ? -variance : variance); // Sometimes early, sometimes few mins late but within grace
-            }
-
-            // Calculate hours
-            const hours = (checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60);
-
-            await prisma.attendance.create({
-                data: {
-                    userId: user.id,
-                    date: date,
-                    checkIn,
-                    checkOut,
-                    status,
-                    isLate,
-                    hours,
-                    shiftId: generalShift.id
-                }
-            });
-        }
-    }
-
-    // 7. Sample Leave Requests
-    console.log('Creating Leave Requests...');
-    // Alice requests Sick Leave (Approved)
-    await prisma.leaveRequest.create({
-        data: {
-            userId: allUsers[3].id, // Alice
-            leaveTypeId: leaveTypes['sl'].id,
-            startDate: subDays(new Date(), 5),
-            endDate: subDays(new Date(), 5),
-            days: 1,
-            reason: 'Viral Fever',
-            status: 'APPROVED',
-            managerComment: 'Take care',
-        }
-    });
-
-    // Bob requests Casual Leave (Pending)
-    await prisma.leaveRequest.create({
-        data: {
-            userId: allUsers[4].id, // Bob
-            leaveTypeId: leaveTypes['cl'].id,
-            startDate: addDays(new Date(), 2),
-            endDate: addDays(new Date(), 4),
-            days: 3,
-            reason: 'Family Function',
-            status: 'PENDING'
-        }
-    });
-
-    console.log('✅ Seeding Complete!');
-    console.log('------------------------------------------------');
-    console.log('Admin:       admin@citrux.com / admin123');
-    console.log('HR:          hr@citrux.com    / user123');
-    console.log('Manager:     techlead@citrux.com / user123');
-    console.log('Employee:    alice@citrux.com / user123');
-    console.log('------------------------------------------------');
+    // ─── Summary ──────────────────────────────────────────────────────────────
+    console.log('\n' + '─'.repeat(52));
+    console.log('🎉  Seed complete! Use these credentials to log in:\n');
+    console.log('  Role          Email                       Password');
+    console.log('  ─────────────────────────────────────────────────');
+    console.log('  Super Admin   superadmin@citrux.com       SuperAdmin@123');
+    console.log('  Admin/HR      admin@citrux.com            Admin@123');
+    console.log('  Manager       manager@citrux.com          Manager@123');
+    console.log('  Employee      john.doe@citrux.com         Employee@123');
+    console.log('─'.repeat(52) + '\n');
 }
 
 main()
     .catch((e) => {
-        console.error(e);
+        console.error('❌  Seed failed:', e);
         process.exit(1);
     })
-    .finally(async () => {
-        await prisma.$disconnect();
-    });
+    .finally(() => prisma.$disconnect());

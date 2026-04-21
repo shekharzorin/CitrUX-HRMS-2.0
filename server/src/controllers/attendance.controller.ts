@@ -1,23 +1,24 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
 import { notifyUser, notifyRole } from '../utils/notification';
-
-interface AuthRequest extends Request {
-    user?: any;
-}
+import { AuthRequest } from '../middlewares/auth.middleware';
+import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
 
 export const punchIn = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
         const { location, workDate } = req.body;
 
-        let today = new Date();
+        // Always normalize to UTC midnight for consistent DB storage across timezones
+        let today: Date;
         if (workDate) {
-            // workDate is expected to be YYYY-MM-DD
-            // Creating date from this string in Node defaults to UTC 00:00:00
-            today = new Date(workDate);
+            // Parse YYYY-MM-DD as UTC date (avoids local-time offset issues)
+            const [year, month, day] = (workDate as string).split('-').map(Number);
+            today = new Date(Date.UTC(year, month - 1, day));
+        } else {
+            const now = new Date();
+            today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
         }
-        today.setHours(0, 0, 0, 0);
 
         const existingAttendance = await prisma.attendance.findFirst({
             where: { userId, date: today }
@@ -79,11 +80,10 @@ export const punchIn = async (req: AuthRequest, res: Response) => {
 
 export const punchOut = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        // Fix: Find the last OPEN session (allows night shifts crossing midnight)
+        const userId = req.user!.userId;
+        const _now1 = new Date();
+        const today = new Date(Date.UTC(_now1.getUTCFullYear(), _now1.getUTCMonth(), _now1.getUTCDate()));
+        // Find the last OPEN session (allows night shifts crossing midnight)
         const attendance = await prisma.attendance.findFirst({
             where: {
                 userId,
@@ -161,7 +161,7 @@ export const punchOut = async (req: AuthRequest, res: Response) => {
 
 export const getAttendance = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
         const attendance = await prisma.attendance.findMany({
             where: { userId },
             include: { breaks: true },
@@ -200,10 +200,14 @@ export const getAttendance = async (req: AuthRequest, res: Response) => {
     }
 };
 
-export const getAllAttendance = async (req: Request, res: Response) => {
-    // Admin only
+export const getAllAttendance = async (req: AuthRequest, res: Response) => {
+    // Admin/HR only — scoped to company
     try {
+        const tenantWhere = getTenantScope(req);
         const attendance = await prisma.attendance.findMany({
+            where: {
+                user: tenantWhere  // Filter attendance by the user's companyId
+            },
             include: { user: { include: { profile: true } }, breaks: true },
             orderBy: { date: 'desc' }
         });
@@ -215,9 +219,9 @@ export const getAllAttendance = async (req: Request, res: Response) => {
 
 export const startBreak = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const userId = req.user!.userId;
+        const _now2 = new Date();
+        const today = new Date(Date.UTC(_now2.getUTCFullYear(), _now2.getUTCMonth(), _now2.getUTCDate()));
 
         const attendance = await prisma.attendance.findFirst({
             where: { userId, date: today },
@@ -248,9 +252,9 @@ export const startBreak = async (req: AuthRequest, res: Response) => {
 
 export const endBreak = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const userId = req.user!.userId;
+        const _now3 = new Date();
+        const today = new Date(Date.UTC(_now3.getUTCFullYear(), _now3.getUTCMonth(), _now3.getUTCDate()));
 
         const attendance = await prisma.attendance.findFirst({
             where: { userId, date: today },
@@ -269,10 +273,7 @@ export const endBreak = async (req: AuthRequest, res: Response) => {
 
         const updatedBreak = await prisma.break.update({
             where: { id: activeBreak.id },
-            data: {
-                endTime,
-                duration
-            }
+            data: { endTime, duration }
         });
 
         res.json(updatedBreak);
@@ -283,7 +284,7 @@ export const endBreak = async (req: AuthRequest, res: Response) => {
 
 export const requestAdjustment = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
         const { date, clockIn, clockOut, reason } = req.body;
 
         if (!date || !clockIn || !clockOut || !reason) {
@@ -335,7 +336,7 @@ export const requestAdjustment = async (req: AuthRequest, res: Response) => {
 
 export const overrideAttendance = async (req: AuthRequest, res: Response) => {
     try {
-        const adminId = req.user.userId;
+        const adminId = req.user!.userId;
         const { userId, date, checkIn, checkOut, reason } = req.body;
 
         if (!userId || !date || !checkIn || !reason) {
@@ -344,6 +345,10 @@ export const overrideAttendance = async (req: AuthRequest, res: Response) => {
 
         const targetDate = new Date(date);
         targetDate.setHours(0, 0, 0, 0);
+
+        const targetUser = await prisma.user.findUnique({ where: { id: userId } });
+        if (!targetUser) return res.status(404).json({ message: 'Target user not found' });
+        if (!assertSameCompany(targetUser.companyId, req, res)) return;
 
         const result = await prisma.$transaction(async (tx) => {
             // 1. Fetch existing
@@ -426,7 +431,7 @@ export const overrideAttendance = async (req: AuthRequest, res: Response) => {
 
 export const getPendingAdjustments = async (req: AuthRequest, res: Response) => {
     try {
-        const managerId = req.user.userId;
+        const managerId = req.user!.userId;
         const requests = await prisma.attendanceRequest.findMany({
             where: {
                 status: 'PENDING',
@@ -537,3 +542,4 @@ export const respondToAdjustment = async (req: AuthRequest, res: Response) => {
         res.status(400).json({ message: error.message || 'Error processing request' });
     }
 };
+

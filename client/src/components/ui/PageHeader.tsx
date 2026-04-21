@@ -22,7 +22,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
     return (
         <div className={`page-hero-premium ${gradient}`}>
             <div className="page-hero-pattern"></div>
-            <div className="page-hero-content">
+            <div className="page-hero-content px-4 md:px-0">
                 <div className="flex items-center gap-6">
                     {showBack && (
                         <button

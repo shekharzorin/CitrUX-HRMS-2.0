@@ -14,6 +14,10 @@ const Expenses: React.FC = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    // Search and Filter State
+    const [searchQuery, setSearchQuery] = useState('');
+    const [statusFilter, setStatusFilter] = useState('ALL');
+
     const fetchClaims = async () => {
         try {
             const data = await api.get<any[]>('/expenses/claims');
@@ -100,6 +104,29 @@ const Expenses: React.FC = () => {
             )}
 
             <div className="glass-panel overflow-hidden">
+                {/* Search and Filters */}
+                {!loading && claims.length > 0 && (
+                    <div className="p-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20 flex flex-col md:flex-row gap-4">
+                        <input
+                            type="text"
+                            placeholder="Search descriptions..."
+                            className="input-field max-w-sm"
+                            value={searchQuery}
+                            onChange={e => setSearchQuery(e.target.value)}
+                        />
+                        <select
+                            className="input-field max-w-xs"
+                            value={statusFilter}
+                            onChange={e => setStatusFilter(e.target.value)}
+                        >
+                            <option value="ALL">All Statuses</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="APPROVED">Approved</option>
+                            <option value="REJECTED">Rejected</option>
+                        </select>
+                    </div>
+                )}
+
                 {loading ? (
                     <div className="p-6 space-y-4">
                         {[1, 2, 3].map(i => <div key={i} className="flex gap-4"><Skeleton width="20%" height={24} /><Skeleton width="40%" height={24} /><Skeleton width="20%" height={24} /></div>)}
@@ -119,7 +146,10 @@ const Expenses: React.FC = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {claims.map(c => (
+                            {claims
+                                .filter(c => statusFilter === 'ALL' || c.status === statusFilter)
+                                .filter(c => c.description?.toLowerCase().includes(searchQuery.toLowerCase()))
+                                .map(c => (
                                 <tr key={c.id}>
                                     <td className="font-medium text-slate-700 dark:text-slate-300">{new Date(c.date).toLocaleDateString()}</td>
                                     <td className="text-slate-500">{categories.find(cat => cat.id === c.categoryId)?.name || '-'}</td>

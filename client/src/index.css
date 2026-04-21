@@ -30,11 +30,18 @@
   --font-main: var(--font-main);
   --font-heading: var(--font-heading);
 
-  /* Radius */
+  /* Radius Base Tokens Override */
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
   --radius-lg: var(--radius-lg);
   --radius-xl: var(--radius-xl);
+
+  /* Premium SaaS Shadow Standardization */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.04), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 8px 24px -4px rgba(0, 0, 0, 0.06), 0 4px 10px -4px rgba(0, 0, 0, 0.03);
+  --shadow-xl: 0 16px 32px -4px rgba(0, 0, 0, 0.08), 0 8px 16px -6px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 24px 48px -12px rgba(0, 0, 0, 0.15);
 }
 
 :root {
@@ -100,23 +107,14 @@
   --info: #3B82F6;
   --info-bg: #EFF6FF;
 
-  /* Global Radius */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 20px;
   --radius-xl: 32px;
   --radius-full: 9999px;
 
-  /* Global Spacing */
-  --header-height: 80px;
-  --sidebar-width-expanded: 280px;
-  --sidebar-width-collapsed: 90px;
-
-  /* Basic Shadows (Tailwind has defaults, we extend if needed) */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.03);
+  /* Basic Shadows Maps To Tailwind Overrides Via Var if needed, but Tailwind 4 maps automatically mapping shadows by css name */
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.04);
 
   /* Fonts */
   --font-main: 'Plus Jakarta Sans', 'Inter', sans-serif;
@@ -158,32 +156,68 @@
   border-color: oklch(0.41 0 0);
 }
 
-/* Base Styles */
-body {
-  font-family: var(--font-main);
-  background: var(--bg-body);
-  /* Subtle mesh gradient for depth */
-  background-image:
-    radial-gradient(circle at top left, rgba(99, 102, 241, 0.03), transparent 40%),
-    radial-gradient(circle at bottom right, rgba(244, 63, 94, 0.03), transparent 40%);
-  background-attachment: fixed;
-  color: var(--text-main);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Base Styles & Global Element Overrides */
+@layer base {
+  body {
+    font-family: var(--font-main);
+    background: var(--bg-body);
+    /* Subtle mesh gradient for depth */
+    background-image:
+      radial-gradient(circle at top left, rgba(99, 102, 241, 0.03), transparent 40%),
+      radial-gradient(circle at bottom right, rgba(244, 63, 94, 0.03), transparent 40%);
+    background-attachment: fixed;
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+  }
+
+  /* Automatically map standard tables to premium design */
+  table {
+    @apply w-full text-left border-collapse;
+  }
+  
+  th {
+    @apply px-6 py-4 border-b border-[var(--border-light)] bg-slate-50 dark:bg-slate-800/50 text-xs uppercase text-[var(--text-muted)] font-semibold tracking-wider;
+  }
+
+  td {
+    @apply px-6 py-4 border-b border-[var(--border-light)] text-sm text-[var(--text-main)] transition-colors;
+  }
+
+  tbody tr:hover td {
+    @apply bg-slate-50/50 dark:bg-slate-800/50;
+  }
+
+  /* Standard Inputs mapped to premium styling dynamically */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="search"],
+  input[type="date"],
+  input[type="time"],
+  select,
+  textarea {
+    @apply h-11 px-4 w-full rounded-[var(--radius-md)] border border-slate-300 dark:border-slate-700 text-sm text-slate-900 dark:text-white transition-all outline-none bg-white dark:bg-slate-900/50 shadow-sm focus:border-[var(--primary)] focus:ring-[3px] focus:ring-[var(--primary)]/15;
+  }
+
+  textarea {
+    @apply h-auto py-3;
+  }
+
+  label {
+    @apply block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5;
+  }
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading);
-  color: var(--text-main);
-  letter-spacing: -0.02em;
-}
-
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -525,7 +559,7 @@ h6 {
 
 /* Page Header / Hero Styles */
 .page-hero-premium {
-  @apply relative rounded-3xl overflow-hidden mb-6 p-6 md:p-8 text-white shadow-xl;
+  @apply relative rounded-3xl overflow-hidden mb-6 p-6 md:p-10 lg:p-12 text-white shadow-xl;
   background-size: cover;
   background-position: center;
 }
@@ -542,7 +576,7 @@ h6 {
 }
 
 .page-hero-title {
-  @apply text-3xl font-bold text-white tracking-tight;
+  @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-tight;
 }
 
 .page-hero-subtitle {

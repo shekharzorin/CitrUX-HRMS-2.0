@@ -142,7 +142,7 @@ const ManagerLeaves: React.FC = () => {
                                             </span>
                                         </td>
                                         <td className="text-sm text-[var(--text-muted)] italic max-w-[200px] truncate" title={req.reason}>
-                                            "{req.reason}"
+                                            &ldquo;{req.reason}&rdquo;
                                         </td>
                                         <td>
                                             <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${getLeaveBadgeColor(req.status)}`}>

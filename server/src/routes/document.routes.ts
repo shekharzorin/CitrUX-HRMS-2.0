@@ -7,7 +7,8 @@ import {
     getMyDocuments,
     getUserDocuments,
     verifyDocument,
-    getExpiringDocuments
+    getExpiringDocuments,
+    generateSecureUrl
 } from '../controllers/document.controller';
 
 const router = Router();
@@ -25,6 +26,7 @@ const upload = multer({ storage });
 
 router.use(authenticateToken);
 
+router.get('/generate-url/:filename', generateSecureUrl);
 router.post('/upload', upload.single('file'), uploadDocument);
 router.get('/my', getMyDocuments);
 

@@ -43,8 +43,8 @@ const Attendance: React.FC = () => {
     const [elapsedTime, setElapsedTime] = useState('00:00:00');
     const [missedPunchRecord, setMissedPunchRecord] = useState<AttendanceRecord | null>(null);
 
-    const canViewAll = user?.role === 'ADMIN' || user?.role === 'HR';
-    const isSuperAdmin = user?.role === 'ADMIN';
+    const canViewAll = user?.role === 'ADMIN' || user?.role === 'HR' || user?.role === 'SUPER_ADMIN';
+    const isSuperAdmin = user?.role === 'SUPER_ADMIN'; // Only actual SUPER_ADMIN skips punch-in UI
 
     useEffect(() => {
         const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -152,19 +152,17 @@ const Attendance: React.FC = () => {
         }
     };
 
-    const handleFixMissedPunch = async (recordId: string) => {
-        try {
-            // Auto-fix: set checkout to 9 hours after checkin or 18:00
-            // For now, simpler: user acknowledges, we set checkout to checkin + 9h
-            await api.post(`/attendance/fix-missed/${recordId}`, {});
-            showToast('Missed entry corrected', 'success');
-            setMissedPunchRecord(null);
-            fetchHistory();
-        } catch {
-            // Fallback if no specific endpoint: just punch out (might not work for yesterday)
-            // or alert user to contact admin.
-            showToast('Please contact Admin to correct this record', 'warning');
-        }
+    const handleFixMissedPunch = (_recordId: string) => {
+        // No backend endpoint for auto-fix — open adjustment modal pre-filled
+        if (!missedPunchRecord) return;
+        setAdjustForm({
+            date: missedPunchRecord.date.split('T')[0],
+            checkIn: '',
+            checkOut: '',
+            reason: 'Missed clock-out correction'
+        });
+        setMissedPunchRecord(null);
+        setShowAdjustModal(true);
     };
 
     const onBreak = clockedInToday?.breaks?.some(b => !b.endTime);

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
 import bcrypt from 'bcryptjs';
+import { decrypt } from '../utils/crypto';
 
 interface AuthRequest extends Request {
     user?: any;
@@ -18,6 +19,12 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
                 onboarding: true
             }
         });
+
+        if (user?.profile) {
+            if (user.profile.aadhaarNumber) user.profile.aadhaarNumber = decrypt(user.profile.aadhaarNumber);
+            if (user.profile.panNumber) user.profile.panNumber = decrypt(user.profile.panNumber);
+            if (user.profile.accountNumber) user.profile.accountNumber = decrypt(user.profile.accountNumber);
+        }
 
         res.json(user);
     } catch (error) {

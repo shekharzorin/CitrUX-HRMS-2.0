@@ -111,47 +111,48 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                         return;
                     }
 
-                    // Hydrate User
+                    // Hydrate User (Optimistic Cache)
                     let hydratedUser: User | null = null;
                     if (storedUser) {
                         try {
                             hydratedUser = JSON.parse(storedUser);
+                            // Optimistically set to prevent UI blocking
+                            setToken(storedToken);
+                            if (hydratedUser!.role) hydratedUser!.role = hydratedUser!.role.toUpperCase();
+                            setUser(hydratedUser);
                         } catch {
                             console.warn("Corrupted user data in storage");
-                            // Fallback to fetch below
                         }
                     }
 
-                    // If hydration failed or no stored user, fetch from API
-                    if (!hydratedUser) {
-                        const userId = payload.id || payload.userId || payload.sub;
-                        if (userId) {
-                            try {
-                                const fetchedUser = await api.get<User>(`/users/${userId}`);
-                                if (fetchedUser) {
-                                    hydratedUser = fetchedUser;
-                                    // Update storage with fresh data
-                                    try {
-                                        localStorage.setItem('user', JSON.stringify(fetchedUser));
-                                    } catch { /* ignore write errors */ }
-                                }
-                            } catch (err) {
-                                console.error("Failed to fetch user profile", err);
+                    // Always fetch latest from API if possible
+                    const userId = payload.id || payload.userId || payload.sub;
+                    if (userId) {
+                        try {
+                            const fetchedUser = await api.get<User>(`/users/${userId}`);
+                            if (fetchedUser) {
+                                hydratedUser = fetchedUser;
+                                try {
+                                    localStorage.setItem('user', JSON.stringify(fetchedUser));
+                                } catch { /* ignore */ }
+                                
+                                setToken(storedToken);
+                                if (hydratedUser.role) hydratedUser.role = hydratedUser.role.toUpperCase();
+                                setUser(hydratedUser);
+                            }
+                        } catch (err) {
+                            console.error("Failed to fetch fresh user profile", err);
+                            // If we don't have a cached user and fetch fails, we can't proceed
+                            if (!hydratedUser) {
+                                console.error("No cached user and fetch failed. Logging out.");
+                                logout();
                             }
                         }
                     }
 
                     // Final Consistency Check
-                    if (storedToken && hydratedUser) {
-                        setToken(storedToken);
-                        // Normalize Role
-                        if (hydratedUser.role) {
-                            hydratedUser.role = hydratedUser.role.toUpperCase();
-                        }
-                        setUser(hydratedUser);
-                    } else {
-                        // If we have a token but couldn't get a user, we must logout to prevent UI crash
-                        console.error("Auth state inconsistent: Token exists but user missing");
+                    if (!storedToken || !hydratedUser) {
+                        console.error("Auth state inconsistent: Token exists but user missing entirely");
                         logout();
                     }
 

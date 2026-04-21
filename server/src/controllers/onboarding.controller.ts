@@ -3,6 +3,7 @@ import { prisma } from '../db';
 import { notifyRole, notifyUser } from '../utils/notification';
 import { sendEmail, welcomeEmailTemplate } from '../utils/email.util';
 import { requireString } from '../utils/requestUtils';
+import { encrypt, decrypt } from '../utils/crypto';
 
 interface AuthRequest extends Request {
     user?: {
@@ -10,6 +11,7 @@ interface AuthRequest extends Request {
         email: string;
         role: string;
     };
+    body: any;
 }
 
 // Get Onboarding Status (Full details)
@@ -42,6 +44,11 @@ export const getOnboardingStatus = async (req: AuthRequest, res: Response) => {
             });
             return res.json(newOnboarding);
         }
+
+        // Decrypt sensitive PII for drafting
+        if (onboarding.aadhaarNumber) onboarding.aadhaarNumber = decrypt(onboarding.aadhaarNumber);
+        if (onboarding.panNumber) onboarding.panNumber = decrypt(onboarding.panNumber);
+        if (onboarding.accountNumber) onboarding.accountNumber = decrypt(onboarding.accountNumber);
 
         res.json(onboarding);
     } catch (error) {
@@ -124,6 +131,11 @@ export const updateOnboarding = async (req: AuthRequest, res: Response) => {
         if (updateData.profilePhotoSettings && typeof updateData.profilePhotoSettings === 'object') {
             updateData.profilePhotoSettings = JSON.stringify(updateData.profilePhotoSettings);
         }
+        
+        // Encrypt Sensitive Data
+        if (updateData.aadhaarNumber) updateData.aadhaarNumber = encrypt(updateData.aadhaarNumber);
+        if (updateData.panNumber) updateData.panNumber = encrypt(updateData.panNumber);
+        if (updateData.accountNumber) updateData.accountNumber = encrypt(updateData.accountNumber);
 
 
         const onboarding = await prisma.onboarding.update({
@@ -174,7 +186,16 @@ export const getPendingOnboardings = async (req: Request, res: Response) => {
             where: { status: 'SUBMITTED' },
             include: { user: { include: { profile: true } } }
         });
-        res.json(onboardings);
+        
+        // Decrypt sensitive info for admin view
+        const decryptedOnboardings = onboardings.map(ob => {
+            if (ob.aadhaarNumber) ob.aadhaarNumber = decrypt(ob.aadhaarNumber);
+            if (ob.panNumber) ob.panNumber = decrypt(ob.panNumber);
+            if (ob.accountNumber) ob.accountNumber = decrypt(ob.accountNumber);
+            return ob;
+        });
+
+        res.json(decryptedOnboardings);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching pending onboardings' });
     }

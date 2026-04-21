@@ -6,6 +6,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 const ResetPassword: React.FC = () => {
     const [searchParams] = useSearchParams();
     const token = searchParams.get('token');
+    const uid = searchParams.get('uid');
     const navigate = useNavigate();
 
     const [newPassword, setNewPassword] = useState('');
@@ -32,15 +33,15 @@ const ResetPassword: React.FC = () => {
             return;
         }
 
-        if (!token) {
-            setError('Missing token');
+        if (!token || !uid) {
+            setError('Invalid or missing reset link. Please request a new password reset.');
             return;
         }
 
         setIsLoading(true);
 
         try {
-            const data = await api.post<{ message: string }>('/auth/reset-password', { token, newPassword });
+            const data = await api.post<{ message: string }>('/auth/reset-password', { token, uid, newPassword });
             setMessage(data.message);
             // Optional: Redirect to login after a delay
             setTimeout(() => navigate('/login'), 3000);
@@ -82,7 +83,7 @@ const ResetPassword: React.FC = () => {
                                 required
                                 placeholder="New password"
                                 disabled={isLoading}
-                                minLength={6}
+                                minLength={8}
                             />
                             <button
                                 type="button"

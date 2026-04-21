@@ -1,0 +1,17 @@
+const fs = require('fs');
+const lines = fs.readFileSync('d:/hrms/hrms/client/src/App.tsx', 'utf8').split('\n');
+const fixedLines = lines.slice(0, 245);
+fixedLines.push('                </ProtectedRoute>');
+fixedLines.push('              } />');
+fixedLines.push('              <Route path="*" element={<NotFound />} />');
+fixedLines.push('            </Routes>');
+fixedLines.push('          </Router>');
+fixedLines.push('        </ToastProvider>');
+fixedLines.push('      </ThemeProvider>');
+fixedLines.push('    </AuthProvider>');
+fixedLines.push('  </ErrorBoundary>');
+fixedLines.push('  );');
+fixedLines.push('};');
+fixedLines.push('');
+fixedLines.push('export default App;');
+fs.writeFileSync('d:/hrms/hrms/client/src/App.tsx', fixedLines.join('\n'));

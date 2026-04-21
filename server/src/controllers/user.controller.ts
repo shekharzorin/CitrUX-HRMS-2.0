@@ -3,12 +3,15 @@ import { prisma } from '../db';
 import bcrypt from 'bcrypt';
 import { requireString } from '../utils/requestUtils';
 import { AuthRequest } from '../middlewares/auth.middleware';
+import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
 import { IdService } from '../services/id.service';
 import logger from '../utils/logger';
 
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = async (req: AuthRequest, res: Response) => {
     try {
         const { email, password, role, firstName, lastName, phone, designation, employmentType, joiningDate, employeeId, shiftId } = req.body;
+        // Always derive companyId from the authenticated user's token — never trust req.body
+        const companyId = req.user?.companyId ?? null;
 
         const existingUser = await prisma.user.findUnique({ where: { email } });
         if (existingUser) {
@@ -44,6 +47,7 @@ export const createUser = async (req: Request, res: Response) => {
                 employeeId: finalEmployeeId ? finalEmployeeId.toString() : undefined,
                 passwordHash,
                 role: role ? role.toUpperCase() : 'EMPLOYEE',
+                companyId,  // ← Multi-tenant: always scoped to creator's company
                 shiftId: shiftId || null,
                 profile: {
                     create: {
@@ -202,20 +206,16 @@ export const importUsers = async (req: Request, res: Response) => {
 export const getUsers = async (req: AuthRequest, res: Response) => {
     try {
         logger.info('GET /api/users HIT');
-        const { role, userId } = req.user;
+        const { role, userId } = req.user!;
+        const tenantWhere = getTenantScope(req);  // { companyId: '...' } or {} for SUPER_ADMIN
 
-        let whereClause: any = {};
+        let whereClause: any = { ...tenantWhere };
 
-        if (role === 'ADMIN' || role === 'HR' || role === 'SUPER_ADMIN' || role === 'EMPLOYEE') {
-            // View all users - Employees can view directory
-            whereClause = {};
-        } else if (role === 'MANAGER') {
-            // View only reportees
-            whereClause = { managerId: userId };
-        } else {
-            // Fallback
-            return res.json([]);
+        if (role === 'MANAGER') {
+            // Managers only see their direct reports within the same company
+            whereClause.managerId = userId;
         }
+        // ADMIN, HR, SUPER_ADMIN, EMPLOYEE → see all users in their company (already scoped by tenantWhere)
 
         const users = await prisma.user.findMany({
             where: whereClause,
@@ -224,12 +224,14 @@ export const getUsers = async (req: AuthRequest, res: Response) => {
                 employeeId: true,
                 email: true,
                 role: true,
+                status: true,
+                companyId: true,
+                company: { select: { name: true } },
                 managerId: true,
                 profile: true
-                // Exclude passwordHash
             }
         });
-        logger.info(`Returning ${users.length} users for role ${role}`);
+        logger.info(`Returning ${users.length} users for role ${role} (companyId: ${req.user?.companyId})`);
         res.json(users);
     } catch (error) {
         logger.error('Error in getUsers:', error);
@@ -237,7 +239,7 @@ export const getUsers = async (req: AuthRequest, res: Response) => {
     }
 };
 
-export const getUserById = async (req: Request, res: Response) => {
+export const getUserById = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id);
         const user = await prisma.user.findUnique({
@@ -259,6 +261,8 @@ export const getUserById = async (req: Request, res: Response) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
+        if (!assertSameCompany(user.companyId, req, res)) return;
+
         const { passwordHash, ...userData } = user;
         res.json(userData);
     } catch (error) {
@@ -270,11 +274,12 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id, 'User ID');
         const { role, firstName, lastName, phone, designation, employeeId, dob, shiftId } = req.body;
-        const actorRole = req.user.role;
+        const actorRole = req.user!.role;
 
         // First check if user exists
         const existing = await prisma.user.findUnique({ where: { id } });
         if (!existing) return res.status(404).json({ message: 'User not found' });
+        if (!assertSameCompany(existing.companyId, req, res)) return;
 
         // Enforce Role Hierarchy
         if (actorRole === 'HR') {
@@ -342,7 +347,7 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
 export const deleteUser = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id, 'User ID');
-        const actorRole = req.user.role;
+        const actorRole = req.user!.role;
 
         // Check if attempting to delete Super Admin
         const userToDelete = await prisma.user.findUnique({ where: { id } });
@@ -350,6 +355,7 @@ export const deleteUser = async (req: AuthRequest, res: Response) => {
         if (!userToDelete) {
             return res.status(404).json({ message: 'User not found' });
         }
+        if (!assertSameCompany(userToDelete.companyId, req, res)) return;
 
         // Enforce Role Hierarchy
         if (actorRole === 'HR') {
@@ -410,7 +416,10 @@ export const deleteUser = async (req: AuthRequest, res: Response) => {
         const deleteCertificates = prisma.certificate.deleteMany({ where: { userId: id } });
         const deleteTimesheets = prisma.timesheet.deleteMany({ where: { userId: id } });
 
-        // 11. Profile and User (User must be last)
+        // 11. Audit Logs referencing this user as the actor
+        const deleteAuditLogs = prisma.auditLog.deleteMany({ where: { performedBy: id } });
+
+        // 12. Profile and User (User must be last)
         const deleteProfile = prisma.profile.deleteMany({ where: { userId: id } });
         const deleteUserRecord = prisma.user.delete({ where: { id } });
 
@@ -433,6 +442,7 @@ export const deleteUser = async (req: AuthRequest, res: Response) => {
             detachAssets,
             deleteCertificates,
             deleteTimesheets,
+            deleteAuditLogs,   // ← must be before deleteUserRecord
             deleteProfile,
             deleteUserRecord
         ]);
@@ -447,3 +457,4 @@ export const deleteUser = async (req: AuthRequest, res: Response) => {
         });
     }
 };
+

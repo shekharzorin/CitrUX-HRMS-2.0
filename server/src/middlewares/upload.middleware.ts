@@ -9,7 +9,8 @@ if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-import { storage as cloudinaryStorage } from '../config/cloudinary';
+import cloudinary from '../config/cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
 const diskStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -30,6 +31,14 @@ const fileFilter = (req: any, file: any, cb: any) => {
         cb(new Error('Only images and PDF files are allowed!'), false);
     }
 };
+
+const cloudinaryStorage = (CloudinaryStorage as any)({
+    cloudinary: cloudinary as any,
+    params: {
+        folder: 'hrms',
+        allowed_formats: ['jpg', 'png', 'gif', 'jpeg', 'pdf'],
+    },
+});
 
 export const upload = multer({
     storage: cloudinaryStorage || diskStorage,

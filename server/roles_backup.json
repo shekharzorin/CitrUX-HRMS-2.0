@@ -1,0 +1,18 @@
+[
+  {
+    "id": "29ecb7cc-6e40-45c0-955f-64e228b544c8",
+    "role": "SUPER_ADMIN"
+  },
+  {
+    "id": "e1fbd99f-84f5-418e-b071-3bfa148bab74",
+    "role": "ADMIN"
+  },
+  {
+    "id": "5a76e0e8-49ed-45fb-9130-77a9a143d512",
+    "role": "MANAGER"
+  },
+  {
+    "id": "1942dffe-a9a6-446e-8655-341196409ecb",
+    "role": "EMPLOYEE"
+  }
+]

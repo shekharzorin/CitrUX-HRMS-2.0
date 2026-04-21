@@ -4,11 +4,12 @@ import { sendEmail, leaveStatusTemplate, newLeaveRequestTemplate } from '../util
 import { notifyUser, notifyRole } from '../utils/notification';
 import { requireString } from '../utils/requestUtils';
 import { calculateWorkingDays } from '../utils/date.util';
+import { AuthRequest } from '../middlewares/auth.middleware';
+import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
 
-// Get available Leave Types
-export const getLeaveTypes = async (req: Request, res: Response) => {
+// Get available Leave Types (global — no company-specific leave types yet)
+export const getLeaveTypes = async (req: AuthRequest, res: Response) => {
     try {
-        // @ts-ignore
         const types = await prisma.leaveType.findMany();
         res.json(types);
     } catch (error) {
@@ -128,29 +129,37 @@ export const applyLeave = async (req: Request, res: Response) => {
             }
         }
 
-        // 3. Notify HR & Admins
-        await notifyRole(['HR', 'ADMIN'], msg, '/manager/leaves', 'TASK');
-
-        // Email HR & Admins (optional, avoiding spam if many admins, but good for small teams)
-        // Fetch all HR/Admin emails
-        // @ts-ignore
-        const admins = await prisma.user.findMany({
-            where: { role: { in: ['HR', 'ADMIN'] } },
-            select: { email: true }
+        // 3. Notify HR & Admins — scoped to same company only
+        const recipientUsers = await prisma.user.findMany({
+            where: {
+                role: { in: ['HR', 'ADMIN'] },
+                companyId: user?.companyId  // Only notify same-company admins
+            },
+            select: { id: true, email: true }
         });
 
-        const adminEmails = admins.map(a => a.email).filter(e => e);
-        if (adminEmails.length > 0) {
-            adminEmails.forEach(email => {
-                if (email) {
-                    sendEmail(
-                        email,
-                        `New Leave Request: ${requesterName}`,
-                        newLeaveRequestTemplate(requesterName, leaveTypeName, days, start.toDateString(), end.toDateString(), reason)
-                    ).catch(e => console.error('Failed to email admin', e));
-                }
-            });
+        // In-app notifications (batch)
+        if (recipientUsers.length > 0) {
+            await prisma.notification.createMany({
+                data: recipientUsers.map(u => ({
+                    userId: u.id,
+                    message: msg,
+                    link: '/manager/leaves',
+                    type: 'TASK'
+                }))
+            }).catch(e => console.error('Failed to create HR notifications', e));
         }
+
+        // Email HR & Admins
+        recipientUsers.forEach(u => {
+            if (u.email) {
+                sendEmail(
+                    u.email,
+                    `New Leave Request: ${requesterName}`,
+                    newLeaveRequestTemplate(requesterName, leaveTypeName, days, start.toDateString(), end.toDateString(), reason)
+                ).catch(e => console.error('Failed to email admin', e));
+            }
+        });
 
         res.json(request);
     } catch (error) {
@@ -176,45 +185,39 @@ export const getMyRequests = async (req: Request, res: Response) => {
     }
 };
 
-// Get Team Requests (For Manager)
-// Get Team Requests (For Manager or Admin)
-export const getTeamRequests = async (req: Request, res: Response) => {
+// Get Team Requests (For Manager or Admin) — tenant-scoped
+export const getTeamRequests = async (req: AuthRequest, res: Response) => {
     try {
-        // @ts-ignore
-        const { userId, role } = req.user;
+        const { userId, role } = req.user!;
+        const tenantWhere = getTenantScope(req);  // { companyId } or {} for SUPER_ADMIN
 
-        // If Admin or HR, return ALL requests
-        if (role === 'ADMIN' || role === 'HR') {
+        // Admin / HR: return all requests within their company
+        if (role === 'ADMIN' || role === 'HR' || role === 'SUPER_ADMIN') {
             const requests = await prisma.leaveRequest.findMany({
+                where: {
+                    user: tenantWhere  // Scope via nested user.companyId
+                },
                 include: {
                     leaveType: true,
-                    user: {
-                        include: { profile: true }
-                    }
+                    user: { include: { profile: true } }
                 },
                 orderBy: { createdAt: 'desc' }
             });
             return res.json(requests);
         }
 
-        // If Manager, return Team requests
-        // Find users reporting to this manager
+        // Manager: only their direct reports within same company
         const subordinates = await prisma.user.findMany({
-            // @ts-ignore
-            where: { managerId: userId },
+            where: { managerId: userId, ...tenantWhere },
             select: { id: true }
         });
-
         const subIds = subordinates.map(u => u.id);
 
-        // @ts-ignore
         const requests = await prisma.leaveRequest.findMany({
             where: { userId: { in: subIds } },
             include: {
                 leaveType: true,
-                user: {
-                    include: { profile: true }
-                }
+                user: { include: { profile: true } }
             },
             orderBy: { createdAt: 'desc' }
         });
@@ -228,60 +231,90 @@ export const getTeamRequests = async (req: Request, res: Response) => {
 export const updateLeaveStatus = async (req: Request, res: Response) => {
     try {
         const id = requireString(req.params.id);
-        const { status, comment } = req.body; // APPROVED or   REJECTED
+        const { status, comment } = req.body;
 
-        // @ts-ignore
-        const request = await prisma.leaveRequest.findUnique({ where: { id } });
-        if (!request) return res.status(404).json({ message: 'Request not found' });
-
-        if (status === 'APPROVED' && request.status !== 'APPROVED') {
-            // Deduct Balance
-            // @ts-ignore
-            await prisma.leaveBalance.update({
-                where: { userId_leaveTypeId: { userId: request.userId, leaveTypeId: request.leaveTypeId } },
-                data: {
-                    balance: { decrement: request.days },
-                    used: { increment: request.days }
-                }
-            });
+        if (!['APPROVED', 'REJECTED'].includes(status)) {
+            return res.status(400).json({ message: 'Invalid status. Must be APPROVED or REJECTED.' });
         }
 
-        // @ts-ignore
-        const updated = await prisma.leaveRequest.update({
-            where: { id },
-            data: { status, managerComment: comment }
+        // Atomic transaction: balance update + status update together
+        const updated = await prisma.$transaction(async (tx) => {
+            const request = await tx.leaveRequest.findUnique({ where: { id }, include: { user: true } });
+            if (!request) throw Object.assign(new Error('Request not found'), { statusCode: 404 });
+
+            // Ensure Admin/Manager acts on a user in their own company
+            if (!assertSameCompany(request.user?.companyId, req as AuthRequest, res)) {
+                throw Object.assign(new Error('ACCESS_DENIED'), { statusCode: 403 });
+            }
+
+            // Guard: reject if already in requested state
+            if (request.status === status) {
+                throw Object.assign(new Error(`Request is already ${status}`), { statusCode: 400 });
+            }
+
+            // Guard: only PENDING requests can be acted on (unless undoing an APPROVED)
+            if (request.status !== 'PENDING' && !(status === 'REJECTED' && request.status === 'APPROVED')) {
+                throw Object.assign(new Error('Only PENDING requests can be actioned'), { statusCode: 400 });
+            }
+
+            // Deduct balance on first approval
+            if (status === 'APPROVED') {
+                await tx.leaveBalance.update({
+                    where: { userId_leaveTypeId: { userId: request.userId, leaveTypeId: request.leaveTypeId } },
+                    data: {
+                        balance: { decrement: request.days },
+                        used: { increment: request.days }
+                    }
+                });
+            }
+
+            // Restore balance when rejecting a previously approved request
+            if (status === 'REJECTED' && request.status === 'APPROVED') {
+                await tx.leaveBalance.update({
+                    where: { userId_leaveTypeId: { userId: request.userId, leaveTypeId: request.leaveTypeId } },
+                    data: {
+                        balance: { increment: request.days },
+                        used: { decrement: request.days }
+                    }
+                });
+            }
+
+            return tx.leaveRequest.update({
+                where: { id },
+                data: { status, managerComment: comment }
+            });
         });
 
-        // Create Notification
-        // @ts-ignore
-        await prisma.notification.create({
+        // Post-transaction: notification + email (failures here don't roll back the status change)
+        prisma.notification.create({
             data: {
-                userId: request.userId,
-                message: `Your leave request for ${new Date(request.startDate).toDateString()} was ${status}`,
+                userId: updated.userId,
+                message: `Your leave request for ${new Date(updated.startDate).toDateString()} was ${status}`,
                 link: '/leaves',
                 type: 'LEAVE'
             }
-        });
+        }).catch(e => console.error('[Notification] Failed:', e));
 
-        // Send Email Notification
-        const user = await prisma.user.findUnique({ where: { id: request.userId }, select: { email: true, profile: { select: { firstName: true } } } });
-        if (user?.email) {
-            await sendEmail(
-                user.email,
+        const userForEmail = await prisma.user.findUnique({ where: { id: updated.userId }, select: { email: true, profile: { select: { firstName: true } } } });
+        if (userForEmail?.email) {
+            sendEmail(
+                userForEmail.email,
                 `Leave Request ${status}`,
                 leaveStatusTemplate(
-                    user.profile?.firstName || 'Employee',
+                    userForEmail.profile?.firstName || 'Employee',
                     status,
-                    new Date(request.startDate).toDateString(),
-                    new Date(request.endDate).toDateString()
+                    new Date(updated.startDate).toDateString(),
+                    new Date(updated.endDate).toDateString()
                 )
             ).catch(err => console.error('[Email] Failed to send leave status email:', err));
         }
 
         res.json(updated);
-    } catch (error) {
+    } catch (error: any) {
         console.error(error);
-        res.status(500).json({ message: 'Error updating status' });
+        if (error.message === 'ACCESS_DENIED') return;
+        const statusCode = error.statusCode || 500;
+        res.status(statusCode).json({ message: error.message || 'Error updating status' });
     }
 };
 
@@ -505,8 +538,11 @@ export const updateEncashmentStatus = async (req: Request, res: Response) => {
         const { status, comment, amount } = req.body;
 
         // @ts-ignore
-        const request = await prisma.leaveEncashment.findUnique({ where: { id } });
+        const request = await prisma.leaveEncashment.findUnique({ where: { id }, include: { user: true } });
         if (!request) return res.status(404).json({ message: 'Request not found' });
+
+        // @ts-ignore
+        if (!assertSameCompany(request.user?.companyId, req as AuthRequest, res)) return;
 
         if (status === 'REJECTED' && request.status !== 'REJECTED') {
             // Refund Balance

@@ -1,10 +1,12 @@
 import { Router } from 'express';
-import { login } from '../controllers/auth.controller';
+import { login, forgotPassword, resetPassword, getMe } from '../controllers/auth.controller';
+import { authenticateToken } from '../middlewares/auth.middleware';
 
 const router = Router();
 
 router.post('/login', login);
-router.post('/forgot-password', require('../controllers/auth.controller').forgotPassword);
-router.post('/reset-password', require('../controllers/auth.controller').resetPassword);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
+router.get('/me', authenticateToken, getMe);  // Returns current user from token
 
 export default router;

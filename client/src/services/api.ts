@@ -1,10 +1,27 @@
-const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5001/api' : 'https://hrms-6sfe.onrender.com/api');
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5000/api' : 'https://hrms-6sfe.onrender.com/api');
 
 interface FetchOptions extends RequestInit {
     headers?: Record<string, string>;
 }
 
 class ApiService {
+    private activeRequests = 0;
+
+    private setLoading(isLoading: boolean) {
+        if (isLoading) {
+            this.activeRequests++;
+            if (this.activeRequests === 1) {
+                window.dispatchEvent(new CustomEvent('app:loading', { detail: { loading: true } }));
+            }
+        } else {
+            this.activeRequests--;
+            if (this.activeRequests <= 0) {
+                this.activeRequests = 0;
+                window.dispatchEvent(new CustomEvent('app:loading', { detail: { loading: false } }));
+            }
+        }
+    }
+
     private getHeaders(): Record<string, string> {
         const headers: Record<string, string> = {
             'Content-Type': 'application/json',
@@ -27,6 +44,8 @@ class ApiService {
 
         const headers = { ...defaultHeaders, ...options.headers };
 
+        this.setLoading(true);
+
         try {
             const response = await fetch(url, { ...options, headers });
 
@@ -35,16 +54,24 @@ class ApiService {
                 window.dispatchEvent(new Event('auth:logout'));
             }
 
-            const data = await response.json();
+            const data = await response.json().catch(() => ({}));
 
             if (!response.ok) {
-                throw new Error(data.message || 'API request failed');
+                const message = data.message || 'An unexpected server error occurred.';
+                window.dispatchEvent(new CustomEvent('app:toast', { detail: { message, type: 'error' } }));
+                throw new Error(message);
             }
 
             return data;
-        } catch (error) {
+        } catch (error: any) {
             console.error(`API Error [${endpoint}]:`, error);
+            // If it's a network error (no response)
+            if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+                window.dispatchEvent(new CustomEvent('app:toast', { detail: { message: 'Network error. Please check your connection.', type: 'error' } }));
+            }
             throw error;
+        } finally {
+            this.setLoading(false);
         }
     }
 

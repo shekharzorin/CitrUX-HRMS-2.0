@@ -1,4 +1,5 @@
 import { prisma } from '../db';
+import { Role } from '@prisma/client';
 
 export const notifyUser = async (userId: string, message: string, link: string | null = null, type: string = 'INFO') => {
     try {
@@ -16,11 +17,11 @@ export const notifyUser = async (userId: string, message: string, link: string |
     }
 };
 
-export const notifyRole = async (roles: string[], message: string, link: string | null = null, type: string = 'INFO') => {
+export const notifyRole = async (roles: Role[], message: string, link: string | null = null, type: string = 'INFO') => {
     try {
         const users = await prisma.user.findMany({
             where: {
-                role: { in: roles }
+                role: { in: roles as any }
             },
             select: { id: true }
         });

@@ -9,7 +9,8 @@
     "build": "tsc",
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "prisma": {
     "seed": "ts-node -T prisma/seed.ts"
@@ -19,8 +20,13 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/supertest": "^7.2.0",
+    "jest": "^30.3.0",
     "nodemon": "^3.1.11",
-    "prisma": "5.10.2",
+    "prisma": "^5.10.2",
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.4.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },

@@ -6,6 +6,7 @@ import { Button } from './ui/Button';
 import { Icon, type AppIconName } from './ui/Icons';
 import { NotificationBell } from './Header/NotificationBell';
 import { ProfileDropdown } from './Header/ProfileDropdown';
+import { AiAssistant } from './AiAssistant';
 
 
 const NavItem = ({ to, icon, label, precise = false, collapsed, isMobile, onCloseMobile }: { to: string; icon: AppIconName; label: string; precise?: boolean; collapsed: boolean; isMobile: boolean; onCloseMobile: () => void }) => {
@@ -48,7 +49,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     useEffect(() => {
         /* ... existing branding effect ... */
         const updateBranding = () => {
-            const name = localStorage.getItem('company_name') || 'Citrux HS';
+            const name = localStorage.getItem('company_name') || 'Citrux HRMS';
             const logo = localStorage.getItem('company_logo') || '';
             const favicon = localStorage.getItem('company_favicon');
 
@@ -99,6 +100,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         '/leaves': { title: 'Leave Management', subtitle: 'Track and approve leaves', icon: 'event', gradient: 'gradient-purple' },
         '/timesheets': { title: 'Timesheets', subtitle: 'Track work hours', icon: 'timesheet', gradient: 'gradient-blue' },
         '/timesheets/approvals': { title: 'Timesheet Approvals', subtitle: 'Review team timesheets', icon: 'timesheet', gradient: 'gradient-orange' },
+        '/worklogs': { title: 'Work Log', subtitle: 'Daily hours & activity', icon: 'timesheet', gradient: 'gradient-blue' },
+        '/tasks': { title: 'My Tasks', subtitle: 'Personal task board', icon: 'approvals', gradient: 'gradient-purple' },
         '/payslips': { title: 'Payroll', subtitle: 'View payslips', icon: 'payroll', gradient: 'gradient-blue' },
         '/onboarding/submit': { title: 'Onboarding', subtitle: 'Join the team', icon: 'onboarding', gradient: 'gradient-purple' },
         '/settings': { title: 'Settings', subtitle: 'System configuration', icon: 'settings', gradient: 'gradient-purple' },
@@ -106,7 +109,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         '/analytics': { title: 'Analytics', subtitle: 'HR Insights', icon: 'analytics', gradient: 'gradient-purple' },
         '/profile': { title: 'My Profile', subtitle: 'Personal information', icon: 'profile', gradient: 'gradient-orange' },
         '/recruitment/jobs': { title: 'Careers', subtitle: 'Open positions', icon: 'careers', gradient: 'gradient-blue' },
-        '/expenses': { title: 'Expenses', subtitle: 'Reimbursements', icon: 'expenses', gradient: 'gradient-orange' }
+        '/expenses': { title: 'Expenses', subtitle: 'Reimbursements', icon: 'expenses', gradient: 'gradient-orange' },
+        '/super-admin/companies': { title: 'Global Companies', subtitle: 'Manage tenants', icon: 'departments', gradient: 'gradient-purple' }
     };
 
     useEffect(() => {
@@ -134,18 +138,32 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <div className="flex flex-col h-full bg-[var(--bg-sidebar)] border-r border-[var(--border-light)]">
             {/* Logo Area - Clean & Minimal */}
             <div className={`
-                flex items-center ${collapsed && !isMobile ? 'justify-center px-2' : 'px-8'} 
-                h-24 transition-all duration-300
+                flex items-center justify-between ${collapsed && !isMobile ? 'px-2 flex-col justify-center gap-2' : 'px-6'} 
+                h-24 transition-all duration-300 border-b border-[var(--border-light)] mb-2 relative group
             `}>
-                {companyLogo ? (
-                    <img src={companyLogo} alt="Logo" className="max-h-10 w-auto object-contain" />
-                ) : (
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-[var(--primary)] flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-pink-200">
+                <div className={`flex items-center gap-3 overflow-hidden w-full ${collapsed && !isMobile ? 'justify-center' : ''}`}>
+                    {companyLogo ? (
+                        <img src={companyLogo} alt="Logo" className="max-h-10 w-auto object-contain flex-shrink-0" />
+                    ) : (
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-200 dark:shadow-none flex-shrink-0">
                             {companyName.charAt(0)}
                         </div>
-                        {(!collapsed || isMobile) && <span className="font-bold text-slate-900 text-xl tracking-tight">{companyName}</span>}
-                    </div>
+                    )}
+                    {(!collapsed || isMobile) && (
+                        <div className="flex flex-col overflow-hidden flex-1 transition-opacity duration-300">
+                            <span className="font-bold text-slate-900 dark:text-white text-base tracking-tight truncate">{companyName}</span>
+                            <span className="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider">Citrux SaaS</span>
+                        </div>
+                    )}
+                </div>
+                {!isMobile && (
+                    <button
+                        onClick={() => setCollapsed(!collapsed)}
+                        className={`p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-400 hover:text-[var(--primary)] transition-colors flex-shrink-0 ${collapsed ? 'mt-1' : ''}`}
+                        title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+                    >
+                        <Icon name={collapsed ? "chevron_right" : "chevron_left"} size={20} />
+                    </button>
                 )}
             </div>
 
@@ -159,6 +177,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
                 <NavItem to="/attendance" icon="attendance" label="Time & Attendance" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/leaves" icon="leaves" label="Leaves" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/worklogs" icon="timesheet" label="Work Log" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/tasks" icon="approvals" label="My Tasks" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
 
                 {(user?.role === 'ADMIN' || user?.role === 'HR') && (
                     <NavItem to="/admin/payroll" icon="payroll" label="Payroll Manager" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
@@ -171,24 +191,17 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <NavItem to="/admin/system-health" icon="settings" label="System Health" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 )}
 
+                {user?.role === 'SUPER_ADMIN' && (
+                    <NavItem to="/super-admin/companies" icon="departments" label="Global Companies" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                )}
+
                 <div className="my-6 mx-6 border-t border-slate-100"></div>
 
                 <NavItem to="/settings" icon="settings" label="Settings" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/profile" icon="profile" label="My Profile" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
             </nav>
 
-            {/* Collapse / User Mobile Footer */}
-            {!isMobile && (
-                <div className="p-6 flex justify-center">
-                    <button
-                        onClick={() => setCollapsed(!collapsed)}
-                        className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
-                        title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-                    >
-                        <Icon name={collapsed ? "chevron_right" : "chevron_left"} size={20} />
-                    </button>
-                </div>
-            )}
+            {/* User Mobile Footer */}
 
             {isMobile && (
                 <div className="p-6 border-t border-slate-100">
@@ -206,9 +219,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             {/* Sidebar Desktop */}
             {!isMobile && (
                 <aside
-                    className={`fixed inset-y-0 left-0 z-50 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] 
-                        ${collapsed ? 'w-[var(--sidebar-width-collapsed)]' : 'w-[var(--sidebar-width-expanded)]'}
-                        bg-[var(--bg-sidebar)] border-r border-[var(--sidebar-border)] shadow-2xl`}
+                    className={`sticky top-0 h-screen z-40 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] flex-shrink-0
+                        ${collapsed ? 'w-[70px]' : 'w-[240px]'}
+                        bg-[var(--bg-sidebar)] border-r border-[var(--sidebar-border)] shadow-xl overflow-hidden`}
                 >
                     {sidebarContent}
                 </aside>
@@ -232,10 +245,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             )}
 
             {/* Main Content Area */}
-            <div
-                className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] 
-                    ${!isMobile ? (collapsed ? 'ml-[var(--sidebar-width-collapsed)]' : 'ml-[var(--sidebar-width-expanded)]') : ''}`}
-            >
+            <div className="flex-1 flex flex-col min-h-screen transition-all duration-300 min-w-0">
                 {/* Modern Header */}
                 <header className="sticky top-0 z-30 h-[var(--header-height)] bg-[var(--bg-surface)]/80 backdrop-blur-md border-b border-[var(--border-color)] flex items-center justify-between px-6 shadow-sm">
                     {/* Left: Check page config or default */}
@@ -257,7 +267,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         </div>
                         {/* Fallback for unknown routes or mobile */}
                         <div className="md:hidden">
-                            <h2 className="text-lg font-bold text-[var(--text-main)]">{companyName}</h2>
+                            <h2 className="text-base font-bold text-[var(--text-main)] truncate max-w-[150px]">{companyName}</h2>
                         </div>
                     </div>
 
@@ -318,6 +328,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 confirmText="Logout"
                 type="danger"
             />
+            
+            <AiAssistant />
         </div>
     );
 };

@@ -2,11 +2,18 @@ import { Request, Response } from 'express';
 import { prisma } from '../db';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import logger from '../utils/logger';
+import { AuthRequest } from '../middlewares/auth.middleware';
 
 export const login = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required' });
+        }
+
         logger.info(`Login attempt: ${email}`);
 
         const user = await prisma.user.findUnique({
@@ -19,6 +26,10 @@ export const login = async (req: Request, res: Response) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
+        if (user.status === 'INACTIVE') {
+            return res.status(403).json({ message: 'Account has been deactivated. Contact HR.' });
+        }
+
         const isMatch = await bcrypt.compare(password, user.passwordHash);
         logger.info(`Password match: ${isMatch}`);
 
@@ -29,9 +40,13 @@ export const login = async (req: Request, res: Response) => {
         if (!process.env.JWT_SECRET) logger.error('JWT_SECRET is missing!');
 
         const token = jwt.sign(
-            { userId: user.id, role: user.role },
+            {
+                userId: user.id,
+                role: user.role,
+                companyId: user.companyId ?? null,  // Multi-tenant: companyId scoped into every token
+            },
             process.env.JWT_SECRET as string,
-            { expiresIn: '1d' }
+            { expiresIn: '8h' }
         );
         logger.info('Token generated');
 
@@ -40,6 +55,22 @@ export const login = async (req: Request, res: Response) => {
         res.json({ token, user: userData });
     } catch (error: any) {
         logger.error(`Login Error: ${error.message}`, { stack: error.stack });
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+export const getMe = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = req.user!.userId;
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            include: { profile: true, shift: true }
+        });
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        const { passwordHash, ...userData } = user;
+        res.json(userData);
+    } catch (error: any) {
+        logger.error(`GetMe Error: ${error.message}`);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
@@ -57,10 +88,10 @@ export const forgotPassword = async (req: Request, res: Response) => {
             return res.json({ message: 'If an account with that email exists, a reset link has been sent.' });
         }
 
-        // Generate token
-        const resetTokenRaw = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+        // Generate a cryptographically secure random token (NOT a JWT — prevents reuse attacks)
+        const resetTokenRaw = crypto.randomBytes(32).toString('hex');
 
-        // Hash the token before saving
+        // Hash the token before saving to DB
         const resetTokenHash = await bcrypt.hash(resetTokenRaw, 10);
 
         // Save to DB
@@ -72,7 +103,8 @@ export const forgotPassword = async (req: Request, res: Response) => {
             }
         });
 
-        const resetLink = `${process.env.CLIENT_URL || 'http://localhost:5173'}/reset-password?token=${resetTokenRaw}`;
+        // Include uid so reset endpoint can find the user without decoding a JWT
+        const resetLink = `${process.env.CLIENT_URL || 'http://localhost:5173'}/reset-password?token=${resetTokenRaw}&uid=${user.id}`;
 
         const { sendEmail } = require('../utils/email.service');
         await sendEmail(
@@ -91,21 +123,17 @@ export const forgotPassword = async (req: Request, res: Response) => {
 
 export const resetPassword = async (req: Request, res: Response) => {
     try {
-        const { token, newPassword } = req.body;
+        const { token, uid, newPassword } = req.body;
 
-        if (!token || !newPassword) {
-            return res.status(400).json({ message: 'Token and new password are required' });
+        if (!token || !uid || !newPassword) {
+            return res.status(400).json({ message: 'Token, uid, and new password are required' });
         }
 
-        // Verify token signature (locally first)
-        let decoded: any;
-        try {
-            decoded = jwt.verify(token, process.env.JWT_SECRET as string);
-        } catch (err) {
-            return res.status(400).json({ message: 'Invalid or expired token' });
+        if (newPassword.length < 8) {
+            return res.status(400).json({ message: 'Password must be at least 8 characters' });
         }
 
-        const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
+        const user = await prisma.user.findUnique({ where: { id: uid } });
 
         if (!user || !user.resetToken || !user.resetTokenExpiry) {
             return res.status(400).json({ message: 'Invalid or expired token' });
@@ -125,7 +153,7 @@ export const resetPassword = async (req: Request, res: Response) => {
         // Hash new password
         const passwordHash = await bcrypt.hash(newPassword, 10);
 
-        // Update user
+        // Update user — clear reset token to prevent reuse
         await prisma.user.update({
             where: { id: user.id },
             data: {

@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
 import { PayrollService } from '../services/payroll.service';
 import { notifyUser } from '../utils/notification';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../db';
 
-const prisma = new PrismaClient();
 
 export const calculatePayroll = async (req: Request, res: Response) => {
     try {
