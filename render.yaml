@@ -1,0 +1,46 @@
+services:
+  # Backend Server
+  - type: web
+    name: citrux-hrms-api
+    env: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: node dist/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false # Set in Render Dashboard (Pooled String)
+      - key: DIRECT_URL
+        sync: false # Set in Render Dashboard (Direct String)
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        value: https://citrux-hrms.onrender.com # Update this to your final frontend URL
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+
+  # Frontend Static Site
+  - type: web
+    name: citrux-hrms-client
+    env: static
+    plan: free
+    rootDir: client
+    buildCommand: npm install && npm run build
+    staticPublishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://citrux-hrms-api.onrender.com/api
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+    routes:
+      - type: rewrite
+        src: /*
+        dest: /index.html
