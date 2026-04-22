@@ -24,9 +24,9 @@ const SystemHealth: React.FC = () => {
                 healthService.getStatus(),
                 healthService.getErrors(1, 10)
             ]);
-            setStatus(statusData);
-            setErrors(errorsData.errors || []);
-            setLastUpdated(new Date());
+            setStatus(statusData as any);
+            setErrors((errorsData as any).errors || []);
+            setLastUpdated(new Date())
             if (isRefresh) showToast('System status updated', 'success');
         } catch (error) {
             console.error(error);
