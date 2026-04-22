@@ -1,5 +1,4 @@
-
-const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5001/api' : 'https://hrms-6sfe.onrender.com/api');
+import { api } from './api';
 
 export interface SystemMetrics {
     uptime: number;
@@ -36,20 +35,10 @@ export interface HealthStatusResponse {
 
 export const healthService = {
     getStatus: async (): Promise<HealthStatusResponse> => {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${API_URL}/health/status`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (!response.ok) throw new Error('Failed to fetch system status');
-        return response.json();
+        return api.get('/health/status');
     },
 
     getErrors: async (page = 1, limit = 20) => {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${API_URL}/health/errors?page=${page}&limit=${limit}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (!response.ok) throw new Error('Failed to fetch system errors');
-        return response.json();
+        return api.get(`/health/errors?page=${page}&limit=${limit}`);
     }
 };

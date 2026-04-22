@@ -1,5 +1,4 @@
-
-const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5001/api' : 'https://hrms-6sfe.onrender.com/api');
+import { api } from './api';
 
 export interface PayrollStats {
     totalEmployees: number;
@@ -7,7 +6,6 @@ export interface PayrollStats {
     pendingCount: number;
     totalCost: number;
 }
-
 
 export interface PayrollCalculation {
     user: any;
@@ -21,49 +19,25 @@ export interface PayrollCalculation {
 
 export const payrollService = {
     getStats: async (month: number, year: number) => {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${API_URL}/payroll/stats?month=${month}&year=${year}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        return response.json();
+        return api.get(`/payroll/stats?month=${month}&year=${year}`);
     },
 
     calculate: async (userIds: string[], month: number, year: number) => {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${API_URL}/payroll/calculate`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ userIds, month, year })
-        });
-        return response.json();
+        return api.post('/payroll/calculate', { userIds, month, year });
     },
 
     generate: async (userIds: string[], month: number, year: number) => {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${API_URL}/payroll/generate`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ userIds, month, year })
-        });
-        return response.json();
+        return api.post('/payroll/generate', { userIds, month, year });
     },
 
     list: async (month: number, year: number) => {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${API_URL}/payroll/list?month=${month}&year=${year}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        return response.json();
+        return api.get(`/payroll/list?month=${month}&year=${year}`);
     },
 
     getDownloadUrl: (id: string) => {
         const token = localStorage.getItem('token');
+        // We use a raw URL for downloads since it's usually a link
+        const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5000/api' : 'https://citrux-hrms-api.onrender.com/api');
         return `${API_URL}/payroll/${id}/download?token=${token}`;
     }
 };

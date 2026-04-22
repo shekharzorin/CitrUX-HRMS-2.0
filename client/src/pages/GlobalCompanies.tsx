@@ -3,17 +3,7 @@ import { Icon } from '../components/ui/Icons';
 import { PageHeader } from '../components/ui/PageHeader';
 import { StatsCardPremium } from '../components/ui/DashboardElements';
 
-// Minimal UI Components
-const fetchWithAuth = async (url: string, options: any = {}) => {
-    const token = localStorage.getItem('token');
-    return fetch(url, {
-        ...options,
-        headers: {
-            ...options.headers,
-            'Authorization': `Bearer ${token}`
-        }
-    });
-};
+import { api } from '../services/api';
 
 export const GlobalCompanies: React.FC = () => {
     const [companies, setCompanies] = useState<any[]>([]);
@@ -40,11 +30,8 @@ export const GlobalCompanies: React.FC = () => {
     const loadCompanies = async () => {
         try {
             setLoading(true);
-            const res = await fetchWithAuth('http://localhost:5000/api/companies');
-            if (res.ok) {
-                const data = await res.json();
-                setCompanies(data.value || []);
-            }
+            const data: any = await api.get('/companies');
+            setCompanies(data.value || []);
         } catch (e) {
             console.error("Failed to fetch companies", e);
         } finally {
@@ -58,30 +45,17 @@ export const GlobalCompanies: React.FC = () => {
         try {
             let res;
             if (editingId) {
-                res = await fetchWithAuth(`http://localhost:5000/api/companies/${editingId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
+                await api.put(`/companies/${editingId}`, formData);
             } else {
-                res = await fetchWithAuth('http://localhost:5000/api/companies', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
+                await api.post('/companies', formData);
             }
             
-            if (res.ok) {
-                setShowModal(false);
-                setEditingId(null);
-                setFormData({ name: '', domain: '', plan: 'STARTER', adminEmail: '', adminPassword: '', adminFirstName: '', adminLastName: '' });
-                loadCompanies();
-            } else {
-                const error = await res.json();
-                alert(error.message || "Failed to create company");
-            }
-        } catch (e) {
-            alert("Error creating company");
+            setShowModal(false);
+            setEditingId(null);
+            setFormData({ name: '', domain: '', plan: 'STARTER', adminEmail: '', adminPassword: '', adminFirstName: '', adminLastName: '' });
+            loadCompanies();
+        } catch (e: any) {
+            alert(e.message || "Failed to save company");
         } finally {
             setSubmitting(false);
         }
