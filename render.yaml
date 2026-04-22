@@ -1,39 +1,38 @@
 services:
   - type: web
-      name: citrux-hrms-api
-          env: node
-              plan: free
-                  rootDir: server
-                      buildCommand: npm install && npx prisma generate && npm run build
-                          startCommand: node dist/index.js
-                              envVars:
-                                    - key: NODE_ENV
-                                            value: production
-                                                  - key: DATABASE_URL
-                                                          sync: false
-                                                                - key: DIRECT_URL
-                                                                        sync: false
-                                                                              - key: JWT_SECRET
-                                                                                      generateValue: true
-                                                                                            - key: CLIENT_URL
-                                                                                                    value: https://citrux-hrms.onrender.com
-                                                                                                          - key: CLOUDINARY_CLOUD_NAME
-                                                                                                                  sync: false
-                                                                                                                        - key: CLOUDINARY_API_KEY
-                                                                                                                                sync: false
-                                                                                                                                      - key: CLOUDINARY_API_SECRET
-                                                                                                                                              sync: false
-                                                                                                                                              
-                                                                                                                                                - type: static
-                                                                                                                                                    name: citrux-hrms-client
-                                                                                                                                                        plan: free
-                                                                                                                                                            rootDir: client
-                                                                                                                                                                buildCommand: npm install && npm run build
-                                                                                                                                                                    publishDir: dist
-                                                                                                                                                                        envVars:
-                                                                                                                                                                              - key: VITE_API_URL
-                                                                                                                                                                                      value: https://citrux-hrms-api.onrender.com/api
-                                                                                                                                                                                          routes:
-                                                                                                                                                                                                - source: /*
-                                                                                                                                                                                                        destination: /index.html
-                                                                                                                                                                                                        
+    name: citrux-hrms-api
+    env: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: node dist/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        value: https://citrux-hrms-client.onrender.com,https://portal.citrux.in,https://portal.isnap.in
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+
+  - type: static
+    name: citrux-hrms-client
+    plan: free
+    rootDir: client
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://citrux-hrms-api.onrender.com/api
+    routes:
+      - source: /*
+        destination: /index.html
