@@ -28,7 +28,7 @@ const Payroll: React.FC = () => {
                 payrollService.getStats(month, year),
                 payrollService.list(month, year)
             ]);
-            setStats(statsData);
+            setStats(statsData as any);
             if (Array.isArray(listData)) {
                 setPayslips(listData);
             } else {
