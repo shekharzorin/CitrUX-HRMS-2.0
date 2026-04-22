@@ -43,7 +43,7 @@ export const GlobalCompanies: React.FC = () => {
         e.preventDefault();
         setSubmitting(true);
         try {
-            let res;
+            
             if (editingId) {
                 await api.put(`/companies/${editingId}`, formData);
             } else {
