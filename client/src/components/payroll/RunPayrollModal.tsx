@@ -50,7 +50,7 @@ export const RunPayrollModal: React.FC<RunPayrollModalProps> = ({ isOpen, onClos
         setLoading(true);
         try {
             const results = await payrollService.calculate(selectedEmployeeIds, month, year);
-            setCalculations(results);
+            setCalculations(results as any);
             setStep(2);
         } catch (error) {
             console.error(error);
