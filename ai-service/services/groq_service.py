@@ -27,7 +27,7 @@ Keep the response concise and friendly."""
 
         try:
             response = self.client.chat.completions.create(
-                model="llama3-8b-8192",   # Open source LLaMA 3 by Meta, running on Groq
+                model="llama-3.3-70b-versatile",   # LLaMA 3.3 70B - open source by Meta, free on Groq
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.3,
                 max_tokens=500
