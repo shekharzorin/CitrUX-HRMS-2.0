@@ -96,25 +96,38 @@ Instructions:
         // 4. Call LLM API (OpenAI)
         if (!process.env.OPENAI_API_KEY) {
             return res.json({ 
-                reply: `(Demo Mode: No OPENAI_API_KEY found)\n\nHello! I am your AI Assistant. Based on your request as a ${role}, here is the raw data I pulled from the HRMS database:\n\n${JSON.stringify(contextData, null, 2)}`
+                reply: `(Demo Mode)\n\nHello! I am your AI Assistant. I can see you are a ${role}. Once the OpenAI API key is activated, I will be able to answer your questions using live data.\n\nRaw Context Pulled: ${JSON.stringify(contextData, null, 2)}`
             });
         }
 
-        const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-            model: 'gpt-4o-mini',
-            messages: [{ role: 'user', content: prompt }],
-            temperature: 0.3,
-            max_tokens: 500
-        }, {
-            headers: {
-                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-                'Content-Type': 'application/json'
-            }
-        });
+        try {
+            const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+                model: 'gpt-4o-mini',
+                messages: [{ role: 'user', content: prompt }],
+                temperature: 0.3,
+                max_tokens: 500
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                timeout: 10000 // 10s timeout
+            });
 
-        res.json({ reply: response.data.choices[0].message.content });
-    } catch (error) {
-        console.error("AI Assistant Error:", error);
-        res.status(500).json({ reply: "I encountered an error connecting to my neural net. Please try again later." });
+            res.json({ reply: response.data.choices[0].message.content });
+        } catch (apiError: any) {
+            console.error("OpenAI API Error:", apiError.response?.data || apiError.message);
+            
+            if (apiError.response?.status === 429) {
+                return res.json({ 
+                    reply: "I'm ready to help, but it looks like the OpenAI account has run out of credits or reached its limit (Error 429). Please check your billing dashboard at platform.openai.com." 
+                });
+            }
+            
+            throw apiError; // Fall through to global error handler
+        }
+    } catch (error: any) {
+        console.error("AI Assistant Global Error:", error);
+        res.status(500).json({ reply: "I encountered an error while processing your request. Please try again later." });
     }
 };
