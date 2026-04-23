@@ -41,6 +41,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
     const searchInputRef = useRef<HTMLInputElement>(null);
+    const searchDropdownRef = useRef<HTMLDivElement>(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState<any[]>([]);
+    const [isSearching, setIsSearching] = useState(false);
+    const [showSearchDropdown, setShowSearchDropdown] = useState(false);
 
     // Dynamic Branding
     const companyName = user?.company?.name || 'Citrux HRMS';
@@ -60,11 +65,54 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 e.preventDefault();
                 searchInputRef.current?.focus();
             }
+            if (e.key === 'Escape') {
+                setShowSearchDropdown(false);
+            }
+        };
+
+        const handleClickOutside = (e: MouseEvent) => {
+            if (searchDropdownRef.current && !searchDropdownRef.current.contains(e.target as Node) && !searchInputRef.current?.contains(e.target as Node)) {
+                setShowSearchDropdown(false);
+            }
         };
 
         window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
+        window.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('mousedown', handleClickOutside);
+        };
     }, []);
+
+    // Search Logic
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(async () => {
+            if (searchQuery.length >= 2) {
+                setIsSearching(true);
+                setShowSearchDropdown(true);
+                try {
+                    const results = await api.get<any[]>(`/search?q=${searchQuery}`);
+                    setSearchResults(results);
+                } catch (err) {
+                    console.error("Search failed", err);
+                    setSearchResults([]);
+                } finally {
+                    setIsSearching(false);
+                }
+            } else {
+                setSearchResults([]);
+                setShowSearchDropdown(false);
+            }
+        }, 300);
+
+        return () => clearTimeout(delayDebounceFn);
+    }, [searchQuery]);
+
+    const handleResultClick = (link: string) => {
+        navigate(link);
+        setShowSearchDropdown(false);
+        setSearchQuery('');
+    };
 
     // Page Config
     const pageConfig: Record<string, { title: string; subtitle?: string; icon: AppIconName; gradient: string }> = {
@@ -258,11 +306,60 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                                     placeholder="Search employees, leaves, policies..."
                                     className="w-full h-10 pl-11 pr-14 bg-slate-50 dark:bg-slate-800/50 border-none rounded-xl text-sm font-medium text-[var(--text-main)] placeholder-slate-400 
                                     ring-1 ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-[var(--primary)] focus:bg-white dark:focus:bg-slate-800 transition-all outline-none shadow-sm"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onFocus={() => searchQuery.length >= 2 && setShowSearchDropdown(true)}
                                 />
                                 <div className="absolute right-3 flex items-center gap-1.5 pointer-events-none">
-                                    <kbd className="hidden sm:inline-flex items-center h-5 px-1.5 text-[10px] font-bold text-slate-400 bg-white border border-slate-200 rounded-md shadow-sm">CTRL</kbd>
-                                    <kbd className="hidden sm:inline-flex items-center h-5 px-1.5 text-[10px] font-bold text-slate-400 bg-white border border-slate-200 rounded-md shadow-sm">K</kbd>
+                                    {isSearching ? (
+                                        <div className="animate-spin h-4 w-4 border-2 border-indigo-500 border-t-transparent rounded-full"></div>
+                                    ) : (
+                                        <>
+                                            <kbd className="hidden sm:inline-flex items-center h-5 px-1.5 text-[10px] font-bold text-slate-400 bg-white border border-slate-200 rounded-md shadow-sm">CTRL</kbd>
+                                            <kbd className="hidden sm:inline-flex items-center h-5 px-1.5 text-[10px] font-bold text-slate-400 bg-white border border-slate-200 rounded-md shadow-sm">K</kbd>
+                                        </>
+                                    )}
                                 </div>
+
+                                {/* Search Results Dropdown */}
+                                {showSearchDropdown && (
+                                    <div 
+                                        ref={searchDropdownRef}
+                                        className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden z-50 animate-scale-up"
+                                    >
+                                        <div className="p-2 max-h-[400px] overflow-y-auto">
+                                            {searchResults.length > 0 ? (
+                                                searchResults.map((result) => (
+                                                    <button
+                                                        key={`${result.type}-${result.id}`}
+                                                        onClick={() => handleResultClick(result.link)}
+                                                        className="w-full flex items-center gap-3 p-3 hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl transition-colors text-left group"
+                                                    >
+                                                        <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[var(--primary)] group-hover:bg-[var(--primary)] group-hover:text-white transition-colors">
+                                                            <Icon name={result.icon as AppIconName} size={20} />
+                                                        </div>
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="text-sm font-bold text-[var(--text-main)] truncate">{result.title}</div>
+                                                            <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider font-bold">{result.subtitle}</div>
+                                                        </div>
+                                                        <div className="text-slate-300">
+                                                            <Icon name="chevron_right" size={16} />
+                                                        </div>
+                                                    </button>
+                                                ))
+                                            ) : (
+                                                <div className="p-8 text-center">
+                                                    <div className="w-12 h-12 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
+                                                        <Icon name="search" size={24} />
+                                                    </div>
+                                                    <p className="text-sm font-medium text-[var(--text-main)]">No results for "{searchQuery}"</p>
+                                                    <p className="text-xs text-[var(--text-muted)] mt-1">Try searching for employees or tasks</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                             </div>
                         </div>
                     )}

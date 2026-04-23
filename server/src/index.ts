@@ -38,6 +38,7 @@ import companyRoutes from './routes/company.routes';
 import worklogRoutes from './routes/worklog.routes';
 import taskRoutes from './routes/task.routes';
 import uploadRoutes from './routes/upload.routes';
+import searchRoutes from './routes/search.routes';
 
 import path from 'path';
 
@@ -168,6 +169,7 @@ app.use('/api/health', healthRoutes);
 app.use('/api/companies', companyRoutes);
 app.use('/api/worklogs', worklogRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use('/api/search', searchRoutes);
 
 // Global Error Handler
 app.use(errorHandler);
