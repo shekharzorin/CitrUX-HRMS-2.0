@@ -29,7 +29,7 @@ const Settings: React.FC = () => {
         padding: '4'
     });
 
-    const [aiProvider, setAiProvider] = useState('gemini');
+    const [aiProvider, setAiProvider] = useState('groq');
 
     // Leave & Holidays State
     const [leaves, setLeaves] = useState<any[]>([]);
@@ -82,7 +82,7 @@ const Settings: React.FC = () => {
                     sequence: data['EMP_ID_SEQUENCE'] || '1',
                     padding: data['EMP_ID_PADDING'] || '4'
                 });
-                setAiProvider(data['ai_provider'] || 'gemini');
+                setAiProvider(data['ai_provider'] || 'groq');
             }
             // Initial fetch of other important data
             await Promise.all([fetchRoles(), fetchLeaveTypes(), fetchHolidays()]);
@@ -657,37 +657,54 @@ const Settings: React.FC = () => {
                                 <div>
                                     <label className="form-label mb-4">Select AI Provider</label>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                                        {/* Groq - Recommended */}
+                                        <div 
+                                            onClick={() => setAiProvider('groq')}
+                                            className={`p-4 rounded-2xl border-2 cursor-pointer transition-all relative ${aiProvider === 'groq' ? 'border-[var(--primary)] bg-[var(--primary-light)]' : 'border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700'}`}
+                                        >
+                                            <span className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-0.5 rounded-full">Recommended</span>
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 font-bold text-sm">G</div>
+                                                <span className="font-bold">Groq (LLaMA 3.3)</span>
+                                            </div>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400">Open source by Meta · Free · Blazing fast · No GPU needed.</p>
+                                        </div>
+
+                                        {/* Gemini */}
                                         <div 
                                             onClick={() => setAiProvider('gemini')}
                                             className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${aiProvider === 'gemini' ? 'border-[var(--primary)] bg-[var(--primary-light)]' : 'border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700'}`}
                                         >
                                             <div className="flex items-center gap-3 mb-2">
-                                                <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">G</div>
+                                                <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 font-bold text-sm">G</div>
                                                 <span className="font-bold">Google Gemini</span>
                                             </div>
                                             <p className="text-xs text-slate-500 dark:text-slate-400">High performance, cloud-based, supports complex HR queries.</p>
                                         </div>
 
+                                        {/* OpenAI */}
                                         <div 
                                             onClick={() => setAiProvider('openai')}
                                             className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${aiProvider === 'openai' ? 'border-[var(--primary)] bg-[var(--primary-light)]' : 'border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700'}`}
                                         >
                                             <div className="flex items-center gap-3 mb-2">
-                                                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600">X</div>
+                                                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 font-bold text-sm">X</div>
                                                 <span className="font-bold">OpenAI (GPT-4o)</span>
                                             </div>
                                             <p className="text-xs text-slate-500 dark:text-slate-400">Industry standard, reliable, and highly intelligent formatting.</p>
                                         </div>
                                         
+                                        {/* Ollama */}
                                         <div 
                                             onClick={() => setAiProvider('ollama')}
                                             className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${aiProvider === 'ollama' ? 'border-[var(--primary)] bg-[var(--primary-light)]' : 'border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700'}`}
                                         >
                                             <div className="flex items-center gap-3 mb-2">
-                                                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600">O</div>
+                                                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 font-bold text-sm">O</div>
                                                 <span className="font-bold">Ollama (Local)</span>
                                             </div>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400">Privacy focused, runs locally on your server. No API costs.</p>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400">Privacy focused, runs on your own machine. Requires local setup.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -696,7 +713,7 @@ const Settings: React.FC = () => {
                                     <div className="flex gap-3">
                                         <Icon name="info" className="text-blue-500 shrink-0" size={20} />
                                         <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                                            The AI Assistant uses a hybrid architecture. Intent classification happens via local NLP, while response formatting is handled by your chosen provider. If a provider is offline, the system will automatically attempt to fallback to the other.
+                                            The AI uses a 4-level fallback chain: <strong>Groq → Gemini → OpenAI → Raw Data</strong>. If your selected provider is unavailable, the system automatically tries the next one so you always get a response. Ollama requires a local server and is not available in cloud deployments.
                                         </p>
                                     </div>
                                 </div>
