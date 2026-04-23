@@ -79,7 +79,7 @@ const App: React.FC = () => {
                 <Route path="/users" element={<ProtectedRoute allowedRoles={['ADMIN', 'HR', 'SUPER_ADMIN', 'MANAGER', 'EMPLOYEE']}><Users /></ProtectedRoute>} />
                 <Route path="/org-chart" element={<ProtectedRoute><OrgChart /></ProtectedRoute>} />
                 <Route path="/employees/:id" element={<ProtectedRoute><EmployeeDetails /></ProtectedRoute>} />
-                <Route path="/users/create" element={<ProtectedRoute allowedRoles={['ADMIN', 'HR']}><CreateUser /></ProtectedRoute>} />
+                <Route path="/users/create" element={<ProtectedRoute allowedRoles={['ADMIN', 'HR', 'SUPER_ADMIN']}><CreateUser /></ProtectedRoute>} />
                 <Route path="/users/edit/:id" element={<ProtectedRoute><EditUser /></ProtectedRoute>} />
 
                 <Route path="/attendance" element={<ProtectedRoute><Attendance /></ProtectedRoute>} />
@@ -95,7 +95,7 @@ const App: React.FC = () => {
                 <Route path="/worklogs" element={<ProtectedRoute><WorkLogPage /></ProtectedRoute>} />
                 <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
 
-                <Route path="/admin/shifts" element={<ProtectedRoute allowedRoles={['ADMIN', 'HR']}><ShiftConfig /></ProtectedRoute>} />
+                <Route path="/admin/shifts" element={<ProtectedRoute allowedRoles={['ADMIN', 'HR', 'SUPER_ADMIN']}><ShiftConfig /></ProtectedRoute>} />
 
                 <Route path="/onboarding/submit" element={<ProtectedRoute><OnboardingForm /></ProtectedRoute>} />
                 <Route path="/onboarding/admin" element={<ProtectedRoute><OnboardingList /></ProtectedRoute>} />
@@ -120,8 +120,8 @@ const App: React.FC = () => {
                 <Route path="/payslips" element={<ProtectedRoute><Payslips /></ProtectedRoute>} />
                 <Route path="/certificates/issue" element={<ProtectedRoute><IssueCertificate /></ProtectedRoute>} />
 
-                <Route path="/admin/salary" element={<ProtectedRoute allowedRoles={['ADMIN', 'HR']}><SalaryConfig /></ProtectedRoute>} />
-                <Route path="/admin/payroll" element={<ProtectedRoute allowedRoles={['ADMIN', 'HR']}><Payroll /></ProtectedRoute>} />
+                <Route path="/admin/salary" element={<ProtectedRoute allowedRoles={['ADMIN', 'HR', 'SUPER_ADMIN']}><SalaryConfig /></ProtectedRoute>} />
+                <Route path="/admin/payroll" element={<ProtectedRoute allowedRoles={['ADMIN', 'HR', 'SUPER_ADMIN']}><Payroll /></ProtectedRoute>} />
                 <Route path="/admin/system-health" element={<ProtectedRoute allowedRoles={['ADMIN', 'SUPER_ADMIN']}><SystemHealth /></ProtectedRoute>} />
                 <Route path="/super-admin/companies" element={<ProtectedRoute allowedRoles={['SUPER_ADMIN']}><GlobalCompanies /></ProtectedRoute>} />
 
