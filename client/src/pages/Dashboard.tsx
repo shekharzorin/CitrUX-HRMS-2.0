@@ -108,7 +108,7 @@ const Dashboard: React.FC = () => {
                     <h1 className="text-3xl font-bold text-[var(--text-main)] tracking-tight">
                         {getGreeting()}, {user?.profile?.firstName || 'User'}! 👋
                     </h1>
-                    <p className="text-[var(--text-muted)] mt-1">Here's what's happening at Citrux today.</p>
+                    <p className="text-[var(--text-muted)] mt-1">Here's what's happening at {user?.company?.name || 'Citrux'} today.</p>
                 </div>
                 <div className="text-right hidden md:block">
                     <div className="text-2xl font-bold font-mono text-[var(--text-main)]">
