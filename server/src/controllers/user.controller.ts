@@ -253,7 +253,8 @@ export const getUserById = async (req: AuthRequest, res: Response) => {
                     take: 5
                 },
                 leaveBalances: true,
-                shift: true
+                shift: true,
+                company: true
             }
         });
 

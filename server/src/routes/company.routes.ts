@@ -31,6 +31,7 @@ router.get('/', async (req: AuthRequest, res) => {
             name: c.name,
             domain: c.domain,
             plan: c.plan,
+            slogan: c.slogan,
             createdAt: c.createdAt,
             employeeCount: c._count.users,
             superAdminEmail: c.users[0]?.email || null,
@@ -47,7 +48,7 @@ router.get('/', async (req: AuthRequest, res) => {
 // 2. Create a new company
 router.post('/', async (req: AuthRequest, res) => {
     try {
-        const { name, domain, plan, adminEmail, adminPassword, adminFirstName, adminLastName } = req.body;
+        const { name, domain, plan, slogan, adminEmail, adminPassword, adminFirstName, adminLastName } = req.body;
 
         // Validation
         if (!name || !adminEmail || !adminPassword) {
@@ -74,7 +75,8 @@ router.post('/', async (req: AuthRequest, res) => {
                 data: {
                     name,
                     domain,
-                    plan: plan || 'STARTER'
+                    plan: plan || 'STARTER',
+                    slogan: slogan || 'Citrux SaaS'
                 }
             });
 
@@ -108,7 +110,7 @@ router.post('/', async (req: AuthRequest, res) => {
 router.put('/:id', async (req: AuthRequest, res) => {
     try {
         const { id } = req.params;
-        const { name, domain, plan, adminEmail, adminPassword, adminFirstName, adminLastName } = req.body;
+        const { name, domain, plan, slogan, adminEmail, adminPassword, adminFirstName, adminLastName } = req.body;
 
         if (!name) {
             return res.status(400).json({ message: "Company name is required" });
@@ -117,7 +119,7 @@ router.put('/:id', async (req: AuthRequest, res) => {
         const updatedCompany = await prisma.$transaction(async (tx) => {
             const company = await tx.company.update({
                 where: { id },
-                data: { name, domain, plan }
+                data: { name, domain, plan, slogan }
             });
 
             // Update associated admin if details are provided

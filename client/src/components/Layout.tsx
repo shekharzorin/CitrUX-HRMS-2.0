@@ -42,41 +42,14 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
     const searchInputRef = useRef<HTMLInputElement>(null);
 
-    // Company Settings
-    const [companyName, setCompanyName] = useState(localStorage.getItem('company_name') || 'Citrux');
-    const [companyLogo, setCompanyLogo] = useState(localStorage.getItem('company_logo') || '');
+    // Dynamic Branding
+    const companyName = user?.company?.name || 'Citrux HRMS';
+    const companyLogo = user?.company?.logoUrl || '';
+    const companySlogan = user?.company?.slogan || 'Citrux SaaS';
 
     useEffect(() => {
-        /* ... existing branding effect ... */
-        const updateBranding = () => {
-            const name = localStorage.getItem('company_name') || 'Citrux HRMS';
-            const logo = localStorage.getItem('company_logo') || '';
-            const favicon = localStorage.getItem('company_favicon');
-
-            setCompanyName(name);
-            setCompanyLogo(logo);
-            document.title = name;
-
-            if (favicon) {
-                const link = (document.querySelector("link[rel*='icon']") as HTMLLinkElement) || document.createElement('link');
-                // Allow browser to detect type or infer from extension. specific type causing issues with SVGs/PNGs
-                // link.type = 'image/x-icon'; 
-                link.rel = 'icon';
-                link.href = favicon;
-                const head = document.getElementsByTagName('head')[0];
-                if (!head.contains(link)) {
-                    head.appendChild(link);
-                }
-            }
-        };
-        updateBranding();
-        window.addEventListener('storage', updateBranding);
-        window.addEventListener('branding-update', updateBranding);
-        return () => {
-            window.removeEventListener('storage', updateBranding);
-            window.removeEventListener('branding-update', updateBranding);
-        };
-    }, []);
+        document.title = companyName;
+    }, [companyName]);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -152,7 +125,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     {(!collapsed || isMobile) && (
                         <div className="flex flex-col overflow-hidden flex-1 transition-opacity duration-300">
                             <span className="font-bold text-slate-900 dark:text-white text-base tracking-tight truncate">{companyName}</span>
-                            <span className="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider">Citrux SaaS</span>
+                            <span className="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider">{companySlogan}</span>
                         </div>
                     )}
                 </div>

@@ -24,6 +24,7 @@ model Company {
   domain      String?
   plan        String   @default("STARTER")
   logoUrl     String?
+  slogan      String?  @default("Citrux SaaS")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   users       User[]

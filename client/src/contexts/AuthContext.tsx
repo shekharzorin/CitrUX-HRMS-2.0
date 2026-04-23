@@ -13,6 +13,11 @@ export interface User {
         endTime: string;
         name: string;
     };
+    company?: {
+        name: string;
+        logoUrl?: string;
+        slogan?: string;
+    };
 }
 
 

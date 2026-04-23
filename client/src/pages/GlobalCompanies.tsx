@@ -16,6 +16,7 @@ export const GlobalCompanies: React.FC = () => {
         name: '',
         domain: '',
         plan: 'STARTER',
+        slogan: '',
         adminEmail: '',
         adminPassword: '',
         adminFirstName: '',
@@ -52,7 +53,7 @@ export const GlobalCompanies: React.FC = () => {
             
             setShowModal(false);
             setEditingId(null);
-            setFormData({ name: '', domain: '', plan: 'STARTER', adminEmail: '', adminPassword: '', adminFirstName: '', adminLastName: '' });
+            setFormData({ name: '', domain: '', plan: 'STARTER', slogan: '', adminEmail: '', adminPassword: '', adminFirstName: '', adminLastName: '' });
             loadCompanies();
         } catch (e: any) {
             alert(e.message || "Failed to save company");
@@ -67,7 +68,7 @@ export const GlobalCompanies: React.FC = () => {
                 title="Global Companies" 
                 subtitle="Manage HRMS tenants and super admins"
                 actions={
-                    <button onClick={() => { setEditingId(null); setFormData({ name: '', domain: '', plan: 'STARTER', adminEmail: '', adminPassword: '', adminFirstName: '', adminLastName: '' }); setShowModal(true); }} className="btn-primary">
+                    <button onClick={() => { setEditingId(null); setFormData({ name: '', domain: '', plan: 'STARTER', slogan: '', adminEmail: '', adminPassword: '', adminFirstName: '', adminLastName: '' }); setShowModal(true); }} className="btn-primary">
                         <Icon name="plus" size={20} />
                         <span>Add Company</span>
                     </button>
@@ -108,6 +109,7 @@ export const GlobalCompanies: React.FC = () => {
                                 <tr className="border-b border-[var(--border-light)] text-[var(--text-muted)] text-xs uppercase tracking-wider">
                                     <th className="pb-4 font-bold">Company Name</th>
                                     <th className="pb-4 font-bold">Domain</th>
+                                    <th className="pb-4 font-bold">Tagline</th>
                                     <th className="pb-4 font-bold">Plan</th>
                                     <th className="pb-4 font-bold">Super Admin</th>
                                     <th className="pb-4 font-bold">Users</th>
@@ -125,6 +127,7 @@ export const GlobalCompanies: React.FC = () => {
                                             {c.name}
                                         </td>
                                         <td className="py-4 text-sm text-[var(--text-muted)] font-mono">{c.domain || '-'}</td>
+                                        <td className="py-4 text-sm text-[var(--text-muted)]">{c.slogan || '-'}</td>
                                         <td className="py-4">
                                             <span className="px-2.5 py-1 bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 rounded-lg text-xs font-bold border border-purple-200 dark:border-purple-800/50">
                                                 {c.plan}
@@ -149,6 +152,7 @@ export const GlobalCompanies: React.FC = () => {
                                                         name: c.name,
                                                         domain: c.domain || '',
                                                         plan: c.plan || 'STARTER',
+                                                        slogan: c.slogan || '',
                                                         adminEmail: c.superAdminEmail || '',
                                                         adminPassword: '', // Password intentionally empty, only required on new
                                                         adminFirstName: fName || '',
@@ -204,6 +208,11 @@ export const GlobalCompanies: React.FC = () => {
                                             <option value="PRO">Professional</option>
                                             <option value="ENTERPRISE">Enterprise</option>
                                         </select>
+                                    </div>
+                                    <div>
+                                        <label className="form-label">Company Tagline (e.g. Citrux SaaS)</label>
+                                        <input type="text" className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm" 
+                                            value={formData.slogan} onChange={e => setFormData({...formData, slogan: e.target.value})} placeholder="Citrux SaaS" />
                                     </div>
                                 </div>
 
