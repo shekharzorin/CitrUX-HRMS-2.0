@@ -116,6 +116,11 @@
   /* Basic Shadows Maps To Tailwind Overrides Via Var if needed, but Tailwind 4 maps automatically mapping shadows by css name */
   --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.04);
 
+  /* Layout */
+  --header-height: 72px;
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 80px;
+
   /* Fonts */
   --font-main: 'Plus Jakarta Sans', 'Inter', sans-serif;
   --font-heading: 'Plus Jakarta Sans', 'Inter', sans-serif;

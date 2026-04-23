@@ -193,7 +193,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             {!isMobile && (
                 <aside
                     className={`sticky top-0 h-screen z-40 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] flex-shrink-0
-                        ${collapsed ? 'w-[70px]' : 'w-[240px]'}
+                        ${collapsed ? 'w-[var(--sidebar-collapsed-width)]' : 'w-[var(--sidebar-width)]'}
                         bg-[var(--bg-sidebar)] border-r border-[var(--sidebar-border)] shadow-xl overflow-hidden`}
                 >
                     {sidebarContent}
@@ -256,8 +256,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                                     ref={searchInputRef}
                                     type="text"
                                     placeholder="Search employees, leaves, policies..."
-                                    className="w-full h-11 pl-11 pr-14 bg-slate-50 dark:bg-slate-800/50 border-none rounded-xl text-sm font-medium text-[var(--text-main)] placeholder-slate-400 
-                                    ring-1 ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-[var(--primary)] focus:bg-white dark:focus:bg-slate-800 transition-all outline-none"
+                                    className="w-full h-10 pl-11 pr-14 bg-slate-50 dark:bg-slate-800/50 border-none rounded-xl text-sm font-medium text-[var(--text-main)] placeholder-slate-400 
+                                    ring-1 ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-[var(--primary)] focus:bg-white dark:focus:bg-slate-800 transition-all outline-none shadow-sm"
                                 />
                                 <div className="absolute right-3 flex items-center gap-1.5 pointer-events-none">
                                     <kbd className="hidden sm:inline-flex items-center h-5 px-1.5 text-[10px] font-bold text-slate-400 bg-white border border-slate-200 rounded-md shadow-sm">CTRL</kbd>
