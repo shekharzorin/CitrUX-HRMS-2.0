@@ -37,6 +37,21 @@ export const markRead = async (req: Request, res: Response) => {
     }
 };
 
+// Mark All as Read
+export const markAllRead = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = req.user.userId;
+        // @ts-ignore
+        await prisma.notification.updateMany({
+            where: { userId, read: false },
+            data: { read: true }
+        });
+        res.json({ message: 'All marked as read' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error clearing notifications' });
+    }
+};
+
 // Create Notification (Internal Helper or Admin Broadcast)
 export const createNotification = async (req: Request, res: Response) => {
     try {

@@ -68,6 +68,14 @@ export const NotificationBell = () => {
         } catch (e) { console.error(e); }
     };
 
+    const markAllAsRead = async () => {
+        try {
+            await api.put('/notifications/read-all', {});
+            setRecent(prev => prev.map(n => ({ ...n, read: true })));
+            setUnreadCount(0);
+        } catch (e) { console.error(e); }
+    };
+
     return (
         <div className="notification-bell-container" ref={bellRef}>
             <button
@@ -87,9 +95,16 @@ export const NotificationBell = () => {
                 <div className="notification-dropdown">
                     <div className="dropdown-header">
                         <h3 className="dropdown-title">Notifications</h3>
-                        <Link to="/notifications" onClick={() => setIsOpen(false)} className="dropdown-view-all">
-                            View All
-                        </Link>
+                        <div className="flex gap-3">
+                            {unreadCount > 0 && (
+                                <button onClick={markAllAsRead} className="text-xs text-blue-600 hover:text-blue-800 font-bold">
+                                    Clear All
+                                </button>
+                            )}
+                            <Link to="/notifications" onClick={() => setIsOpen(false)} className="dropdown-view-all">
+                                View All
+                            </Link>
+                        </div>
                     </div>
                     <div className="notification-list">
                         {recent.length === 0 ? (

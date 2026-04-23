@@ -296,11 +296,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
                     {/* Right: Actions */}
                     <div className="flex items-center gap-2 sm:gap-4">
-                        <button className="relative w-10 h-10 flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--primary)] hover:bg-slate-100 dark:hover:bg-white/5 rounded-full transition-all" title="Announcements">
-                            <Icon name="campaign" size={20} />
-                            <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white dark:ring-slate-900"></span>
-                        </button>
-
                         <div className="flex items-center justify-center h-10 w-10">
                             <NotificationBell />
                         </div>
