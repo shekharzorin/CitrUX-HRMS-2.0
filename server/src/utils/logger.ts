@@ -32,26 +32,32 @@ const format = winston.format.combine(
 );
 
 // Create logger
-const logger = winston.createLogger({
-    levels,
-    level: process.env.LOG_LEVEL || 'info', // Default to info
-    transports: [
-        // Console transport
-        new winston.transports.Console({
-            format,
-        }),
-        // Error log file
+const transports: winston.transport[] = [
+    new winston.transports.Console({
+        format,
+    }),
+];
+
+// Only add file transports if not in production
+if (process.env.NODE_ENV !== 'production') {
+    transports.push(
         new winston.transports.File({
             filename: path.join(__dirname, '../../logs/error.log'),
             level: 'error',
-            format: winston.format.json() // JSON format for files
+            format: winston.format.json()
         }),
-        // Combined log file
         new winston.transports.File({
             filename: path.join(__dirname, '../../logs/combined.log'),
             format: winston.format.json()
-        }),
-    ],
+        })
+    );
+}
+
+// Create logger
+const logger = winston.createLogger({
+    levels,
+    level: process.env.LOG_LEVEL || 'info',
+    transports,
 });
 
 export default logger;
