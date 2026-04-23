@@ -6,6 +6,7 @@ import { Button } from './ui/Button';
 import { Icon, type AppIconName } from './ui/Icons';
 import { NotificationBell } from './Header/NotificationBell';
 import { ProfileDropdown } from './Header/ProfileDropdown';
+import { api } from '../services/api';
 import { AiAssistant } from './AiAssistant';
 
 
