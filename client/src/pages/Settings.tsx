@@ -667,6 +667,17 @@ const Settings: React.FC = () => {
                                             </div>
                                             <p className="text-xs text-slate-500 dark:text-slate-400">High performance, cloud-based, supports complex HR queries.</p>
                                         </div>
+
+                                        <div 
+                                            onClick={() => setAiProvider('openai')}
+                                            className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${aiProvider === 'openai' ? 'border-[var(--primary)] bg-[var(--primary-light)]' : 'border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700'}`}
+                                        >
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600">X</div>
+                                                <span className="font-bold">OpenAI (GPT-4o)</span>
+                                            </div>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400">Industry standard, reliable, and highly intelligent formatting.</p>
+                                        </div>
                                         
                                         <div 
                                             onClick={() => setAiProvider('ollama')}

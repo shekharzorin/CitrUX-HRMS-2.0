@@ -8,3 +8,4 @@ pydantic-settings
 requests
 python-dotenv
 google-generativeai
+openai

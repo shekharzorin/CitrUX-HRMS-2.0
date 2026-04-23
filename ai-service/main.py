@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from services.nlp import nlp_service
 from services.ollama import ollama_service
 from services.gemini import gemini_service
+from services.openai_service import openai_service
 from handlers.main_handler import INTENT_HANDLERS
 import logging
 
@@ -39,13 +40,18 @@ async def ask(request: AskRequest):
         
         if request.provider == "gemini":
             natural_response = gemini_service.format_response(data, intent, request.message)
+        elif request.provider == "openai":
+            natural_response = openai_service.format_response(data, intent, request.message)
         elif request.provider == "ollama":
             natural_response = ollama_service.format_response(data, intent, request.message)
         
         # Fallback if selected provider failed
         if not natural_response:
-            logger.info(f"Provider {request.provider} failed or not selected, trying fallback")
+            logger.info(f"Provider {request.provider} failed or not selected, trying fallbacks")
+            # Order: Gemini -> OpenAI -> Ollama
             natural_response = gemini_service.format_response(data, intent, request.message)
+            if not natural_response:
+                natural_response = openai_service.format_response(data, intent, request.message)
             if not natural_response:
                 natural_response = ollama_service.format_response(data, intent, request.message)
 

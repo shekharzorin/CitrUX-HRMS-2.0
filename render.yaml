@@ -23,6 +23,8 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
+      - key: AI_SERVICE_URL
+        value: http://citrux-ai-service:8000/ask
 
   - type: static
     name: citrux-hrms-client

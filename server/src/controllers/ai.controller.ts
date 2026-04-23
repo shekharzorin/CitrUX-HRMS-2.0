@@ -99,7 +99,8 @@ Instructions:
 
         // 5. Call the new AI Microservice
         try {
-            const aiServiceResponse = await axios.post('http://localhost:8000/ask', {
+            const aiServiceUrl = process.env.AI_SERVICE_URL || 'http://localhost:8000/ask';
+            const aiServiceResponse = await axios.post(aiServiceUrl, {
                 userId,
                 companyId: (req as any).user.companyId || 'default',
                 message,
