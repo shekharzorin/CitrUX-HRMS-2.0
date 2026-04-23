@@ -47,7 +47,7 @@ const Notifications: React.FC = () => {
         <div className="p-6 max-w-2xl mx-auto">
             <h1 className="text-2xl font-bold mb-6 text-slate-800">Notifications</h1>
 
-            {(user?.role === 'ADMIN' || user?.role === 'HR') && (
+            {(user?.role === 'ADMIN' || user?.role === 'HR' || user?.role === 'SUPER_ADMIN') && (
                 <div className="mb-8 p-5 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100 shadow-sm">
                     <h2 className="text-lg font-bold text-blue-900 mb-3 flex items-center gap-2">
                         📢 Send Announcement

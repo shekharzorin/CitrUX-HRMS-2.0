@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
 import { requireString } from '../utils/requestUtils';
+import { getTenantScope } from '../middlewares/tenant.middleware';
 
 interface AuthRequest extends Request {
     user?: any;
@@ -70,14 +71,15 @@ export const broadcastNotification = async (req: AuthRequest, res: Response) => 
         const { message } = req.body;
         const senderId = req.user.userId;
 
-        // Verify Admin/HR Role (Double check mostly redundant if route middleware handles it but safe)
-        if (req.user.role !== 'ADMIN' && req.user.role !== 'HR') {
+        // Verify Admin/HR/SUPER_ADMIN Role (Double check mostly redundant if route middleware handles it but safe)
+        if (req.user.role !== 'ADMIN' && req.user.role !== 'HR' && req.user.role !== 'SUPER_ADMIN') {
             return res.status(403).json({ message: 'Access denied' });
         }
 
-        // 1. Get all active users
+        // 1. Get all active users within the same tenant
+        const scope = getTenantScope(req);
         const users = await prisma.user.findMany({
-            where: { status: 'ACTIVE' },
+            where: { status: 'ACTIVE', ...scope },
             select: { id: true }
         });
 
