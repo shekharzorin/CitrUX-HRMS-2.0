@@ -47,7 +47,11 @@ services:
     envVars:
       - key: DATABASE_URL
         sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
       - key: OLLAMA_BASE_URL
-        value: "http://your-ollama-host:11434"
+        value: "http://localhost:11434"
       - key: OLLAMA_MODEL
         value: "llama3"

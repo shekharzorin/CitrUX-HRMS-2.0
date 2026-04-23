@@ -17,7 +17,7 @@ class AskRequest(BaseModel):
     userId: str
     companyId: str
     message: str
-    provider: str = "gemini" # Default to gemini
+    provider: str = "gemini"  # Default to gemini (Ollama requires local setup)
 
 @app.post("/ask")
 async def ask(request: AskRequest):
@@ -43,17 +43,22 @@ async def ask(request: AskRequest):
         elif request.provider == "openai":
             natural_response = openai_service.format_response(data, intent, request.message)
         elif request.provider == "ollama":
-            natural_response = ollama_service.format_response(data, intent, request.message)
+            try:
+                natural_response = ollama_service.format_response(data, intent, request.message)
+            except Exception as ollama_err:
+                logger.warning(f"Ollama unavailable: {ollama_err}. Falling back to cloud providers.")
+                natural_response = None
         
-        # Fallback if selected provider failed
+        # Fallback chain if selected provider failed: Gemini -> OpenAI -> raw data
         if not natural_response:
-            logger.info(f"Provider {request.provider} failed or not selected, trying fallbacks")
-            # Order: Gemini -> OpenAI -> Ollama
+            logger.info(f"Provider '{request.provider}' unavailable, trying fallback chain")
             natural_response = gemini_service.format_response(data, intent, request.message)
             if not natural_response:
                 natural_response = openai_service.format_response(data, intent, request.message)
             if not natural_response:
-                natural_response = ollama_service.format_response(data, intent, request.message)
+                # Last resort: return structured data without AI formatting
+                import json
+                natural_response = f"Here is the information I found:\n{json.dumps(data, indent=2)}"
 
         return {
             "response": natural_response,
