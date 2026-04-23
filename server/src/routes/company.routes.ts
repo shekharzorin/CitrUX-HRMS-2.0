@@ -19,7 +19,7 @@ router.get('/', async (req: AuthRequest, res) => {
                     select: { users: true }
                 },
                 users: {
-                    where: { role: 'SUPER_ADMIN' },
+                    where: { role: 'ADMIN' },
                     select: { email: true, profile: { select: { firstName: true, lastName: true } } }
                 }
             },
@@ -82,7 +82,7 @@ router.post('/', async (req: AuthRequest, res) => {
                 data: {
                     email: adminEmail,
                     passwordHash,
-                    role: Role.SUPER_ADMIN,
+                    role: Role.ADMIN,
                     companyId: company.id,
                     profile: {
                         create: {
@@ -123,7 +123,7 @@ router.put('/:id', async (req: AuthRequest, res) => {
             // Update associated admin if details are provided
             if (adminEmail || adminFirstName || adminLastName || adminPassword) {
                 const adminUser = await tx.user.findFirst({
-                    where: { companyId: id, role: 'SUPER_ADMIN' },
+                    where: { companyId: id, role: 'ADMIN' },
                     include: { profile: true }
                 });
 
