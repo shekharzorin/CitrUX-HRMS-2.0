@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://user:pass@localhost:5432/postgres")
     OLLAMA_BASE_URL: str = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
     OLLAMA_MODEL: str = os.getenv("OLLAMA_MODEL", "llama3")
+    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
     NLP_MODEL: str = os.getenv("NLP_MODEL", "en_core_web_md")
     
     class Config:

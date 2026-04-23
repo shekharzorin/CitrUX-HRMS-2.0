@@ -93,38 +93,42 @@ Instructions:
 5. If addressing an admin/HR, provide clear summaries of the asked data.
 6. Keep the response clean and easy to read.`;
 
-        // 4. Call LLM API (OpenAI)
-        if (!process.env.OPENAI_API_KEY) {
-            return res.json({ 
-                reply: `(Demo Mode)\n\nHello! I am your AI Assistant. I can see you are a ${role}. Once the OpenAI API key is activated, I will be able to answer your questions using live data.\n\nRaw Context Pulled: ${JSON.stringify(contextData, null, 2)}`
-            });
-        }
+        // 4. Fetch AI Provider from Settings
+        const aiProviderSetting = await prisma.systemSetting.findUnique({ where: { key: 'ai_provider' } });
+        const aiProvider = aiProviderSetting?.value || 'gemini';
 
+        // 5. Call the new AI Microservice
         try {
-            const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-                model: 'gpt-4o-mini',
-                messages: [{ role: 'user', content: prompt }],
-                temperature: 0.3,
-                max_tokens: 500
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-                    'Content-Type': 'application/json'
-                },
-                timeout: 10000 // 10s timeout
-            });
+            const aiServiceResponse = await axios.post('http://localhost:8000/ask', {
+                userId,
+                companyId: (req as any).user.companyId || 'default',
+                message,
+                provider: aiProvider
+            }, { timeout: 15000 });
 
-            res.json({ reply: response.data.choices[0].message.content });
-        } catch (apiError: any) {
-            console.error("OpenAI API Error:", apiError.response?.data || apiError.message);
+            return res.json({ 
+                reply: aiServiceResponse.data.response,
+                intent: aiServiceResponse.data.intent
+            });
+        } catch (aiError: any) {
+            console.error("AI Microservice Error, falling back to OpenAI/Demo:", aiError.message);
             
-            if (apiError.response?.status === 429) {
-                return res.json({ 
-                    reply: "I'm ready to help, but it looks like the OpenAI account has run out of credits or reached its limit (Error 429). Please check your billing dashboard at platform.openai.com." 
+            // Fallback to OpenAI if AI Key exists, else Demo mode
+            if (process.env.OPENAI_API_KEY) {
+                const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+                    model: 'gpt-4o-mini',
+                    messages: [{ role: 'user', content: prompt }],
+                    temperature: 0.3
+                }, {
+                    headers: { 'Authorization': `Bearer ${process.env.OPENAI_API_KEY}` },
+                    timeout: 10000
                 });
+                return res.json({ reply: response.data.choices[0].message.content });
             }
-            
-            throw apiError; // Fall through to global error handler
+
+            return res.json({ 
+                reply: `(Service Sync Mode)\n\nI processed your request as a ${role}, but the AI formatting service is currently offline. \n\nDirect Data: ${JSON.stringify(contextData, null, 2)}`
+            });
         }
     } catch (error: any) {
         console.error("AI Assistant Global Error:", error);

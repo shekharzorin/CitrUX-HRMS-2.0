@@ -58,4 +58,74 @@ class DBService:
             cur.close()
             conn.close()
 
+    def get_lowest_attendance(self, company_id: str):
+        conn, cur = self.get_cursor()
+        try:
+            cur.execute("""
+                SELECT p."firstName", p."lastName", COUNT(a.id) as present_count
+                FROM "User" u
+                JOIN "Profile" p ON p."userId" = u.id
+                LEFT JOIN "Attendance" a ON a."userId" = u.id AND a.status = 'PRESENT'
+                WHERE u."companyId" = %s
+                GROUP BY u.id, p."firstName", p."lastName"
+                ORDER BY present_count ASC LIMIT 5
+            """, (company_id,))
+            return cur.fetchall()
+        finally:
+            cur.close()
+            conn.close()
+
+    def get_employee_count(self, company_id: str):
+        conn, cur = self.get_cursor()
+        try:
+            cur.execute("SELECT COUNT(*) FROM \"User\" WHERE \"companyId\" = %s", (company_id,))
+            return cur.fetchone()
+        finally:
+            cur.close()
+            conn.close()
+
+    def get_payslips(self, user_id: str):
+        conn, cur = self.get_cursor()
+        try:
+            cur.execute("""
+                SELECT month, year, net, url
+                FROM "Payslip"
+                WHERE "userId" = %s
+                ORDER BY year DESC, month DESC LIMIT 3
+            """, (user_id,))
+            return cur.fetchall()
+        finally:
+            cur.close()
+            conn.close()
+
+    def get_user_profile(self, user_id: str):
+        conn, cur = self.get_cursor()
+        try:
+            cur.execute("""
+                SELECT p."firstName", p."lastName", p.designation, p.department, p."dateOfJoining", u.email
+                FROM "User" u
+                JOIN "Profile" p ON p."userId" = u.id
+                WHERE u.id = %s
+            """, (user_id,))
+            return cur.fetchone()
+        finally:
+            cur.close()
+            conn.close()
+
+    def get_pending_approvals(self, company_id: str):
+        conn, cur = self.get_cursor()
+        try:
+            # Check for pending leaves
+            cur.execute("SELECT COUNT(*) FROM \"LeaveRequest\" WHERE \"companyId\" = %s AND status = 'PENDING'", (company_id,))
+            leaves = cur.fetchone()['count']
+            
+            # Check for pending expenses
+            cur.execute("SELECT COUNT(*) FROM \"ExpenseClaim\" WHERE status = 'PENDING'")
+            expenses = cur.fetchone()['count']
+            
+            return {"pending_leaves": leaves, "pending_expenses": expenses}
+        finally:
+            cur.close()
+            conn.close()
+
 db_service = DBService()

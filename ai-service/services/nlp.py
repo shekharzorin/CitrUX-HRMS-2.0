@@ -25,10 +25,22 @@ class NLPService:
                 intent = "who_is_on_leave"
         
         elif any(token.lemma_ in ["attendance", "present", "clock"] for token in doc):
-            intent = "attendance_status"
+            if any(token.lemma_ in ["lowest", "least", "worst", "bottom"] for token in doc):
+                intent = "lowest_attendance"
+            else:
+                intent = "attendance_status"
             
         elif any(token.lemma_ in ["payslip", "salary", "pay", "money"] for token in doc):
             intent = "get_payslip"
+            
+        elif any(token.lemma_ in ["total", "count", "many"] for token in doc) and any(token.lemma_ in ["employee", "staff", "user"] for token in doc):
+            intent = "employee_count"
+            
+        elif any(token.lemma_ in ["profile", "who", "designation", "department"] for token in doc) and any(token.lemma_ in ["me", "i", "my"] for token in doc):
+            intent = "my_profile"
+            
+        elif any(token.lemma_ in ["pending", "approve", "request", "task"] for token in doc):
+            intent = "pending_approvals"
 
         # Entity extraction
         entities = {

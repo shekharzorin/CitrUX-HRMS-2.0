@@ -29,6 +29,8 @@ const Settings: React.FC = () => {
         padding: '4'
     });
 
+    const [aiProvider, setAiProvider] = useState('gemini');
+
     // Leave & Holidays State
     const [leaves, setLeaves] = useState<any[]>([]);
     const [holidays, setHolidays] = useState<any[]>([]);
@@ -53,7 +55,7 @@ const Settings: React.FC = () => {
     // Roles State
     const [roles, setRoles] = useState<any[]>([]);
     const [newRole, setNewRole] = useState({ title: '', department: '', level: 0, description: '' });
-    const [activeTab, setActiveTab] = useState<'general' | 'roles' | 'leaves' | 'holidays' | 'shifts' | 'salary' | 'security' | 'danger'>('general');
+    const [activeTab, setActiveTab] = useState<'general' | 'roles' | 'leaves' | 'holidays' | 'shifts' | 'salary' | 'ai' | 'security' | 'danger'>('general');
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -80,6 +82,7 @@ const Settings: React.FC = () => {
                     sequence: data['EMP_ID_SEQUENCE'] || '1',
                     padding: data['EMP_ID_PADDING'] || '4'
                 });
+                setAiProvider(data['ai_provider'] || 'gemini');
             }
             // Initial fetch of other important data
             await Promise.all([fetchRoles(), fetchLeaveTypes(), fetchHolidays()]);
@@ -152,6 +155,14 @@ const Settings: React.FC = () => {
             window.dispatchEvent(new Event('branding-update'));
 
             alert('General settings updated successfully!');
+        } catch (error) { console.error(error); }
+    };
+
+    const saveAiSettings = async () => {
+        try {
+            const settingsToSave = { 'ai_provider': aiProvider };
+            await api.post('/settings', { settings: settingsToSave });
+            alert('AI Assistant Settings Saved!');
         } catch (error) { console.error(error); }
     };
 
@@ -344,6 +355,7 @@ const Settings: React.FC = () => {
                         { id: 'holidays', label: 'Holidays', icon: 'holidays' },
                         { id: 'shifts', label: 'Shifts', icon: 'shifts' },
                         { id: 'salary', label: 'Salary', icon: 'payroll' },
+                        { id: 'ai', label: 'AI Assistant', icon: 'bolt' },
                         { id: 'security', label: 'Security', icon: 'profile' },
                     ]}
                     activeTab={activeTab}
@@ -625,6 +637,62 @@ const Settings: React.FC = () => {
                 {activeTab === 'salary' && (
                     <div className="animation-fade-in">
                         <SalaryConfig embedded />
+                    </div>
+                )}
+
+                {activeTab === 'ai' && (
+                    <div className="space-y-6 animate-fade-in">
+                        <div className="glass-panel p-6 md:p-8">
+                            <div className="flex items-start gap-4 mb-8">
+                                <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shadow-sm border border-amber-100 dark:border-amber-800">
+                                    <Icon name="bolt" size={24} />
+                                </div>
+                                <div>
+                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white">AI Assistant Configuration</h2>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400">Choose the intelligence engine for your HR bot</p>
+                                </div>
+                            </div>
+                            
+                            <div className="space-y-8">
+                                <div>
+                                    <label className="form-label mb-4">Select AI Provider</label>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div 
+                                            onClick={() => setAiProvider('gemini')}
+                                            className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${aiProvider === 'gemini' ? 'border-[var(--primary)] bg-[var(--primary-light)]' : 'border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700'}`}
+                                        >
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">G</div>
+                                                <span className="font-bold">Google Gemini</span>
+                                            </div>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400">High performance, cloud-based, supports complex HR queries.</p>
+                                        </div>
+                                        
+                                        <div 
+                                            onClick={() => setAiProvider('ollama')}
+                                            className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${aiProvider === 'ollama' ? 'border-[var(--primary)] bg-[var(--primary-light)]' : 'border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700'}`}
+                                        >
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600">O</div>
+                                                <span className="font-bold">Ollama (Local)</span>
+                                            </div>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400">Privacy focused, runs locally on your server. No API costs.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+                                    <div className="flex gap-3">
+                                        <Icon name="info" className="text-blue-500 shrink-0" size={20} />
+                                        <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                            The AI Assistant uses a hybrid architecture. Intent classification happens via local NLP, while response formatting is handled by your chosen provider. If a provider is offline, the system will automatically attempt to fallback to the other.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <Button onClick={saveAiSettings} className="w-full md:w-auto">Update AI Engine</Button>
+                            </div>
+                        </div>
                     </div>
                 )}
 

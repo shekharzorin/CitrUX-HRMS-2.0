@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Body
 from pydantic import BaseModel
 from services.nlp import nlp_service
 from services.ollama import ollama_service
+from services.gemini import gemini_service
 from handlers.main_handler import INTENT_HANDLERS
 import logging
 
@@ -15,6 +16,7 @@ class AskRequest(BaseModel):
     userId: str
     companyId: str
     message: str
+    provider: str = "gemini" # Default to gemini
 
 @app.post("/ask")
 async def ask(request: AskRequest):
@@ -32,8 +34,20 @@ async def ask(request: AskRequest):
             data = {"message": "I'm sorry, I don't know how to handle that request yet."}
             intent = "fallback"
 
-        # 3. Format Response with Ollama
-        natural_response = ollama_service.format_response(data, intent, request.message)
+        # 3. Format Response based on selected Provider
+        natural_response = None
+        
+        if request.provider == "gemini":
+            natural_response = gemini_service.format_response(data, intent, request.message)
+        elif request.provider == "ollama":
+            natural_response = ollama_service.format_response(data, intent, request.message)
+        
+        # Fallback if selected provider failed
+        if not natural_response:
+            logger.info(f"Provider {request.provider} failed or not selected, trying fallback")
+            natural_response = gemini_service.format_response(data, intent, request.message)
+            if not natural_response:
+                natural_response = ollama_service.format_response(data, intent, request.message)
 
         return {
             "response": natural_response,
