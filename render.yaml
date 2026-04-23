@@ -1,4 +1,7 @@
 services:
+  # ─────────────────────────────────────────────
+  # 1. Node.js API Server
+  # ─────────────────────────────────────────────
   - type: web
     name: citrux-hrms-api
     env: node
@@ -14,7 +17,9 @@ services:
       - key: DIRECT_URL
         sync: false
       - key: JWT_SECRET
-        generateValue: true
+        sync: false                          # FIX: was generateValue:true — use a fixed secret so JWT tokens stay valid across redeploys
+      - key: ENCRYPTION_KEY
+        sync: false                          # FIX: was missing — needed for encrypted fields
       - key: CLIENT_URL
         value: https://citrux-hrms-client.onrender.com,https://portal.citrux.in,https://portal.isnap.in
       - key: CLOUDINARY_CLOUD_NAME
@@ -23,9 +28,14 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
+      - key: OPENAI_API_KEY
+        sync: false                          # FIX: was missing — needed for OpenAI fallback
       - key: AI_SERVICE_URL
-        value: http://citrux-ai-service:8000/ask
+        value: https://citrux-ai-service.onrender.com/ask   # FIX: was internal http:// — must be public HTTPS URL on free plan
 
+  # ─────────────────────────────────────────────
+  # 2. React Frontend (Static Site)
+  # ─────────────────────────────────────────────
   - type: static
     name: citrux-hrms-client
     plan: free
@@ -35,10 +45,14 @@ services:
     envVars:
       - key: VITE_API_URL
         value: https://citrux-hrms-api.onrender.com/api
+    routes:
       - type: rewrite
         source: /*
         destination: /index.html
 
+  # ─────────────────────────────────────────────
+  # 3. Python AI Microservice (Docker)
+  # ─────────────────────────────────────────────
   - type: web
     name: citrux-ai-service
     env: docker
@@ -48,13 +62,12 @@ services:
       - key: DATABASE_URL
         sync: false
       - key: GROQ_API_KEY
-        sync: false
+        sync: false                          # Primary provider — LLaMA 3.3 open source
       - key: GEMINI_API_KEY
-        sync: false
+        sync: false                          # Fallback provider
       - key: OPENAI_API_KEY
-        sync: false
+        sync: false                          # Second fallback
       - key: OLLAMA_BASE_URL
-        value: "http://localhost:11434"
+        value: "http://localhost:11434"      # Only works locally, not on Render
       - key: OLLAMA_MODEL
         value: "llama3"
-
