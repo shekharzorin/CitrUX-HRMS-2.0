@@ -17,9 +17,9 @@ services:
       - key: DIRECT_URL
         sync: false
       - key: JWT_SECRET
-        sync: false                          # FIX: was generateValue:true — use a fixed secret so JWT tokens stay valid across redeploys
+        generateValue: true
       - key: ENCRYPTION_KEY
-        sync: false                          # FIX: was missing — needed for encrypted fields
+        generateValue: true
       - key: CLIENT_URL
         value: https://citrux-hrms-client.onrender.com,https://portal.citrux.in,https://portal.isnap.in
       - key: CLOUDINARY_CLOUD_NAME

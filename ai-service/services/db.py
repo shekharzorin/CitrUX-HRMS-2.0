@@ -11,21 +11,21 @@ class DBService:
         conn = psycopg2.connect(self.conn_str)
         return conn, conn.cursor(cursor_factory=RealDictCursor)
 
-    def get_leave_balance(self, user_id: str, company_id: str):
+    def get_leave_balance(self, user_id: str, company_id: str = None):
         conn, cur = self.get_cursor()
         try:
             cur.execute("""
                 SELECT lt.name, lb.balance, lb.used
                 FROM "LeaveBalance" lb
                 JOIN "LeaveType" lt ON lb."leaveTypeId" = lt.id
-                WHERE lb."userId" = %s AND lb."companyId" = %s
-            """, (user_id, company_id))
+                WHERE lb."userId" = %s AND (%s IS NULL OR lb."companyId" = %s)
+            """, (user_id, company_id, company_id))
             return cur.fetchall()
         finally:
             cur.close()
             conn.close()
 
-    def get_today_leaves(self, company_id: str):
+    def get_today_leaves(self, company_id: str = None):
         conn, cur = self.get_cursor()
         today = datetime.now().date()
         try:
@@ -35,30 +35,30 @@ class DBService:
                 JOIN "User" u ON lr."userId" = u.id
                 JOIN "Profile" p ON p."userId" = u.id
                 JOIN "LeaveType" lt ON lr."leaveTypeId" = lt.id
-                WHERE lr."companyId" = %s 
+                WHERE (%s IS NULL OR lr."companyId" = %s)
                 AND lr.status = 'APPROVED'
                 AND %s BETWEEN lr."startDate" AND lr."endDate"
-            """, (company_id, today))
+            """, (company_id, company_id, today))
             return cur.fetchall()
         finally:
             cur.close()
             conn.close()
 
-    def get_attendance_summary(self, user_id: str, company_id: str):
+    def get_attendance_summary(self, user_id: str, company_id: str = None):
         conn, cur = self.get_cursor()
         try:
             cur.execute("""
                 SELECT status, "checkIn", "checkOut"
                 FROM "Attendance"
-                WHERE "userId" = %s AND "companyId" = %s
+                WHERE "userId" = %s AND (%s IS NULL OR "companyId" = %s)
                 ORDER BY date DESC LIMIT 5
-            """, (user_id, company_id))
+            """, (user_id, company_id, company_id))
             return cur.fetchall()
         finally:
             cur.close()
             conn.close()
 
-    def get_lowest_attendance(self, company_id: str):
+    def get_lowest_attendance(self, company_id: str = None):
         conn, cur = self.get_cursor()
         try:
             cur.execute("""
@@ -66,19 +66,22 @@ class DBService:
                 FROM "User" u
                 JOIN "Profile" p ON p."userId" = u.id
                 LEFT JOIN "Attendance" a ON a."userId" = u.id AND a.status = 'PRESENT'
-                WHERE u."companyId" = %s
+                WHERE (%s IS NULL OR u."companyId" = %s)
                 GROUP BY u.id, p."firstName", p."lastName"
                 ORDER BY present_count ASC LIMIT 5
-            """, (company_id,))
+            """, (company_id, company_id))
             return cur.fetchall()
         finally:
             cur.close()
             conn.close()
 
-    def get_employee_count(self, company_id: str):
+    def get_employee_count(self, company_id: str = None):
         conn, cur = self.get_cursor()
         try:
-            cur.execute("SELECT COUNT(*) FROM \"User\" WHERE \"companyId\" = %s", (company_id,))
+            if company_id:
+                cur.execute("SELECT COUNT(*) FROM \"User\" WHERE \"companyId\" = %s", (company_id,))
+            else:
+                cur.execute("SELECT COUNT(*) FROM \"User\"")
             return cur.fetchone()
         finally:
             cur.close()
@@ -112,16 +115,18 @@ class DBService:
             cur.close()
             conn.close()
 
-    def get_pending_approvals(self, company_id: str):
+    def get_pending_approvals(self, company_id: str = None):
         conn, cur = self.get_cursor()
         try:
             # Check for pending leaves
-            cur.execute("SELECT COUNT(*) FROM \"LeaveRequest\" WHERE \"companyId\" = %s AND status = 'PENDING'", (company_id,))
-            leaves = cur.fetchone()['count']
+            cur.execute("SELECT COUNT(*) FROM \"LeaveRequest\" WHERE (%s IS NULL OR \"companyId\" = %s) AND status = 'PENDING'", (company_id, company_id))
+            leaves_res = cur.fetchone()
+            leaves = leaves_res['count'] if leaves_res else 0
             
             # Check for pending expenses
             cur.execute("SELECT COUNT(*) FROM \"ExpenseClaim\" WHERE status = 'PENDING'")
-            expenses = cur.fetchone()['count']
+            expenses_res = cur.fetchone()
+            expenses = expenses_res['count'] if expenses_res else 0
             
             return {"pending_leaves": leaves, "pending_expenses": expenses}
         finally:

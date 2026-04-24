@@ -9,100 +9,49 @@ export const handleAiChat = async (req: Request, res: Response) => {
         const userId = req.user.userId;
         // @ts-ignore
         const role = req.user.role;
+        // @ts-ignore
+        const companyId = req.user.companyId;
 
         if (!message) {
             return res.status(400).json({ reply: "Please provide a message." });
         }
 
-        // 1. Fetch relevant user/company context structurally
+        // 1. Gather minimal context for fallback & logging
         let contextData: any = {};
         const lowerMsg = message.toLowerCase();
 
-        // 2. Scope context based on Role requirements
-        if (role === 'EMPLOYEE' || role === 'MANAGER') {
-            if (lowerMsg.includes('leave') || lowerMsg.includes('holiday')) {
-                contextData.myLeaves = await prisma.leaveBalance.findMany({ where: { userId } });
-                contextData.myRecentRequests = await prisma.leaveRequest.findMany({ where: { userId }, take: 5, orderBy: { startDate: 'desc' } });
+        try {
+            if (role === 'EMPLOYEE' || role === 'MANAGER') {
+                if (lowerMsg.includes('leave')) {
+                    contextData.myLeaves = await prisma.leaveBalance.findMany({ where: { userId, companyId } });
+                }
+                const profile = await prisma.profile.findUnique({ where: { userId } });
+                contextData.userName = profile ? `${profile.firstName} ${profile.lastName}` : 'User';
+            } else if (companyId) {
+                // Admin/HR scoping
+                if (lowerMsg.includes('total') || lowerMsg.includes('how many')) {
+                    contextData.totalEmployeesCount = await prisma.user.count({ where: { companyId } });
+                }
             }
-            if (lowerMsg.includes('attendance') || lowerMsg.includes('present') || lowerMsg.includes('absent')) {
-                 const today = new Date();
-                 const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-                 contextData.myAttendanceThisMonth = await prisma.attendance.findMany({ where: { userId, date: { gte: firstDay } }, select: { date: true, status: true, checkIn: true, checkOut: true } });
-            }
-            if (lowerMsg.includes('payslip') || lowerMsg.includes('salary') || lowerMsg.includes('pay')) {
-                 contextData.myPayslips = await prisma.payslip.findMany({ where: { userId }, take: 3, orderBy: { month: 'desc' }, select: { month: true, year: true, net: true, url: true }});
-            }
-            
-            // Add user's basic profile details
-            const userProfile = await prisma.profile.findUnique({ where: { userId } });
-            contextData.myName = userProfile ? `${userProfile.firstName} ${userProfile.lastName}` : "User";
+        } catch (ctxError) {
+            console.warn("Context gathering failed, continuing to AI service...");
         }
 
-        if (role === 'ADMIN' || role === 'HR' || role === 'SUPER_ADMIN') {
-            if (lowerMsg.includes('lowest attendance') || lowerMsg.includes('attendance') || lowerMsg.includes('absent')) {
-                const users = await prisma.user.findMany({
-                    select: { 
-                        id: true, 
-                        profile: { select: { firstName: true, lastName: true } }, 
-                        _count: { select: { attendance: { where: { status: 'PRESENT' } } } } 
-                    }
-                });
-                contextData.lowestAttendanceEmployees = users
-                    .map(u => ({ name: `${u.profile?.firstName} ${u.profile?.lastName}`, presentCount: u._count.attendance }))
-                    .sort((a,b) => a.presentCount - b.presentCount)
-                    .slice(0, 5);
-            }
-            if (lowerMsg.includes('leave') || lowerMsg.includes('out') || lowerMsg.includes('today')) {
-                const today = new Date();
-                today.setHours(0,0,0,0);
-                const nextDay = new Date(today);
-                nextDay.setDate(nextDay.getDate() + 1);
-                const onLeave = await prisma.leaveRequest.findMany({
-                    where: { 
-                        status: 'APPROVED', 
-                        startDate: { lte: nextDay }, 
-                        endDate: { gte: today }
-                    },
-                    include: { user: { include: { profile: true } }, leaveType: true }
-                });
-                contextData.employeesOnLeaveToday = onLeave.map(l => ({
-                    name: `${l.user.profile?.firstName} ${l.user.profile?.lastName}`,
-                    type: l.leaveType?.name,
-                    endDate: l.endDate
-                }));
-            }
-            if (lowerMsg.includes('total') || lowerMsg.includes('how many employees')) {
-                contextData.totalEmployeesCount = await prisma.user.count();
-            }
+        // 2. Fetch AI Provider Preference
+        let aiProvider = 'gemini';
+        try {
+            const aiProviderSetting = await prisma.systemSetting.findUnique({ where: { key: 'ai_provider' } });
+            aiProvider = aiProviderSetting?.value || 'gemini';
+        } catch (sError) {
+            console.error("Settings fetch error:", sError);
         }
 
-        // 3. Build Prompt
-        const prompt = `You are a dynamic AI HR Assistant built into the Citrux HRMS directly.
-User Information: 
-- Role: ${role}
-- User's Question: "${message}"
-
-Here is the precise, real-time database JSON context derived specifically for this user's question, accounting for their permissions:
-${JSON.stringify(contextData)}
-
-Instructions:
-1. Answer the user's question accurately using ONLY this JSON context.
-2. If the user asks for a document link (e.g., payslip), provide the URL if it exists in the context.
-3. Be friendly, concise, and highly professional like an enterprise AI.
-4. Do NOT make up information. If the JSON is empty or lacks the answer, politely say "I don't have that information right now."
-5. If addressing an admin/HR, provide clear summaries of the asked data.
-6. Keep the response clean and easy to read.`;
-
-        // 4. Fetch AI Provider from Settings
-        const aiProviderSetting = await prisma.systemSetting.findUnique({ where: { key: 'ai_provider' } });
-        const aiProvider = aiProviderSetting?.value || 'gemini';
-
-        // 5. Call the new AI Microservice
+        // 3. Forward to AI Microservice
         try {
             const aiServiceUrl = process.env.AI_SERVICE_URL || 'http://localhost:8000/ask';
             const aiServiceResponse = await axios.post(aiServiceUrl, {
                 userId,
-                companyId: (req as any).user.companyId || 'default',
+                companyId: companyId || null,
                 message,
                 provider: aiProvider
             }, { timeout: 15000 });
@@ -112,13 +61,14 @@ Instructions:
                 intent: aiServiceResponse.data.intent
             });
         } catch (aiError: any) {
-            console.error("AI Microservice Error, falling back to OpenAI/Demo:", aiError.message);
+            console.error("AI Microservice Error:", aiError.message);
             
-            // Fallback to OpenAI if AI Key exists, else Demo mode
+            // Fallback to OpenAI if configured
             if (process.env.OPENAI_API_KEY) {
+                const fallbackPrompt = `Role: ${role}. Question: ${message}. Context: ${JSON.stringify(contextData)}`;
                 const response = await axios.post('https://api.openai.com/v1/chat/completions', {
                     model: 'gpt-4o-mini',
-                    messages: [{ role: 'user', content: prompt }],
+                    messages: [{ role: 'user', content: fallbackPrompt }],
                     temperature: 0.3
                 }, {
                     headers: { 'Authorization': `Bearer ${process.env.OPENAI_API_KEY}` },
@@ -127,12 +77,13 @@ Instructions:
                 return res.json({ reply: response.data.choices[0].message.content });
             }
 
-            return res.json({ 
-                reply: `(Service Sync Mode)\n\nI processed your request as a ${role}, but the AI formatting service is currently offline. \n\nDirect Data: ${JSON.stringify(contextData, null, 2)}`
+            return res.status(503).json({ 
+                reply: "I'm having trouble connecting to the AI brain right now. Please try again in a few moments.",
+                details: aiError.message
             });
         }
     } catch (error: any) {
-        console.error("AI Assistant Global Error:", error);
-        res.status(500).json({ reply: "I encountered an error while processing your request. Please try again later." });
+        console.error("Global AI Chat Error:", error);
+        res.status(500).json({ reply: "An internal server error occurred while processing your request." });
     }
 };
