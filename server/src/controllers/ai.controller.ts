@@ -23,7 +23,7 @@ export const handleAiChat = async (req: Request, res: Response) => {
         try {
             if (role === 'EMPLOYEE' || role === 'MANAGER') {
                 if (lowerMsg.includes('leave')) {
-                    contextData.myLeaves = await prisma.leaveBalance.findMany({ where: { userId, companyId } });
+                    contextData.myLeaves = await prisma.leaveBalance.findMany({ where: { userId } });
                 }
                 const profile = await prisma.profile.findUnique({ where: { userId } });
                 contextData.userName = profile ? `${profile.firstName} ${profile.lastName}` : 'User';
