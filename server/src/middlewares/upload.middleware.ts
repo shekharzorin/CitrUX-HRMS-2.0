@@ -45,3 +45,18 @@ export const upload = multer({
     fileFilter: fileFilter,
     limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
 });
+
+// Memory storage for sharp processing
+const memoryStorage = multer.memoryStorage();
+export const uploadMemory = multer({
+    storage: memoryStorage,
+    fileFilter: (req: any, file: any, cb: any) => {
+        const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        if (allowedMimeTypes.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error('Invalid file format. Only JPG, PNG, and WebP are allowed.'), false);
+        }
+    },
+    limits: { fileSize: 10 * 1024 * 1024 } // Hard limit 10MB to prevent DoS
+});
