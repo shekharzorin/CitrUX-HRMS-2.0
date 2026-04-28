@@ -15,6 +15,7 @@ import certificateRoutes from './routes/certificate.routes';
 import notificationRoutes from './routes/notification.routes';
 import leaveRoutes from './routes/leave.routes';
 import shiftRoutes from './routes/shift.routes';
+import attendancePolicyRoutes from './routes/attendance-policy.routes';
 import reportsRoutes from './routes/reports.routes';
 import aiRoutes from './routes/ai.routes';
 
@@ -146,6 +147,7 @@ app.use('/api/certificates', certificateRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/leaves', leaveRoutes);
 app.use('/api/shifts', shiftRoutes);
+app.use('/api/attendance-policy', attendancePolicyRoutes);
 
 app.use('/api/offboarding', offboardingRoutes);
 app.use('/api/performance', performanceRoutes);

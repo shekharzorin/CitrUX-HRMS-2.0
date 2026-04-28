@@ -18,19 +18,21 @@ enum Role {
 
 
 model Company {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  subdomain   String?  @unique
-  domain      String?
-  plan        String   @default("STARTER")
-  logoUrl     String?
-  slogan      String?  @default("Citrux SaaS")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  users       User[]
-  profiles    Profile[]
-  workLogs    WorkLog[]
-  tasks       Task[]
+  id               String            @id @default(uuid())
+  name             String            @unique
+  subdomain        String?           @unique
+  domain           String?
+  plan             String            @default("STARTER")
+  logoUrl          String?
+  slogan           String?           @default("Citrux SaaS")
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  users            User[]
+  profiles         Profile[]
+  workLogs         WorkLog[]
+  tasks            Task[]
+  shifts           Shift[]           @relation("CompanyShifts")
+  attendancePolicy AttendancePolicy? @relation("CompanyAttendancePolicy")
 }
 
 
@@ -48,31 +50,32 @@ model User {
   companyId     String?
   company       Company?            @relation(fields: [companyId], references: [id])
   
-  assets        Asset[]
-  attendance    Attendance[]
-  certificates  Certificate[]
-  expenses      ExpenseClaim[]
-  goals         Goal[]
-  leaveBalances LeaveBalance[]
-  leaveRequests LeaveRequest[]
-  notifications Notification[]
-  encashments   LeaveEncashment[]
-  documents     UserDocument[]
-  offboarding   Offboarding?
-  onboarding    Onboarding?
-  payslips      Payslip[]
-  reviewsGiven  PerformanceReview[] @relation("Reviewer")
-  reviews       PerformanceReview[]
-  profile       Profile?
-  salary        SalaryStructure?
-  shift         Shift?              @relation("UserShift", fields: [shiftId], references: [id])
-  manager       User?               @relation("ManagerSubordinates", fields: [managerId], references: [id])
-  subordinates  User[]              @relation("ManagerSubordinates")
-  timesheets    Timesheet[]
-  workLogs      WorkLog[]
-  tasks         Task[]
-  attendanceRequests AttendanceRequest[]
-  audits        AuditLog[]          @relation("UserAudits")
+  assets              Asset[]
+  attendance          Attendance[]
+  certificates        Certificate[]
+  expenses            ExpenseClaim[]
+  goals               Goal[]
+  leaveBalances       LeaveBalance[]
+  leaveRequests       LeaveRequest[]
+  notifications       Notification[]
+  encashments         LeaveEncashment[]
+  documents           UserDocument[]
+  offboarding         Offboarding?
+  onboarding          Onboarding?
+  payslips            Payslip[]
+  reviewsGiven        PerformanceReview[] @relation("Reviewer")
+  reviews             PerformanceReview[]
+  profile             Profile?
+  salary              SalaryStructure?
+  shift               Shift?              @relation("UserShift", fields: [shiftId], references: [id])
+  manager             User?               @relation("ManagerSubordinates", fields: [managerId], references: [id])
+  subordinates        User[]              @relation("ManagerSubordinates")
+  timesheets          Timesheet[]
+  workLogs            WorkLog[]
+  tasks               Task[]
+  attendanceRequests  AttendanceRequest[]
+  audits              AuditLog[]          @relation("UserAudits")
+  policyOverride      UserPolicyOverride?
 }
 
 
@@ -175,13 +178,103 @@ model Attendance {
 }
 
 model Shift {
-  id         String       @id @default(uuid())
-  name       String
-  startTime  String
-  endTime    String
-  graceTime  Int          @default(15)
-  attendance Attendance[]
-  users      User[]       @relation("UserShift")
+  id             String               @id @default(uuid())
+  name           String
+  startTime      String               // "HH:MM" 24-hr
+  endTime        String               // "HH:MM" 24-hr
+  graceTime      Int                  @default(15)
+  isNightShift   Boolean              @default(false)  // crosses midnight
+  isDefault      Boolean              @default(false)  // fallback shift for the company
+  companyId      String?
+  company        Company?             @relation("CompanyShifts", fields: [companyId], references: [id])
+  attendance     Attendance[]
+  users          User[]               @relation("UserShift")
+  policyOverride ShiftPolicyOverride?
+}
+
+// ─── Attendance Policy (one per company) ──────────────────────────────────────
+model AttendancePolicy {
+  id                            String   @id @default(uuid())
+  companyId                     String   @unique
+  company                       Company  @relation("CompanyAttendancePolicy", fields: [companyId], references: [id])
+
+  // General
+  graceMinutes                  Int      @default(10)
+  halfDayThresholdHours         Float    @default(4.0)
+  fullDayHours                  Float    @default(8.0)
+  maxWorkHoursPerDay            Float    @default(12.0)
+  allowMultipleSessions         Boolean  @default(false)
+
+  // Auto Clock-Out
+  autoClockOutEnabled           Boolean  @default(true)
+  autoClockOutType              String   @default("SHIFT_END") // "SHIFT_END" | "HOURS_BASED"
+  autoClockOutBufferMinutes     Int      @default(30)
+  autoClockOutMaxHours          Float    @default(12.0)
+
+  // Break Policy
+  allowBreaks                   Boolean  @default(true)
+  maxBreaksPerDay               Int      @default(3)
+  maxTotalBreakMinutes          Int      @default(60)
+  autoEndBreakOnCheckout        Boolean  @default(true)
+  autoEndBreakAfterMinutes      Int      @default(60)
+
+  // Missed Punch Handling
+  missedPunchAutoResolve        Boolean  @default(false)
+  missedPunchAction             String   @default("MARK_ABSENT") // "AUTO_CHECKOUT" | "MARK_HALF_DAY" | "MARK_ABSENT"
+  missedPunchNotifyAfterMinutes Int      @default(60)
+
+  // Late & Penalty
+  markLateAfterMinutes          Int      @default(15)
+  lateCountThresholdForHalfDay  Int      @default(3)
+  absentIfNoPunchInAfterHours   Float    @default(6.0)
+
+  // Approval Rules
+  allowEmployeeAdjustment       Boolean  @default(true)
+  maxPastDaysForAdjustment      Int      @default(7)
+  requireApproval               Boolean  @default(true)
+
+  // Security / Geo-fence
+  requireGeoFence               Boolean  @default(false)
+  allowedRadiusMeters           Int      @default(100)
+
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime @updatedAt
+}
+
+// ─── Shift-level policy overrides ────────────────────────────────────────────
+model ShiftPolicyOverride {
+  id                        String   @id @default(uuid())
+  shiftId                   String   @unique
+  shift                     Shift    @relation(fields: [shiftId], references: [id], onDelete: Cascade)
+
+  graceMinutes              Int?
+  halfDayThresholdHours     Float?
+  fullDayHours              Float?
+  maxWorkHoursPerDay        Float?
+  autoClockOutEnabled       Boolean?
+  autoClockOutBufferMinutes Int?
+  autoClockOutMaxHours      Float?
+  allowBreaks               Boolean?
+  maxBreaksPerDay           Int?
+  maxTotalBreakMinutes      Int?
+
+  updatedAt                 DateTime @updatedAt
+}
+
+// ─── User-level policy overrides (most granular) ──────────────────────────────
+model UserPolicyOverride {
+  id                    String   @id @default(uuid())
+  userId                String   @unique
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  graceMinutes          Int?
+  halfDayThresholdHours Float?
+  fullDayHours          Float?
+  maxWorkHoursPerDay    Float?
+  requireGeoFence       Boolean?
+  allowedRadiusMeters   Int?
+
+  updatedAt             DateTime @updatedAt
 }
 
 model Break {
