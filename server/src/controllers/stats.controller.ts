@@ -1,164 +1,270 @@
 import { Request, Response } from 'express';
-import { prisma } from '../db';
+import { prisma, withRetry } from '../db';
+import { Prisma } from '@prisma/client';
+
+function isDbConnectionError(err: any): boolean {
+    if (err instanceof Prisma.PrismaClientInitializationError) return true;
+    const retriable = new Set(['P1001', 'P1002', 'P1008', 'P1017']);
+    if (retriable.has(err?.code)) return true;
+    const msg: string = err?.message ?? '';
+    return msg.includes("Can't reach database") || msg.includes('ECONNRESET') || msg.includes('ETIMEDOUT');
+}
 
 export const getDashboardStats = async (req: Request, res: Response) => {
     try {
-        // 0. Ensure Date parsing handle
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const nextWeek = new Date(today);
-        nextWeek.setDate(today.getDate() + 7);
+        const reqUser = (req as any).user;
+        const userRole: string = reqUser?.role || 'EMPLOYEE';
+        const userId: string = reqUser?.userId;
+        const companyId: string | null = reqUser?.companyId ?? null;
 
-        // 1. User Stats
-        const totalUsers = await prisma.user.count();
-        const activeUsers = await prisma.user.count({ where: { status: 'ACTIVE' } });
+        const isAdminOrHR = ['ADMIN', 'HR', 'SUPER_ADMIN'].includes(userRole);
+        const isManager = userRole === 'MANAGER';
+        const isManagerOrAbove = isAdminOrHR || isManager;
 
-        // 2. Headcount by Department
-        const departmentStats = await prisma.profile.groupBy({
-            by: ['department'],
-            _count: { userId: true },
-            where: { department: { not: null } }
-        });
+        const now = new Date();
+        const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+        const tomorrowUTC = new Date(todayUTC.getTime() + 86400000);
+        const sevenDaysAgo = new Date(todayUTC.getTime() - 6 * 86400000);
+        const fourMonthsAgo = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 3, 1));
+        const thisMonthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
 
-        // 3. Attendance Today
-        const startOfDay = new Date();
-        startOfDay.setHours(0, 0, 0, 0);
-        const endOfDay = new Date();
-        endOfDay.setHours(23, 59, 59, 999);
+        const companyFilter = companyId ? { companyId } : {};
+        const companyUserFilter = companyId ? { user: { companyId } } : {};
 
-        const presentToday = await prisma.attendance.count({
-            where: {
-                date: {
-                    gte: startOfDay,
-                    lte: endOfDay
-                }
-            }
-        });
+        // ── Admin/HR only stats ──────────────────────────────────────────────────
+        let totalUsers = 0, activeUsers = 0, presentToday = 0, pendingClaimsCount = 0;
 
-        // 4. Pending Claims & Trend
-        const pendingClaims = await prisma.expenseClaim.count({
-            where: { status: 'PENDING' }
-        });
-        const totalClaimAmount = await prisma.expenseClaim.aggregate({
-            _sum: { amount: true },
-            where: { status: 'APPROVED' }
-        });
-
-        // Expense Trend (Last 6 months)
-        const sixMonthsAgo = new Date();
-        sixMonthsAgo.setMonth(today.getMonth() - 5);
-        sixMonthsAgo.setDate(1); // Start of 6 months ago
-
-        const expenseHistory = await prisma.expenseClaim.findMany({
-            where: {
-                status: 'APPROVED',
-                date: { gte: sixMonthsAgo }
-            },
-            select: { date: true, amount: true }
-        });
-
-        // Aggregate by Month in JS
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        const expenseTrendMap = new Map<string, number>();
-
-        // Initialize last 6 months zero
-        for (let i = 5; i >= 0; i--) {
-            const d = new Date();
-            d.setMonth(today.getMonth() - i);
-            const key = `${monthNames[d.getMonth()]}`;
-            expenseTrendMap.set(key, 0);
+        if (isAdminOrHR) {
+            [totalUsers, activeUsers, presentToday, pendingClaimsCount] = await Promise.all([
+                withRetry(() => prisma.user.count({ where: companyFilter })),
+                withRetry(() => prisma.user.count({ where: { ...companyFilter, status: 'ACTIVE' } })),
+                withRetry(() => prisma.attendance.count({
+                    where: { date: { gte: todayUTC, lt: tomorrowUTC }, ...companyUserFilter }
+                })),
+                withRetry(() => prisma.expenseClaim.count({
+                    where: { status: 'PENDING', ...companyUserFilter }
+                })),
+            ]);
         }
 
-        expenseHistory.forEach(ex => {
-            const d = new Date(ex.date);
-            const key = `${monthNames[d.getMonth()]}`;
-            if (expenseTrendMap.has(key)) {
-                expenseTrendMap.set(key, (expenseTrendMap.get(key) || 0) + ex.amount);
-            }
-        });
+        // ── Manager/Admin: pending leave requests with details ───────────────────
+        let pendingLeaves: any[] = [];
+        let pendingExpenses: any[] = [];
+        let teamMembersList: any[] = [];
+        let deptStats: any[] = [];
 
-        const expenseTrend = Array.from(expenseTrendMap.entries()).map(([month, amount]) => ({ month, amount }));
+        if (isManagerOrAbove) {
+            const pendingLeaveWhere = isManager
+                ? { status: 'PENDING' as const, user: { managerId: userId } }
+                : { status: 'PENDING' as const, ...companyUserFilter };
 
-        // 5. Open Jobs
-        const openJobs = await prisma.jobPosting.count({
-            where: { status: 'OPEN' }
-        });
+            [pendingLeaves, pendingExpenses, teamMembersList, deptStats] = await Promise.all([
+                withRetry(() => prisma.leaveRequest.findMany({
+                    where: pendingLeaveWhere,
+                    select: {
+                        id: true,
+                        startDate: true,
+                        endDate: true,
+                        reason: true,
+                        user: { select: { profile: { select: { firstName: true, lastName: true } } } },
+                        leaveType: { select: { name: true } },
+                    },
+                    orderBy: { createdAt: 'desc' },
+                    take: 5,
+                })),
+                isAdminOrHR
+                    ? withRetry(() => prisma.expenseClaim.findMany({
+                        where: { status: 'PENDING', ...companyUserFilter },
+                        select: {
+                            id: true,
+                            description: true,
+                            amount: true,
+                            user: { select: { profile: { select: { firstName: true, lastName: true } } } },
+                        },
+                        orderBy: { createdAt: 'desc' },
+                        take: 5,
+                    }))
+                    : Promise.resolve([]),
+                withRetry(() => prisma.user.findMany({
+                    where: {
+                        ...(isManager ? { managerId: userId } : companyFilter),
+                        status: 'ACTIVE',
+                    },
+                    select: {
+                        id: true,
+                        role: true,
+                        employeeId: true,
+                        profile: { select: { firstName: true, lastName: true, designation: true, profilePhoto: true } },
+                    },
+                    take: 8,
+                })),
+                isAdminOrHR
+                    ? withRetry(() => prisma.profile.groupBy({
+                        by: ['department'],
+                        _count: { userId: true },
+                        where: { department: { not: null }, user: companyFilter },
+                    }))
+                    : Promise.resolve([]),
+            ]);
+        }
 
-        // 6. Assigned Assets
-        const assignedAssets = await prisma.asset.count({
-            where: { status: 'ASSIGNED' }
-        });
+        // ── Personal stats for employees ─────────────────────────────────────────
+        let personalAttendanceRows: any[] = [];
+        if (!isManagerOrAbove) {
+            personalAttendanceRows = await withRetry(() => prisma.attendance.findMany({
+                where: { userId, date: { gte: thisMonthStart } },
+                select: { hours: true, isLate: true, status: true },
+            }));
+        }
 
-        // 7. Who is Out (Leaves)
-        const approvedLeaves = await prisma.leaveRequest.findMany({
-            where: {
-                status: 'APPROVED',
-                startDate: { lte: endOfDay },
-                endDate: { gte: startOfDay }
-            },
-            include: {
-                user: {
-                    include: { profile: true }
+        // ── Common queries (all roles) ────────────────────────────────────────────
+        const [openJobsCount, weeklyAttendance, monthlyLeaves, outToday, birthdayRows] = await Promise.all([
+            withRetry(() => prisma.jobPosting.count({ where: { status: 'OPEN' } })),
+
+            withRetry(() => prisma.attendance.findMany({
+                where: {
+                    date: { gte: sevenDaysAgo, lt: tomorrowUTC },
+                    ...(isManagerOrAbove ? companyUserFilter : { userId }),
                 },
-                leaveType: true
+                select: { date: true },
+            })),
+
+            withRetry(() => prisma.leaveRequest.findMany({
+                where: {
+                    startDate: { gte: fourMonthsAgo },
+                    status: { in: ['APPROVED', 'PENDING'] },
+                    ...(isManagerOrAbove ? companyUserFilter : { userId }),
+                },
+                select: { startDate: true, status: true },
+            })),
+
+            withRetry(() => prisma.leaveRequest.findMany({
+                where: {
+                    status: 'APPROVED',
+                    startDate: { lte: now },
+                    endDate: { gte: todayUTC },
+                    ...companyUserFilter,
+                },
+                include: { user: { include: { profile: true } }, leaveType: true },
+                take: 10,
+            })),
+
+            withRetry(() => prisma.profile.findMany({
+                where: { dob: { not: null }, user: companyFilter },
+                select: { firstName: true, lastName: true, dob: true, profilePhoto: true },
+            })),
+        ]);
+
+        // ── Build attendance trend (last 7 days) ──────────────────────────────────
+        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const attendanceTrend = Array.from({ length: 7 }, (_, i) => {
+            const d = new Date(sevenDaysAgo.getTime() + i * 86400000);
+            const dateStr = d.toISOString().split('T')[0];
+            const count = (weeklyAttendance as any[]).filter((a: any) =>
+                new Date(a.date).toISOString().split('T')[0] === dateStr
+            ).length;
+            return { day: dayNames[d.getUTCDay()], date: dateStr, present: count };
+        });
+
+        // ── Build leave trend (last 4 months) ────────────────────────────────────
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const leaveTrendMap = new Map<string, { approved: number; pending: number }>();
+        for (let i = 3; i >= 0; i--) {
+            const d = new Date(now);
+            d.setMonth(now.getMonth() - i);
+            leaveTrendMap.set(monthNames[d.getMonth()], { approved: 0, pending: 0 });
+        }
+        (monthlyLeaves as any[]).forEach((l: any) => {
+            const key = monthNames[new Date(l.startDate).getMonth()];
+            const entry = leaveTrendMap.get(key);
+            if (entry) {
+                if (l.status === 'APPROVED') entry.approved++;
+                else if (l.status === 'PENDING') entry.pending++;
             }
         });
+        const leaveTrend = Array.from(leaveTrendMap.entries()).map(([month, data]) => ({ month, ...data }));
 
-        const whoIsOut = approvedLeaves.map((l: any) => {
-            const statusColors: Record<string, string> = {
-                'APPROVED': 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
-                'PENDING': 'bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400',
-                'REJECTED': 'bg-rose-100 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400',
-            };
-            return {
-                name: l.user.profile ? `${l.user.profile.firstName} ${l.user.profile.lastName}` : l.user.email,
-                role: l.user.profile?.designation || 'Employee',
-                status: l.leaveType.name,
-                color: statusColors[l.status] || 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
-            };
-        });
+        // ── Build who's out ───────────────────────────────────────────────────────
+        const whoIsOut = (outToday as any[]).map((l: any) => ({
+            name: l.user.profile
+                ? `${l.user.profile.firstName} ${l.user.profile.lastName}`
+                : l.user.email,
+            role: l.user.profile?.designation || 'Employee',
+            status: l.leaveType.name,
+        }));
 
-        // 8. Birthdays
-        const profiles = await prisma.$queryRaw`
-            SELECT "firstName", "lastName", "dob", "profilePhoto" 
-            FROM "Profile" 
-            WHERE "dob" IS NOT NULL
-        ` as any[];
-
-        const upcomingBirthdays = profiles.filter((p: any) => {
+        // ── Build upcoming birthdays (next 7 days) ────────────────────────────────
+        const nextWeek = new Date(todayUTC.getTime() + 7 * 86400000);
+        const birthdays = (birthdayRows as any[]).filter((p: any) => {
             if (!p.dob) return false;
             const dob = new Date(p.dob);
-            const thisYearDob = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
-            const nextYearDob = new Date(today.getFullYear() + 1, dob.getMonth(), dob.getDate());
-
-            return (thisYearDob >= today && thisYearDob <= nextWeek) ||
-                (nextYearDob >= today && nextYearDob <= nextWeek);
+            const thisYear = new Date(Date.UTC(now.getUTCFullYear(), dob.getUTCMonth(), dob.getUTCDate()));
+            const nextYear = new Date(Date.UTC(now.getUTCFullYear() + 1, dob.getUTCMonth(), dob.getUTCDate()));
+            return (thisYear >= todayUTC && thisYear <= nextWeek) || (nextYear >= todayUTC && nextYear <= nextWeek);
         }).map((p: any) => ({
             name: `${p.firstName} ${p.lastName}`,
             date: p.dob,
-            photo: p.profilePhoto
+            photo: p.profilePhoto,
         })).slice(0, 5);
 
-        // Check Role
-        const userRole = (req as any).user?.role || 'EMPLOYEE';
-        const isAdminOrHR = ['ADMIN', 'HR'].includes(userRole);
+        // ── Personal stats ────────────────────────────────────────────────────────
+        const personalStats = !isManagerOrAbove ? {
+            daysThisMonth: (personalAttendanceRows as any[]).length,
+            hoursThisMonth: parseFloat(
+                (personalAttendanceRows as any[]).reduce((acc: number, r: any) => acc + (r.hours || 0), 0).toFixed(1)
+            ),
+            lateDays: (personalAttendanceRows as any[]).filter((r: any) => r.isLate).length,
+        } : undefined;
 
         res.json({
             users: isAdminOrHR ? { total: totalUsers, active: activeUsers } : undefined,
             attendance: isAdminOrHR ? { presentToday } : undefined,
-            finance: isAdminOrHR ? {
-                pendingClaims,
-                approvedTotal: totalClaimAmount._sum.amount || 0,
-                trend: expenseTrend
-            } : undefined,
-            recruitment: { openJobs },
-            assets: isAdminOrHR ? { assigned: assignedAssets } : undefined,
-            departments: isAdminOrHR ? departmentStats.map(d => ({ name: d.department, count: d._count.userId })) : undefined,
+            finance: isAdminOrHR ? { pendingClaims: pendingClaimsCount } : undefined,
+            recruitment: { openJobs: openJobsCount },
+            departments: isAdminOrHR
+                ? (deptStats as any[]).map((d: any) => ({ name: d.department, count: d._count.userId }))
+                : undefined,
             whoIsOut,
-            birthdays: upcomingBirthdays
+            birthdays,
+            attendanceTrend,
+            leaveTrend,
+            pendingActions: isManagerOrAbove ? {
+                leaves: (pendingLeaves as any[]).map((l: any) => ({
+                    id: l.id,
+                    userName: l.user.profile
+                        ? `${l.user.profile.firstName} ${l.user.profile.lastName}`
+                        : 'Unknown',
+                    leaveType: l.leaveType?.name || 'Leave',
+                    startDate: l.startDate,
+                    endDate: l.endDate,
+                    reason: l.reason,
+                })),
+                expenses: (pendingExpenses as any[]).map((e: any) => ({
+                    id: e.id,
+                    userName: e.user.profile
+                        ? `${e.user.profile.firstName} ${e.user.profile.lastName}`
+                        : 'Unknown',
+                    description: e.description,
+                    amount: e.amount,
+                })),
+            } : undefined,
+            teamMembers: isManagerOrAbove
+                ? (teamMembersList as any[]).map((u: any) => ({
+                    id: u.id,
+                    name: u.profile ? `${u.profile.firstName} ${u.profile.lastName}` : 'Unknown',
+                    role: u.role,
+                    designation: u.profile?.designation || '',
+                    employeeId: u.employeeId,
+                    photo: u.profile?.profilePhoto,
+                }))
+                : undefined,
+            personalStats,
         });
-    } catch (error) {
-        console.error("Stats Error:", error);
-        res.status(500).json({ message: 'Error fetching stats' });
+    } catch (error: any) {
+        console.error('Stats Error:', error);
+        if (isDbConnectionError(error)) {
+            return res.status(503).json({ message: 'Service temporarily unavailable. Please try again.' });
+        }
+        res.status(500).json({ message: 'Error fetching dashboard data.' });
     }
 };
