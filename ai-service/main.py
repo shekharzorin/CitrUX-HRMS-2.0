@@ -17,7 +17,7 @@ app = FastAPI(title="Citrux HRMS AI Service")
 
 class AskRequest(BaseModel):
     userId: str
-    companyId: str
+    companyId: str | None = None
     message: str
     provider: str = "groq"  # Default: Groq (LLaMA 3 - open source, free, fastest)
 

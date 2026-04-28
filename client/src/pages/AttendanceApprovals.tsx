@@ -10,6 +10,8 @@ interface AttendanceRequest {
     clockIn: string;
     clockOut: string;
     reason: string;
+    status: string;
+    managerComment?: string;
     user: {
         id: string;
         email: string;
@@ -25,6 +27,7 @@ interface AttendanceRequest {
 const AttendanceApprovals: React.FC = () => {
     const [requests, setRequests] = useState<AttendanceRequest[]>([]);
     const [loading, setLoading] = useState(true);
+    const [actioningId, setActioningId] = useState<string | null>(null);
     const { showToast } = useToast();
 
     const fetchRequests = async () => {
@@ -44,15 +47,22 @@ const AttendanceApprovals: React.FC = () => {
     }, []);
 
     const handleAction = async (id: string, status: 'APPROVED' | 'REJECTED') => {
-        const comment = status === 'REJECTED' ? prompt("Rejection Reason:") : "Approved";
-        if (status === 'REJECTED' && !comment) return;
+        let comment = 'Approved';
+        if (status === 'REJECTED') {
+            const reason = window.prompt('Rejection reason (required):');
+            if (!reason?.trim()) return;
+            comment = reason.trim();
+        }
 
+        setActioningId(id);
         try {
             await api.post('/attendance/adjust/respond', { id, status, comment });
-            showToast(`Request ${status === 'APPROVED' ? 'Approved' : 'Rejected'}`, status === 'APPROVED' ? 'success' : 'info');
+            showToast(`Request ${status === 'APPROVED' ? 'approved' : 'rejected'} successfully`, status === 'APPROVED' ? 'success' : 'info');
             fetchRequests();
         } catch (error: any) {
-            showToast(error.message || "Action failed", "error");
+            showToast(error.message || 'Action failed', 'error');
+        } finally {
+            setActioningId(null);
         }
     };
 
@@ -120,13 +130,15 @@ const AttendanceApprovals: React.FC = () => {
                             <div className="flex flex-row md:flex-col justify-center gap-3 min-w-[140px]">
                                 <button
                                     onClick={() => handleAction(req.id, 'APPROVED')}
-                                    className="btn-success w-full justify-center"
+                                    disabled={actioningId === req.id}
+                                    className="btn-success w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    Approve
+                                    {actioningId === req.id ? 'Processing…' : 'Approve'}
                                 </button>
                                 <button
                                     onClick={() => handleAction(req.id, 'REJECTED')}
-                                    className="btn-outline border-rose-200 text-rose-600 hover:bg-rose-50 w-full justify-center"
+                                    disabled={actioningId === req.id}
+                                    className="btn-outline border-rose-200 text-rose-600 hover:bg-rose-50 w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Reject
                                 </button>

@@ -42,3 +42,12 @@ Thumbs.db
 # Uploads
 server/uploads/*
 !server/uploads/.gitkeep
+
+# Claude AI
+.claude/
+
+# Python Cache
+__pycache__/
+
+# Logs
+server/logs/

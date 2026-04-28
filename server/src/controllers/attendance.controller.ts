@@ -431,19 +431,25 @@ export const overrideAttendance = async (req: AuthRequest, res: Response) => {
 
 export const getPendingAdjustments = async (req: AuthRequest, res: Response) => {
     try {
-        const managerId = req.user!.userId;
+        const currentUserId = req.user!.userId;
+        const role = req.user!.role;
+        const companyId = req.user!.companyId;
+
+        let whereClause: any = { status: 'PENDING' };
+
+        if (role === 'MANAGER') {
+            // Managers see only their direct reports' requests
+            whereClause.user = { managerId: currentUserId };
+        } else {
+            // ADMIN / HR see all pending requests in their company
+            whereClause.user = { companyId };
+        }
+
         const requests = await prisma.attendanceRequest.findMany({
-            where: {
-                status: 'PENDING',
-                user: {
-                    managerId: managerId
-                }
-            },
+            where: whereClause,
             include: {
                 user: {
-                    include: {
-                        profile: true
-                    }
+                    include: { profile: true }
                 }
             },
             orderBy: { createdAt: 'desc' }
@@ -457,6 +463,8 @@ export const getPendingAdjustments = async (req: AuthRequest, res: Response) => 
 export const respondToAdjustment = async (req: AuthRequest, res: Response) => {
     try {
         const { id, status, comment } = req.body; // status: APPROVED | REJECTED
+        const responderId = req.user!.userId;
+        const responderRole = req.user!.role;
 
         // Transaction to ensure atomicity
         const result = await prisma.$transaction(async (tx) => {
@@ -467,6 +475,13 @@ export const respondToAdjustment = async (req: AuthRequest, res: Response) => {
 
             if (!request) throw new Error('Request not found');
             if (request.status !== 'PENDING') throw new Error('Request already processed');
+
+            // Ownership check: responder must be the employee's manager or an ADMIN/HR
+            const isManagerOfEmployee = request.user.managerId === responderId;
+            const isAdminOrHR = responderRole === 'ADMIN' || responderRole === 'HR';
+            if (!isManagerOfEmployee && !isAdminOrHR) {
+                throw new Error('Not authorized to respond to this request');
+            }
 
             // Update request status
             const updatedRequest = await tx.attendanceRequest.update({
@@ -497,8 +512,8 @@ export const respondToAdjustment = async (req: AuthRequest, res: Response) => {
                 // logic in punchIn uses: today.setHours(0, 0, 0, 0); local time?
                 // The schema stores `date` as DateTime.
                 // We should respect the date from the request.
-                const recordDate = new Date(request.date);
-                recordDate.setHours(0, 0, 0, 0);
+                const d = new Date(request.date);
+                const recordDate = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
 
                 await tx.attendance.upsert({
                     where: {

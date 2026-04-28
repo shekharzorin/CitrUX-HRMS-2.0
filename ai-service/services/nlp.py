@@ -16,8 +16,8 @@ class NLPService:
         
         # Simple rule-based intent detection for this prototype
         intent = "unknown"
-        if any(token.lemma_ in ["leave", "holiday", "off"] for token in doc):
-            if any(token.lemma_ in ["balance", "limit", "remaining"] for token in doc):
+        if any(token.lemma_ in ["leave", "leaf", "holiday", "off"] for token in doc):
+            if any(token.lemma_ in ["balance", "limit", "remaining", "have", "count", "status", "much", "many"] for token in doc):
                 intent = "leave_balance"
             elif any(token.lemma_ in ["apply", "request", "book"] for token in doc):
                 intent = "apply_leave"
@@ -25,7 +25,7 @@ class NLPService:
                 intent = "who_is_on_leave"
         
         elif any(token.lemma_ in ["attendance", "present", "clock"] for token in doc):
-            if any(token.lemma_ in ["lowest", "least", "worst", "bottom"] for token in doc):
+            if any(token.lemma_ in ["lowest", "low", "least", "little", "worst", "bad", "bottom", "poor"] for token in doc):
                 intent = "lowest_attendance"
             else:
                 intent = "attendance_status"
@@ -39,7 +39,7 @@ class NLPService:
         elif any(token.lemma_ in ["profile", "who", "designation", "department"] for token in doc) and any(token.lemma_ in ["me", "i", "my"] for token in doc):
             intent = "my_profile"
             
-        elif any(token.lemma_ in ["pending", "approve", "request", "task"] for token in doc):
+        elif any(token.lemma_ in ["pending", "pende", "approve", "approval", "request", "task"] for token in doc):
             intent = "pending_approvals"
 
         # Entity extraction
