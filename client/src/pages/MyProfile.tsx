@@ -8,6 +8,7 @@ import { EmptyState } from '../components/ui/EmptyState';
 import { Skeleton } from '../components/ui/Skeleton';
 
 import { useAttendanceWidget } from '../hooks/useAttendanceWidget';
+import { resolveImageUrl } from '../utils/image';
 
 const MyProfile: React.FC = () => {
     const { user, updateUser } = useAuth();
@@ -465,7 +466,7 @@ const MyProfile: React.FC = () => {
                                                 </span>
                                             </div>
                                         </div>
-                                        <Button size="sm" variant="secondary" onClick={() => window.open(doc.url, '_blank')}>View</Button>
+                                        <Button size="sm" variant="secondary" onClick={() => window.open(resolveImageUrl(doc.url), '_blank')}>View</Button>
                                     </div>
                                 ))}
                             </div>
@@ -493,8 +494,8 @@ const MyProfile: React.FC = () => {
                 <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center">
                     <div className="relative w-24 h-24 mx-auto mb-4">
                         <div className="w-full h-full rounded-full overflow-hidden border-4 border-slate-50 shadow-inner">
-                            {form.profilePhoto ? (
-                                <img src={form.profilePhoto} alt="Profile" className="w-full h-full object-cover" />
+                             {form.profilePhoto ? (
+                                <img src={resolveImageUrl(form.profilePhoto)} alt="Profile" className="w-full h-full object-cover" />
                             ) : (
                                 <div className="w-full h-full bg-slate-100 flex items-center justify-center text-2xl font-bold text-slate-300">
                                     {getInitials()}

@@ -8,15 +8,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum Role {
-  SUPER_ADMIN
-  ADMIN
-  HR
-  MANAGER
-  EMPLOYEE
-}
-
-
 model Company {
   id               String            @id @default(uuid())
   name             String            @unique
@@ -24,62 +15,59 @@ model Company {
   domain           String?
   plan             String            @default("STARTER")
   logoUrl          String?
-  logoMediumUrl    String?
-  logoThumbnailUrl String?
-  slogan           String?           @default("Citrux SaaS")
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
-  users            User[]
-  profiles         Profile[]
-  workLogs         WorkLog[]
-  tasks            Task[]
-  shifts           Shift[]           @relation("CompanyShifts")
+  slogan           String?           @default("Citrux SaaS")
+  logoMediumUrl    String?
+  logoThumbnailUrl String?
   attendancePolicy AttendancePolicy? @relation("CompanyAttendancePolicy")
+  profiles         Profile[]
+  shifts           Shift[]           @relation("CompanyShifts")
+  tasks            Task[]
+  users            User[]
+  workLogs         WorkLog[]
 }
-
 
 model User {
-  id            String              @id @default(uuid())
-  employeeId    String?             @unique
-  email         String              @unique
-  passwordHash  String
-  resetToken    String?
-  resetTokenExpiry DateTime?
-  status        String              @default("ACTIVE")
-  role          Role                @default(EMPLOYEE)
-  managerId     String?
-  shiftId       String?
-  companyId     String?
-  company       Company?            @relation(fields: [companyId], references: [id])
-  
-  assets              Asset[]
-  attendance          Attendance[]
-  certificates        Certificate[]
-  expenses            ExpenseClaim[]
-  goals               Goal[]
-  leaveBalances       LeaveBalance[]
-  leaveRequests       LeaveRequest[]
-  notifications       Notification[]
-  encashments         LeaveEncashment[]
-  documents           UserDocument[]
-  offboarding         Offboarding?
-  onboarding          Onboarding?
-  payslips            Payslip[]
-  reviewsGiven        PerformanceReview[] @relation("Reviewer")
-  reviews             PerformanceReview[]
-  profile             Profile?
-  salary              SalaryStructure?
-  shift               Shift?              @relation("UserShift", fields: [shiftId], references: [id])
-  manager             User?               @relation("ManagerSubordinates", fields: [managerId], references: [id])
-  subordinates        User[]              @relation("ManagerSubordinates")
-  timesheets          Timesheet[]
-  workLogs            WorkLog[]
-  tasks               Task[]
-  attendanceRequests  AttendanceRequest[]
-  audits              AuditLog[]          @relation("UserAudits")
-  policyOverride      UserPolicyOverride?
+  id                 String              @id @default(uuid())
+  employeeId         String?             @unique
+  email              String              @unique
+  passwordHash       String
+  resetToken         String?
+  resetTokenExpiry   DateTime?
+  status             String              @default("ACTIVE")
+  role               Role                @default(EMPLOYEE)
+  managerId          String?
+  shiftId            String?
+  companyId          String?
+  assets             Asset[]
+  attendance         Attendance[]
+  attendanceRequests AttendanceRequest[]
+  audits             AuditLog[]          @relation("UserAudits")
+  certificates       Certificate[]
+  expenses           ExpenseClaim[]
+  goals              Goal[]
+  leaveBalances      LeaveBalance[]
+  encashments        LeaveEncashment[]
+  leaveRequests      LeaveRequest[]
+  notifications      Notification[]
+  offboarding        Offboarding?
+  onboarding         Onboarding?
+  payslips           Payslip[]
+  reviewsGiven       PerformanceReview[] @relation("Reviewer")
+  reviews            PerformanceReview[]
+  profile            Profile?
+  salary             SalaryStructure?
+  tasks              Task[]
+  timesheets         Timesheet[]
+  company            Company?            @relation(fields: [companyId], references: [id])
+  manager            User?               @relation("ManagerSubordinates", fields: [managerId], references: [id])
+  subordinates       User[]              @relation("ManagerSubordinates")
+  shift              Shift?              @relation("UserShift", fields: [shiftId], references: [id])
+  documents          UserDocument[]
+  policyOverride     UserPolicyOverride?
+  workLogs           WorkLog[]
 }
-
 
 model SalaryStructure {
   id              String @id @default(uuid())
@@ -88,79 +76,63 @@ model SalaryStructure {
   hra             Float
   da              Float  @default(0)
   allowances      Float  @default(0)
-  
-  // Deductions
-  pf              Float  @default(0) // Provident Fund
-  esi             Float  @default(0) // Employee State Insurance
+  pf              Float  @default(0)
+  esi             Float  @default(0)
   professionalTax Float  @default(0)
-  deductions      Float  @default(0) // Other Deductions
-  
+  deductions      Float  @default(0)
   ctc             Float
   user            User   @relation(fields: [userId], references: [id])
 }
 
 model Payslip {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   userId      String
   month       Int
   year        Int
   url         String?
-  
-  // Earnings Snapshot
   gross       Float
   net         Float
-  
-  // Attendance Snapshot
-  totalDays   Int      @default(30)
-  workingDays Int      @default(0)
-  presentDays Float    @default(0)
-  lopDays     Float    @default(0) // Loss of Pay Days
-  
-  // Deductions Snapshot
-  pfAmount    Float    @default(0)
-  esiAmount   Float    @default(0)
-  taxAmount   Float    @default(0)
-  
-  details     String   // Full JSON breakdown
-  status      String   @default("GENERATED") // GENERATED, PAID
+  totalDays   Int       @default(30)
+  workingDays Int       @default(0)
+  presentDays Float     @default(0)
+  lopDays     Float     @default(0)
+  pfAmount    Float     @default(0)
+  esiAmount   Float     @default(0)
+  taxAmount   Float     @default(0)
+  details     String
+  status      String    @default("GENERATED")
   paymentDate DateTime?
-  
-  generatedAt DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id])
+  generatedAt DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id])
 }
 
 model Profile {
-  id             String    @id @default(uuid())
-  userId         String    @unique
-  firstName      String
-  lastName       String
-  phone          String?
-  address        String?
-  emergencyContact String?
-  designation    String?
-  department     String?
-  employmentType String    @default("FULL_TIME")
-  dateOfJoining  DateTime?
-  dob            DateTime?
-  documents      String?
-  
-  // Bank Details
-  bankName       String?
-  accountNumber  String?
-  ifscCode       String?
-  
-  // Identity
-  aadhaarNumber  String?
-  panNumber      String?
-  uanNumber      String?
-
-  profilePhoto   String?
-  profilePhotoMediumUrl String?
+  id                       String    @id @default(uuid())
+  userId                   String    @unique
+  firstName                String
+  lastName                 String
+  phone                    String?
+  address                  String?
+  emergencyContact         String?
+  designation              String?
+  department               String?
+  employmentType           String    @default("FULL_TIME")
+  dateOfJoining            DateTime?
+  dob                      DateTime?
+  documents                String?
+  bankName                 String?
+  accountNumber            String?
+  ifscCode                 String?
+  aadhaarNumber            String?
+  panNumber                String?
+  uanNumber                String?
+  profilePhoto             String?
+  profilePhotoSettings     String?
+  companyId                String?
+  profilePhotoMediumUrl    String?
   profilePhotoThumbnailUrl String?
-  profilePhotoSettings String? // JSON string for zoom/position
-  companyId      String?
-  company        Company?  @relation(fields: [companyId], references: [id])
-  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company                  Company?  @relation(fields: [companyId], references: [id])
+  user                     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Attendance {
@@ -184,73 +156,54 @@ model Attendance {
 model Shift {
   id             String               @id @default(uuid())
   name           String
-  startTime      String               // "HH:MM" 24-hr
-  endTime        String               // "HH:MM" 24-hr
+  startTime      String
+  endTime        String
   graceTime      Int                  @default(15)
-  isNightShift   Boolean              @default(false)  // crosses midnight
-  isDefault      Boolean              @default(false)  // fallback shift for the company
   companyId      String?
-  company        Company?             @relation("CompanyShifts", fields: [companyId], references: [id])
+  isDefault      Boolean              @default(false)
+  isNightShift   Boolean              @default(false)
   attendance     Attendance[]
-  users          User[]               @relation("UserShift")
+  company        Company?             @relation("CompanyShifts", fields: [companyId], references: [id])
   policyOverride ShiftPolicyOverride?
+  users          User[]               @relation("UserShift")
 }
 
-// ─── Attendance Policy (one per company) ──────────────────────────────────────
 model AttendancePolicy {
   id                            String   @id @default(uuid())
   companyId                     String   @unique
-  company                       Company  @relation("CompanyAttendancePolicy", fields: [companyId], references: [id])
-
-  // General
   graceMinutes                  Int      @default(10)
   halfDayThresholdHours         Float    @default(4.0)
   fullDayHours                  Float    @default(8.0)
   maxWorkHoursPerDay            Float    @default(12.0)
   allowMultipleSessions         Boolean  @default(false)
-
-  // Auto Clock-Out
   autoClockOutEnabled           Boolean  @default(true)
-  autoClockOutType              String   @default("SHIFT_END") // "SHIFT_END" | "HOURS_BASED"
+  autoClockOutType              String   @default("SHIFT_END")
   autoClockOutBufferMinutes     Int      @default(30)
   autoClockOutMaxHours          Float    @default(12.0)
-
-  // Break Policy
   allowBreaks                   Boolean  @default(true)
   maxBreaksPerDay               Int      @default(3)
   maxTotalBreakMinutes          Int      @default(60)
   autoEndBreakOnCheckout        Boolean  @default(true)
   autoEndBreakAfterMinutes      Int      @default(60)
-
-  // Missed Punch Handling
   missedPunchAutoResolve        Boolean  @default(false)
-  missedPunchAction             String   @default("MARK_ABSENT") // "AUTO_CHECKOUT" | "MARK_HALF_DAY" | "MARK_ABSENT"
+  missedPunchAction             String   @default("MARK_ABSENT")
   missedPunchNotifyAfterMinutes Int      @default(60)
-
-  // Late & Penalty
   markLateAfterMinutes          Int      @default(15)
   lateCountThresholdForHalfDay  Int      @default(3)
   absentIfNoPunchInAfterHours   Float    @default(6.0)
-
-  // Approval Rules
   allowEmployeeAdjustment       Boolean  @default(true)
   maxPastDaysForAdjustment      Int      @default(7)
   requireApproval               Boolean  @default(true)
-
-  // Security / Geo-fence
   requireGeoFence               Boolean  @default(false)
   allowedRadiusMeters           Int      @default(100)
-
   createdAt                     DateTime @default(now())
   updatedAt                     DateTime @updatedAt
+  company                       Company  @relation("CompanyAttendancePolicy", fields: [companyId], references: [id])
 }
 
-// ─── Shift-level policy overrides ────────────────────────────────────────────
 model ShiftPolicyOverride {
   id                        String   @id @default(uuid())
   shiftId                   String   @unique
-  shift                     Shift    @relation(fields: [shiftId], references: [id], onDelete: Cascade)
-
   graceMinutes              Int?
   halfDayThresholdHours     Float?
   fullDayHours              Float?
@@ -261,24 +214,21 @@ model ShiftPolicyOverride {
   allowBreaks               Boolean?
   maxBreaksPerDay           Int?
   maxTotalBreakMinutes      Int?
-
   updatedAt                 DateTime @updatedAt
+  shift                     Shift    @relation(fields: [shiftId], references: [id], onDelete: Cascade)
 }
 
-// ─── User-level policy overrides (most granular) ──────────────────────────────
 model UserPolicyOverride {
   id                    String   @id @default(uuid())
   userId                String   @unique
-  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   graceMinutes          Int?
   halfDayThresholdHours Float?
   fullDayHours          Float?
   maxWorkHoursPerDay    Float?
   requireGeoFence       Boolean?
   allowedRadiusMeters   Int?
-
   updatedAt             DateTime @updatedAt
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Break {
@@ -291,31 +241,30 @@ model Break {
 }
 
 model LeaveType {
-  id           String         @id @default(uuid())
-  name         String
-  code         String         @unique
-  daysPerYear  Int
-  carryForward Boolean        @default(false)
-  maxCarryForward Int         @default(0) // Max days to carry over
-  balances     LeaveBalance[]
-  requests     LeaveRequest[]
-  encashments  LeaveEncashment[]
+  id              String            @id @default(uuid())
+  name            String
+  code            String            @unique
+  daysPerYear     Int
+  carryForward    Boolean           @default(false)
+  maxCarryForward Int               @default(0)
+  balances        LeaveBalance[]
+  encashments     LeaveEncashment[]
+  requests        LeaveRequest[]
 }
 
 model LeaveEncashment {
-  id          String    @id @default(uuid())
-  userId      String
-  leaveTypeId String
-  days        Float
-  amount      Float     @default(0)
-  status      String    @default("PENDING") // PENDING, APPROVED, REJECTED
-  reason      String?
+  id             String    @id @default(uuid())
+  userId         String
+  leaveTypeId    String
+  days           Float
+  amount         Float     @default(0)
+  status         String    @default("PENDING")
+  reason         String?
   managerComment String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  
-  user        User      @relation(fields: [userId], references: [id])
-  leaveType   LeaveType @relation(fields: [leaveTypeId], references: [id])
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  leaveType      LeaveType @relation(fields: [leaveTypeId], references: [id])
+  user           User      @relation(fields: [userId], references: [id])
 }
 
 model LeaveBalance {
@@ -353,134 +302,111 @@ model Holiday {
 }
 
 model Onboarding {
-  id             String           @id @default(uuid())
-  userId         String           @unique
-  status         String           @default("DRAFT") // DRAFT, SUBMITTED, PENDING_VERIFICATION, APPROVED, REJECTED
-  
-  // Step 1: Personal
-  fullName       String?
-  fatherName     String?
-  motherName     String?
-  guardianName   String?
-  dateOfBirth    DateTime?
-  gender         String?
-  maritalStatus  String?
-  bloodGroup     String?
-  nationality    String?
-  profilePhoto   String?
-  profilePhotoSettings String? // JSON string for zoom/position
-
-  // Step 2: Contact
-  personalMobile String?
-  officialMobile String?
-  personalEmail  String?
-  officialEmail  String?
-  currentAddress String?
-  permanentAddress String?
-  sameAsCurrentAddress Boolean @default(false)
-  emergencyContacts OnboardingEmergencyContact[]
-
-  // Step 3: Employment
-  department     String?
-  designation    String?
-  employmentType String?
-  dateOfJoining  DateTime?
-  workLocation   String?
-  reportingManagerId String?
-  shift          String?
-  workingHours   String?
-  probationPeriodMonths Int?
-  noticePeriodDays Int?
-  
-  // Step 4: Work Experience
-  experiences    OnboardingExperience[]
-  totalYearsExperience Float?
-
-  // Step 5: Education
-  education      OnboardingEducation[]
-
-  // Step 6: Identity
-  aadhaarNumber  String?
-  panNumber      String?
-  passportNumber String?
-  uanNumber      String?
-  esicNumber     String?
-  drivingLicense String?
-
-  // Step 7: Bank
-  accountHolderName String?
-  bankName       String?
-  accountNumber  String?
-  ifscCode       String?
-  branchName     String?
-  salaryPaymentMode String?
-
-  // Step 8: Health
-  medicalConditions String?
-  allergies      String?
-  disabilityStatus Boolean?
-  disabilityDetails String?
-
-  // Step 9: Documents
-  documents      OnboardingDocument[]
-
-  // Step 10: System Access
-  companyEmailCreated Boolean @default(false)
-  hrmsAccessEnabled   Boolean @default(false)
-  roleAndPermissions  String?
-  deviceIssued        String?
-  assetId             String?
-
-  // Step 11: Policies
-  companyPolicyAccepted Boolean @default(false)
-  ndaAccepted           Boolean @default(false)
-  codeOfConductAccepted Boolean @default(false)
+  id                      String                       @id @default(uuid())
+  userId                  String                       @unique
+  status                  String                       @default("DRAFT")
+  fullName                String?
+  fatherName              String?
+  motherName              String?
+  guardianName            String?
+  dateOfBirth             DateTime?
+  gender                  String?
+  maritalStatus           String?
+  bloodGroup              String?
+  nationality             String?
+  profilePhoto            String?
+  profilePhotoSettings    String?
+  personalMobile          String?
+  officialMobile          String?
+  personalEmail           String?
+  officialEmail           String?
+  currentAddress          String?
+  permanentAddress        String?
+  sameAsCurrentAddress    Boolean                      @default(false)
+  department              String?
+  designation             String?
+  employmentType          String?
+  dateOfJoining           DateTime?
+  workLocation            String?
+  reportingManagerId      String?
+  shift                   String?
+  workingHours            String?
+  probationPeriodMonths   Int?
+  noticePeriodDays        Int?
+  totalYearsExperience    Float?
+  aadhaarNumber           String?
+  panNumber               String?
+  passportNumber          String?
+  uanNumber               String?
+  esicNumber              String?
+  drivingLicense          String?
+  accountHolderName       String?
+  bankName                String?
+  accountNumber           String?
+  ifscCode                String?
+  branchName              String?
+  salaryPaymentMode       String?
+  medicalConditions       String?
+  allergies               String?
+  disabilityStatus        Boolean?
+  disabilityDetails       String?
+  companyEmailCreated     Boolean                      @default(false)
+  hrmsAccessEnabled       Boolean                      @default(false)
+  roleAndPermissions      String?
+  deviceIssued            String?
+  assetId                 String?
+  companyPolicyAccepted   Boolean                      @default(false)
+  ndaAccepted             Boolean                      @default(false)
+  codeOfConductAccepted   Boolean                      @default(false)
   digitalConsentSignature String?
-  acceptanceTimestamp   DateTime?
-  acceptanceIp          String?
-
-  submittedAt    DateTime?
-  updatedAt      DateTime         @updatedAt
-  user           User             @relation(fields: [userId], references: [id])
+  acceptanceTimestamp     DateTime?
+  acceptanceIp            String?
+  submittedAt             DateTime?
+  updatedAt               DateTime                     @updatedAt
+  user                    User                         @relation(fields: [userId], references: [id])
+  documents               OnboardingDocument[]
+  education               OnboardingEducation[]
+  emergencyContacts       OnboardingEmergencyContact[]
+  experiences             OnboardingExperience[]
 }
 
 model OnboardingEmergencyContact {
-  id           String     @id @default(uuid())
-  onboardingId String
-  name         String
-  relationship String?
-  mobile       String
+  id              String     @id @default(uuid())
+  onboardingId    String
+  name            String
+  relationship    String?
+  mobile          String
   alternateMobile String?
-  onboarding   Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
+  onboarding      Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
 }
 
 model OnboardingExperience {
-  id           String     @id @default(uuid())
-  onboardingId String
-  companyName  String
-  designation  String?
-  employmentType String?
-  startDate    DateTime?
-  endDate      DateTime?
-  isCurrent    Boolean    @default(false)
+  id               String     @id @default(uuid())
+  onboardingId     String
+  companyName      String
+  designation      String?
+  employmentType   String?
+  startDate        DateTime?
+  endDate          DateTime?
+  isCurrent        Boolean    @default(false)
   reasonForLeaving String?
-  onboarding   Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
+  onboarding       Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
 }
 
 model OnboardingEducation {
-  id           String     @id @default(uuid())
-  onboardingId String
-  institutionName String
-  degreeOrCourse String
+  id                   String     @id @default(uuid())
+  onboardingId         String
+  institutionName      String
+  degreeOrCourse       String
   highestQualification String?
-  yearOfPassing Int?
-  onboarding   Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
+  yearOfPassing        Int?
+  onboarding           Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
 }
 
 model OnboardingDocument {
   id           String     @id @default(uuid())
   onboardingId String
-  type         String // aadhaar_card, pan_card, resume, etc.
+  type         String
   url          String
   status       String     @default("PENDING")
   onboarding   Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
@@ -596,23 +522,23 @@ model Asset {
 }
 
 model UserDocument {
-  id          String    @id @default(uuid())
-  userId      String
-  type        String    // PASSPORT, VISA, ID_PROOF, AGREEMENT, OTHER
-  name        String
-  url         String
-  expiryDate  DateTime?
-  status      String    @default("PENDING") // PENDING, VERIFIED, REJECTED
-  verifiedBy  String?
-  uploadedAt  DateTime  @default(now())
-  user        User      @relation(fields: [userId], references: [id])
+  id         String    @id @default(uuid())
+  userId     String
+  type       String
+  name       String
+  url        String
+  expiryDate DateTime?
+  status     String    @default("PENDING")
+  verifiedBy String?
+  uploadedAt DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id])
 }
 
 model Notification {
   id        String   @id @default(uuid())
   userId    String
   message   String
-  type      String   @default("INFO") // INFO, LEAVE, TASK, SYSTEM
+  type      String   @default("INFO")
   link      String?
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
@@ -623,7 +549,7 @@ model JobRole {
   id          String   @id @default(uuid())
   title       String   @unique
   department  String?
-  level       Int      @default(0) // 0=lowest, higher number = higher rank
+  level       Int      @default(0)
   description String?
   createdAt   DateTime @default(now())
 }
@@ -638,19 +564,19 @@ model Timesheet {
   userId    String
   startDate DateTime
   endDate   DateTime
-  status    String           @default("DRAFT") // DRAFT, SUBMITTED, APPROVED, REJECTED
-  entries   TimesheetEntry[]
+  status    String           @default("DRAFT")
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
   user      User             @relation(fields: [userId], references: [id])
+  entries   TimesheetEntry[]
 }
 
 model TimesheetEntry {
   id          String    @id @default(uuid())
   timesheetId String
   taskId      String?
-  taskName    String?   // Allow free text or linked task
-  project     String?   // Snapshot of project/client name
+  taskName    String?
+  project     String?
   mon         Float     @default(0)
   tue         Float     @default(0)
   wed         Float     @default(0)
@@ -659,8 +585,8 @@ model TimesheetEntry {
   sat         Float     @default(0)
   sun         Float     @default(0)
   total       Float     @default(0)
-  timesheet   Timesheet @relation(fields: [timesheetId], references: [id], onDelete: Cascade)
   task        Task?     @relation(fields: [taskId], references: [id])
+  timesheet   Timesheet @relation(fields: [timesheetId], references: [id], onDelete: Cascade)
 }
 
 model Task {
@@ -669,15 +595,15 @@ model Task {
   title       String
   description String?
   project     String?
-  status      String           @default("TODO") // TODO, IN_PROGRESS, DONE
-  priority    String           @default("MEDIUM") // LOW, MEDIUM, HIGH
+  status      String           @default("TODO")
+  priority    String           @default("MEDIUM")
   dueDate     DateTime?
   companyId   String?
-  company     Company?         @relation(fields: [companyId], references: [id])
-  entries     TimesheetEntry[]
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
+  company     Company?         @relation(fields: [companyId], references: [id])
   user        User?            @relation(fields: [userId], references: [id])
+  entries     TimesheetEntry[]
 }
 
 model WorkLog {
@@ -685,12 +611,12 @@ model WorkLog {
   userId      String
   date        DateTime
   hoursWorked Float
-  breakTime   Float    @default(0) // in minutes
+  breakTime   Float    @default(0)
   description String
   companyId   String?
-  company     Company? @relation(fields: [companyId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  company     Company? @relation(fields: [companyId], references: [id])
   user        User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, date])
@@ -703,7 +629,7 @@ model AttendanceRequest {
   clockIn        DateTime
   clockOut       DateTime
   reason         String
-  status         String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  status         String   @default("PENDING")
   managerComment String?
   createdAt      DateTime @default(now())
   user           User     @relation(fields: [userId], references: [id])
@@ -711,20 +637,19 @@ model AttendanceRequest {
 
 model AuditLog {
   id          String   @id @default(uuid())
-  action      String   // e.g., ATTENDANCE_OVERRIDE, USER_UPDATE
-  entityType  String   // e.g., ATTENDANCE
+  action      String
+  entityType  String
   entityId    String
-  details     String   // JSON string of changes (old vs new)
+  details     String
   performedBy String
   createdAt   DateTime @default(now())
-  
   actor       User     @relation("UserAudits", fields: [performedBy], references: [id])
 }
 
 model SystemError {
   id        String   @id @default(uuid())
-  module    String   // e.g., "AUTH", "PAYROLL", "DATABASE"
-  severity  String   // "INFO", "WARNING", "CRITICAL"
+  module    String
+  severity  String
   message   String
   stack     String?
   timestamp DateTime @default(now())
@@ -732,9 +657,17 @@ model SystemError {
 }
 
 model ModuleHealth {
-  id        String   @id @default(uuid())
-  module    String   @unique
-  status    String   // "HEALTHY", "DEGRADED", "DOWN"
+  id          String   @id @default(uuid())
+  module      String   @unique
+  status      String
   lastChecked DateTime @default(now())
-  details   String?  // JSON details
+  details     String?
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  HR
+  MANAGER
+  EMPLOYEE
 }

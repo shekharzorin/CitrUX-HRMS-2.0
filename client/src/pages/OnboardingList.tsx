@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 import { Icon } from '../components/ui/Icons';
-import { FaCheck, FaTimes, FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaUserTie, FaBuilding, FaMapMarkerAlt, FaFileAlt } from 'react-icons/fa'; // Added FaTimes
+import { FaCheck, FaTimes, FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaUserTie, FaBuilding, FaMapMarkerAlt, FaFileAlt } from 'react-icons/fa';
+import { resolveImageUrl } from '../utils/image';
 
 const OnboardingList: React.FC = () => {
     const { token } = useAuth();
@@ -70,7 +71,7 @@ const OnboardingList: React.FC = () => {
                                 <div className="flex items-center gap-5">
                                     <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-lg border-2 border-white bg-[var(--bg-body)] flex-shrink-0">
                                         {o.profilePhoto ? (
-                                            <img src={o.profilePhoto.includes('http') ? o.profilePhoto + (o.profilePhoto.includes('?') ? '&' : '?') + `token=${token}` : o.profilePhoto} alt="" className="w-full h-full object-cover" />
+                                            <img src={resolveImageUrl(o.profilePhoto)} alt="" className="w-full h-full object-cover" />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center text-[var(--text-muted)]">
                                                 <FaUserTie size={28} />
@@ -157,7 +158,7 @@ const OnboardingList: React.FC = () => {
                                                 {o.documents && o.documents.length > 0 ? o.documents.map((d: any, idx: number) => (
                                                     <a
                                                         key={idx}
-                                                        href={d.url + (d.url.includes('?') ? '&' : '?') + `token=${token}`}
+                                                        href={resolveImageUrl(d.url)}
                                                         target="_blank"
                                                         rel="noreferrer"
                                                         className="flex items-center gap-2 p-3 bg-[var(--bg-body)] rounded-xl border border-[var(--border-color)] hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all"

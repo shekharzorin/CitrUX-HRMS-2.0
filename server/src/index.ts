@@ -173,6 +173,11 @@ app.use('/api/worklogs', worklogRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/search', searchRoutes);
 
+// Catch-all 404 for API routes
+app.use('/api/*', (req, res) => {
+    res.status(404).json({ message: `API route not found: ${req.originalUrl}` });
+});
+
 // Global Error Handler
 app.use(errorHandler);
 

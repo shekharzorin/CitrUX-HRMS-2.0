@@ -7,6 +7,7 @@ import { Select } from '../components/ui/Select';
 import { Button } from '../components/ui/Button';
 import { Icon } from '../components/ui/Icons';
 import Cropper from 'react-easy-crop';
+import { resolveImageUrl } from '../utils/image';
 
 // --- Types & Constants ---
 
@@ -383,7 +384,7 @@ const OnboardingForm: React.FC = () => {
                                     <div className="shrink-0">
                                         <div className="photo-upload-zone">
                                             {formData.profilePhoto ? (
-                                                <img src={formData.profilePhoto.includes('http') ? formData.profilePhoto + (formData.profilePhoto.includes('?') ? '&' : '?') + `token=${token}` : formData.profilePhoto} alt="Profile" className="profile-photo-dynamic" />
+                                                <img src={resolveImageUrl(formData.profilePhoto)} alt="Profile" className="profile-photo-dynamic" />
                                             ) : (
                                                 <div className="w-full h-full flex flex-col items-center justify-center text-[var(--text-muted)] bg-[var(--bg-body)] opacity-50">
                                                     <Icon name="profile" size={64} strokeWidth={1} />
@@ -517,7 +518,7 @@ const OnboardingForm: React.FC = () => {
                             </button>
                         </div>
                         <div className="h-[300px] relative bg-slate-900">
-                            <Cropper image={formData.profilePhoto + (formData.profilePhoto.includes('?') ? '&' : '?') + `token=${token}`} crop={crop} zoom={zoom} aspect={1} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={(_, p) => setCroppedAreaPixels(p)} cropShape="round" />
+                            <Cropper image={resolveImageUrl(formData.profilePhoto)} crop={crop} zoom={zoom} aspect={1} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={(_, p) => setCroppedAreaPixels(p)} cropShape="round" />
                         </div>
                         <div className="p-8">
                             <input type="range" min={1} max={3} step={0.1} value={zoom} onChange={e => setZoom(Number(e.target.value))} className="w-full h-2 mb-8 accent-[var(--primary)] cursor-pointer" title="Zoom Scale" aria-label="Zoom Scale" />
