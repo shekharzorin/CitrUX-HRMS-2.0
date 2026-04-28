@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { prisma } from '../db';
 import { requireString } from '../utils/requestUtils';
 import { getTenantScope } from '../middlewares/tenant.middleware';
+import { withRetry } from '../db';
 
 interface AuthRequest extends Request {
     user?: any;
@@ -12,10 +13,10 @@ export const getNotifications = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user.userId;
         // @ts-ignore
-        const notifications = await prisma.notification.findMany({
+        const notifications = await withRetry(() => prisma.notification.findMany({
             where: { userId },
             orderBy: { createdAt: 'desc' }
-        });
+        }));
         res.json(notifications);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching notifications' });
@@ -27,10 +28,10 @@ export const markRead = async (req: Request, res: Response) => {
     try {
         const id = requireString(req.params.id);
         // @ts-ignore
-        await prisma.notification.update({
+        await withRetry(() => prisma.notification.update({
             where: { id },
             data: { read: true }
-        });
+        }));
         res.json({ message: 'Marked as read' });
     } catch (error) {
         res.status(500).json({ message: 'Error updating notification' });
@@ -42,10 +43,10 @@ export const markAllRead = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user.userId;
         // @ts-ignore
-        await prisma.notification.updateMany({
+        await withRetry(() => prisma.notification.updateMany({
             where: { userId, read: false },
             data: { read: true }
-        });
+        }));
         res.json({ message: 'All marked as read' });
     } catch (error) {
         res.status(500).json({ message: 'Error clearing notifications' });
@@ -57,9 +58,9 @@ export const createNotification = async (req: Request, res: Response) => {
     try {
         const { userId, message } = req.body;
         // @ts-ignore
-        const notification = await prisma.notification.create({
+        const notification = await withRetry(() => prisma.notification.create({
             data: { userId, message }
-        });
+        }));
         res.json(notification);
     } catch (error) {
         res.status(500).json({ message: 'Error creating notification' });
@@ -71,9 +72,9 @@ export const getUnreadCount = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user.userId;
         // @ts-ignore
-        const count = await prisma.notification.count({
+        const count = await withRetry(() => prisma.notification.count({
             where: { userId, read: false }
-        });
+        }));
         res.json({ count });
     } catch (error) {
         res.status(500).json({ message: 'Error counting unread' });
@@ -93,10 +94,10 @@ export const broadcastNotification = async (req: AuthRequest, res: Response) => 
 
         // 1. Get all active users within the same tenant
         const scope = getTenantScope(req);
-        const users = await prisma.user.findMany({
+        const users = await withRetry(() => prisma.user.findMany({
             where: { status: 'ACTIVE', ...scope },
             select: { id: true }
-        });
+        }));
 
         // 2. Prepare notifications (exclude sender if desired, but usually admins want to see it too to confirm)
         const notifications = users.map(u => ({
@@ -106,9 +107,9 @@ export const broadcastNotification = async (req: AuthRequest, res: Response) => 
         }));
 
         // 3. Bulk Create
-        await prisma.notification.createMany({
+        await withRetry(() => prisma.notification.createMany({
             data: notifications
-        });
+        }));
 
         res.json({ message: `Broadcast sent to ${users.length} users` });
     } catch (error) {
