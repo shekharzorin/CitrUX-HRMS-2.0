@@ -31,7 +31,9 @@ services:
       - key: OPENAI_API_KEY
         sync: false                          # FIX: was missing — needed for OpenAI fallback
       - key: AI_SERVICE_URL
-        value: https://citrux-ai-service.onrender.com/ask   # FIX: was internal http:// — must be public HTTPS URL on free plan
+        value: https://citrux-ai-service.onrender.com/ask
+      - key: API_URL
+        value: https://citrux-hrms-api.onrender.com
 
   # ─────────────────────────────────────────────
   # 2. React Frontend (Static Site)

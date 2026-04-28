@@ -121,10 +121,10 @@ const MyProfile: React.FC = () => {
 
         try {
             setLoading(true);
-            const data = await api.post<{ url: string }>('/onboarding/upload', uploadData);
+            const data = await api.post<{ urls: { originalUrl: string } }>('/upload/image', uploadData);
 
-            if (data && data.url) {
-                const newPhotoUrl = data.url;
+            if (data && data.urls?.originalUrl) {
+                const newPhotoUrl = data.urls.originalUrl;
 
                 // 1. Update local form state
                 setForm(prev => ({

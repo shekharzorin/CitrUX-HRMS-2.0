@@ -9,7 +9,7 @@ if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && proce
     });
 } else {
     // Graceful warning, won't crash backend but uploads will fail
-    console.warn("⚠️ Cloudinary variables missing in .env. Uploads will be disabled.");
+    console.warn("⚠️ Cloudinary variables missing in environment. Uploads will be disabled.");
 }
 
-export default cloudinary;
+export { cloudinary };

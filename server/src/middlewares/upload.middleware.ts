@@ -9,7 +9,7 @@ if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-import cloudinary from '../config/cloudinary';
+import { cloudinary } from '../config/cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
 const diskStorage = multer.diskStorage({

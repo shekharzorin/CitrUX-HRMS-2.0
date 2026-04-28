@@ -1,5 +1,5 @@
 import sharp from 'sharp';
-import cloudinary from '../config/cloudinary';
+import { cloudinary } from '../config/cloudinary';
 import { prisma } from '../db';
 import logger from '../utils/logger';
 
