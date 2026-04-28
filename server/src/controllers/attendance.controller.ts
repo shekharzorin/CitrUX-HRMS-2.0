@@ -1,8 +1,17 @@
 import { Request, Response } from 'express';
-import { prisma } from '../db';
+import { prisma, withRetry } from '../db';
 import { notifyUser, notifyRole } from '../utils/notification';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
+import { Prisma } from '@prisma/client';
+
+function isDbConnectionError(err: any): boolean {
+    if (err instanceof Prisma.PrismaClientInitializationError) return true;
+    const retriable = new Set(['P1001', 'P1002', 'P1008', 'P1017']);
+    if (retriable.has(err?.code)) return true;
+    const msg: string = err?.message ?? '';
+    return msg.includes("Can't reach database") || msg.includes('ECONNRESET') || msg.includes('ETIMEDOUT');
+}
 
 export const punchIn = async (req: AuthRequest, res: Response) => {
     try {
@@ -20,9 +29,9 @@ export const punchIn = async (req: AuthRequest, res: Response) => {
             today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
         }
 
-        const existingAttendance = await prisma.attendance.findFirst({
-            where: { userId, date: today }
-        });
+        const existingAttendance = await withRetry(() =>
+            prisma.attendance.findFirst({ where: { userId, date: today } })
+        );
 
         if (existingAttendance) {
             return res.status(400).json({ message: 'Already punched in today' });
@@ -30,10 +39,9 @@ export const punchIn = async (req: AuthRequest, res: Response) => {
 
         // Get User's Shift
         // @ts-ignore
-        const user = await prisma.user.findUnique({
-            where: { id: userId },
-            include: { shift: true }
-        });
+        const user = await withRetry(() =>
+            prisma.user.findUnique({ where: { id: userId }, include: { shift: true } })
+        );
 
         let isLate = false;
         let shiftId = null;
@@ -55,16 +63,11 @@ export const punchIn = async (req: AuthRequest, res: Response) => {
         }
 
         // @ts-ignore
-        const attendance = await prisma.attendance.create({
-            data: {
-                userId,
-                date: today,
-                checkIn: new Date(),
-                location,
-                shiftId,
-                isLate
-            }
-        });
+        const attendance = await withRetry(() =>
+            prisma.attendance.create({
+                data: { userId, date: today, checkIn: new Date(), location, shiftId, isLate }
+            })
+        );
 
         // NOTIFICATION: Late Arrival
         if (isLate) {
@@ -72,9 +75,12 @@ export const punchIn = async (req: AuthRequest, res: Response) => {
         }
 
         res.json(attendance);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+    } catch (error: any) {
+        console.error('PunchIn Error:', error);
+        if (isDbConnectionError(error)) {
+            return res.status(503).json({ message: 'Service temporarily unavailable. Please try again in a moment.' });
+        }
+        res.status(500).json({ message: 'Failed to record clock-in. Please try again.' });
     }
 };
 
@@ -84,14 +90,13 @@ export const punchOut = async (req: AuthRequest, res: Response) => {
         const _now1 = new Date();
         const today = new Date(Date.UTC(_now1.getUTCFullYear(), _now1.getUTCMonth(), _now1.getUTCDate()));
         // Find the last OPEN session (allows night shifts crossing midnight)
-        const attendance = await prisma.attendance.findFirst({
-            where: {
-                userId,
-                checkOut: null
-            },
-            orderBy: { checkIn: 'desc' },
-            include: { breaks: true }
-        });
+        const attendance = await withRetry(() =>
+            prisma.attendance.findFirst({
+                where: { userId, checkOut: null },
+                orderBy: { checkIn: 'desc' },
+                include: { breaks: true }
+            })
+        );
 
         if (!attendance) {
             return res.status(400).json({ message: 'No active punch-in record found.' });
@@ -153,20 +158,25 @@ export const punchOut = async (req: AuthRequest, res: Response) => {
         });
 
         res.json(updatedAttendance);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+    } catch (error: any) {
+        console.error('PunchOut Error:', error);
+        if (isDbConnectionError(error)) {
+            return res.status(503).json({ message: 'Service temporarily unavailable. Please try again in a moment.' });
+        }
+        res.status(500).json({ message: 'Failed to record clock-out. Please try again.' });
     }
 };
 
 export const getAttendance = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user!.userId;
-        const attendance = await prisma.attendance.findMany({
-            where: { userId },
-            include: { breaks: true },
-            orderBy: { date: 'desc' }
-        });
+        const attendance = await withRetry(() =>
+            prisma.attendance.findMany({
+                where: { userId },
+                include: { breaks: true },
+                orderBy: { date: 'desc' }
+            })
+        );
 
         // Computed consistency fix
         const fixedAttendance = attendance.map(record => {
@@ -195,8 +205,12 @@ export const getAttendance = async (req: AuthRequest, res: Response) => {
         });
 
         res.json(fixedAttendance);
-    } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error' });
+    } catch (error: any) {
+        console.error('GetAttendance Error:', error);
+        if (isDbConnectionError(error)) {
+            return res.status(503).json({ message: 'Service temporarily unavailable. Please try again in a moment.' });
+        }
+        res.status(500).json({ message: 'Failed to load attendance history.' });
     }
 };
 
@@ -204,16 +218,20 @@ export const getAllAttendance = async (req: AuthRequest, res: Response) => {
     // Admin/HR only — scoped to company
     try {
         const tenantWhere = getTenantScope(req);
-        const attendance = await prisma.attendance.findMany({
-            where: {
-                user: tenantWhere  // Filter attendance by the user's companyId
-            },
-            include: { user: { include: { profile: true } }, breaks: true },
-            orderBy: { date: 'desc' }
-        });
+        const attendance = await withRetry(() =>
+            prisma.attendance.findMany({
+                where: { user: tenantWhere },
+                include: { user: { include: { profile: true } }, breaks: true },
+                orderBy: { date: 'desc' }
+            })
+        );
         res.json(attendance);
-    } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error' });
+    } catch (error: any) {
+        console.error('GetAllAttendance Error:', error);
+        if (isDbConnectionError(error)) {
+            return res.status(503).json({ message: 'Service temporarily unavailable. Please try again in a moment.' });
+        }
+        res.status(500).json({ message: 'Failed to load attendance records.' });
     }
 };
 

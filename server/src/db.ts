@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const isDev = process.env.NODE_ENV !== 'production';
 
 export const prisma = new PrismaClient({
-    log: isDev ? ['warn', 'error'] : ['error'],  // Removed noisy 'query'/'info' logs
+    log: isDev ? ['warn', 'error'] : ['error'],
 });
 
 /**
@@ -20,3 +20,53 @@ export const connectDB = async (): Promise<void> => {
         console.error('    → If using Supabase, ensure your project is not paused');
     }
 };
+
+// Prisma error codes that indicate a transient connection problem (safe to retry)
+const RETRIABLE_CODES = new Set(['P1001', 'P1002', 'P1008', 'P1017']);
+
+function isTransientError(err: any): boolean {
+    if (RETRIABLE_CODES.has(err?.code)) return true;
+    const msg: string = err?.message ?? '';
+    return (
+        msg.includes("Can't reach database") ||
+        msg.includes('Connection refused') ||
+        msg.includes('connection timeout') ||
+        msg.includes('ECONNRESET') ||
+        msg.includes('ETIMEDOUT')
+    );
+}
+
+/**
+ * withRetry — wraps a Prisma operation with automatic retry logic for
+ * transient connection failures (e.g. Supabase free-tier cold start).
+ *
+ * Attempts up to `retries` times with exponential back-off before re-throwing.
+ */
+export async function withRetry<T>(
+    fn: () => Promise<T>,
+    retries = 3,
+    baseDelayMs = 800
+): Promise<T> {
+    let lastErr: any;
+
+    for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+            return await fn();
+        } catch (err: any) {
+            lastErr = err;
+
+            if (isTransientError(err) && attempt < retries) {
+                const delay = baseDelayMs * attempt;
+                console.warn(`[DB] Transient error (attempt ${attempt}/${retries}), retrying in ${delay}ms…`);
+                await new Promise(r => setTimeout(r, delay));
+                // Re-establish the connection before retrying
+                try { await prisma.$connect(); } catch { /* ignore */ }
+                continue;
+            }
+
+            break;
+        }
+    }
+
+    throw lastErr;
+}

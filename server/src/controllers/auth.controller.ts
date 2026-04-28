@@ -1,10 +1,19 @@
 import { Request, Response } from 'express';
-import { prisma } from '../db';
+import { prisma, withRetry } from '../db';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import logger from '../utils/logger';
 import { AuthRequest } from '../middlewares/auth.middleware';
+import { Prisma } from '@prisma/client';
+
+function isDbConnectionError(err: any): boolean {
+    if (err instanceof Prisma.PrismaClientInitializationError) return true;
+    const retriable = new Set(['P1001', 'P1002', 'P1008', 'P1017']);
+    if (retriable.has(err?.code)) return true;
+    const msg: string = err?.message ?? '';
+    return msg.includes("Can't reach database") || msg.includes('ECONNRESET') || msg.includes('ETIMEDOUT');
+}
 
 export const login = async (req: Request, res: Response) => {
     try {
@@ -16,10 +25,12 @@ export const login = async (req: Request, res: Response) => {
 
         logger.info(`Login attempt: ${email}`);
 
-        const user = await prisma.user.findUnique({
-            where: { email },
-            include: { profile: true, shift: true, company: true }
-        });
+        const user = await withRetry(() =>
+            prisma.user.findUnique({
+                where: { email },
+                include: { profile: true, shift: true, company: true }
+            })
+        );
         logger.info(`User found: ${!!user}`);
 
         if (!user) {
@@ -55,23 +66,31 @@ export const login = async (req: Request, res: Response) => {
         res.json({ token, user: userData });
     } catch (error: any) {
         logger.error(`Login Error: ${error.message}`, { stack: error.stack });
-        res.status(500).json({ message: 'Internal Server Error' });
+        if (isDbConnectionError(error)) {
+            return res.status(503).json({ message: 'Unable to connect to the database. Please try again in a moment.' });
+        }
+        res.status(500).json({ message: 'An unexpected error occurred. Please try again.' });
     }
 };
 
 export const getMe = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user!.userId;
-        const user = await prisma.user.findUnique({
-            where: { id: userId },
-            include: { profile: true, shift: true }
-        });
+        const user = await withRetry(() =>
+            prisma.user.findUnique({
+                where: { id: userId },
+                include: { profile: true, shift: true }
+            })
+        );
         if (!user) return res.status(404).json({ message: 'User not found' });
         const { passwordHash, ...userData } = user;
         res.json(userData);
     } catch (error: any) {
         logger.error(`GetMe Error: ${error.message}`);
-        res.status(500).json({ message: 'Internal Server Error' });
+        if (isDbConnectionError(error)) {
+            return res.status(503).json({ message: 'Service temporarily unavailable. Please try again.' });
+        }
+        res.status(500).json({ message: 'An unexpected error occurred.' });
     }
 };
 
@@ -115,9 +134,12 @@ export const forgotPassword = async (req: Request, res: Response) => {
 
         res.json({ message: 'If an account with that email exists, a reset link has been sent.' });
 
-    } catch (error) {
+    } catch (error: any) {
         logger.error('Forgot Password Error:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        if (isDbConnectionError(error)) {
+            return res.status(503).json({ message: 'Service temporarily unavailable. Please try again in a moment.' });
+        }
+        res.status(500).json({ message: 'An unexpected error occurred. Please try again.' });
     }
 };
 
@@ -165,8 +187,11 @@ export const resetPassword = async (req: Request, res: Response) => {
 
         res.json({ message: 'Password reset successful' });
 
-    } catch (error) {
+    } catch (error: any) {
         logger.error('Reset Password Error:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        if (isDbConnectionError(error)) {
+            return res.status(503).json({ message: 'Service temporarily unavailable. Please try again in a moment.' });
+        }
+        res.status(500).json({ message: 'An unexpected error occurred. Please try again.' });
     }
 };

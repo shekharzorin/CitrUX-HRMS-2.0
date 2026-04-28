@@ -49,7 +49,7 @@ export const useAttendanceWidget = () => {
 
     const fetchAttendanceStatus = async () => {
         try {
-            const currentData = await api.get<any[]>('/attendance/my-history');
+            const currentData = await api.get<any[]>('/attendance/my-history', { silent: true });
             if (currentData && currentData.length > 0) {
                 // Backend sorts by date desc, so the first record is the latest
                 const latest = currentData[0];

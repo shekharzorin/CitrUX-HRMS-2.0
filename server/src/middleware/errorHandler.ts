@@ -8,11 +8,22 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
     let message = err.message || 'An unexpected error occurred. Please try again later.';
     let code = 'INTERNAL_SERVER_ERROR';
 
-    // Handle Prisma Specific Errors
-    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+    // ── Prisma: transient connection / initialisation errors → 503 ────────────
+    if (
+        err instanceof Prisma.PrismaClientInitializationError ||
+        err?.code === 'P1001' || err?.code === 'P1002' ||
+        err?.code === 'P1008' || err?.code === 'P1017'
+    ) {
+        statusCode = 503;
+        message = 'The service is temporarily unavailable. Please try again in a moment.';
+        code = 'SERVICE_UNAVAILABLE';
+    }
+
+    // ── Prisma: known request errors ──────────────────────────────────────────
+    else if (err instanceof Prisma.PrismaClientKnownRequestError) {
         if (err.code === 'P2002') {
             statusCode = 409;
-            message = 'A record with this value already exists (Unique constraint violation).';
+            message = 'A record with this value already exists.';
             code = 'CONFLICT';
         } else if (err.code === 'P2025') {
             statusCode = 404;
@@ -20,22 +31,26 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
             code = 'NOT_FOUND';
         } else {
             statusCode = 400;
-            message = 'Database operation failed due to invalid data format.';
+            message = 'Database operation failed due to invalid data.';
             code = 'DB_REQUEST_ERROR';
         }
-    } else if (err instanceof Prisma.PrismaClientValidationError) {
+    }
+
+    // ── Prisma: validation errors ─────────────────────────────────────────────
+    else if (err instanceof Prisma.PrismaClientValidationError) {
         statusCode = 400;
         message = 'Validation failed for the requested database action.';
         code = 'VALIDATION_ERROR';
-    } 
-    // Handle JWT Errors
+    }
+
+    // ── JWT errors ────────────────────────────────────────────────────────────
     else if (err.name === 'JsonWebTokenError') {
         statusCode = 401;
         message = 'Invalid or malformed authentication token.';
         code = 'UNAUTHORIZED';
     } else if (err.name === 'TokenExpiredError') {
         statusCode = 401;
-        message = 'Authentication session has expired. Please log in again.';
+        message = 'Your session has expired. Please log in again.';
         code = 'UNAUTHORIZED';
     }
 

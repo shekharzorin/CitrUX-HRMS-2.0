@@ -130,24 +130,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                         }
                     }
 
-                    // Always fetch latest from API if possible
-                    const userId = payload.id || payload.userId || payload.sub;
+                    // JWT is signed with { userId, role, companyId } — always use userId
+                    const userId = payload.userId ?? payload.id ?? payload.sub;
                     if (userId) {
                         try {
-                            const fetchedUser = await api.get<User>(`/users/${userId}`);
+                            // Use /auth/me so we always get the freshest data regardless of userId field name.
+                            // silent: true — bootstrap failures must not show a global toast.
+                            const fetchedUser = await api.get<User>('/auth/me');
                             if (fetchedUser) {
                                 hydratedUser = fetchedUser;
                                 try {
                                     localStorage.setItem('user', JSON.stringify(fetchedUser));
                                 } catch { /* ignore */ }
-                                
+
                                 setToken(storedToken);
                                 if (hydratedUser.role) hydratedUser.role = hydratedUser.role.toUpperCase();
                                 setUser(hydratedUser);
                             }
                         } catch (err) {
                             console.error("Failed to fetch fresh user profile", err);
-                            // If we don't have a cached user and fetch fails, we can't proceed
+                            // If we have a cached user keep them logged in (optimistic)
+                            // Only force logout if there's no cached data at all
                             if (!hydratedUser) {
                                 console.error("No cached user and fetch failed. Logging out.");
                                 logout();

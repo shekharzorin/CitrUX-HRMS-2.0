@@ -88,7 +88,7 @@ const Attendance: React.FC = () => {
         if (!user) return;
         try {
             const endpoint = canViewAll ? '/attendance/all' : '/attendance/my-history';
-            const data = await api.get<AttendanceRecord[]>(endpoint);
+            const data = await api.get<AttendanceRecord[]>(endpoint, { silent: true });
             setHistory(data);
 
             // Check if clocked in today (for non-admins)
@@ -109,6 +109,10 @@ const Attendance: React.FC = () => {
             console.error(error);
         }
     };
+
+    useEffect(() => {
+        fetchHistory();
+    }, [user]);
 
     const handleClockIn = async () => {
         try {

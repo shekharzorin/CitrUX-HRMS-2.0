@@ -49,11 +49,24 @@ const Login: React.FC = () => {
         }, 8000);
 
         try {
-            const data = await api.post<{ token: string; user: any }>('/auth/login', { email, password });
+            // silent: true — Login shows its own inline error, no need for a global toast
+            const data = await api.post<{ token: string; user: any }>('/auth/login', { email, password }, { silent: true });
             login(data.token, data.user);
             // Navigation handled by useEffect
         } catch (err: any) {
-            setError(err.message || 'Failed to connect to server');
+            const raw: string = err.message || '';
+            // Show the server message if it's meaningful, otherwise map to friendly strings
+            if (raw.includes('temporarily unavailable') || raw.includes('Unable to connect') || raw.includes('503')) {
+                setError('Our servers are waking up — please wait a moment and try again.');
+            } else if (raw.includes('deactivated')) {
+                setError('Your account has been deactivated. Please contact HR.');
+            } else if (raw.includes('Invalid credentials') || raw.includes('401')) {
+                setError('Incorrect email or password. Please try again.');
+            } else if (raw === 'Failed to fetch' || err.name === 'TypeError') {
+                setError('Cannot reach the server. Please check your internet connection.');
+            } else {
+                setError(raw || 'Something went wrong. Please try again.');
+            }
         } finally {
             clearTimeout(timer);
             setIsLoading(false);
