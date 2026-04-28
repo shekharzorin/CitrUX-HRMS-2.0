@@ -118,14 +118,14 @@ app.use('/uploads/:filename', (req, res, next) => {
         if (decoded.filename !== filename && decoded.role !== 'ADMIN' && decoded.role !== 'HR') {
             return res.status(403).json({ message: 'URL signature invalid' });
         }
+        next();
     } catch (err) {
         return res.status(403).json({ message: 'URL signature expired or invalid' });
     }
-    
-    next();
 }, (req, res) => {
     const filename = req.params.filename;
     const filePath = path.join(__dirname, '../uploads', filename);
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     res.sendFile(filePath, (err) => {
         if (err) res.status(404).json({ message: 'File not found' });
     });
