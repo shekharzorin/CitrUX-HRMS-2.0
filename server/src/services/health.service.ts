@@ -1,11 +1,10 @@
 
-import { PrismaClient } from '@prisma/client';
 import { exec } from 'child_process';
 import util from 'util';
 import logger from '../utils/logger';
+import { prisma, withRetry } from '../db';
 
 const execAsync = util.promisify(exec);
-const prisma = new PrismaClient();
 
 export interface ModuleStatus {
     name: string;
@@ -19,7 +18,7 @@ export class HealthService {
     static async checkDatabase(): Promise<ModuleStatus> {
         try {
             const start = Date.now();
-            await prisma.$queryRaw`SELECT 1`;
+            await withRetry(() => prisma.$queryRaw`SELECT 1`);
             const duration = Date.now() - start;
             return {
                 name: 'Database',
@@ -40,7 +39,7 @@ export class HealthService {
     static async checkPayroll(): Promise<ModuleStatus> {
         try {
             // Check if SalaryStructures exist (simple integrity check)
-            const count = await prisma.salaryStructure.count();
+            const count = await withRetry(() => prisma.salaryStructure.count());
             return {
                 name: 'Payroll',
                 status: 'HEALTHY',
@@ -60,7 +59,7 @@ export class HealthService {
     static async checkAuth(): Promise<ModuleStatus> {
         try {
             // Check if we can count users
-            const count = await prisma.user.count();
+            const count = await withRetry(() => prisma.user.count());
             return {
                 name: 'Authentication',
                 status: 'HEALTHY',
@@ -95,14 +94,14 @@ export class HealthService {
         if (!prisma.systemError) return { errors: [], total: 0 };
 
         // @ts-ignore
-        const errors = await prisma.systemError.findMany({
+        const errors = await withRetry(() => prisma.systemError.findMany({
             take: limit,
             skip: (page - 1) * limit,
             orderBy: { timestamp: 'desc' }
-        });
+        }));
 
         // @ts-ignore
-        const total = await prisma.systemError.count();
+        const total = await withRetry(() => prisma.systemError.count());
 
         return { errors, total, page, totalPages: Math.ceil(total / limit) };
     }
@@ -112,7 +111,7 @@ export class HealthService {
             // @ts-ignore
             if (prisma.systemError) {
                 // @ts-ignore
-                await prisma.systemError.create({
+                await withRetry(() => prisma.systemError.create({
                     data: {
                         module,
                         message,
@@ -120,7 +119,7 @@ export class HealthService {
                         stack,
                         timestamp: new Date()
                     }
-                });
+                }));
             }
         } catch (e) {
             logger.error("Failed to log system error:", e);
