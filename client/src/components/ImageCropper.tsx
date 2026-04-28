@@ -19,7 +19,7 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({ imageFile, aspectRat
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
     const imageUrl = URL.createObjectURL(imageFile);
 
-    const onCropCompleteHandler = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+    const onCropCompleteHandler = useCallback((_croppedArea: any, croppedAreaPixels: any) => {
         setCroppedAreaPixels(croppedAreaPixels);
     }, []);
 
