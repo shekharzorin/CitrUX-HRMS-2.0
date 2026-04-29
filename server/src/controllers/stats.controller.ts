@@ -35,16 +35,14 @@ export const getDashboardStats = async (req: Request, res: Response) => {
         let totalUsers = 0, activeUsers = 0, presentToday = 0, pendingClaimsCount = 0;
 
         if (isAdminOrHR) {
-            [totalUsers, activeUsers, presentToday, pendingClaimsCount] = await Promise.all([
-                withRetry(() => prisma.user.count({ where: companyFilter })),
-                withRetry(() => prisma.user.count({ where: { ...companyFilter, status: 'ACTIVE' } })),
-                withRetry(() => prisma.attendance.count({
-                    where: { date: { gte: todayUTC, lt: tomorrowUTC }, ...companyUserFilter }
-                })),
-                withRetry(() => prisma.expenseClaim.count({
-                    where: { status: 'PENDING', ...companyUserFilter }
-                })),
-            ]);
+            totalUsers = await withRetry(() => prisma.user.count({ where: companyFilter }));
+            activeUsers = await withRetry(() => prisma.user.count({ where: { ...companyFilter, status: 'ACTIVE' } }));
+            presentToday = await withRetry(() => prisma.attendance.count({
+                where: { date: { gte: todayUTC, lt: tomorrowUTC }, ...companyUserFilter }
+            }));
+            pendingClaimsCount = await withRetry(() => prisma.expenseClaim.count({
+                where: { status: 'PENDING', ...companyUserFilter }
+            }));
         }
 
         // ── Manager/Admin: pending leave requests with details ───────────────────
@@ -58,54 +56,55 @@ export const getDashboardStats = async (req: Request, res: Response) => {
                 ? { status: 'PENDING' as const, user: { managerId: userId } }
                 : { status: 'PENDING' as const, ...companyUserFilter };
 
-            [pendingLeaves, pendingExpenses, teamMembersList, deptStats] = await Promise.all([
-                withRetry(() => prisma.leaveRequest.findMany({
-                    where: pendingLeaveWhere,
+            pendingLeaves = await withRetry(() => prisma.leaveRequest.findMany({
+                where: pendingLeaveWhere,
+                select: {
+                    id: true,
+                    startDate: true,
+                    endDate: true,
+                    reason: true,
+                    user: { select: { profile: { select: { firstName: true, lastName: true } } } },
+                    leaveType: { select: { name: true } },
+                },
+                orderBy: { createdAt: 'desc' },
+                take: 5,
+            }));
+
+            if (isAdminOrHR) {
+                pendingExpenses = await withRetry(() => prisma.expenseClaim.findMany({
+                    where: { status: 'PENDING', ...companyUserFilter },
                     select: {
                         id: true,
-                        startDate: true,
-                        endDate: true,
-                        reason: true,
+                        description: true,
+                        amount: true,
                         user: { select: { profile: { select: { firstName: true, lastName: true } } } },
-                        leaveType: { select: { name: true } },
                     },
                     orderBy: { createdAt: 'desc' },
                     take: 5,
-                })),
-                isAdminOrHR
-                    ? withRetry(() => prisma.expenseClaim.findMany({
-                        where: { status: 'PENDING', ...companyUserFilter },
-                        select: {
-                            id: true,
-                            description: true,
-                            amount: true,
-                            user: { select: { profile: { select: { firstName: true, lastName: true } } } },
-                        },
-                        orderBy: { createdAt: 'desc' },
-                        take: 5,
-                    }))
-                    : Promise.resolve([]),
-                withRetry(() => prisma.user.findMany({
-                    where: {
-                        ...(isManager ? { managerId: userId } : companyFilter),
-                        status: 'ACTIVE',
-                    },
-                    select: {
-                        id: true,
-                        role: true,
-                        employeeId: true,
-                        profile: { select: { firstName: true, lastName: true, designation: true, profilePhoto: true } },
-                    },
-                    take: 8,
-                })),
-                isAdminOrHR
-                    ? withRetry(() => prisma.profile.groupBy({
-                        by: ['department'],
-                        _count: { userId: true },
-                        where: { department: { not: null }, user: companyFilter },
-                    }))
-                    : Promise.resolve([]),
-            ]);
+                }));
+            }
+
+            teamMembersList = await withRetry(() => prisma.user.findMany({
+                where: {
+                    ...(isManager ? { managerId: userId } : companyFilter),
+                    status: 'ACTIVE',
+                },
+                select: {
+                    id: true,
+                    role: true,
+                    employeeId: true,
+                    profile: { select: { firstName: true, lastName: true, designation: true, profilePhoto: true } },
+                },
+                take: 8,
+            }));
+
+            if (isAdminOrHR) {
+                deptStats = await withRetry(() => prisma.profile.groupBy({
+                    by: ['department'],
+                    _count: { userId: true },
+                    where: { department: { not: null }, user: companyFilter },
+                }));
+            }
         }
 
         // ── Personal stats for employees ─────────────────────────────────────────
@@ -118,42 +117,40 @@ export const getDashboardStats = async (req: Request, res: Response) => {
         }
 
         // ── Common queries (all roles) ────────────────────────────────────────────
-        const [openJobsCount, weeklyAttendance, monthlyLeaves, outToday, birthdayRows] = await Promise.all([
-            withRetry(() => prisma.jobPosting.count({ where: { status: 'OPEN' } })),
+        const openJobsCount = await withRetry(() => prisma.jobPosting.count({ where: { status: 'OPEN' } }));
+        
+        const weeklyAttendance = await withRetry(() => prisma.attendance.findMany({
+            where: {
+                date: { gte: sevenDaysAgo, lt: tomorrowUTC },
+                ...(isManagerOrAbove ? companyUserFilter : { userId }),
+            },
+            select: { date: true },
+        }));
 
-            withRetry(() => prisma.attendance.findMany({
-                where: {
-                    date: { gte: sevenDaysAgo, lt: tomorrowUTC },
-                    ...(isManagerOrAbove ? companyUserFilter : { userId }),
-                },
-                select: { date: true },
-            })),
+        const monthlyLeaves = await withRetry(() => prisma.leaveRequest.findMany({
+            where: {
+                startDate: { gte: fourMonthsAgo },
+                status: { in: ['APPROVED', 'PENDING'] },
+                ...(isManagerOrAbove ? companyUserFilter : { userId }),
+            },
+            select: { startDate: true, status: true },
+        }));
 
-            withRetry(() => prisma.leaveRequest.findMany({
-                where: {
-                    startDate: { gte: fourMonthsAgo },
-                    status: { in: ['APPROVED', 'PENDING'] },
-                    ...(isManagerOrAbove ? companyUserFilter : { userId }),
-                },
-                select: { startDate: true, status: true },
-            })),
+        const outToday = await withRetry(() => prisma.leaveRequest.findMany({
+            where: {
+                status: 'APPROVED',
+                startDate: { lte: now },
+                endDate: { gte: todayUTC },
+                ...companyUserFilter,
+            },
+            include: { user: { include: { profile: true } }, leaveType: true },
+            take: 10,
+        }));
 
-            withRetry(() => prisma.leaveRequest.findMany({
-                where: {
-                    status: 'APPROVED',
-                    startDate: { lte: now },
-                    endDate: { gte: todayUTC },
-                    ...companyUserFilter,
-                },
-                include: { user: { include: { profile: true } }, leaveType: true },
-                take: 10,
-            })),
-
-            withRetry(() => prisma.profile.findMany({
-                where: { dob: { not: null }, user: companyFilter },
-                select: { firstName: true, lastName: true, dob: true, profilePhoto: true },
-            })),
-        ]);
+        const birthdayRows = await withRetry(() => prisma.profile.findMany({
+            where: { dob: { not: null }, user: companyFilter },
+            select: { firstName: true, lastName: true, dob: true, profilePhoto: true },
+        }));
 
         // ── Build attendance trend (last 7 days) ──────────────────────────────────
         const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
