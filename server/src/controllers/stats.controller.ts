@@ -99,11 +99,11 @@ export const getDashboardStats = async (req: Request, res: Response) => {
             }));
 
             if (isAdminOrHR) {
-                deptStats = await withRetry(() => prisma.profile.groupBy({
+                deptStats = (await withRetry(() => prisma.profile.groupBy({
                     by: ['department'],
                     _count: { userId: true },
                     where: { department: { not: null }, user: companyFilter },
-                }));
+                } as any))) as any[];
             }
         }
 
