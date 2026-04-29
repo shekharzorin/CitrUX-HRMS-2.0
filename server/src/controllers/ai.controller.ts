@@ -65,16 +65,20 @@ export const handleAiChat = async (req: Request, res: Response) => {
             
             // Fallback to OpenAI if configured
             if (process.env.OPENAI_API_KEY) {
-                const fallbackPrompt = `Role: ${role}. Question: ${message}. Context: ${JSON.stringify(contextData)}`;
-                const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-                    model: 'gpt-4o-mini',
-                    messages: [{ role: 'user', content: fallbackPrompt }],
-                    temperature: 0.3
-                }, {
-                    headers: { 'Authorization': `Bearer ${process.env.OPENAI_API_KEY}` },
-                    timeout: 10000
-                });
-                return res.json({ reply: response.data.choices[0].message.content });
+                try {
+                    const fallbackPrompt = `Role: ${role}. Question: ${message}. Context: ${JSON.stringify(contextData)}`;
+                    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+                        model: 'gpt-4o-mini',
+                        messages: [{ role: 'user', content: fallbackPrompt }],
+                        temperature: 0.3
+                    }, {
+                        headers: { 'Authorization': `Bearer ${process.env.OPENAI_API_KEY}` },
+                        timeout: 10000
+                    });
+                    return res.json({ reply: response.data.choices[0].message.content });
+                } catch (openaiError: any) {
+                    console.error("OpenAI Fallback Error:", openaiError.message);
+                }
             }
 
             return res.status(503).json({ 

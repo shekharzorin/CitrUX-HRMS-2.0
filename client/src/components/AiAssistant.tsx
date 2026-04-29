@@ -26,7 +26,7 @@ export const AiAssistant: React.FC = () => {
         setIsTyping(true);
 
         try {
-            const response = await api.post<{reply: string}>('/ai/chat', { message: userMessage });
+            const response = await api.post<{reply: string}>('/ai/chat', { message: userMessage }, { silent: true });
             setMessages(prev => [...prev, { role: 'assistant', content: response.reply }]);
         } catch (error) {
             console.error(error);
