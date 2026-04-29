@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
-import { useAuth } from '../contexts/AuthContext';
 import { Input } from '../components/ui/Input';
 import { Select } from '../components/ui/Select';
 import { Button } from '../components/ui/Button';
@@ -115,7 +114,6 @@ const getStepErrors = (step: number, data: OnboardingFormData) => {
 // --- Main Component ---
 
 const OnboardingForm: React.FC = () => {
-    const { token } = useAuth();
     const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState(1);
     const [isSaving, setIsSaving] = useState(false);

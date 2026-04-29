@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
-import { useAuth } from '../contexts/AuthContext';
 import { Icon } from '../components/ui/Icons';
 import { FaCheck, FaTimes, FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaUserTie, FaBuilding, FaMapMarkerAlt, FaFileAlt } from 'react-icons/fa';
 import { resolveImageUrl } from '../utils/image';
 
 const OnboardingList: React.FC = () => {
-    const { token } = useAuth();
     const [onboardings, setOnboardings] = useState<any[]>([]);
     const [expandedId, setExpandedId] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
