@@ -15,7 +15,7 @@ export const AttendanceHeader: React.FC<AttendanceHeaderProps> = ({ isSuperAdmin
             icon="attendance"
             gradient="gradient-purple"
             actions={
-                {!isSuperAdmin && (
+                !isSuperAdmin && (
                     <button
                         onClick={onRequestAdjustment}
                         className="px-6 py-2.5 bg-white/20 hover:bg-white/30 text-white font-bold rounded-xl backdrop-blur-md border border-white/30 transition-all flex items-center gap-2 shadow-lg"
@@ -23,7 +23,7 @@ export const AttendanceHeader: React.FC<AttendanceHeaderProps> = ({ isSuperAdmin
                         <Icon name="plus" size={18} />
                         Request Adjustment
                     </button>
-                )}
+                )
             }
         />
     );
