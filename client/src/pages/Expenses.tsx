@@ -4,7 +4,7 @@ import { Skeleton } from '../components/ui/Skeleton';
 import { EmptyState } from '../components/ui/EmptyState';
 import { useToast } from '../contexts/ToastContext';
 import { PageHeader } from '../components/ui/PageHeader';
-import { Button } from '../components/ui/Button';
+import { Icon } from '../components/ui/Icons';
 
 const Expenses: React.FC = () => {
     const { showToast } = useToast();
