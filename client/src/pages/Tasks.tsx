@@ -149,7 +149,11 @@ const TasksPage: React.FC = () => {
                 icon="approvals"
                 gradient="gradient-purple"
                 actions={
-                    <button id="add-task-btn" onClick={openAdd} className="btn-primary flex items-center gap-2">
+                    <button
+                        id="add-task-btn"
+                        onClick={openAdd}
+                        className="px-6 py-2.5 bg-white/20 hover:bg-white/30 text-white font-bold rounded-xl backdrop-blur-md border border-white/30 transition-all flex items-center gap-2 shadow-lg"
+                    >
                         <Icon name="plus" size={18} /> New Task
                     </button>
                 }
