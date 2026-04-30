@@ -126,10 +126,14 @@ const Leaves: React.FC = () => {
                 title="Leave Management"
                 subtitle="Track your time off and plan your schedule."
                 icon="leaves"
+                gradient="gradient-purple"
                 actions={
-                    <Button onClick={() => setShowModal(true)}>
+                    <button
+                        onClick={() => setShowModal(true)}
+                        className="px-6 py-2.5 bg-white/20 hover:bg-white/30 text-white font-bold rounded-xl backdrop-blur-md border border-white/30 transition-all flex items-center gap-2 shadow-lg"
+                    >
                         <Icon name="plus" size={18} /> Apply Leave
-                    </Button>
+                    </button>
                 }
             />
 

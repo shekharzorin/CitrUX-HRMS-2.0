@@ -58,13 +58,15 @@ const Expenses: React.FC = () => {
                 title="My Expenses"
                 subtitle="Manage and track your expense claims"
                 icon="expenses"
+                gradient="gradient-purple"
                 actions={
-                    <Button
+                    <button
                         onClick={() => setIsFormOpen(!isFormOpen)}
-                        className="shadow-lg shadow-indigo-500/20"
+                        className="px-6 py-2.5 bg-white/20 hover:bg-white/30 text-white font-bold rounded-xl backdrop-blur-md border border-white/30 transition-all flex items-center gap-2 shadow-lg"
                     >
-                        {isFormOpen ? 'Cancel' : '+ New Claim'}
-                    </Button>
+                        <Icon name={isFormOpen ? 'close' : 'plus'} size={18} />
+                        {isFormOpen ? 'Cancel' : 'New Claim'}
+                    </button>
                 }
             />
 

@@ -4,6 +4,7 @@ import { api } from '../services/api';
 import { Icon } from '../components/ui/Icons';
 import { RunPayrollModal } from '../components/payroll/RunPayrollModal';
 import { payrollService } from '../services/payroll';
+import { PageHeader } from '../components/ui/PageHeader';
 
 interface Payslip {
     id: string;
@@ -52,30 +53,24 @@ const Payslips: React.FC = () => {
     };
 
     return (
-        <div className="page-container">
-            {/* Admin Payroll Action Section */}
-            {(user?.role === 'ADMIN' || user?.role === 'HR') && (
-                <div className="dashboard-section mb-10 animate-fade-in relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full -mr-16 -mt-16 blur-3xl pointer-events-none"></div>
-
-                    <div className="section-header-premium relative z-10">
-                        <div className="section-icon-badge glassy-icon-base glassy-emerald">
-                            <Icon name="payroll" size={24} />
-                        </div>
-                        <div className="flex-1">
-                            <h2 className="section-title-premium">Payroll Management</h2>
-                            <p className="section-subtitle-premium">Manage employee salaries and generate monthly payslips</p>
-                        </div>
+        <div className="page-container space-y-8">
+            <PageHeader
+                title="My Payslips"
+                subtitle="View and download your monthly salary statements"
+                icon="download"
+                gradient="gradient-purple"
+                actions={
+                    (user?.role === 'ADMIN' || user?.role === 'HR') && (
                         <button
                             onClick={() => setIsPayrollModalOpen(true)}
-                            className="btn-primary h-12 px-8 font-bold shadow-lg shadow-emerald-200 flex items-center gap-3 hover:scale-105 active:scale-95 transition-all"
+                            className="px-6 py-2.5 bg-white/20 hover:bg-white/30 text-white font-bold rounded-xl backdrop-blur-md border border-white/30 transition-all flex items-center gap-2 shadow-lg"
                         >
                             <span className="text-xl">⚡</span>
                             Run Payroll Wizard
                         </button>
-                    </div>
-                </div>
-            )}
+                    )
+                }
+            />
 
             {/* Run Payroll Modal */}
             <RunPayrollModal

@@ -146,12 +146,12 @@ const WorkLogPage: React.FC = () => {
                 title="Work Log"
                 subtitle="Track your daily work hours and activity descriptions."
                 icon="timesheet"
-                gradient="gradient-blue"
+                gradient="gradient-purple"
                 actions={
                     <button
                         id="add-work-log-btn"
                         onClick={openAdd}
-                        className="btn-primary flex items-center gap-2"
+                        className="px-6 py-2.5 bg-white/20 hover:bg-white/30 text-white font-bold rounded-xl backdrop-blur-md border border-white/30 transition-all flex items-center gap-2 shadow-lg"
                     >
                         <Icon name="plus" size={18} /> Log Today's Work
                     </button>
