@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 export type AttendanceState = 'IDLE' | 'WORKING' | 'ON_BREAK' | 'CLOCKED_OUT';
 
 export const useAttendanceWidget = () => {
-    const { user } = useAuth();
+    useAuth();
     const { showToast } = useToast();
 
     // Core States

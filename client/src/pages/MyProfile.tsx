@@ -12,7 +12,8 @@ import { resolveImageUrl } from '../utils/image';
 
 const MyProfile: React.FC = () => {
     const { user, updateUser } = useAuth();
-    const { clockedIn, workDuration, clockingLoading, handleClockIn, handleClockOut } = useAttendanceWidget();
+    const { state, liveWorkTime, actionLoading, punchIn, punchOut } = useAttendanceWidget();
+    const clockedIn = state === 'WORKING' || state === 'ON_BREAK';
 
     const [profile, setProfile] = useState<any>(null);
     const [activeTab, setActiveTab] = useState('general');
@@ -519,23 +520,19 @@ const MyProfile: React.FC = () => {
                     </div>
 
                     <div className="pt-4 border-t border-slate-100">
-                        {clockedIn ? (
                             <div className="text-center mb-3">
                                 <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Worked Today</div>
-                                <div className="text-2xl font-black text-emerald-600 font-mono">{workDuration}</div>
+                                <div className="text-2xl font-black text-emerald-600 font-mono">{liveWorkTime}</div>
                             </div>
-                        ) : null}
                         <Button
                             className={`w-full justify-center ${clockedIn ? '!bg-rose-50 !text-rose-600 hover:!bg-rose-100 border border-rose-200' : 'btn-primary'}`}
-                            onClick={clockedIn ? handleClockOut : handleClockIn}
-                            disabled={clockingLoading}
+                            onClick={clockedIn ? punchOut : punchIn}
+                            isLoading={actionLoading}
                         >
-                            {clockingLoading ? (
-                                <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2"></div>
-                            ) : (
+                            {!actionLoading && (
                                 <Icon name={clockedIn ? "logout" : "attendance"} size={18} className="mr-2" />
                             )}
-                            {clockingLoading ? "Wait..." : (clockedIn ? "Clock Out" : "Clock In")}
+                            {clockedIn ? "Clock Out" : "Clock In"}
                         </Button>
                     </div>
                 </div>

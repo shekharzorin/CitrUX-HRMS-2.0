@@ -4,18 +4,19 @@ import { Icon } from '../ui/Icons';
 
 export const AttendanceWidget: React.FC = () => {
     const {
-        clockedIn,
-        onBreak,
-        workDuration,
-        clockingLoading,
-        handleClockIn,
-        handleClockOut,
-        handleStartBreak,
-        handleEndBreak,
-        shiftDetails,
-        shiftProgress,
-        status
+        state,
+        activeRecord,
+        actionLoading,
+        liveWorkTime,
+        liveBreakTime,
+        punchIn,
+        punchOut,
+        startBreak,
+        endBreak
     } = useAttendanceWidget();
+
+    const isClockedIn = state === 'WORKING' || state === 'ON_BREAK';
+    const isOnBreak = state === 'ON_BREAK';
 
     const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -24,7 +25,7 @@ export const AttendanceWidget: React.FC = () => {
         return () => clearInterval(timer);
     }, []);
 
-    if (clockingLoading) {
+    if (actionLoading && state === 'IDLE') {
         return (
             <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center justify-center min-h-[220px]">
                 <div className="flex flex-col items-center gap-3 animate-pulse">
@@ -46,10 +47,10 @@ export const AttendanceWidget: React.FC = () => {
                     </div>
                 </div>
 
-                {status !== 'none' && (
-                    <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${status === 'late' ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300' : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+                {activeRecord?.status && (
+                    <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${activeRecord.status === 'LATE' ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300' : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
                         }`}>
-                        {status === 'late' ? 'Late In' : 'On Time'}
+                        {activeRecord.status === 'LATE' ? 'Late In' : 'On Time'}
                     </div>
                 )}
             </div>
@@ -57,37 +58,35 @@ export const AttendanceWidget: React.FC = () => {
             {/* Main Clock Display */}
             <div className="flex flex-col items-center justify-center flex-1">
                 <div className="text-5xl font-black text-[var(--text-main)] font-mono tracking-tighter tabular-nums">
-                    {clockedIn ? workDuration : currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+                    {isClockedIn ? liveWorkTime : currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
                 </div>
                 <p className="text-xs font-bold uppercase mt-2 text-[var(--text-muted)] tracking-widest">
-                    {clockedIn ? (onBreak ? 'On Break' : 'Work Duration') : 'Current Time'}
+                    {isClockedIn ? (isOnBreak ? 'On Break' : 'Work Duration') : 'Current Time'}
                 </p>
 
                 {/* Shift Progress Bar */}
-                {clockedIn && shiftDetails && (
+                {isClockedIn && (
                     <div className="w-full max-w-[200px] h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full mt-4 overflow-hidden">
-                        {/* eslint-disable-next-line react/forbid-component-props */}
-                        {/* eslint-disable-next-line react/forbid-component-props */}
                         <div
-                            className={`h-full rounded-full transition-all duration-1000 ${onBreak ? 'bg-amber-400' : 'bg-[var(--primary)]'}`}
-                            style={{ width: `${shiftProgress}%` }}
+                            className={`h-full rounded-full transition-all duration-1000 ${isOnBreak ? 'bg-amber-400' : 'bg-[var(--primary)]'}`}
+                            style={{ width: `${Math.min(100, (activeRecord?.hours || 0) / 8 * 100)}%` }}
                         ></div>
                     </div>
                 )}
 
-                {shiftDetails && !clockedIn && (
+                {!isClockedIn && (
                     <div className="text-xs text-[var(--text-muted)] mt-4 font-medium">
-                        Shift: {shiftDetails.start} - {shiftDetails.end}
+                        Ready to clock in
                     </div>
                 )}
             </div>
 
             {/* Actions */}
             <div className="mt-6">
-                {!clockedIn ? (
+                {!isClockedIn ? (
                     <button
-                        onClick={handleClockIn}
-                        disabled={clockingLoading}
+                        onClick={punchIn}
+                        disabled={actionLoading}
                         className="w-full btn-primary py-4 rounded-2xl flex items-center justify-center gap-3 shadow-lg shadow-indigo-200 hover:scale-[1.02] transition-transform active:scale-95"
                     >
                         <Icon name="login" size={20} />
@@ -96,25 +95,25 @@ export const AttendanceWidget: React.FC = () => {
                 ) : (
                     <div className="flex flex-col gap-3">
                         <button
-                            onClick={handleClockOut}
-                            disabled={clockingLoading}
+                            onClick={punchOut}
+                            disabled={actionLoading}
                             className="bg-rose-50 text-rose-700 border border-rose-100 hover:bg-rose-100 py-3.5 rounded-xl flex items-center justify-center gap-2 font-bold transition-all active:scale-95 shadow-sm shadow-rose-100 w-full"
                         >
                             <Icon name="logout" size={20} /> Clock Out
                         </button>
 
-                        {onBreak ? (
+                        {isOnBreak ? (
                             <button
-                                onClick={handleEndBreak}
-                                disabled={clockingLoading}
+                                onClick={endBreak}
+                                disabled={actionLoading}
                                 className="bg-amber-100 text-amber-900 border border-amber-200 hover:bg-amber-200 py-3 rounded-xl flex items-center justify-center gap-2 font-bold transition-all active:scale-95 w-full"
                             >
                                 <Icon name="play" size={18} /> Resume Work
                             </button>
                         ) : (
                             <button
-                                onClick={handleStartBreak}
-                                disabled={clockingLoading}
+                                onClick={startBreak}
+                                disabled={actionLoading}
                                 className="text-slate-500 hover:text-slate-800 hover:bg-slate-50 py-3 rounded-xl flex items-center justify-center gap-2 font-medium transition-all active:scale-95 w-full text-sm"
                             >
                                 <Icon name="pause" size={16} /> Take a Break
