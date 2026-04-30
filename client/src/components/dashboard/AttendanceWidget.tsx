@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAttendanceWidget } from '../../hooks/useAttendanceWidget';
 import { Icon } from '../ui/Icons';
 
@@ -8,7 +8,6 @@ export const AttendanceWidget: React.FC = () => {
         activeRecord,
         actionLoading,
         liveWorkTime,
-        liveBreakTime,
         punchIn,
         punchOut,
         startBreak,
@@ -19,11 +18,18 @@ export const AttendanceWidget: React.FC = () => {
     const isOnBreak = state === 'ON_BREAK';
 
     const [currentTime, setCurrentTime] = useState(new Date());
+    const progressBarRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const timer = setInterval(() => setCurrentTime(new Date()), 1000);
         return () => clearInterval(timer);
     }, []);
+
+    useEffect(() => {
+        if (progressBarRef.current) {
+            progressBarRef.current.style.width = `${Math.min(100, (activeRecord?.hours || 0) / 8 * 100)}%`;
+        }
+    }, [activeRecord?.hours]);
 
     if (actionLoading && state === 'IDLE') {
         return (
@@ -68,8 +74,8 @@ export const AttendanceWidget: React.FC = () => {
                 {isClockedIn && (
                     <div className="w-full max-w-[200px] h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full mt-4 overflow-hidden">
                         <div
+                            ref={progressBarRef}
                             className={`h-full rounded-full transition-all duration-1000 ${isOnBreak ? 'bg-amber-400' : 'bg-[var(--primary)]'}`}
-                            style={{ width: `${Math.min(100, (activeRecord?.hours || 0) / 8 * 100)}%` }}
                         ></div>
                     </div>
                 )}

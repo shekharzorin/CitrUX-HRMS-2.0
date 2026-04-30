@@ -90,7 +90,7 @@ const MyProfile: React.FC = () => {
                     if (updateUser && user) {
                         updateUser({ ...user, profile: data.profile });
                     }
-                    
+
                     let settings = { zoom: 1, crop: { x: 0, y: 0 }, croppedAreaPixels: null as any };
                     if (data.profile.profilePhotoSettings) {
                         try {
@@ -500,7 +500,7 @@ const MyProfile: React.FC = () => {
                 <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center">
                     <div className="relative w-24 h-24 mx-auto mb-4">
                         <div className="w-full h-full rounded-full overflow-hidden border-4 border-slate-50 shadow-inner">
-                             {form.profilePhoto ? (
+                            {form.profilePhoto ? (
                                 <img src={resolveImageUrl(form.profilePhoto)} alt="Profile" className="w-full h-full object-cover" />
                             ) : (
                                 <div className="w-full h-full bg-slate-100 flex items-center justify-center text-2xl font-bold text-slate-300">
@@ -520,10 +520,10 @@ const MyProfile: React.FC = () => {
                     </div>
 
                     <div className="pt-4 border-t border-slate-100">
-                            <div className="text-center mb-3">
-                                <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Worked Today</div>
-                                <div className="text-2xl font-black text-emerald-600 font-mono">{liveWorkTime}</div>
-                            </div>
+                        <div className="text-center mb-3">
+                            <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Worked Today</div>
+                            <div className="text-2xl font-black text-emerald-600 font-mono">{liveWorkTime}</div>
+                        </div>
                         <Button
                             className={`w-full justify-center ${clockedIn ? '!bg-rose-50 !text-rose-600 hover:!bg-rose-100 border border-rose-200' : 'btn-primary'}`}
                             onClick={clockedIn ? punchOut : punchIn}
