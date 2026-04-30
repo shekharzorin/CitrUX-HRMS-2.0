@@ -158,7 +158,7 @@
 
 /* User requested override for borders (Un-nested for safety) */
 .dark .border-slate-100 {
-  border-color: oklch(0.41 0 0);
+  border-color: rgb(51, 65, 85);
 }
 
 /* Base Styles & Global Element Overrides */
@@ -643,6 +643,11 @@
 
 .gradient-ocean {
   @apply bg-gradient-to-r from-blue-600 to-teal-500;
+}
+
+/* Progress Bar Fill */
+.progress-fill {
+  width: var(--progress-width, 0%);
 }
 
 /* Table Styles */

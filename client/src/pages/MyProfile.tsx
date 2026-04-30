@@ -85,6 +85,11 @@ const MyProfile: React.FC = () => {
             if (data) {
                 setProfile(data);
                 if (data.profile) {
+                    // Sync with Global Auth Context
+                    if (updateUser && user) {
+                        updateUser({ ...user, profile: data.profile });
+                    }
+                    
                     let settings = { zoom: 1, crop: { x: 0, y: 0 }, croppedAreaPixels: null as any };
                     if (data.profile.profilePhotoSettings) {
                         try {

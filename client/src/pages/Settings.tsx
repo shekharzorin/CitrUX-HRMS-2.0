@@ -11,7 +11,7 @@ import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
 
 const Settings: React.FC = () => {
-    const { logout } = useAuth(); // Token unused by api service but kept for confirm modal/logic
+    const { user, updateUser, logout } = useAuth();
 
     // Security State
     const [pass, setPass] = useState({ current: '', new: '', confirm: '' });
@@ -150,9 +150,17 @@ const Settings: React.FC = () => {
             localStorage.setItem('company_logo', companyLogo);
             localStorage.setItem('company_favicon', companyFavicon);
 
-            // Dispatch events for other components
-            window.dispatchEvent(new Event('storage'));
-            window.dispatchEvent(new Event('branding-update'));
+            // Update global auth context
+            if (updateUser && user) {
+                updateUser({
+                    ...user,
+                    company: {
+                        ...user.company,
+                        name: companyName,
+                        logoUrl: companyLogo
+                    }
+                });
+            }
 
             alert('General settings updated successfully!');
         } catch (error) { console.error(error); }

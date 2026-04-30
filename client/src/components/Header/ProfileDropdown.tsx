@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Icon } from '../ui/Icons';
 import { Avatar } from '../ui/Avatar';
+import { resolveImageUrl } from '../../utils/image';
 
 interface ProfileDropdownProps {
     onLogoutRequest?: () => void;
@@ -44,7 +45,13 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onLogoutReques
                 onClick={() => setIsOpen(!isOpen)}
                 className="profile-trigger group hover:bg-slate-100 dark:hover:bg-slate-800/50 p-1.5 pr-3 rounded-full transition-all duration-200 cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-slate-700 select-none"
             >
-                <Avatar name={fullName} size="32px" fontSize="0.8rem" className="shadow-sm group-hover:scale-105 transition-transform" />
+                <Avatar 
+                    src={resolveImageUrl(user?.profile?.profilePhoto)} 
+                    name={fullName} 
+                    size="32px" 
+                    fontSize="0.8rem" 
+                    className="shadow-sm group-hover:scale-105 transition-transform" 
+                />
                 <div className="flex flex-col hidden md:flex min-w-[80px]">
                     <span className="text-[0.9rem] font-bold text-slate-700 dark:text-slate-200 leading-none mb-0.5 group-hover:text-[var(--primary)] transition-colors">{user?.profile?.firstName || 'User'}</span>
                     <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">{user?.role}</span>
@@ -56,7 +63,12 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onLogoutReques
                 <div className="profile-dropdown">
                     <div className="profile-header-section">
                         <div className="profile-avatar-large">
-                            <Avatar name={fullName} size="72px" fontSize="1.75rem" />
+                            <Avatar 
+                                src={resolveImageUrl(user?.profile?.profilePhoto)} 
+                                name={fullName} 
+                                size="72px" 
+                                fontSize="1.75rem" 
+                            />
                         </div>
                         <h3 className="profile-name">{user?.profile?.firstName} {user?.profile?.lastName}</h3>
                         <p className="profile-email">{user?.email}</p>

@@ -8,6 +8,7 @@ export const HeroWorkCard: React.FC = () => {
     const {
         clockedIn,
         onBreak,
+        startTime,
         workDuration,
         clockingLoading,
         handleClockIn,
@@ -19,6 +20,13 @@ export const HeroWorkCard: React.FC = () => {
     } = useAttendanceWidget();
 
     const [currentTime, setCurrentTime] = useState(new Date());
+    const progressRef = React.useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (progressRef.current) {
+            progressRef.current.style.width = `${shiftProgress}%`;
+        }
+    }, [shiftProgress]);
 
     useEffect(() => {
         const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -94,8 +102,8 @@ export const HeroWorkCard: React.FC = () => {
                     {/* Progress Bar */}
                     <div className="w-full h-1.5 bg-white/10 rounded-full mt-6 overflow-hidden">
                         <div 
+                            ref={progressRef}
                             className={`h-full transition-all duration-1000 ${onBreak ? 'bg-amber-400' : 'bg-emerald-400'}`}
-                            style={{ width: `${shiftProgress}%` }}
                         ></div>
                     </div>
                 </div>
@@ -143,7 +151,7 @@ export const HeroWorkCard: React.FC = () => {
                                 </button>
                             </div>
                             <p className="text-[10px] text-center text-slate-500 font-medium">
-                                Last activity: {clockedIn ? 'Clocked in at ' + workDuration + ' ago' : 'No activity yet'}
+                                Last activity: {clockedIn && startTime ? 'Clocked in at ' + startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'No activity yet'}
                             </p>
                         </>
                     )}
