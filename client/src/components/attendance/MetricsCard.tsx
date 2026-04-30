@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, AppIconName } from '../ui/Icons';
+import { Icon, type AppIconName } from '../ui/Icons';
 
 interface MetricsCardProps {
     title: string;
