@@ -6,6 +6,7 @@ import { useToast } from '../contexts/ToastContext';
 import { Icon } from '../components/ui/Icons';
 import { Button } from '../components/ui/Button';
 import { Tabs } from '../components/ui/Tabs';
+import { resolveImageUrl } from '../utils/image';
 
 const EmployeeDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -149,7 +150,7 @@ const EmployeeDetails: React.FC = () => {
                 <div className="w-32 h-32 rounded-3xl bg-slate-100 flex items-center justify-center text-4xl font-bold text-slate-600 border-4 border-white shadow-xl overflow-hidden relative z-10">
                     {profile?.profilePhoto ? (
                         <img
-                            src={profile.profilePhoto}
+                            src={resolveImageUrl(profile.profilePhoto)}
                             alt="Profile"
                             className="w-full h-full object-cover profile-photo-dynamic"
                             ref={setPhotoRef}

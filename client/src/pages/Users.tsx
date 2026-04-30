@@ -10,6 +10,7 @@ import { Skeleton } from '../components/ui/Skeleton';
 import { Avatar } from '../components/ui/Avatar';
 import { useToast } from '../contexts/ToastContext';
 import { canManageUser } from '../utils/permissions';
+import { resolveImageUrl } from '../utils/image';
 
 const UserCard = ({ user, currentUser, onDelete }: { user: any, currentUser: any, onDelete: (id: string, name: string) => void }) => {
     return (
@@ -20,7 +21,7 @@ const UserCard = ({ user, currentUser, onDelete }: { user: any, currentUser: any
             <div className="relative mb-4">
                 <Avatar
                     name={user.profile?.firstName ? `${user.profile.firstName} ${user.profile.lastName}` : user.email}
-                    src={user.profile?.photo}
+                    src={resolveImageUrl(user.profile?.profilePhoto)}
                     size="80px"
                     className="border-4 border-white dark:border-slate-800 shadow-md bg-[var(--bg-surface)]"
                 />
