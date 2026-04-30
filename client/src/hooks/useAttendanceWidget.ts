@@ -1,194 +1,187 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { api } from '../services/api';
 import { useToast } from '../contexts/ToastContext';
 import { useAuth } from '../contexts/AuthContext';
+
+export type AttendanceState = 'IDLE' | 'WORKING' | 'ON_BREAK' | 'CLOCKED_OUT';
 
 export const useAttendanceWidget = () => {
     const { user } = useAuth();
     const { showToast } = useToast();
 
-    const [clockedIn, setClockedIn] = useState(false);
-    const [onBreak, setOnBreak] = useState(false);
-    const [startTime, setStartTime] = useState<Date | null>(null);
-    const [workDuration, setWorkDuration] = useState<string>('00:00:00');
-    const [clockingLoading, setClockingLoading] = useState(false);
+    // Core States
+    const [state, setState] = useState<AttendanceState>('IDLE');
+    const [activeRecord, setActiveRecord] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const [actionLoading, setActionLoading] = useState(false);
 
-    // New States for Keka Style
-    const [shiftProgress, setShiftProgress] = useState(0);
-    const [shiftDetails, setShiftDetails] = useState<{ start: string; end: string; name: string } | null>(null);
-    const [location] = useState('Office'); // Default or user preference
-    const [status, setStatus] = useState<'ontime' | 'late' | 'none'>('none');
+    // Live Metrics
+    const [elapsedSeconds, setElapsedSeconds] = useState(0);
+    const [totalWorkSeconds, setTotalWorkSeconds] = useState(0);
+    const [breakSeconds, setBreakSeconds] = useState(0);
 
     const getLocalToday = () => {
         const d = new Date();
-        const year = d.getFullYear();
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     };
 
-    const calculateShiftProgress = () => {
-        if (!user?.shift) return 0;
-
-        // Parse "HH:mm"
-        const [startH, startM] = user.shift.startTime.split(':').map(Number);
-        const [endH, endM] = user.shift.endTime.split(':').map(Number);
-
-        const now = new Date();
-        const start = new Date(); start.setHours(startH, startM, 0, 0);
-        const end = new Date(); end.setHours(endH, endM, 0, 0);
-
-        const totalMs = end.getTime() - start.getTime();
-        const elapsedMs = now.getTime() - start.getTime();
-
-        if (elapsedMs < 0) return 0;
-        if (elapsedMs > totalMs) return 100;
-
-        return Math.min(100, Math.max(0, (elapsedMs / totalMs) * 100));
-    };
-
-    const fetchAttendanceStatus = async () => {
+    const fetchStatus = useCallback(async () => {
         try {
-            const currentData = await api.get<any[]>('/attendance/my-history', { silent: true });
-            if (currentData && currentData.length > 0) {
-                // Backend sorts by date desc, so the first record is the latest
-                const latest = currentData[0];
+            const history = await api.get<any[]>('/attendance/my-history', { silent: true });
+            const today = getLocalToday();
+            
+            // Filter records for today to sum up total work
+            const todayRecords = history.filter(r => r.date.startsWith(today));
+            const latest = todayRecords[0]; // Most recent first
 
-                // Check if the latest record is an active session (no check-out)
-                // We trust the latest record regardless of date to handle cross-midnight or timezone shifts correctly
-                if (latest && latest.checkIn && !latest.checkOut) {
-                    setClockedIn(true);
-                    setStartTime(new Date(latest.checkIn));
-
-                    const activeBreak = latest.breaks?.find((b: any) => !b.endTime);
-                    setOnBreak(!!activeBreak);
-                    setStatus(latest.isLate ? 'late' : 'ontime');
+            if (latest) {
+                setActiveRecord(latest);
+                
+                if (latest.checkOut) {
+                    setState('CLOCKED_OUT');
                 } else {
-                    setClockedIn(false);
-                    setOnBreak(false);
-                    setStartTime(null);
-                    setWorkDuration('00:00:00');
-                    setStatus('none');
+                    const activeBreak = latest.breaks?.find((b: any) => !b.endTime);
+                    setState(activeBreak ? 'ON_BREAK' : 'WORKING');
                 }
+            } else {
+                setState('IDLE');
+                setActiveRecord(null);
             }
+
+            // Initial calculation of seconds
+            calculateMetrics(todayRecords);
         } catch (error) {
-            console.error("Attendance check failed", error);
-        }
-    };
-
-    const handleClockIn = async () => {
-        if (clockingLoading) return;
-        setClockingLoading(true);
-        try {
-            const workDate = getLocalToday();
-            const res = await api.post<any>('/attendance/punch-in', { location, workDate });
-            setClockedIn(true);
-            const punchTime = res.checkIn ? new Date(res.checkIn) : new Date();
-            setStartTime(punchTime);
-            setStatus(res.isLate ? 'late' : 'ontime');
-            showToast("Clocked In Successfully", "success");
-            fetchAttendanceStatus();
-        } catch (error: any) {
-            showToast(error.message || "Error clocking in", "error");
+            console.error("Failed to sync attendance", error);
         } finally {
-            setClockingLoading(false);
+            setLoading(false);
         }
+    }, []);
+
+    const calculateMetrics = (records: any[]) => {
+        let workSec = 0;
+        let breakSec = 0;
+
+        records.forEach(r => {
+            // Completed work time (excluding active session)
+            if (r.checkIn && r.checkOut) {
+                const diff = (new Date(r.checkOut).getTime() - new Date(r.checkIn).getTime()) / 1000;
+                workSec += diff;
+            }
+
+            // Break time
+            r.breaks?.forEach((b: any) => {
+                if (b.startTime && b.endTime) {
+                    breakSec += (new Date(b.endTime).getTime() - new Date(b.startTime).getTime()) / 1000;
+                }
+            });
+        });
+
+        setTotalWorkSeconds(workSec);
+        setBreakSeconds(breakSec);
     };
 
-    const handleClockOut = async () => {
-        if (clockingLoading) return;
-        setClockingLoading(true);
+    // Actions
+    const punchIn = async () => {
+        setActionLoading(true);
         try {
-            await api.post('/attendance/punch-out', { location });
-            setClockedIn(false);
-            setOnBreak(false);
-            setStartTime(null);
-            setWorkDuration('00:00:00');
-            setStatus('none');
-            showToast("Clocked Out Successfully", "success");
-            fetchAttendanceStatus();
-        } catch (error: any) {
-            showToast(error.message || "Error clocking out", "error");
-        } finally {
-            setClockingLoading(false);
-        }
+            await api.post('/attendance/punch-in', { location: 'Office', workDate: getLocalToday() });
+            showToast("Clocked in successfully", "success");
+            await fetchStatus();
+        } catch (e: any) { showToast(e.message || "Clock in failed", "error"); }
+        finally { setActionLoading(false); }
     };
 
-    const handleStartBreak = async () => {
-        if (clockingLoading) return;
-        setClockingLoading(true);
+    const punchOut = async () => {
+        setActionLoading(true);
+        try {
+            await api.post('/attendance/punch-out', {});
+            showToast("Clocked out successfully", "success");
+            await fetchStatus();
+        } catch (e: any) { showToast(e.message || "Clock out failed", "error"); }
+        finally { setActionLoading(false); }
+    };
+
+    const startBreak = async () => {
+        setActionLoading(true);
         try {
             await api.post('/attendance/break/start', {});
-            setOnBreak(true);
-            showToast("Break Started", "info");
-            fetchAttendanceStatus();
-        } catch (error: any) {
-            showToast(error.message || "Error starting break", "error");
-        } finally {
-            setClockingLoading(false);
-        }
+            showToast("Break started", "info");
+            await fetchStatus();
+        } catch (e: any) { showToast(e.message || "Failed to start break", "error"); }
+        finally { setActionLoading(false); }
     };
 
-    const handleEndBreak = async () => {
-        if (clockingLoading) return;
-        setClockingLoading(true);
+    const endBreak = async () => {
+        setActionLoading(true);
         try {
             await api.post('/attendance/break/end', {});
-            setOnBreak(false);
-            showToast("Break Ended", "success");
-            fetchAttendanceStatus();
-        } catch (error: any) {
-            showToast(error.message || "Error ending break", "error");
-        } finally {
-            setClockingLoading(false);
-        }
+            showToast("Break resumed", "success");
+            await fetchStatus();
+        } catch (e: any) { showToast(e.message || "Failed to resume", "error"); }
+        finally { setActionLoading(false); }
     };
 
-    // Initialize & Live Timer
+    // Formatting helpers
+    const formatDuration = (totalSec: number) => {
+        const h = Math.floor(totalSec / 3600);
+        const m = Math.floor((totalSec % 3600) / 60);
+        const s = Math.floor(totalSec % 60);
+        return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    };
+
+    // Live Engine
     useEffect(() => {
-        if (user?.shift) {
-            setShiftDetails({
-                start: user.shift.startTime,
-                end: user.shift.endTime,
-                name: user.shift.name
-            });
-        }
-
-        fetchAttendanceStatus();
-
-        const timer = setInterval(() => {
-            // Update Work Duration
-            if (clockedIn && startTime) {
-                const now = new Date();
-                const diff = now.getTime() - new Date(startTime).getTime();
-                const hours = Math.floor(diff / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                setWorkDuration(
-                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-                );
+        fetchStatus();
+        const interval = setInterval(() => {
+            if (state === 'WORKING' && activeRecord?.checkIn) {
+                const now = new Date().getTime();
+                const start = new Date(activeRecord.checkIn).getTime();
+                setElapsedSeconds(Math.floor((now - start) / 1000));
+            } else if (state === 'ON_BREAK') {
+                const activeBreak = activeRecord.breaks?.find((b: any) => !b.endTime);
+                if (activeBreak) {
+                    const now = new Date().getTime();
+                    const start = new Date(activeBreak.startTime).getTime();
+                    setElapsedSeconds(Math.floor((now - start) / 1000));
+                }
             }
-
-            // Update Progress
-            setShiftProgress(calculateShiftProgress());
         }, 1000);
+        return () => clearInterval(interval);
+    }, [fetchStatus]); // Only depend on fetchStatus (which is memoized)
 
-        return () => clearInterval(timer);
-    }, [user, clockedIn, startTime]); // Re-run if user/shift changes
+    // Computed Values
+    const liveWorkTime = useMemo(() => {
+        if (state === 'WORKING' && activeRecord?.checkIn) {
+            const currentSession = (new Date().getTime() - new Date(activeRecord.checkIn).getTime()) / 1000;
+            return formatDuration(totalWorkSeconds + currentSession);
+        }
+        return formatDuration(totalWorkSeconds);
+    }, [state, activeRecord, totalWorkSeconds]);
+
+    const liveBreakTime = useMemo(() => {
+        if (state === 'ON_BREAK') {
+            const activeBreak = activeRecord?.breaks?.find((b: any) => !b.endTime);
+            if (activeBreak) {
+                const currentBreak = (new Date().getTime() - new Date(activeBreak.startTime).getTime()) / 1000;
+                return formatDuration(breakSeconds + currentBreak);
+            }
+        }
+        return formatDuration(breakSeconds);
+    }, [state, activeRecord, breakSeconds]);
 
     return {
-        clockedIn,
-        onBreak,
-        startTime,
-        workDuration,
-        clockingLoading,
-        handleClockIn,
-        handleClockOut,
-        handleStartBreak,
-        handleEndBreak,
-        shiftDetails,
-        shiftProgress,
-        status,
-        refreshAttendance: fetchAttendanceStatus
+        state,
+        activeRecord,
+        loading,
+        actionLoading,
+        elapsedSeconds,
+        liveWorkTime,
+        liveBreakTime,
+        punchIn,
+        punchOut,
+        startBreak,
+        endBreak,
+        refresh: fetchStatus,
+        formatDuration
     };
 };
