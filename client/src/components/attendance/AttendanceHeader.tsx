@@ -9,20 +9,22 @@ interface AttendanceHeaderProps {
 
 export const AttendanceHeader: React.FC<AttendanceHeaderProps> = ({ isSuperAdmin, onRequestAdjustment }) => {
     return (
-        <div className="flex justify-between items-start">
-            <PageHeader
-                title="My Attendance"
-                subtitle="Track daily work hours, breaks, and attendance."
-                icon="attendance"
-            />
-            {!isSuperAdmin && (
-                <button
-                    onClick={onRequestAdjustment}
-                    className="btn-outline flex items-center gap-2"
-                >
-                    <Icon name="edit" size={16} /> Request Adjustment
-                </button>
-            )}
-        </div>
+        <PageHeader
+            title="My Attendance"
+            subtitle="Track daily work hours, breaks, and attendance history."
+            icon="attendance"
+            gradient="gradient-purple"
+            actions={
+                {!isSuperAdmin && (
+                    <button
+                        onClick={onRequestAdjustment}
+                        className="px-6 py-2.5 bg-white/20 hover:bg-white/30 text-white font-bold rounded-xl backdrop-blur-md border border-white/30 transition-all flex items-center gap-2 shadow-lg"
+                    >
+                        <Icon name="plus" size={18} />
+                        Request Adjustment
+                    </button>
+                )}
+            }
+        />
     );
 };
