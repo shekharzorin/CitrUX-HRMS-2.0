@@ -58,7 +58,7 @@ const Expenses: React.FC = () => {
                 title="My Expenses"
                 subtitle="Manage and track your expense claims"
                 icon="expenses"
-                gradient="gradient-purple"
+                gradient="gradient-sunset"
                 actions={
                     <button
                         onClick={() => setIsFormOpen(!isFormOpen)}

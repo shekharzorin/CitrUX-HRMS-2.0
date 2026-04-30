@@ -617,6 +617,34 @@
   @apply bg-gradient-to-r from-pink-600 to-rose-600;
 }
 
+.gradient-indigo {
+  @apply bg-gradient-to-r from-indigo-600 to-violet-700;
+}
+
+.gradient-emerald {
+  @apply bg-gradient-to-r from-emerald-500 to-teal-600;
+}
+
+.gradient-amber {
+  @apply bg-gradient-to-r from-amber-500 to-orange-600;
+}
+
+.gradient-rose {
+  @apply bg-gradient-to-r from-rose-500 to-pink-600;
+}
+
+.gradient-cyan {
+  @apply bg-gradient-to-r from-cyan-500 to-blue-600;
+}
+
+.gradient-sunset {
+  @apply bg-gradient-to-r from-orange-500 to-rose-500;
+}
+
+.gradient-ocean {
+  @apply bg-gradient-to-r from-blue-600 to-teal-500;
+}
+
 /* Table Styles */
 .table-premium {
   @apply w-full text-left border-collapse;

@@ -147,7 +147,7 @@ const TasksPage: React.FC = () => {
                 title="My Tasks"
                 subtitle="Manage your personal work items and to-do list."
                 icon="approvals"
-                gradient="gradient-purple"
+                gradient="gradient-indigo"
                 actions={
                     <button
                         id="add-task-btn"

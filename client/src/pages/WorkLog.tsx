@@ -146,7 +146,7 @@ const WorkLogPage: React.FC = () => {
                 title="Work Log"
                 subtitle="Track your daily work hours and activity descriptions."
                 icon="timesheet"
-                gradient="gradient-purple"
+                gradient="gradient-ocean"
                 actions={
                     <button
                         id="add-work-log-btn"

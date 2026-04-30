@@ -57,7 +57,7 @@ const Payslips: React.FC = () => {
                 title="My Payslips"
                 subtitle="View and download your monthly salary statements"
                 icon="download"
-                gradient="gradient-purple"
+                gradient="gradient-cyan"
                 actions={
                     (user?.role === 'ADMIN' || user?.role === 'HR') && (
                         <button

@@ -126,7 +126,7 @@ const Leaves: React.FC = () => {
                 title="Leave Management"
                 subtitle="Track your time off and plan your schedule."
                 icon="leaves"
-                gradient="gradient-purple"
+                gradient="gradient-emerald"
                 actions={
                     <button
                         onClick={() => setShowModal(true)}
