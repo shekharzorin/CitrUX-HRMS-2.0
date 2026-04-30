@@ -65,7 +65,9 @@ export type AppIconName =
     | 'warning'
     | 'alert'
     | 'login'
-    | 'refresh';
+    | 'refresh'
+    | 'location'
+    | 'trending_down';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
     name: AppIconName;
@@ -546,6 +548,15 @@ export const Icon: React.FC<IconProps> = ({ name, size = 24, className = '', ...
                         <line x1="12" y1="16" x2="12.01" y2="16" />
                     </>
                 );
+            case 'location':
+                return (
+                    <>
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </>
+                );
+            case 'trending_down':
+                return <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />;
             default:
                 return null;
         }
