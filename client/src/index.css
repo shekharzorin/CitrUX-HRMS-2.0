@@ -500,6 +500,14 @@
   animation: scaleUp 0.3s ease-out forwards;
 }
 
+.delay-150 {
+  animation-delay: 150ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
 /* Login Page Styles */
 .login-container {
   @apply min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 p-4 relative overflow-hidden;

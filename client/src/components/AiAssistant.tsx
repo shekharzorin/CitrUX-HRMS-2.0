@@ -58,6 +58,8 @@ export const AiAssistant: React.FC = () => {
                         </div>
                         <button 
                             onClick={() => setIsOpen(false)}
+                            title="Close Assistant"
+                            aria-label="Close HR Assistant"
                             className="p-2 hover:bg-white/20 rounded-full transition-colors text-white"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -104,8 +106,8 @@ export const AiAssistant: React.FC = () => {
                             <div className="flex justify-start">
                                 <div className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm flex items-center gap-1.5">
                                     <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600 animate-bounce"></span>
-                                    <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600 animate-bounce" style={{animationDelay: '150ms'}}></span>
-                                    <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600 animate-bounce" style={{animationDelay: '300ms'}}></span>
+                                    <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600 animate-bounce delay-150"></span>
+                                    <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600 animate-bounce delay-300"></span>
                                 </div>
                             </div>
                         )}
@@ -126,6 +128,8 @@ export const AiAssistant: React.FC = () => {
                             <button
                                 type="submit"
                                 disabled={!input.trim() || isTyping}
+                                title="Send Message"
+                                aria-label="Send message to HR Assistant"
                                 className="absolute right-2 p-2 w-8 h-8 flex items-center justify-center rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 <svg className="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
@@ -138,6 +142,8 @@ export const AiAssistant: React.FC = () => {
             {/* floating button */}
             <button 
                 onClick={() => setIsOpen(!isOpen)}
+                title={isOpen ? "Close Assistant" : "Open AI Assistant"}
+                aria-label={isOpen ? "Close HR Assistant" : "Open HR Assistant"}
                 className="w-14 h-14 bg-gradient-to-tr from-indigo-600 to-blue-500 rounded-full shadow-xl shadow-indigo-500/30 flex items-center justify-center text-white hover:scale-105 active:scale-95 transition-all outline-none focus:ring-4 focus:ring-indigo-500/50"
             >
                 {isOpen ? (
