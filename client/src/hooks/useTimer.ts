@@ -19,7 +19,7 @@ export const useTimer = (checkInTime: string | null | undefined, breaks: BreakRe
 
     // Calculate work duration
     useEffect(() => {
-        let interval: NodeJS.Timeout;
+        let interval: any;
 
         if (checkInTime) {
             const calculateDuration = () => {
@@ -28,7 +28,6 @@ export const useTimer = (checkInTime: string | null | undefined, breaks: BreakRe
 
                 // Calculate total break time in milliseconds
                 let totalBreakTimeMs = 0;
-                let isOnBreak = false;
 
                 breaks.forEach(b => {
                     const breakStart = new Date(b.startTime).getTime();
@@ -37,7 +36,6 @@ export const useTimer = (checkInTime: string | null | undefined, breaks: BreakRe
                         totalBreakTimeMs += (breakEnd - breakStart);
                     } else {
                         // Currently on break
-                        isOnBreak = true;
                         // Time since break started is not counted towards work duration
                         totalBreakTimeMs += (now - breakStart);
                     }

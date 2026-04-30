@@ -41,12 +41,6 @@ export const WorkStatusCard: React.FC<WorkStatusCardProps> = ({
         return 'bg-emerald-500';
     };
 
-    const getStatusBg = () => {
-        if (!clockedInToday) return 'bg-slate-50 border-slate-200';
-        if (onBreak) return 'bg-amber-50 border-amber-200';
-        return 'bg-emerald-50 border-emerald-200';
-    };
-
     return (
         <div className="dashboard-section animate-fade-in relative overflow-hidden group shadow-md border border-slate-100 rounded-2xl flex flex-col h-full bg-white">
             <div className="absolute top-[-20px] right-[-20px] p-4 opacity-5 group-hover:opacity-10 transition-opacity">

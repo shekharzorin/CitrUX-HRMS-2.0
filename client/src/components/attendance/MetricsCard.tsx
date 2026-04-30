@@ -1,11 +1,11 @@
 import React from 'react';
-import { Icon } from '../ui/Icons';
+import { Icon, AppIconName } from '../ui/Icons';
 
 interface MetricsCardProps {
     title: string;
     value: string | number;
     subtitle?: string;
-    icon?: string;
+    icon?: AppIconName;
     trend?: string;
     trendUp?: boolean;
     color?: 'indigo' | 'emerald' | 'amber' | 'blue' | 'purple';
