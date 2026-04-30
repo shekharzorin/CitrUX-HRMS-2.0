@@ -67,7 +67,11 @@ export type AppIconName =
     | 'login'
     | 'refresh'
     | 'location'
-    | 'trending_down';
+    | 'trending_down'
+    | 'chevron_up'
+    | 'chevron_down'
+    | 'filters'
+    | 'chat';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
     name: AppIconName;
@@ -557,6 +561,30 @@ export const Icon: React.FC<IconProps> = ({ name, size = 24, className = '', ...
                 );
             case 'trending_down':
                 return <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />;
+            case 'chevron_up':
+                return <polyline points="18 15 12 9 6 15" />;
+            case 'chevron_down':
+                return <polyline points="6 9 12 15 18 9" />;
+            case 'filters':
+                return (
+                    <>
+                        <line x1="4" y1="21" x2="4" y2="14" />
+                        <line x1="4" y1="10" x2="4" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="12" />
+                        <line x1="12" y1="8" x2="12" y2="3" />
+                        <line x1="20" y1="21" x2="20" y2="16" />
+                        <line x1="20" y1="12" x2="20" y2="3" />
+                        <line x1="2" y1="14" x2="6" y2="14" />
+                        <line x1="10" y1="8" x2="14" y2="8" />
+                        <line x1="18" y1="16" x2="22" y2="16" />
+                    </>
+                );
+            case 'chat':
+                return (
+                    <>
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </>
+                );
             default:
                 return null;
         }

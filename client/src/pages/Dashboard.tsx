@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
 import { StatsCardPremium } from '../components/ui/DashboardElements';
 import { Skeleton } from '../components/ui/Skeleton';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
 // New Action-First Components
 import { HeroWorkCard } from '../components/dashboard/HeroWorkCard';
