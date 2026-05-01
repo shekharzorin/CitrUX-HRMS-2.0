@@ -5,12 +5,12 @@ import { useAuth } from '../contexts/AuthContext';
 
 export const AiAssistant: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([]);
+    const [messages, setMessages] = useState<{ role: 'user' | 'assistant', content: string }[]>([]);
     const [input, setInput] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const { user } = useAuth();
-    
+
     // Auto-scroll to bottom
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -26,7 +26,7 @@ export const AiAssistant: React.FC = () => {
         setIsTyping(true);
 
         try {
-            const response = await api.post<{reply: string}>('/ai/chat', { message: userMessage }, { silent: true });
+            const response = await api.post<{ reply: string }>('/ai/chat', { message: userMessage }, { silent: true });
             setMessages(prev => [...prev, { role: 'assistant', content: response.reply }]);
         } catch (error) {
             console.error(error);
@@ -56,7 +56,7 @@ export const AiAssistant: React.FC = () => {
                                 </span>
                             </div>
                         </div>
-                        <button 
+                        <button
                             onClick={() => setIsOpen(false)}
                             title="Close Assistant"
                             aria-label="Close HR Assistant"
@@ -93,11 +93,10 @@ export const AiAssistant: React.FC = () => {
 
                         {messages.map((msg, i) => (
                             <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm whitespace-pre-wrap ${
-                                    msg.role === 'user' 
-                                        ? 'bg-indigo-600 text-white rounded-br-sm' 
-                                        : 'bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-bl-sm'
-                                }`}>
+                                <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm whitespace-pre-wrap ${msg.role === 'user'
+                                    ? 'bg-indigo-600 text-white rounded-br-sm'
+                                    : 'bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-bl-sm'
+                                    }`}>
                                     {msg.content}
                                 </div>
                             </div>
@@ -132,7 +131,7 @@ export const AiAssistant: React.FC = () => {
                                 aria-label="Send message to HR Assistant"
                                 className="absolute right-2 p-2 w-8 h-8 flex items-center justify-center rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                <svg className="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                                <svg className="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" /></svg>
                             </button>
                         </form>
                     </div>
@@ -140,7 +139,7 @@ export const AiAssistant: React.FC = () => {
             )}
 
             {/* floating button */}
-            <button 
+            <button
                 onClick={() => setIsOpen(!isOpen)}
                 title={isOpen ? "Close Assistant" : "Open AI Assistant"}
                 aria-label={isOpen ? "Close HR Assistant" : "Open HR Assistant"}
