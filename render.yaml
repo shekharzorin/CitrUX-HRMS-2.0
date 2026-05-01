@@ -73,3 +73,20 @@ services:
         value: "http://localhost:11434"      # Only works locally, not on Render
       - key: OLLAMA_MODEL
         value: "llama3"
+
+  # ─────────────────────────────────────────────
+  # 4. FastAPI HRMS Chatbot (NLP + Rules)
+  # ─────────────────────────────────────────────
+  - type: web
+    name: citrux-hrms-chatbot
+    env: python
+    plan: free
+    buildCommand: ./render-build.sh
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port 10000
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: "3.10.12"
