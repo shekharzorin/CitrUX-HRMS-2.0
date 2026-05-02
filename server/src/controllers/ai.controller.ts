@@ -228,13 +228,13 @@ export const handleAiChat = async (req: Request, res: Response) => {
         }
 
         const apiKey = process.env.OPENAI_API_KEY;
-        if (!apiKey) {
-            return res.status(503).json({ reply: 'AI assistant is not configured. Please contact your administrator.' });
-        }
+        const chatbotUrl = process.env.AI_SERVICE_URL?.replace('/ask', '') || 'https://citrux-hrms-chatbot.onrender.com';
 
-        const context = await buildContext(userId, role, companyId, message);
+        // ── PATH 1: OpenAI is configured ──────────────────────────────────────
+        if (apiKey) {
+            const context = await buildContext(userId, role, companyId, message);
 
-        const systemPrompt = `You are an intelligent HR Assistant for Citrux HRMS. You help employees and HR managers with queries about leaves, attendance, payroll, team metrics, tasks, and expenses.
+            const systemPrompt = `You are an intelligent HR Assistant for Citrux HRMS. You help employees and HR managers with queries about leaves, attendance, payroll, team metrics, tasks, and expenses.
 
 Today's date: ${new Date().toDateString()}
 User role: ${role}
@@ -253,24 +253,46 @@ Guidelines:
 - Use friendly, professional language.
 - If a question is unrelated to HR/work, politely redirect to HRMS topics.`;
 
-        const response = await axios.post(OPENAI_API_URL, {
-            model: 'gpt-4o-mini',
-            messages: [
-                { role: 'system', content: systemPrompt },
-                { role: 'user', content: message },
-            ],
-            temperature: 0.4,
-            max_tokens: 500,
-        }, {
-            headers: {
-                'Authorization': `Bearer ${apiKey}`,
-                'Content-Type': 'application/json',
-            },
-            timeout: 20000,
-        });
+            const response = await axios.post(OPENAI_API_URL, {
+                model: 'gpt-4o-mini',
+                messages: [
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: message },
+                ],
+                temperature: 0.4,
+                max_tokens: 500,
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${apiKey}`,
+                    'Content-Type': 'application/json',
+                },
+                timeout: 20000,
+            });
 
-        const reply = response.data.choices?.[0]?.message?.content?.trim();
-        return res.json({ reply: reply || "I couldn't generate a response. Please try again." });
+            const reply = response.data.choices?.[0]?.message?.content?.trim();
+            return res.json({ reply: reply || "I couldn't generate a response. Please try again." });
+        }
+
+        // ── PATH 2: Fallback to Python deterministic chatbot ──────────────────
+        try {
+            // The Python chatbot uses a simple integer user_id based on role mapping
+            const roleToId: Record<string, number> = { ADMIN: 1, HR: 1, MANAGER: 2, EMPLOYEE: 3 };
+            const chatUserId = roleToId[role] ?? 3;
+
+            const chatbotRes = await axios.post(`${chatbotUrl}/api/chat`, {
+                user_id: chatUserId,
+                message,
+            }, { timeout: 15000 });
+
+            const reply = chatbotRes.data?.response || "I couldn't understand that. Please try rephrasing.";
+            return res.json({ reply });
+        } catch (chatbotError: any) {
+            console.warn('Python chatbot unavailable:', chatbotError.message);
+            // Both paths failed — return a helpful static message
+            return res.json({
+                reply: "I'm currently running in limited mode. You can check your leaves and attendance directly from the dashboard. Please contact HR for further assistance."
+            });
+        }
 
     } catch (error: any) {
         console.error('AI Chat Error:', error.response?.data || error.message);
