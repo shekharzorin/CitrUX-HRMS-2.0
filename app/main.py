@@ -13,6 +13,10 @@ app.include_router(chat.router, prefix="/api", tags=["chat"])
 def read_root():
     return {"message": "Welcome to HRMS Chatbot API", "status": "online"}
 
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
 # Create database tables
 @app.on_event("startup")
 def startup_event():
