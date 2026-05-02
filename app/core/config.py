@@ -14,8 +14,21 @@ class Settings(BaseSettings):
     @classmethod
     def sanitize_db_url(cls, v: str) -> str:
         if isinstance(v, str):
-            # Strip pgbouncer parameter which psycopg2 doesn't support
-            return v.replace("?pgbouncer=true", "").replace("&pgbouncer=true", "")
+            print(f"DEBUG: Sanitizing DATABASE_URL (length: {len(v)})")
+            # 1. Fix postgres:// -> postgresql:// for SQLAlchemy compatibility
+            if v.startswith("postgres://"):
+                v = v.replace("postgres://", "postgresql://", 1)
+            
+            # 2. Use urllib to robustly remove pgbouncer and other incompatible params
+            from urllib.parse import urlparse, urlunparse, parse_qsl, urlencode
+            try:
+                u = urlparse(v)
+                query = dict(parse_qsl(u.query))
+                if "pgbouncer" in query:
+                    del query["pgbouncer"]
+                v = urlunparse(u._replace(query=urlencode(query)))
+            except Exception as e:
+                print(f"DEBUG: URL parsing failed: {e}")
         return v
     
     class Config:
