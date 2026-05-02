@@ -4,6 +4,198 @@ import axios from 'axios';
 
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
+// ─────────────────────────────────────────────────────────────────────────────
+//  INTENT DETECTION  (ported from app/nlp/intent.py)
+// ─────────────────────────────────────────────────────────────────────────────
+type Intent =
+    | 'leave_query'
+    | 'team_leave_query'
+    | 'work_hours_query'
+    | 'attendance_query'
+    | 'task_query'
+    | 'holiday_query'
+    | 'salary_query'
+    | 'greeting'
+    | 'unknown_query';
+
+function detectIntent(message: string): Intent {
+    const m = message.toLowerCase();
+
+    if (/\b(hi|hello|hey|good morning|good afternoon|howdy)\b/.test(m)) return 'greeting';
+    if (/team.*(leave|absent|off)/.test(m) || /who.*(leave|absent|off)/.test(m)) return 'team_leave_query';
+    if (/\b(hours|how long|how much.*work|time.*work|worked)\b/.test(m)) return 'work_hours_query';
+    if (/\b(leave|vacation|day off|days off|balance|annual|sick|casual)\b/.test(m)) return 'leave_query';
+    if (/\b(task|todo|pending|assigned|to-do|to do)\b/.test(m)) return 'task_query';
+    if (/\b(holiday|public holiday|upcoming.*off|next.*off)\b/.test(m)) return 'holiday_query';
+    if (/\b(salary|payslip|pay slip|ctc|net pay|gross|payday|payroll)\b/.test(m)) return 'salary_query';
+    if (/\b(attendance|present|absent|late|check.?in|clock.?in|login|log.?in)\b/.test(m)) return 'attendance_query';
+
+    return 'unknown_query';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  INTENT HANDLERS  (real Prisma data)
+// ─────────────────────────────────────────────────────────────────────────────
+async function handleGreeting(userId: string): Promise<string> {
+    const profile = await prisma.profile.findUnique({ where: { userId } });
+    const name = profile?.firstName || 'there';
+    const hour = new Date().getHours();
+    const tod = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+    return `${tod}, ${name}! 👋 I'm your HR assistant. I can help you with leaves, attendance, tasks, holidays, and salary. What would you like to know?`;
+}
+
+async function handleLeaveQuery(userId: string): Promise<string> {
+    const balances = await prisma.leaveBalance.findMany({
+        where: { userId },
+        include: { leaveType: true },
+    });
+
+    if (!balances.length) {
+        return "I couldn't find any leave balance information for your account. Please contact HR.";
+    }
+
+    const lines = balances.map(b =>
+        `• **${b.leaveType.name}**: ${b.balance} day${b.balance !== 1 ? 's' : ''} remaining (${b.used} used of ${b.leaveType.daysPerYear})`
+    );
+
+    return `Here are your current leave balances:\n${lines.join('\n')}`;
+}
+
+async function handleTeamLeaveQuery(userId: string, role: string, companyId: string | null): Promise<string> {
+    if (role === 'EMPLOYEE') {
+        return "Only managers and HR can view team leave information. You can check your own leave balance by asking 'How many leaves do I have?'";
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const whereClause: any = {
+        status: 'APPROVED',
+        startDate: { lte: new Date() },
+        endDate: { gte: today },
+    };
+
+    if (companyId) whereClause.user = { companyId };
+    if (role === 'MANAGER') whereClause.user = { ...whereClause.user, managerId: userId };
+
+    const onLeave = await prisma.leaveRequest.findMany({
+        where: whereClause,
+        include: { user: { include: { profile: true } }, leaveType: true },
+    });
+
+    if (!onLeave.length) return "No one is on approved leave today. 🎉";
+
+    const lines = onLeave.map(l => {
+        const name = l.user.profile
+            ? `${l.user.profile.firstName} ${l.user.profile.lastName}`
+            : l.user.email;
+        return `• **${name}** — ${l.leaveType.name} (until ${l.endDate.toDateString()})`;
+    });
+
+    return `**${onLeave.length} employee${onLeave.length > 1 ? 's' : ''} on leave today:**\n${lines.join('\n')}`;
+}
+
+async function handleWorkHoursQuery(userId: string): Promise<string> {
+    const today = new Date();
+    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    const records = await prisma.attendance.findMany({
+        where: { userId, date: { gte: startOfMonth } },
+        orderBy: { date: 'desc' },
+    });
+
+    if (!records.length) return "No attendance records found for this month. Have you clocked in yet today?";
+
+    const totalHours = records.reduce((sum, r) => sum + (r.hours || 0), 0);
+    const present = records.filter(r => r.status === 'PRESENT').length;
+
+    return `📊 **Your attendance this month:**\n• Present: ${present} day${present !== 1 ? 's' : ''}\n• Total hours worked: ${totalHours.toFixed(1)} hrs\n• Average per day: ${(totalHours / Math.max(present, 1)).toFixed(1)} hrs`;
+}
+
+async function handleAttendanceQuery(userId: string): Promise<string> {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    const todayRecord = await prisma.attendance.findFirst({
+        where: {
+            userId,
+            date: { gte: today, lt: tomorrow },
+        },
+        include: { breaks: true },
+    });
+
+    if (!todayRecord) {
+        return "You haven't clocked in today yet. Use the Attendance widget on the dashboard to punch in.";
+    }
+
+    const checkIn = todayRecord.checkIn ? new Date(todayRecord.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-';
+    const checkOut = todayRecord.checkOut ? new Date(todayRecord.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Still working';
+    const hours = todayRecord.hours ? `${Number(todayRecord.hours).toFixed(1)} hrs` : 'In progress';
+    const breaks = todayRecord.breaks?.length || 0;
+
+    return `📍 **Today's attendance:**\n• Clock In: ${checkIn}\n• Clock Out: ${checkOut}\n• Hours: ${hours}\n• Breaks taken: ${breaks}`;
+}
+
+async function handleTaskQuery(userId: string): Promise<string> {
+    const tasks = await prisma.task.findMany({
+        where: { userId, status: { not: 'DONE' } },
+        orderBy: { createdAt: 'desc' },
+        take: 10,
+    });
+
+    if (!tasks.length) return "✅ You have no pending tasks. You're all caught up!";
+
+    const lines = tasks.slice(0, 5).map(t => {
+        const due = t.dueDate ? ` (due ${new Date(t.dueDate).toDateString()})` : '';
+        const priority = t.priority ? ` [${t.priority}]` : '';
+        return `• ${t.title}${priority}${due}`;
+    });
+
+    const more = tasks.length > 5 ? `\n...and ${tasks.length - 5} more.` : '';
+    return `📋 **You have ${tasks.length} pending task${tasks.length > 1 ? 's' : ''}:**\n${lines.join('\n')}${more}`;
+}
+
+async function handleHolidayQuery(companyId: string | null): Promise<string> {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const whereClause: any = { date: { gte: today } };
+    if (companyId) whereClause.companyId = companyId;
+
+    const holidays = await prisma.holiday.findMany({
+        where: whereClause,
+        orderBy: { date: 'asc' },
+        take: 3,
+    });
+
+    if (!holidays.length) return "No upcoming holidays are scheduled in the system. Check with HR for the holiday calendar.";
+
+    const lines = holidays.map(h => {
+        const daysLeft = Math.ceil((new Date(h.date).getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+        const label = daysLeft === 0 ? '🎉 Today!' : daysLeft === 1 ? 'Tomorrow' : `in ${daysLeft} days`;
+        return `• **${h.name}** — ${new Date(h.date).toDateString()} (${label})`;
+    });
+
+    return `🗓️ **Upcoming holidays:**\n${lines.join('\n')}`;
+}
+
+async function handleSalaryQuery(userId: string): Promise<string> {
+    const payslip = await prisma.payslip.findFirst({
+        where: { userId },
+        orderBy: [{ year: 'desc' }, { month: 'desc' }],
+    });
+
+    if (!payslip) return "No payslip records found. Contact HR if you believe this is an error.";
+
+    const monthName = new Date(payslip.year, payslip.month - 1, 1).toLocaleString('default', { month: 'long' });
+    return `💰 **Latest payslip (${monthName} ${payslip.year}):**\n• Gross Pay: ₹${payslip.gross?.toLocaleString() || 'N/A'}\n• Net Pay: ₹${payslip.net?.toLocaleString() || 'N/A'}\n• Working Days: ${payslip.workingDays || 'N/A'}\n• Present Days: ${payslip.presentDays || 'N/A'}\n• Status: ${payslip.status}`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  CONTEXT BUILDER  (for OpenAI path)
+// ─────────────────────────────────────────────────────────────────────────────
 async function buildContext(userId: string, role: string, companyId: string | null, message: string) {
     const lower = message.toLowerCase();
     const today = new Date();
@@ -13,7 +205,6 @@ async function buildContext(userId: string, role: string, companyId: string | nu
     const isAbout = (...keywords: string[]) => keywords.some(k => lower.includes(k));
 
     try {
-        // Always get the requester's profile
         const profile = await prisma.profile.findUnique({ where: { userId } });
         ctx.requester = {
             name: profile ? `${profile.firstName} ${profile.lastName}` : 'User',
@@ -34,25 +225,9 @@ async function buildContext(userId: string, role: string, companyId: string | nu
                     used: b.used,
                     total: b.leaveType.daysPerYear,
                 }));
-
-                const recentLeaves = await prisma.leaveRequest.findMany({
-                    where: { userId },
-                    orderBy: { createdAt: 'desc' },
-                    take: 5,
-                    include: { leaveType: true },
-                });
-                ctx.myRecentLeaveRequests = recentLeaves.map(l => ({
-                    type: l.leaveType.name,
-                    startDate: l.startDate.toDateString(),
-                    endDate: l.endDate.toDateString(),
-                    days: l.days,
-                    status: l.status,
-                    reason: l.reason,
-                }));
             }
 
             if ((role === 'ADMIN' || role === 'HR' || role === 'MANAGER') && companyId) {
-                // Who is on leave today
                 const onLeaveToday = await prisma.leaveRequest.findMany({
                     where: {
                         status: 'APPROVED',
@@ -64,124 +239,31 @@ async function buildContext(userId: string, role: string, companyId: string | nu
                 });
                 ctx.employeesOnLeaveToday = onLeaveToday.map(l => ({
                     name: l.user.profile ? `${l.user.profile.firstName} ${l.user.profile.lastName}` : l.user.email,
-                    department: l.user.profile?.department,
                     leaveType: l.leaveType.name,
                     from: l.startDate.toDateString(),
                     to: l.endDate.toDateString(),
-                }));
-
-                // Pending leave approvals
-                const pendingLeaves = await prisma.leaveRequest.findMany({
-                    where: { status: 'PENDING', user: { companyId } },
-                    include: { user: { include: { profile: true } }, leaveType: true },
-                    orderBy: { createdAt: 'desc' },
-                    take: 10,
-                });
-                ctx.pendingLeaveApprovals = pendingLeaves.map(l => ({
-                    name: l.user.profile ? `${l.user.profile.firstName} ${l.user.profile.lastName}` : l.user.email,
-                    type: l.leaveType.name,
-                    days: l.days,
-                    from: l.startDate.toDateString(),
                 }));
             }
         }
 
         if (isAbout('attendance', 'present', 'absent', 'late', 'check in', 'clock')) {
             const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-
-            if (role === 'EMPLOYEE') {
-                const myAttendance = await prisma.attendance.findMany({
-                    where: { userId, date: { gte: startOfMonth } },
-                    orderBy: { date: 'desc' },
-                    take: 30,
-                });
-                ctx.myAttendanceThisMonth = {
-                    present: myAttendance.filter(a => a.status === 'PRESENT').length,
-                    absent: myAttendance.filter(a => a.status === 'ABSENT').length,
-                    late: myAttendance.filter(a => a.isLate).length,
-                    totalHours: myAttendance.reduce((sum, a) => sum + (a.hours || 0), 0).toFixed(1),
-                    records: myAttendance.slice(0, 5).map(a => ({
-                        date: a.date.toDateString(),
-                        status: a.status,
-                        hours: a.hours?.toFixed(1),
-                        isLate: a.isLate,
-                    })),
-                };
-            }
-
-            if ((role === 'ADMIN' || role === 'HR') && companyId) {
-                const absentToday = await prisma.user.findMany({
-                    where: {
-                        companyId,
-                        status: 'ACTIVE',
-                        attendance: { none: { date: today } },
-                    },
-                    include: { profile: true },
-                    take: 20,
-                });
-                ctx.absentToday = absentToday.map(u => ({
-                    name: u.profile ? `${u.profile.firstName} ${u.profile.lastName}` : u.email,
-                    department: u.profile?.department,
-                }));
-
-                const lateToday = await prisma.attendance.findMany({
-                    where: { date: today, isLate: true, user: { companyId } },
-                    include: { user: { include: { profile: true } } },
-                });
-                ctx.lateArrivalsToday = lateToday.map(a => ({
-                    name: a.user.profile ? `${a.user.profile.firstName} ${a.user.profile.lastName}` : a.user.email,
-                    checkIn: a.checkIn?.toLocaleTimeString(),
-                }));
-            }
-        }
-
-        if (isAbout('employee', 'team', 'staff', 'people', 'how many', 'count', 'headcount') && companyId) {
-            ctx.employeeStats = {
-                total: await prisma.user.count({ where: { companyId, status: 'ACTIVE' } }),
-                byDepartment: await prisma.profile.groupBy({
-                    by: ['department'],
-                    where: { companyId, department: { not: null } },
-                    _count: { department: true },
-                }),
+            const myAttendance = await prisma.attendance.findMany({
+                where: { userId, date: { gte: startOfMonth } },
+                orderBy: { date: 'desc' },
+                take: 30,
+            });
+            ctx.myAttendanceThisMonth = {
+                present: myAttendance.filter(a => a.status === 'PRESENT').length,
+                absent: myAttendance.filter(a => a.status === 'ABSENT').length,
+                late: myAttendance.filter(a => a.isLate).length,
+                totalHours: myAttendance.reduce((sum, a) => sum + (a.hours || 0), 0).toFixed(1),
             };
-
-            if (role === 'MANAGER') {
-                const team = await prisma.user.findMany({
-                    where: { managerId: userId },
-                    include: { profile: true },
-                });
-                ctx.myTeam = team.map(u => ({
-                    name: u.profile ? `${u.profile.firstName} ${u.profile.lastName}` : u.email,
-                    designation: u.profile?.designation,
-                    department: u.profile?.department,
-                }));
-            }
-        }
-
-        if (isAbout('payslip', 'salary', 'pay', 'ctc', 'net pay', 'gross')) {
-            if (role === 'EMPLOYEE') {
-                const latestPayslip = await prisma.payslip.findFirst({
-                    where: { userId },
-                    orderBy: [{ year: 'desc' }, { month: 'desc' }],
-                });
-                if (latestPayslip) {
-                    ctx.latestPayslip = {
-                        month: latestPayslip.month,
-                        year: latestPayslip.year,
-                        gross: latestPayslip.gross,
-                        net: latestPayslip.net,
-                        workingDays: latestPayslip.workingDays,
-                        presentDays: latestPayslip.presentDays,
-                        status: latestPayslip.status,
-                    };
-                }
-            }
         }
 
         if (isAbout('task', 'todo', 'pending', 'assigned')) {
             const tasks = await prisma.task.findMany({
                 where: { userId, status: { not: 'DONE' } },
-                orderBy: { createdAt: 'desc' },
                 take: 10,
             });
             ctx.myPendingTasks = tasks.map(t => ({
@@ -192,19 +274,20 @@ async function buildContext(userId: string, role: string, companyId: string | nu
             }));
         }
 
-        if (isAbout('expense', 'claim', 'reimburs')) {
-            const expenses = await prisma.expenseClaim.findMany({
+        if (isAbout('payslip', 'salary', 'pay', 'ctc')) {
+            const latestPayslip = await prisma.payslip.findFirst({
                 where: { userId },
-                include: { category: true },
-                orderBy: { createdAt: 'desc' },
-                take: 5,
+                orderBy: [{ year: 'desc' }, { month: 'desc' }],
             });
-            ctx.myExpenses = expenses.map(e => ({
-                amount: e.amount,
-                category: e.category.name,
-                status: e.status,
-                date: e.date.toDateString(),
-            }));
+            if (latestPayslip) {
+                ctx.latestPayslip = {
+                    month: latestPayslip.month,
+                    year: latestPayslip.year,
+                    gross: latestPayslip.gross,
+                    net: latestPayslip.net,
+                    status: latestPayslip.status,
+                };
+            }
         }
     } catch (err: any) {
         console.warn('Context gathering error:', err.message);
@@ -213,6 +296,9 @@ async function buildContext(userId: string, role: string, companyId: string | nu
     return ctx;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+//  MAIN HANDLER
+// ─────────────────────────────────────────────────────────────────────────────
 export const handleAiChat = async (req: Request, res: Response) => {
     try {
         const { message } = req.body;
@@ -228,30 +314,11 @@ export const handleAiChat = async (req: Request, res: Response) => {
         }
 
         const apiKey = process.env.OPENAI_API_KEY;
-        const chatbotUrl = process.env.AI_SERVICE_URL?.replace('/ask', '') || 'https://citrux-hrms-chatbot.onrender.com';
 
         // ── PATH 1: OpenAI is configured ──────────────────────────────────────
         if (apiKey) {
             const context = await buildContext(userId, role, companyId, message);
-
-            const systemPrompt = `You are an intelligent HR Assistant for Citrux HRMS. You help employees and HR managers with queries about leaves, attendance, payroll, team metrics, tasks, and expenses.
-
-Today's date: ${new Date().toDateString()}
-User role: ${role}
-User name: ${context.requester?.name ?? 'User'}
-
-You have access to the following real-time data fetched from the company database:
-${JSON.stringify(context, null, 2)}
-
-Guidelines:
-- Answer directly and concisely using the data provided above.
-- If the data is empty or unavailable for a question, say so honestly.
-- For EMPLOYEE role: only share that user's own data.
-- For ADMIN/HR role: you can share company-wide summaries.
-- For MANAGER role: share own data + team data.
-- Format numbers clearly (e.g. "8.5 hours", "3 days remaining").
-- Use friendly, professional language.
-- If a question is unrelated to HR/work, politely redirect to HRMS topics.`;
+            const systemPrompt = `You are an intelligent HR Assistant for Citrux HRMS. Today's date: ${new Date().toDateString()}. User role: ${role}. User: ${context.requester?.name ?? 'User'}.\n\nReal-time data:\n${JSON.stringify(context, null, 2)}\n\nBe concise, friendly, and professional. Only answer HR-related questions.`;
 
             const response = await axios.post(OPENAI_API_URL, {
                 model: 'gpt-4o-mini',
@@ -262,10 +329,7 @@ Guidelines:
                 temperature: 0.4,
                 max_tokens: 500,
             }, {
-                headers: {
-                    'Authorization': `Bearer ${apiKey}`,
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
                 timeout: 20000,
             });
 
@@ -273,36 +337,48 @@ Guidelines:
             return res.json({ reply: reply || "I couldn't generate a response. Please try again." });
         }
 
-        // ── PATH 2: Fallback to Python deterministic chatbot ──────────────────
+        // ── PATH 2: Built-in intent-based engine (no external API needed) ─────
+        const intent = detectIntent(message);
+
+        let reply: string;
         try {
-            // The Python chatbot uses a simple integer user_id based on role mapping
-            const roleToId: Record<string, number> = { ADMIN: 1, HR: 1, MANAGER: 2, EMPLOYEE: 3 };
-            const chatUserId = roleToId[role] ?? 3;
-
-            const chatbotRes = await axios.post(`${chatbotUrl}/api/chat`, {
-                user_id: chatUserId,
-                message,
-            }, { timeout: 15000 });
-
-            const reply = chatbotRes.data?.response || "I couldn't understand that. Please try rephrasing.";
-            return res.json({ reply });
-        } catch (chatbotError: any) {
-            console.warn('Python chatbot unavailable:', chatbotError.message);
-            // Both paths failed — return a helpful static message
-            return res.json({
-                reply: "I'm currently running in limited mode. You can check your leaves and attendance directly from the dashboard. Please contact HR for further assistance."
-            });
+            switch (intent) {
+                case 'greeting':
+                    reply = await handleGreeting(userId);
+                    break;
+                case 'leave_query':
+                    reply = await handleLeaveQuery(userId);
+                    break;
+                case 'team_leave_query':
+                    reply = await handleTeamLeaveQuery(userId, role, companyId);
+                    break;
+                case 'work_hours_query':
+                    reply = await handleWorkHoursQuery(userId);
+                    break;
+                case 'attendance_query':
+                    reply = await handleAttendanceQuery(userId);
+                    break;
+                case 'task_query':
+                    reply = await handleTaskQuery(userId);
+                    break;
+                case 'holiday_query':
+                    reply = await handleHolidayQuery(companyId);
+                    break;
+                case 'salary_query':
+                    reply = await handleSalaryQuery(userId);
+                    break;
+                default:
+                    reply = "I can help you with:\n• 🏖️ Leave balances & team leave\n• ⏰ Attendance & work hours\n• 📋 Pending tasks\n• 🗓️ Upcoming holidays\n• 💰 Salary & payslips\n\nTry asking something like 'How many leaves do I have?' or 'Show my attendance this month'.";
+            }
+        } catch (dbError: any) {
+            console.error('DB error in intent handler:', dbError.message);
+            reply = "I had trouble fetching your data. Please try again in a moment.";
         }
+
+        return res.json({ reply });
 
     } catch (error: any) {
-        console.error('AI Chat Error:', error.response?.data || error.message);
-        const status = error.response?.status;
-        if (status === 401) {
-            return res.status(503).json({ reply: 'AI service authentication failed. Please contact your administrator.' });
-        }
-        if (status === 429) {
-            return res.status(503).json({ reply: 'AI service is busy right now. Please try again in a moment.' });
-        }
-        return res.status(503).json({ reply: "I'm having trouble connecting right now. Please try again later." });
+        console.error('AI Chat Error:', error.message);
+        return res.status(500).json({ reply: "Something went wrong. Please try again." });
     }
 };
