@@ -123,7 +123,16 @@ export const forgotPassword = async (req: Request, res: Response) => {
         });
 
         // Include uid so reset endpoint can find the user without decoding a JWT
-        const resetLink = `${process.env.CLIENT_URL || 'http://localhost:5173'}/reset-password?token=${resetTokenRaw}&uid=${user.id}`;
+        // Handle multiple origins in CLIENT_URL (Render config)
+        const allowedOrigins = (process.env.CLIENT_URL || '').split(',');
+        const requestOrigin = req.get('origin');
+        
+        // Use request origin if allowed, otherwise first origin, otherwise fallback
+        const baseUrl = (requestOrigin && allowedOrigins.includes(requestOrigin)) 
+            ? requestOrigin 
+            : (allowedOrigins[0] || 'http://localhost:5173');
+
+        const resetLink = `${baseUrl}/reset-password?token=${resetTokenRaw}&uid=${user.id}`;
 
         const { sendEmail } = require('../utils/email.service');
         await sendEmail(

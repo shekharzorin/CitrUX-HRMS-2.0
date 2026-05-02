@@ -72,7 +72,19 @@ const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
 const allowedOrigins = clientUrl.includes(',') ? clientUrl.split(',') : clientUrl;
 
 app.use(cors({
-    origin: allowedOrigins,
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (typeof allowedOrigins === 'string') {
+            if (allowedOrigins === origin) return callback(null, true);
+        } else if (Array.isArray(allowedOrigins)) {
+            if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
+        }
+        // Fallback for subdomains or similar
+        if (origin.endsWith('.isnap.in') || origin.endsWith('.citrux.in')) {
+            return callback(null, true);
+        }
+        callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -85,7 +97,16 @@ app.use((req, res, next) => {
 });
 
 // SECURITY: Helmet & Rate Limit
-app.use(helmet());
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: {
+        directives: {
+            ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+            "img-src": ["'self'", "data:", "https:", "*.onrender.com", "*.cloudinary.com", "cloudinary.com"],
+        },
+    },
+}));
 
 // Rate Limiting: 100 requests per 15 minutes per IP
 const limiter = rateLimit({
