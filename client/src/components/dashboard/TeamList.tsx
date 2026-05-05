@@ -106,6 +106,8 @@ export const TeamList: React.FC = () => {
                     ))}
                     <button
                         onClick={() => setShowSearch(!showSearch)}
+                        title={showSearch ? 'Close search' : 'Search team members'}
+                        aria-label={showSearch ? 'Close search' : 'Search team members'}
                         className="p-2 bg-slate-50 text-slate-400 hover:text-indigo-600 rounded-lg transition-colors"
                     >
                         <Icon name="search" size={16} />
