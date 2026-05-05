@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import {
-    fetchDashboardStats,
-    DashboardStats,
-} from '../services/dashboard.service';
+import { fetchDashboardStats } from '../services/dashboard.service';
+import type { DashboardStats } from '../services/dashboard.service';
 
 const POLL_INTERVAL_MS = 120_000; // Re-fetch every 2 minutes (live feel without websocket)
 
