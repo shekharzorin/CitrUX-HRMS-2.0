@@ -32,13 +32,16 @@ export const getDashboardStats = async (req: Request, res: Response) => {
         const companyUserFilter = companyId ? { user: { companyId } } : {};
 
         // ── Admin/HR only stats ──────────────────────────────────────────────────
-        let totalUsers = 0, activeUsers = 0, presentToday = 0, pendingClaimsCount = 0;
+        let totalUsers = 0, activeUsers = 0, presentToday = 0, lateToday = 0, pendingClaimsCount = 0;
 
         if (isAdminOrHR) {
             totalUsers = await withRetry(() => prisma.user.count({ where: companyFilter }));
             activeUsers = await withRetry(() => prisma.user.count({ where: { ...companyFilter, status: 'ACTIVE' } }));
             presentToday = await withRetry(() => prisma.attendance.count({
                 where: { date: { gte: todayUTC, lt: tomorrowUTC }, ...companyUserFilter }
+            }));
+            lateToday = await withRetry(() => prisma.attendance.count({
+                where: { date: { gte: todayUTC, lt: tomorrowUTC }, isLate: true, ...companyUserFilter }
             }));
             pendingClaimsCount = await withRetry(() => prisma.expenseClaim.count({
                 where: { status: 'PENDING', ...companyUserFilter }
@@ -215,7 +218,7 @@ export const getDashboardStats = async (req: Request, res: Response) => {
 
         res.json({
             users: isAdminOrHR ? { total: totalUsers, active: activeUsers } : undefined,
-            attendance: isAdminOrHR ? { presentToday } : undefined,
+            attendance: isAdminOrHR ? { presentToday, lateToday } : undefined,
             finance: isAdminOrHR ? { pendingClaims: pendingClaimsCount } : undefined,
             recruitment: { openJobs: openJobsCount },
             departments: isAdminOrHR
