@@ -40,8 +40,10 @@ const cloudinaryStorage = (CloudinaryStorage as any)({
     },
 });
 
+const isCloudinaryConfigured = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+
 export const upload = multer({
-    storage: cloudinaryStorage || diskStorage,
+    storage: isCloudinaryConfigured ? cloudinaryStorage : diskStorage,
     fileFilter: fileFilter,
     limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
 });
