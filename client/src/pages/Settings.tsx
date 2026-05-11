@@ -158,11 +158,6 @@ const Settings: React.FC = () => {
             const settingsToSave = { 'company_name': companyName, 'company_logo': companyLogo, 'company_favicon': companyFavicon };
             await api.post('/settings', { settings: settingsToSave });
 
-            // Update local storage
-            localStorage.setItem('company_name', companyName);
-            localStorage.setItem('company_logo', companyLogo);
-            localStorage.setItem('company_favicon', companyFavicon);
-
             // Update global auth context
             if (updateUser && user) {
                 updateUser({

@@ -47,22 +47,27 @@ export const updateSettings = async (req: AuthRequest, res: Response) => {
             return res.status(400).json({ message: 'Settings data required' });
         }
 
-        const updates = Object.entries(settings).map(([key, value]) =>
-            prisma.systemSetting.upsert({
-                where: { key },
-                update: { value: String(value) },
-                create: { key, value: String(value) },
-            })
-        );
+        // 1. Update Global System Settings (RESTRICTED TO SUPER ADMIN)
+        // This prevents regular company admins from changing the global branding/defaults
+        if (req.user?.role === 'SUPER_ADMIN') {
+            const updates = Object.entries(settings).map(([key, value]) =>
+                prisma.systemSetting.upsert({
+                    where: { key },
+                    update: { value: String(value) },
+                    create: { key, value: String(value) },
+                })
+            );
+            await prisma.$transaction(updates);
+        }
 
-        await prisma.$transaction(updates);
-
-        // Synchronize with the Company model for the current tenant
+        // 2. Synchronize with the Company model for the current tenant
+        // This ensures branding is isolated to each company
         const companyId = req.user?.companyId;
         if (companyId) {
             const companyData: any = {};
             if (settings['company_name']) companyData.name = settings['company_name'];
             if (settings['company_logo']) companyData.logoUrl = settings['company_logo'];
+            if (settings['company_favicon']) companyData.faviconUrl = settings['company_favicon'];
 
             if (Object.keys(companyData).length > 0) {
                 await prisma.company.update({
