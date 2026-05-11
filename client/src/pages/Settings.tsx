@@ -9,6 +9,7 @@ import { Button } from '../components/ui/Button';
 import { Skeleton } from '../components/ui/Skeleton';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
+import { ImageCropper } from '../components/ImageCropper';
 
 const Settings: React.FC = () => {
     const { user, updateUser, logout } = useAuth();
@@ -30,6 +31,13 @@ const Settings: React.FC = () => {
     });
 
     const [aiProvider, setAiProvider] = useState('groq');
+
+    // Logo Cropper & Config State
+    const [logoFileToCrop, setLogoFileToCrop] = useState<File | null>(null);
+    const [logoConfig, setLogoConfig] = useState({
+        maxSizeMB: 2,
+        aspectRatio: 1
+    });
 
     // Leave & Holidays State
     const [leaves, setLeaves] = useState<any[]>([]);
@@ -83,6 +91,10 @@ const Settings: React.FC = () => {
                     padding: data['EMP_ID_PADDING'] || '4'
                 });
                 setAiProvider(data['ai_provider'] || 'groq');
+                setLogoConfig({
+                    maxSizeMB: Number(data['LOGO_MAX_SIZE_MB']) || 2,
+                    aspectRatio: Number(data['LOGO_ASPECT_RATIO']) || 1
+                });
             }
             // Initial fetch of other important data
             await Promise.all([fetchRoles(), fetchLeaveTypes(), fetchHolidays()]);
@@ -174,38 +186,46 @@ const Settings: React.FC = () => {
         } catch (error) { console.error(error); }
     };
 
+    const saveLogoConfig = async () => {
+        try {
+            const settingsToSave = {
+                'LOGO_MAX_SIZE_MB': logoConfig.maxSizeMB.toString(),
+                'LOGO_ASPECT_RATIO': logoConfig.aspectRatio.toString()
+            };
+            await api.post('/settings', { settings: settingsToSave });
+            alert('Logo Configuration Saved!');
+        } catch (error) { console.error(error); }
+    };
+
     const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            // Validate dimensions first
-            const reader = new FileReader();
-            reader.onload = (readerEvent) => {
-                const image = new Image();
-                image.onload = async () => {
-                    if (image.width > 500 || image.height > 500) {
-                        alert(`Image dimensions (${image.width}x${image.height}px) exceed the maximum allowed size of 500x500px.`);
-                        e.target.value = ''; return;
-                    }
+            const maxBytes = logoConfig.maxSizeMB * 1024 * 1024;
+            if (file.size > maxBytes) {
+                alert(`File size exceeds the maximum allowed size of ${logoConfig.maxSizeMB}MB.`);
+                e.target.value = '';
+                return;
+            }
+            setLogoFileToCrop(file);
+        }
+        e.target.value = '';
+    };
 
-                    // Upload via FormData
-                    try {
-                        const formData = new FormData();
-                        formData.append('file', file);
-                        setLoading(true);
-                        const data = await api.post<{ url: string }>('/onboarding/upload', formData);
-                        if (data?.url) {
-                            setCompanyLogo(data.url);
-                        }
-                    } catch (error) {
-                        console.error("Upload failed", error);
-                        alert("Failed to upload logo");
-                    } finally {
-                        setLoading(false);
-                    }
-                };
-                if (readerEvent.target?.result) image.src = readerEvent.target.result as string;
-            };
-            reader.readAsDataURL(file);
+    const handleCropComplete = async (croppedFile: File) => {
+        setLogoFileToCrop(null);
+        try {
+            const formData = new FormData();
+            formData.append('file', croppedFile);
+            setLoading(true);
+            const data = await api.post<{ url: string }>('/onboarding/upload', formData);
+            if (data?.url) {
+                setCompanyLogo(data.url);
+            }
+        } catch (error) {
+            console.error("Upload failed", error);
+            alert("Failed to upload logo");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -407,11 +427,33 @@ const Settings: React.FC = () => {
                                                     </button>
                                                 )}
                                                 <p className="text-[10px] text-slate-400 max-w-[150px]">
-                                                    Max size: 500x500px <br />
+                                                    Max size: {logoConfig.maxSizeMB}MB <br />
                                                     Formats: PNG, JPG, SVG
                                                 </p>
                                             </div>
                                         </div>
+                                        
+                                        {user?.role === 'SUPER_ADMIN' && (
+                                            <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 mt-4 space-y-4">
+                                                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">Super Admin Logo Config</h4>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <div>
+                                                        <label className="form-label text-xs">Max Size (MB)</label>
+                                                        <input type="number" className="input-field text-sm" value={logoConfig.maxSizeMB} onChange={e => setLogoConfig({...logoConfig, maxSizeMB: Number(e.target.value)})} />
+                                                    </div>
+                                                    <div>
+                                                        <label className="form-label text-xs">Visible Area Ratio</label>
+                                                        <select className="input-field text-sm" value={logoConfig.aspectRatio} onChange={e => setLogoConfig({...logoConfig, aspectRatio: Number(e.target.value)})}>
+                                                            <option value={1}>1:1 (Square)</option>
+                                                            <option value={16/9}>16:9 (Landscape)</option>
+                                                            <option value={4/3}>4:3 (Standard)</option>
+                                                            <option value={2}>2:1 (Wide)</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <Button onClick={saveLogoConfig} className="w-full text-xs py-2">Save Logo Config</Button>
+                                            </div>
+                                        )}
                                     </div>
                                     <div>
                                         <label htmlFor="companyFavicon" className="form-label">Favicon</label>
@@ -781,6 +823,15 @@ const Settings: React.FC = () => {
                 message={confirmState.message}
                 type={confirmState.type}
             />
+
+            {logoFileToCrop && (
+                <ImageCropper
+                    imageFile={logoFileToCrop}
+                    aspectRatio={logoConfig.aspectRatio}
+                    onCropComplete={handleCropComplete}
+                    onCancel={() => setLogoFileToCrop(null)}
+                />
+            )}
         </div>
     );
 };
