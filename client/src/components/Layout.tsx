@@ -8,6 +8,7 @@ import { NotificationBell } from './Header/NotificationBell';
 import { ProfileDropdown } from './Header/ProfileDropdown';
 import { api } from '../services/api';
 import { AiAssistant } from './AiAssistant';
+import { resolveImageUrl } from '../utils/image';
 
 
 const NavItem = ({ to, icon, label, precise = false, collapsed, isMobile, onCloseMobile }: { to: string; icon: AppIconName; label: string; precise?: boolean; collapsed: boolean; isMobile: boolean; onCloseMobile: () => void }) => {
@@ -165,7 +166,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             `}>
                 <div className={`flex items-center gap-3 overflow-hidden w-full ${collapsed && !isMobile ? 'justify-center' : ''}`}>
                     {companyLogo ? (
-                        <img src={companyLogo} alt="Logo" className="max-h-10 w-auto object-contain flex-shrink-0" />
+                        <img src={resolveImageUrl(companyLogo)} alt="Logo" className="max-h-10 w-auto object-contain flex-shrink-0" />
                     ) : (
                         <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-200 dark:shadow-none flex-shrink-0">
                             {companyName.charAt(0)}

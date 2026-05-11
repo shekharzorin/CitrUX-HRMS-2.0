@@ -10,6 +10,7 @@ import { Skeleton } from '../components/ui/Skeleton';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
 import { ImageCropper } from '../components/ImageCropper';
+import { resolveImageUrl } from '../utils/image';
 
 const Settings: React.FC = () => {
     const { user, updateUser, logout } = useAuth();
@@ -414,7 +415,7 @@ const Settings: React.FC = () => {
                                         <label htmlFor="companyLogo" className="form-label">Company Logo</label>
                                         <div className="flex items-center gap-4">
                                             <div className="w-20 h-20 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-center bg-slate-50 dark:bg-slate-800/50 relative group overflow-hidden transition-colors hover:border-[var(--primary)] hover:bg-slate-100 dark:hover:bg-slate-800">
-                                                {companyLogo ? <img src={companyLogo} alt="Logo" className="w-full h-full object-contain p-2" /> : <span className="text-[10px] text-slate-400">Upload</span>}
+                                                {companyLogo ? <img src={resolveImageUrl(companyLogo)} alt="Logo" className="w-full h-full object-contain p-2" /> : <span className="text-[10px] text-slate-400">Upload</span>}
                                                 <input id="companyLogo" type="file" accept="image/*" onChange={handleLogoUpload} className="absolute inset-0 opacity-0 cursor-pointer" title="Upload Company Logo" />
                                             </div>
                                             <div className="flex flex-col gap-1">
@@ -459,7 +460,7 @@ const Settings: React.FC = () => {
                                         <label htmlFor="companyFavicon" className="form-label">Favicon</label>
                                         <div className="flex items-center gap-4">
                                             <div className="w-16 h-16 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-center bg-slate-50 dark:bg-slate-800/50 relative group overflow-hidden transition-colors hover:border-[var(--primary)] hover:bg-slate-100 dark:hover:bg-slate-800">
-                                                {companyFavicon ? <img src={companyFavicon} alt="Favicon" className="w-8 h-8 object-contain" /> : <span className="text-[10px] text-slate-400">Upload</span>}
+                                                {companyFavicon ? <img src={resolveImageUrl(companyFavicon)} alt="Favicon" className="w-8 h-8 object-contain" /> : <span className="text-[10px] text-slate-400">Upload</span>}
                                                 <input id="companyFavicon" type="file" accept="image/*" onChange={handleFaviconUpload} className="absolute inset-0 opacity-0 cursor-pointer" title="Upload Favicon" />
                                             </div>
                                             <div className="flex flex-col gap-1">
