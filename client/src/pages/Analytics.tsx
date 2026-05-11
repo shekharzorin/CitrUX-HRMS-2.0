@@ -64,8 +64,8 @@ const Analytics: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <StatBox
                         label="Total Workforce"
-                        value={stats.users.total}
-                        sub={`${stats.users.active} Active Users`}
+                        value={stats.users?.total || 0}
+                        sub={`${stats.users?.active || 0} Active Users`}
                         icon="employees"
                         color="text-indigo-600 dark:text-indigo-400"
                         className="cursor-pointer hover:border-indigo-200 dark:hover:border-indigo-800"
