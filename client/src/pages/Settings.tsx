@@ -189,8 +189,16 @@ const Settings: React.FC = () => {
 
     const saveLogoConfig = async () => {
         try {
+            const configBlob = {
+                maxUploadSizeMB: logoConfig.maxSizeMB,
+                aspectRatio: logoConfig.aspectRatio,
+                maxWidth: 1200, // keep default or add more fields
+                compressionQuality: 80,
+                autoConvertToWebP: true
+            };
             const settingsToSave = {
-                'LOGO_MAX_SIZE_MB': logoConfig.maxSizeMB.toString(),
+                'GLOBAL_IMAGE_SETTINGS': JSON.stringify(configBlob),
+                'LOGO_MAX_SIZE_MB': logoConfig.maxSizeMB.toString(), // keep for legacy if any
                 'LOGO_ASPECT_RATIO': logoConfig.aspectRatio.toString()
             };
             await api.post('/settings', { settings: settingsToSave });
@@ -217,13 +225,14 @@ const Settings: React.FC = () => {
         try {
             const formData = new FormData();
             formData.append('file', croppedFile);
+            formData.append('type', 'logo');
             setLoading(true);
-            const data = await api.post<{ url: string }>('/onboarding/upload', formData);
-            if (data?.url) {
-                setCompanyLogo(data.url);
+            const data = await api.post<{ urls: { originalUrl: string } }>('/upload/image', formData);
+            if (data?.urls?.originalUrl) {
+                setCompanyLogo(data.urls.originalUrl);
             }
         } catch (error) {
-            console.error("Upload failed", error);
+            console.error('Logo upload failed:', error);
             alert("Failed to upload logo");
         } finally {
             setLoading(false);

@@ -27,17 +27,17 @@ const uploadMiddleware = (req: any, res: any, next: any) => {
 
 router.post('/upload', authenticateToken, uploadMiddleware, (req: any, res) => {
     if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
-    // Multer provides absolute path in req.file.path
-    // We need to return the URL relative to the server
-    const filename = req.file.filename;
+    
     let url = '';
 
     // Check if Cloudinary storage (path is already a URL)
-    if (req.file.path && req.file.path.startsWith('http')) {
+    if (req.file.path && (req.file.path.startsWith('http') || req.file.path.startsWith('https'))) {
         url = req.file.path;
     } else {
-        // Local storage fallback
-        url = `${process.env.API_URL || 'http://localhost:5001'}/uploads/${filename}`;
+        // Local storage fallback - return relative path for resolveImageUrl to handle
+        // This avoids hardcoding the protocol/host in the DB
+        const filename = req.file.filename || req.file.originalname || Date.now().toString();
+        url = `uploads/${filename}`;
     }
 
     console.log('[Upload Endpoint] Success, URL:', url);

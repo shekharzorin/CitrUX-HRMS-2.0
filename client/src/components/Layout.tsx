@@ -52,11 +52,18 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     // Dynamic Branding
     const companyName = user?.company?.name || localStorage.getItem('company_name') || 'Citrux HRMS';
     const companyLogo = user?.company?.logoUrl || localStorage.getItem('company_logo') || '';
+    const companyFavicon = localStorage.getItem('company_favicon') || '';
     const companySlogan = user?.company?.slogan || 'Citrux SaaS';
 
     useEffect(() => {
         document.title = companyName;
-    }, [companyName]);
+        
+        // Update Favicon
+        const favicon = document.querySelector('link[rel="icon"]');
+        if (favicon && companyFavicon) {
+            (favicon as HTMLLinkElement).href = resolveImageUrl(companyFavicon);
+        }
+    }, [companyName, companyFavicon]);
 
     const navigate = useNavigate();
     const location = useLocation();
