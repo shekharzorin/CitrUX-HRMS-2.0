@@ -16,6 +16,7 @@ export interface User {
     company?: {
         name: string;
         logoUrl?: string;
+        faviconUrl?: string;
         slogan?: string;
     };
 }
