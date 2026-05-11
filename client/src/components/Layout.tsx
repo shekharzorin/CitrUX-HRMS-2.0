@@ -50,8 +50,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [showSearchDropdown, setShowSearchDropdown] = useState(false);
 
     // Dynamic Branding
-    const companyName = user?.company?.name || 'Citrux HRMS';
-    const companyLogo = user?.company?.logoUrl || '';
+    const companyName = user?.company?.name || localStorage.getItem('company_name') || 'Citrux HRMS';
+    const companyLogo = user?.company?.logoUrl || localStorage.getItem('company_logo') || '';
     const companySlogan = user?.company?.slogan || 'Citrux SaaS';
 
     useEffect(() => {

@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
 
+import { AuthRequest } from '../middlewares/auth.middleware';
+
 export const getSettings = async (req: Request, res: Response) => {
     try {
         const settings = await prisma.systemSetting.findMany();
@@ -37,7 +39,7 @@ export const getPublicSettings = async (req: Request, res: Response) => {
     }
 };
 
-export const updateSettings = async (req: Request, res: Response) => {
+export const updateSettings = async (req: AuthRequest, res: Response) => {
     try {
         const { settings } = req.body;
 
@@ -54,6 +56,21 @@ export const updateSettings = async (req: Request, res: Response) => {
         );
 
         await prisma.$transaction(updates);
+
+        // Synchronize with the Company model for the current tenant
+        const companyId = req.user?.companyId;
+        if (companyId) {
+            const companyData: any = {};
+            if (settings['company_name']) companyData.name = settings['company_name'];
+            if (settings['company_logo']) companyData.logoUrl = settings['company_logo'];
+
+            if (Object.keys(companyData).length > 0) {
+                await prisma.company.update({
+                    where: { id: companyId },
+                    data: companyData
+                });
+            }
+        }
 
         res.json({ message: 'Settings updated successfully' });
     } catch (error) {
