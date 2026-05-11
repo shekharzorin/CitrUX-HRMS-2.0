@@ -24,6 +24,15 @@ export const resolveImageUrl = (path: string | null | undefined): string => {
     
     // Ensure relative paths don't have leading slash if BASE_URL doesn't end with one
     const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+    const resolvedUrl = `${BASE_URL}/${cleanPath}`;
     
-    return `${BASE_URL}/${cleanPath}`;
+    // If it's a local upload, append the auth token
+    if (cleanPath.startsWith('uploads/')) {
+        const token = localStorage.getItem('token');
+        if (token) {
+            return `${resolvedUrl}?token=${token}`;
+        }
+    }
+    
+    return resolvedUrl;
 };

@@ -135,10 +135,8 @@ app.use('/uploads/:filename', (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as any;
-        if (decoded.filename !== filename && decoded.role !== 'ADMIN' && decoded.role !== 'HR') {
-            return res.status(403).json({ message: 'URL signature invalid' });
-        }
+        // Just verify they are a logged in user of the system
+        jwt.verify(token, process.env.JWT_SECRET as string);
         next();
     } catch (err) {
         return res.status(403).json({ message: 'URL signature expired or invalid' });
