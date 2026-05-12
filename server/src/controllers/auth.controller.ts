@@ -134,13 +134,34 @@ export const forgotPassword = async (req: Request, res: Response) => {
 
         const resetLink = `${baseUrl}/reset-password?token=${resetTokenRaw}&uid=${user.id}`;
 
+        const htmlTemplate = `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f5; color: #3f3f46; border-radius: 8px;">
+                <h2 style="color: #f97316; text-align: center; margin-bottom: 24px;">Citrux HRMS</h2>
+                <div style="background-color: #ffffff; padding: 32px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+                    <h3 style="margin-top: 0; color: #18181b; font-size: 20px;">Password Reset Request</h3>
+                    <p style="font-size: 16px; line-height: 1.5;">We received a request to reset the password for your Citrux HRMS account.</p>
+                    <p style="font-size: 16px; line-height: 1.5;">Click the button below to securely reset your password. This link will expire in 1 hour.</p>
+                    <div style="text-align: center; margin: 32px 0;">
+                        <a href="${resetLink}" style="background-color: #f97316; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 6px; font-weight: 600; font-size: 16px; display: inline-block;">Securely Reset Password</a>
+                    </div>
+                    <p style="font-size: 14px; color: #71717a; margin-bottom: 0;">If you didn't request a password reset, you can safely ignore this email.</p>
+                </div>
+                <div style="text-align: center; margin-top: 24px; font-size: 12px; color: #a1a1aa;">
+                    <p>&copy; ${new Date().getFullYear()} Citrux HRMS. All rights reserved.</p>
+                    <p>Need help? Contact HR Support.</p>
+                </div>
+            </div>
+        `;
+
         const { sendEmail } = require('../utils/email.service');
         await sendEmail(
             user.email,
-            'Password Reset Request',
-            `Click here to reset your password: ${resetLink}\n\nThis link will expire in 1 hour.`
+            'Password Reset Request - Citrux HRMS',
+            `Click here to reset your password: ${resetLink}\n\nThis link will expire in 1 hour.`,
+            htmlTemplate
         );
 
+        logger.info(`Forgot Password Email sent to: ${email}`);
         res.json({ message: 'If an account with that email exists, a reset link has been sent.' });
 
     } catch (error: any) {
@@ -157,11 +178,14 @@ export const resetPassword = async (req: Request, res: Response) => {
         const { token, uid, newPassword } = req.body;
 
         if (!token || !uid || !newPassword) {
+            logger.warn(`Reset Password Attempt Failed: Missing fields for uid ${uid}`);
             return res.status(400).json({ message: 'Token, uid, and new password are required' });
         }
 
-        if (newPassword.length < 8) {
-            return res.status(400).json({ message: 'Password must be at least 8 characters' });
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(newPassword)) {
+            logger.warn(`Reset Password Attempt Failed: Weak password provided for uid ${uid}`);
+            return res.status(400).json({ message: 'Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.' });
         }
 
         const user = await prisma.user.findUnique({ where: { id: uid } });
@@ -194,6 +218,7 @@ export const resetPassword = async (req: Request, res: Response) => {
             }
         });
 
+        logger.info(`Password successfully reset for uid: ${user.id}`);
         res.json({ message: 'Password reset successful' });
 
     } catch (error: any) {

@@ -3,11 +3,15 @@ import nodemailer from "nodemailer";
 // 🔍 HARD CHECK ENV (VERY IMPORTANT)
 if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
     console.warn("⚠️ SMTP ENV NOT LOADED PROPERLY");
-    console.log({
-        SMTP_HOST: process.env.SMTP_HOST,
-        SMTP_USER: process.env.SMTP_USER,
-        SMTP_PASS: process.env.SMTP_PASS ? "LOADED" : "MISSING",
-    });
+    if (process.env.NODE_ENV === 'production') {
+        throw new Error("CRITICAL: SMTP credentials are required in production.");
+    } else {
+        console.log({
+            SMTP_HOST: process.env.SMTP_HOST,
+            SMTP_USER: process.env.SMTP_USER,
+            SMTP_PASS: process.env.SMTP_PASS ? "LOADED" : "MISSING",
+        });
+    }
 }
 
 // ✅ Create transporter WITH DEBUG
@@ -36,7 +40,7 @@ transporter.verify((error, success) => {
     }
 });
 
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import path from 'path';
 
 export const sendEmail = async (
@@ -46,13 +50,19 @@ export const sendEmail = async (
     html?: string
 ) => {
     const logFile = path.join(process.cwd(), 'email_debug.log');
-    const log = (msg: string) => fs.appendFileSync(logFile, `[${new Date().toISOString()}] ${msg}\n`);
+    const log = async (msg: string) => {
+        try {
+            await fs.appendFile(logFile, `[${new Date().toISOString()}] ${msg}\n`);
+        } catch (err) {
+            console.error("Failed to write to email_debug.log:", err);
+        }
+    };
 
     log(`Attempting to send email to: ${to}`);
 
     // DEV FALLBACK
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-        log("⚠️ SMTP creds missing. Email skipped.");
+        await log("⚠️ SMTP creds missing. Email skipped.");
         return;
     }
 
@@ -65,10 +75,15 @@ export const sendEmail = async (
             html,
         });
 
-        log(`✅ Email sent successfully! MessageID: ${info.messageId}`);
-        log(`Response: ${info.response}`);
+        await log(`✅ Email sent successfully! MessageID: ${info.messageId}`);
+        await log(`Response: ${info.response}`);
+        console.log(`✅ Email sent successfully! MessageID: ${info.messageId}`);
+        if (process.env.SMTP_HOST?.includes('ethereal.email')) {
+            console.log(`📧 Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
+            await log(`📧 Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
+        }
     } catch (error: any) {
-        log(`❌ Error sending email: ${error.message}`);
+        await log(`❌ Error sending email: ${error.message}`);
         console.error("❌ Error sending email:", error);
     }
 };

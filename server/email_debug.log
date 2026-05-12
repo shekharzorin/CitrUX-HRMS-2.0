@@ -14,3 +14,7 @@
 [2026-02-09T08:16:45.117Z] Attempting to send email to: shekharzorin@gmail.com
 [2026-02-09T08:16:47.956Z] ✅ Email sent successfully! MessageID: <1d257f8d-75af-3196-0a97-06d4c0e46c61@gmail.com>
 [2026-02-09T08:16:47.957Z] Response: 250 2.0.0 OK  1770625009 d9443c01a7336-2a9521b9b2dsm98184035ad.65 - gsmtp
+[2026-05-12T09:48:01.360Z] Attempting to send email to: superadmin@citrux.com
+[2026-05-12T09:48:05.584Z] ✅ Email sent successfully! MessageID: <b14d38fd-f93e-1f3b-9217-d330f536c89f@ethereal.email>
+[2026-05-12T09:48:05.585Z] Response: 250 Accepted [STATUS=new MSGID=agLgQpnvM5eyzrpSagL3VV54FVLi4otXAAAAAUyhpsyGUWYqXQ4qBQUMo.M]
+[2026-05-12T09:48:05.587Z] 📧 Preview URL: https://ethereal.email/message/agLgQpnvM5eyzrpSagL3VV54FVLi4otXAAAAAUyhpsyGUWYqXQ4qBQUMo.M
