@@ -133,6 +133,7 @@ export const NotificationBell = () => {
                                 <button 
                                     onClick={() => setIsOpen(false)}
                                     className="sm:hidden p-1 -ml-1 text-slate-500"
+                                    title="Close Notifications"
                                 >
                                     <Icon name="chevron_left" size={20} />
                                 </button>
@@ -142,7 +143,10 @@ export const NotificationBell = () => {
                                 <button onClick={markAllAsRead} className="p-2 text-slate-400 hover:text-[var(--primary)] transition-all hover:bg-slate-50 dark:hover:bg-white/5 rounded-lg" title="Mark all as read">
                                     <Icon name="check_circle" size={18} />
                                 </button>
-                                <button className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all hover:bg-slate-50 dark:hover:bg-white/5 rounded-lg">
+                                <button 
+                                    className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all hover:bg-slate-50 dark:hover:bg-white/5 rounded-lg"
+                                    title="Notification Settings"
+                                >
                                     <Icon name="settings" size={18} />
                                 </button>
                             </div>
