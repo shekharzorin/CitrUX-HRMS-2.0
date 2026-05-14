@@ -70,21 +70,21 @@ export const HeroWorkCard: React.FC = () => {
                         <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-100">
                             {getGreeting()}, {user?.profile?.firstName || 'there'} 👋
                         </h1>
-                        <p className="text-slate-400 font-medium mt-1">
+                        <p className="text-slate-200 font-medium mt-1">
                             {currentTime.toLocaleDateString([], { weekday: 'long', day: 'numeric', month: 'long' })}
                         </p>
                     </div>
 
                     <div className="flex items-center gap-6">
                         <div className="space-y-1">
-                            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Current Time</p>
+                             <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-200">Current Time</p>
                             <p className="text-3xl font-black font-mono tracking-tighter tabular-nums">
                                 {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
                             </p>
                         </div>
                         <div className="h-10 w-[1px] bg-slate-800"></div>
                         <div className="space-y-1">
-                            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Shift Timing</p>
+                             <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-200">Shift Timing</p>
                             <p className="text-sm font-bold text-slate-300">
                                 {user?.shift ? `${user.shift.startTime} - ${user.shift.endTime}` : 'General Shift'}
                             </p>
@@ -96,13 +96,13 @@ export const HeroWorkCard: React.FC = () => {
                 <div className="lg:col-span-4 flex flex-col items-center justify-center p-6 bg-white/5 backdrop-blur-md rounded-3xl border border-white/10">
                     <div className="flex items-center gap-2 mb-3">
                         <span className={`w-2.5 h-2.5 rounded-full ${getStatusColor()} ${isClockedIn && !isOnBreak && 'animate-pulse'}`}></span>
-                        <span className="text-xs font-bold uppercase tracking-widest text-slate-300">{getStatusText()}</span>
+                         <span className="text-xs font-bold uppercase tracking-widest text-white">{getStatusText()}</span>
                     </div>
                     
                     <div className="text-5xl font-black font-mono tracking-tighter tabular-nums text-white">
                         {isClockedIn ? liveWorkTime : '00:00:00'}
                     </div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mt-2">Today's Work Duration</p>
+                     <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-200 mt-2">Today's Work Duration</p>
 
                     {/* Progress Bar */}
                     <div className="w-full h-1.5 bg-white/10 rounded-full mt-6 overflow-hidden">
@@ -155,7 +155,7 @@ export const HeroWorkCard: React.FC = () => {
                                     Clock Out
                                 </button>
                             </div>
-                            <p className="text-[10px] text-center text-slate-500 font-medium">
+                             <p className="text-[10px] text-center text-slate-300 font-medium">
                                 {activeRecord?.checkIn && `Started at ${new Date(activeRecord.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}
                             </p>
                         </>

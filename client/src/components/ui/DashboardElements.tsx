@@ -95,9 +95,9 @@ export const StatsCardPremium = ({ title, value, subtext, icon, variant, trend }
             </div>
 
             <div className="relative z-10">
-                <h4 className="text-xs font-bold uppercase tracking-wider opacity-70 mb-1">{title}</h4>
+                <h4 className="text-xs font-bold uppercase tracking-wider opacity-90 mb-1">{title}</h4>
                 <div className="text-4xl font-bold mb-1 tracking-tight">{value}</div>
-                <div className="text-xs font-medium opacity-80">{subtext}</div>
+                <div className="text-xs font-bold opacity-100">{subtext}</div>
             </div>
 
             {/* Decorative large circle in corner matches reference style */}

@@ -87,7 +87,7 @@ const Dashboard: React.FC = () => {
 
             {/* Last updated indicator */}
             {lastUpdated && (
-                <p className="text-[10px] text-slate-400 text-right -mt-6 pr-2 font-medium">
+                <p className="text-[10px] text-slate-800 text-right -mt-6 pr-2 font-bold uppercase tracking-wider">
                     Data refreshed at {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>
             )}
@@ -238,11 +238,11 @@ const Dashboard: React.FC = () => {
                             <div className="flex justify-between items-center mb-6">
                                 <div>
                                     <h3 className="font-bold text-slate-700">Attendance Trend</h3>
-                                    <p className="text-[10px] text-slate-400 font-medium mt-0.5">Last 7 days</p>
+                                    <p className="text-[10px] text-slate-500 font-bold mt-0.5 uppercase tracking-wider">Last 7 days</p>
                                 </div>
                                 <div className="flex items-center gap-1.5">
                                     <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                                    <span className="text-[10px] font-bold text-slate-400">Present</span>
+                                    <span className="text-[10px] font-bold text-slate-600">Present</span>
                                 </div>
                             </div>
                             {attendanceTrendData.length === 0 ? (
@@ -300,7 +300,7 @@ const Dashboard: React.FC = () => {
                         <div className="lg:col-span-5 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm h-[350px] flex flex-col">
                             <div className="mb-6">
                                 <h3 className="font-bold text-slate-700">Leave Distribution</h3>
-                                <p className="text-[10px] text-slate-400 font-medium mt-0.5">Last 4 months</p>
+                                <p className="text-[10px] text-slate-500 font-bold mt-0.5 uppercase tracking-wider">Last 4 months</p>
                             </div>
                             {leaveTrendData.length === 0 ? (
                                 <div className="flex-1 flex items-center justify-center text-slate-400 text-sm font-semibold">

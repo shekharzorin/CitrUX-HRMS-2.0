@@ -766,36 +766,41 @@
 }
 
 .notification-dropdown {
-  @apply absolute right-0 mt-2 w-80 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-[var(--border-light)] overflow-hidden z-50;
+  @apply absolute right-0 mt-2 w-96 bg-[var(--bg-surface)] rounded-[var(--radius-lg)] shadow-2xl border border-[var(--border-light)] overflow-hidden z-50;
   animation: scaleUp 0.3s ease-out forwards;
 }
 
-.dropdown-header {
-  @apply flex items-center justify-between p-4 border-b border-[var(--border-light)] bg-slate-50 dark:bg-white/5;
-}
-
-.dropdown-title {
-  @apply text-sm font-bold text-[var(--text-main)];
-}
-
-.dropdown-view-all {
-  @apply text-xs font-medium text-[var(--primary)] hover:underline;
+@media (max-width: 640px) {
+  .notification-dropdown {
+    @apply fixed top-0 left-0 w-screen h-screen m-0 rounded-none z-[9999] flex flex-col bg-[var(--bg-surface)];
+    animation: slideUp 0.3s ease-out forwards;
+  }
 }
 
 .notification-list {
-  @apply max-h-[360px] overflow-y-auto;
+  @apply max-h-[480px] overflow-y-auto flex-1;
 }
 
-.notification-empty {
-  @apply p-8 text-center text-sm text-[var(--text-muted)];
-}
-
-.notification-item {
-  @apply p-4 border-b border-[var(--border-light)] last:border-0 transition-colors hover:bg-slate-50 dark:hover:bg-white/5;
+@media (max-width: 640px) {
+  .notification-list {
+    @apply max-h-none;
+  }
 }
 
 .notification-item-unread {
-  @apply bg-indigo-50/50 dark:bg-indigo-900/10;
+  @apply bg-indigo-50/20 dark:bg-indigo-500/5;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-slate-200 dark:bg-slate-800 rounded-full;
 }
 
 .notification-message {
