@@ -12,7 +12,7 @@ export const calculateWorkingDays = async (startDate: Date, endDate: Date): Prom
         }
     });
 
-    const holidayDates = new Set(holidays.map(h => h.date.toISOString().split('T')[0]));
+    const holidayDates = new Set(holidays.map((h: { date: Date }) => h.date.toISOString().split('T')[0]));
 
     let count = 0;
     let current = new Date(startDate);

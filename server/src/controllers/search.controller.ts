@@ -49,7 +49,7 @@ export const globalSearch = async (req: AuthRequest, res: Response) => {
 
         // Format results
         const results: any[] = [
-            ...users.map(u => ({
+            ...users.map((u: any) => ({
                 id: u.id,
                 type: 'employee',
                 title: `${u.profile?.firstName} ${u.profile?.lastName}`.trim() || u.email,
@@ -57,7 +57,7 @@ export const globalSearch = async (req: AuthRequest, res: Response) => {
                 link: `/employees/${u.id}`,
                 icon: 'employees'
             })),
-            ...tasks.map(t => ({
+            ...tasks.map((t: any) => ({
                 id: t.id,
                 type: 'task',
                 title: t.title,

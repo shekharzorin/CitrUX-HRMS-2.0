@@ -80,7 +80,7 @@ async function runAutoClockOut() {
             if (!shouldClose) continue;
 
             // ── Close any active break first ─────────────────────────────────
-            const activeBreak = record.breaks.find(b => !b.endTime);
+            const activeBreak = record.breaks.find((b: { endTime: Date | null; id: string; startTime: Date; duration: number | null; attendanceId: string }) => !b.endTime);
             if (activeBreak) {
                 const breakEnd      = clockOutAt < new Date(activeBreak.startTime) ? new Date(activeBreak.startTime) : clockOutAt;
                 const breakDuration = (breakEnd.getTime() - new Date(activeBreak.startTime).getTime()) / 60_000;
@@ -92,7 +92,7 @@ async function runAutoClockOut() {
 
             // ── Re-fetch breaks to get accurate durations ────────────────────
             const allBreaks        = await prisma.break.findMany({ where: { attendanceId: record.id } });
-            const totalBreakMins   = allBreaks.reduce((acc, b) => {
+            const totalBreakMins   = allBreaks.reduce((acc: number, b: { duration: number | null; startTime: Date; endTime: Date | null }) => {
                 if (b.duration) return acc + b.duration;
                 if (b.startTime && b.endTime)
                     return acc + (new Date(b.endTime).getTime() - new Date(b.startTime).getTime()) / 60_000;

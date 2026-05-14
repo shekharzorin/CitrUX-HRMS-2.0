@@ -157,7 +157,7 @@ export const getLeaveReport = async (req: AuthRequest, res: Response) => {
             }
         });
 
-        const reportData = balances.map(b => ({
+        const reportData = balances.map((b: any) => ({
             EmployeeID: b.user.employeeId || 'N/A',
             Name: b.user.profile ? `${b.user.profile.firstName} ${b.user.profile.lastName}` : 'Unknown',
             LeaveType: b.leaveType.name,

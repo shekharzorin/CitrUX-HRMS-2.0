@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../generated/prisma';
 import PDFDocument from 'pdfkit';
 import fs from 'fs';
 import path from 'path';
@@ -78,7 +78,7 @@ export class PayrollService {
         });
 
         let approvedLeaveDays = 0;
-        leaveRequests.forEach(req => {
+        leaveRequests.forEach((req: { days: number }) => {
             // Simplified overlap logic
             approvedLeaveDays += req.days; // This is rough, assumes leaves don't span months typically or we accept slightly off calc for MVP
         });

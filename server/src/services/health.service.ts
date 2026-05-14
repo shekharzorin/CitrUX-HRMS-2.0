@@ -103,7 +103,7 @@ export class HealthService {
         // @ts-ignore
         const total = await withRetry(() => prisma.systemError.count());
 
-        return { errors, total, page, totalPages: Math.ceil(total / limit) };
+        return { errors, total: total as number, page, totalPages: Math.ceil((total as number) / limit) };
     }
 
     static async logError(module: string, message: string, severity: 'INFO' | 'WARNING' | 'CRITICAL' = 'INFO', stack?: string) {

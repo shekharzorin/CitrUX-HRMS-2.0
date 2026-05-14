@@ -69,7 +69,7 @@ export const createUser = async (req: AuthRequest, res: Response) => {
         try {
             const leaveTypes = await prisma.leaveType.findMany();
             if (leaveTypes.length > 0) {
-                const balances = leaveTypes.map(lt => ({
+                const balances = leaveTypes.map((lt: { id: string; daysPerYear: number }) => ({
                     userId: user.id,
                     leaveTypeId: lt.id,
                     balance: lt.daysPerYear,
@@ -170,7 +170,7 @@ export const importUsers = async (req: AuthRequest, res: Response) => {
                 });
 
                 if (leaveTypes.length > 0) {
-                    const balances = leaveTypes.map(lt => ({
+                    const balances = leaveTypes.map((lt: { id: string; daysPerYear: number }) => ({
                         userId: newUser.id,
                         leaveTypeId: lt.id,
                         balance: lt.daysPerYear,

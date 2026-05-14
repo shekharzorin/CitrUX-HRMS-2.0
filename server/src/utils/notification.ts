@@ -1,5 +1,5 @@
 import { prisma } from '../db';
-import { Role } from '@prisma/client';
+import { Role } from '../../generated/prisma';
 
 export const notifyUser = async (userId: string, message: string, link: string | null = null, type: string = 'INFO') => {
     try {

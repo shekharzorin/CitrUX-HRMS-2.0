@@ -1,5 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import { Prisma } from '@prisma/client';
+import {
+    PrismaClientInitializationError,
+    PrismaClientKnownRequestError,
+    PrismaClientValidationError,
+} from '../../generated/prisma/runtime/library';
 
 export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     console.error(`[Error] ${req.method} ${req.path}`, err);
@@ -10,7 +14,7 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
 
     // ── Prisma: transient connection / initialisation errors → 503 ────────────
     if (
-        err instanceof Prisma.PrismaClientInitializationError ||
+        err instanceof PrismaClientInitializationError ||
         err?.code === 'P1001' || err?.code === 'P1002' ||
         err?.code === 'P1008' || err?.code === 'P1017'
     ) {
@@ -20,7 +24,7 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
     }
 
     // ── Prisma: known request errors ──────────────────────────────────────────
-    else if (err instanceof Prisma.PrismaClientKnownRequestError) {
+    else if (err instanceof PrismaClientKnownRequestError) {
         if (err.code === 'P2002') {
             statusCode = 409;
             message = 'A record with this value already exists.';
@@ -37,7 +41,7 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
     }
 
     // ── Prisma: validation errors ─────────────────────────────────────────────
-    else if (err instanceof Prisma.PrismaClientValidationError) {
+    else if (err instanceof PrismaClientValidationError) {
         statusCode = 400;
         message = 'Validation failed for the requested database action.';
         code = 'VALIDATION_ERROR';
