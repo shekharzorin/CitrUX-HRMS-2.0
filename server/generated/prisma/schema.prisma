@@ -1,0 +1,700 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id                String            @id @default(uuid())
+  name              String            @unique
+  subdomain         String?           @unique
+  domain            String?
+  plan              String            @default("STARTER")
+  logoUrl           String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  slogan            String?           @default("Citrux SaaS")
+  logoMediumUrl     String?
+  logoThumbnailUrl  String?
+  faviconUrl        String?
+  assets            Asset[]
+  attendancePolicy  AttendancePolicy? @relation("CompanyAttendancePolicy")
+  expenseCategories ExpenseCategory[]
+  holidays          Holiday[]
+  jobPostings       JobPosting[]
+  jobRoles          JobRole[]
+  leaveTypes        LeaveType[]
+  profiles          Profile[]
+  shifts            Shift[]           @relation("CompanyShifts")
+  tasks             Task[]
+  users             User[]
+  workLogs          WorkLog[]
+}
+
+model User {
+  id                 String              @id @default(uuid())
+  employeeId         String?             @unique
+  email              String              @unique
+  passwordHash       String
+  resetToken         String?
+  resetTokenExpiry   DateTime?
+  status             String              @default("ACTIVE")
+  role               Role                @default(EMPLOYEE)
+  managerId          String?
+  shiftId            String?
+  companyId          String?
+  assets             Asset[]
+  attendance         Attendance[]
+  attendanceRequests AttendanceRequest[]
+  audits             AuditLog[]          @relation("UserAudits")
+  certificates       Certificate[]
+  expenses           ExpenseClaim[]
+  goals              Goal[]
+  leaveBalances      LeaveBalance[]
+  encashments        LeaveEncashment[]
+  leaveRequests      LeaveRequest[]
+  notifications      Notification[]
+  offboarding        Offboarding?
+  onboarding         Onboarding?
+  payslips           Payslip[]
+  reviewsGiven       PerformanceReview[] @relation("Reviewer")
+  reviews            PerformanceReview[]
+  profile            Profile?
+  salary             SalaryStructure?
+  tasks              Task[]
+  timesheets         Timesheet[]
+  company            Company?            @relation(fields: [companyId], references: [id])
+  manager            User?               @relation("ManagerSubordinates", fields: [managerId], references: [id])
+  subordinates       User[]              @relation("ManagerSubordinates")
+  shift              Shift?              @relation("UserShift", fields: [shiftId], references: [id])
+  documents          UserDocument[]
+  policyOverride     UserPolicyOverride?
+  workLogs           WorkLog[]
+}
+
+model SalaryStructure {
+  id              String @id @default(uuid())
+  userId          String @unique
+  basic           Float
+  hra             Float
+  da              Float  @default(0)
+  allowances      Float  @default(0)
+  pf              Float  @default(0)
+  esi             Float  @default(0)
+  professionalTax Float  @default(0)
+  deductions      Float  @default(0)
+  ctc             Float
+  user            User   @relation(fields: [userId], references: [id])
+}
+
+model Payslip {
+  id          String    @id @default(uuid())
+  userId      String
+  month       Int
+  year        Int
+  url         String?
+  gross       Float
+  net         Float
+  totalDays   Int       @default(30)
+  workingDays Int       @default(0)
+  presentDays Float     @default(0)
+  lopDays     Float     @default(0)
+  pfAmount    Float     @default(0)
+  esiAmount   Float     @default(0)
+  taxAmount   Float     @default(0)
+  details     String
+  status      String    @default("GENERATED")
+  paymentDate DateTime?
+  generatedAt DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id])
+}
+
+model Profile {
+  id                       String    @id @default(uuid())
+  userId                   String    @unique
+  firstName                String
+  lastName                 String
+  phone                    String?
+  address                  String?
+  emergencyContact         String?
+  designation              String?
+  department               String?
+  employmentType           String    @default("FULL_TIME")
+  dateOfJoining            DateTime?
+  dob                      DateTime?
+  documents                String?
+  bankName                 String?
+  accountNumber            String?
+  ifscCode                 String?
+  aadhaarNumber            String?
+  panNumber                String?
+  uanNumber                String?
+  profilePhoto             String?
+  profilePhotoSettings     String?
+  companyId                String?
+  profilePhotoMediumUrl    String?
+  profilePhotoThumbnailUrl String?
+  company                  Company?  @relation(fields: [companyId], references: [id])
+  user                     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Attendance {
+  id       String    @id @default(uuid())
+  userId   String
+  date     DateTime
+  checkIn  DateTime?
+  checkOut DateTime?
+  location String?
+  hours    Float?
+  shiftId  String?
+  status   String    @default("PRESENT")
+  isLate   Boolean   @default(false)
+  shift    Shift?    @relation(fields: [shiftId], references: [id])
+  user     User      @relation(fields: [userId], references: [id])
+  breaks   Break[]
+
+  @@unique([userId, date])
+}
+
+model Shift {
+  id             String               @id @default(uuid())
+  name           String
+  startTime      String
+  endTime        String
+  graceTime      Int                  @default(15)
+  companyId      String?
+  isDefault      Boolean              @default(false)
+  isNightShift   Boolean              @default(false)
+  attendance     Attendance[]
+  company        Company?             @relation("CompanyShifts", fields: [companyId], references: [id])
+  policyOverride ShiftPolicyOverride?
+  users          User[]               @relation("UserShift")
+}
+
+model AttendancePolicy {
+  id                            String   @id @default(uuid())
+  companyId                     String   @unique
+  graceMinutes                  Int      @default(10)
+  halfDayThresholdHours         Float    @default(4.0)
+  fullDayHours                  Float    @default(8.0)
+  maxWorkHoursPerDay            Float    @default(12.0)
+  allowMultipleSessions         Boolean  @default(false)
+  autoClockOutEnabled           Boolean  @default(true)
+  autoClockOutType              String   @default("SHIFT_END")
+  autoClockOutBufferMinutes     Int      @default(30)
+  autoClockOutMaxHours          Float    @default(12.0)
+  allowBreaks                   Boolean  @default(true)
+  maxBreaksPerDay               Int      @default(3)
+  maxTotalBreakMinutes          Int      @default(60)
+  autoEndBreakOnCheckout        Boolean  @default(true)
+  autoEndBreakAfterMinutes      Int      @default(60)
+  missedPunchAutoResolve        Boolean  @default(false)
+  missedPunchAction             String   @default("MARK_ABSENT")
+  missedPunchNotifyAfterMinutes Int      @default(60)
+  markLateAfterMinutes          Int      @default(15)
+  lateCountThresholdForHalfDay  Int      @default(3)
+  absentIfNoPunchInAfterHours   Float    @default(6.0)
+  allowEmployeeAdjustment       Boolean  @default(true)
+  maxPastDaysForAdjustment      Int      @default(7)
+  requireApproval               Boolean  @default(true)
+  requireGeoFence               Boolean  @default(false)
+  allowedRadiusMeters           Int      @default(100)
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime @updatedAt
+  company                       Company  @relation("CompanyAttendancePolicy", fields: [companyId], references: [id])
+}
+
+model ShiftPolicyOverride {
+  id                        String   @id @default(uuid())
+  shiftId                   String   @unique
+  graceMinutes              Int?
+  halfDayThresholdHours     Float?
+  fullDayHours              Float?
+  maxWorkHoursPerDay        Float?
+  autoClockOutEnabled       Boolean?
+  autoClockOutBufferMinutes Int?
+  autoClockOutMaxHours      Float?
+  allowBreaks               Boolean?
+  maxBreaksPerDay           Int?
+  maxTotalBreakMinutes      Int?
+  updatedAt                 DateTime @updatedAt
+  shift                     Shift    @relation(fields: [shiftId], references: [id], onDelete: Cascade)
+}
+
+model UserPolicyOverride {
+  id                    String   @id @default(uuid())
+  userId                String   @unique
+  graceMinutes          Int?
+  halfDayThresholdHours Float?
+  fullDayHours          Float?
+  maxWorkHoursPerDay    Float?
+  requireGeoFence       Boolean?
+  allowedRadiusMeters   Int?
+  updatedAt             DateTime @updatedAt
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Break {
+  id           String     @id @default(uuid())
+  attendanceId String
+  startTime    DateTime
+  endTime      DateTime?
+  duration     Float?
+  attendance   Attendance @relation(fields: [attendanceId], references: [id])
+}
+
+model LeaveType {
+  id              String            @id @default(uuid())
+  name            String
+  code            String
+  daysPerYear     Int
+  carryForward    Boolean           @default(false)
+  maxCarryForward Int               @default(0)
+  companyId       String?
+  balances        LeaveBalance[]
+  encashments     LeaveEncashment[]
+  requests        LeaveRequest[]
+  company         Company?          @relation(fields: [companyId], references: [id])
+
+  @@unique([code, companyId])
+}
+
+model LeaveEncashment {
+  id             String    @id @default(uuid())
+  userId         String
+  leaveTypeId    String
+  days           Float
+  amount         Float     @default(0)
+  status         String    @default("PENDING")
+  reason         String?
+  managerComment String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  leaveType      LeaveType @relation(fields: [leaveTypeId], references: [id])
+  user           User      @relation(fields: [userId], references: [id])
+}
+
+model LeaveBalance {
+  id          String    @id @default(uuid())
+  userId      String
+  leaveTypeId String
+  balance     Float
+  used        Float     @default(0)
+  leaveType   LeaveType @relation(fields: [leaveTypeId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@unique([userId, leaveTypeId])
+}
+
+model LeaveRequest {
+  id             String    @id @default(uuid())
+  userId         String
+  leaveTypeId    String
+  startDate      DateTime
+  endDate        DateTime
+  days           Float
+  reason         String
+  status         String    @default("PENDING")
+  managerComment String?
+  createdAt      DateTime  @default(now())
+  leaveType      LeaveType @relation(fields: [leaveTypeId], references: [id])
+  user           User      @relation(fields: [userId], references: [id])
+}
+
+model Holiday {
+  id        String   @id @default(uuid())
+  name      String
+  date      DateTime
+  type      String
+  companyId String?
+  company   Company? @relation(fields: [companyId], references: [id])
+
+  @@unique([date, companyId])
+}
+
+model Onboarding {
+  id                      String                       @id @default(uuid())
+  userId                  String                       @unique
+  status                  String                       @default("DRAFT")
+  fullName                String?
+  fatherName              String?
+  motherName              String?
+  guardianName            String?
+  dateOfBirth             DateTime?
+  gender                  String?
+  maritalStatus           String?
+  bloodGroup              String?
+  nationality             String?
+  profilePhoto            String?
+  profilePhotoSettings    String?
+  personalMobile          String?
+  officialMobile          String?
+  personalEmail           String?
+  officialEmail           String?
+  currentAddress          String?
+  permanentAddress        String?
+  sameAsCurrentAddress    Boolean                      @default(false)
+  department              String?
+  designation             String?
+  employmentType          String?
+  dateOfJoining           DateTime?
+  workLocation            String?
+  reportingManagerId      String?
+  shift                   String?
+  workingHours            String?
+  probationPeriodMonths   Int?
+  noticePeriodDays        Int?
+  totalYearsExperience    Float?
+  aadhaarNumber           String?
+  panNumber               String?
+  passportNumber          String?
+  uanNumber               String?
+  esicNumber              String?
+  drivingLicense          String?
+  accountHolderName       String?
+  bankName                String?
+  accountNumber           String?
+  ifscCode                String?
+  branchName              String?
+  salaryPaymentMode       String?
+  medicalConditions       String?
+  allergies               String?
+  disabilityStatus        Boolean?
+  disabilityDetails       String?
+  companyEmailCreated     Boolean                      @default(false)
+  hrmsAccessEnabled       Boolean                      @default(false)
+  roleAndPermissions      String?
+  deviceIssued            String?
+  assetId                 String?
+  companyPolicyAccepted   Boolean                      @default(false)
+  ndaAccepted             Boolean                      @default(false)
+  codeOfConductAccepted   Boolean                      @default(false)
+  digitalConsentSignature String?
+  acceptanceTimestamp     DateTime?
+  acceptanceIp            String?
+  submittedAt             DateTime?
+  updatedAt               DateTime                     @updatedAt
+  user                    User                         @relation(fields: [userId], references: [id])
+  documents               OnboardingDocument[]
+  education               OnboardingEducation[]
+  emergencyContacts       OnboardingEmergencyContact[]
+  experiences             OnboardingExperience[]
+}
+
+model OnboardingEmergencyContact {
+  id              String     @id @default(uuid())
+  onboardingId    String
+  name            String
+  relationship    String?
+  mobile          String
+  alternateMobile String?
+  onboarding      Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
+}
+
+model OnboardingExperience {
+  id               String     @id @default(uuid())
+  onboardingId     String
+  companyName      String
+  designation      String?
+  employmentType   String?
+  startDate        DateTime?
+  endDate          DateTime?
+  isCurrent        Boolean    @default(false)
+  reasonForLeaving String?
+  onboarding       Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
+}
+
+model OnboardingEducation {
+  id                   String     @id @default(uuid())
+  onboardingId         String
+  institutionName      String
+  degreeOrCourse       String
+  highestQualification String?
+  yearOfPassing        Int?
+  onboarding           Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
+}
+
+model OnboardingDocument {
+  id           String     @id @default(uuid())
+  onboardingId String
+  type         String
+  url          String
+  status       String     @default("PENDING")
+  onboarding   Onboarding @relation(fields: [onboardingId], references: [id], onDelete: Cascade)
+}
+
+model Offboarding {
+  id            String         @id @default(uuid())
+  userId        String         @unique
+  reason        String
+  status        String         @default("PENDING")
+  lastDay       DateTime
+  createdAt     DateTime       @default(now())
+  exitInterview ExitInterview?
+  user          User           @relation(fields: [userId], references: [id])
+}
+
+model ExitInterview {
+  id            String      @id @default(uuid())
+  offboardingId String      @unique
+  feedback      String
+  rating        Int
+  submittedAt   DateTime    @default(now())
+  offboarding   Offboarding @relation(fields: [offboardingId], references: [id])
+}
+
+model Goal {
+  id          String   @id @default(uuid())
+  userId      String
+  title       String
+  description String?
+  deadline    DateTime
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model PerformanceReview {
+  id         String   @id @default(uuid())
+  userId     String
+  reviewerId String
+  period     String
+  rating     Int
+  feedback   String
+  createdAt  DateTime @default(now())
+  reviewer   User     @relation("Reviewer", fields: [reviewerId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model JobPosting {
+  id           String           @id @default(uuid())
+  title        String
+  department   String
+  description  String
+  status       String           @default("OPEN")
+  createdAt    DateTime         @default(now())
+  companyId    String?
+  applications JobApplication[]
+  company      Company?         @relation(fields: [companyId], references: [id])
+}
+
+model JobApplication {
+  id            String     @id @default(uuid())
+  jobId         String
+  applicantName String
+  email         String
+  phone         String
+  resumeUrl     String?
+  status        String     @default("NEW")
+  appliedAt     DateTime   @default(now())
+  job           JobPosting @relation(fields: [jobId], references: [id])
+}
+
+model ExpenseCategory {
+  id        String         @id @default(uuid())
+  name      String
+  limit     Float?
+  companyId String?
+  company   Company?       @relation(fields: [companyId], references: [id])
+  claims    ExpenseClaim[]
+
+  @@unique([name, companyId])
+}
+
+model ExpenseClaim {
+  id          String          @id @default(uuid())
+  userId      String
+  categoryId  String
+  amount      Float
+  description String
+  status      String          @default("PENDING")
+  receiptUrl  String?
+  date        DateTime
+  createdAt   DateTime        @default(now())
+  category    ExpenseCategory @relation(fields: [categoryId], references: [id])
+  user        User            @relation(fields: [userId], references: [id])
+}
+
+model Certificate {
+  id             String   @id @default(uuid())
+  userId         String
+  type           String
+  title          String
+  verificationId String   @unique
+  issuedDate     DateTime @default(now())
+  url            String?
+  user           User     @relation(fields: [userId], references: [id])
+}
+
+model Asset {
+  id           String    @id @default(uuid())
+  name         String
+  type         String
+  serialNumber String?   @unique
+  status       String    @default("AVAILABLE")
+  assignedTo   String?
+  purchasedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  companyId    String?
+  user         User?     @relation(fields: [assignedTo], references: [id])
+  company      Company?  @relation(fields: [companyId], references: [id])
+}
+
+model UserDocument {
+  id         String    @id @default(uuid())
+  userId     String
+  type       String
+  name       String
+  url        String
+  expiryDate DateTime?
+  status     String    @default("PENDING")
+  verifiedBy String?
+  uploadedAt DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  message   String
+  type      String   @default("INFO")
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id])
+}
+
+model JobRole {
+  id          String   @id @default(uuid())
+  title       String
+  department  String?
+  level       Int      @default(0)
+  description String?
+  createdAt   DateTime @default(now())
+  companyId   String?
+  company     Company? @relation(fields: [companyId], references: [id])
+
+  @@unique([title, companyId])
+}
+
+model SystemSetting {
+  key   String @id
+  value String
+}
+
+model Timesheet {
+  id        String           @id @default(uuid())
+  userId    String
+  startDate DateTime
+  endDate   DateTime
+  status    String           @default("DRAFT")
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  user      User             @relation(fields: [userId], references: [id])
+  entries   TimesheetEntry[]
+}
+
+model TimesheetEntry {
+  id          String    @id @default(uuid())
+  timesheetId String
+  taskId      String?
+  taskName    String?
+  project     String?
+  mon         Float     @default(0)
+  tue         Float     @default(0)
+  wed         Float     @default(0)
+  thu         Float     @default(0)
+  fri         Float     @default(0)
+  sat         Float     @default(0)
+  sun         Float     @default(0)
+  total       Float     @default(0)
+  task        Task?     @relation(fields: [taskId], references: [id])
+  timesheet   Timesheet @relation(fields: [timesheetId], references: [id], onDelete: Cascade)
+}
+
+model Task {
+  id          String           @id @default(uuid())
+  userId      String?
+  title       String
+  description String?
+  project     String?
+  status      String           @default("TODO")
+  priority    String           @default("MEDIUM")
+  dueDate     DateTime?
+  companyId   String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  company     Company?         @relation(fields: [companyId], references: [id])
+  user        User?            @relation(fields: [userId], references: [id])
+  entries     TimesheetEntry[]
+}
+
+model WorkLog {
+  id          String   @id @default(uuid())
+  userId      String
+  date        DateTime
+  hoursWorked Float
+  breakTime   Float    @default(0)
+  description String
+  companyId   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  company     Company? @relation(fields: [companyId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, date])
+}
+
+model AttendanceRequest {
+  id             String   @id @default(uuid())
+  userId         String
+  date           DateTime
+  clockIn        DateTime
+  clockOut       DateTime
+  reason         String
+  status         String   @default("PENDING")
+  managerComment String?
+  createdAt      DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [id])
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  action      String
+  entityType  String
+  entityId    String
+  details     String
+  performedBy String
+  createdAt   DateTime @default(now())
+  actor       User     @relation("UserAudits", fields: [performedBy], references: [id])
+}
+
+model SystemError {
+  id        String   @id @default(uuid())
+  module    String
+  severity  String
+  message   String
+  stack     String?
+  timestamp DateTime @default(now())
+  resolved  Boolean  @default(false)
+}
+
+model ModuleHealth {
+  id          String   @id @default(uuid())
+  module      String   @unique
+  status      String
+  lastChecked DateTime @default(now())
+  details     String?
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  HR
+  MANAGER
+  EMPLOYEE
+}
