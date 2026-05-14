@@ -120,7 +120,12 @@ export const getDashboardStats = async (req: Request, res: Response) => {
         }
 
         // ── Common queries (all roles) ────────────────────────────────────────────
-        const openJobsCount = await withRetry(() => prisma.jobPosting.count({ where: { status: 'OPEN' } }));
+        const openJobsCount = await withRetry(() => prisma.jobPosting.count({ 
+            where: { 
+                status: 'OPEN',
+                ...companyFilter 
+            } 
+        }));
         
         const weeklyAttendance = await withRetry(() => prisma.attendance.findMany({
             where: {

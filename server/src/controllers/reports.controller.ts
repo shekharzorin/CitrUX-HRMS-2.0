@@ -1,6 +1,8 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { prisma } from '../db';
 import { Parser } from 'json2csv';
+import { AuthRequest } from '../middlewares/auth.middleware';
+import { getTenantScope } from '../middlewares/tenant.middleware';
 
 // Helper to stream CSV
 const sendCSV = (res: Response, filename: string, fields: string[], data: any[]) => {
@@ -12,9 +14,10 @@ const sendCSV = (res: Response, filename: string, fields: string[], data: any[])
     return res.send(csv);
 };
 
-export const getAttendanceReport = async (req: Request, res: Response) => {
+export const getAttendanceReport = async (req: AuthRequest, res: Response) => {
     try {
         const { month, year } = req.query;
+        const scope = getTenantScope(req);
 
         if (!month || !year) return res.status(400).json({ message: 'Month and Year required' });
 
@@ -23,10 +26,13 @@ export const getAttendanceReport = async (req: Request, res: Response) => {
         const startDate = new Date(y, m - 1, 1);
         const endDate = new Date(y, m, 0);
 
-        // Fetch all users
+        // Fetch users within scope
         // @ts-ignore
         const users = await prisma.user.findMany({
-            where: { status: 'ACTIVE' },
+            where: { 
+                ...scope,
+                status: 'ACTIVE' 
+            },
             include: { profile: true, shift: true }
         });
 
@@ -80,9 +86,10 @@ export const getAttendanceReport = async (req: Request, res: Response) => {
     }
 };
 
-export const getPayrollReport = async (req: Request, res: Response) => {
+export const getPayrollReport = async (req: AuthRequest, res: Response) => {
     try {
         const { month, year } = req.query;
+        const scope = getTenantScope(req);
 
         if (!month || !year) return res.status(400).json({ message: 'Month and Year required' });
 
@@ -90,7 +97,10 @@ export const getPayrollReport = async (req: Request, res: Response) => {
         const payslips = await prisma.payslip.findMany({
             where: {
                 month: parseInt(month as string),
-                year: parseInt(year as string)
+                year: parseInt(year as string),
+                user: {
+                    ...scope
+                }
             },
             include: {
                 user: {
@@ -129,11 +139,18 @@ export const getPayrollReport = async (req: Request, res: Response) => {
     }
 };
 
-export const getLeaveReport = async (req: Request, res: Response) => {
+export const getLeaveReport = async (req: AuthRequest, res: Response) => {
     try {
+        const scope = getTenantScope(req);
+        
         // Leave Liability Report (Current Balances)
         // @ts-ignore
         const balances = await prisma.leaveBalance.findMany({
+            where: {
+                user: {
+                    ...scope
+                }
+            },
             include: {
                 user: { include: { profile: true } },
                 leaveType: true

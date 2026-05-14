@@ -1,16 +1,19 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { prisma } from '../db';
 import { requireString } from '../utils/requestUtils';
-
-interface AuthRequest extends Request {
-    user?: any;
-}
+import { AuthRequest } from '../middlewares/auth.middleware';
+import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
 
 // Create Goal (Self or Manager)
 export const createGoal = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.body.userId || req.user.userId;
+        const userId = req.body.userId || req.user!.userId;
         const { title, description, deadline } = req.body;
+
+        // Verify target user is in same company
+        const targetUser = await prisma.user.findUnique({ where: { id: userId } });
+        if (!targetUser) return res.status(404).json({ message: 'User not found' });
+        if (!assertSameCompany(targetUser.companyId, req, res)) return;
 
         // @ts-ignore
         const goal = await prisma.goal.create({
@@ -30,7 +33,7 @@ export const createGoal = async (req: AuthRequest, res: Response) => {
 // Get My Goals
 export const getMyGoals = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
         // @ts-ignore
         const goals = await prisma.goal.findMany({ where: { userId } });
         res.json(goals);
@@ -42,8 +45,13 @@ export const getMyGoals = async (req: AuthRequest, res: Response) => {
 // Add Review (Manager)
 export const addReview = async (req: AuthRequest, res: Response) => {
     try {
-        const reviewerId = req.user.userId;
+        const reviewerId = req.user!.userId;
         const { userId, period, rating, feedback } = req.body;
+
+        // Verify target user is in same company
+        const targetUser = await prisma.user.findUnique({ where: { id: userId } });
+        if (!targetUser) return res.status(404).json({ message: 'User not found' });
+        if (!assertSameCompany(targetUser.companyId, req, res)) return;
 
         // @ts-ignore
         const review = await prisma.performanceReview.create({
@@ -64,7 +72,7 @@ export const addReview = async (req: AuthRequest, res: Response) => {
 // Get My Reviews
 export const getMyReviews = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
         // @ts-ignore
         const reviews = await prisma.performanceReview.findMany({
             where: { userId },
@@ -79,14 +87,20 @@ export const getMyReviews = async (req: AuthRequest, res: Response) => {
 // Get Team Reviews (Admin/HR/Manager)
 export const getTeamReviews = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
-        const role = req.user.role;
+        const userId = req.user!.userId;
+        const role = req.user!.role;
+        const scope = getTenantScope(req);
 
         let whereClause: any = {};
         if (role === 'MANAGER') {
             whereClause = { reviewerId: userId };
         } else if (['ADMIN', 'HR', 'SUPER_ADMIN'].includes(role)) {
-            whereClause = {}; // Fetch all
+            // Scope to company
+            whereClause = { 
+                user: {
+                    ...scope
+                }
+            };
         } else {
             return res.status(403).json({ message: 'Unauthorized' });
         }
@@ -112,14 +126,20 @@ export const updateGoal = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id);
         const { title, description, deadline, status } = req.body;
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
 
         // @ts-ignore
-        const goal = await prisma.goal.findUnique({ where: { id } });
+        const goal = await prisma.goal.findUnique({ 
+            where: { id },
+            include: { user: true }
+        });
         if (!goal) return res.status(404).json({ message: 'Goal not found' });
 
-        // @ts-ignore
-        if (goal.userId !== userId) return res.status(403).json({ message: 'Unauthorized' });
+        // Ownership/Company check
+        if (goal.userId !== userId && !['ADMIN', 'HR'].includes(req.user!.role)) {
+            return res.status(403).json({ message: 'Unauthorized' });
+        }
+        if (!assertSameCompany((goal as any).user.companyId, req, res)) return;
 
         // @ts-ignore
         const updated = await prisma.goal.update({
@@ -136,14 +156,20 @@ export const updateGoal = async (req: AuthRequest, res: Response) => {
 export const deleteGoal = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id);
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
 
         // @ts-ignore
-        const goal = await prisma.goal.findUnique({ where: { id } });
+        const goal = await prisma.goal.findUnique({ 
+            where: { id },
+            include: { user: true }
+        });
         if (!goal) return res.status(404).json({ message: 'Goal not found' });
 
-        // @ts-ignore
-        if (goal.userId !== userId) return res.status(403).json({ message: 'Unauthorized' });
+        // Ownership/Company check
+        if (goal.userId !== userId && !['ADMIN', 'HR'].includes(req.user!.role)) {
+            return res.status(403).json({ message: 'Unauthorized' });
+        }
+        if (!assertSameCompany((goal as any).user.companyId, req, res)) return;
 
         // @ts-ignore
         await prisma.goal.delete({ where: { id } });

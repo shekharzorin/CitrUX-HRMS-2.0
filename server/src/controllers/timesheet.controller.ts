@@ -174,8 +174,14 @@ export const deleteEntry = async (req: AuthRequest, res: Response) => {
 
 export const getPendingTimesheets = async (req: AuthRequest, res: Response) => {
     try {
+        const scope = getTenantScope(req);
         const timesheets = await prisma.timesheet.findMany({
-            where: { status: 'SUBMITTED' },
+            where: { 
+                status: 'SUBMITTED',
+                user: {
+                    ...scope
+                }
+            },
             include: {
                 user: { include: { profile: true } },
                 entries: true
@@ -191,6 +197,14 @@ export const getPendingTimesheets = async (req: AuthRequest, res: Response) => {
 export const approveTimesheet = async (req: AuthRequest, res: Response) => {
     try {
         const { id, status, comment } = req.body; // status: APPROVED or REJECTED
+
+        const timesheet = await prisma.timesheet.findUnique({
+            where: { id },
+            include: { user: true }
+        });
+
+        if (!timesheet) return res.status(404).json({ message: 'Timesheet not found' });
+        if (!assertSameCompany(timesheet.user.companyId, req, res)) return;
 
         const updated = await prisma.timesheet.update({
             where: { id },

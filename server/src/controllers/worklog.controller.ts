@@ -48,7 +48,8 @@ export const createWorkLog = async (req: AuthRequest, res: Response) => {
                 date: logDate,
                 hoursWorked: hours,
                 breakTime: parseFloat(breakTime) || 0,
-                description
+                description,
+                companyId: req.user!.companyId // Multi-tenant fix
             },
             update: {
                 hoursWorked: hours,

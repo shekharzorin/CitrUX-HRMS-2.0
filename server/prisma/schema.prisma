@@ -27,6 +27,12 @@ model Company {
   tasks            Task[]
   users            User[]
   workLogs         WorkLog[]
+  jobRoles         JobRole[]
+  jobPostings      JobPosting[]
+  leaveTypes       LeaveType[]
+  holidays         Holiday[]
+  expenseCategories ExpenseCategory[]
+  assets           Asset[]
 }
 
 model User {
@@ -244,13 +250,17 @@ model Break {
 model LeaveType {
   id              String            @id @default(uuid())
   name            String
-  code            String            @unique
+  code            String
   daysPerYear     Int
   carryForward    Boolean           @default(false)
   maxCarryForward Int               @default(0)
+  companyId       String?
   balances        LeaveBalance[]
   encashments     LeaveEncashment[]
   requests        LeaveRequest[]
+  company         Company?          @relation(fields: [companyId], references: [id])
+
+  @@unique([code, companyId])
 }
 
 model LeaveEncashment {
@@ -296,10 +306,14 @@ model LeaveRequest {
 }
 
 model Holiday {
-  id   String   @id @default(uuid())
-  name String
-  date DateTime @unique
-  type String
+  id        String   @id @default(uuid())
+  name      String
+  date      DateTime
+  type      String
+  companyId String?
+  company   Company? @relation(fields: [companyId], references: [id])
+
+  @@unique([date, companyId])
 }
 
 model Onboarding {
@@ -462,8 +476,10 @@ model JobPosting {
   department   String
   description  String
   status       String           @default("OPEN")
+  companyId    String?
   createdAt    DateTime         @default(now())
   applications JobApplication[]
+  company      Company?         @relation(fields: [companyId], references: [id])
 }
 
 model JobApplication {
@@ -479,10 +495,14 @@ model JobApplication {
 }
 
 model ExpenseCategory {
-  id     String         @id @default(uuid())
-  name   String         @unique
-  limit  Float?
-  claims ExpenseClaim[]
+  id        String         @id @default(uuid())
+  name      String
+  limit     Float?
+  companyId String?
+  claims    ExpenseClaim[]
+  company   Company?       @relation(fields: [companyId], references: [id])
+
+  @@unique([name, companyId])
 }
 
 model ExpenseClaim {
@@ -517,8 +537,10 @@ model Asset {
   serialNumber String?   @unique
   status       String    @default("AVAILABLE")
   assignedTo   String?
+  companyId    String?
   purchasedAt  DateTime?
   createdAt    DateTime  @default(now())
+  company      Company?  @relation(fields: [companyId], references: [id])
   user         User?     @relation(fields: [assignedTo], references: [id])
 }
 
@@ -548,11 +570,15 @@ model Notification {
 
 model JobRole {
   id          String   @id @default(uuid())
-  title       String   @unique
+  title       String
   department  String?
   level       Int      @default(0)
   description String?
+  companyId   String?
   createdAt   DateTime @default(now())
+  company     Company? @relation(fields: [companyId], references: [id])
+
+  @@unique([title, companyId])
 }
 
 model SystemSetting {

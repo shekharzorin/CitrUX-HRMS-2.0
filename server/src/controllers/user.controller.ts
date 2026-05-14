@@ -89,15 +89,17 @@ export const createUser = async (req: AuthRequest, res: Response) => {
     }
 };
 
-export const importUsers = async (req: Request, res: Response) => {
+export const importUsers = async (req: AuthRequest, res: Response) => {
     try {
-        const { users } = req.body; // Expects array of { firstName, lastName, email, role, phone, designation, password? }
+        const { users } = req.body;
+        const companyId = req.user!.companyId;
+        const scope = getTenantScope(req);
 
         if (!Array.isArray(users) || users.length === 0) {
             return res.status(400).json({ message: 'Invalid data format. Expected array of users.' });
         }
 
-        const leaveTypes = await prisma.leaveType.findMany();
+        const leaveTypes = await prisma.leaveType.findMany({ where: scope });
         const results = {
             success: 0,
             failed: 0,
@@ -109,10 +111,6 @@ export const importUsers = async (req: Request, res: Response) => {
         try {
             if (await IdService.shouldAutoGenerate('EMP')) {
                 autoGenEnabled = true;
-                // We'll let `generateId` handle fetches, but imports need speed.
-                // However, doing one-by-one is safer for atomicity.
-                // Optimizing bulk imports is complex with IdService unless we reserve a range.
-                // For now, let's call generateId for each user to ensure safety.
             }
         } catch (e) {
             logger.error("Failed to load settings for import:", e);
@@ -120,14 +118,12 @@ export const importUsers = async (req: Request, res: Response) => {
 
         for (const u of users) {
             try {
-                // Basic Validation
                 if (!u.email || !u.firstName) {
                     results.failed++;
                     results.errors.push(`Missing email or name for record: ${JSON.stringify(u)}`);
                     continue;
                 }
 
-                // Check duplicate Email
                 const existing = await prisma.user.findUnique({ where: { email: u.email } });
                 if (existing) {
                     results.failed++;
@@ -135,14 +131,12 @@ export const importUsers = async (req: Request, res: Response) => {
                     continue;
                 }
 
-                // Map 'id', 'empid', or 'employeeId' to employeeId
                 let empId = u.employeeId || u.id || u.empId;
 
                 if (!empId && autoGenEnabled) {
                     empId = await IdService.generateId('EMP');
                 }
 
-                // Check duplicate Employee ID
                 if (empId) {
                     const existingId = await prisma.user.findUnique({ where: { employeeId: empId.toString() } });
                     if (existingId) {
@@ -162,6 +156,7 @@ export const importUsers = async (req: Request, res: Response) => {
                         employeeId: empId ? empId.toString() : undefined,
                         passwordHash,
                         role: u.role ? u.role.toUpperCase() : 'EMPLOYEE',
+                        companyId, // ← Multi-tenant fix
                         profile: {
                             create: {
                                 firstName: u.firstName,
@@ -174,7 +169,6 @@ export const importUsers = async (req: Request, res: Response) => {
                     }
                 });
 
-                // Init Balances
                 if (leaveTypes.length > 0) {
                     const balances = leaveTypes.map(lt => ({
                         userId: newUser.id,
@@ -192,8 +186,6 @@ export const importUsers = async (req: Request, res: Response) => {
                 results.errors.push(`Error creating ${u.email}: ${err.message}`);
             }
         }
-
-
 
         res.json({ message: 'Import processed', results });
 

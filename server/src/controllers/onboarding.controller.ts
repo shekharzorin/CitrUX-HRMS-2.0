@@ -180,10 +180,16 @@ export const submitOnboarding = async (req: AuthRequest, res: Response) => {
 };
 
 // Admin: Get Pending Onboardings
-export const getPendingOnboardings = async (req: Request, res: Response) => {
+export const getPendingOnboardings = async (req: AuthRequest, res: Response) => {
     try {
+        const scope = getTenantScope(req);
         const onboardings = await prisma.onboarding.findMany({
-            where: { status: 'SUBMITTED' },
+            where: { 
+                status: 'SUBMITTED',
+                user: {
+                    ...scope
+                }
+            },
             include: { user: { include: { profile: true } } }
         });
         
@@ -202,13 +208,14 @@ export const getPendingOnboardings = async (req: Request, res: Response) => {
 };
 
 // Admin: Approve Onboarding
-export const approveOnboarding = async (req: Request, res: Response) => {
+export const approveOnboarding = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id);
 
         const onboarding = await prisma.onboarding.findUnique({
             where: { id },
             include: {
+                user: true,
                 emergencyContacts: true,
                 experiences: true,
                 education: true,
@@ -216,6 +223,7 @@ export const approveOnboarding = async (req: Request, res: Response) => {
             }
         });
         if (!onboarding) return res.status(404).json({ message: 'Record not found' });
+        if (!assertSameCompany(onboarding.user.companyId, req, res)) return;
 
         await prisma.$transaction(async (tx) => {
             // 1. Update Onboarding Status
@@ -228,8 +236,7 @@ export const approveOnboarding = async (req: Request, res: Response) => {
             await tx.user.update({
                 where: { id: onboarding.userId },
                 data: {
-                    status: 'ACTIVE',
-                    // Maybe update employeeId if we generated it
+                    status: 'ACTIVE'
                 }
             });
 
@@ -248,6 +255,7 @@ export const approveOnboarding = async (req: Request, res: Response) => {
                     documents: JSON.stringify((onboarding as any).documents),
                     profilePhoto: onboarding.profilePhoto,
                     profilePhotoSettings: onboarding.profilePhotoSettings,
+                    companyId: onboarding.user.companyId, // Scope the profile too
 
                     // Bank Details
                     bankName: onboarding.bankName,
@@ -309,27 +317,30 @@ export const approveOnboarding = async (req: Request, res: Response) => {
 };
 
 // Admin: Reject Onboarding
-export const rejectOnboarding = async (req: Request, res: Response) => {
+export const rejectOnboarding = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id);
         const { reason } = req.body;
 
-        const onboarding = await prisma.onboarding.findUnique({ where: { id } });
+        const onboarding = await prisma.onboarding.findUnique({ 
+            where: { id },
+            include: { user: true }
+        });
         if (!onboarding) return res.status(404).json({ message: 'Record not found' });
+        if (!assertSameCompany(onboarding.user.companyId, req, res)) return;
 
         await prisma.onboarding.update({
             where: { id },
-            data: { status: 'REJECTED' } // Or 'CHANGES_REQUESTED'
+            data: { status: 'REJECTED' }
         });
 
         // Notify User
         await notifyUser(onboarding.userId, `Action Required: Your onboarding application was returned. Reason: ${reason || 'Please check details.'}`);
 
         // Email
-        const user = await prisma.user.findUnique({ where: { id: onboarding.userId } });
-        if (user?.email) {
+        if (onboarding.user?.email) {
             await sendEmail(
-                user.email,
+                onboarding.user.email,
                 'Onboarding Update: Action Required',
                 `<p>Hello ${onboarding.fullName},</p><p>Your onboarding application has been returned for the following reason:</p><blockquote>${reason}</blockquote><p>Please log in to update and resubmit.</p>`
             ).catch(console.error);

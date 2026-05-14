@@ -18,3 +18,7 @@
 [2026-05-12T09:48:05.584Z] ✅ Email sent successfully! MessageID: <b14d38fd-f93e-1f3b-9217-d330f536c89f@ethereal.email>
 [2026-05-12T09:48:05.585Z] Response: 250 Accepted [STATUS=new MSGID=agLgQpnvM5eyzrpSagL3VV54FVLi4otXAAAAAUyhpsyGUWYqXQ4qBQUMo.M]
 [2026-05-12T09:48:05.587Z] 📧 Preview URL: https://ethereal.email/message/agLgQpnvM5eyzrpSagL3VV54FVLi4otXAAAAAUyhpsyGUWYqXQ4qBQUMo.M
+[2026-05-12T09:56:20.456Z] Attempting to send email to: superadmin@citrux.com
+[2026-05-12T09:56:24.484Z] ✅ Email sent successfully! MessageID: <19e34de3-db45-c448-4b62-be9bef5c73c2@ethereal.email>
+[2026-05-12T09:56:24.487Z] Response: 250 Accepted [STATUS=new MSGID=agLgQpnvM5eyzrpSagL5SIIKErNPZMR1AAAAAhXzngVsM27s2sC03Bb31Gs]
+[2026-05-12T09:56:24.490Z] 📧 Preview URL: https://ethereal.email/message/agLgQpnvM5eyzrpSagL5SIIKErNPZMR1AAAAAhXzngVsM27s2sC03Bb31Gs

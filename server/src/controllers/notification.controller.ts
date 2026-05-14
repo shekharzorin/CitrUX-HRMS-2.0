@@ -24,9 +24,25 @@ export const getNotifications = async (req: AuthRequest, res: Response) => {
 };
 
 // Mark as Read
-export const markRead = async (req: Request, res: Response) => {
+export const markRead = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id);
+        const userId = req.user.userId;
+
+        // Ensure ownership
+        // @ts-ignore
+        const notification = await withRetry(() => prisma.notification.findUnique({
+            where: { id }
+        }));
+
+        if (!notification) {
+            return res.status(404).json({ message: 'Notification not found' });
+        }
+
+        if (notification.userId !== userId) {
+            return res.status(403).json({ message: 'Access denied' });
+        }
+
         // @ts-ignore
         await withRetry(() => prisma.notification.update({
             where: { id },
@@ -54,9 +70,25 @@ export const markAllRead = async (req: AuthRequest, res: Response) => {
 };
 
 // Create Notification (Internal Helper or Admin Broadcast)
-export const createNotification = async (req: Request, res: Response) => {
+export const createNotification = async (req: AuthRequest, res: Response) => {
     try {
         const { userId, message } = req.body;
+        const sender = req.user;
+
+        // Verify recipient exists and is in the same company
+        // @ts-ignore
+        const recipient = await withRetry(() => prisma.user.findUnique({
+            where: { id: userId }
+        }));
+
+        if (!recipient) {
+            return res.status(404).json({ message: 'Recipient not found' });
+        }
+
+        if (sender.role !== 'SUPER_ADMIN' && recipient.companyId !== sender.companyId) {
+            return res.status(403).json({ message: 'Cannot send notification to users in other companies' });
+        }
+
         // @ts-ignore
         const notification = await withRetry(() => prisma.notification.create({
             data: { userId, message }
@@ -87,7 +119,7 @@ export const broadcastNotification = async (req: AuthRequest, res: Response) => 
         const { message } = req.body;
         const senderId = req.user.userId;
 
-        // Verify Admin/HR/SUPER_ADMIN Role (Double check mostly redundant if route middleware handles it but safe)
+        // Verify Admin/HR/SUPER_ADMIN Role
         if (req.user.role !== 'ADMIN' && req.user.role !== 'HR' && req.user.role !== 'SUPER_ADMIN') {
             return res.status(403).json({ message: 'Access denied' });
         }
@@ -99,7 +131,7 @@ export const broadcastNotification = async (req: AuthRequest, res: Response) => 
             select: { id: true }
         }));
 
-        // 2. Prepare notifications (exclude sender if desired, but usually admins want to see it too to confirm)
+        // 2. Prepare notifications
         const notifications = users.map(u => ({
             userId: u.id,
             message: `📢 ANNOUNCEMENT: ${message}`,
@@ -107,9 +139,11 @@ export const broadcastNotification = async (req: AuthRequest, res: Response) => 
         }));
 
         // 3. Bulk Create
-        await withRetry(() => prisma.notification.createMany({
-            data: notifications
-        }));
+        if (notifications.length > 0) {
+            await withRetry(() => prisma.notification.createMany({
+                data: notifications
+            }));
+        }
 
         res.json({ message: `Broadcast sent to ${users.length} users` });
     } catch (error) {

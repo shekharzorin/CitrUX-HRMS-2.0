@@ -226,6 +226,11 @@ export const bulkAssignShift = async (req: AuthRequest, res: Response) => {
 export const getShiftUsers = async (req: AuthRequest, res: Response) => {
     try {
         const { id } = req.params;
+
+        const shift = await prisma.shift.findUnique({ where: { id } });
+        if (!shift) return res.status(404).json({ message: 'Shift not found' });
+        if (!assertSameCompany(shift.companyId, req, res)) return;
+
         const users = await prisma.user.findMany({
             where: { shiftId: id },
             select: {

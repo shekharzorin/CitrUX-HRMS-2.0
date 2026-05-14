@@ -7,10 +7,14 @@ import { calculateWorkingDays } from '../utils/date.util';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
 
-// Get available Leave Types (global — no company-specific leave types yet)
+// Get available Leave Types (tenant-scoped)
 export const getLeaveTypes = async (req: AuthRequest, res: Response) => {
     try {
-        const types = await prisma.leaveType.findMany();
+        const scope = getTenantScope(req);
+        // @ts-ignore
+        const types = await prisma.leaveType.findMany({
+            where: { ...scope }
+        });
         res.json(types);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching leave types' });
@@ -39,6 +43,12 @@ export const applyLeave = async (req: Request, res: Response) => {
         // @ts-ignore
         const userId = req.user.userId;
         const { leaveTypeId, startDate, endDate, reason } = req.body; // dates in 'YYYY-MM-DD'
+
+        // Verify leave type belongs to same company
+        // @ts-ignore
+        const leaveType = await prisma.leaveType.findUnique({ where: { id: leaveTypeId } });
+        if (!leaveType) return res.status(404).json({ message: 'Leave type not found' });
+        if (!assertSameCompany(leaveType.companyId, req as AuthRequest, res)) return;
 
         const start = new Date(startDate);
         const end = new Date(endDate);
@@ -319,12 +329,24 @@ export const updateLeaveStatus = async (req: Request, res: Response) => {
 };
 
 // Create Leave Type
-export const createLeaveType = async (req: Request, res: Response) => {
+export const createLeaveType = async (req: AuthRequest, res: Response) => {
     try {
         const { name, code, daysPerYear, carryForward } = req.body;
+        const scope = getTenantScope(req);
+
+        if (!scope.companyId && req.user?.role !== 'SUPER_ADMIN') {
+            return res.status(403).json({ message: 'Company ID required' });
+        }
+
         // @ts-ignore
         const type = await prisma.leaveType.create({
-            data: { name, code, daysPerYear: parseInt(daysPerYear), carryForward }
+            data: { 
+                name, 
+                code, 
+                daysPerYear: parseInt(daysPerYear), 
+                carryForward,
+                companyId: scope.companyId
+            }
         });
         res.json(type);
     } catch (error) {
@@ -334,9 +356,15 @@ export const createLeaveType = async (req: Request, res: Response) => {
 };
 
 // Delete Leave Type
-export const deleteLeaveType = async (req: Request, res: Response) => {
+export const deleteLeaveType = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id);
+        
+        // @ts-ignore
+        const existing = await prisma.leaveType.findUnique({ where: { id } });
+        if (!existing) return res.status(404).json({ message: 'Leave type not found' });
+        if (!assertSameCompany(existing.companyId, req, res)) return;
+
         // @ts-ignore
         await prisma.leaveType.delete({ where: { id } });
         res.json({ message: 'Leave type deleted' });
@@ -378,12 +406,19 @@ export const deleteLeaveRequest = async (req: Request, res: Response) => {
 };
 
 // Process Year-End Carry Forward (Admin)
-export const processYearEnd = async (req: Request, res: Response) => {
+export const processYearEnd = async (req: AuthRequest, res: Response) => {
     try {
-        // 1. Get all Leave Types that support Carry Forward
-        // @ts-ignore
+        const scope = getTenantScope(req);
+        if (!scope.companyId && req.user!.role !== 'SUPER_ADMIN') {
+            return res.status(403).json({ message: 'Company isolation required for this operation' });
+        }
+
+        // 1. Get Leave Types that support Carry Forward for THIS company
         const carryForwardTypes = await prisma.leaveType.findMany({
-            where: { carryForward: true }
+            where: { 
+                carryForward: true,
+                ...scope
+            }
         });
 
         if (carryForwardTypes.length === 0) {
@@ -394,48 +429,30 @@ export const processYearEnd = async (req: Request, res: Response) => {
 
         // 2. Iterate each type
         for (const type of carryForwardTypes) {
-            // Get all balances for this type
-            // @ts-ignore
             const balances = await prisma.leaveBalance.findMany({
                 where: { leaveTypeId: type.id }
             });
 
             for (const record of balances) {
                 try {
-                    // Logic:
-                    // Current Balance = Balance - Used (Already tracked in 'balance' field ideally, but current schema has 'balance' and 'used')
-                    // Actually, usually 'balance' is the remaining. Let's verify schema.
-                    // Schema: balance Float, used Float.
-                    // Assuming 'balance' is the OPENING balance + credits.
-                    // Remaining = balance - used.
-
-                    const remaining = record.balance; // Simplified if balance is decremented on approval.
-                    // WAIT: updateLeaveStatus decrements balance. So 'balance' IS the remaining.
-                    // 'used' is just for reporting.
-
+                    const remaining = record.balance; 
                     if (remaining > 0) {
                         const carryOver = Math.min(remaining, type.maxCarryForward || 0);
-
-                        // New Year Logic:
-                        // New Balance = Annual Quota + Carry Over
                         const newBalance = type.daysPerYear + carryOver;
 
-                        // @ts-ignore
                         await prisma.leaveBalance.update({
                             where: { id: record.id },
                             data: {
                                 balance: newBalance,
-                                used: 0 // Reset used for new year
+                                used: 0 
                             }
                         });
                         results.updated++;
                     } else {
-                        // Reset even if 0
-                        // @ts-ignore
                         await prisma.leaveBalance.update({
                             where: { id: record.id },
                             data: {
-                                balance: type.daysPerYear, // Reset to quota
+                                balance: type.daysPerYear,
                                 used: 0
                             }
                         });
@@ -448,14 +465,15 @@ export const processYearEnd = async (req: Request, res: Response) => {
             }
         }
 
-        // 3. Reset Non-Carry-Forward Types (Reset to Quota)
-        // @ts-ignore
+        // 3. Reset Non-Carry-Forward Types
         const standardTypes = await prisma.leaveType.findMany({
-            where: { carryForward: false }
+            where: { 
+                carryForward: false,
+                ...scope
+            }
         });
 
         for (const type of standardTypes) {
-            // @ts-ignore
             await prisma.leaveBalance.updateMany({
                 where: { leaveTypeId: type.id },
                 data: {
@@ -473,10 +491,9 @@ export const processYearEnd = async (req: Request, res: Response) => {
 };
 
 // Request Leave Encashment (Employee)
-export const encashLeave = async (req: Request, res: Response) => {
+export const encashLeave = async (req: AuthRequest, res: Response) => {
     try {
-        // @ts-ignore
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
         const { leaveTypeId, days, reason } = req.body;
 
         const daysToEncash = parseFloat(days);
@@ -484,8 +501,12 @@ export const encashLeave = async (req: Request, res: Response) => {
             return res.status(400).json({ message: 'Invalid days' });
         }
 
+        // Verify leave type belongs to same company
+        const leaveType = await prisma.leaveType.findUnique({ where: { id: leaveTypeId } });
+        if (!leaveType) return res.status(404).json({ message: 'Leave type not found' });
+        if (!assertSameCompany(leaveType.companyId, req, res)) return;
+
         // 1. Check Balance
-        // @ts-ignore
         const balanceRecord = await prisma.leaveBalance.findUnique({
             where: { userId_leaveTypeId: { userId, leaveTypeId } }
         });
@@ -496,8 +517,6 @@ export const encashLeave = async (req: Request, res: Response) => {
 
         // 2. Create Encashment Request & Deduct Balance Atomically
         const encashment = await prisma.$transaction(async (tx) => {
-            // Deduct
-            // @ts-ignore
             await tx.leaveBalance.update({
                 where: { id: balanceRecord.id },
                 data: {
@@ -506,22 +525,36 @@ export const encashLeave = async (req: Request, res: Response) => {
                 }
             });
 
-            // Create Request
-            // @ts-ignore
             return await tx.leaveEncashment.create({
                 data: {
                     userId,
                     leaveTypeId,
                     days: daysToEncash,
                     reason,
-                    amount: 0, // value calculated by Finance/Admin later
+                    amount: 0, 
                     status: 'PENDING'
                 }
             });
         });
 
-        // Notify HR
-        await notifyRole(['HR', 'ADMIN'], `New Encashment Request: ${daysToEncash} days`, '/finance/encashments', 'TASK');
+        // Notify HR (only in same company)
+        const recipientUsers = await prisma.user.findMany({
+            where: {
+                role: { in: ['HR', 'ADMIN'] },
+                companyId: req.user!.companyId
+            }
+        });
+        
+        if (recipientUsers.length > 0) {
+            await prisma.notification.createMany({
+                data: recipientUsers.map(u => ({
+                    userId: u.id,
+                    message: `New Encashment Request: ${daysToEncash} days`,
+                    link: '/finance/encashments',
+                    type: 'TASK'
+                }))
+            });
+        }
 
         res.json(encashment);
 
@@ -532,21 +565,17 @@ export const encashLeave = async (req: Request, res: Response) => {
 };
 
 // Update Encashment Status (Admin/HR)
-export const updateEncashmentStatus = async (req: Request, res: Response) => {
+export const updateEncashmentStatus = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id);
         const { status, comment, amount } = req.body;
 
-        // @ts-ignore
         const request = await prisma.leaveEncashment.findUnique({ where: { id }, include: { user: true } });
         if (!request) return res.status(404).json({ message: 'Request not found' });
-
-        // @ts-ignore
-        if (!assertSameCompany(request.user?.companyId, req as AuthRequest, res)) return;
+        if (!assertSameCompany(request.user?.companyId, req, res)) return;
 
         if (status === 'REJECTED' && request.status !== 'REJECTED') {
             // Refund Balance
-            // @ts-ignore
             await prisma.leaveBalance.update({
                 where: { userId_leaveTypeId: { userId: request.userId, leaveTypeId: request.leaveTypeId } },
                 data: {
@@ -557,13 +586,12 @@ export const updateEncashmentStatus = async (req: Request, res: Response) => {
         }
 
         // Update
-        // @ts-ignore
         const updated = await prisma.leaveEncashment.update({
             where: { id },
             data: {
                 status,
                 managerComment: comment,
-                amount: amount ? parseFloat(amount) : request.amount
+                amount: amount ? parseFloat(amount) : (request as any).amount
             }
         });
 

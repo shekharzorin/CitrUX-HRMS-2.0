@@ -1,18 +1,24 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { prisma } from '../db';
 import { requireString } from '../utils/requestUtils';
-
-interface AuthRequest extends Request {
-    user?: any;
-}
+import { AuthRequest } from '../middlewares/auth.middleware';
+import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
 
 // Create Asset (Admin)
-export const createAsset = async (req: Request, res: Response) => {
+export const createAsset = async (req: AuthRequest, res: Response) => {
     try {
         const { name, type, serialNumber, purchasedAt } = req.body;
+        const companyId = req.user!.companyId;
+
         // @ts-ignore
         const asset = await prisma.asset.create({
-            data: { name, type, serialNumber, purchasedAt: purchasedAt ? new Date(purchasedAt) : null }
+            data: { 
+                name, 
+                type, 
+                serialNumber, 
+                companyId,
+                purchasedAt: purchasedAt ? new Date(purchasedAt) : null 
+            }
         });
         res.json(asset);
     } catch (error) {
@@ -21,10 +27,12 @@ export const createAsset = async (req: Request, res: Response) => {
 };
 
 // Get All Assets (Admin)
-export const getAllAssets = async (req: Request, res: Response) => {
+export const getAllAssets = async (req: AuthRequest, res: Response) => {
     try {
+        const scope = getTenantScope(req);
         // @ts-ignore
         const assets = await prisma.asset.findMany({
+            where: scope,
             include: { user: { include: { profile: true } } }
         });
         res.json(assets);
@@ -34,10 +42,20 @@ export const getAllAssets = async (req: Request, res: Response) => {
 };
 
 // Assign Asset (Admin)
-export const assignAsset = async (req: Request, res: Response) => {
+export const assignAsset = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id);
         const { userId } = req.body;
+
+        const asset = await prisma.asset.findUnique({ where: { id } });
+        if (!asset) return res.status(404).json({ message: 'Asset not found' });
+        if (!assertSameCompany(asset.companyId, req, res)) return;
+
+        // Verify target user is in same company
+        const targetUser = await prisma.user.findUnique({ where: { id: userId } });
+        if (!targetUser) return res.status(404).json({ message: 'User not found' });
+        if (!assertSameCompany(targetUser.companyId, req, res)) return;
+
         // @ts-ignore
         const updated = await prisma.asset.update({
             where: { id },
@@ -50,9 +68,14 @@ export const assignAsset = async (req: Request, res: Response) => {
 };
 
 // Return Asset (Admin)
-export const returnAsset = async (req: Request, res: Response) => {
+export const returnAsset = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id);
+
+        const asset = await prisma.asset.findUnique({ where: { id } });
+        if (!asset) return res.status(404).json({ message: 'Asset not found' });
+        if (!assertSameCompany(asset.companyId, req, res)) return;
+
         // @ts-ignore
         const updated = await prisma.asset.update({
             where: { id },
@@ -67,7 +90,7 @@ export const returnAsset = async (req: Request, res: Response) => {
 // Get My Assets (Employee)
 export const getMyAssets = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
         // @ts-ignore
         const assets = await prisma.asset.findMany({
             where: { assignedTo: userId }
