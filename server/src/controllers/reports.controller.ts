@@ -36,7 +36,7 @@ export const getAttendanceReport = async (req: AuthRequest, res: Response) => {
             include: { profile: true, shift: true }
         });
 
-        const reportData = [];
+        const reportData: any[] = [];
 
         for (const user of users) {
             // Get Attendance Stats

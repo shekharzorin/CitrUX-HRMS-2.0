@@ -14,7 +14,7 @@ export const calculatePayroll = async (req: AuthRequest, res: Response) => {
             return res.status(400).json({ message: 'Invalid input. Required: userIds[], month, year' });
         }
 
-        const results = [];
+        const results: any[] = [];
         for (const userId of userIds) {
             try {
                 // Verify user belongs to same company
@@ -52,7 +52,7 @@ export const generatePayroll = async (req: AuthRequest, res: Response) => {
             return res.status(400).json({ message: 'Invalid input. Required: userIds[], month, year' });
         }
 
-        const generated = [];
+        const generated: any[] = [];
         for (const userId of userIds) {
             try {
                 // Verify user belongs to same company

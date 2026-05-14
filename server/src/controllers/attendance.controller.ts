@@ -44,7 +44,7 @@ export const punchIn = async (req: AuthRequest, res: Response) => {
         );
 
         let isLate = false;
-        let shiftId = null;
+        let shiftId: string | null = null;
 
         if (user?.shift) {
             shiftId = user.shift.id;

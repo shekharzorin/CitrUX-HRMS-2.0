@@ -12,11 +12,10 @@ interface AuthRequest extends Request {
 export const getNotifications = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user.userId;
-        // @ts-ignore
         const notifications = await withRetry(() => prisma.notification.findMany({
             where: { userId },
             orderBy: { createdAt: 'desc' }
-        }));
+        })) as any[];
         res.json(notifications);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching notifications' });
@@ -29,11 +28,9 @@ export const markRead = async (req: AuthRequest, res: Response) => {
         const id = requireString(req.params.id);
         const userId = req.user.userId;
 
-        // Ensure ownership
-        // @ts-ignore
         const notification = await withRetry(() => prisma.notification.findUnique({
             where: { id }
-        }));
+        })) as any;
 
         if (!notification) {
             return res.status(404).json({ message: 'Notification not found' });
@@ -43,7 +40,6 @@ export const markRead = async (req: AuthRequest, res: Response) => {
             return res.status(403).json({ message: 'Access denied' });
         }
 
-        // @ts-ignore
         await withRetry(() => prisma.notification.update({
             where: { id },
             data: { read: true }
@@ -58,7 +54,6 @@ export const markRead = async (req: AuthRequest, res: Response) => {
 export const markAllRead = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user.userId;
-        // @ts-ignore
         await withRetry(() => prisma.notification.updateMany({
             where: { userId, read: false },
             data: { read: true }
@@ -75,11 +70,9 @@ export const createNotification = async (req: AuthRequest, res: Response) => {
         const { userId, message } = req.body;
         const sender = req.user;
 
-        // Verify recipient exists and is in the same company
-        // @ts-ignore
         const recipient = await withRetry(() => prisma.user.findUnique({
             where: { id: userId }
-        }));
+        })) as any;
 
         if (!recipient) {
             return res.status(404).json({ message: 'Recipient not found' });
@@ -89,7 +82,6 @@ export const createNotification = async (req: AuthRequest, res: Response) => {
             return res.status(403).json({ message: 'Cannot send notification to users in other companies' });
         }
 
-        // @ts-ignore
         const notification = await withRetry(() => prisma.notification.create({
             data: { userId, message }
         }));
@@ -103,7 +95,6 @@ export const createNotification = async (req: AuthRequest, res: Response) => {
 export const getUnreadCount = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user.userId;
-        // @ts-ignore
         const count = await withRetry(() => prisma.notification.count({
             where: { userId, read: false }
         }));
@@ -119,26 +110,22 @@ export const broadcastNotification = async (req: AuthRequest, res: Response) => 
         const { message } = req.body;
         const senderId = req.user.userId;
 
-        // Verify Admin/HR/SUPER_ADMIN Role
         if (req.user.role !== 'ADMIN' && req.user.role !== 'HR' && req.user.role !== 'SUPER_ADMIN') {
             return res.status(403).json({ message: 'Access denied' });
         }
 
-        // 1. Get all active users within the same tenant
         const scope = getTenantScope(req);
         const users = await withRetry(() => prisma.user.findMany({
             where: { status: 'ACTIVE', ...scope },
             select: { id: true }
-        }));
+        })) as { id: string }[];
 
-        // 2. Prepare notifications
         const notifications = users.map(u => ({
             userId: u.id,
             message: `📢 ANNOUNCEMENT: ${message}`,
             read: false
         }));
 
-        // 3. Bulk Create
         if (notifications.length > 0) {
             await withRetry(() => prisma.notification.createMany({
                 data: notifications
