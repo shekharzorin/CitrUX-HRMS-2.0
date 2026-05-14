@@ -45,11 +45,14 @@ async function verifyLeaveFlow() {
         console.log('Users created successfully.');
 
         // 2. Setup Leave Type
-        const leaveType = await prisma.leaveType.upsert({
-            where: { code: 'TEST_LEAVE' },
-            update: {},
-            create: { name: 'Test Leave', code: 'TEST_LEAVE', daysPerYear: 10 }
+        let leaveType = await prisma.leaveType.findFirst({
+            where: { code: 'TEST_LEAVE' }
         });
+        if (!leaveType) {
+            leaveType = await prisma.leaveType.create({
+                data: { name: 'Test Leave', code: 'TEST_LEAVE', daysPerYear: 10 }
+            });
+        }
 
         // 3. Create Leave Request (Simulating Apply Leave)
         console.log('Creating Leave Request...');

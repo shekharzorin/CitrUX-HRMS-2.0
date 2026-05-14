@@ -2,16 +2,14 @@ import { Request, Response } from 'express';
 import { prisma } from '../db';
 import { startOfWeek, endOfWeek, addWeeks, subWeeks } from 'date-fns';
 
-interface AuthRequest extends Request {
-    user?: any;
-}
-
+import { AuthRequest } from '../middlewares/auth.middleware';
+import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
 import { safeString, requireString } from '../utils/requestUtils';
 
 // Get or Create Timesheet for a specific week
 export const getMyTimesheet = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
         const date = safeString(req.query.date); // optional date to focus on, defaults to today
 
         const focusDate = date ? new Date(date as string) : new Date();
@@ -60,7 +58,7 @@ export const getMyTimesheet = async (req: AuthRequest, res: Response) => {
 
 export const saveTimesheet = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
         const { id, entries } = req.body;
 
         // Verify ownership
@@ -134,7 +132,7 @@ export const saveTimesheet = async (req: AuthRequest, res: Response) => {
 
 export const submitTimesheet = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
         const { id } = req.body;
 
         const timesheet = await prisma.timesheet.findUnique({ where: { id } });
@@ -153,7 +151,7 @@ export const submitTimesheet = async (req: AuthRequest, res: Response) => {
 
 export const deleteEntry = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
         const id = requireString(req.params.id); // Entry ID
 
         const entry = await prisma.timesheetEntry.findUnique({

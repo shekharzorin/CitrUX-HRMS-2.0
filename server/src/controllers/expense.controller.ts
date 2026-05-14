@@ -45,7 +45,7 @@ export const getCategories = async (req: AuthRequest, res: Response) => {
 // Submit Claim (Employee)
 export const submitClaim = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
         const { categoryId, amount, description, date, receiptUrl } = req.body;
         
         // Verify category belongs to same company
@@ -75,7 +75,7 @@ export const submitClaim = async (req: AuthRequest, res: Response) => {
 // Get My Claims
 export const getMyClaims = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
         // @ts-ignore
         const claims = await prisma.expenseClaim.findMany({
             where: { userId },

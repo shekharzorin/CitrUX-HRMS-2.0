@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { prisma } from '../db';
 import { AuthRequest } from '../middlewares/auth.middleware';
-import { getTenantScope } from '../middlewares/tenant.middleware';
+import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
 
 // ─── Create ───────────────────────────────────────────────────────────────────
 export const createShift = async (req: AuthRequest, res: Response) => {

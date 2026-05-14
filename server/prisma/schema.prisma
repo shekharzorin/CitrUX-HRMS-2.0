@@ -9,30 +9,30 @@ datasource db {
 }
 
 model Company {
-  id               String            @id @default(uuid())
-  name             String            @unique
-  subdomain        String?           @unique
-  domain           String?
-  plan             String            @default("STARTER")
-  logoUrl          String?
-  faviconUrl       String?
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  slogan           String?           @default("Citrux SaaS")
-  logoMediumUrl    String?
-  logoThumbnailUrl String?
-  attendancePolicy AttendancePolicy? @relation("CompanyAttendancePolicy")
-  profiles         Profile[]
-  shifts           Shift[]           @relation("CompanyShifts")
-  tasks            Task[]
-  users            User[]
-  workLogs         WorkLog[]
-  jobRoles         JobRole[]
-  jobPostings      JobPosting[]
-  leaveTypes       LeaveType[]
-  holidays         Holiday[]
+  id                String            @id @default(uuid())
+  name              String            @unique
+  subdomain         String?           @unique
+  domain            String?
+  plan              String            @default("STARTER")
+  logoUrl           String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  slogan            String?           @default("Citrux SaaS")
+  logoMediumUrl     String?
+  logoThumbnailUrl  String?
+  faviconUrl        String?
+  assets            Asset[]
+  attendancePolicy  AttendancePolicy? @relation("CompanyAttendancePolicy")
   expenseCategories ExpenseCategory[]
-  assets           Asset[]
+  holidays          Holiday[]
+  jobPostings       JobPosting[]
+  jobRoles          JobRole[]
+  leaveTypes        LeaveType[]
+  profiles          Profile[]
+  shifts            Shift[]           @relation("CompanyShifts")
+  tasks             Task[]
+  users             User[]
+  workLogs          WorkLog[]
 }
 
 model User {
@@ -476,8 +476,8 @@ model JobPosting {
   department   String
   description  String
   status       String           @default("OPEN")
-  companyId    String?
   createdAt    DateTime         @default(now())
+  companyId    String?
   applications JobApplication[]
   company      Company?         @relation(fields: [companyId], references: [id])
 }
@@ -499,8 +499,8 @@ model ExpenseCategory {
   name      String
   limit     Float?
   companyId String?
-  claims    ExpenseClaim[]
   company   Company?       @relation(fields: [companyId], references: [id])
+  claims    ExpenseClaim[]
 
   @@unique([name, companyId])
 }
@@ -537,11 +537,11 @@ model Asset {
   serialNumber String?   @unique
   status       String    @default("AVAILABLE")
   assignedTo   String?
-  companyId    String?
   purchasedAt  DateTime?
   createdAt    DateTime  @default(now())
-  company      Company?  @relation(fields: [companyId], references: [id])
+  companyId    String?
   user         User?     @relation(fields: [assignedTo], references: [id])
+  company      Company?  @relation(fields: [companyId], references: [id])
 }
 
 model UserDocument {
@@ -574,8 +574,8 @@ model JobRole {
   department  String?
   level       Int      @default(0)
   description String?
-  companyId   String?
   createdAt   DateTime @default(now())
+  companyId   String?
   company     Company? @relation(fields: [companyId], references: [id])
 
   @@unique([title, companyId])

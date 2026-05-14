@@ -10,7 +10,7 @@ import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middlew
 export const generateSecureUrl = async (req: AuthRequest, res: Response) => {
     try {
         const filename = requireString(req.params.filename);
-        const requesterRole = req.user.role;
+        const requesterRole = req.user!.role;
         
         const token = jwt.sign(
             { filename, role: requesterRole },
@@ -27,8 +27,8 @@ export const generateSecureUrl = async (req: AuthRequest, res: Response) => {
 // Upload Document (Employee/Admin)
 export const uploadDocument = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId; // Current logged in user
-        const requesterRole = req.user.role;
+        const userId = req.user!.userId; // Current logged in user
+        const requesterRole = req.user!.role;
 
         const { targetUserId, type, name, expiryDate } = req.body;
         const file = req.file;
@@ -78,7 +78,7 @@ export const uploadDocument = async (req: AuthRequest, res: Response) => {
 // Get My Documents
 export const getMyDocuments = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user!.userId;
         // @ts-ignore
         const docs = await prisma.userDocument.findMany({
             where: { userId },
@@ -117,7 +117,7 @@ export const verifyDocument = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id);
         const { status } = req.body; // VERIFIED, REJECTED
-        const verifierId = req.user.userId;
+        const verifierId = req.user!.userId;
 
         // Check ownership/company
         // @ts-ignore

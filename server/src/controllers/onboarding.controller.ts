@@ -5,14 +5,8 @@ import { sendEmail, welcomeEmailTemplate } from '../utils/email.util';
 import { requireString } from '../utils/requestUtils';
 import { encrypt, decrypt } from '../utils/crypto';
 
-interface AuthRequest extends Request {
-    user?: {
-        userId: string;
-        email: string;
-        role: string;
-    };
-    body: any;
-}
+import { AuthRequest } from '../middlewares/auth.middleware';
+import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
 
 // Get Onboarding Status (Full details)
 export const getOnboardingStatus = async (req: AuthRequest, res: Response) => {
