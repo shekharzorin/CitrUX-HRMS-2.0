@@ -220,6 +220,8 @@
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   @apply bg-slate-200 dark:bg-slate-800 rounded-full;
+}
+
 .notification-message {
   @apply text-sm text-[var(--text-main)] mb-1 line-clamp-2;
 }
