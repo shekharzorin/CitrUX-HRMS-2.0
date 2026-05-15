@@ -5,7 +5,7 @@ import { StatsCardPremium } from '../components/ui/DashboardElements';
 import { Skeleton } from '../components/ui/Skeleton';
 import {
     AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
-    ResponsiveContainer, BarChart, Bar, Legend
+    ResponsiveContainer, BarChart, Bar
 } from 'recharts';
 
 // Dashboard sub-components
@@ -17,7 +17,7 @@ import { Icon } from '../components/ui/Icons';
 
 const Dashboard: React.FC = () => {
     const { user } = useAuth();
-    const { stats, loading, lastUpdated } = useDashboard();
+    const { stats, loading } = useDashboard();
     const [showCharts, setShowCharts] = useState(true);
 
     const isAdminOrHR = user?.role

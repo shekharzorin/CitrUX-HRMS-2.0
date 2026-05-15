@@ -1,6 +1,24 @@
 import React from 'react';
 import { Icon, type AppIconName } from './Icons';
 
+interface StatBoxProps {
+    label: string;
+    value: React.ReactNode;
+    sub?: React.ReactNode;
+    color?: string;
+    icon?: AppIconName;
+    className?: string;
+}
+
+interface StatsCardPremiumProps {
+    title: string;
+    value: React.ReactNode;
+    subtext?: React.ReactNode;
+    icon: AppIconName;
+    variant: 'purple' | 'green' | 'orange' | 'blue';
+    trend?: string;
+}
+
 interface WidgetHeaderProps {
     title: string;
     icon?: AppIconName;
