@@ -80,80 +80,67 @@ const Dashboard: React.FC = () => {
     }
 
     return (
-        <div className="space-y-10 pb-12 animate-fade-in">
-
-            {/* 1. HERO SECTION — Real clock-in state, real user name, real shift */}
+        <div className="space-y-8 pb-12 animate-fade-in">
             <HeroWorkCard />
 
-            {/* Last updated indicator */}
-            {lastUpdated && (
-                <p className="text-[10px] text-slate-800 text-right -mt-6 pr-2 font-bold uppercase tracking-wider">
-                    Data refreshed at {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </p>
-            )}
-
-            {/* 2. METRICS CARDS — All values from DB via /stats */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {isAdminOrHR ? (
                     <>
                         <StatsCardPremium
-                            title="Total Employees"
+                            title="Headcount"
                             value={totalEmployees}
                             subtext={newThisMonth}
                             icon="employees"
                             variant="purple"
-                            trend={`${activeEmployees} active`}
+                            trend="Organization"
                         />
                         <StatsCardPremium
-                            title="Present Today"
-                            value={presentToday}
-                            subtext={`${attendanceRate}% attendance rate`}
+                            title="Attendance"
+                            value={`${attendanceRate}%`}
+                            subtext={`${presentToday} present today`}
                             icon="attendance"
                             variant="green"
-                            trend={attendanceRate > 90 ? '↑ Strong' : attendanceRate > 75 ? '→ Normal' : '↓ Low'}
+                            trend="Live"
                         />
                         <StatsCardPremium
-                            title="Pending Approvals"
+                            title="Approvals"
                             value={totalPending}
-                            subtext={`${pendingLeaves} leave · ${pendingExpenses} expense`}
+                            subtext={`${pendingLeaves} leaves · ${pendingExpenses} exp`}
                             icon="expenses"
                             variant="orange"
-                            trend={urgentCount > 0 ? `${urgentCount} URGENT` : 'All normal'}
+                            trend={urgentCount > 0 ? `${urgentCount} Urgent` : 'Pending'}
                         />
                         <StatsCardPremium
                             title="Active Jobs"
                             value={openJobs}
-                            subtext="Open positions"
+                            subtext="Openings"
                             icon="careers"
                             variant="blue"
-                            trend={openJobs > 0 ? 'Hiring' : 'No openings'}
+                            trend="Recruiting"
                         />
                     </>
                 ) : isManagerOrAbove ? (
                     <>
                         <StatsCardPremium
-                            title="Team Size"
+                            title="Team Members"
                             value={stats?.teamMembers?.length ?? 0}
                             subtext="Direct reports"
                             icon="employees"
                             variant="purple"
-                            trend="My team"
                         />
                         <StatsCardPremium
-                            title="Present Today"
-                            value={presentToday}
-                            subtext={`${attendanceRate}% of team`}
+                            title="Attendance"
+                            value={`${attendanceRate}%`}
+                            subtext={`${presentToday} present`}
                             icon="attendance"
                             variant="green"
-                            trend={attendanceRate > 90 ? '↑ Strong' : '→ Normal'}
                         />
                         <StatsCardPremium
-                            title="Pending Leaves"
+                            title="Pending"
                             value={pendingLeaves}
-                            subtext="Awaiting approval"
+                            subtext="Leave requests"
                             icon="expenses"
                             variant="orange"
-                            trend={urgentCount > 0 ? `${urgentCount} URGENT` : 'On track'}
                         />
                         <StatsCardPremium
                             title="Active Jobs"
@@ -161,101 +148,93 @@ const Dashboard: React.FC = () => {
                             subtext="Open positions"
                             icon="careers"
                             variant="blue"
-                            trend={openJobs > 0 ? 'Hiring' : 'No openings'}
                         />
                     </>
                 ) : (
-                    /* Employee view — personal stats */
                     <>
                         <StatsCardPremium
-                            title="Days This Month"
+                            title="Attendance"
                             value={stats?.personalStats?.daysThisMonth ?? 0}
-                            subtext="Days attended"
+                            subtext="Days this month"
                             icon="attendance"
                             variant="green"
-                            trend="This month"
                         />
                         <StatsCardPremium
-                            title="Hours Logged"
+                            title="Work Hours"
                             value={`${stats?.personalStats?.hoursThisMonth ?? 0}h`}
-                            subtext="This month"
+                            subtext="Monthly total"
                             icon="schedule"
                             variant="blue"
-                            trend="Work hours"
                         />
                         <StatsCardPremium
                             title="Late Days"
                             value={stats?.personalStats?.lateDays ?? 0}
-                            subtext="This month"
+                            subtext="Improve attendance"
                             icon="warning"
                             variant="orange"
-                            trend={stats?.personalStats?.lateDays === 0 ? 'Perfect!' : 'Improve'}
                         />
                         <StatsCardPremium
-                            title="Active Jobs"
+                            title="Careers"
                             value={openJobs}
                             subtext="Internal openings"
                             icon="careers"
                             variant="purple"
-                            trend="Refer someone"
                         />
                     </>
                 )}
             </div>
 
-            {/* 3. ACTION LIST + ATTENDANCE OVERVIEW */}
-            <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
-                <div className="xl:col-span-7">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div className="lg:col-span-7">
                     <ActionList />
                 </div>
-                <div className="xl:col-span-5">
+                <div className="lg:col-span-5">
                     <AttendanceOverview />
                 </div>
             </div>
 
-            {/* 4. BUSINESS INSIGHTS — Real 7-day attendance trend + leave distribution */}
             <div className="space-y-6">
-                <div className="flex items-center justify-between px-2">
+                <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600">
-                            <Icon name="analytics" size={18} />
+                        <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center text-indigo-600">
+                            <Icon name="analytics" size={16} />
                         </div>
-                        <h2 className="text-xl font-black text-slate-800">Business Insights</h2>
+                        <h2 className="text-sm font-bold text-slate-900 dark:text-white">Business Intelligence</h2>
                     </div>
                     <button
                         onClick={() => setShowCharts(!showCharts)}
-                        className="text-xs font-bold text-slate-400 hover:text-indigo-600 flex items-center gap-1 transition-colors"
+                        className="text-[11px] font-bold text-slate-400 hover:text-indigo-600 transition-colors uppercase tracking-widest"
                     >
-                        {showCharts ? 'Minimize' : 'Expand'}
-                        <Icon name={showCharts ? 'chevron_up' : 'chevron_down'} size={14} />
+                        {showCharts ? 'Hide Details' : 'Show Details'}
                     </button>
                 </div>
 
                 {showCharts && (
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-slide-up">
-                        {/* Attendance Trend — last 7 days from DB */}
-                        <div className="lg:col-span-7 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm h-[350px] flex flex-col">
-                            <div className="flex justify-between items-center mb-6">
+                        <div className="lg:col-span-7 card-premium p-6 h-[380px] flex flex-col">
+                            <div className="flex justify-between items-center mb-8">
                                 <div>
-                                    <h3 className="font-bold text-slate-700">Attendance Trend</h3>
-                                    <p className="text-[10px] text-slate-500 font-bold mt-0.5 uppercase tracking-wider">Last 7 days</p>
+                                    <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-widest">Attendance Trend</h3>
+                                    <p className="text-[10px] text-slate-400 font-medium mt-1">Last 7 days presence</p>
                                 </div>
-                                <div className="flex items-center gap-1.5">
-                                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                                    <span className="text-[10px] font-bold text-slate-600">Present</span>
+                                <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                                        <span className="text-[10px] font-bold text-slate-500 uppercase">Present</span>
+                                    </div>
                                 </div>
                             </div>
                             {attendanceTrendData.length === 0 ? (
-                                <div className="flex-1 flex items-center justify-center text-slate-400 text-sm font-semibold">
-                                    No attendance records found
+                                <div className="flex-1 flex items-center justify-center text-slate-400 text-xs font-bold uppercase tracking-widest">
+                                    No data available
                                 </div>
                             ) : (
                                 <div className="flex-1 w-full -ml-4">
                                     <ResponsiveContainer width="100%" height="100%">
-                                        <AreaChart data={attendanceTrendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                        <AreaChart data={attendanceTrendData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                                             <defs>
                                                 <linearGradient id="colorPresent" x1="0" y1="0" x2="0" y2="1">
-                                                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.2} />
+                                                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.1} />
                                                     <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                                                 </linearGradient>
                                             </defs>
@@ -274,21 +253,22 @@ const Dashboard: React.FC = () => {
                                             />
                                             <Tooltip
                                                 contentStyle={{
-                                                    borderRadius: '16px',
+                                                    borderRadius: '12px',
                                                     border: 'none',
-                                                    boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
+                                                    boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
+                                                    fontSize: '11px',
+                                                    fontWeight: 'bold'
                                                 }}
                                                 cursor={{ stroke: '#e2e8f0', strokeWidth: 1 }}
-                                                formatter={(v: any) => [`${v} people`, 'Present']}
                                             />
                                             <Area
                                                 type="monotone"
                                                 dataKey="present"
                                                 stroke="#10b981"
-                                                strokeWidth={3}
+                                                strokeWidth={2}
                                                 fillOpacity={1}
                                                 fill="url(#colorPresent)"
-                                                activeDot={{ r: 6, strokeWidth: 0, fill: '#10b981' }}
+                                                activeDot={{ r: 4, strokeWidth: 0 }}
                                             />
                                         </AreaChart>
                                     </ResponsiveContainer>
@@ -296,20 +276,19 @@ const Dashboard: React.FC = () => {
                             )}
                         </div>
 
-                        {/* Leave Distribution — last 4 months from DB */}
-                        <div className="lg:col-span-5 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm h-[350px] flex flex-col">
-                            <div className="mb-6">
-                                <h3 className="font-bold text-slate-700">Leave Distribution</h3>
-                                <p className="text-[10px] text-slate-500 font-bold mt-0.5 uppercase tracking-wider">Last 4 months</p>
+                        <div className="lg:col-span-5 card-premium p-6 h-[380px] flex flex-col">
+                            <div className="mb-8">
+                                <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-widest">Leave Distribution</h3>
+                                <p className="text-[10px] text-slate-400 font-medium mt-1">Monthly requests breakdown</p>
                             </div>
                             {leaveTrendData.length === 0 ? (
-                                <div className="flex-1 flex items-center justify-center text-slate-400 text-sm font-semibold">
-                                    No leave records found
+                                <div className="flex-1 flex items-center justify-center text-slate-400 text-xs font-bold uppercase tracking-widest">
+                                    No data available
                                 </div>
                             ) : (
                                 <div className="flex-1 w-full -ml-4">
                                     <ResponsiveContainer width="100%" height="100%">
-                                        <BarChart data={leaveTrendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                        <BarChart data={leaveTrendData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                                             <XAxis
                                                 dataKey="month"
@@ -325,30 +304,16 @@ const Dashboard: React.FC = () => {
                                             />
                                             <Tooltip
                                                 contentStyle={{
-                                                    borderRadius: '16px',
+                                                    borderRadius: '12px',
                                                     border: 'none',
-                                                    boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
+                                                    boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
+                                                    fontSize: '11px',
+                                                    fontWeight: 'bold'
                                                 }}
                                                 cursor={{ fill: '#f8fafc' }}
                                             />
-                                            <Legend
-                                                iconType="circle"
-                                                iconSize={8}
-                                                wrapperStyle={{ fontSize: '10px', fontWeight: 700 }}
-                                            />
-                                            <Bar
-                                                dataKey="Approved"
-                                                stackId="a"
-                                                fill="#6366f1"
-                                                radius={[0, 0, 4, 4]}
-                                                barSize={24}
-                                            />
-                                            <Bar
-                                                dataKey="Pending"
-                                                stackId="a"
-                                                fill="#f59e0b"
-                                                radius={[4, 4, 0, 0]}
-                                            />
+                                            <Bar dataKey="Approved" stackId="a" fill="#6366f1" radius={[0, 0, 4, 4]} barSize={20} />
+                                            <Bar dataKey="Pending" stackId="a" fill="#f59e0b" radius={[4, 4, 0, 0]} />
                                         </BarChart>
                                     </ResponsiveContainer>
                                 </div>
@@ -358,17 +323,15 @@ const Dashboard: React.FC = () => {
                 )}
             </div>
 
-            {/* 5. TEAM VISIBILITY */}
             <div className="space-y-6">
-                <div className="flex items-center gap-3 px-2">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600">
-                        <Icon name="employees" size={18} />
+                <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-600">
+                        <Icon name="employees" size={16} />
                     </div>
-                    <h2 className="text-xl font-black text-slate-800">Team Visibility</h2>
+                    <h2 className="text-sm font-bold text-slate-900 dark:text-white">People Directory</h2>
                 </div>
                 <TeamList />
             </div>
-
         </div>
     );
 };

@@ -9,99 +9,68 @@ interface WidgetHeaderProps {
 }
 
 export const WidgetHeader = ({ title, icon, action, className = "" }: WidgetHeaderProps) => (
-    <div className={`flex items-center justify-between mb-6 ${className}`}>
-        <div className="flex items-center gap-3">
+    <div className={`flex items-center justify-between mb-5 ${className}`}>
+        <div className="flex items-center gap-2.5">
             {icon && (
-                <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center text-[var(--primary)] shadow-sm">
-                    <Icon name={icon} size={20} />
+                <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300">
+                    <Icon name={icon} size={16} />
                 </div>
             )}
-            <h3 className="font-bold text-lg text-[var(--text-main)] tracking-tight">{title}</h3>
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white tracking-tight">{title}</h3>
         </div>
         {action}
     </div>
 );
 
-
-interface StatBoxProps {
-    label: string;
-    value: string | number;
-    sub?: string;
-    color?: string;
-    icon?: AppIconName;
-    className?: string;
-}
-
-export const StatBox = ({ label, value, sub, color = "text-[var(--text-main)]", icon, className = "" }: StatBoxProps) => (
-    <div className={`card-premium p-5 flex flex-col justify-between h-full bg-white dark:bg-slate-800 border-none shadow-sm hover:shadow-md transition-all ${className}`}>
-        <div className="flex items-start justify-between mb-4">
-            <span className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider">{label}</span>
+export const StatBox = ({ label, value, sub, color = "text-slate-900", icon, className = "" }: StatBoxProps) => (
+    <div className={`card-premium p-4 flex flex-col justify-between h-full ${className}`}>
+        <div className="flex items-start justify-between mb-3">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{label}</span>
             {icon && (
-                <div className={`p-2 rounded-lg bg-slate-50 dark:bg-slate-700/50 text-slate-400 group-hover:text-[var(--primary)] transition-colors`}>
-                    <Icon name={icon} size={18} />
+                <div className="p-1.5 rounded-md bg-slate-50 dark:bg-slate-800 text-slate-400">
+                    <Icon name={icon} size={14} />
                 </div>
             )}
         </div>
         <div>
-            <div className={`text-4xl font-bold font-heading mb-1 ${color}`}>{value}</div>
-            {sub && <div className="text-xs text-[var(--text-muted)] font-medium flex items-center gap-1">
-                {sub.startsWith('+') ? <span className="text-emerald-500 bg-emerald-50 px-1 rounded">▲</span> : null}
-                {sub}
-            </div>}
+            <div className={`text-2xl font-bold tracking-tight mb-0.5 ${color}`}>{value}</div>
+            {sub && (
+                <div className="text-[11px] text-slate-500 font-medium flex items-center gap-1">
+                    {sub}
+                </div>
+            )}
         </div>
     </div>
 );
 
-interface StatsCardPremiumProps {
-    title: string;
-    value: string | number;
-    subtext: string;
-    icon: AppIconName;
-    variant: 'purple' | 'green' | 'orange' | 'blue';
-    trend?: string;
-}
-
 export const StatsCardPremium = ({ title, value, subtext, icon, variant, trend }: StatsCardPremiumProps) => {
-    // Reference Image matching: SOLID pastel backgrounds
-    const variants = {
-        purple: 'bg-purple-200 dark:bg-purple-900/20 text-purple-900 dark:text-purple-200 border border-transparent dark:border-purple-800/30',
-        green: 'bg-lime-200 dark:bg-lime-900/20 text-lime-900 dark:text-lime-200 border border-transparent dark:border-lime-800/30',
-        orange: 'bg-orange-200 dark:bg-orange-900/20 text-orange-900 dark:text-orange-200 border border-transparent dark:border-orange-800/30',
-        blue: 'bg-sky-200 dark:bg-sky-900/20 text-sky-900 dark:text-sky-200 border border-transparent dark:border-sky-800/30',
-    };
-
-    // Icons: simple outline style, usually just slightly darker or white bg
-    const iconColors = {
-        purple: 'bg-white/40 text-purple-900 dark:text-purple-200',
-        green: 'bg-white/40 text-lime-900 dark:text-lime-200',
-        orange: 'bg-white/40 text-orange-900 dark:text-orange-200',
-        blue: 'bg-white/40 text-sky-900 dark:text-sky-200',
+    const accentColors = {
+        purple: 'text-indigo-600 bg-indigo-50 dark:bg-indigo-500/10',
+        green: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10',
+        orange: 'text-amber-600 bg-amber-50 dark:bg-amber-500/10',
+        blue: 'text-blue-600 bg-blue-50 dark:bg-blue-500/10',
     };
 
     return (
-        <div className={`rounded-[2rem] p-6 relative overflow-hidden transition-all hover:scale-[1.02] shadow-sm ${variants[variant]} flex flex-col h-48 justify-between`}>
-            {/* Soft gradient overlay for depth */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent pointer-events-none"></div>
-
-            <div className="relative z-10 flex justify-between items-start">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm ${iconColors[variant]}`}>
-                    <Icon name={icon} size={20} />
+        <div className="card-premium p-5 flex flex-col justify-between h-36">
+            <div className="flex justify-between items-start">
+                <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${accentColors[variant]}`}>
+                    <Icon name={icon} size={18} />
                 </div>
                 {trend && (
-                    <div className="bg-white/40 text-inherit px-2 py-1 rounded-full text-xs font-bold backdrop-blur-md">
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider bg-slate-50 dark:bg-slate-800 px-2 py-0.5 rounded-full">
                         {trend}
                     </div>
                 )}
             </div>
 
-            <div className="relative z-10">
-                <h4 className="text-xs font-bold uppercase tracking-wider opacity-90 mb-1">{title}</h4>
-                <div className="text-4xl font-bold mb-1 tracking-tight">{value}</div>
-                <div className="text-xs font-bold opacity-100">{subtext}</div>
+            <div>
+                <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">{title}</h4>
+                <div className="flex items-baseline gap-2">
+                    <div className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">{value}</div>
+                    <div className="text-[11px] font-medium text-slate-500 truncate">{subtext}</div>
+                </div>
             </div>
-
-            {/* Decorative large circle in corner matches reference style */}
-            <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/10 blur-2xl"></div>
         </div>
     );
 };
