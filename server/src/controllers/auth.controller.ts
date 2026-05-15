@@ -78,7 +78,7 @@ export const getMe = async (req: AuthRequest, res: Response) => {
         const user = await withRetry(() =>
             prisma.user.findUnique({
                 where: { id: userId },
-                include: { profile: true, shift: true }
+                include: { profile: true, shift: true, company: true }
             })
         ) as any;
         if (!user) return res.status(404).json({ message: 'User not found' });

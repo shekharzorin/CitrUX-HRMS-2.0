@@ -3,7 +3,7 @@ import { prisma } from '../db';
 
 import { AuthRequest } from '../middlewares/auth.middleware';
 
-export const getSettings = async (req: Request, res: Response) => {
+export const getSettings = async (req: AuthRequest, res: Response) => {
     try {
         const settings = await prisma.systemSetting.findMany();
 
@@ -11,6 +11,20 @@ export const getSettings = async (req: Request, res: Response) => {
             acc[curr.key] = curr.value;
             return acc;
         }, {} as Record<string, string>);
+
+        // Merge company-specific branding if user belongs to one
+        const companyId = req.user?.companyId;
+        if (companyId) {
+            const company = await prisma.company.findUnique({
+                where: { id: companyId }
+            });
+
+            if (company) {
+                if (company.name) settingsMap['company_name'] = company.name;
+                if (company.logoUrl) settingsMap['company_logo'] = company.logoUrl;
+                if (company.faviconUrl) settingsMap['company_favicon'] = company.faviconUrl;
+            }
+        }
 
         res.json(settingsMap);
     } catch (error) {
