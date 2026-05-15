@@ -275,7 +275,7 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
         if (!assertSameCompany(existing.companyId, req, res)) return;
 
         // Enforce Role Hierarchy
-        if (actorRole === 'HR') {
+        if (actorRole.toUpperCase() === 'HR') {
             if (existing.role === 'ADMIN' || existing.role === 'SUPER_ADMIN' || existing.role === 'HR') {
                 return res.status(403).json({ message: 'Insufficient permissions to modify this user' });
             }
@@ -351,7 +351,7 @@ export const deleteUser = async (req: AuthRequest, res: Response) => {
         if (!assertSameCompany(userToDelete.companyId, req, res)) return;
 
         // Enforce Role Hierarchy
-        if (actorRole === 'HR') {
+        if (actorRole.toUpperCase() === 'HR') {
             if (userToDelete.role === 'ADMIN' || userToDelete.role === 'SUPER_ADMIN' || userToDelete.role === 'HR') {
                 return res.status(403).json({ message: 'Insufficient permissions to delete this user' });
             }

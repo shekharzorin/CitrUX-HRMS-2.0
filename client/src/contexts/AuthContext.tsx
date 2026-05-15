@@ -42,6 +42,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const login = (newToken: string, newUser: User) => {
         try {
+            // Normalize role
+            if (newUser.role) newUser.role = newUser.role.toUpperCase();
+            
             localStorage.setItem('token', newToken);
             localStorage.setItem('user', JSON.stringify(newUser));
             setToken(newToken);
@@ -64,6 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const updateUser = (updatedUser: User) => {
         try {
+            if (updatedUser.role) updatedUser.role = updatedUser.role.toUpperCase();
             localStorage.setItem('user', JSON.stringify(updatedUser));
             setUser(updatedUser);
         } catch (error) {

@@ -53,7 +53,7 @@ import NotFound from './pages/NotFound';
 const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactElement; allowedRoles?: string[] }) => {
   const { isAuthenticated, user } = useAuth();
   if (!isAuthenticated) return <Navigate to="/login" />;
-  if (allowedRoles && user && !allowedRoles.includes(user.role)) return <Navigate to="/" />;
+  if (allowedRoles && user && !allowedRoles.includes(user.role.toUpperCase())) return <Navigate to="/" />;
   return <Layout>{children}</Layout>;
 };
 

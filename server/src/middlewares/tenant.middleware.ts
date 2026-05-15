@@ -17,7 +17,7 @@ export const tenantScope = (req: AuthRequest, res: Response, next: NextFunction)
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    if (req.user.role === 'SUPER_ADMIN') {
+    if (req.user.role.toUpperCase() === 'SUPER_ADMIN') {
         // Super admin can optionally target a specific company via query param
         if (req.query.companyId && typeof req.query.companyId === 'string') {
             req.user.companyId = req.query.companyId;
@@ -47,7 +47,7 @@ export const tenantScope = (req: AuthRequest, res: Response, next: NextFunction)
 export const getTenantScope = (req: AuthRequest): { companyId?: string } => {
     const { role, companyId } = req.user!;
 
-    if (role === 'SUPER_ADMIN' && !companyId) {
+    if (role.toUpperCase() === 'SUPER_ADMIN' && !companyId) {
         return {}; // Unrestricted — sees all companies
     }
 
@@ -66,7 +66,7 @@ export const assertSameCompany = (
     req: AuthRequest,
     res: Response
 ): boolean => {
-    if (req.user?.role === 'SUPER_ADMIN') return true;
+    if (req.user?.role.toUpperCase() === 'SUPER_ADMIN') return true;
 
     if (!resourceCompanyId || resourceCompanyId !== req.user?.companyId) {
         res.status(403).json({ message: 'Access denied: cross-company access blocked' });
