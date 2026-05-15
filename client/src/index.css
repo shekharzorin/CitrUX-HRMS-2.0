@@ -333,4 +333,91 @@
 
 .gradient-rose {
   background: linear-gradient(135deg, #be123c 0%, #e11d48 50%, #fb7185 100%);
-}
+}
+
+/* =============================================
+   Profile Dropdown System
+   ============================================= */
+
+.profile-dropdown-container {
+  @apply relative;
+}
+
+.profile-trigger {
+  @apply flex items-center gap-3;
+}
+
+.profile-dropdown {
+  @apply absolute right-0 mt-2 w-72 bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden z-50 animate-scale-up;
+}
+
+.profile-header-section {
+  @apply p-6 flex flex-col items-center text-center border-b border-slate-50 dark:border-slate-800;
+}
+
+.profile-avatar-large {
+  @apply mb-4 p-1 rounded-full border-2 border-indigo-50 dark:border-indigo-500/20;
+}
+
+.profile-name {
+  @apply text-lg font-bold text-slate-900 dark:text-white leading-tight;
+}
+
+.profile-email {
+  @apply text-xs text-slate-500 font-medium mt-1;
+}
+
+.profile-theme-section {
+  @apply p-6 border-b border-slate-50 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20;
+}
+
+.profile-section-title {
+  @apply text-[11px] font-bold text-slate-900 dark:text-white uppercase tracking-widest;
+}
+
+.profile-section-subtitle {
+  @apply text-[10px] text-slate-400 font-medium;
+}
+
+.theme-toggle-buttons {
+  @apply grid grid-cols-2 gap-2 mt-3 mb-4;
+}
+
+.theme-toggle-btn {
+  @apply h-8 rounded-lg text-xs font-bold transition-all border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800;
+}
+
+.theme-toggle-btn-active {
+  @apply border-indigo-600 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 shadow-sm;
+}
+
+.color-picker-grid {
+  @apply flex items-center justify-between px-1;
+}
+
+.profile-actions-section {
+  @apply p-2;
+}
+
+.profile-link, .profile-logout-btn {
+  @apply w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-200;
+}
+
+.profile-link {
+  @apply text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-indigo-600;
+}
+
+.profile-logout-btn {
+  @apply text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 mt-1;
+}
+
+/* Animation */
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.95) translateY(-10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
