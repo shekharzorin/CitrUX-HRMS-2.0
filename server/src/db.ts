@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '../generated/prisma';
+export { Prisma };
 
 const isDev = process.env.NODE_ENV !== 'production';
 

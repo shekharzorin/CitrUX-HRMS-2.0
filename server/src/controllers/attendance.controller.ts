@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
-import { prisma, withRetry } from '../db';
+import { prisma, withRetry, Prisma } from '../db';
 import { notifyUser, notifyRole } from '../utils/notification';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
-import { Prisma } from '@prisma/client';
 
 function isDbConnectionError(err: any): boolean {
     if (err instanceof Prisma.PrismaClientInitializationError) return true;
@@ -38,10 +37,9 @@ export const punchIn = async (req: AuthRequest, res: Response) => {
         }
 
         // Get User's Shift
-        // @ts-ignore
         const user = await withRetry(() =>
             prisma.user.findUnique({ where: { id: userId }, include: { shift: true } })
-        );
+        ) as any;
 
         let isLate = false;
         let shiftId: string | null = null;
@@ -62,12 +60,11 @@ export const punchIn = async (req: AuthRequest, res: Response) => {
             }
         }
 
-        // @ts-ignore
         const attendance = await withRetry(() =>
             prisma.attendance.create({
                 data: { userId, date: today, checkIn: new Date(), location, shiftId, isLate }
             })
-        );
+        ) as any;
 
         // NOTIFICATION: Late Arrival
         if (isLate) {
@@ -96,7 +93,7 @@ export const punchOut = async (req: AuthRequest, res: Response) => {
                 orderBy: { checkIn: 'desc' },
                 include: { breaks: true }
             })
-        );
+        ) as any;
 
         if (!attendance) {
             return res.status(400).json({ message: 'No active punch-in record found.' });
@@ -133,7 +130,7 @@ export const punchOut = async (req: AuthRequest, res: Response) => {
         const updatedAttendanceForCalc = await prisma.attendance.findUnique({
             where: { id: attendance.id },
             include: { breaks: true }
-        });
+        }) as any;
 
         const totalBreakMinutes = updatedAttendanceForCalc?.breaks.reduce((acc, b) => {
             if (b.duration) return acc + b.duration;
@@ -176,7 +173,7 @@ export const getAttendance = async (req: AuthRequest, res: Response) => {
                 include: { breaks: true },
                 orderBy: { date: 'desc' }
             })
-        );
+        ) as any[];
 
         // Computed consistency fix
         const fixedAttendance = attendance.map(record => {

@@ -3,7 +3,6 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import { PrismaClient } from '@prisma/client';
 import { authorizeRole } from './middlewares/auth.middleware';
 import { errorHandler } from './middleware/errorHandler';
 import userRoutes from './routes/user.routes';

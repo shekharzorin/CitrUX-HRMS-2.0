@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
-import { prisma, withRetry } from '../db';
+import { prisma, withRetry, Prisma } from '../db';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import logger from '../utils/logger';
 import { AuthRequest } from '../middlewares/auth.middleware';
-import { Prisma } from '@prisma/client';
 
 function isDbConnectionError(err: any): boolean {
     if (err instanceof Prisma.PrismaClientInitializationError) return true;
@@ -30,7 +29,7 @@ export const login = async (req: Request, res: Response) => {
                 where: { email },
                 include: { profile: true, shift: true, company: true }
             })
-        );
+        ) as any;
         logger.info(`User found: ${!!user}`);
 
         if (!user) {
@@ -81,7 +80,7 @@ export const getMe = async (req: AuthRequest, res: Response) => {
                 where: { id: userId },
                 include: { profile: true, shift: true }
             })
-        );
+        ) as any;
         if (!user) return res.status(404).json({ message: 'User not found' });
         const { passwordHash, ...userData } = user;
         res.json(userData);

@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
-import { prisma, withRetry } from '../db';
-import { PrismaClientInitializationError } from '../../generated/prisma/runtime/library';
+import { prisma, withRetry, Prisma } from '../db';
 
 function isDbConnectionError(err: any): boolean {
-    if (err instanceof PrismaClientInitializationError) return true;
+    if (err instanceof Prisma.PrismaClientInitializationError) return true;
     const retriable = new Set(['P1001', 'P1002', 'P1008', 'P1017']);
     if (retriable.has(err?.code)) return true;
     const msg: string = err?.message ?? '';
