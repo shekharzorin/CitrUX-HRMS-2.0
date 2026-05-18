@@ -115,14 +115,14 @@ const EditUser: React.FC = () => {
         const { name, value, type } = e.target;
         if (type === 'checkbox') {
             const checked = (e.target as HTMLInputElement).checked;
-            setFormData(prev => ({ 
+            setFormData((prev: any) => ({ 
                 ...prev, 
                 [name]: checked,
                 permanentAddress: name === 'sameAsPresent' && checked ? prev.presentAddress : prev.permanentAddress
             }));
         } else {
             const finalValue = name === 'panNumber' ? value.toUpperCase() : value;
-            setFormData(prev => ({ ...prev, [name]: finalValue }));
+            setFormData((prev: any) => ({ ...prev, [name]: finalValue }));
         }
     };
 
