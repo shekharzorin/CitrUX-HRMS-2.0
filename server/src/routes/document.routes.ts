@@ -22,7 +22,7 @@ const upload = multer({ storage });
 
 router.use(authenticateToken);
 
-router.get('/generate-url/:filename(.*)', generateSecureUrl);
+router.get('/generate-url/*filename', generateSecureUrl);
 router.post('/upload', upload.single('file'), uploadDocument);
 router.get('/my', getMyDocuments);
 

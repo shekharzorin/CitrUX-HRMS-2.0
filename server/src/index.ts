@@ -131,9 +131,9 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 // Secure Uploads Access
 import jwt from 'jsonwebtoken';
 
-app.use('/uploads/:filepath(.*)', (req, res, next) => {
+app.use('/uploads/*filepath', (req, res, next) => {
     const token = req.query.token as string;
-    const filepath = req.params.filepath;
+    const filepath = (req.params as any).filepath || req.params[0];
 
     if (!token) {
         return res.status(401).json({ message: 'URL signature missing' });
@@ -147,7 +147,7 @@ app.use('/uploads/:filepath(.*)', (req, res, next) => {
         return res.status(403).json({ message: 'URL signature expired or invalid' });
     }
 }, (req, res) => {
-    const filepath = req.params.filepath;
+    const filepath = (req.params as any).filepath || req.params[0];
     const fullPath = path.join(__dirname, '../uploads', filepath);
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     res.sendFile(fullPath, (err) => {
