@@ -313,31 +313,23 @@ export const handleAiChat = async (req: Request, res: Response) => {
             return res.status(400).json({ reply: 'Please provide a message.' });
         }
 
-        const apiKey = process.env.OPENAI_API_KEY;
+        // ── PATH 1: Our own Python Custom Agent (ai-service at port 8000) ─────
+        try {
+            const pyResponse = await axios.post('http://localhost:8000/ask', {
+                userId,
+                companyId,
+                message,
+                provider: 'internal'
+            }, { timeout: 15000 });
 
-        // ── PATH 1: OpenAI is configured ──────────────────────────────────────
-        if (apiKey) {
-            const context = await buildContext(userId, role, companyId, message);
-            const systemPrompt = `You are an intelligent HR Assistant for Citrux HRMS. Today's date: ${new Date().toDateString()}. User role: ${role}. User: ${context.requester?.name ?? 'User'}.\n\nReal-time data:\n${JSON.stringify(context, null, 2)}\n\nBe concise, friendly, and professional. Only answer HR-related questions.`;
-
-            const response = await axios.post(OPENAI_API_URL, {
-                model: 'gpt-4o-mini',
-                messages: [
-                    { role: 'system', content: systemPrompt },
-                    { role: 'user', content: message },
-                ],
-                temperature: 0.4,
-                max_tokens: 500,
-            }, {
-                headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-                timeout: 20000,
-            });
-
-            const reply = response.data.choices?.[0]?.message?.content?.trim();
-            return res.json({ reply: reply || "I couldn't generate a response. Please try again." });
+            if (pyResponse.data?.response) {
+                return res.json({ reply: pyResponse.data.response });
+            }
+        } catch (pyErr: any) {
+            console.warn('Python AI service unreachable or errored, falling back to built-in TS engine:', pyErr.message);
         }
 
-        // ── PATH 2: Built-in intent-based engine (no external API needed) ─────
+        // ── PATH 2: Built-in TS intent-based fallback engine ──────────────────
         const intent = detectIntent(message);
 
         let reply: string;

@@ -21,7 +21,6 @@ def _serialize_rows(rows):
 
 class DBService:
     def __init__(self):
-        # Strip Prisma-specific pgbouncer parameter which psycopg2 doesn't support
         self.conn_str = settings.DATABASE_URL
         if "?pgbouncer=true" in self.conn_str:
             self.conn_str = self.conn_str.replace("?pgbouncer=true", "")
@@ -35,9 +34,8 @@ class DBService:
     def get_leave_balance(self, user_id: str, company_id: str = None):
         conn, cur = self.get_cursor()
         try:
-            # LeaveBalance doesn't have companyId, it's linked via User
             cur.execute("""
-                SELECT lt.name, lb.balance, lb.used
+                SELECT lt.name as leave_type, lb.balance, lb.used, (lb.balance - lb.used) as remaining
                 FROM "LeaveBalance" lb
                 JOIN "LeaveType" lt ON lb."leaveTypeId" = lt.id
                 JOIN "User" u ON lb."userId" = u.id
@@ -52,9 +50,8 @@ class DBService:
         conn, cur = self.get_cursor()
         today = datetime.now().date()
         try:
-            # LeaveRequest doesn't have companyId, it's linked via User
             cur.execute("""
-                SELECT p."firstName", p."lastName", lt.name as leave_type
+                SELECT p."firstName", p."lastName", lt.name as leave_type, lr."startDate", lr."endDate"
                 FROM "LeaveRequest" lr
                 JOIN "User" u ON lr."userId" = u.id
                 JOIN "Profile" p ON p."userId" = u.id
@@ -71,9 +68,8 @@ class DBService:
     def get_attendance_summary(self, user_id: str, company_id: str = None):
         conn, cur = self.get_cursor()
         try:
-            # Attendance doesn't have companyId, it's linked via User
             cur.execute("""
-                SELECT a.status, a."checkIn", a."checkOut"
+                SELECT a.date, a.status, a."checkIn", a."checkOut", a.hours
                 FROM "Attendance" a
                 JOIN "User" u ON a."userId" = u.id
                 WHERE a."userId" = %s AND (%s IS NULL OR u."companyId" = %s)
@@ -104,10 +100,9 @@ class DBService:
     def get_employee_count(self, company_id: str = None):
         conn, cur = self.get_cursor()
         try:
-            if company_id:
-                cur.execute("SELECT COUNT(*) as count FROM \"User\" WHERE \"companyId\" = %s", (company_id,))
-            else:
-                cur.execute("SELECT COUNT(*) as count FROM \"User\"")
+            cur.execute("""
+                SELECT COUNT(*) as count FROM "User" WHERE (%s IS NULL OR "companyId" = %s)
+            """, (company_id, company_id))
             return _serialize_row(cur.fetchone())
         finally:
             cur.close()
@@ -117,7 +112,7 @@ class DBService:
         conn, cur = self.get_cursor()
         try:
             cur.execute("""
-                SELECT month, year, net, url
+                SELECT month, year, net as net_salary, gross as gross_salary, status
                 FROM "Payslip"
                 WHERE "userId" = %s
                 ORDER BY year DESC, month DESC LIMIT 3
@@ -144,7 +139,6 @@ class DBService:
     def get_pending_approvals(self, company_id: str = None):
         conn, cur = self.get_cursor()
         try:
-            # Check for pending leaves
             cur.execute("""
                 SELECT COUNT(*) as count 
                 FROM "LeaveRequest" lr
@@ -154,7 +148,6 @@ class DBService:
             leaves_res = cur.fetchone()
             leaves = leaves_res['count'] if leaves_res else 0
             
-            # Check for pending expenses
             cur.execute("""
                 SELECT COUNT(*) as count 
                 FROM "ExpenseClaim" ec
