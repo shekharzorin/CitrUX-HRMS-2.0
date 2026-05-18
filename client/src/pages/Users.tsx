@@ -35,6 +35,12 @@ const UserCard = ({ user, currentUser, onDelete }: { user: any, currentUser: any
                     {user.profile?.firstName} {user.profile?.lastName}
                 </h3>
                 <p className="text-xs text-[var(--text-muted)] font-medium uppercase tracking-wide">{user.profile?.designation || 'Team Member'}</p>
+                {(user.profile?.branch?.name || user.profile?.departmentRef?.name) && (
+                    <div className="mt-1 flex items-center justify-center gap-2 text-[10px] text-slate-500 font-medium">
+                        {user.profile?.branch?.name && <span className="bg-slate-100 px-2 py-0.5 rounded-full text-slate-600 border border-slate-200">📍 {user.profile.branch.name}</span>}
+                        {user.profile?.departmentRef?.name && <span className="bg-slate-100 px-2 py-0.5 rounded-full text-slate-600 border border-slate-200">🏢 {user.profile.departmentRef.name}</span>}
+                    </div>
+                )}
                 {currentUser?.role === 'SUPER_ADMIN' && user.company?.name && (
                     <div className="mt-1.5 flex justify-center">
                         <span className="text-[10px] text-indigo-600 font-bold bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full truncate max-w-[180px]">
@@ -200,7 +206,9 @@ const Users: React.FC = () => {
         (user.email && user.email.toLowerCase().includes(search.toLowerCase())) ||
         (user.profile?.firstName && user.profile.firstName.toLowerCase().includes(search.toLowerCase())) ||
         (user.profile?.lastName && user.profile.lastName.toLowerCase().includes(search.toLowerCase())) ||
-        (user.company?.name && user.company.name.toLowerCase().includes(search.toLowerCase()))
+        (user.company?.name && user.company.name.toLowerCase().includes(search.toLowerCase())) ||
+        (user.profile?.branch?.name && user.profile.branch.name.toLowerCase().includes(search.toLowerCase())) ||
+        (user.profile?.departmentRef?.name && user.profile.departmentRef.name.toLowerCase().includes(search.toLowerCase()))
     ) : [];
 
     if (error) {

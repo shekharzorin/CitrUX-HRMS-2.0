@@ -5,17 +5,45 @@ import { requireString } from '../utils/requestUtils';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
 import { IdService } from '../services/id.service';
+import { AuditService } from '../services/audit.service';
+import { NotificationService } from '../services/notification.service';
 import logger from '../utils/logger';
 
 export const createUser = async (req: AuthRequest, res: Response) => {
     try {
-        const { email, password, role, firstName, lastName, phone, designation, employmentType, joiningDate, employeeId, shiftId } = req.body;
+        const { 
+            email, password, role, firstName, lastName, phone, designation, employmentType, joiningDate, employeeId, shiftId,
+            branchId, departmentId, nationality, bloodGroup, gender, maritalStatus,
+            presentAddress, permanentAddress, emergencyContactName, emergencyContactRelation,
+            emergencyContactPhone, emergencyContactAlternate, emergencyContactAddress,
+            aadhaarNumber, panNumber, uanNumber
+        } = req.body;
         // Always derive companyId from the authenticated user's token — never trust req.body
         const companyId = req.user?.companyId ?? null;
 
         const existingUser = await prisma.user.findUnique({ where: { email } });
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
+        }
+
+        // Aadhaar format validation
+        if (aadhaarNumber && !/^\d{12}$/.test(aadhaarNumber)) {
+            return res.status(400).json({ message: 'Aadhaar must be exactly 12 digits' });
+        }
+
+        // PAN format validation
+        if (panNumber && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(panNumber.toUpperCase())) {
+            return res.status(400).json({ message: 'Invalid PAN format. Must be 5 letters, 4 numbers, 1 letter.' });
+        }
+
+        if (aadhaarNumber) {
+            const existingAadhaar = await prisma.profile.findFirst({ where: { aadhaarNumber } });
+            if (existingAadhaar) return res.status(400).json({ message: 'Aadhaar Number already in use' });
+        }
+
+        if (panNumber) {
+            const existingPan = await prisma.profile.findFirst({ where: { panNumber: panNumber.toUpperCase() } });
+            if (existingPan) return res.status(400).json({ message: 'PAN Number already in use' });
         }
 
         let finalEmployeeId = employeeId;
@@ -55,6 +83,23 @@ export const createUser = async (req: AuthRequest, res: Response) => {
                         lastName,
                         phone,
                         designation,
+                        employmentType,
+                        branchId,
+                        departmentId,
+                        nationality,
+                        bloodGroup,
+                        gender,
+                        maritalStatus,
+                        presentAddress,
+                        permanentAddress,
+                        emergencyContactName,
+                        emergencyContactRelation,
+                        emergencyContactPhone,
+                        emergencyContactAlternate,
+                        emergencyContactAddress,
+                        aadhaarNumber,
+                        panNumber: panNumber ? panNumber.toUpperCase() : undefined,
+                        uanNumber,
                         dateOfJoining: joiningDate ? new Date(joiningDate) : new Date(),
                         dob: req.body.dob ? new Date(req.body.dob) : undefined
                     }
@@ -82,6 +127,24 @@ export const createUser = async (req: AuthRequest, res: Response) => {
         }
 
         const { passwordHash: _, ...userWithoutPassword } = user;
+        
+        // Audit Trail
+        await AuditService.log(
+            req.user!.userId,
+            'CREATE',
+            'EMPLOYEE',
+            user.id,
+            { email: user.email, role: user.role }
+        );
+
+        // Notify new employee
+        await NotificationService.notify(
+            user.id,
+            `Welcome to the HRMS portal! Please complete your profile.`,
+            'SYSTEM',
+            '/profile'
+        );
+
         res.status(201).json(userWithoutPassword);
     } catch (error) {
         logger.error('Create User Error:', error);
@@ -187,6 +250,15 @@ export const importUsers = async (req: AuthRequest, res: Response) => {
             }
         }
 
+        // Audit Trail
+        await AuditService.log(
+            req.user!.userId,
+            'CREATE',
+            'EMPLOYEE_BULK',
+            'bulk_import',
+            { successCount: results.success, failedCount: results.failed }
+        );
+
         res.json({ message: 'Import processed', results });
 
     } catch (error) {
@@ -220,7 +292,12 @@ export const getUsers = async (req: AuthRequest, res: Response) => {
                 companyId: true,
                 company: { select: { name: true } },
                 managerId: true,
-                profile: true
+                profile: {
+                    include: {
+                        branch: true,
+                        departmentRef: true
+                    }
+                }
             }
         });
         logger.info(`Returning ${users.length} users for role ${role} (companyId: ${req.user?.companyId})`);
@@ -237,7 +314,12 @@ export const getUserById = async (req: AuthRequest, res: Response) => {
         const user = await prisma.user.findUnique({
             where: { id },
             include: {
-                profile: true,
+                profile: {
+                    include: {
+                        branch: true,
+                        departmentRef: true
+                    }
+                },
                 onboarding: true,
                 salary: true,
                 attendance: {
@@ -266,7 +348,13 @@ export const getUserById = async (req: AuthRequest, res: Response) => {
 export const updateUser = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id, 'User ID');
-        const { role, firstName, lastName, phone, designation, employeeId, dob, shiftId } = req.body;
+        const { 
+            role, firstName, lastName, phone, designation, employeeId, dob, shiftId, employmentType,
+            branchId, departmentId, nationality, bloodGroup, gender, maritalStatus,
+            presentAddress, permanentAddress, emergencyContactName, emergencyContactRelation,
+            emergencyContactPhone, emergencyContactAlternate, emergencyContactAddress,
+            aadhaarNumber, panNumber, uanNumber
+        } = req.body;
         const actorRole = req.user!.role;
 
         // First check if user exists
@@ -293,6 +381,26 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
             }
         }
 
+        // Aadhaar format validation
+        if (aadhaarNumber && !/^\d{12}$/.test(aadhaarNumber)) {
+            return res.status(400).json({ message: 'Aadhaar must be exactly 12 digits' });
+        }
+
+        // PAN format validation
+        if (panNumber && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(panNumber.toUpperCase())) {
+            return res.status(400).json({ message: 'Invalid PAN format. Must be 5 letters, 4 numbers, 1 letter.' });
+        }
+
+        if (aadhaarNumber) {
+            const existingAadhaar = await prisma.profile.findFirst({ where: { aadhaarNumber, userId: { not: id } } });
+            if (existingAadhaar) return res.status(400).json({ message: 'Aadhaar Number already in use by another user' });
+        }
+
+        if (panNumber) {
+            const existingPan = await prisma.profile.findFirst({ where: { panNumber: panNumber.toUpperCase(), userId: { not: id } } });
+            if (existingPan) return res.status(400).json({ message: 'PAN Number already in use by another user' });
+        }
+
         const dataToUpdate: any = {
             role: role ? role.toUpperCase() : undefined,
             employeeId: employeeId ? employeeId.toString() : undefined,
@@ -301,7 +409,24 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
                     firstName,
                     lastName,
                     phone,
-                    designation
+                    designation,
+                    employmentType,
+                    branchId,
+                    departmentId,
+                    nationality,
+                    bloodGroup,
+                    gender,
+                    maritalStatus,
+                    presentAddress,
+                    permanentAddress,
+                    emergencyContactName,
+                    emergencyContactRelation,
+                    emergencyContactPhone,
+                    emergencyContactAlternate,
+                    emergencyContactAddress,
+                    aadhaarNumber,
+                    panNumber: panNumber ? panNumber.toUpperCase() : undefined,
+                    uanNumber
                 }
             }
         };
@@ -330,6 +455,16 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
         }
 
         const { passwordHash, ...userData } = updatedUser;
+        
+        // Audit Trail
+        await AuditService.log(
+            req.user!.userId,
+            'UPDATE',
+            'EMPLOYEE',
+            id,
+            { fieldsUpdated: Object.keys(dataToUpdate.profile.update) }
+        );
+
         res.json(userData);
     } catch (error) {
         logger.error(error);
@@ -439,6 +574,14 @@ export const deleteUser = async (req: AuthRequest, res: Response) => {
             deleteProfile,
             deleteUserRecord
         ]);
+        // Audit Trail
+        await AuditService.log(
+            req.user!.userId,
+            'DELETE',
+            'EMPLOYEE',
+            id,
+            { email: userToDelete.email }
+        );
 
         res.json({ message: 'User and all related data deleted successfully' });
     } catch (error: any) {

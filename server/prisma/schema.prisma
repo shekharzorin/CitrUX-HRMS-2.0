@@ -22,6 +22,8 @@ model Company {
   logoThumbnailUrl  String?
   faviconUrl        String?
   assets            Asset[]
+  branches          Branch[]
+  departments       Department[]
   attendancePolicy  AttendancePolicy? @relation("CompanyAttendancePolicy")
   expenseCategories ExpenseCategory[]
   holidays          Holiday[]
@@ -33,6 +35,7 @@ model Company {
   tasks             Task[]
   users             User[]
   workLogs          WorkLog[]
+  recognitions      Recognition[]
 }
 
 model User {
@@ -65,13 +68,17 @@ model User {
   reviews            PerformanceReview[]
   profile            Profile?
   salary             SalaryStructure?
-  tasks              Task[]
+  tasks              Task[]              @relation("AssignedTasks")
+  createdTasks       Task[]              @relation("CreatedTasks")
+  recognitionsReceived Recognition[]     @relation("RecognitionsReceived")
+  recognitionsGiven    Recognition[]     @relation("RecognitionsGiven")
   timesheets         Timesheet[]
   company            Company?            @relation(fields: [companyId], references: [id])
   manager            User?               @relation("ManagerSubordinates", fields: [managerId], references: [id])
   subordinates       User[]              @relation("ManagerSubordinates")
   shift              Shift?              @relation("UserShift", fields: [shiftId], references: [id])
-  documents          UserDocument[]
+  documents          UserDocument[]      @relation("DocumentOwner")
+  uploadedDocs       UserDocument[]      @relation("Uploader")
   policyOverride     UserPolicyOverride?
   workLogs           WorkLog[]
 }
@@ -123,6 +130,8 @@ model Profile {
   emergencyContact         String?
   designation              String?
   department               String?
+  branchId                 String?
+  departmentId             String?
   employmentType           String    @default("FULL_TIME")
   dateOfJoining            DateTime?
   dob                      DateTime?
@@ -130,9 +139,23 @@ model Profile {
   bankName                 String?
   accountNumber            String?
   ifscCode                 String?
+  bankBranch               String?
+  bankAddress              String?
+  paymentMode              String?   @default("BANK_TRANSFER")
   aadhaarNumber            String?
   panNumber                String?
   uanNumber                String?
+  nationality              String?
+  bloodGroup               String?
+  gender                   String?
+  maritalStatus            String?
+  presentAddress           String?
+  permanentAddress         String?
+  emergencyContactName     String?
+  emergencyContactRelation String?
+  emergencyContactPhone    String?
+  emergencyContactAlternate String?
+  emergencyContactAddress  String?
   profilePhoto             String?
   profilePhotoSettings     String?
   companyId                String?
@@ -140,6 +163,8 @@ model Profile {
   profilePhotoThumbnailUrl String?
   company                  Company?  @relation(fields: [companyId], references: [id])
   user                     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  branch                   Branch?     @relation(fields: [branchId], references: [id])
+  departmentRef            Department? @relation(fields: [departmentId], references: [id])
 }
 
 model Attendance {
@@ -297,6 +322,7 @@ model LeaveRequest {
   startDate      DateTime
   endDate        DateTime
   days           Float
+  duration       String    @default("FULL_DAY") // FULL_DAY, FIRST_HALF, SECOND_HALF
   reason         String
   status         String    @default("PENDING")
   managerComment String?
@@ -470,6 +496,21 @@ model PerformanceReview {
   user       User     @relation(fields: [userId], references: [id])
 }
 
+model Recognition {
+  id         String   @id @default(uuid())
+  userId     String
+  giverId    String
+  companyId  String?
+  category   String   @default("PEER_TO_PEER") // ACHIEVEMENT, PEER_TO_PEER, AWARD
+  badge      String?  // e.g. "star", "trophy", "medal"
+  message    String
+  createdAt  DateTime @default(now())
+  
+  user       User     @relation("RecognitionsReceived", fields: [userId], references: [id])
+  giver      User     @relation("RecognitionsGiven", fields: [giverId], references: [id])
+  company    Company? @relation(fields: [companyId], references: [id])
+}
+
 model JobPosting {
   id           String           @id @default(uuid())
   title        String
@@ -545,16 +586,32 @@ model Asset {
 }
 
 model UserDocument {
-  id         String    @id @default(uuid())
-  userId     String
-  type       String
-  name       String
-  url        String
-  expiryDate DateTime?
-  status     String    @default("PENDING")
-  verifiedBy String?
-  uploadedAt DateTime  @default(now())
-  user       User      @relation(fields: [userId], references: [id])
+  id           String    @id @default(uuid())
+  userId       String
+  user         User      @relation("DocumentOwner", fields: [userId], references: [id], onDelete: Cascade)
+  
+  name         String
+  category     String    // 'EDUCATIONAL', 'IDENTITY', 'CERTIFICATION', 'OFFER_LETTER', 'HIKE_LETTER', 'INTERNAL', 'OTHER'
+  url          String
+  fileSize     Int?      // Size in bytes
+  fileType     String?   // MIME type
+  
+  uploadedById String?
+  uploader     User?     @relation("Uploader", fields: [uploadedById], references: [id], onDelete: SetNull)
+  
+  uploadedAt   DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  expiryDate   DateTime?
+  notes        String?
+  tags         String?   // Comma-separated tags
+  
+  status       String    @default("ACTIVE") // 'ACTIVE', 'ARCHIVED'
+  version      Int       @default(1)
+  isLatest     Boolean   @default(true)
+  parentDocId  String?   // Points to the original document ID if this is a new version
+  
+  verifiedBy   String?
 }
 
 model Notification {
@@ -618,19 +675,22 @@ model TimesheetEntry {
 
 model Task {
   id          String           @id @default(uuid())
-  userId      String?
-  title       String
-  description String?
-  project     String?
-  status      String           @default("TODO")
-  priority    String           @default("MEDIUM")
-  dueDate     DateTime?
-  companyId   String?
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  company     Company?         @relation(fields: [companyId], references: [id])
-  user        User?            @relation(fields: [userId], references: [id])
-  entries     TimesheetEntry[]
+  userId            String?
+  creatorId         String?
+  title             String
+  description       String?
+  project           String?
+  status            String           @default("TODO") // TODO, IN_PROGRESS, IN_REVIEW, COMPLETED
+  priority          String           @default("MEDIUM")
+  dueDate           DateTime?
+  completionComment String?
+  companyId         String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  company           Company?         @relation(fields: [companyId], references: [id])
+  user              User?            @relation("AssignedTasks", fields: [userId], references: [id])
+  creator           User?            @relation("CreatedTasks", fields: [creatorId], references: [id])
+  entries           TimesheetEntry[]
 }
 
 model WorkLog {
@@ -697,4 +757,31 @@ enum Role {
   HR
   MANAGER
   EMPLOYEE
+}
+
+model Branch {
+  id        String       @id @default(uuid())
+  name      String
+  companyId String
+  company   Company      @relation(fields: [companyId], references: [id])
+  departments Department[]
+  profiles  Profile[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@unique([name, companyId])
+}
+
+model Department {
+  id        String    @id @default(uuid())
+  name      String
+  branchId  String?
+  companyId String
+  company   Company   @relation(fields: [companyId], references: [id])
+  branch    Branch?   @relation(fields: [branchId], references: [id])
+  profiles  Profile[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([name, companyId])
 }

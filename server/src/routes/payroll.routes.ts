@@ -1,17 +1,26 @@
 import express from 'express';
-import { calculatePayroll, generatePayroll, listPayslips, downloadPayslip, getPayrollStats } from '../controllers/payroll.controller';
-import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware';
+import { 
+    calculatePayroll, generatePayroll, listPayslips, downloadPayslip, getPayrollStats,
+    validateIFSC, getPayrollInfo, updatePayrollInfo
+} from '../controllers/payroll.controller';
+import { authenticateToken, requirePermission } from '../middlewares/auth.middleware';
 
 const router = express.Router();
 
-// All routes require Admin or HR role for now
 router.use(authenticateToken);
-router.use(authorizeRole(['ADMIN', 'HR']));
 
-router.post('/calculate', calculatePayroll);
-router.post('/generate', generatePayroll);
-router.get('/list', listPayslips);
+// Admin / HR only routes
+const adminOnly = requirePermission('MANAGE_PAYROLL');
+
+router.post('/calculate', adminOnly, calculatePayroll);
+router.post('/generate', adminOnly, generatePayroll);
+router.get('/list', adminOnly, listPayslips);
+router.get('/stats', adminOnly, getPayrollStats);
+
+// Mixed access routes (controlled in controller)
 router.get('/:id/download', downloadPayslip);
-router.get('/stats', getPayrollStats);
+router.get('/ifsc/:ifsc', validateIFSC);
+router.get('/info/:userId', getPayrollInfo);
+router.put('/info/:userId', updatePayrollInfo);
 
 export default router;

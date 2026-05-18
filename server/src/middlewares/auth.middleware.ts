@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { PermissionService, Permission, Role } from '../services/permission.service';
 
 export interface JwtPayload {
     userId: string;
@@ -42,4 +43,19 @@ export const requireCompany = (req: AuthRequest, res: Response, next: NextFuncti
         return res.status(403).json({ message: 'Company context required for this endpoint' });
     }
     next();
+};
+
+export const requirePermission = (permission: Permission) => {
+    return (req: AuthRequest, res: Response, next: NextFunction) => {
+        if (!req.user) {
+            return res.status(401).json({ message: 'Access Denied' });
+        }
+        
+        const hasAccess = PermissionService.hasPermission(req.user.role as Role, permission);
+        
+        if (!hasAccess) {
+            return res.status(403).json({ message: `Forbidden: requires ${permission} permission` });
+        }
+        next();
+    };
 };

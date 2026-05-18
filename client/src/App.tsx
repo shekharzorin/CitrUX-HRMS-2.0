@@ -48,6 +48,8 @@ import SystemHealth from './pages/admin/SystemHealth';
 import GlobalCompanies from './pages/GlobalCompanies';
 import WorkLogPage from './pages/WorkLog';
 import TasksPage from './pages/Tasks';
+import Engagement from './pages/Engagement';
+import Documents from './pages/Documents';
 import NotFound from './pages/NotFound';
 
 const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactElement; allowedRoles?: string[] }) => {
@@ -94,6 +96,7 @@ const App: React.FC = () => {
                 {/* ── New Work Tracking Module ── */}
                 <Route path="/worklogs" element={<ProtectedRoute><WorkLogPage /></ProtectedRoute>} />
                 <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
+                <Route path="/engagement" element={<ProtectedRoute><Engagement /></ProtectedRoute>} />
 
                 <Route path="/admin/shifts" element={<ProtectedRoute allowedRoles={['ADMIN', 'HR', 'SUPER_ADMIN']}><ShiftConfig /></ProtectedRoute>} />
 
@@ -116,6 +119,7 @@ const App: React.FC = () => {
                 <Route path="/profile" element={<ProtectedRoute><MyProfile /></ProtectedRoute>} />
                 <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
                 <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
+                <Route path="/documents" element={<ProtectedRoute><Documents /></ProtectedRoute>} />
 
                 <Route path="/payslips" element={<ProtectedRoute><Payslips /></ProtectedRoute>} />
                 <Route path="/certificates/issue" element={<ProtectedRoute><IssueCertificate /></ProtectedRoute>} />

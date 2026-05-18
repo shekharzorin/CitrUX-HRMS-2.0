@@ -42,7 +42,7 @@ export const applyLeave = async (req: Request, res: Response) => {
     try {
         // @ts-ignore
         const userId = req.user.userId;
-        const { leaveTypeId, startDate, endDate, reason } = req.body; // dates in 'YYYY-MM-DD'
+        const { leaveTypeId, startDate, endDate, reason, duration = 'FULL_DAY' } = req.body; // dates in 'YYYY-MM-DD'
 
         // Verify leave type belongs to same company
         // @ts-ignore
@@ -54,7 +54,15 @@ export const applyLeave = async (req: Request, res: Response) => {
         const end = new Date(endDate);
 
         // Fix: Use correct working day calculation (Skipping Weekends/Holidays)
-        const days = await calculateWorkingDays(start, end);
+        let days = await calculateWorkingDays(start, end);
+
+        if (duration === 'FIRST_HALF' || duration === 'SECOND_HALF') {
+            if (days === 1) {
+                days = 0.5;
+            } else if (days > 1) {
+                return res.status(400).json({ message: 'Half day leave must be for a single day only.' });
+            }
+        }
 
         if (days === 0) {
             return res.status(400).json({ message: 'Selected range contains no working days (all weekends/holidays).' });
@@ -104,6 +112,7 @@ export const applyLeave = async (req: Request, res: Response) => {
                 startDate: start,
                 endDate: end,
                 days,
+                duration,
                 reason,
                 status: 'PENDING'
             },

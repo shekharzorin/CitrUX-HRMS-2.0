@@ -195,6 +195,8 @@ exports.Prisma.ProfileScalarFieldEnum = {
   emergencyContact: 'emergencyContact',
   designation: 'designation',
   department: 'department',
+  branchId: 'branchId',
+  departmentId: 'departmentId',
   employmentType: 'employmentType',
   dateOfJoining: 'dateOfJoining',
   dob: 'dob',
@@ -202,9 +204,23 @@ exports.Prisma.ProfileScalarFieldEnum = {
   bankName: 'bankName',
   accountNumber: 'accountNumber',
   ifscCode: 'ifscCode',
+  bankBranch: 'bankBranch',
+  bankAddress: 'bankAddress',
+  paymentMode: 'paymentMode',
   aadhaarNumber: 'aadhaarNumber',
   panNumber: 'panNumber',
   uanNumber: 'uanNumber',
+  nationality: 'nationality',
+  bloodGroup: 'bloodGroup',
+  gender: 'gender',
+  maritalStatus: 'maritalStatus',
+  presentAddress: 'presentAddress',
+  permanentAddress: 'permanentAddress',
+  emergencyContactName: 'emergencyContactName',
+  emergencyContactRelation: 'emergencyContactRelation',
+  emergencyContactPhone: 'emergencyContactPhone',
+  emergencyContactAlternate: 'emergencyContactAlternate',
+  emergencyContactAddress: 'emergencyContactAddress',
   profilePhoto: 'profilePhoto',
   profilePhotoSettings: 'profilePhotoSettings',
   companyId: 'companyId',
@@ -342,6 +358,7 @@ exports.Prisma.LeaveRequestScalarFieldEnum = {
   startDate: 'startDate',
   endDate: 'endDate',
   days: 'days',
+  duration: 'duration',
   reason: 'reason',
   status: 'status',
   managerComment: 'managerComment',
@@ -495,6 +512,17 @@ exports.Prisma.PerformanceReviewScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.RecognitionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  giverId: 'giverId',
+  companyId: 'companyId',
+  category: 'category',
+  badge: 'badge',
+  message: 'message',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.JobPostingScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -560,13 +588,22 @@ exports.Prisma.AssetScalarFieldEnum = {
 exports.Prisma.UserDocumentScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  type: 'type',
   name: 'name',
+  category: 'category',
   url: 'url',
+  fileSize: 'fileSize',
+  fileType: 'fileType',
+  uploadedById: 'uploadedById',
+  uploadedAt: 'uploadedAt',
+  updatedAt: 'updatedAt',
   expiryDate: 'expiryDate',
+  notes: 'notes',
+  tags: 'tags',
   status: 'status',
-  verifiedBy: 'verifiedBy',
-  uploadedAt: 'uploadedAt'
+  version: 'version',
+  isLatest: 'isLatest',
+  parentDocId: 'parentDocId',
+  verifiedBy: 'verifiedBy'
 };
 
 exports.Prisma.NotificationScalarFieldEnum = {
@@ -623,12 +660,14 @@ exports.Prisma.TimesheetEntryScalarFieldEnum = {
 exports.Prisma.TaskScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  creatorId: 'creatorId',
   title: 'title',
   description: 'description',
   project: 'project',
   status: 'status',
   priority: 'priority',
   dueDate: 'dueDate',
+  completionComment: 'completionComment',
   companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -686,6 +725,23 @@ exports.Prisma.ModuleHealthScalarFieldEnum = {
   details: 'details'
 };
 
+exports.Prisma.BranchScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DepartmentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  branchId: 'branchId',
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -734,6 +790,7 @@ exports.Prisma.ModelName = {
   ExitInterview: 'ExitInterview',
   Goal: 'Goal',
   PerformanceReview: 'PerformanceReview',
+  Recognition: 'Recognition',
   JobPosting: 'JobPosting',
   JobApplication: 'JobApplication',
   ExpenseCategory: 'ExpenseCategory',
@@ -751,7 +808,9 @@ exports.Prisma.ModelName = {
   AttendanceRequest: 'AttendanceRequest',
   AuditLog: 'AuditLog',
   SystemError: 'SystemError',
-  ModuleHealth: 'ModuleHealth'
+  ModuleHealth: 'ModuleHealth',
+  Branch: 'Branch',
+  Department: 'Department'
 };
 
 /**

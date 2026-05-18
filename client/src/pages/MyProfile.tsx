@@ -40,6 +40,7 @@ const MyProfile: React.FC = () => {
     const [leaveBalances, setLeaveBalances] = useState<any[]>([]);
     const [attendanceHistory, setAttendanceHistory] = useState<any[]>([]);
     const [payslips, setPayslips] = useState<any[]>([]);
+    const [payrollInfo, setPayrollInfo] = useState<any>(null);
     const [dataLoading, setDataLoading] = useState(false);
 
     // Cropper state
@@ -67,9 +68,13 @@ const MyProfile: React.FC = () => {
                     const data = await api.get<any[]>('/attendance/my-history');
                     if (data) setAttendanceHistory(data);
                 }
-                if (activeTab === 'bank' && payslips.length === 0) {
-                    const data = await api.get<any[]>('/salary/my');
-                    if (data) setPayslips(data);
+                if (activeTab === 'bank' && !payrollInfo) {
+                    const [payslipData, infoData] = await Promise.all([
+                        api.get<any[]>('/salary/my').catch(() => []), // fallback if not exists
+                        api.get<any>(`/payroll/info/${user?.id}`).catch(() => null)
+                    ]);
+                    if (payslipData) setPayslips(payslipData);
+                    if (infoData) setPayrollInfo(infoData);
                 }
             } catch (error) {
                 console.error("Failed to load tab data", error);
@@ -368,12 +373,12 @@ const MyProfile: React.FC = () => {
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
-                                <DetailItem label="Bank Name" value={profile.onboarding?.bankName} icon="business" />
-                                <DetailItem label="Branch" value={profile.onboarding?.branchName} />
-                                <DetailItem label="Account Number" value={profile.onboarding?.accountNumber ? `••••${profile.onboarding.accountNumber.slice(-4)}` : 'N/A'} isCopyable copyValue={profile.onboarding?.accountNumber} />
-                                <DetailItem label="IFSC Code" value={profile.onboarding?.ifscCode} isCopyable />
-                                <DetailItem label="Account Holder" value={profile.onboarding?.accountHolderName} />
-                                <DetailItem label="Payment Mode" value={profile.onboarding?.salaryPaymentMode} />
+                                <DetailItem label="Bank Name" value={payrollInfo?.profile?.bankName} icon="business" />
+                                <DetailItem label="Branch" value={payrollInfo?.profile?.bankBranch} />
+                                <DetailItem label="Account Number" value={payrollInfo?.profile?.accountNumber ? `••••${payrollInfo.profile.accountNumber.slice(-4)}` : 'N/A'} isCopyable copyValue={payrollInfo?.profile?.accountNumber} />
+                                <DetailItem label="IFSC Code" value={payrollInfo?.profile?.ifscCode} isCopyable />
+                                <DetailItem label="Payment Mode" value={payrollInfo?.profile?.paymentMode} />
+                                <DetailItem label="UAN" value={payrollInfo?.profile?.uanNumber} isCopyable />
                             </div>
                         </div>
 
@@ -389,7 +394,7 @@ const MyProfile: React.FC = () => {
                                 </div>
                             </div>
 
-                            {!profile.salary ? (
+                            {!payrollInfo?.salary ? (
                                 <div className="text-center py-8 text-slate-400">
                                     Salary structure not configured. Contact HR.
                                 </div>
@@ -398,28 +403,28 @@ const MyProfile: React.FC = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12 text-sm">
                                         <div className="flex justify-between p-2 rounded hover:bg-slate-50">
                                             <span className="text-slate-500">Basic Salary</span>
-                                            <span className="font-mono font-medium text-slate-700">₹{profile.salary.basic?.toLocaleString()}</span>
-                                        </div>
-                                        <div className="flex justify-between p-2 rounded hover:bg-slate-50">
-                                            <span className="text-slate-500">Net Salary</span>
-                                            <span className="font-mono font-medium text-emerald-600">₹{profile.salary.net?.toLocaleString() || 'N/A'}</span>
+                                            <span className="font-mono font-medium text-slate-700">₹{payrollInfo.salary.basic?.toLocaleString()}</span>
                                         </div>
                                         <div className="flex justify-between p-2 rounded hover:bg-slate-50">
                                             <span className="text-slate-500">HRA</span>
-                                            <span className="font-mono font-medium text-slate-700">₹{profile.salary.hra?.toLocaleString()}</span>
+                                            <span className="font-mono font-medium text-slate-700">₹{payrollInfo.salary.hra?.toLocaleString()}</span>
                                         </div>
                                         <div className="flex justify-between p-2 rounded hover:bg-slate-50">
                                             <span className="text-slate-500">Allowances</span>
-                                            <span className="font-mono font-medium text-slate-700">₹{profile.salary.allowances?.toLocaleString()}</span>
+                                            <span className="font-mono font-medium text-slate-700">₹{payrollInfo.salary.allowances?.toLocaleString()}</span>
                                         </div>
                                         <div className="flex justify-between p-2 rounded hover:bg-slate-50">
-                                            <span className="text-slate-500">Deductions</span>
-                                            <span className="font-mono font-medium text-rose-600">-₹{profile.salary.deductions?.toLocaleString()}</span>
+                                            <span className="text-slate-500">PF</span>
+                                            <span className="font-mono font-medium text-rose-600">-₹{payrollInfo.salary.pf?.toLocaleString()}</span>
+                                        </div>
+                                        <div className="flex justify-between p-2 rounded hover:bg-slate-50">
+                                            <span className="text-slate-500">ESI</span>
+                                            <span className="font-mono font-medium text-rose-600">-₹{payrollInfo.salary.esi?.toLocaleString()}</span>
                                         </div>
                                     </div>
                                     <div className="mt-4 pt-4 border-t border-dashed border-slate-200 flex justify-between items-center bg-slate-50 p-4 rounded-xl">
                                         <span className="font-bold text-slate-800">Annual CTC</span>
-                                        <span className="font-bold text-xl text-indigo-600 font-mono">₹{profile.salary.ctc?.toLocaleString()}</span>
+                                        <span className="font-bold text-xl text-indigo-600 font-mono">₹{payrollInfo.salary.ctc?.toLocaleString()}</span>
                                     </div>
                                 </div>
                             )}

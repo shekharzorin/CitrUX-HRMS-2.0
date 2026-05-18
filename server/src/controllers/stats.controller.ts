@@ -33,6 +33,10 @@ export const getDashboardStats = async (req: Request, res: Response) => {
         // ── Admin/HR only stats ──────────────────────────────────────────────────
         let totalUsers = 0, activeUsers = 0, presentToday = 0, lateToday = 0, pendingClaimsCount = 0;
 
+        let approvedClaimsTotal = 0;
+        let assignedAssetsCount = 0;
+        let expenseTrendData: any[] = [];
+
         if (isAdminOrHR) {
             totalUsers = await withRetry(() => prisma.user.count({ where: companyFilter }));
             activeUsers = await withRetry(() => prisma.user.count({ where: { ...companyFilter, status: 'ACTIVE' } }));
@@ -45,6 +49,44 @@ export const getDashboardStats = async (req: Request, res: Response) => {
             pendingClaimsCount = await withRetry(() => prisma.expenseClaim.count({
                 where: { status: 'PENDING', ...companyUserFilter }
             }));
+            
+            // Analytics extras
+            const approvedClaims = await withRetry(() => prisma.expenseClaim.aggregate({
+                where: { status: 'APPROVED', ...companyUserFilter },
+                _sum: { amount: true }
+            }));
+            approvedClaimsTotal = approvedClaims._sum.amount || 0;
+
+            assignedAssetsCount = await withRetry(() => prisma.asset.count({
+                where: { status: 'ASSIGNED', ...companyFilter }
+            }));
+
+            // Build expense trend (last 6 months)
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const expenseTrendMap = new Map<string, number>();
+            for (let i = 5; i >= 0; i--) {
+                const d = new Date(now);
+                d.setMonth(now.getMonth() - i);
+                expenseTrendMap.set(monthNames[d.getMonth()], 0);
+            }
+            
+            const sixMonthsAgo = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 5, 1));
+            const recentExpenses = await withRetry(() => prisma.expenseClaim.findMany({
+                where: {
+                    status: 'APPROVED',
+                    createdAt: { gte: sixMonthsAgo },
+                    ...companyUserFilter
+                },
+                select: { amount: true, createdAt: true }
+            }));
+
+            (recentExpenses as any[]).forEach((e: any) => {
+                const key = monthNames[new Date(e.createdAt).getMonth()];
+                if (expenseTrendMap.has(key)) {
+                    expenseTrendMap.set(key, expenseTrendMap.get(key)! + e.amount);
+                }
+            });
+            expenseTrendData = Array.from(expenseTrendMap.entries()).map(([month, amount]) => ({ month, amount }));
         }
 
         // ── Manager/Admin: pending leave requests with details ───────────────────
@@ -223,7 +265,12 @@ export const getDashboardStats = async (req: Request, res: Response) => {
         res.json({
             users: isAdminOrHR ? { total: totalUsers, active: activeUsers } : undefined,
             attendance: isAdminOrHR ? { presentToday, lateToday } : undefined,
-            finance: isAdminOrHR ? { pendingClaims: pendingClaimsCount } : undefined,
+            finance: isAdminOrHR ? { 
+                pendingClaims: pendingClaimsCount,
+                approvedTotal: approvedClaimsTotal,
+                trend: expenseTrendData
+            } : undefined,
+            assets: isAdminOrHR ? { assigned: assignedAssetsCount } : undefined,
             recruitment: { openJobs: openJobsCount },
             departments: isAdminOrHR
                 ? (deptStats as any[]).map((d: any) => ({ name: d.department, count: d._count.userId }))

@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { authorizeRole } from './middlewares/auth.middleware';
-import { errorHandler } from './middleware/errorHandler';
+
 import userRoutes from './routes/user.routes';
 import authRoutes from './routes/auth.routes';
 import attendanceRoutes from './routes/attendance.routes';
@@ -39,8 +39,14 @@ import worklogRoutes from './routes/worklog.routes';
 import taskRoutes from './routes/task.routes';
 import uploadRoutes from './routes/upload.routes';
 import searchRoutes from './routes/search.routes';
+import { errorHandler } from './middlewares/error.middleware';
+import organizationRoutes from './routes/organization.routes';
+import engagementRoutes from './routes/engagement.routes';
 
 import path from 'path';
+import { createServer } from 'http';
+import { CronService } from './services/cron.service';
+import { SocketService } from './services/socket.service';
 
 dotenv.config();
 
@@ -125,9 +131,9 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 // Secure Uploads Access
 import jwt from 'jsonwebtoken';
 
-app.use('/uploads/:filename', (req, res, next) => {
+app.use('/uploads/*', (req, res, next) => {
     const token = req.query.token as string;
-    const filename = req.params.filename;
+    const filepath = req.params[0];
 
     if (!token) {
         return res.status(401).json({ message: 'URL signature missing' });
@@ -141,10 +147,10 @@ app.use('/uploads/:filename', (req, res, next) => {
         return res.status(403).json({ message: 'URL signature expired or invalid' });
     }
 }, (req, res) => {
-    const filename = req.params.filename;
-    const filePath = path.join(__dirname, '../uploads', filename);
+    const filepath = req.params[0];
+    const fullPath = path.join(__dirname, '../uploads', filepath);
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
-    res.sendFile(filePath, (err) => {
+    res.sendFile(fullPath, (err) => {
         if (err) res.status(404).json({ message: 'File not found' });
     });
 });
@@ -190,6 +196,8 @@ app.use('/api/companies', companyRoutes);
 app.use('/api/worklogs', worklogRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/search', searchRoutes);
+app.use('/api/organization', organizationRoutes);
+app.use('/api/engagement', engagementRoutes);
 
 // Catch-all 404 for API routes
 app.use('/api', (req, res) => {
@@ -199,9 +207,16 @@ app.use('/api', (req, res) => {
 // Global Error Handler
 app.use(errorHandler);
 
+const server = createServer(app);
 
-app.listen(port, async () => {
+// Initialize WebSockets
+SocketService.initialize(server);
+
+server.listen(port, async () => {
     logger.info(`Server running on port ${port}`);
     await connectDB();  // Test and report DB connectivity at startup
+    
+    // Initialize background jobs
+    CronService.start();
 });
 // Trigger nodemon restart

@@ -1,38 +1,39 @@
 import { Router } from 'express';
 import multer from 'multer';
 import path from 'path';
-import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware';
+import { authenticateToken, authorizeRole, requirePermission } from '../middlewares/auth.middleware';
 import {
     uploadDocument,
     getMyDocuments,
     getUserDocuments,
+    getAllCompanyDocuments,
     verifyDocument,
     getExpiringDocuments,
-    generateSecureUrl
+    generateSecureUrl,
+    updateDocument,
+    deleteDocument
 } from '../controllers/document.controller';
 
 const router = Router();
 
-// Multer Setup (Reusable logic, usually extracted but inline here for speed)
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname.replace(/\s/g, '_')}`);
-    }
-});
+// Multer Setup (Memory Storage for centralized upload service)
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 router.use(authenticateToken);
 
-router.get('/generate-url/:filename', generateSecureUrl);
+router.get('/generate-url/*', generateSecureUrl);
 router.post('/upload', upload.single('file'), uploadDocument);
 router.get('/my', getMyDocuments);
 
+// User & Admin shared (access controlled in controller)
+router.put('/:id', updateDocument);
+router.delete('/:id', deleteDocument);
+
 // Admin Routes
+router.get('/company/all', requirePermission('MANAGE_DOCUMENTS'), getAllCompanyDocuments);
 router.get('/user/:userId', authorizeRole(['ADMIN', 'HR', 'MANAGER']), getUserDocuments);
-router.put('/:id/verify', authorizeRole(['ADMIN', 'HR']), verifyDocument);
-router.get('/expiring', authorizeRole(['ADMIN', 'HR']), getExpiringDocuments);
+router.put('/:id/verify', requirePermission('MANAGE_DOCUMENTS'), verifyDocument);
+router.get('/expiring', requirePermission('MANAGE_DOCUMENTS'), getExpiringDocuments);
 
 export default router;

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
-
 import { AuthRequest } from '../middlewares/auth.middleware';
+import { AuditService } from '../services/audit.service';
 
 export const getSettings = async (req: AuthRequest, res: Response) => {
     try {
@@ -90,6 +90,14 @@ export const updateSettings = async (req: AuthRequest, res: Response) => {
                 });
             }
         }
+        // Audit Trail
+        await AuditService.log(
+            req.user!.userId,
+            'UPDATE',
+            'SETTINGS',
+            companyId || 'GLOBAL',
+            { keysUpdated: Object.keys(settings) }
+        );
 
         res.json({ message: 'Settings updated successfully' });
     } catch (error) {

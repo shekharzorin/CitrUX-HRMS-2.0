@@ -139,6 +139,11 @@ export type Goal = $Result.DefaultSelection<Prisma.$GoalPayload>
  */
 export type PerformanceReview = $Result.DefaultSelection<Prisma.$PerformanceReviewPayload>
 /**
+ * Model Recognition
+ * 
+ */
+export type Recognition = $Result.DefaultSelection<Prisma.$RecognitionPayload>
+/**
  * Model JobPosting
  * 
  */
@@ -228,6 +233,16 @@ export type SystemError = $Result.DefaultSelection<Prisma.$SystemErrorPayload>
  * 
  */
 export type ModuleHealth = $Result.DefaultSelection<Prisma.$ModuleHealthPayload>
+/**
+ * Model Branch
+ * 
+ */
+export type Branch = $Result.DefaultSelection<Prisma.$BranchPayload>
+/**
+ * Model Department
+ * 
+ */
+export type Department = $Result.DefaultSelection<Prisma.$DepartmentPayload>
 
 /**
  * Enums
@@ -618,6 +633,16 @@ export class PrismaClient<
   get performanceReview(): Prisma.PerformanceReviewDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.recognition`: Exposes CRUD operations for the **Recognition** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Recognitions
+    * const recognitions = await prisma.recognition.findMany()
+    * ```
+    */
+  get recognition(): Prisma.RecognitionDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.jobPosting`: Exposes CRUD operations for the **JobPosting** model.
     * Example usage:
     * ```ts
@@ -796,6 +821,26 @@ export class PrismaClient<
     * ```
     */
   get moduleHealth(): Prisma.ModuleHealthDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.branch`: Exposes CRUD operations for the **Branch** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Branches
+    * const branches = await prisma.branch.findMany()
+    * ```
+    */
+  get branch(): Prisma.BranchDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.department`: Exposes CRUD operations for the **Department** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Departments
+    * const departments = await prisma.department.findMany()
+    * ```
+    */
+  get department(): Prisma.DepartmentDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1262,6 +1307,7 @@ export namespace Prisma {
     ExitInterview: 'ExitInterview',
     Goal: 'Goal',
     PerformanceReview: 'PerformanceReview',
+    Recognition: 'Recognition',
     JobPosting: 'JobPosting',
     JobApplication: 'JobApplication',
     ExpenseCategory: 'ExpenseCategory',
@@ -1279,7 +1325,9 @@ export namespace Prisma {
     AttendanceRequest: 'AttendanceRequest',
     AuditLog: 'AuditLog',
     SystemError: 'SystemError',
-    ModuleHealth: 'ModuleHealth'
+    ModuleHealth: 'ModuleHealth',
+    Branch: 'Branch',
+    Department: 'Department'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1298,7 +1346,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "salaryStructure" | "payslip" | "profile" | "attendance" | "shift" | "attendancePolicy" | "shiftPolicyOverride" | "userPolicyOverride" | "break" | "leaveType" | "leaveEncashment" | "leaveBalance" | "leaveRequest" | "holiday" | "onboarding" | "onboardingEmergencyContact" | "onboardingExperience" | "onboardingEducation" | "onboardingDocument" | "offboarding" | "exitInterview" | "goal" | "performanceReview" | "jobPosting" | "jobApplication" | "expenseCategory" | "expenseClaim" | "certificate" | "asset" | "userDocument" | "notification" | "jobRole" | "systemSetting" | "timesheet" | "timesheetEntry" | "task" | "workLog" | "attendanceRequest" | "auditLog" | "systemError" | "moduleHealth"
+      modelProps: "company" | "user" | "salaryStructure" | "payslip" | "profile" | "attendance" | "shift" | "attendancePolicy" | "shiftPolicyOverride" | "userPolicyOverride" | "break" | "leaveType" | "leaveEncashment" | "leaveBalance" | "leaveRequest" | "holiday" | "onboarding" | "onboardingEmergencyContact" | "onboardingExperience" | "onboardingEducation" | "onboardingDocument" | "offboarding" | "exitInterview" | "goal" | "performanceReview" | "recognition" | "jobPosting" | "jobApplication" | "expenseCategory" | "expenseClaim" | "certificate" | "asset" | "userDocument" | "notification" | "jobRole" | "systemSetting" | "timesheet" | "timesheetEntry" | "task" | "workLog" | "attendanceRequest" | "auditLog" | "systemError" | "moduleHealth" | "branch" | "department"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3152,6 +3200,80 @@ export namespace Prisma {
           }
         }
       }
+      Recognition: {
+        payload: Prisma.$RecognitionPayload<ExtArgs>
+        fields: Prisma.RecognitionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RecognitionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecognitionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RecognitionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecognitionPayload>
+          }
+          findFirst: {
+            args: Prisma.RecognitionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecognitionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RecognitionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecognitionPayload>
+          }
+          findMany: {
+            args: Prisma.RecognitionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecognitionPayload>[]
+          }
+          create: {
+            args: Prisma.RecognitionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecognitionPayload>
+          }
+          createMany: {
+            args: Prisma.RecognitionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RecognitionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecognitionPayload>[]
+          }
+          delete: {
+            args: Prisma.RecognitionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecognitionPayload>
+          }
+          update: {
+            args: Prisma.RecognitionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecognitionPayload>
+          }
+          deleteMany: {
+            args: Prisma.RecognitionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RecognitionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RecognitionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecognitionPayload>[]
+          }
+          upsert: {
+            args: Prisma.RecognitionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecognitionPayload>
+          }
+          aggregate: {
+            args: Prisma.RecognitionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRecognition>
+          }
+          groupBy: {
+            args: Prisma.RecognitionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RecognitionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RecognitionCountArgs<ExtArgs>
+            result: $Utils.Optional<RecognitionCountAggregateOutputType> | number
+          }
+        }
+      }
       JobPosting: {
         payload: Prisma.$JobPostingPayload<ExtArgs>
         fields: Prisma.JobPostingFieldRefs
@@ -4484,6 +4606,154 @@ export namespace Prisma {
           }
         }
       }
+      Branch: {
+        payload: Prisma.$BranchPayload<ExtArgs>
+        fields: Prisma.BranchFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BranchFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BranchFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>
+          }
+          findFirst: {
+            args: Prisma.BranchFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BranchFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>
+          }
+          findMany: {
+            args: Prisma.BranchFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>[]
+          }
+          create: {
+            args: Prisma.BranchCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>
+          }
+          createMany: {
+            args: Prisma.BranchCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BranchCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>[]
+          }
+          delete: {
+            args: Prisma.BranchDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>
+          }
+          update: {
+            args: Prisma.BranchUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>
+          }
+          deleteMany: {
+            args: Prisma.BranchDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BranchUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BranchUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>[]
+          }
+          upsert: {
+            args: Prisma.BranchUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BranchPayload>
+          }
+          aggregate: {
+            args: Prisma.BranchAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBranch>
+          }
+          groupBy: {
+            args: Prisma.BranchGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BranchGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BranchCountArgs<ExtArgs>
+            result: $Utils.Optional<BranchCountAggregateOutputType> | number
+          }
+        }
+      }
+      Department: {
+        payload: Prisma.$DepartmentPayload<ExtArgs>
+        fields: Prisma.DepartmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DepartmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DepartmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>
+          }
+          findFirst: {
+            args: Prisma.DepartmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DepartmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>
+          }
+          findMany: {
+            args: Prisma.DepartmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>[]
+          }
+          create: {
+            args: Prisma.DepartmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>
+          }
+          createMany: {
+            args: Prisma.DepartmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DepartmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>[]
+          }
+          delete: {
+            args: Prisma.DepartmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>
+          }
+          update: {
+            args: Prisma.DepartmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.DepartmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DepartmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DepartmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.DepartmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DepartmentPayload>
+          }
+          aggregate: {
+            args: Prisma.DepartmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDepartment>
+          }
+          groupBy: {
+            args: Prisma.DepartmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DepartmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DepartmentCountArgs<ExtArgs>
+            result: $Utils.Optional<DepartmentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4605,6 +4875,7 @@ export namespace Prisma {
     exitInterview?: ExitInterviewOmit
     goal?: GoalOmit
     performanceReview?: PerformanceReviewOmit
+    recognition?: RecognitionOmit
     jobPosting?: JobPostingOmit
     jobApplication?: JobApplicationOmit
     expenseCategory?: ExpenseCategoryOmit
@@ -4623,6 +4894,8 @@ export namespace Prisma {
     auditLog?: AuditLogOmit
     systemError?: SystemErrorOmit
     moduleHealth?: ModuleHealthOmit
+    branch?: BranchOmit
+    department?: DepartmentOmit
   }
 
   /* Types for Logging */
@@ -4704,6 +4977,8 @@ export namespace Prisma {
 
   export type CompanyCountOutputType = {
     assets: number
+    branches: number
+    departments: number
     expenseCategories: number
     holidays: number
     jobPostings: number
@@ -4714,10 +4989,13 @@ export namespace Prisma {
     tasks: number
     users: number
     workLogs: number
+    recognitions: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assets?: boolean | CompanyCountOutputTypeCountAssetsArgs
+    branches?: boolean | CompanyCountOutputTypeCountBranchesArgs
+    departments?: boolean | CompanyCountOutputTypeCountDepartmentsArgs
     expenseCategories?: boolean | CompanyCountOutputTypeCountExpenseCategoriesArgs
     holidays?: boolean | CompanyCountOutputTypeCountHolidaysArgs
     jobPostings?: boolean | CompanyCountOutputTypeCountJobPostingsArgs
@@ -4728,6 +5006,7 @@ export namespace Prisma {
     tasks?: boolean | CompanyCountOutputTypeCountTasksArgs
     users?: boolean | CompanyCountOutputTypeCountUsersArgs
     workLogs?: boolean | CompanyCountOutputTypeCountWorkLogsArgs
+    recognitions?: boolean | CompanyCountOutputTypeCountRecognitionsArgs
   }
 
   // Custom InputTypes
@@ -4746,6 +5025,20 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AssetWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountBranchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BranchWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountDepartmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DepartmentWhereInput
   }
 
   /**
@@ -4818,6 +5111,13 @@ export namespace Prisma {
     where?: WorkLogWhereInput
   }
 
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountRecognitionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecognitionWhereInput
+  }
+
 
   /**
    * Count Type UserCountOutputType
@@ -4839,9 +5139,13 @@ export namespace Prisma {
     reviewsGiven: number
     reviews: number
     tasks: number
+    createdTasks: number
+    recognitionsReceived: number
+    recognitionsGiven: number
     timesheets: number
     subordinates: number
     documents: number
+    uploadedDocs: number
     workLogs: number
   }
 
@@ -4861,9 +5165,13 @@ export namespace Prisma {
     reviewsGiven?: boolean | UserCountOutputTypeCountReviewsGivenArgs
     reviews?: boolean | UserCountOutputTypeCountReviewsArgs
     tasks?: boolean | UserCountOutputTypeCountTasksArgs
+    createdTasks?: boolean | UserCountOutputTypeCountCreatedTasksArgs
+    recognitionsReceived?: boolean | UserCountOutputTypeCountRecognitionsReceivedArgs
+    recognitionsGiven?: boolean | UserCountOutputTypeCountRecognitionsGivenArgs
     timesheets?: boolean | UserCountOutputTypeCountTimesheetsArgs
     subordinates?: boolean | UserCountOutputTypeCountSubordinatesArgs
     documents?: boolean | UserCountOutputTypeCountDocumentsArgs
+    uploadedDocs?: boolean | UserCountOutputTypeCountUploadedDocsArgs
     workLogs?: boolean | UserCountOutputTypeCountWorkLogsArgs
   }
 
@@ -4986,6 +5294,27 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountCreatedTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRecognitionsReceivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecognitionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRecognitionsGivenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecognitionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountTimesheetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TimesheetWhereInput
   }
@@ -5001,6 +5330,13 @@ export namespace Prisma {
    * UserCountOutputType without action
    */
   export type UserCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserDocumentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUploadedDocsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserDocumentWhereInput
   }
 
@@ -5315,6 +5651,77 @@ export namespace Prisma {
 
 
   /**
+   * Count Type BranchCountOutputType
+   */
+
+  export type BranchCountOutputType = {
+    departments: number
+    profiles: number
+  }
+
+  export type BranchCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    departments?: boolean | BranchCountOutputTypeCountDepartmentsArgs
+    profiles?: boolean | BranchCountOutputTypeCountProfilesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BranchCountOutputType without action
+   */
+  export type BranchCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BranchCountOutputType
+     */
+    select?: BranchCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BranchCountOutputType without action
+   */
+  export type BranchCountOutputTypeCountDepartmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DepartmentWhereInput
+  }
+
+  /**
+   * BranchCountOutputType without action
+   */
+  export type BranchCountOutputTypeCountProfilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProfileWhereInput
+  }
+
+
+  /**
+   * Count Type DepartmentCountOutputType
+   */
+
+  export type DepartmentCountOutputType = {
+    profiles: number
+  }
+
+  export type DepartmentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profiles?: boolean | DepartmentCountOutputTypeCountProfilesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DepartmentCountOutputType without action
+   */
+  export type DepartmentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DepartmentCountOutputType
+     */
+    select?: DepartmentCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DepartmentCountOutputType without action
+   */
+  export type DepartmentCountOutputTypeCountProfilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProfileWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -5539,6 +5946,8 @@ export namespace Prisma {
     logoThumbnailUrl?: boolean
     faviconUrl?: boolean
     assets?: boolean | Company$assetsArgs<ExtArgs>
+    branches?: boolean | Company$branchesArgs<ExtArgs>
+    departments?: boolean | Company$departmentsArgs<ExtArgs>
     attendancePolicy?: boolean | Company$attendancePolicyArgs<ExtArgs>
     expenseCategories?: boolean | Company$expenseCategoriesArgs<ExtArgs>
     holidays?: boolean | Company$holidaysArgs<ExtArgs>
@@ -5550,6 +5959,7 @@ export namespace Prisma {
     tasks?: boolean | Company$tasksArgs<ExtArgs>
     users?: boolean | Company$usersArgs<ExtArgs>
     workLogs?: boolean | Company$workLogsArgs<ExtArgs>
+    recognitions?: boolean | Company$recognitionsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -5601,6 +6011,8 @@ export namespace Prisma {
   export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subdomain" | "domain" | "plan" | "logoUrl" | "createdAt" | "updatedAt" | "slogan" | "logoMediumUrl" | "logoThumbnailUrl" | "faviconUrl", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assets?: boolean | Company$assetsArgs<ExtArgs>
+    branches?: boolean | Company$branchesArgs<ExtArgs>
+    departments?: boolean | Company$departmentsArgs<ExtArgs>
     attendancePolicy?: boolean | Company$attendancePolicyArgs<ExtArgs>
     expenseCategories?: boolean | Company$expenseCategoriesArgs<ExtArgs>
     holidays?: boolean | Company$holidaysArgs<ExtArgs>
@@ -5612,6 +6024,7 @@ export namespace Prisma {
     tasks?: boolean | Company$tasksArgs<ExtArgs>
     users?: boolean | Company$usersArgs<ExtArgs>
     workLogs?: boolean | Company$workLogsArgs<ExtArgs>
+    recognitions?: boolean | Company$recognitionsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5621,6 +6034,8 @@ export namespace Prisma {
     name: "Company"
     objects: {
       assets: Prisma.$AssetPayload<ExtArgs>[]
+      branches: Prisma.$BranchPayload<ExtArgs>[]
+      departments: Prisma.$DepartmentPayload<ExtArgs>[]
       attendancePolicy: Prisma.$AttendancePolicyPayload<ExtArgs> | null
       expenseCategories: Prisma.$ExpenseCategoryPayload<ExtArgs>[]
       holidays: Prisma.$HolidayPayload<ExtArgs>[]
@@ -5632,6 +6047,7 @@ export namespace Prisma {
       tasks: Prisma.$TaskPayload<ExtArgs>[]
       users: Prisma.$UserPayload<ExtArgs>[]
       workLogs: Prisma.$WorkLogPayload<ExtArgs>[]
+      recognitions: Prisma.$RecognitionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6041,6 +6457,8 @@ export namespace Prisma {
   export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     assets<T extends Company$assetsArgs<ExtArgs> = {}>(args?: Subset<T, Company$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    branches<T extends Company$branchesArgs<ExtArgs> = {}>(args?: Subset<T, Company$branchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    departments<T extends Company$departmentsArgs<ExtArgs> = {}>(args?: Subset<T, Company$departmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     attendancePolicy<T extends Company$attendancePolicyArgs<ExtArgs> = {}>(args?: Subset<T, Company$attendancePolicyArgs<ExtArgs>>): Prisma__AttendancePolicyClient<$Result.GetResult<Prisma.$AttendancePolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     expenseCategories<T extends Company$expenseCategoriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$expenseCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpenseCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     holidays<T extends Company$holidaysArgs<ExtArgs> = {}>(args?: Subset<T, Company$holidaysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HolidayPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -6052,6 +6470,7 @@ export namespace Prisma {
     tasks<T extends Company$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Company$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     users<T extends Company$usersArgs<ExtArgs> = {}>(args?: Subset<T, Company$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workLogs<T extends Company$workLogsArgs<ExtArgs> = {}>(args?: Subset<T, Company$workLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    recognitions<T extends Company$recognitionsArgs<ExtArgs> = {}>(args?: Subset<T, Company$recognitionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6505,6 +6924,54 @@ export namespace Prisma {
   }
 
   /**
+   * Company.branches
+   */
+  export type Company$branchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    where?: BranchWhereInput
+    orderBy?: BranchOrderByWithRelationInput | BranchOrderByWithRelationInput[]
+    cursor?: BranchWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BranchScalarFieldEnum | BranchScalarFieldEnum[]
+  }
+
+  /**
+   * Company.departments
+   */
+  export type Company$departmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInclude<ExtArgs> | null
+    where?: DepartmentWhereInput
+    orderBy?: DepartmentOrderByWithRelationInput | DepartmentOrderByWithRelationInput[]
+    cursor?: DepartmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DepartmentScalarFieldEnum | DepartmentScalarFieldEnum[]
+  }
+
+  /**
    * Company.attendancePolicy
    */
   export type Company$attendancePolicyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6764,6 +7231,30 @@ export namespace Prisma {
   }
 
   /**
+   * Company.recognitions
+   */
+  export type Company$recognitionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionInclude<ExtArgs> | null
+    where?: RecognitionWhereInput
+    orderBy?: RecognitionOrderByWithRelationInput | RecognitionOrderByWithRelationInput[]
+    cursor?: RecognitionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RecognitionScalarFieldEnum | RecognitionScalarFieldEnum[]
+  }
+
+  /**
    * Company without action
    */
   export type CompanyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7013,12 +7504,16 @@ export namespace Prisma {
     profile?: boolean | User$profileArgs<ExtArgs>
     salary?: boolean | User$salaryArgs<ExtArgs>
     tasks?: boolean | User$tasksArgs<ExtArgs>
+    createdTasks?: boolean | User$createdTasksArgs<ExtArgs>
+    recognitionsReceived?: boolean | User$recognitionsReceivedArgs<ExtArgs>
+    recognitionsGiven?: boolean | User$recognitionsGivenArgs<ExtArgs>
     timesheets?: boolean | User$timesheetsArgs<ExtArgs>
     company?: boolean | User$companyArgs<ExtArgs>
     manager?: boolean | User$managerArgs<ExtArgs>
     subordinates?: boolean | User$subordinatesArgs<ExtArgs>
     shift?: boolean | User$shiftArgs<ExtArgs>
     documents?: boolean | User$documentsArgs<ExtArgs>
+    uploadedDocs?: boolean | User$uploadedDocsArgs<ExtArgs>
     policyOverride?: boolean | User$policyOverrideArgs<ExtArgs>
     workLogs?: boolean | User$workLogsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -7093,12 +7588,16 @@ export namespace Prisma {
     profile?: boolean | User$profileArgs<ExtArgs>
     salary?: boolean | User$salaryArgs<ExtArgs>
     tasks?: boolean | User$tasksArgs<ExtArgs>
+    createdTasks?: boolean | User$createdTasksArgs<ExtArgs>
+    recognitionsReceived?: boolean | User$recognitionsReceivedArgs<ExtArgs>
+    recognitionsGiven?: boolean | User$recognitionsGivenArgs<ExtArgs>
     timesheets?: boolean | User$timesheetsArgs<ExtArgs>
     company?: boolean | User$companyArgs<ExtArgs>
     manager?: boolean | User$managerArgs<ExtArgs>
     subordinates?: boolean | User$subordinatesArgs<ExtArgs>
     shift?: boolean | User$shiftArgs<ExtArgs>
     documents?: boolean | User$documentsArgs<ExtArgs>
+    uploadedDocs?: boolean | User$uploadedDocsArgs<ExtArgs>
     policyOverride?: boolean | User$policyOverrideArgs<ExtArgs>
     workLogs?: boolean | User$workLogsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -7136,12 +7635,16 @@ export namespace Prisma {
       profile: Prisma.$ProfilePayload<ExtArgs> | null
       salary: Prisma.$SalaryStructurePayload<ExtArgs> | null
       tasks: Prisma.$TaskPayload<ExtArgs>[]
+      createdTasks: Prisma.$TaskPayload<ExtArgs>[]
+      recognitionsReceived: Prisma.$RecognitionPayload<ExtArgs>[]
+      recognitionsGiven: Prisma.$RecognitionPayload<ExtArgs>[]
       timesheets: Prisma.$TimesheetPayload<ExtArgs>[]
       company: Prisma.$CompanyPayload<ExtArgs> | null
       manager: Prisma.$UserPayload<ExtArgs> | null
       subordinates: Prisma.$UserPayload<ExtArgs>[]
       shift: Prisma.$ShiftPayload<ExtArgs> | null
       documents: Prisma.$UserDocumentPayload<ExtArgs>[]
+      uploadedDocs: Prisma.$UserDocumentPayload<ExtArgs>[]
       policyOverride: Prisma.$UserPolicyOverridePayload<ExtArgs> | null
       workLogs: Prisma.$WorkLogPayload<ExtArgs>[]
     }
@@ -7570,12 +8073,16 @@ export namespace Prisma {
     profile<T extends User$profileArgs<ExtArgs> = {}>(args?: Subset<T, User$profileArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     salary<T extends User$salaryArgs<ExtArgs> = {}>(args?: Subset<T, User$salaryArgs<ExtArgs>>): Prisma__SalaryStructureClient<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tasks<T extends User$tasksArgs<ExtArgs> = {}>(args?: Subset<T, User$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    createdTasks<T extends User$createdTasksArgs<ExtArgs> = {}>(args?: Subset<T, User$createdTasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    recognitionsReceived<T extends User$recognitionsReceivedArgs<ExtArgs> = {}>(args?: Subset<T, User$recognitionsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    recognitionsGiven<T extends User$recognitionsGivenArgs<ExtArgs> = {}>(args?: Subset<T, User$recognitionsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     timesheets<T extends User$timesheetsArgs<ExtArgs> = {}>(args?: Subset<T, User$timesheetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     company<T extends User$companyArgs<ExtArgs> = {}>(args?: Subset<T, User$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     manager<T extends User$managerArgs<ExtArgs> = {}>(args?: Subset<T, User$managerArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     subordinates<T extends User$subordinatesArgs<ExtArgs> = {}>(args?: Subset<T, User$subordinatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     shift<T extends User$shiftArgs<ExtArgs> = {}>(args?: Subset<T, User$shiftArgs<ExtArgs>>): Prisma__ShiftClient<$Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     documents<T extends User$documentsArgs<ExtArgs> = {}>(args?: Subset<T, User$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    uploadedDocs<T extends User$uploadedDocsArgs<ExtArgs> = {}>(args?: Subset<T, User$uploadedDocsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     policyOverride<T extends User$policyOverrideArgs<ExtArgs> = {}>(args?: Subset<T, User$policyOverrideArgs<ExtArgs>>): Prisma__UserPolicyOverrideClient<$Result.GetResult<Prisma.$UserPolicyOverridePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     workLogs<T extends User$workLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$workLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -8450,6 +8957,78 @@ export namespace Prisma {
   }
 
   /**
+   * User.createdTasks
+   */
+  export type User$createdTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Task
+     */
+    omit?: TaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    cursor?: TaskWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
+  }
+
+  /**
+   * User.recognitionsReceived
+   */
+  export type User$recognitionsReceivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionInclude<ExtArgs> | null
+    where?: RecognitionWhereInput
+    orderBy?: RecognitionOrderByWithRelationInput | RecognitionOrderByWithRelationInput[]
+    cursor?: RecognitionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RecognitionScalarFieldEnum | RecognitionScalarFieldEnum[]
+  }
+
+  /**
+   * User.recognitionsGiven
+   */
+  export type User$recognitionsGivenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionInclude<ExtArgs> | null
+    where?: RecognitionWhereInput
+    orderBy?: RecognitionOrderByWithRelationInput | RecognitionOrderByWithRelationInput[]
+    cursor?: RecognitionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RecognitionScalarFieldEnum | RecognitionScalarFieldEnum[]
+  }
+
+  /**
    * User.timesheets
    */
   export type User$timesheetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8558,6 +9137,30 @@ export namespace Prisma {
    * User.documents
    */
   export type User$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDocument
+     */
+    select?: UserDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserDocument
+     */
+    omit?: UserDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDocumentInclude<ExtArgs> | null
+    where?: UserDocumentWhereInput
+    orderBy?: UserDocumentOrderByWithRelationInput | UserDocumentOrderByWithRelationInput[]
+    cursor?: UserDocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserDocumentScalarFieldEnum | UserDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * User.uploadedDocs
+   */
+  export type User$uploadedDocsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the UserDocument
      */
@@ -11163,6 +11766,8 @@ export namespace Prisma {
     emergencyContact: string | null
     designation: string | null
     department: string | null
+    branchId: string | null
+    departmentId: string | null
     employmentType: string | null
     dateOfJoining: Date | null
     dob: Date | null
@@ -11170,9 +11775,23 @@ export namespace Prisma {
     bankName: string | null
     accountNumber: string | null
     ifscCode: string | null
+    bankBranch: string | null
+    bankAddress: string | null
+    paymentMode: string | null
     aadhaarNumber: string | null
     panNumber: string | null
     uanNumber: string | null
+    nationality: string | null
+    bloodGroup: string | null
+    gender: string | null
+    maritalStatus: string | null
+    presentAddress: string | null
+    permanentAddress: string | null
+    emergencyContactName: string | null
+    emergencyContactRelation: string | null
+    emergencyContactPhone: string | null
+    emergencyContactAlternate: string | null
+    emergencyContactAddress: string | null
     profilePhoto: string | null
     profilePhotoSettings: string | null
     companyId: string | null
@@ -11190,6 +11809,8 @@ export namespace Prisma {
     emergencyContact: string | null
     designation: string | null
     department: string | null
+    branchId: string | null
+    departmentId: string | null
     employmentType: string | null
     dateOfJoining: Date | null
     dob: Date | null
@@ -11197,9 +11818,23 @@ export namespace Prisma {
     bankName: string | null
     accountNumber: string | null
     ifscCode: string | null
+    bankBranch: string | null
+    bankAddress: string | null
+    paymentMode: string | null
     aadhaarNumber: string | null
     panNumber: string | null
     uanNumber: string | null
+    nationality: string | null
+    bloodGroup: string | null
+    gender: string | null
+    maritalStatus: string | null
+    presentAddress: string | null
+    permanentAddress: string | null
+    emergencyContactName: string | null
+    emergencyContactRelation: string | null
+    emergencyContactPhone: string | null
+    emergencyContactAlternate: string | null
+    emergencyContactAddress: string | null
     profilePhoto: string | null
     profilePhotoSettings: string | null
     companyId: string | null
@@ -11217,6 +11852,8 @@ export namespace Prisma {
     emergencyContact: number
     designation: number
     department: number
+    branchId: number
+    departmentId: number
     employmentType: number
     dateOfJoining: number
     dob: number
@@ -11224,9 +11861,23 @@ export namespace Prisma {
     bankName: number
     accountNumber: number
     ifscCode: number
+    bankBranch: number
+    bankAddress: number
+    paymentMode: number
     aadhaarNumber: number
     panNumber: number
     uanNumber: number
+    nationality: number
+    bloodGroup: number
+    gender: number
+    maritalStatus: number
+    presentAddress: number
+    permanentAddress: number
+    emergencyContactName: number
+    emergencyContactRelation: number
+    emergencyContactPhone: number
+    emergencyContactAlternate: number
+    emergencyContactAddress: number
     profilePhoto: number
     profilePhotoSettings: number
     companyId: number
@@ -11246,6 +11897,8 @@ export namespace Prisma {
     emergencyContact?: true
     designation?: true
     department?: true
+    branchId?: true
+    departmentId?: true
     employmentType?: true
     dateOfJoining?: true
     dob?: true
@@ -11253,9 +11906,23 @@ export namespace Prisma {
     bankName?: true
     accountNumber?: true
     ifscCode?: true
+    bankBranch?: true
+    bankAddress?: true
+    paymentMode?: true
     aadhaarNumber?: true
     panNumber?: true
     uanNumber?: true
+    nationality?: true
+    bloodGroup?: true
+    gender?: true
+    maritalStatus?: true
+    presentAddress?: true
+    permanentAddress?: true
+    emergencyContactName?: true
+    emergencyContactRelation?: true
+    emergencyContactPhone?: true
+    emergencyContactAlternate?: true
+    emergencyContactAddress?: true
     profilePhoto?: true
     profilePhotoSettings?: true
     companyId?: true
@@ -11273,6 +11940,8 @@ export namespace Prisma {
     emergencyContact?: true
     designation?: true
     department?: true
+    branchId?: true
+    departmentId?: true
     employmentType?: true
     dateOfJoining?: true
     dob?: true
@@ -11280,9 +11949,23 @@ export namespace Prisma {
     bankName?: true
     accountNumber?: true
     ifscCode?: true
+    bankBranch?: true
+    bankAddress?: true
+    paymentMode?: true
     aadhaarNumber?: true
     panNumber?: true
     uanNumber?: true
+    nationality?: true
+    bloodGroup?: true
+    gender?: true
+    maritalStatus?: true
+    presentAddress?: true
+    permanentAddress?: true
+    emergencyContactName?: true
+    emergencyContactRelation?: true
+    emergencyContactPhone?: true
+    emergencyContactAlternate?: true
+    emergencyContactAddress?: true
     profilePhoto?: true
     profilePhotoSettings?: true
     companyId?: true
@@ -11300,6 +11983,8 @@ export namespace Prisma {
     emergencyContact?: true
     designation?: true
     department?: true
+    branchId?: true
+    departmentId?: true
     employmentType?: true
     dateOfJoining?: true
     dob?: true
@@ -11307,9 +11992,23 @@ export namespace Prisma {
     bankName?: true
     accountNumber?: true
     ifscCode?: true
+    bankBranch?: true
+    bankAddress?: true
+    paymentMode?: true
     aadhaarNumber?: true
     panNumber?: true
     uanNumber?: true
+    nationality?: true
+    bloodGroup?: true
+    gender?: true
+    maritalStatus?: true
+    presentAddress?: true
+    permanentAddress?: true
+    emergencyContactName?: true
+    emergencyContactRelation?: true
+    emergencyContactPhone?: true
+    emergencyContactAlternate?: true
+    emergencyContactAddress?: true
     profilePhoto?: true
     profilePhotoSettings?: true
     companyId?: true
@@ -11400,6 +12099,8 @@ export namespace Prisma {
     emergencyContact: string | null
     designation: string | null
     department: string | null
+    branchId: string | null
+    departmentId: string | null
     employmentType: string
     dateOfJoining: Date | null
     dob: Date | null
@@ -11407,9 +12108,23 @@ export namespace Prisma {
     bankName: string | null
     accountNumber: string | null
     ifscCode: string | null
+    bankBranch: string | null
+    bankAddress: string | null
+    paymentMode: string | null
     aadhaarNumber: string | null
     panNumber: string | null
     uanNumber: string | null
+    nationality: string | null
+    bloodGroup: string | null
+    gender: string | null
+    maritalStatus: string | null
+    presentAddress: string | null
+    permanentAddress: string | null
+    emergencyContactName: string | null
+    emergencyContactRelation: string | null
+    emergencyContactPhone: string | null
+    emergencyContactAlternate: string | null
+    emergencyContactAddress: string | null
     profilePhoto: string | null
     profilePhotoSettings: string | null
     companyId: string | null
@@ -11444,6 +12159,8 @@ export namespace Prisma {
     emergencyContact?: boolean
     designation?: boolean
     department?: boolean
+    branchId?: boolean
+    departmentId?: boolean
     employmentType?: boolean
     dateOfJoining?: boolean
     dob?: boolean
@@ -11451,9 +12168,23 @@ export namespace Prisma {
     bankName?: boolean
     accountNumber?: boolean
     ifscCode?: boolean
+    bankBranch?: boolean
+    bankAddress?: boolean
+    paymentMode?: boolean
     aadhaarNumber?: boolean
     panNumber?: boolean
     uanNumber?: boolean
+    nationality?: boolean
+    bloodGroup?: boolean
+    gender?: boolean
+    maritalStatus?: boolean
+    presentAddress?: boolean
+    permanentAddress?: boolean
+    emergencyContactName?: boolean
+    emergencyContactRelation?: boolean
+    emergencyContactPhone?: boolean
+    emergencyContactAlternate?: boolean
+    emergencyContactAddress?: boolean
     profilePhoto?: boolean
     profilePhotoSettings?: boolean
     companyId?: boolean
@@ -11461,6 +12192,8 @@ export namespace Prisma {
     profilePhotoThumbnailUrl?: boolean
     company?: boolean | Profile$companyArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    branch?: boolean | Profile$branchArgs<ExtArgs>
+    departmentRef?: boolean | Profile$departmentRefArgs<ExtArgs>
   }, ExtArgs["result"]["profile"]>
 
   export type ProfileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11473,6 +12206,8 @@ export namespace Prisma {
     emergencyContact?: boolean
     designation?: boolean
     department?: boolean
+    branchId?: boolean
+    departmentId?: boolean
     employmentType?: boolean
     dateOfJoining?: boolean
     dob?: boolean
@@ -11480,9 +12215,23 @@ export namespace Prisma {
     bankName?: boolean
     accountNumber?: boolean
     ifscCode?: boolean
+    bankBranch?: boolean
+    bankAddress?: boolean
+    paymentMode?: boolean
     aadhaarNumber?: boolean
     panNumber?: boolean
     uanNumber?: boolean
+    nationality?: boolean
+    bloodGroup?: boolean
+    gender?: boolean
+    maritalStatus?: boolean
+    presentAddress?: boolean
+    permanentAddress?: boolean
+    emergencyContactName?: boolean
+    emergencyContactRelation?: boolean
+    emergencyContactPhone?: boolean
+    emergencyContactAlternate?: boolean
+    emergencyContactAddress?: boolean
     profilePhoto?: boolean
     profilePhotoSettings?: boolean
     companyId?: boolean
@@ -11490,6 +12239,8 @@ export namespace Prisma {
     profilePhotoThumbnailUrl?: boolean
     company?: boolean | Profile$companyArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    branch?: boolean | Profile$branchArgs<ExtArgs>
+    departmentRef?: boolean | Profile$departmentRefArgs<ExtArgs>
   }, ExtArgs["result"]["profile"]>
 
   export type ProfileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11502,6 +12253,8 @@ export namespace Prisma {
     emergencyContact?: boolean
     designation?: boolean
     department?: boolean
+    branchId?: boolean
+    departmentId?: boolean
     employmentType?: boolean
     dateOfJoining?: boolean
     dob?: boolean
@@ -11509,9 +12262,23 @@ export namespace Prisma {
     bankName?: boolean
     accountNumber?: boolean
     ifscCode?: boolean
+    bankBranch?: boolean
+    bankAddress?: boolean
+    paymentMode?: boolean
     aadhaarNumber?: boolean
     panNumber?: boolean
     uanNumber?: boolean
+    nationality?: boolean
+    bloodGroup?: boolean
+    gender?: boolean
+    maritalStatus?: boolean
+    presentAddress?: boolean
+    permanentAddress?: boolean
+    emergencyContactName?: boolean
+    emergencyContactRelation?: boolean
+    emergencyContactPhone?: boolean
+    emergencyContactAlternate?: boolean
+    emergencyContactAddress?: boolean
     profilePhoto?: boolean
     profilePhotoSettings?: boolean
     companyId?: boolean
@@ -11519,6 +12286,8 @@ export namespace Prisma {
     profilePhotoThumbnailUrl?: boolean
     company?: boolean | Profile$companyArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    branch?: boolean | Profile$branchArgs<ExtArgs>
+    departmentRef?: boolean | Profile$departmentRefArgs<ExtArgs>
   }, ExtArgs["result"]["profile"]>
 
   export type ProfileSelectScalar = {
@@ -11531,6 +12300,8 @@ export namespace Prisma {
     emergencyContact?: boolean
     designation?: boolean
     department?: boolean
+    branchId?: boolean
+    departmentId?: boolean
     employmentType?: boolean
     dateOfJoining?: boolean
     dob?: boolean
@@ -11538,9 +12309,23 @@ export namespace Prisma {
     bankName?: boolean
     accountNumber?: boolean
     ifscCode?: boolean
+    bankBranch?: boolean
+    bankAddress?: boolean
+    paymentMode?: boolean
     aadhaarNumber?: boolean
     panNumber?: boolean
     uanNumber?: boolean
+    nationality?: boolean
+    bloodGroup?: boolean
+    gender?: boolean
+    maritalStatus?: boolean
+    presentAddress?: boolean
+    permanentAddress?: boolean
+    emergencyContactName?: boolean
+    emergencyContactRelation?: boolean
+    emergencyContactPhone?: boolean
+    emergencyContactAlternate?: boolean
+    emergencyContactAddress?: boolean
     profilePhoto?: boolean
     profilePhotoSettings?: boolean
     companyId?: boolean
@@ -11548,18 +12333,24 @@ export namespace Prisma {
     profilePhotoThumbnailUrl?: boolean
   }
 
-  export type ProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "phone" | "address" | "emergencyContact" | "designation" | "department" | "employmentType" | "dateOfJoining" | "dob" | "documents" | "bankName" | "accountNumber" | "ifscCode" | "aadhaarNumber" | "panNumber" | "uanNumber" | "profilePhoto" | "profilePhotoSettings" | "companyId" | "profilePhotoMediumUrl" | "profilePhotoThumbnailUrl", ExtArgs["result"]["profile"]>
+  export type ProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "phone" | "address" | "emergencyContact" | "designation" | "department" | "branchId" | "departmentId" | "employmentType" | "dateOfJoining" | "dob" | "documents" | "bankName" | "accountNumber" | "ifscCode" | "bankBranch" | "bankAddress" | "paymentMode" | "aadhaarNumber" | "panNumber" | "uanNumber" | "nationality" | "bloodGroup" | "gender" | "maritalStatus" | "presentAddress" | "permanentAddress" | "emergencyContactName" | "emergencyContactRelation" | "emergencyContactPhone" | "emergencyContactAlternate" | "emergencyContactAddress" | "profilePhoto" | "profilePhotoSettings" | "companyId" | "profilePhotoMediumUrl" | "profilePhotoThumbnailUrl", ExtArgs["result"]["profile"]>
   export type ProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | Profile$companyArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    branch?: boolean | Profile$branchArgs<ExtArgs>
+    departmentRef?: boolean | Profile$departmentRefArgs<ExtArgs>
   }
   export type ProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | Profile$companyArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    branch?: boolean | Profile$branchArgs<ExtArgs>
+    departmentRef?: boolean | Profile$departmentRefArgs<ExtArgs>
   }
   export type ProfileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | Profile$companyArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
+    branch?: boolean | Profile$branchArgs<ExtArgs>
+    departmentRef?: boolean | Profile$departmentRefArgs<ExtArgs>
   }
 
   export type $ProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11567,6 +12358,8 @@ export namespace Prisma {
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs> | null
       user: Prisma.$UserPayload<ExtArgs>
+      branch: Prisma.$BranchPayload<ExtArgs> | null
+      departmentRef: Prisma.$DepartmentPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11578,6 +12371,8 @@ export namespace Prisma {
       emergencyContact: string | null
       designation: string | null
       department: string | null
+      branchId: string | null
+      departmentId: string | null
       employmentType: string
       dateOfJoining: Date | null
       dob: Date | null
@@ -11585,9 +12380,23 @@ export namespace Prisma {
       bankName: string | null
       accountNumber: string | null
       ifscCode: string | null
+      bankBranch: string | null
+      bankAddress: string | null
+      paymentMode: string | null
       aadhaarNumber: string | null
       panNumber: string | null
       uanNumber: string | null
+      nationality: string | null
+      bloodGroup: string | null
+      gender: string | null
+      maritalStatus: string | null
+      presentAddress: string | null
+      permanentAddress: string | null
+      emergencyContactName: string | null
+      emergencyContactRelation: string | null
+      emergencyContactPhone: string | null
+      emergencyContactAlternate: string | null
+      emergencyContactAddress: string | null
       profilePhoto: string | null
       profilePhotoSettings: string | null
       companyId: string | null
@@ -11989,6 +12798,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends Profile$companyArgs<ExtArgs> = {}>(args?: Subset<T, Profile$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    branch<T extends Profile$branchArgs<ExtArgs> = {}>(args?: Subset<T, Profile$branchArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    departmentRef<T extends Profile$departmentRefArgs<ExtArgs> = {}>(args?: Subset<T, Profile$departmentRefArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12027,6 +12838,8 @@ export namespace Prisma {
     readonly emergencyContact: FieldRef<"Profile", 'String'>
     readonly designation: FieldRef<"Profile", 'String'>
     readonly department: FieldRef<"Profile", 'String'>
+    readonly branchId: FieldRef<"Profile", 'String'>
+    readonly departmentId: FieldRef<"Profile", 'String'>
     readonly employmentType: FieldRef<"Profile", 'String'>
     readonly dateOfJoining: FieldRef<"Profile", 'DateTime'>
     readonly dob: FieldRef<"Profile", 'DateTime'>
@@ -12034,9 +12847,23 @@ export namespace Prisma {
     readonly bankName: FieldRef<"Profile", 'String'>
     readonly accountNumber: FieldRef<"Profile", 'String'>
     readonly ifscCode: FieldRef<"Profile", 'String'>
+    readonly bankBranch: FieldRef<"Profile", 'String'>
+    readonly bankAddress: FieldRef<"Profile", 'String'>
+    readonly paymentMode: FieldRef<"Profile", 'String'>
     readonly aadhaarNumber: FieldRef<"Profile", 'String'>
     readonly panNumber: FieldRef<"Profile", 'String'>
     readonly uanNumber: FieldRef<"Profile", 'String'>
+    readonly nationality: FieldRef<"Profile", 'String'>
+    readonly bloodGroup: FieldRef<"Profile", 'String'>
+    readonly gender: FieldRef<"Profile", 'String'>
+    readonly maritalStatus: FieldRef<"Profile", 'String'>
+    readonly presentAddress: FieldRef<"Profile", 'String'>
+    readonly permanentAddress: FieldRef<"Profile", 'String'>
+    readonly emergencyContactName: FieldRef<"Profile", 'String'>
+    readonly emergencyContactRelation: FieldRef<"Profile", 'String'>
+    readonly emergencyContactPhone: FieldRef<"Profile", 'String'>
+    readonly emergencyContactAlternate: FieldRef<"Profile", 'String'>
+    readonly emergencyContactAddress: FieldRef<"Profile", 'String'>
     readonly profilePhoto: FieldRef<"Profile", 'String'>
     readonly profilePhotoSettings: FieldRef<"Profile", 'String'>
     readonly companyId: FieldRef<"Profile", 'String'>
@@ -12454,6 +13281,44 @@ export namespace Prisma {
      */
     include?: CompanyInclude<ExtArgs> | null
     where?: CompanyWhereInput
+  }
+
+  /**
+   * Profile.branch
+   */
+  export type Profile$branchArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    where?: BranchWhereInput
+  }
+
+  /**
+   * Profile.departmentRef
+   */
+  export type Profile$departmentRefArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInclude<ExtArgs> | null
+    where?: DepartmentWhereInput
   }
 
   /**
@@ -23383,6 +24248,7 @@ export namespace Prisma {
     startDate: Date | null
     endDate: Date | null
     days: number | null
+    duration: string | null
     reason: string | null
     status: string | null
     managerComment: string | null
@@ -23396,6 +24262,7 @@ export namespace Prisma {
     startDate: Date | null
     endDate: Date | null
     days: number | null
+    duration: string | null
     reason: string | null
     status: string | null
     managerComment: string | null
@@ -23409,6 +24276,7 @@ export namespace Prisma {
     startDate: number
     endDate: number
     days: number
+    duration: number
     reason: number
     status: number
     managerComment: number
@@ -23432,6 +24300,7 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     days?: true
+    duration?: true
     reason?: true
     status?: true
     managerComment?: true
@@ -23445,6 +24314,7 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     days?: true
+    duration?: true
     reason?: true
     status?: true
     managerComment?: true
@@ -23458,6 +24328,7 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     days?: true
+    duration?: true
     reason?: true
     status?: true
     managerComment?: true
@@ -23558,6 +24429,7 @@ export namespace Prisma {
     startDate: Date
     endDate: Date
     days: number
+    duration: string
     reason: string
     status: string
     managerComment: string | null
@@ -23590,6 +24462,7 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     days?: boolean
+    duration?: boolean
     reason?: boolean
     status?: boolean
     managerComment?: boolean
@@ -23605,6 +24478,7 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     days?: boolean
+    duration?: boolean
     reason?: boolean
     status?: boolean
     managerComment?: boolean
@@ -23620,6 +24494,7 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     days?: boolean
+    duration?: boolean
     reason?: boolean
     status?: boolean
     managerComment?: boolean
@@ -23635,13 +24510,14 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     days?: boolean
+    duration?: boolean
     reason?: boolean
     status?: boolean
     managerComment?: boolean
     createdAt?: boolean
   }
 
-  export type LeaveRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "leaveTypeId" | "startDate" | "endDate" | "days" | "reason" | "status" | "managerComment" | "createdAt", ExtArgs["result"]["leaveRequest"]>
+  export type LeaveRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "leaveTypeId" | "startDate" | "endDate" | "days" | "duration" | "reason" | "status" | "managerComment" | "createdAt", ExtArgs["result"]["leaveRequest"]>
   export type LeaveRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     leaveType?: boolean | LeaveTypeDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -23668,6 +24544,7 @@ export namespace Prisma {
       startDate: Date
       endDate: Date
       days: number
+      duration: string
       reason: string
       status: string
       managerComment: string | null
@@ -24103,6 +24980,7 @@ export namespace Prisma {
     readonly startDate: FieldRef<"LeaveRequest", 'DateTime'>
     readonly endDate: FieldRef<"LeaveRequest", 'DateTime'>
     readonly days: FieldRef<"LeaveRequest", 'Float'>
+    readonly duration: FieldRef<"LeaveRequest", 'String'>
     readonly reason: FieldRef<"LeaveRequest", 'String'>
     readonly status: FieldRef<"LeaveRequest", 'String'>
     readonly managerComment: FieldRef<"LeaveRequest", 'String'>
@@ -36281,6 +37159,1138 @@ export namespace Prisma {
 
 
   /**
+   * Model Recognition
+   */
+
+  export type AggregateRecognition = {
+    _count: RecognitionCountAggregateOutputType | null
+    _min: RecognitionMinAggregateOutputType | null
+    _max: RecognitionMaxAggregateOutputType | null
+  }
+
+  export type RecognitionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    giverId: string | null
+    companyId: string | null
+    category: string | null
+    badge: string | null
+    message: string | null
+    createdAt: Date | null
+  }
+
+  export type RecognitionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    giverId: string | null
+    companyId: string | null
+    category: string | null
+    badge: string | null
+    message: string | null
+    createdAt: Date | null
+  }
+
+  export type RecognitionCountAggregateOutputType = {
+    id: number
+    userId: number
+    giverId: number
+    companyId: number
+    category: number
+    badge: number
+    message: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RecognitionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    giverId?: true
+    companyId?: true
+    category?: true
+    badge?: true
+    message?: true
+    createdAt?: true
+  }
+
+  export type RecognitionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    giverId?: true
+    companyId?: true
+    category?: true
+    badge?: true
+    message?: true
+    createdAt?: true
+  }
+
+  export type RecognitionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    giverId?: true
+    companyId?: true
+    category?: true
+    badge?: true
+    message?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RecognitionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Recognition to aggregate.
+     */
+    where?: RecognitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Recognitions to fetch.
+     */
+    orderBy?: RecognitionOrderByWithRelationInput | RecognitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RecognitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Recognitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Recognitions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Recognitions
+    **/
+    _count?: true | RecognitionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RecognitionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RecognitionMaxAggregateInputType
+  }
+
+  export type GetRecognitionAggregateType<T extends RecognitionAggregateArgs> = {
+        [P in keyof T & keyof AggregateRecognition]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRecognition[P]>
+      : GetScalarType<T[P], AggregateRecognition[P]>
+  }
+
+
+
+
+  export type RecognitionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecognitionWhereInput
+    orderBy?: RecognitionOrderByWithAggregationInput | RecognitionOrderByWithAggregationInput[]
+    by: RecognitionScalarFieldEnum[] | RecognitionScalarFieldEnum
+    having?: RecognitionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RecognitionCountAggregateInputType | true
+    _min?: RecognitionMinAggregateInputType
+    _max?: RecognitionMaxAggregateInputType
+  }
+
+  export type RecognitionGroupByOutputType = {
+    id: string
+    userId: string
+    giverId: string
+    companyId: string | null
+    category: string
+    badge: string | null
+    message: string
+    createdAt: Date
+    _count: RecognitionCountAggregateOutputType | null
+    _min: RecognitionMinAggregateOutputType | null
+    _max: RecognitionMaxAggregateOutputType | null
+  }
+
+  type GetRecognitionGroupByPayload<T extends RecognitionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RecognitionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RecognitionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RecognitionGroupByOutputType[P]>
+            : GetScalarType<T[P], RecognitionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RecognitionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    giverId?: boolean
+    companyId?: boolean
+    category?: boolean
+    badge?: boolean
+    message?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    giver?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | Recognition$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["recognition"]>
+
+  export type RecognitionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    giverId?: boolean
+    companyId?: boolean
+    category?: boolean
+    badge?: boolean
+    message?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    giver?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | Recognition$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["recognition"]>
+
+  export type RecognitionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    giverId?: boolean
+    companyId?: boolean
+    category?: boolean
+    badge?: boolean
+    message?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    giver?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | Recognition$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["recognition"]>
+
+  export type RecognitionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    giverId?: boolean
+    companyId?: boolean
+    category?: boolean
+    badge?: boolean
+    message?: boolean
+    createdAt?: boolean
+  }
+
+  export type RecognitionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "giverId" | "companyId" | "category" | "badge" | "message" | "createdAt", ExtArgs["result"]["recognition"]>
+  export type RecognitionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    giver?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | Recognition$companyArgs<ExtArgs>
+  }
+  export type RecognitionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    giver?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | Recognition$companyArgs<ExtArgs>
+  }
+  export type RecognitionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    giver?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | Recognition$companyArgs<ExtArgs>
+  }
+
+  export type $RecognitionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Recognition"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      giver: Prisma.$UserPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      giverId: string
+      companyId: string | null
+      category: string
+      badge: string | null
+      message: string
+      createdAt: Date
+    }, ExtArgs["result"]["recognition"]>
+    composites: {}
+  }
+
+  type RecognitionGetPayload<S extends boolean | null | undefined | RecognitionDefaultArgs> = $Result.GetResult<Prisma.$RecognitionPayload, S>
+
+  type RecognitionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RecognitionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RecognitionCountAggregateInputType | true
+    }
+
+  export interface RecognitionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Recognition'], meta: { name: 'Recognition' } }
+    /**
+     * Find zero or one Recognition that matches the filter.
+     * @param {RecognitionFindUniqueArgs} args - Arguments to find a Recognition
+     * @example
+     * // Get one Recognition
+     * const recognition = await prisma.recognition.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RecognitionFindUniqueArgs>(args: SelectSubset<T, RecognitionFindUniqueArgs<ExtArgs>>): Prisma__RecognitionClient<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Recognition that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RecognitionFindUniqueOrThrowArgs} args - Arguments to find a Recognition
+     * @example
+     * // Get one Recognition
+     * const recognition = await prisma.recognition.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RecognitionFindUniqueOrThrowArgs>(args: SelectSubset<T, RecognitionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RecognitionClient<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Recognition that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecognitionFindFirstArgs} args - Arguments to find a Recognition
+     * @example
+     * // Get one Recognition
+     * const recognition = await prisma.recognition.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RecognitionFindFirstArgs>(args?: SelectSubset<T, RecognitionFindFirstArgs<ExtArgs>>): Prisma__RecognitionClient<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Recognition that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecognitionFindFirstOrThrowArgs} args - Arguments to find a Recognition
+     * @example
+     * // Get one Recognition
+     * const recognition = await prisma.recognition.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RecognitionFindFirstOrThrowArgs>(args?: SelectSubset<T, RecognitionFindFirstOrThrowArgs<ExtArgs>>): Prisma__RecognitionClient<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Recognitions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecognitionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Recognitions
+     * const recognitions = await prisma.recognition.findMany()
+     * 
+     * // Get first 10 Recognitions
+     * const recognitions = await prisma.recognition.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const recognitionWithIdOnly = await prisma.recognition.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RecognitionFindManyArgs>(args?: SelectSubset<T, RecognitionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Recognition.
+     * @param {RecognitionCreateArgs} args - Arguments to create a Recognition.
+     * @example
+     * // Create one Recognition
+     * const Recognition = await prisma.recognition.create({
+     *   data: {
+     *     // ... data to create a Recognition
+     *   }
+     * })
+     * 
+     */
+    create<T extends RecognitionCreateArgs>(args: SelectSubset<T, RecognitionCreateArgs<ExtArgs>>): Prisma__RecognitionClient<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Recognitions.
+     * @param {RecognitionCreateManyArgs} args - Arguments to create many Recognitions.
+     * @example
+     * // Create many Recognitions
+     * const recognition = await prisma.recognition.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RecognitionCreateManyArgs>(args?: SelectSubset<T, RecognitionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Recognitions and returns the data saved in the database.
+     * @param {RecognitionCreateManyAndReturnArgs} args - Arguments to create many Recognitions.
+     * @example
+     * // Create many Recognitions
+     * const recognition = await prisma.recognition.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Recognitions and only return the `id`
+     * const recognitionWithIdOnly = await prisma.recognition.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RecognitionCreateManyAndReturnArgs>(args?: SelectSubset<T, RecognitionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Recognition.
+     * @param {RecognitionDeleteArgs} args - Arguments to delete one Recognition.
+     * @example
+     * // Delete one Recognition
+     * const Recognition = await prisma.recognition.delete({
+     *   where: {
+     *     // ... filter to delete one Recognition
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RecognitionDeleteArgs>(args: SelectSubset<T, RecognitionDeleteArgs<ExtArgs>>): Prisma__RecognitionClient<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Recognition.
+     * @param {RecognitionUpdateArgs} args - Arguments to update one Recognition.
+     * @example
+     * // Update one Recognition
+     * const recognition = await prisma.recognition.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RecognitionUpdateArgs>(args: SelectSubset<T, RecognitionUpdateArgs<ExtArgs>>): Prisma__RecognitionClient<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Recognitions.
+     * @param {RecognitionDeleteManyArgs} args - Arguments to filter Recognitions to delete.
+     * @example
+     * // Delete a few Recognitions
+     * const { count } = await prisma.recognition.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RecognitionDeleteManyArgs>(args?: SelectSubset<T, RecognitionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Recognitions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecognitionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Recognitions
+     * const recognition = await prisma.recognition.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RecognitionUpdateManyArgs>(args: SelectSubset<T, RecognitionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Recognitions and returns the data updated in the database.
+     * @param {RecognitionUpdateManyAndReturnArgs} args - Arguments to update many Recognitions.
+     * @example
+     * // Update many Recognitions
+     * const recognition = await prisma.recognition.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Recognitions and only return the `id`
+     * const recognitionWithIdOnly = await prisma.recognition.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RecognitionUpdateManyAndReturnArgs>(args: SelectSubset<T, RecognitionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Recognition.
+     * @param {RecognitionUpsertArgs} args - Arguments to update or create a Recognition.
+     * @example
+     * // Update or create a Recognition
+     * const recognition = await prisma.recognition.upsert({
+     *   create: {
+     *     // ... data to create a Recognition
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Recognition we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RecognitionUpsertArgs>(args: SelectSubset<T, RecognitionUpsertArgs<ExtArgs>>): Prisma__RecognitionClient<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Recognitions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecognitionCountArgs} args - Arguments to filter Recognitions to count.
+     * @example
+     * // Count the number of Recognitions
+     * const count = await prisma.recognition.count({
+     *   where: {
+     *     // ... the filter for the Recognitions we want to count
+     *   }
+     * })
+    **/
+    count<T extends RecognitionCountArgs>(
+      args?: Subset<T, RecognitionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RecognitionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Recognition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecognitionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RecognitionAggregateArgs>(args: Subset<T, RecognitionAggregateArgs>): Prisma.PrismaPromise<GetRecognitionAggregateType<T>>
+
+    /**
+     * Group by Recognition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecognitionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RecognitionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RecognitionGroupByArgs['orderBy'] }
+        : { orderBy?: RecognitionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RecognitionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRecognitionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Recognition model
+   */
+  readonly fields: RecognitionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Recognition.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RecognitionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    giver<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    company<T extends Recognition$companyArgs<ExtArgs> = {}>(args?: Subset<T, Recognition$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Recognition model
+   */
+  interface RecognitionFieldRefs {
+    readonly id: FieldRef<"Recognition", 'String'>
+    readonly userId: FieldRef<"Recognition", 'String'>
+    readonly giverId: FieldRef<"Recognition", 'String'>
+    readonly companyId: FieldRef<"Recognition", 'String'>
+    readonly category: FieldRef<"Recognition", 'String'>
+    readonly badge: FieldRef<"Recognition", 'String'>
+    readonly message: FieldRef<"Recognition", 'String'>
+    readonly createdAt: FieldRef<"Recognition", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Recognition findUnique
+   */
+  export type RecognitionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionInclude<ExtArgs> | null
+    /**
+     * Filter, which Recognition to fetch.
+     */
+    where: RecognitionWhereUniqueInput
+  }
+
+  /**
+   * Recognition findUniqueOrThrow
+   */
+  export type RecognitionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionInclude<ExtArgs> | null
+    /**
+     * Filter, which Recognition to fetch.
+     */
+    where: RecognitionWhereUniqueInput
+  }
+
+  /**
+   * Recognition findFirst
+   */
+  export type RecognitionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionInclude<ExtArgs> | null
+    /**
+     * Filter, which Recognition to fetch.
+     */
+    where?: RecognitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Recognitions to fetch.
+     */
+    orderBy?: RecognitionOrderByWithRelationInput | RecognitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Recognitions.
+     */
+    cursor?: RecognitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Recognitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Recognitions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Recognitions.
+     */
+    distinct?: RecognitionScalarFieldEnum | RecognitionScalarFieldEnum[]
+  }
+
+  /**
+   * Recognition findFirstOrThrow
+   */
+  export type RecognitionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionInclude<ExtArgs> | null
+    /**
+     * Filter, which Recognition to fetch.
+     */
+    where?: RecognitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Recognitions to fetch.
+     */
+    orderBy?: RecognitionOrderByWithRelationInput | RecognitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Recognitions.
+     */
+    cursor?: RecognitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Recognitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Recognitions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Recognitions.
+     */
+    distinct?: RecognitionScalarFieldEnum | RecognitionScalarFieldEnum[]
+  }
+
+  /**
+   * Recognition findMany
+   */
+  export type RecognitionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionInclude<ExtArgs> | null
+    /**
+     * Filter, which Recognitions to fetch.
+     */
+    where?: RecognitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Recognitions to fetch.
+     */
+    orderBy?: RecognitionOrderByWithRelationInput | RecognitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Recognitions.
+     */
+    cursor?: RecognitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Recognitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Recognitions.
+     */
+    skip?: number
+    distinct?: RecognitionScalarFieldEnum | RecognitionScalarFieldEnum[]
+  }
+
+  /**
+   * Recognition create
+   */
+  export type RecognitionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Recognition.
+     */
+    data: XOR<RecognitionCreateInput, RecognitionUncheckedCreateInput>
+  }
+
+  /**
+   * Recognition createMany
+   */
+  export type RecognitionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Recognitions.
+     */
+    data: RecognitionCreateManyInput | RecognitionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Recognition createManyAndReturn
+   */
+  export type RecognitionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Recognitions.
+     */
+    data: RecognitionCreateManyInput | RecognitionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Recognition update
+   */
+  export type RecognitionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Recognition.
+     */
+    data: XOR<RecognitionUpdateInput, RecognitionUncheckedUpdateInput>
+    /**
+     * Choose, which Recognition to update.
+     */
+    where: RecognitionWhereUniqueInput
+  }
+
+  /**
+   * Recognition updateMany
+   */
+  export type RecognitionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Recognitions.
+     */
+    data: XOR<RecognitionUpdateManyMutationInput, RecognitionUncheckedUpdateManyInput>
+    /**
+     * Filter which Recognitions to update
+     */
+    where?: RecognitionWhereInput
+    /**
+     * Limit how many Recognitions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Recognition updateManyAndReturn
+   */
+  export type RecognitionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * The data used to update Recognitions.
+     */
+    data: XOR<RecognitionUpdateManyMutationInput, RecognitionUncheckedUpdateManyInput>
+    /**
+     * Filter which Recognitions to update
+     */
+    where?: RecognitionWhereInput
+    /**
+     * Limit how many Recognitions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Recognition upsert
+   */
+  export type RecognitionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Recognition to update in case it exists.
+     */
+    where: RecognitionWhereUniqueInput
+    /**
+     * In case the Recognition found by the `where` argument doesn't exist, create a new Recognition with this data.
+     */
+    create: XOR<RecognitionCreateInput, RecognitionUncheckedCreateInput>
+    /**
+     * In case the Recognition was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RecognitionUpdateInput, RecognitionUncheckedUpdateInput>
+  }
+
+  /**
+   * Recognition delete
+   */
+  export type RecognitionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionInclude<ExtArgs> | null
+    /**
+     * Filter which Recognition to delete.
+     */
+    where: RecognitionWhereUniqueInput
+  }
+
+  /**
+   * Recognition deleteMany
+   */
+  export type RecognitionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Recognitions to delete
+     */
+    where?: RecognitionWhereInput
+    /**
+     * Limit how many Recognitions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Recognition.company
+   */
+  export type Recognition$companyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Company
+     */
+    omit?: CompanyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * Recognition without action
+   */
+  export type RecognitionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recognition
+     */
+    select?: RecognitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Recognition
+     */
+    omit?: RecognitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecognitionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model JobPosting
    */
 
@@ -43036,82 +45046,158 @@ export namespace Prisma {
 
   export type AggregateUserDocument = {
     _count: UserDocumentCountAggregateOutputType | null
+    _avg: UserDocumentAvgAggregateOutputType | null
+    _sum: UserDocumentSumAggregateOutputType | null
     _min: UserDocumentMinAggregateOutputType | null
     _max: UserDocumentMaxAggregateOutputType | null
+  }
+
+  export type UserDocumentAvgAggregateOutputType = {
+    fileSize: number | null
+    version: number | null
+  }
+
+  export type UserDocumentSumAggregateOutputType = {
+    fileSize: number | null
+    version: number | null
   }
 
   export type UserDocumentMinAggregateOutputType = {
     id: string | null
     userId: string | null
-    type: string | null
     name: string | null
+    category: string | null
     url: string | null
-    expiryDate: Date | null
-    status: string | null
-    verifiedBy: string | null
+    fileSize: number | null
+    fileType: string | null
+    uploadedById: string | null
     uploadedAt: Date | null
+    updatedAt: Date | null
+    expiryDate: Date | null
+    notes: string | null
+    tags: string | null
+    status: string | null
+    version: number | null
+    isLatest: boolean | null
+    parentDocId: string | null
+    verifiedBy: string | null
   }
 
   export type UserDocumentMaxAggregateOutputType = {
     id: string | null
     userId: string | null
-    type: string | null
     name: string | null
+    category: string | null
     url: string | null
-    expiryDate: Date | null
-    status: string | null
-    verifiedBy: string | null
+    fileSize: number | null
+    fileType: string | null
+    uploadedById: string | null
     uploadedAt: Date | null
+    updatedAt: Date | null
+    expiryDate: Date | null
+    notes: string | null
+    tags: string | null
+    status: string | null
+    version: number | null
+    isLatest: boolean | null
+    parentDocId: string | null
+    verifiedBy: string | null
   }
 
   export type UserDocumentCountAggregateOutputType = {
     id: number
     userId: number
-    type: number
     name: number
+    category: number
     url: number
-    expiryDate: number
-    status: number
-    verifiedBy: number
+    fileSize: number
+    fileType: number
+    uploadedById: number
     uploadedAt: number
+    updatedAt: number
+    expiryDate: number
+    notes: number
+    tags: number
+    status: number
+    version: number
+    isLatest: number
+    parentDocId: number
+    verifiedBy: number
     _all: number
   }
 
 
+  export type UserDocumentAvgAggregateInputType = {
+    fileSize?: true
+    version?: true
+  }
+
+  export type UserDocumentSumAggregateInputType = {
+    fileSize?: true
+    version?: true
+  }
+
   export type UserDocumentMinAggregateInputType = {
     id?: true
     userId?: true
-    type?: true
     name?: true
+    category?: true
     url?: true
-    expiryDate?: true
-    status?: true
-    verifiedBy?: true
+    fileSize?: true
+    fileType?: true
+    uploadedById?: true
     uploadedAt?: true
+    updatedAt?: true
+    expiryDate?: true
+    notes?: true
+    tags?: true
+    status?: true
+    version?: true
+    isLatest?: true
+    parentDocId?: true
+    verifiedBy?: true
   }
 
   export type UserDocumentMaxAggregateInputType = {
     id?: true
     userId?: true
-    type?: true
     name?: true
+    category?: true
     url?: true
-    expiryDate?: true
-    status?: true
-    verifiedBy?: true
+    fileSize?: true
+    fileType?: true
+    uploadedById?: true
     uploadedAt?: true
+    updatedAt?: true
+    expiryDate?: true
+    notes?: true
+    tags?: true
+    status?: true
+    version?: true
+    isLatest?: true
+    parentDocId?: true
+    verifiedBy?: true
   }
 
   export type UserDocumentCountAggregateInputType = {
     id?: true
     userId?: true
-    type?: true
     name?: true
+    category?: true
     url?: true
-    expiryDate?: true
-    status?: true
-    verifiedBy?: true
+    fileSize?: true
+    fileType?: true
+    uploadedById?: true
     uploadedAt?: true
+    updatedAt?: true
+    expiryDate?: true
+    notes?: true
+    tags?: true
+    status?: true
+    version?: true
+    isLatest?: true
+    parentDocId?: true
+    verifiedBy?: true
     _all?: true
   }
 
@@ -43153,6 +45239,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserDocumentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserDocumentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserDocumentMinAggregateInputType
@@ -43183,6 +45281,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserDocumentCountAggregateInputType | true
+    _avg?: UserDocumentAvgAggregateInputType
+    _sum?: UserDocumentSumAggregateInputType
     _min?: UserDocumentMinAggregateInputType
     _max?: UserDocumentMaxAggregateInputType
   }
@@ -43190,14 +45290,25 @@ export namespace Prisma {
   export type UserDocumentGroupByOutputType = {
     id: string
     userId: string
-    type: string
     name: string
+    category: string
     url: string
-    expiryDate: Date | null
-    status: string
-    verifiedBy: string | null
+    fileSize: number | null
+    fileType: string | null
+    uploadedById: string | null
     uploadedAt: Date
+    updatedAt: Date
+    expiryDate: Date | null
+    notes: string | null
+    tags: string | null
+    status: string
+    version: number
+    isLatest: boolean
+    parentDocId: string | null
+    verifiedBy: string | null
     _count: UserDocumentCountAggregateOutputType | null
+    _avg: UserDocumentAvgAggregateOutputType | null
+    _sum: UserDocumentSumAggregateOutputType | null
     _min: UserDocumentMinAggregateOutputType | null
     _max: UserDocumentMaxAggregateOutputType | null
   }
@@ -43219,80 +45330,132 @@ export namespace Prisma {
   export type UserDocumentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    type?: boolean
     name?: boolean
+    category?: boolean
     url?: boolean
-    expiryDate?: boolean
-    status?: boolean
-    verifiedBy?: boolean
+    fileSize?: boolean
+    fileType?: boolean
+    uploadedById?: boolean
     uploadedAt?: boolean
+    updatedAt?: boolean
+    expiryDate?: boolean
+    notes?: boolean
+    tags?: boolean
+    status?: boolean
+    version?: boolean
+    isLatest?: boolean
+    parentDocId?: boolean
+    verifiedBy?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    uploader?: boolean | UserDocument$uploaderArgs<ExtArgs>
   }, ExtArgs["result"]["userDocument"]>
 
   export type UserDocumentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    type?: boolean
     name?: boolean
+    category?: boolean
     url?: boolean
-    expiryDate?: boolean
-    status?: boolean
-    verifiedBy?: boolean
+    fileSize?: boolean
+    fileType?: boolean
+    uploadedById?: boolean
     uploadedAt?: boolean
+    updatedAt?: boolean
+    expiryDate?: boolean
+    notes?: boolean
+    tags?: boolean
+    status?: boolean
+    version?: boolean
+    isLatest?: boolean
+    parentDocId?: boolean
+    verifiedBy?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    uploader?: boolean | UserDocument$uploaderArgs<ExtArgs>
   }, ExtArgs["result"]["userDocument"]>
 
   export type UserDocumentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    type?: boolean
     name?: boolean
+    category?: boolean
     url?: boolean
-    expiryDate?: boolean
-    status?: boolean
-    verifiedBy?: boolean
+    fileSize?: boolean
+    fileType?: boolean
+    uploadedById?: boolean
     uploadedAt?: boolean
+    updatedAt?: boolean
+    expiryDate?: boolean
+    notes?: boolean
+    tags?: boolean
+    status?: boolean
+    version?: boolean
+    isLatest?: boolean
+    parentDocId?: boolean
+    verifiedBy?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    uploader?: boolean | UserDocument$uploaderArgs<ExtArgs>
   }, ExtArgs["result"]["userDocument"]>
 
   export type UserDocumentSelectScalar = {
     id?: boolean
     userId?: boolean
-    type?: boolean
     name?: boolean
+    category?: boolean
     url?: boolean
-    expiryDate?: boolean
-    status?: boolean
-    verifiedBy?: boolean
+    fileSize?: boolean
+    fileType?: boolean
+    uploadedById?: boolean
     uploadedAt?: boolean
+    updatedAt?: boolean
+    expiryDate?: boolean
+    notes?: boolean
+    tags?: boolean
+    status?: boolean
+    version?: boolean
+    isLatest?: boolean
+    parentDocId?: boolean
+    verifiedBy?: boolean
   }
 
-  export type UserDocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "name" | "url" | "expiryDate" | "status" | "verifiedBy" | "uploadedAt", ExtArgs["result"]["userDocument"]>
+  export type UserDocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "category" | "url" | "fileSize" | "fileType" | "uploadedById" | "uploadedAt" | "updatedAt" | "expiryDate" | "notes" | "tags" | "status" | "version" | "isLatest" | "parentDocId" | "verifiedBy", ExtArgs["result"]["userDocument"]>
   export type UserDocumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    uploader?: boolean | UserDocument$uploaderArgs<ExtArgs>
   }
   export type UserDocumentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    uploader?: boolean | UserDocument$uploaderArgs<ExtArgs>
   }
   export type UserDocumentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    uploader?: boolean | UserDocument$uploaderArgs<ExtArgs>
   }
 
   export type $UserDocumentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "UserDocument"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      uploader: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
-      type: string
       name: string
+      category: string
       url: string
-      expiryDate: Date | null
-      status: string
-      verifiedBy: string | null
+      fileSize: number | null
+      fileType: string | null
+      uploadedById: string | null
       uploadedAt: Date
+      updatedAt: Date
+      expiryDate: Date | null
+      notes: string | null
+      tags: string | null
+      status: string
+      version: number
+      isLatest: boolean
+      parentDocId: string | null
+      verifiedBy: string | null
     }, ExtArgs["result"]["userDocument"]>
     composites: {}
   }
@@ -43688,6 +45851,7 @@ export namespace Prisma {
   export interface Prisma__UserDocumentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    uploader<T extends UserDocument$uploaderArgs<ExtArgs> = {}>(args?: Subset<T, UserDocument$uploaderArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -43719,13 +45883,22 @@ export namespace Prisma {
   interface UserDocumentFieldRefs {
     readonly id: FieldRef<"UserDocument", 'String'>
     readonly userId: FieldRef<"UserDocument", 'String'>
-    readonly type: FieldRef<"UserDocument", 'String'>
     readonly name: FieldRef<"UserDocument", 'String'>
+    readonly category: FieldRef<"UserDocument", 'String'>
     readonly url: FieldRef<"UserDocument", 'String'>
-    readonly expiryDate: FieldRef<"UserDocument", 'DateTime'>
-    readonly status: FieldRef<"UserDocument", 'String'>
-    readonly verifiedBy: FieldRef<"UserDocument", 'String'>
+    readonly fileSize: FieldRef<"UserDocument", 'Int'>
+    readonly fileType: FieldRef<"UserDocument", 'String'>
+    readonly uploadedById: FieldRef<"UserDocument", 'String'>
     readonly uploadedAt: FieldRef<"UserDocument", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserDocument", 'DateTime'>
+    readonly expiryDate: FieldRef<"UserDocument", 'DateTime'>
+    readonly notes: FieldRef<"UserDocument", 'String'>
+    readonly tags: FieldRef<"UserDocument", 'String'>
+    readonly status: FieldRef<"UserDocument", 'String'>
+    readonly version: FieldRef<"UserDocument", 'Int'>
+    readonly isLatest: FieldRef<"UserDocument", 'Boolean'>
+    readonly parentDocId: FieldRef<"UserDocument", 'String'>
+    readonly verifiedBy: FieldRef<"UserDocument", 'String'>
   }
     
 
@@ -44119,6 +46292,25 @@ export namespace Prisma {
      * Limit how many UserDocuments to delete.
      */
     limit?: number
+  }
+
+  /**
+   * UserDocument.uploader
+   */
+  export type UserDocument$uploaderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -49695,12 +51887,14 @@ export namespace Prisma {
   export type TaskMinAggregateOutputType = {
     id: string | null
     userId: string | null
+    creatorId: string | null
     title: string | null
     description: string | null
     project: string | null
     status: string | null
     priority: string | null
     dueDate: Date | null
+    completionComment: string | null
     companyId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -49709,12 +51903,14 @@ export namespace Prisma {
   export type TaskMaxAggregateOutputType = {
     id: string | null
     userId: string | null
+    creatorId: string | null
     title: string | null
     description: string | null
     project: string | null
     status: string | null
     priority: string | null
     dueDate: Date | null
+    completionComment: string | null
     companyId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -49723,12 +51919,14 @@ export namespace Prisma {
   export type TaskCountAggregateOutputType = {
     id: number
     userId: number
+    creatorId: number
     title: number
     description: number
     project: number
     status: number
     priority: number
     dueDate: number
+    completionComment: number
     companyId: number
     createdAt: number
     updatedAt: number
@@ -49739,12 +51937,14 @@ export namespace Prisma {
   export type TaskMinAggregateInputType = {
     id?: true
     userId?: true
+    creatorId?: true
     title?: true
     description?: true
     project?: true
     status?: true
     priority?: true
     dueDate?: true
+    completionComment?: true
     companyId?: true
     createdAt?: true
     updatedAt?: true
@@ -49753,12 +51953,14 @@ export namespace Prisma {
   export type TaskMaxAggregateInputType = {
     id?: true
     userId?: true
+    creatorId?: true
     title?: true
     description?: true
     project?: true
     status?: true
     priority?: true
     dueDate?: true
+    completionComment?: true
     companyId?: true
     createdAt?: true
     updatedAt?: true
@@ -49767,12 +51969,14 @@ export namespace Prisma {
   export type TaskCountAggregateInputType = {
     id?: true
     userId?: true
+    creatorId?: true
     title?: true
     description?: true
     project?: true
     status?: true
     priority?: true
     dueDate?: true
+    completionComment?: true
     companyId?: true
     createdAt?: true
     updatedAt?: true
@@ -49854,12 +52058,14 @@ export namespace Prisma {
   export type TaskGroupByOutputType = {
     id: string
     userId: string | null
+    creatorId: string | null
     title: string
     description: string | null
     project: string | null
     status: string
     priority: string
     dueDate: Date | null
+    completionComment: string | null
     companyId: string | null
     createdAt: Date
     updatedAt: Date
@@ -49885,17 +52091,20 @@ export namespace Prisma {
   export type TaskSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    creatorId?: boolean
     title?: boolean
     description?: boolean
     project?: boolean
     status?: boolean
     priority?: boolean
     dueDate?: boolean
+    completionComment?: boolean
     companyId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | Task$companyArgs<ExtArgs>
     user?: boolean | Task$userArgs<ExtArgs>
+    creator?: boolean | Task$creatorArgs<ExtArgs>
     entries?: boolean | Task$entriesArgs<ExtArgs>
     _count?: boolean | TaskCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
@@ -49903,63 +52112,74 @@ export namespace Prisma {
   export type TaskSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    creatorId?: boolean
     title?: boolean
     description?: boolean
     project?: boolean
     status?: boolean
     priority?: boolean
     dueDate?: boolean
+    completionComment?: boolean
     companyId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | Task$companyArgs<ExtArgs>
     user?: boolean | Task$userArgs<ExtArgs>
+    creator?: boolean | Task$creatorArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    creatorId?: boolean
     title?: boolean
     description?: boolean
     project?: boolean
     status?: boolean
     priority?: boolean
     dueDate?: boolean
+    completionComment?: boolean
     companyId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | Task$companyArgs<ExtArgs>
     user?: boolean | Task$userArgs<ExtArgs>
+    creator?: boolean | Task$creatorArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectScalar = {
     id?: boolean
     userId?: boolean
+    creatorId?: boolean
     title?: boolean
     description?: boolean
     project?: boolean
     status?: boolean
     priority?: boolean
     dueDate?: boolean
+    completionComment?: boolean
     companyId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "description" | "project" | "status" | "priority" | "dueDate" | "companyId" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
+  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "creatorId" | "title" | "description" | "project" | "status" | "priority" | "dueDate" | "completionComment" | "companyId" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | Task$companyArgs<ExtArgs>
     user?: boolean | Task$userArgs<ExtArgs>
+    creator?: boolean | Task$creatorArgs<ExtArgs>
     entries?: boolean | Task$entriesArgs<ExtArgs>
     _count?: boolean | TaskCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | Task$companyArgs<ExtArgs>
     user?: boolean | Task$userArgs<ExtArgs>
+    creator?: boolean | Task$creatorArgs<ExtArgs>
   }
   export type TaskIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | Task$companyArgs<ExtArgs>
     user?: boolean | Task$userArgs<ExtArgs>
+    creator?: boolean | Task$creatorArgs<ExtArgs>
   }
 
   export type $TaskPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -49967,17 +52187,20 @@ export namespace Prisma {
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs> | null
       user: Prisma.$UserPayload<ExtArgs> | null
+      creator: Prisma.$UserPayload<ExtArgs> | null
       entries: Prisma.$TimesheetEntryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string | null
+      creatorId: string | null
       title: string
       description: string | null
       project: string | null
       status: string
       priority: string
       dueDate: Date | null
+      completionComment: string | null
       companyId: string | null
       createdAt: Date
       updatedAt: Date
@@ -50377,6 +52600,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends Task$companyArgs<ExtArgs> = {}>(args?: Subset<T, Task$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     user<T extends Task$userArgs<ExtArgs> = {}>(args?: Subset<T, Task$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    creator<T extends Task$creatorArgs<ExtArgs> = {}>(args?: Subset<T, Task$creatorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     entries<T extends Task$entriesArgs<ExtArgs> = {}>(args?: Subset<T, Task$entriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -50409,12 +52633,14 @@ export namespace Prisma {
   interface TaskFieldRefs {
     readonly id: FieldRef<"Task", 'String'>
     readonly userId: FieldRef<"Task", 'String'>
+    readonly creatorId: FieldRef<"Task", 'String'>
     readonly title: FieldRef<"Task", 'String'>
     readonly description: FieldRef<"Task", 'String'>
     readonly project: FieldRef<"Task", 'String'>
     readonly status: FieldRef<"Task", 'String'>
     readonly priority: FieldRef<"Task", 'String'>
     readonly dueDate: FieldRef<"Task", 'DateTime'>
+    readonly completionComment: FieldRef<"Task", 'String'>
     readonly companyId: FieldRef<"Task", 'String'>
     readonly createdAt: FieldRef<"Task", 'DateTime'>
     readonly updatedAt: FieldRef<"Task", 'DateTime'>
@@ -50836,6 +53062,25 @@ export namespace Prisma {
    * Task.user
    */
   export type Task$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Task.creator
+   */
+  export type Task$creatorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the User
      */
@@ -56280,6 +58525,2250 @@ export namespace Prisma {
 
 
   /**
+   * Model Branch
+   */
+
+  export type AggregateBranch = {
+    _count: BranchCountAggregateOutputType | null
+    _min: BranchMinAggregateOutputType | null
+    _max: BranchMaxAggregateOutputType | null
+  }
+
+  export type BranchMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    companyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BranchMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    companyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BranchCountAggregateOutputType = {
+    id: number
+    name: number
+    companyId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BranchMinAggregateInputType = {
+    id?: true
+    name?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BranchMaxAggregateInputType = {
+    id?: true
+    name?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BranchCountAggregateInputType = {
+    id?: true
+    name?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BranchAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Branch to aggregate.
+     */
+    where?: BranchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Branches to fetch.
+     */
+    orderBy?: BranchOrderByWithRelationInput | BranchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BranchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Branches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Branches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Branches
+    **/
+    _count?: true | BranchCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BranchMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BranchMaxAggregateInputType
+  }
+
+  export type GetBranchAggregateType<T extends BranchAggregateArgs> = {
+        [P in keyof T & keyof AggregateBranch]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBranch[P]>
+      : GetScalarType<T[P], AggregateBranch[P]>
+  }
+
+
+
+
+  export type BranchGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BranchWhereInput
+    orderBy?: BranchOrderByWithAggregationInput | BranchOrderByWithAggregationInput[]
+    by: BranchScalarFieldEnum[] | BranchScalarFieldEnum
+    having?: BranchScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BranchCountAggregateInputType | true
+    _min?: BranchMinAggregateInputType
+    _max?: BranchMaxAggregateInputType
+  }
+
+  export type BranchGroupByOutputType = {
+    id: string
+    name: string
+    companyId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: BranchCountAggregateOutputType | null
+    _min: BranchMinAggregateOutputType | null
+    _max: BranchMaxAggregateOutputType | null
+  }
+
+  type GetBranchGroupByPayload<T extends BranchGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BranchGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BranchGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BranchGroupByOutputType[P]>
+            : GetScalarType<T[P], BranchGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BranchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    departments?: boolean | Branch$departmentsArgs<ExtArgs>
+    profiles?: boolean | Branch$profilesArgs<ExtArgs>
+    _count?: boolean | BranchCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["branch"]>
+
+  export type BranchSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["branch"]>
+
+  export type BranchSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["branch"]>
+
+  export type BranchSelectScalar = {
+    id?: boolean
+    name?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BranchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "companyId" | "createdAt" | "updatedAt", ExtArgs["result"]["branch"]>
+  export type BranchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    departments?: boolean | Branch$departmentsArgs<ExtArgs>
+    profiles?: boolean | Branch$profilesArgs<ExtArgs>
+    _count?: boolean | BranchCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BranchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type BranchIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $BranchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Branch"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      departments: Prisma.$DepartmentPayload<ExtArgs>[]
+      profiles: Prisma.$ProfilePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      companyId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["branch"]>
+    composites: {}
+  }
+
+  type BranchGetPayload<S extends boolean | null | undefined | BranchDefaultArgs> = $Result.GetResult<Prisma.$BranchPayload, S>
+
+  type BranchCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BranchFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BranchCountAggregateInputType | true
+    }
+
+  export interface BranchDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Branch'], meta: { name: 'Branch' } }
+    /**
+     * Find zero or one Branch that matches the filter.
+     * @param {BranchFindUniqueArgs} args - Arguments to find a Branch
+     * @example
+     * // Get one Branch
+     * const branch = await prisma.branch.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BranchFindUniqueArgs>(args: SelectSubset<T, BranchFindUniqueArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Branch that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BranchFindUniqueOrThrowArgs} args - Arguments to find a Branch
+     * @example
+     * // Get one Branch
+     * const branch = await prisma.branch.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BranchFindUniqueOrThrowArgs>(args: SelectSubset<T, BranchFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Branch that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchFindFirstArgs} args - Arguments to find a Branch
+     * @example
+     * // Get one Branch
+     * const branch = await prisma.branch.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BranchFindFirstArgs>(args?: SelectSubset<T, BranchFindFirstArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Branch that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchFindFirstOrThrowArgs} args - Arguments to find a Branch
+     * @example
+     * // Get one Branch
+     * const branch = await prisma.branch.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BranchFindFirstOrThrowArgs>(args?: SelectSubset<T, BranchFindFirstOrThrowArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Branches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Branches
+     * const branches = await prisma.branch.findMany()
+     * 
+     * // Get first 10 Branches
+     * const branches = await prisma.branch.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const branchWithIdOnly = await prisma.branch.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BranchFindManyArgs>(args?: SelectSubset<T, BranchFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Branch.
+     * @param {BranchCreateArgs} args - Arguments to create a Branch.
+     * @example
+     * // Create one Branch
+     * const Branch = await prisma.branch.create({
+     *   data: {
+     *     // ... data to create a Branch
+     *   }
+     * })
+     * 
+     */
+    create<T extends BranchCreateArgs>(args: SelectSubset<T, BranchCreateArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Branches.
+     * @param {BranchCreateManyArgs} args - Arguments to create many Branches.
+     * @example
+     * // Create many Branches
+     * const branch = await prisma.branch.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BranchCreateManyArgs>(args?: SelectSubset<T, BranchCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Branches and returns the data saved in the database.
+     * @param {BranchCreateManyAndReturnArgs} args - Arguments to create many Branches.
+     * @example
+     * // Create many Branches
+     * const branch = await prisma.branch.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Branches and only return the `id`
+     * const branchWithIdOnly = await prisma.branch.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BranchCreateManyAndReturnArgs>(args?: SelectSubset<T, BranchCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Branch.
+     * @param {BranchDeleteArgs} args - Arguments to delete one Branch.
+     * @example
+     * // Delete one Branch
+     * const Branch = await prisma.branch.delete({
+     *   where: {
+     *     // ... filter to delete one Branch
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BranchDeleteArgs>(args: SelectSubset<T, BranchDeleteArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Branch.
+     * @param {BranchUpdateArgs} args - Arguments to update one Branch.
+     * @example
+     * // Update one Branch
+     * const branch = await prisma.branch.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BranchUpdateArgs>(args: SelectSubset<T, BranchUpdateArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Branches.
+     * @param {BranchDeleteManyArgs} args - Arguments to filter Branches to delete.
+     * @example
+     * // Delete a few Branches
+     * const { count } = await prisma.branch.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BranchDeleteManyArgs>(args?: SelectSubset<T, BranchDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Branches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Branches
+     * const branch = await prisma.branch.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BranchUpdateManyArgs>(args: SelectSubset<T, BranchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Branches and returns the data updated in the database.
+     * @param {BranchUpdateManyAndReturnArgs} args - Arguments to update many Branches.
+     * @example
+     * // Update many Branches
+     * const branch = await prisma.branch.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Branches and only return the `id`
+     * const branchWithIdOnly = await prisma.branch.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BranchUpdateManyAndReturnArgs>(args: SelectSubset<T, BranchUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Branch.
+     * @param {BranchUpsertArgs} args - Arguments to update or create a Branch.
+     * @example
+     * // Update or create a Branch
+     * const branch = await prisma.branch.upsert({
+     *   create: {
+     *     // ... data to create a Branch
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Branch we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BranchUpsertArgs>(args: SelectSubset<T, BranchUpsertArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Branches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchCountArgs} args - Arguments to filter Branches to count.
+     * @example
+     * // Count the number of Branches
+     * const count = await prisma.branch.count({
+     *   where: {
+     *     // ... the filter for the Branches we want to count
+     *   }
+     * })
+    **/
+    count<T extends BranchCountArgs>(
+      args?: Subset<T, BranchCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BranchCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Branch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BranchAggregateArgs>(args: Subset<T, BranchAggregateArgs>): Prisma.PrismaPromise<GetBranchAggregateType<T>>
+
+    /**
+     * Group by Branch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BranchGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BranchGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BranchGroupByArgs['orderBy'] }
+        : { orderBy?: BranchGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BranchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBranchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Branch model
+   */
+  readonly fields: BranchFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Branch.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BranchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    departments<T extends Branch$departmentsArgs<ExtArgs> = {}>(args?: Subset<T, Branch$departmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    profiles<T extends Branch$profilesArgs<ExtArgs> = {}>(args?: Subset<T, Branch$profilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Branch model
+   */
+  interface BranchFieldRefs {
+    readonly id: FieldRef<"Branch", 'String'>
+    readonly name: FieldRef<"Branch", 'String'>
+    readonly companyId: FieldRef<"Branch", 'String'>
+    readonly createdAt: FieldRef<"Branch", 'DateTime'>
+    readonly updatedAt: FieldRef<"Branch", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Branch findUnique
+   */
+  export type BranchFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * Filter, which Branch to fetch.
+     */
+    where: BranchWhereUniqueInput
+  }
+
+  /**
+   * Branch findUniqueOrThrow
+   */
+  export type BranchFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * Filter, which Branch to fetch.
+     */
+    where: BranchWhereUniqueInput
+  }
+
+  /**
+   * Branch findFirst
+   */
+  export type BranchFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * Filter, which Branch to fetch.
+     */
+    where?: BranchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Branches to fetch.
+     */
+    orderBy?: BranchOrderByWithRelationInput | BranchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Branches.
+     */
+    cursor?: BranchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Branches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Branches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Branches.
+     */
+    distinct?: BranchScalarFieldEnum | BranchScalarFieldEnum[]
+  }
+
+  /**
+   * Branch findFirstOrThrow
+   */
+  export type BranchFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * Filter, which Branch to fetch.
+     */
+    where?: BranchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Branches to fetch.
+     */
+    orderBy?: BranchOrderByWithRelationInput | BranchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Branches.
+     */
+    cursor?: BranchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Branches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Branches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Branches.
+     */
+    distinct?: BranchScalarFieldEnum | BranchScalarFieldEnum[]
+  }
+
+  /**
+   * Branch findMany
+   */
+  export type BranchFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * Filter, which Branches to fetch.
+     */
+    where?: BranchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Branches to fetch.
+     */
+    orderBy?: BranchOrderByWithRelationInput | BranchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Branches.
+     */
+    cursor?: BranchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Branches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Branches.
+     */
+    skip?: number
+    distinct?: BranchScalarFieldEnum | BranchScalarFieldEnum[]
+  }
+
+  /**
+   * Branch create
+   */
+  export type BranchCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Branch.
+     */
+    data: XOR<BranchCreateInput, BranchUncheckedCreateInput>
+  }
+
+  /**
+   * Branch createMany
+   */
+  export type BranchCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Branches.
+     */
+    data: BranchCreateManyInput | BranchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Branch createManyAndReturn
+   */
+  export type BranchCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * The data used to create many Branches.
+     */
+    data: BranchCreateManyInput | BranchCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Branch update
+   */
+  export type BranchUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Branch.
+     */
+    data: XOR<BranchUpdateInput, BranchUncheckedUpdateInput>
+    /**
+     * Choose, which Branch to update.
+     */
+    where: BranchWhereUniqueInput
+  }
+
+  /**
+   * Branch updateMany
+   */
+  export type BranchUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Branches.
+     */
+    data: XOR<BranchUpdateManyMutationInput, BranchUncheckedUpdateManyInput>
+    /**
+     * Filter which Branches to update
+     */
+    where?: BranchWhereInput
+    /**
+     * Limit how many Branches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Branch updateManyAndReturn
+   */
+  export type BranchUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * The data used to update Branches.
+     */
+    data: XOR<BranchUpdateManyMutationInput, BranchUncheckedUpdateManyInput>
+    /**
+     * Filter which Branches to update
+     */
+    where?: BranchWhereInput
+    /**
+     * Limit how many Branches to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Branch upsert
+   */
+  export type BranchUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Branch to update in case it exists.
+     */
+    where: BranchWhereUniqueInput
+    /**
+     * In case the Branch found by the `where` argument doesn't exist, create a new Branch with this data.
+     */
+    create: XOR<BranchCreateInput, BranchUncheckedCreateInput>
+    /**
+     * In case the Branch was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BranchUpdateInput, BranchUncheckedUpdateInput>
+  }
+
+  /**
+   * Branch delete
+   */
+  export type BranchDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    /**
+     * Filter which Branch to delete.
+     */
+    where: BranchWhereUniqueInput
+  }
+
+  /**
+   * Branch deleteMany
+   */
+  export type BranchDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Branches to delete
+     */
+    where?: BranchWhereInput
+    /**
+     * Limit how many Branches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Branch.departments
+   */
+  export type Branch$departmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInclude<ExtArgs> | null
+    where?: DepartmentWhereInput
+    orderBy?: DepartmentOrderByWithRelationInput | DepartmentOrderByWithRelationInput[]
+    cursor?: DepartmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DepartmentScalarFieldEnum | DepartmentScalarFieldEnum[]
+  }
+
+  /**
+   * Branch.profiles
+   */
+  export type Branch$profilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Profile
+     */
+    select?: ProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Profile
+     */
+    omit?: ProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfileInclude<ExtArgs> | null
+    where?: ProfileWhereInput
+    orderBy?: ProfileOrderByWithRelationInput | ProfileOrderByWithRelationInput[]
+    cursor?: ProfileWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProfileScalarFieldEnum | ProfileScalarFieldEnum[]
+  }
+
+  /**
+   * Branch without action
+   */
+  export type BranchDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Department
+   */
+
+  export type AggregateDepartment = {
+    _count: DepartmentCountAggregateOutputType | null
+    _min: DepartmentMinAggregateOutputType | null
+    _max: DepartmentMaxAggregateOutputType | null
+  }
+
+  export type DepartmentMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    branchId: string | null
+    companyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DepartmentMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    branchId: string | null
+    companyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DepartmentCountAggregateOutputType = {
+    id: number
+    name: number
+    branchId: number
+    companyId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DepartmentMinAggregateInputType = {
+    id?: true
+    name?: true
+    branchId?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DepartmentMaxAggregateInputType = {
+    id?: true
+    name?: true
+    branchId?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DepartmentCountAggregateInputType = {
+    id?: true
+    name?: true
+    branchId?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DepartmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Department to aggregate.
+     */
+    where?: DepartmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Departments to fetch.
+     */
+    orderBy?: DepartmentOrderByWithRelationInput | DepartmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DepartmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Departments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Departments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Departments
+    **/
+    _count?: true | DepartmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DepartmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DepartmentMaxAggregateInputType
+  }
+
+  export type GetDepartmentAggregateType<T extends DepartmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateDepartment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDepartment[P]>
+      : GetScalarType<T[P], AggregateDepartment[P]>
+  }
+
+
+
+
+  export type DepartmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DepartmentWhereInput
+    orderBy?: DepartmentOrderByWithAggregationInput | DepartmentOrderByWithAggregationInput[]
+    by: DepartmentScalarFieldEnum[] | DepartmentScalarFieldEnum
+    having?: DepartmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DepartmentCountAggregateInputType | true
+    _min?: DepartmentMinAggregateInputType
+    _max?: DepartmentMaxAggregateInputType
+  }
+
+  export type DepartmentGroupByOutputType = {
+    id: string
+    name: string
+    branchId: string | null
+    companyId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: DepartmentCountAggregateOutputType | null
+    _min: DepartmentMinAggregateOutputType | null
+    _max: DepartmentMaxAggregateOutputType | null
+  }
+
+  type GetDepartmentGroupByPayload<T extends DepartmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DepartmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DepartmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DepartmentGroupByOutputType[P]>
+            : GetScalarType<T[P], DepartmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DepartmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    branchId?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    branch?: boolean | Department$branchArgs<ExtArgs>
+    profiles?: boolean | Department$profilesArgs<ExtArgs>
+    _count?: boolean | DepartmentCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["department"]>
+
+  export type DepartmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    branchId?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    branch?: boolean | Department$branchArgs<ExtArgs>
+  }, ExtArgs["result"]["department"]>
+
+  export type DepartmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    branchId?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    branch?: boolean | Department$branchArgs<ExtArgs>
+  }, ExtArgs["result"]["department"]>
+
+  export type DepartmentSelectScalar = {
+    id?: boolean
+    name?: boolean
+    branchId?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DepartmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "branchId" | "companyId" | "createdAt" | "updatedAt", ExtArgs["result"]["department"]>
+  export type DepartmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    branch?: boolean | Department$branchArgs<ExtArgs>
+    profiles?: boolean | Department$profilesArgs<ExtArgs>
+    _count?: boolean | DepartmentCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type DepartmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    branch?: boolean | Department$branchArgs<ExtArgs>
+  }
+  export type DepartmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    branch?: boolean | Department$branchArgs<ExtArgs>
+  }
+
+  export type $DepartmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Department"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      branch: Prisma.$BranchPayload<ExtArgs> | null
+      profiles: Prisma.$ProfilePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      branchId: string | null
+      companyId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["department"]>
+    composites: {}
+  }
+
+  type DepartmentGetPayload<S extends boolean | null | undefined | DepartmentDefaultArgs> = $Result.GetResult<Prisma.$DepartmentPayload, S>
+
+  type DepartmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DepartmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DepartmentCountAggregateInputType | true
+    }
+
+  export interface DepartmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Department'], meta: { name: 'Department' } }
+    /**
+     * Find zero or one Department that matches the filter.
+     * @param {DepartmentFindUniqueArgs} args - Arguments to find a Department
+     * @example
+     * // Get one Department
+     * const department = await prisma.department.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DepartmentFindUniqueArgs>(args: SelectSubset<T, DepartmentFindUniqueArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Department that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DepartmentFindUniqueOrThrowArgs} args - Arguments to find a Department
+     * @example
+     * // Get one Department
+     * const department = await prisma.department.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DepartmentFindUniqueOrThrowArgs>(args: SelectSubset<T, DepartmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Department that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentFindFirstArgs} args - Arguments to find a Department
+     * @example
+     * // Get one Department
+     * const department = await prisma.department.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DepartmentFindFirstArgs>(args?: SelectSubset<T, DepartmentFindFirstArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Department that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentFindFirstOrThrowArgs} args - Arguments to find a Department
+     * @example
+     * // Get one Department
+     * const department = await prisma.department.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DepartmentFindFirstOrThrowArgs>(args?: SelectSubset<T, DepartmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Departments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Departments
+     * const departments = await prisma.department.findMany()
+     * 
+     * // Get first 10 Departments
+     * const departments = await prisma.department.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const departmentWithIdOnly = await prisma.department.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DepartmentFindManyArgs>(args?: SelectSubset<T, DepartmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Department.
+     * @param {DepartmentCreateArgs} args - Arguments to create a Department.
+     * @example
+     * // Create one Department
+     * const Department = await prisma.department.create({
+     *   data: {
+     *     // ... data to create a Department
+     *   }
+     * })
+     * 
+     */
+    create<T extends DepartmentCreateArgs>(args: SelectSubset<T, DepartmentCreateArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Departments.
+     * @param {DepartmentCreateManyArgs} args - Arguments to create many Departments.
+     * @example
+     * // Create many Departments
+     * const department = await prisma.department.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DepartmentCreateManyArgs>(args?: SelectSubset<T, DepartmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Departments and returns the data saved in the database.
+     * @param {DepartmentCreateManyAndReturnArgs} args - Arguments to create many Departments.
+     * @example
+     * // Create many Departments
+     * const department = await prisma.department.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Departments and only return the `id`
+     * const departmentWithIdOnly = await prisma.department.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DepartmentCreateManyAndReturnArgs>(args?: SelectSubset<T, DepartmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Department.
+     * @param {DepartmentDeleteArgs} args - Arguments to delete one Department.
+     * @example
+     * // Delete one Department
+     * const Department = await prisma.department.delete({
+     *   where: {
+     *     // ... filter to delete one Department
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DepartmentDeleteArgs>(args: SelectSubset<T, DepartmentDeleteArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Department.
+     * @param {DepartmentUpdateArgs} args - Arguments to update one Department.
+     * @example
+     * // Update one Department
+     * const department = await prisma.department.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DepartmentUpdateArgs>(args: SelectSubset<T, DepartmentUpdateArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Departments.
+     * @param {DepartmentDeleteManyArgs} args - Arguments to filter Departments to delete.
+     * @example
+     * // Delete a few Departments
+     * const { count } = await prisma.department.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DepartmentDeleteManyArgs>(args?: SelectSubset<T, DepartmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Departments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Departments
+     * const department = await prisma.department.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DepartmentUpdateManyArgs>(args: SelectSubset<T, DepartmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Departments and returns the data updated in the database.
+     * @param {DepartmentUpdateManyAndReturnArgs} args - Arguments to update many Departments.
+     * @example
+     * // Update many Departments
+     * const department = await prisma.department.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Departments and only return the `id`
+     * const departmentWithIdOnly = await prisma.department.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DepartmentUpdateManyAndReturnArgs>(args: SelectSubset<T, DepartmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Department.
+     * @param {DepartmentUpsertArgs} args - Arguments to update or create a Department.
+     * @example
+     * // Update or create a Department
+     * const department = await prisma.department.upsert({
+     *   create: {
+     *     // ... data to create a Department
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Department we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DepartmentUpsertArgs>(args: SelectSubset<T, DepartmentUpsertArgs<ExtArgs>>): Prisma__DepartmentClient<$Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Departments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentCountArgs} args - Arguments to filter Departments to count.
+     * @example
+     * // Count the number of Departments
+     * const count = await prisma.department.count({
+     *   where: {
+     *     // ... the filter for the Departments we want to count
+     *   }
+     * })
+    **/
+    count<T extends DepartmentCountArgs>(
+      args?: Subset<T, DepartmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DepartmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Department.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DepartmentAggregateArgs>(args: Subset<T, DepartmentAggregateArgs>): Prisma.PrismaPromise<GetDepartmentAggregateType<T>>
+
+    /**
+     * Group by Department.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DepartmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DepartmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DepartmentGroupByArgs['orderBy'] }
+        : { orderBy?: DepartmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DepartmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDepartmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Department model
+   */
+  readonly fields: DepartmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Department.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DepartmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    branch<T extends Department$branchArgs<ExtArgs> = {}>(args?: Subset<T, Department$branchArgs<ExtArgs>>): Prisma__BranchClient<$Result.GetResult<Prisma.$BranchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    profiles<T extends Department$profilesArgs<ExtArgs> = {}>(args?: Subset<T, Department$profilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Department model
+   */
+  interface DepartmentFieldRefs {
+    readonly id: FieldRef<"Department", 'String'>
+    readonly name: FieldRef<"Department", 'String'>
+    readonly branchId: FieldRef<"Department", 'String'>
+    readonly companyId: FieldRef<"Department", 'String'>
+    readonly createdAt: FieldRef<"Department", 'DateTime'>
+    readonly updatedAt: FieldRef<"Department", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Department findUnique
+   */
+  export type DepartmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Department to fetch.
+     */
+    where: DepartmentWhereUniqueInput
+  }
+
+  /**
+   * Department findUniqueOrThrow
+   */
+  export type DepartmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Department to fetch.
+     */
+    where: DepartmentWhereUniqueInput
+  }
+
+  /**
+   * Department findFirst
+   */
+  export type DepartmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Department to fetch.
+     */
+    where?: DepartmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Departments to fetch.
+     */
+    orderBy?: DepartmentOrderByWithRelationInput | DepartmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Departments.
+     */
+    cursor?: DepartmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Departments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Departments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Departments.
+     */
+    distinct?: DepartmentScalarFieldEnum | DepartmentScalarFieldEnum[]
+  }
+
+  /**
+   * Department findFirstOrThrow
+   */
+  export type DepartmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Department to fetch.
+     */
+    where?: DepartmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Departments to fetch.
+     */
+    orderBy?: DepartmentOrderByWithRelationInput | DepartmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Departments.
+     */
+    cursor?: DepartmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Departments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Departments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Departments.
+     */
+    distinct?: DepartmentScalarFieldEnum | DepartmentScalarFieldEnum[]
+  }
+
+  /**
+   * Department findMany
+   */
+  export type DepartmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Departments to fetch.
+     */
+    where?: DepartmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Departments to fetch.
+     */
+    orderBy?: DepartmentOrderByWithRelationInput | DepartmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Departments.
+     */
+    cursor?: DepartmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Departments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Departments.
+     */
+    skip?: number
+    distinct?: DepartmentScalarFieldEnum | DepartmentScalarFieldEnum[]
+  }
+
+  /**
+   * Department create
+   */
+  export type DepartmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Department.
+     */
+    data: XOR<DepartmentCreateInput, DepartmentUncheckedCreateInput>
+  }
+
+  /**
+   * Department createMany
+   */
+  export type DepartmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Departments.
+     */
+    data: DepartmentCreateManyInput | DepartmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Department createManyAndReturn
+   */
+  export type DepartmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Departments.
+     */
+    data: DepartmentCreateManyInput | DepartmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Department update
+   */
+  export type DepartmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Department.
+     */
+    data: XOR<DepartmentUpdateInput, DepartmentUncheckedUpdateInput>
+    /**
+     * Choose, which Department to update.
+     */
+    where: DepartmentWhereUniqueInput
+  }
+
+  /**
+   * Department updateMany
+   */
+  export type DepartmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Departments.
+     */
+    data: XOR<DepartmentUpdateManyMutationInput, DepartmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Departments to update
+     */
+    where?: DepartmentWhereInput
+    /**
+     * Limit how many Departments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Department updateManyAndReturn
+   */
+  export type DepartmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * The data used to update Departments.
+     */
+    data: XOR<DepartmentUpdateManyMutationInput, DepartmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Departments to update
+     */
+    where?: DepartmentWhereInput
+    /**
+     * Limit how many Departments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Department upsert
+   */
+  export type DepartmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Department to update in case it exists.
+     */
+    where: DepartmentWhereUniqueInput
+    /**
+     * In case the Department found by the `where` argument doesn't exist, create a new Department with this data.
+     */
+    create: XOR<DepartmentCreateInput, DepartmentUncheckedCreateInput>
+    /**
+     * In case the Department was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DepartmentUpdateInput, DepartmentUncheckedUpdateInput>
+  }
+
+  /**
+   * Department delete
+   */
+  export type DepartmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInclude<ExtArgs> | null
+    /**
+     * Filter which Department to delete.
+     */
+    where: DepartmentWhereUniqueInput
+  }
+
+  /**
+   * Department deleteMany
+   */
+  export type DepartmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Departments to delete
+     */
+    where?: DepartmentWhereInput
+    /**
+     * Limit how many Departments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Department.branch
+   */
+  export type Department$branchArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Branch
+     */
+    select?: BranchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Branch
+     */
+    omit?: BranchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BranchInclude<ExtArgs> | null
+    where?: BranchWhereInput
+  }
+
+  /**
+   * Department.profiles
+   */
+  export type Department$profilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Profile
+     */
+    select?: ProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Profile
+     */
+    omit?: ProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfileInclude<ExtArgs> | null
+    where?: ProfileWhereInput
+    orderBy?: ProfileOrderByWithRelationInput | ProfileOrderByWithRelationInput[]
+    cursor?: ProfileWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProfileScalarFieldEnum | ProfileScalarFieldEnum[]
+  }
+
+  /**
+   * Department without action
+   */
+  export type DepartmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Department
+     */
+    select?: DepartmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Department
+     */
+    omit?: DepartmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DepartmentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -56379,6 +60868,8 @@ export namespace Prisma {
     emergencyContact: 'emergencyContact',
     designation: 'designation',
     department: 'department',
+    branchId: 'branchId',
+    departmentId: 'departmentId',
     employmentType: 'employmentType',
     dateOfJoining: 'dateOfJoining',
     dob: 'dob',
@@ -56386,9 +60877,23 @@ export namespace Prisma {
     bankName: 'bankName',
     accountNumber: 'accountNumber',
     ifscCode: 'ifscCode',
+    bankBranch: 'bankBranch',
+    bankAddress: 'bankAddress',
+    paymentMode: 'paymentMode',
     aadhaarNumber: 'aadhaarNumber',
     panNumber: 'panNumber',
     uanNumber: 'uanNumber',
+    nationality: 'nationality',
+    bloodGroup: 'bloodGroup',
+    gender: 'gender',
+    maritalStatus: 'maritalStatus',
+    presentAddress: 'presentAddress',
+    permanentAddress: 'permanentAddress',
+    emergencyContactName: 'emergencyContactName',
+    emergencyContactRelation: 'emergencyContactRelation',
+    emergencyContactPhone: 'emergencyContactPhone',
+    emergencyContactAlternate: 'emergencyContactAlternate',
+    emergencyContactAddress: 'emergencyContactAddress',
     profilePhoto: 'profilePhoto',
     profilePhotoSettings: 'profilePhotoSettings',
     companyId: 'companyId',
@@ -56556,6 +61061,7 @@ export namespace Prisma {
     startDate: 'startDate',
     endDate: 'endDate',
     days: 'days',
+    duration: 'duration',
     reason: 'reason',
     status: 'status',
     managerComment: 'managerComment',
@@ -56742,6 +61248,20 @@ export namespace Prisma {
   export type PerformanceReviewScalarFieldEnum = (typeof PerformanceReviewScalarFieldEnum)[keyof typeof PerformanceReviewScalarFieldEnum]
 
 
+  export const RecognitionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    giverId: 'giverId',
+    companyId: 'companyId',
+    category: 'category',
+    badge: 'badge',
+    message: 'message',
+    createdAt: 'createdAt'
+  };
+
+  export type RecognitionScalarFieldEnum = (typeof RecognitionScalarFieldEnum)[keyof typeof RecognitionScalarFieldEnum]
+
+
   export const JobPostingScalarFieldEnum: {
     id: 'id',
     title: 'title',
@@ -56825,13 +61345,22 @@ export namespace Prisma {
   export const UserDocumentScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
-    type: 'type',
     name: 'name',
+    category: 'category',
     url: 'url',
+    fileSize: 'fileSize',
+    fileType: 'fileType',
+    uploadedById: 'uploadedById',
+    uploadedAt: 'uploadedAt',
+    updatedAt: 'updatedAt',
     expiryDate: 'expiryDate',
+    notes: 'notes',
+    tags: 'tags',
     status: 'status',
-    verifiedBy: 'verifiedBy',
-    uploadedAt: 'uploadedAt'
+    version: 'version',
+    isLatest: 'isLatest',
+    parentDocId: 'parentDocId',
+    verifiedBy: 'verifiedBy'
   };
 
   export type UserDocumentScalarFieldEnum = (typeof UserDocumentScalarFieldEnum)[keyof typeof UserDocumentScalarFieldEnum]
@@ -56906,12 +61435,14 @@ export namespace Prisma {
   export const TaskScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    creatorId: 'creatorId',
     title: 'title',
     description: 'description',
     project: 'project',
     status: 'status',
     priority: 'priority',
     dueDate: 'dueDate',
+    completionComment: 'completionComment',
     companyId: 'companyId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -56985,6 +61516,29 @@ export namespace Prisma {
   };
 
   export type ModuleHealthScalarFieldEnum = (typeof ModuleHealthScalarFieldEnum)[keyof typeof ModuleHealthScalarFieldEnum]
+
+
+  export const BranchScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    companyId: 'companyId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BranchScalarFieldEnum = (typeof BranchScalarFieldEnum)[keyof typeof BranchScalarFieldEnum]
+
+
+  export const DepartmentScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    branchId: 'branchId',
+    companyId: 'companyId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DepartmentScalarFieldEnum = (typeof DepartmentScalarFieldEnum)[keyof typeof DepartmentScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -57113,6 +61667,8 @@ export namespace Prisma {
     logoThumbnailUrl?: StringNullableFilter<"Company"> | string | null
     faviconUrl?: StringNullableFilter<"Company"> | string | null
     assets?: AssetListRelationFilter
+    branches?: BranchListRelationFilter
+    departments?: DepartmentListRelationFilter
     attendancePolicy?: XOR<AttendancePolicyNullableScalarRelationFilter, AttendancePolicyWhereInput> | null
     expenseCategories?: ExpenseCategoryListRelationFilter
     holidays?: HolidayListRelationFilter
@@ -57124,6 +61680,7 @@ export namespace Prisma {
     tasks?: TaskListRelationFilter
     users?: UserListRelationFilter
     workLogs?: WorkLogListRelationFilter
+    recognitions?: RecognitionListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -57140,6 +61697,8 @@ export namespace Prisma {
     logoThumbnailUrl?: SortOrderInput | SortOrder
     faviconUrl?: SortOrderInput | SortOrder
     assets?: AssetOrderByRelationAggregateInput
+    branches?: BranchOrderByRelationAggregateInput
+    departments?: DepartmentOrderByRelationAggregateInput
     attendancePolicy?: AttendancePolicyOrderByWithRelationInput
     expenseCategories?: ExpenseCategoryOrderByRelationAggregateInput
     holidays?: HolidayOrderByRelationAggregateInput
@@ -57151,6 +61710,7 @@ export namespace Prisma {
     tasks?: TaskOrderByRelationAggregateInput
     users?: UserOrderByRelationAggregateInput
     workLogs?: WorkLogOrderByRelationAggregateInput
+    recognitions?: RecognitionOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -57170,6 +61730,8 @@ export namespace Prisma {
     logoThumbnailUrl?: StringNullableFilter<"Company"> | string | null
     faviconUrl?: StringNullableFilter<"Company"> | string | null
     assets?: AssetListRelationFilter
+    branches?: BranchListRelationFilter
+    departments?: DepartmentListRelationFilter
     attendancePolicy?: XOR<AttendancePolicyNullableScalarRelationFilter, AttendancePolicyWhereInput> | null
     expenseCategories?: ExpenseCategoryListRelationFilter
     holidays?: HolidayListRelationFilter
@@ -57181,6 +61743,7 @@ export namespace Prisma {
     tasks?: TaskListRelationFilter
     users?: UserListRelationFilter
     workLogs?: WorkLogListRelationFilter
+    recognitions?: RecognitionListRelationFilter
   }, "id" | "name" | "subdomain">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -57253,12 +61816,16 @@ export namespace Prisma {
     profile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null
     salary?: XOR<SalaryStructureNullableScalarRelationFilter, SalaryStructureWhereInput> | null
     tasks?: TaskListRelationFilter
+    createdTasks?: TaskListRelationFilter
+    recognitionsReceived?: RecognitionListRelationFilter
+    recognitionsGiven?: RecognitionListRelationFilter
     timesheets?: TimesheetListRelationFilter
     company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
     manager?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     subordinates?: UserListRelationFilter
     shift?: XOR<ShiftNullableScalarRelationFilter, ShiftWhereInput> | null
     documents?: UserDocumentListRelationFilter
+    uploadedDocs?: UserDocumentListRelationFilter
     policyOverride?: XOR<UserPolicyOverrideNullableScalarRelationFilter, UserPolicyOverrideWhereInput> | null
     workLogs?: WorkLogListRelationFilter
   }
@@ -57294,12 +61861,16 @@ export namespace Prisma {
     profile?: ProfileOrderByWithRelationInput
     salary?: SalaryStructureOrderByWithRelationInput
     tasks?: TaskOrderByRelationAggregateInput
+    createdTasks?: TaskOrderByRelationAggregateInput
+    recognitionsReceived?: RecognitionOrderByRelationAggregateInput
+    recognitionsGiven?: RecognitionOrderByRelationAggregateInput
     timesheets?: TimesheetOrderByRelationAggregateInput
     company?: CompanyOrderByWithRelationInput
     manager?: UserOrderByWithRelationInput
     subordinates?: UserOrderByRelationAggregateInput
     shift?: ShiftOrderByWithRelationInput
     documents?: UserDocumentOrderByRelationAggregateInput
+    uploadedDocs?: UserDocumentOrderByRelationAggregateInput
     policyOverride?: UserPolicyOverrideOrderByWithRelationInput
     workLogs?: WorkLogOrderByRelationAggregateInput
   }
@@ -57338,12 +61909,16 @@ export namespace Prisma {
     profile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null
     salary?: XOR<SalaryStructureNullableScalarRelationFilter, SalaryStructureWhereInput> | null
     tasks?: TaskListRelationFilter
+    createdTasks?: TaskListRelationFilter
+    recognitionsReceived?: RecognitionListRelationFilter
+    recognitionsGiven?: RecognitionListRelationFilter
     timesheets?: TimesheetListRelationFilter
     company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
     manager?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     subordinates?: UserListRelationFilter
     shift?: XOR<ShiftNullableScalarRelationFilter, ShiftWhereInput> | null
     documents?: UserDocumentListRelationFilter
+    uploadedDocs?: UserDocumentListRelationFilter
     policyOverride?: XOR<UserPolicyOverrideNullableScalarRelationFilter, UserPolicyOverrideWhereInput> | null
     workLogs?: WorkLogListRelationFilter
   }, "id" | "employeeId" | "email">
@@ -57604,6 +62179,8 @@ export namespace Prisma {
     emergencyContact?: StringNullableFilter<"Profile"> | string | null
     designation?: StringNullableFilter<"Profile"> | string | null
     department?: StringNullableFilter<"Profile"> | string | null
+    branchId?: StringNullableFilter<"Profile"> | string | null
+    departmentId?: StringNullableFilter<"Profile"> | string | null
     employmentType?: StringFilter<"Profile"> | string
     dateOfJoining?: DateTimeNullableFilter<"Profile"> | Date | string | null
     dob?: DateTimeNullableFilter<"Profile"> | Date | string | null
@@ -57611,9 +62188,23 @@ export namespace Prisma {
     bankName?: StringNullableFilter<"Profile"> | string | null
     accountNumber?: StringNullableFilter<"Profile"> | string | null
     ifscCode?: StringNullableFilter<"Profile"> | string | null
+    bankBranch?: StringNullableFilter<"Profile"> | string | null
+    bankAddress?: StringNullableFilter<"Profile"> | string | null
+    paymentMode?: StringNullableFilter<"Profile"> | string | null
     aadhaarNumber?: StringNullableFilter<"Profile"> | string | null
     panNumber?: StringNullableFilter<"Profile"> | string | null
     uanNumber?: StringNullableFilter<"Profile"> | string | null
+    nationality?: StringNullableFilter<"Profile"> | string | null
+    bloodGroup?: StringNullableFilter<"Profile"> | string | null
+    gender?: StringNullableFilter<"Profile"> | string | null
+    maritalStatus?: StringNullableFilter<"Profile"> | string | null
+    presentAddress?: StringNullableFilter<"Profile"> | string | null
+    permanentAddress?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactName?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactRelation?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactPhone?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactAlternate?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactAddress?: StringNullableFilter<"Profile"> | string | null
     profilePhoto?: StringNullableFilter<"Profile"> | string | null
     profilePhotoSettings?: StringNullableFilter<"Profile"> | string | null
     companyId?: StringNullableFilter<"Profile"> | string | null
@@ -57621,6 +62212,8 @@ export namespace Prisma {
     profilePhotoThumbnailUrl?: StringNullableFilter<"Profile"> | string | null
     company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    branch?: XOR<BranchNullableScalarRelationFilter, BranchWhereInput> | null
+    departmentRef?: XOR<DepartmentNullableScalarRelationFilter, DepartmentWhereInput> | null
   }
 
   export type ProfileOrderByWithRelationInput = {
@@ -57633,6 +62226,8 @@ export namespace Prisma {
     emergencyContact?: SortOrderInput | SortOrder
     designation?: SortOrderInput | SortOrder
     department?: SortOrderInput | SortOrder
+    branchId?: SortOrderInput | SortOrder
+    departmentId?: SortOrderInput | SortOrder
     employmentType?: SortOrder
     dateOfJoining?: SortOrderInput | SortOrder
     dob?: SortOrderInput | SortOrder
@@ -57640,9 +62235,23 @@ export namespace Prisma {
     bankName?: SortOrderInput | SortOrder
     accountNumber?: SortOrderInput | SortOrder
     ifscCode?: SortOrderInput | SortOrder
+    bankBranch?: SortOrderInput | SortOrder
+    bankAddress?: SortOrderInput | SortOrder
+    paymentMode?: SortOrderInput | SortOrder
     aadhaarNumber?: SortOrderInput | SortOrder
     panNumber?: SortOrderInput | SortOrder
     uanNumber?: SortOrderInput | SortOrder
+    nationality?: SortOrderInput | SortOrder
+    bloodGroup?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    maritalStatus?: SortOrderInput | SortOrder
+    presentAddress?: SortOrderInput | SortOrder
+    permanentAddress?: SortOrderInput | SortOrder
+    emergencyContactName?: SortOrderInput | SortOrder
+    emergencyContactRelation?: SortOrderInput | SortOrder
+    emergencyContactPhone?: SortOrderInput | SortOrder
+    emergencyContactAlternate?: SortOrderInput | SortOrder
+    emergencyContactAddress?: SortOrderInput | SortOrder
     profilePhoto?: SortOrderInput | SortOrder
     profilePhotoSettings?: SortOrderInput | SortOrder
     companyId?: SortOrderInput | SortOrder
@@ -57650,6 +62259,8 @@ export namespace Prisma {
     profilePhotoThumbnailUrl?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
+    branch?: BranchOrderByWithRelationInput
+    departmentRef?: DepartmentOrderByWithRelationInput
   }
 
   export type ProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -57665,6 +62276,8 @@ export namespace Prisma {
     emergencyContact?: StringNullableFilter<"Profile"> | string | null
     designation?: StringNullableFilter<"Profile"> | string | null
     department?: StringNullableFilter<"Profile"> | string | null
+    branchId?: StringNullableFilter<"Profile"> | string | null
+    departmentId?: StringNullableFilter<"Profile"> | string | null
     employmentType?: StringFilter<"Profile"> | string
     dateOfJoining?: DateTimeNullableFilter<"Profile"> | Date | string | null
     dob?: DateTimeNullableFilter<"Profile"> | Date | string | null
@@ -57672,9 +62285,23 @@ export namespace Prisma {
     bankName?: StringNullableFilter<"Profile"> | string | null
     accountNumber?: StringNullableFilter<"Profile"> | string | null
     ifscCode?: StringNullableFilter<"Profile"> | string | null
+    bankBranch?: StringNullableFilter<"Profile"> | string | null
+    bankAddress?: StringNullableFilter<"Profile"> | string | null
+    paymentMode?: StringNullableFilter<"Profile"> | string | null
     aadhaarNumber?: StringNullableFilter<"Profile"> | string | null
     panNumber?: StringNullableFilter<"Profile"> | string | null
     uanNumber?: StringNullableFilter<"Profile"> | string | null
+    nationality?: StringNullableFilter<"Profile"> | string | null
+    bloodGroup?: StringNullableFilter<"Profile"> | string | null
+    gender?: StringNullableFilter<"Profile"> | string | null
+    maritalStatus?: StringNullableFilter<"Profile"> | string | null
+    presentAddress?: StringNullableFilter<"Profile"> | string | null
+    permanentAddress?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactName?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactRelation?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactPhone?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactAlternate?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactAddress?: StringNullableFilter<"Profile"> | string | null
     profilePhoto?: StringNullableFilter<"Profile"> | string | null
     profilePhotoSettings?: StringNullableFilter<"Profile"> | string | null
     companyId?: StringNullableFilter<"Profile"> | string | null
@@ -57682,6 +62309,8 @@ export namespace Prisma {
     profilePhotoThumbnailUrl?: StringNullableFilter<"Profile"> | string | null
     company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    branch?: XOR<BranchNullableScalarRelationFilter, BranchWhereInput> | null
+    departmentRef?: XOR<DepartmentNullableScalarRelationFilter, DepartmentWhereInput> | null
   }, "id" | "userId">
 
   export type ProfileOrderByWithAggregationInput = {
@@ -57694,6 +62323,8 @@ export namespace Prisma {
     emergencyContact?: SortOrderInput | SortOrder
     designation?: SortOrderInput | SortOrder
     department?: SortOrderInput | SortOrder
+    branchId?: SortOrderInput | SortOrder
+    departmentId?: SortOrderInput | SortOrder
     employmentType?: SortOrder
     dateOfJoining?: SortOrderInput | SortOrder
     dob?: SortOrderInput | SortOrder
@@ -57701,9 +62332,23 @@ export namespace Prisma {
     bankName?: SortOrderInput | SortOrder
     accountNumber?: SortOrderInput | SortOrder
     ifscCode?: SortOrderInput | SortOrder
+    bankBranch?: SortOrderInput | SortOrder
+    bankAddress?: SortOrderInput | SortOrder
+    paymentMode?: SortOrderInput | SortOrder
     aadhaarNumber?: SortOrderInput | SortOrder
     panNumber?: SortOrderInput | SortOrder
     uanNumber?: SortOrderInput | SortOrder
+    nationality?: SortOrderInput | SortOrder
+    bloodGroup?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    maritalStatus?: SortOrderInput | SortOrder
+    presentAddress?: SortOrderInput | SortOrder
+    permanentAddress?: SortOrderInput | SortOrder
+    emergencyContactName?: SortOrderInput | SortOrder
+    emergencyContactRelation?: SortOrderInput | SortOrder
+    emergencyContactPhone?: SortOrderInput | SortOrder
+    emergencyContactAlternate?: SortOrderInput | SortOrder
+    emergencyContactAddress?: SortOrderInput | SortOrder
     profilePhoto?: SortOrderInput | SortOrder
     profilePhotoSettings?: SortOrderInput | SortOrder
     companyId?: SortOrderInput | SortOrder
@@ -57727,6 +62372,8 @@ export namespace Prisma {
     emergencyContact?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     designation?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     department?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    branchId?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    departmentId?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     employmentType?: StringWithAggregatesFilter<"Profile"> | string
     dateOfJoining?: DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
     dob?: DateTimeNullableWithAggregatesFilter<"Profile"> | Date | string | null
@@ -57734,9 +62381,23 @@ export namespace Prisma {
     bankName?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     accountNumber?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     ifscCode?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    bankBranch?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    bankAddress?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    paymentMode?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     aadhaarNumber?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     panNumber?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     uanNumber?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    nationality?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    bloodGroup?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    gender?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    maritalStatus?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    presentAddress?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    permanentAddress?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    emergencyContactName?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    emergencyContactRelation?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    emergencyContactPhone?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    emergencyContactAlternate?: StringNullableWithAggregatesFilter<"Profile"> | string | null
+    emergencyContactAddress?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     profilePhoto?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     profilePhotoSettings?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     companyId?: StringNullableWithAggregatesFilter<"Profile"> | string | null
@@ -58555,6 +63216,7 @@ export namespace Prisma {
     startDate?: DateTimeFilter<"LeaveRequest"> | Date | string
     endDate?: DateTimeFilter<"LeaveRequest"> | Date | string
     days?: FloatFilter<"LeaveRequest"> | number
+    duration?: StringFilter<"LeaveRequest"> | string
     reason?: StringFilter<"LeaveRequest"> | string
     status?: StringFilter<"LeaveRequest"> | string
     managerComment?: StringNullableFilter<"LeaveRequest"> | string | null
@@ -58570,6 +63232,7 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     days?: SortOrder
+    duration?: SortOrder
     reason?: SortOrder
     status?: SortOrder
     managerComment?: SortOrderInput | SortOrder
@@ -58588,6 +63251,7 @@ export namespace Prisma {
     startDate?: DateTimeFilter<"LeaveRequest"> | Date | string
     endDate?: DateTimeFilter<"LeaveRequest"> | Date | string
     days?: FloatFilter<"LeaveRequest"> | number
+    duration?: StringFilter<"LeaveRequest"> | string
     reason?: StringFilter<"LeaveRequest"> | string
     status?: StringFilter<"LeaveRequest"> | string
     managerComment?: StringNullableFilter<"LeaveRequest"> | string | null
@@ -58603,6 +63267,7 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     days?: SortOrder
+    duration?: SortOrder
     reason?: SortOrder
     status?: SortOrder
     managerComment?: SortOrderInput | SortOrder
@@ -58624,6 +63289,7 @@ export namespace Prisma {
     startDate?: DateTimeWithAggregatesFilter<"LeaveRequest"> | Date | string
     endDate?: DateTimeWithAggregatesFilter<"LeaveRequest"> | Date | string
     days?: FloatWithAggregatesFilter<"LeaveRequest"> | number
+    duration?: StringWithAggregatesFilter<"LeaveRequest"> | string
     reason?: StringWithAggregatesFilter<"LeaveRequest"> | string
     status?: StringWithAggregatesFilter<"LeaveRequest"> | string
     managerComment?: StringNullableWithAggregatesFilter<"LeaveRequest"> | string | null
@@ -59542,6 +64208,82 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"PerformanceReview"> | Date | string
   }
 
+  export type RecognitionWhereInput = {
+    AND?: RecognitionWhereInput | RecognitionWhereInput[]
+    OR?: RecognitionWhereInput[]
+    NOT?: RecognitionWhereInput | RecognitionWhereInput[]
+    id?: StringFilter<"Recognition"> | string
+    userId?: StringFilter<"Recognition"> | string
+    giverId?: StringFilter<"Recognition"> | string
+    companyId?: StringNullableFilter<"Recognition"> | string | null
+    category?: StringFilter<"Recognition"> | string
+    badge?: StringNullableFilter<"Recognition"> | string | null
+    message?: StringFilter<"Recognition"> | string
+    createdAt?: DateTimeFilter<"Recognition"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    giver?: XOR<UserScalarRelationFilter, UserWhereInput>
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+  }
+
+  export type RecognitionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    giverId?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    category?: SortOrder
+    badge?: SortOrderInput | SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    giver?: UserOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type RecognitionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RecognitionWhereInput | RecognitionWhereInput[]
+    OR?: RecognitionWhereInput[]
+    NOT?: RecognitionWhereInput | RecognitionWhereInput[]
+    userId?: StringFilter<"Recognition"> | string
+    giverId?: StringFilter<"Recognition"> | string
+    companyId?: StringNullableFilter<"Recognition"> | string | null
+    category?: StringFilter<"Recognition"> | string
+    badge?: StringNullableFilter<"Recognition"> | string | null
+    message?: StringFilter<"Recognition"> | string
+    createdAt?: DateTimeFilter<"Recognition"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    giver?: XOR<UserScalarRelationFilter, UserWhereInput>
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+  }, "id">
+
+  export type RecognitionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    giverId?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    category?: SortOrder
+    badge?: SortOrderInput | SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+    _count?: RecognitionCountOrderByAggregateInput
+    _max?: RecognitionMaxOrderByAggregateInput
+    _min?: RecognitionMinOrderByAggregateInput
+  }
+
+  export type RecognitionScalarWhereWithAggregatesInput = {
+    AND?: RecognitionScalarWhereWithAggregatesInput | RecognitionScalarWhereWithAggregatesInput[]
+    OR?: RecognitionScalarWhereWithAggregatesInput[]
+    NOT?: RecognitionScalarWhereWithAggregatesInput | RecognitionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Recognition"> | string
+    userId?: StringWithAggregatesFilter<"Recognition"> | string
+    giverId?: StringWithAggregatesFilter<"Recognition"> | string
+    companyId?: StringNullableWithAggregatesFilter<"Recognition"> | string | null
+    category?: StringWithAggregatesFilter<"Recognition"> | string
+    badge?: StringNullableWithAggregatesFilter<"Recognition"> | string | null
+    message?: StringWithAggregatesFilter<"Recognition"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Recognition"> | Date | string
+  }
+
   export type JobPostingWhereInput = {
     AND?: JobPostingWhereInput | JobPostingWhereInput[]
     OR?: JobPostingWhereInput[]
@@ -59965,27 +64707,47 @@ export namespace Prisma {
     NOT?: UserDocumentWhereInput | UserDocumentWhereInput[]
     id?: StringFilter<"UserDocument"> | string
     userId?: StringFilter<"UserDocument"> | string
-    type?: StringFilter<"UserDocument"> | string
     name?: StringFilter<"UserDocument"> | string
+    category?: StringFilter<"UserDocument"> | string
     url?: StringFilter<"UserDocument"> | string
-    expiryDate?: DateTimeNullableFilter<"UserDocument"> | Date | string | null
-    status?: StringFilter<"UserDocument"> | string
-    verifiedBy?: StringNullableFilter<"UserDocument"> | string | null
+    fileSize?: IntNullableFilter<"UserDocument"> | number | null
+    fileType?: StringNullableFilter<"UserDocument"> | string | null
+    uploadedById?: StringNullableFilter<"UserDocument"> | string | null
     uploadedAt?: DateTimeFilter<"UserDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"UserDocument"> | Date | string
+    expiryDate?: DateTimeNullableFilter<"UserDocument"> | Date | string | null
+    notes?: StringNullableFilter<"UserDocument"> | string | null
+    tags?: StringNullableFilter<"UserDocument"> | string | null
+    status?: StringFilter<"UserDocument"> | string
+    version?: IntFilter<"UserDocument"> | number
+    isLatest?: BoolFilter<"UserDocument"> | boolean
+    parentDocId?: StringNullableFilter<"UserDocument"> | string | null
+    verifiedBy?: StringNullableFilter<"UserDocument"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    uploader?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type UserDocumentOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
-    type?: SortOrder
     name?: SortOrder
+    category?: SortOrder
     url?: SortOrder
-    expiryDate?: SortOrderInput | SortOrder
-    status?: SortOrder
-    verifiedBy?: SortOrderInput | SortOrder
+    fileSize?: SortOrderInput | SortOrder
+    fileType?: SortOrderInput | SortOrder
+    uploadedById?: SortOrderInput | SortOrder
     uploadedAt?: SortOrder
+    updatedAt?: SortOrder
+    expiryDate?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    tags?: SortOrderInput | SortOrder
+    status?: SortOrder
+    version?: SortOrder
+    isLatest?: SortOrder
+    parentDocId?: SortOrderInput | SortOrder
+    verifiedBy?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
+    uploader?: UserOrderByWithRelationInput
   }
 
   export type UserDocumentWhereUniqueInput = Prisma.AtLeast<{
@@ -59994,29 +64756,50 @@ export namespace Prisma {
     OR?: UserDocumentWhereInput[]
     NOT?: UserDocumentWhereInput | UserDocumentWhereInput[]
     userId?: StringFilter<"UserDocument"> | string
-    type?: StringFilter<"UserDocument"> | string
     name?: StringFilter<"UserDocument"> | string
+    category?: StringFilter<"UserDocument"> | string
     url?: StringFilter<"UserDocument"> | string
-    expiryDate?: DateTimeNullableFilter<"UserDocument"> | Date | string | null
-    status?: StringFilter<"UserDocument"> | string
-    verifiedBy?: StringNullableFilter<"UserDocument"> | string | null
+    fileSize?: IntNullableFilter<"UserDocument"> | number | null
+    fileType?: StringNullableFilter<"UserDocument"> | string | null
+    uploadedById?: StringNullableFilter<"UserDocument"> | string | null
     uploadedAt?: DateTimeFilter<"UserDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"UserDocument"> | Date | string
+    expiryDate?: DateTimeNullableFilter<"UserDocument"> | Date | string | null
+    notes?: StringNullableFilter<"UserDocument"> | string | null
+    tags?: StringNullableFilter<"UserDocument"> | string | null
+    status?: StringFilter<"UserDocument"> | string
+    version?: IntFilter<"UserDocument"> | number
+    isLatest?: BoolFilter<"UserDocument"> | boolean
+    parentDocId?: StringNullableFilter<"UserDocument"> | string | null
+    verifiedBy?: StringNullableFilter<"UserDocument"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    uploader?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
 
   export type UserDocumentOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
-    type?: SortOrder
     name?: SortOrder
+    category?: SortOrder
     url?: SortOrder
-    expiryDate?: SortOrderInput | SortOrder
-    status?: SortOrder
-    verifiedBy?: SortOrderInput | SortOrder
+    fileSize?: SortOrderInput | SortOrder
+    fileType?: SortOrderInput | SortOrder
+    uploadedById?: SortOrderInput | SortOrder
     uploadedAt?: SortOrder
+    updatedAt?: SortOrder
+    expiryDate?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    tags?: SortOrderInput | SortOrder
+    status?: SortOrder
+    version?: SortOrder
+    isLatest?: SortOrder
+    parentDocId?: SortOrderInput | SortOrder
+    verifiedBy?: SortOrderInput | SortOrder
     _count?: UserDocumentCountOrderByAggregateInput
+    _avg?: UserDocumentAvgOrderByAggregateInput
     _max?: UserDocumentMaxOrderByAggregateInput
     _min?: UserDocumentMinOrderByAggregateInput
+    _sum?: UserDocumentSumOrderByAggregateInput
   }
 
   export type UserDocumentScalarWhereWithAggregatesInput = {
@@ -60025,13 +64808,22 @@ export namespace Prisma {
     NOT?: UserDocumentScalarWhereWithAggregatesInput | UserDocumentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"UserDocument"> | string
     userId?: StringWithAggregatesFilter<"UserDocument"> | string
-    type?: StringWithAggregatesFilter<"UserDocument"> | string
     name?: StringWithAggregatesFilter<"UserDocument"> | string
+    category?: StringWithAggregatesFilter<"UserDocument"> | string
     url?: StringWithAggregatesFilter<"UserDocument"> | string
-    expiryDate?: DateTimeNullableWithAggregatesFilter<"UserDocument"> | Date | string | null
-    status?: StringWithAggregatesFilter<"UserDocument"> | string
-    verifiedBy?: StringNullableWithAggregatesFilter<"UserDocument"> | string | null
+    fileSize?: IntNullableWithAggregatesFilter<"UserDocument"> | number | null
+    fileType?: StringNullableWithAggregatesFilter<"UserDocument"> | string | null
+    uploadedById?: StringNullableWithAggregatesFilter<"UserDocument"> | string | null
     uploadedAt?: DateTimeWithAggregatesFilter<"UserDocument"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserDocument"> | Date | string
+    expiryDate?: DateTimeNullableWithAggregatesFilter<"UserDocument"> | Date | string | null
+    notes?: StringNullableWithAggregatesFilter<"UserDocument"> | string | null
+    tags?: StringNullableWithAggregatesFilter<"UserDocument"> | string | null
+    status?: StringWithAggregatesFilter<"UserDocument"> | string
+    version?: IntWithAggregatesFilter<"UserDocument"> | number
+    isLatest?: BoolWithAggregatesFilter<"UserDocument"> | boolean
+    parentDocId?: StringNullableWithAggregatesFilter<"UserDocument"> | string | null
+    verifiedBy?: StringNullableWithAggregatesFilter<"UserDocument"> | string | null
   }
 
   export type NotificationWhereInput = {
@@ -60378,34 +65170,40 @@ export namespace Prisma {
     NOT?: TaskWhereInput | TaskWhereInput[]
     id?: StringFilter<"Task"> | string
     userId?: StringNullableFilter<"Task"> | string | null
+    creatorId?: StringNullableFilter<"Task"> | string | null
     title?: StringFilter<"Task"> | string
     description?: StringNullableFilter<"Task"> | string | null
     project?: StringNullableFilter<"Task"> | string | null
     status?: StringFilter<"Task"> | string
     priority?: StringFilter<"Task"> | string
     dueDate?: DateTimeNullableFilter<"Task"> | Date | string | null
+    completionComment?: StringNullableFilter<"Task"> | string | null
     companyId?: StringNullableFilter<"Task"> | string | null
     createdAt?: DateTimeFilter<"Task"> | Date | string
     updatedAt?: DateTimeFilter<"Task"> | Date | string
     company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    creator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     entries?: TimesheetEntryListRelationFilter
   }
 
   export type TaskOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
+    creatorId?: SortOrderInput | SortOrder
     title?: SortOrder
     description?: SortOrderInput | SortOrder
     project?: SortOrderInput | SortOrder
     status?: SortOrder
     priority?: SortOrder
     dueDate?: SortOrderInput | SortOrder
+    completionComment?: SortOrderInput | SortOrder
     companyId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
+    creator?: UserOrderByWithRelationInput
     entries?: TimesheetEntryOrderByRelationAggregateInput
   }
 
@@ -60415,29 +65213,34 @@ export namespace Prisma {
     OR?: TaskWhereInput[]
     NOT?: TaskWhereInput | TaskWhereInput[]
     userId?: StringNullableFilter<"Task"> | string | null
+    creatorId?: StringNullableFilter<"Task"> | string | null
     title?: StringFilter<"Task"> | string
     description?: StringNullableFilter<"Task"> | string | null
     project?: StringNullableFilter<"Task"> | string | null
     status?: StringFilter<"Task"> | string
     priority?: StringFilter<"Task"> | string
     dueDate?: DateTimeNullableFilter<"Task"> | Date | string | null
+    completionComment?: StringNullableFilter<"Task"> | string | null
     companyId?: StringNullableFilter<"Task"> | string | null
     createdAt?: DateTimeFilter<"Task"> | Date | string
     updatedAt?: DateTimeFilter<"Task"> | Date | string
     company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    creator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     entries?: TimesheetEntryListRelationFilter
   }, "id">
 
   export type TaskOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
+    creatorId?: SortOrderInput | SortOrder
     title?: SortOrder
     description?: SortOrderInput | SortOrder
     project?: SortOrderInput | SortOrder
     status?: SortOrder
     priority?: SortOrder
     dueDate?: SortOrderInput | SortOrder
+    completionComment?: SortOrderInput | SortOrder
     companyId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -60452,12 +65255,14 @@ export namespace Prisma {
     NOT?: TaskScalarWhereWithAggregatesInput | TaskScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Task"> | string
     userId?: StringNullableWithAggregatesFilter<"Task"> | string | null
+    creatorId?: StringNullableWithAggregatesFilter<"Task"> | string | null
     title?: StringWithAggregatesFilter<"Task"> | string
     description?: StringNullableWithAggregatesFilter<"Task"> | string | null
     project?: StringNullableWithAggregatesFilter<"Task"> | string | null
     status?: StringWithAggregatesFilter<"Task"> | string
     priority?: StringWithAggregatesFilter<"Task"> | string
     dueDate?: DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
+    completionComment?: StringNullableWithAggregatesFilter<"Task"> | string | null
     companyId?: StringNullableWithAggregatesFilter<"Task"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
@@ -60798,6 +65603,135 @@ export namespace Prisma {
     details?: StringNullableWithAggregatesFilter<"ModuleHealth"> | string | null
   }
 
+  export type BranchWhereInput = {
+    AND?: BranchWhereInput | BranchWhereInput[]
+    OR?: BranchWhereInput[]
+    NOT?: BranchWhereInput | BranchWhereInput[]
+    id?: StringFilter<"Branch"> | string
+    name?: StringFilter<"Branch"> | string
+    companyId?: StringFilter<"Branch"> | string
+    createdAt?: DateTimeFilter<"Branch"> | Date | string
+    updatedAt?: DateTimeFilter<"Branch"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    departments?: DepartmentListRelationFilter
+    profiles?: ProfileListRelationFilter
+  }
+
+  export type BranchOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    departments?: DepartmentOrderByRelationAggregateInput
+    profiles?: ProfileOrderByRelationAggregateInput
+  }
+
+  export type BranchWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name_companyId?: BranchNameCompanyIdCompoundUniqueInput
+    AND?: BranchWhereInput | BranchWhereInput[]
+    OR?: BranchWhereInput[]
+    NOT?: BranchWhereInput | BranchWhereInput[]
+    name?: StringFilter<"Branch"> | string
+    companyId?: StringFilter<"Branch"> | string
+    createdAt?: DateTimeFilter<"Branch"> | Date | string
+    updatedAt?: DateTimeFilter<"Branch"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    departments?: DepartmentListRelationFilter
+    profiles?: ProfileListRelationFilter
+  }, "id" | "name_companyId">
+
+  export type BranchOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BranchCountOrderByAggregateInput
+    _max?: BranchMaxOrderByAggregateInput
+    _min?: BranchMinOrderByAggregateInput
+  }
+
+  export type BranchScalarWhereWithAggregatesInput = {
+    AND?: BranchScalarWhereWithAggregatesInput | BranchScalarWhereWithAggregatesInput[]
+    OR?: BranchScalarWhereWithAggregatesInput[]
+    NOT?: BranchScalarWhereWithAggregatesInput | BranchScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Branch"> | string
+    name?: StringWithAggregatesFilter<"Branch"> | string
+    companyId?: StringWithAggregatesFilter<"Branch"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Branch"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Branch"> | Date | string
+  }
+
+  export type DepartmentWhereInput = {
+    AND?: DepartmentWhereInput | DepartmentWhereInput[]
+    OR?: DepartmentWhereInput[]
+    NOT?: DepartmentWhereInput | DepartmentWhereInput[]
+    id?: StringFilter<"Department"> | string
+    name?: StringFilter<"Department"> | string
+    branchId?: StringNullableFilter<"Department"> | string | null
+    companyId?: StringFilter<"Department"> | string
+    createdAt?: DateTimeFilter<"Department"> | Date | string
+    updatedAt?: DateTimeFilter<"Department"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    branch?: XOR<BranchNullableScalarRelationFilter, BranchWhereInput> | null
+    profiles?: ProfileListRelationFilter
+  }
+
+  export type DepartmentOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    branchId?: SortOrderInput | SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    branch?: BranchOrderByWithRelationInput
+    profiles?: ProfileOrderByRelationAggregateInput
+  }
+
+  export type DepartmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name_companyId?: DepartmentNameCompanyIdCompoundUniqueInput
+    AND?: DepartmentWhereInput | DepartmentWhereInput[]
+    OR?: DepartmentWhereInput[]
+    NOT?: DepartmentWhereInput | DepartmentWhereInput[]
+    name?: StringFilter<"Department"> | string
+    branchId?: StringNullableFilter<"Department"> | string | null
+    companyId?: StringFilter<"Department"> | string
+    createdAt?: DateTimeFilter<"Department"> | Date | string
+    updatedAt?: DateTimeFilter<"Department"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    branch?: XOR<BranchNullableScalarRelationFilter, BranchWhereInput> | null
+    profiles?: ProfileListRelationFilter
+  }, "id" | "name_companyId">
+
+  export type DepartmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    branchId?: SortOrderInput | SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DepartmentCountOrderByAggregateInput
+    _max?: DepartmentMaxOrderByAggregateInput
+    _min?: DepartmentMinOrderByAggregateInput
+  }
+
+  export type DepartmentScalarWhereWithAggregatesInput = {
+    AND?: DepartmentScalarWhereWithAggregatesInput | DepartmentScalarWhereWithAggregatesInput[]
+    OR?: DepartmentScalarWhereWithAggregatesInput[]
+    NOT?: DepartmentScalarWhereWithAggregatesInput | DepartmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Department"> | string
+    name?: StringWithAggregatesFilter<"Department"> | string
+    branchId?: StringNullableWithAggregatesFilter<"Department"> | string | null
+    companyId?: StringWithAggregatesFilter<"Department"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Department"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Department"> | Date | string
+  }
+
   export type CompanyCreateInput = {
     id?: string
     name: string
@@ -60812,6 +65746,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
     holidays?: HolidayCreateNestedManyWithoutCompanyInput
@@ -60823,6 +65759,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -60839,6 +65776,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
@@ -60850,6 +65789,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -60866,6 +65806,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUpdateManyWithoutCompanyNestedInput
@@ -60877,6 +65819,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -60893,6 +65836,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
@@ -60904,6 +65849,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -60979,12 +65925,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -61020,9 +65970,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -61055,12 +66009,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -61096,9 +66054,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -61401,15 +66363,31 @@ export namespace Prisma {
     bankName?: string | null
     accountNumber?: string | null
     ifscCode?: string | null
+    bankBranch?: string | null
+    bankAddress?: string | null
+    paymentMode?: string | null
     aadhaarNumber?: string | null
     panNumber?: string | null
     uanNumber?: string | null
+    nationality?: string | null
+    bloodGroup?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    presentAddress?: string | null
+    permanentAddress?: string | null
+    emergencyContactName?: string | null
+    emergencyContactRelation?: string | null
+    emergencyContactPhone?: string | null
+    emergencyContactAlternate?: string | null
+    emergencyContactAddress?: string | null
     profilePhoto?: string | null
     profilePhotoSettings?: string | null
     profilePhotoMediumUrl?: string | null
     profilePhotoThumbnailUrl?: string | null
     company?: CompanyCreateNestedOneWithoutProfilesInput
     user: UserCreateNestedOneWithoutProfileInput
+    branch?: BranchCreateNestedOneWithoutProfilesInput
+    departmentRef?: DepartmentCreateNestedOneWithoutProfilesInput
   }
 
   export type ProfileUncheckedCreateInput = {
@@ -61422,6 +66400,8 @@ export namespace Prisma {
     emergencyContact?: string | null
     designation?: string | null
     department?: string | null
+    branchId?: string | null
+    departmentId?: string | null
     employmentType?: string
     dateOfJoining?: Date | string | null
     dob?: Date | string | null
@@ -61429,9 +66409,23 @@ export namespace Prisma {
     bankName?: string | null
     accountNumber?: string | null
     ifscCode?: string | null
+    bankBranch?: string | null
+    bankAddress?: string | null
+    paymentMode?: string | null
     aadhaarNumber?: string | null
     panNumber?: string | null
     uanNumber?: string | null
+    nationality?: string | null
+    bloodGroup?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    presentAddress?: string | null
+    permanentAddress?: string | null
+    emergencyContactName?: string | null
+    emergencyContactRelation?: string | null
+    emergencyContactPhone?: string | null
+    emergencyContactAlternate?: string | null
+    emergencyContactAddress?: string | null
     profilePhoto?: string | null
     profilePhotoSettings?: string | null
     companyId?: string | null
@@ -61455,15 +66449,31 @@ export namespace Prisma {
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
     uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneWithoutProfilesNestedInput
     user?: UserUpdateOneRequiredWithoutProfileNestedInput
+    branch?: BranchUpdateOneWithoutProfilesNestedInput
+    departmentRef?: DepartmentUpdateOneWithoutProfilesNestedInput
   }
 
   export type ProfileUncheckedUpdateInput = {
@@ -61476,6 +66486,8 @@ export namespace Prisma {
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     department?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     employmentType?: StringFieldUpdateOperationsInput | string
     dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61483,9 +66495,23 @@ export namespace Prisma {
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
     uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -61503,6 +66529,8 @@ export namespace Prisma {
     emergencyContact?: string | null
     designation?: string | null
     department?: string | null
+    branchId?: string | null
+    departmentId?: string | null
     employmentType?: string
     dateOfJoining?: Date | string | null
     dob?: Date | string | null
@@ -61510,9 +66538,23 @@ export namespace Prisma {
     bankName?: string | null
     accountNumber?: string | null
     ifscCode?: string | null
+    bankBranch?: string | null
+    bankAddress?: string | null
+    paymentMode?: string | null
     aadhaarNumber?: string | null
     panNumber?: string | null
     uanNumber?: string | null
+    nationality?: string | null
+    bloodGroup?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    presentAddress?: string | null
+    permanentAddress?: string | null
+    emergencyContactName?: string | null
+    emergencyContactRelation?: string | null
+    emergencyContactPhone?: string | null
+    emergencyContactAlternate?: string | null
+    emergencyContactAddress?: string | null
     profilePhoto?: string | null
     profilePhotoSettings?: string | null
     companyId?: string | null
@@ -61536,9 +66578,23 @@ export namespace Prisma {
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
     uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -61555,6 +66611,8 @@ export namespace Prisma {
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     department?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     employmentType?: StringFieldUpdateOperationsInput | string
     dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61562,9 +66620,23 @@ export namespace Prisma {
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
     uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62454,6 +67526,7 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     days: number
+    duration?: string
     reason: string
     status?: string
     managerComment?: string | null
@@ -62469,6 +67542,7 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     days: number
+    duration?: string
     reason: string
     status?: string
     managerComment?: string | null
@@ -62480,6 +67554,7 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     days?: FloatFieldUpdateOperationsInput | number
+    duration?: StringFieldUpdateOperationsInput | string
     reason?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     managerComment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62495,6 +67570,7 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     days?: FloatFieldUpdateOperationsInput | number
+    duration?: StringFieldUpdateOperationsInput | string
     reason?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     managerComment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62508,6 +67584,7 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     days: number
+    duration?: string
     reason: string
     status?: string
     managerComment?: string | null
@@ -62519,6 +67596,7 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     days?: FloatFieldUpdateOperationsInput | number
+    duration?: StringFieldUpdateOperationsInput | string
     reason?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     managerComment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62532,6 +67610,7 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     days?: FloatFieldUpdateOperationsInput | number
+    duration?: StringFieldUpdateOperationsInput | string
     reason?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     managerComment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63576,6 +68655,80 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RecognitionCreateInput = {
+    id?: string
+    category?: string
+    badge?: string | null
+    message: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutRecognitionsReceivedInput
+    giver: UserCreateNestedOneWithoutRecognitionsGivenInput
+    company?: CompanyCreateNestedOneWithoutRecognitionsInput
+  }
+
+  export type RecognitionUncheckedCreateInput = {
+    id?: string
+    userId: string
+    giverId: string
+    companyId?: string | null
+    category?: string
+    badge?: string | null
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type RecognitionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    badge?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRecognitionsReceivedNestedInput
+    giver?: UserUpdateOneRequiredWithoutRecognitionsGivenNestedInput
+    company?: CompanyUpdateOneWithoutRecognitionsNestedInput
+  }
+
+  export type RecognitionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    giverId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    badge?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecognitionCreateManyInput = {
+    id?: string
+    userId: string
+    giverId: string
+    companyId?: string | null
+    category?: string
+    badge?: string | null
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type RecognitionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    badge?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecognitionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    giverId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    badge?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type JobPostingCreateInput = {
     id?: string
     title: string
@@ -64012,85 +69165,147 @@ export namespace Prisma {
 
   export type UserDocumentCreateInput = {
     id?: string
-    type: string
     name: string
+    category: string
     url: string
-    expiryDate?: Date | string | null
-    status?: string
-    verifiedBy?: string | null
+    fileSize?: number | null
+    fileType?: string | null
     uploadedAt?: Date | string
+    updatedAt?: Date | string
+    expiryDate?: Date | string | null
+    notes?: string | null
+    tags?: string | null
+    status?: string
+    version?: number
+    isLatest?: boolean
+    parentDocId?: string | null
+    verifiedBy?: string | null
     user: UserCreateNestedOneWithoutDocumentsInput
+    uploader?: UserCreateNestedOneWithoutUploadedDocsInput
   }
 
   export type UserDocumentUncheckedCreateInput = {
     id?: string
     userId: string
-    type: string
     name: string
+    category: string
     url: string
-    expiryDate?: Date | string | null
-    status?: string
-    verifiedBy?: string | null
+    fileSize?: number | null
+    fileType?: string | null
+    uploadedById?: string | null
     uploadedAt?: Date | string
+    updatedAt?: Date | string
+    expiryDate?: Date | string | null
+    notes?: string | null
+    tags?: string | null
+    status?: string
+    version?: number
+    isLatest?: boolean
+    parentDocId?: string | null
+    verifiedBy?: string | null
   }
 
   export type UserDocumentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
-    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    isLatest?: BoolFieldUpdateOperationsInput | boolean
+    parentDocId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutDocumentsNestedInput
+    uploader?: UserUpdateOneWithoutUploadedDocsNestedInput
   }
 
   export type UserDocumentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
-    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    isLatest?: BoolFieldUpdateOperationsInput | boolean
+    parentDocId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserDocumentCreateManyInput = {
     id?: string
     userId: string
-    type: string
     name: string
+    category: string
     url: string
-    expiryDate?: Date | string | null
-    status?: string
-    verifiedBy?: string | null
+    fileSize?: number | null
+    fileType?: string | null
+    uploadedById?: string | null
     uploadedAt?: Date | string
+    updatedAt?: Date | string
+    expiryDate?: Date | string | null
+    notes?: string | null
+    tags?: string | null
+    status?: string
+    version?: number
+    isLatest?: boolean
+    parentDocId?: string | null
+    verifiedBy?: string | null
   }
 
   export type UserDocumentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
-    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    isLatest?: BoolFieldUpdateOperationsInput | boolean
+    parentDocId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserDocumentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
-    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    isLatest?: BoolFieldUpdateOperationsInput | boolean
+    parentDocId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type NotificationCreateInput = {
@@ -64457,22 +69672,26 @@ export namespace Prisma {
     status?: string
     priority?: string
     dueDate?: Date | string | null
+    completionComment?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company?: CompanyCreateNestedOneWithoutTasksInput
     user?: UserCreateNestedOneWithoutTasksInput
+    creator?: UserCreateNestedOneWithoutCreatedTasksInput
     entries?: TimesheetEntryCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateInput = {
     id?: string
     userId?: string | null
+    creatorId?: string | null
     title: string
     description?: string | null
     project?: string | null
     status?: string
     priority?: string
     dueDate?: Date | string | null
+    completionComment?: string | null
     companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -64487,22 +69706,26 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     priority?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneWithoutTasksNestedInput
     user?: UserUpdateOneWithoutTasksNestedInput
+    creator?: UserUpdateOneWithoutCreatedTasksNestedInput
     entries?: TimesheetEntryUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     project?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priority?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -64512,12 +69735,14 @@ export namespace Prisma {
   export type TaskCreateManyInput = {
     id?: string
     userId?: string | null
+    creatorId?: string | null
     title: string
     description?: string | null
     project?: string | null
     status?: string
     priority?: string
     dueDate?: Date | string | null
+    completionComment?: string | null
     companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -64531,6 +69756,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     priority?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -64538,12 +69764,14 @@ export namespace Prisma {
   export type TaskUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     project?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priority?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -64909,6 +70137,134 @@ export namespace Prisma {
     details?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type BranchCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBranchesInput
+    departments?: DepartmentCreateNestedManyWithoutBranchInput
+    profiles?: ProfileCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchUncheckedCreateInput = {
+    id?: string
+    name: string
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    departments?: DepartmentUncheckedCreateNestedManyWithoutBranchInput
+    profiles?: ProfileUncheckedCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBranchesNestedInput
+    departments?: DepartmentUpdateManyWithoutBranchNestedInput
+    profiles?: ProfileUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    departments?: DepartmentUncheckedUpdateManyWithoutBranchNestedInput
+    profiles?: ProfileUncheckedUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchCreateManyInput = {
+    id?: string
+    name: string
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BranchUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BranchUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DepartmentCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutDepartmentsInput
+    branch?: BranchCreateNestedOneWithoutDepartmentsInput
+    profiles?: ProfileCreateNestedManyWithoutDepartmentRefInput
+  }
+
+  export type DepartmentUncheckedCreateInput = {
+    id?: string
+    name: string
+    branchId?: string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profiles?: ProfileUncheckedCreateNestedManyWithoutDepartmentRefInput
+  }
+
+  export type DepartmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutDepartmentsNestedInput
+    branch?: BranchUpdateOneWithoutDepartmentsNestedInput
+    profiles?: ProfileUpdateManyWithoutDepartmentRefNestedInput
+  }
+
+  export type DepartmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profiles?: ProfileUncheckedUpdateManyWithoutDepartmentRefNestedInput
+  }
+
+  export type DepartmentCreateManyInput = {
+    id?: string
+    name: string
+    branchId?: string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DepartmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DepartmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -64954,6 +70310,18 @@ export namespace Prisma {
     every?: AssetWhereInput
     some?: AssetWhereInput
     none?: AssetWhereInput
+  }
+
+  export type BranchListRelationFilter = {
+    every?: BranchWhereInput
+    some?: BranchWhereInput
+    none?: BranchWhereInput
+  }
+
+  export type DepartmentListRelationFilter = {
+    every?: DepartmentWhereInput
+    some?: DepartmentWhereInput
+    none?: DepartmentWhereInput
   }
 
   export type AttendancePolicyNullableScalarRelationFilter = {
@@ -65021,12 +70389,26 @@ export namespace Prisma {
     none?: WorkLogWhereInput
   }
 
+  export type RecognitionListRelationFilter = {
+    every?: RecognitionWhereInput
+    some?: RecognitionWhereInput
+    none?: RecognitionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type AssetOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BranchOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DepartmentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -65067,6 +70449,10 @@ export namespace Prisma {
   }
 
   export type WorkLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RecognitionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -65645,6 +71031,16 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type BranchNullableScalarRelationFilter = {
+    is?: BranchWhereInput | null
+    isNot?: BranchWhereInput | null
+  }
+
+  export type DepartmentNullableScalarRelationFilter = {
+    is?: DepartmentWhereInput | null
+    isNot?: DepartmentWhereInput | null
+  }
+
   export type ProfileCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -65655,6 +71051,8 @@ export namespace Prisma {
     emergencyContact?: SortOrder
     designation?: SortOrder
     department?: SortOrder
+    branchId?: SortOrder
+    departmentId?: SortOrder
     employmentType?: SortOrder
     dateOfJoining?: SortOrder
     dob?: SortOrder
@@ -65662,9 +71060,23 @@ export namespace Prisma {
     bankName?: SortOrder
     accountNumber?: SortOrder
     ifscCode?: SortOrder
+    bankBranch?: SortOrder
+    bankAddress?: SortOrder
+    paymentMode?: SortOrder
     aadhaarNumber?: SortOrder
     panNumber?: SortOrder
     uanNumber?: SortOrder
+    nationality?: SortOrder
+    bloodGroup?: SortOrder
+    gender?: SortOrder
+    maritalStatus?: SortOrder
+    presentAddress?: SortOrder
+    permanentAddress?: SortOrder
+    emergencyContactName?: SortOrder
+    emergencyContactRelation?: SortOrder
+    emergencyContactPhone?: SortOrder
+    emergencyContactAlternate?: SortOrder
+    emergencyContactAddress?: SortOrder
     profilePhoto?: SortOrder
     profilePhotoSettings?: SortOrder
     companyId?: SortOrder
@@ -65682,6 +71094,8 @@ export namespace Prisma {
     emergencyContact?: SortOrder
     designation?: SortOrder
     department?: SortOrder
+    branchId?: SortOrder
+    departmentId?: SortOrder
     employmentType?: SortOrder
     dateOfJoining?: SortOrder
     dob?: SortOrder
@@ -65689,9 +71103,23 @@ export namespace Prisma {
     bankName?: SortOrder
     accountNumber?: SortOrder
     ifscCode?: SortOrder
+    bankBranch?: SortOrder
+    bankAddress?: SortOrder
+    paymentMode?: SortOrder
     aadhaarNumber?: SortOrder
     panNumber?: SortOrder
     uanNumber?: SortOrder
+    nationality?: SortOrder
+    bloodGroup?: SortOrder
+    gender?: SortOrder
+    maritalStatus?: SortOrder
+    presentAddress?: SortOrder
+    permanentAddress?: SortOrder
+    emergencyContactName?: SortOrder
+    emergencyContactRelation?: SortOrder
+    emergencyContactPhone?: SortOrder
+    emergencyContactAlternate?: SortOrder
+    emergencyContactAddress?: SortOrder
     profilePhoto?: SortOrder
     profilePhotoSettings?: SortOrder
     companyId?: SortOrder
@@ -65709,6 +71137,8 @@ export namespace Prisma {
     emergencyContact?: SortOrder
     designation?: SortOrder
     department?: SortOrder
+    branchId?: SortOrder
+    departmentId?: SortOrder
     employmentType?: SortOrder
     dateOfJoining?: SortOrder
     dob?: SortOrder
@@ -65716,9 +71146,23 @@ export namespace Prisma {
     bankName?: SortOrder
     accountNumber?: SortOrder
     ifscCode?: SortOrder
+    bankBranch?: SortOrder
+    bankAddress?: SortOrder
+    paymentMode?: SortOrder
     aadhaarNumber?: SortOrder
     panNumber?: SortOrder
     uanNumber?: SortOrder
+    nationality?: SortOrder
+    bloodGroup?: SortOrder
+    gender?: SortOrder
+    maritalStatus?: SortOrder
+    presentAddress?: SortOrder
+    permanentAddress?: SortOrder
+    emergencyContactName?: SortOrder
+    emergencyContactRelation?: SortOrder
+    emergencyContactPhone?: SortOrder
+    emergencyContactAlternate?: SortOrder
+    emergencyContactAddress?: SortOrder
     profilePhoto?: SortOrder
     profilePhotoSettings?: SortOrder
     companyId?: SortOrder
@@ -66360,6 +71804,7 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     days?: SortOrder
+    duration?: SortOrder
     reason?: SortOrder
     status?: SortOrder
     managerComment?: SortOrder
@@ -66377,6 +71822,7 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     days?: SortOrder
+    duration?: SortOrder
     reason?: SortOrder
     status?: SortOrder
     managerComment?: SortOrder
@@ -66390,6 +71836,7 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     days?: SortOrder
+    duration?: SortOrder
     reason?: SortOrder
     status?: SortOrder
     managerComment?: SortOrder
@@ -66937,6 +72384,39 @@ export namespace Prisma {
     rating?: SortOrder
   }
 
+  export type RecognitionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    giverId?: SortOrder
+    companyId?: SortOrder
+    category?: SortOrder
+    badge?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RecognitionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    giverId?: SortOrder
+    companyId?: SortOrder
+    category?: SortOrder
+    badge?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RecognitionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    giverId?: SortOrder
+    companyId?: SortOrder
+    category?: SortOrder
+    badge?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type JobApplicationListRelationFilter = {
     every?: JobApplicationWhereInput
     some?: JobApplicationWhereInput
@@ -67167,37 +72647,74 @@ export namespace Prisma {
   export type UserDocumentCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    type?: SortOrder
     name?: SortOrder
+    category?: SortOrder
     url?: SortOrder
-    expiryDate?: SortOrder
-    status?: SortOrder
-    verifiedBy?: SortOrder
+    fileSize?: SortOrder
+    fileType?: SortOrder
+    uploadedById?: SortOrder
     uploadedAt?: SortOrder
+    updatedAt?: SortOrder
+    expiryDate?: SortOrder
+    notes?: SortOrder
+    tags?: SortOrder
+    status?: SortOrder
+    version?: SortOrder
+    isLatest?: SortOrder
+    parentDocId?: SortOrder
+    verifiedBy?: SortOrder
+  }
+
+  export type UserDocumentAvgOrderByAggregateInput = {
+    fileSize?: SortOrder
+    version?: SortOrder
   }
 
   export type UserDocumentMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    type?: SortOrder
     name?: SortOrder
+    category?: SortOrder
     url?: SortOrder
-    expiryDate?: SortOrder
-    status?: SortOrder
-    verifiedBy?: SortOrder
+    fileSize?: SortOrder
+    fileType?: SortOrder
+    uploadedById?: SortOrder
     uploadedAt?: SortOrder
+    updatedAt?: SortOrder
+    expiryDate?: SortOrder
+    notes?: SortOrder
+    tags?: SortOrder
+    status?: SortOrder
+    version?: SortOrder
+    isLatest?: SortOrder
+    parentDocId?: SortOrder
+    verifiedBy?: SortOrder
   }
 
   export type UserDocumentMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    type?: SortOrder
     name?: SortOrder
+    category?: SortOrder
     url?: SortOrder
-    expiryDate?: SortOrder
-    status?: SortOrder
-    verifiedBy?: SortOrder
+    fileSize?: SortOrder
+    fileType?: SortOrder
+    uploadedById?: SortOrder
     uploadedAt?: SortOrder
+    updatedAt?: SortOrder
+    expiryDate?: SortOrder
+    notes?: SortOrder
+    tags?: SortOrder
+    status?: SortOrder
+    version?: SortOrder
+    isLatest?: SortOrder
+    parentDocId?: SortOrder
+    verifiedBy?: SortOrder
+  }
+
+  export type UserDocumentSumOrderByAggregateInput = {
+    fileSize?: SortOrder
+    version?: SortOrder
   }
 
   export type NotificationCountOrderByAggregateInput = {
@@ -67411,12 +72928,14 @@ export namespace Prisma {
   export type TaskCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    creatorId?: SortOrder
     title?: SortOrder
     description?: SortOrder
     project?: SortOrder
     status?: SortOrder
     priority?: SortOrder
     dueDate?: SortOrder
+    completionComment?: SortOrder
     companyId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -67425,12 +72944,14 @@ export namespace Prisma {
   export type TaskMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    creatorId?: SortOrder
     title?: SortOrder
     description?: SortOrder
     project?: SortOrder
     status?: SortOrder
     priority?: SortOrder
     dueDate?: SortOrder
+    completionComment?: SortOrder
     companyId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -67439,12 +72960,14 @@ export namespace Prisma {
   export type TaskMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    creatorId?: SortOrder
     title?: SortOrder
     description?: SortOrder
     project?: SortOrder
     status?: SortOrder
     priority?: SortOrder
     dueDate?: SortOrder
+    completionComment?: SortOrder
     companyId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -67621,11 +73144,86 @@ export namespace Prisma {
     details?: SortOrder
   }
 
+  export type BranchNameCompanyIdCompoundUniqueInput = {
+    name: string
+    companyId: string
+  }
+
+  export type BranchCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BranchMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BranchMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DepartmentNameCompanyIdCompoundUniqueInput = {
+    name: string
+    companyId: string
+  }
+
+  export type DepartmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    branchId?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DepartmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    branchId?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DepartmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    branchId?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type AssetCreateNestedManyWithoutCompanyInput = {
     create?: XOR<AssetCreateWithoutCompanyInput, AssetUncheckedCreateWithoutCompanyInput> | AssetCreateWithoutCompanyInput[] | AssetUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutCompanyInput | AssetCreateOrConnectWithoutCompanyInput[]
     createMany?: AssetCreateManyCompanyInputEnvelope
     connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type BranchCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<BranchCreateWithoutCompanyInput, BranchUncheckedCreateWithoutCompanyInput> | BranchCreateWithoutCompanyInput[] | BranchUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: BranchCreateOrConnectWithoutCompanyInput | BranchCreateOrConnectWithoutCompanyInput[]
+    createMany?: BranchCreateManyCompanyInputEnvelope
+    connect?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+  }
+
+  export type DepartmentCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<DepartmentCreateWithoutCompanyInput, DepartmentUncheckedCreateWithoutCompanyInput> | DepartmentCreateWithoutCompanyInput[] | DepartmentUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DepartmentCreateOrConnectWithoutCompanyInput | DepartmentCreateOrConnectWithoutCompanyInput[]
+    createMany?: DepartmentCreateManyCompanyInputEnvelope
+    connect?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
   }
 
   export type AttendancePolicyCreateNestedOneWithoutCompanyInput = {
@@ -67704,11 +73302,32 @@ export namespace Prisma {
     connect?: WorkLogWhereUniqueInput | WorkLogWhereUniqueInput[]
   }
 
+  export type RecognitionCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<RecognitionCreateWithoutCompanyInput, RecognitionUncheckedCreateWithoutCompanyInput> | RecognitionCreateWithoutCompanyInput[] | RecognitionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RecognitionCreateOrConnectWithoutCompanyInput | RecognitionCreateOrConnectWithoutCompanyInput[]
+    createMany?: RecognitionCreateManyCompanyInputEnvelope
+    connect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+  }
+
   export type AssetUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<AssetCreateWithoutCompanyInput, AssetUncheckedCreateWithoutCompanyInput> | AssetCreateWithoutCompanyInput[] | AssetUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutCompanyInput | AssetCreateOrConnectWithoutCompanyInput[]
     createMany?: AssetCreateManyCompanyInputEnvelope
     connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type BranchUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<BranchCreateWithoutCompanyInput, BranchUncheckedCreateWithoutCompanyInput> | BranchCreateWithoutCompanyInput[] | BranchUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: BranchCreateOrConnectWithoutCompanyInput | BranchCreateOrConnectWithoutCompanyInput[]
+    createMany?: BranchCreateManyCompanyInputEnvelope
+    connect?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+  }
+
+  export type DepartmentUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<DepartmentCreateWithoutCompanyInput, DepartmentUncheckedCreateWithoutCompanyInput> | DepartmentCreateWithoutCompanyInput[] | DepartmentUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DepartmentCreateOrConnectWithoutCompanyInput | DepartmentCreateOrConnectWithoutCompanyInput[]
+    createMany?: DepartmentCreateManyCompanyInputEnvelope
+    connect?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
   }
 
   export type AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput = {
@@ -67787,6 +73406,13 @@ export namespace Prisma {
     connect?: WorkLogWhereUniqueInput | WorkLogWhereUniqueInput[]
   }
 
+  export type RecognitionUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<RecognitionCreateWithoutCompanyInput, RecognitionUncheckedCreateWithoutCompanyInput> | RecognitionCreateWithoutCompanyInput[] | RecognitionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RecognitionCreateOrConnectWithoutCompanyInput | RecognitionCreateOrConnectWithoutCompanyInput[]
+    createMany?: RecognitionCreateManyCompanyInputEnvelope
+    connect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -67811,6 +73437,34 @@ export namespace Prisma {
     update?: AssetUpdateWithWhereUniqueWithoutCompanyInput | AssetUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: AssetUpdateManyWithWhereWithoutCompanyInput | AssetUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type BranchUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<BranchCreateWithoutCompanyInput, BranchUncheckedCreateWithoutCompanyInput> | BranchCreateWithoutCompanyInput[] | BranchUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: BranchCreateOrConnectWithoutCompanyInput | BranchCreateOrConnectWithoutCompanyInput[]
+    upsert?: BranchUpsertWithWhereUniqueWithoutCompanyInput | BranchUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: BranchCreateManyCompanyInputEnvelope
+    set?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    disconnect?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    delete?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    connect?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    update?: BranchUpdateWithWhereUniqueWithoutCompanyInput | BranchUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: BranchUpdateManyWithWhereWithoutCompanyInput | BranchUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: BranchScalarWhereInput | BranchScalarWhereInput[]
+  }
+
+  export type DepartmentUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<DepartmentCreateWithoutCompanyInput, DepartmentUncheckedCreateWithoutCompanyInput> | DepartmentCreateWithoutCompanyInput[] | DepartmentUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DepartmentCreateOrConnectWithoutCompanyInput | DepartmentCreateOrConnectWithoutCompanyInput[]
+    upsert?: DepartmentUpsertWithWhereUniqueWithoutCompanyInput | DepartmentUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: DepartmentCreateManyCompanyInputEnvelope
+    set?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    disconnect?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    delete?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    connect?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    update?: DepartmentUpdateWithWhereUniqueWithoutCompanyInput | DepartmentUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: DepartmentUpdateManyWithWhereWithoutCompanyInput | DepartmentUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: DepartmentScalarWhereInput | DepartmentScalarWhereInput[]
   }
 
   export type AttendancePolicyUpdateOneWithoutCompanyNestedInput = {
@@ -67963,6 +73617,20 @@ export namespace Prisma {
     deleteMany?: WorkLogScalarWhereInput | WorkLogScalarWhereInput[]
   }
 
+  export type RecognitionUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<RecognitionCreateWithoutCompanyInput, RecognitionUncheckedCreateWithoutCompanyInput> | RecognitionCreateWithoutCompanyInput[] | RecognitionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RecognitionCreateOrConnectWithoutCompanyInput | RecognitionCreateOrConnectWithoutCompanyInput[]
+    upsert?: RecognitionUpsertWithWhereUniqueWithoutCompanyInput | RecognitionUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: RecognitionCreateManyCompanyInputEnvelope
+    set?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    disconnect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    delete?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    connect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    update?: RecognitionUpdateWithWhereUniqueWithoutCompanyInput | RecognitionUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: RecognitionUpdateManyWithWhereWithoutCompanyInput | RecognitionUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: RecognitionScalarWhereInput | RecognitionScalarWhereInput[]
+  }
+
   export type AssetUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<AssetCreateWithoutCompanyInput, AssetUncheckedCreateWithoutCompanyInput> | AssetCreateWithoutCompanyInput[] | AssetUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutCompanyInput | AssetCreateOrConnectWithoutCompanyInput[]
@@ -67975,6 +73643,34 @@ export namespace Prisma {
     update?: AssetUpdateWithWhereUniqueWithoutCompanyInput | AssetUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: AssetUpdateManyWithWhereWithoutCompanyInput | AssetUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type BranchUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<BranchCreateWithoutCompanyInput, BranchUncheckedCreateWithoutCompanyInput> | BranchCreateWithoutCompanyInput[] | BranchUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: BranchCreateOrConnectWithoutCompanyInput | BranchCreateOrConnectWithoutCompanyInput[]
+    upsert?: BranchUpsertWithWhereUniqueWithoutCompanyInput | BranchUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: BranchCreateManyCompanyInputEnvelope
+    set?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    disconnect?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    delete?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    connect?: BranchWhereUniqueInput | BranchWhereUniqueInput[]
+    update?: BranchUpdateWithWhereUniqueWithoutCompanyInput | BranchUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: BranchUpdateManyWithWhereWithoutCompanyInput | BranchUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: BranchScalarWhereInput | BranchScalarWhereInput[]
+  }
+
+  export type DepartmentUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<DepartmentCreateWithoutCompanyInput, DepartmentUncheckedCreateWithoutCompanyInput> | DepartmentCreateWithoutCompanyInput[] | DepartmentUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DepartmentCreateOrConnectWithoutCompanyInput | DepartmentCreateOrConnectWithoutCompanyInput[]
+    upsert?: DepartmentUpsertWithWhereUniqueWithoutCompanyInput | DepartmentUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: DepartmentCreateManyCompanyInputEnvelope
+    set?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    disconnect?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    delete?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    connect?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    update?: DepartmentUpdateWithWhereUniqueWithoutCompanyInput | DepartmentUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: DepartmentUpdateManyWithWhereWithoutCompanyInput | DepartmentUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: DepartmentScalarWhereInput | DepartmentScalarWhereInput[]
   }
 
   export type AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput = {
@@ -68127,6 +73823,20 @@ export namespace Prisma {
     deleteMany?: WorkLogScalarWhereInput | WorkLogScalarWhereInput[]
   }
 
+  export type RecognitionUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<RecognitionCreateWithoutCompanyInput, RecognitionUncheckedCreateWithoutCompanyInput> | RecognitionCreateWithoutCompanyInput[] | RecognitionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RecognitionCreateOrConnectWithoutCompanyInput | RecognitionCreateOrConnectWithoutCompanyInput[]
+    upsert?: RecognitionUpsertWithWhereUniqueWithoutCompanyInput | RecognitionUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: RecognitionCreateManyCompanyInputEnvelope
+    set?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    disconnect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    delete?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    connect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    update?: RecognitionUpdateWithWhereUniqueWithoutCompanyInput | RecognitionUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: RecognitionUpdateManyWithWhereWithoutCompanyInput | RecognitionUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: RecognitionScalarWhereInput | RecognitionScalarWhereInput[]
+  }
+
   export type AssetCreateNestedManyWithoutUserInput = {
     create?: XOR<AssetCreateWithoutUserInput, AssetUncheckedCreateWithoutUserInput> | AssetCreateWithoutUserInput[] | AssetUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutUserInput | AssetCreateOrConnectWithoutUserInput[]
@@ -68256,6 +73966,27 @@ export namespace Prisma {
     connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
+  export type TaskCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<TaskCreateWithoutCreatorInput, TaskUncheckedCreateWithoutCreatorInput> | TaskCreateWithoutCreatorInput[] | TaskUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutCreatorInput | TaskCreateOrConnectWithoutCreatorInput[]
+    createMany?: TaskCreateManyCreatorInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type RecognitionCreateNestedManyWithoutUserInput = {
+    create?: XOR<RecognitionCreateWithoutUserInput, RecognitionUncheckedCreateWithoutUserInput> | RecognitionCreateWithoutUserInput[] | RecognitionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecognitionCreateOrConnectWithoutUserInput | RecognitionCreateOrConnectWithoutUserInput[]
+    createMany?: RecognitionCreateManyUserInputEnvelope
+    connect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+  }
+
+  export type RecognitionCreateNestedManyWithoutGiverInput = {
+    create?: XOR<RecognitionCreateWithoutGiverInput, RecognitionUncheckedCreateWithoutGiverInput> | RecognitionCreateWithoutGiverInput[] | RecognitionUncheckedCreateWithoutGiverInput[]
+    connectOrCreate?: RecognitionCreateOrConnectWithoutGiverInput | RecognitionCreateOrConnectWithoutGiverInput[]
+    createMany?: RecognitionCreateManyGiverInputEnvelope
+    connect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+  }
+
   export type TimesheetCreateNestedManyWithoutUserInput = {
     create?: XOR<TimesheetCreateWithoutUserInput, TimesheetUncheckedCreateWithoutUserInput> | TimesheetCreateWithoutUserInput[] | TimesheetUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TimesheetCreateOrConnectWithoutUserInput | TimesheetCreateOrConnectWithoutUserInput[]
@@ -68292,6 +74023,13 @@ export namespace Prisma {
     create?: XOR<UserDocumentCreateWithoutUserInput, UserDocumentUncheckedCreateWithoutUserInput> | UserDocumentCreateWithoutUserInput[] | UserDocumentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserDocumentCreateOrConnectWithoutUserInput | UserDocumentCreateOrConnectWithoutUserInput[]
     createMany?: UserDocumentCreateManyUserInputEnvelope
+    connect?: UserDocumentWhereUniqueInput | UserDocumentWhereUniqueInput[]
+  }
+
+  export type UserDocumentCreateNestedManyWithoutUploaderInput = {
+    create?: XOR<UserDocumentCreateWithoutUploaderInput, UserDocumentUncheckedCreateWithoutUploaderInput> | UserDocumentCreateWithoutUploaderInput[] | UserDocumentUncheckedCreateWithoutUploaderInput[]
+    connectOrCreate?: UserDocumentCreateOrConnectWithoutUploaderInput | UserDocumentCreateOrConnectWithoutUploaderInput[]
+    createMany?: UserDocumentCreateManyUploaderInputEnvelope
     connect?: UserDocumentWhereUniqueInput | UserDocumentWhereUniqueInput[]
   }
 
@@ -68437,6 +74175,27 @@ export namespace Prisma {
     connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
+  export type TaskUncheckedCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<TaskCreateWithoutCreatorInput, TaskUncheckedCreateWithoutCreatorInput> | TaskCreateWithoutCreatorInput[] | TaskUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutCreatorInput | TaskCreateOrConnectWithoutCreatorInput[]
+    createMany?: TaskCreateManyCreatorInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type RecognitionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RecognitionCreateWithoutUserInput, RecognitionUncheckedCreateWithoutUserInput> | RecognitionCreateWithoutUserInput[] | RecognitionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecognitionCreateOrConnectWithoutUserInput | RecognitionCreateOrConnectWithoutUserInput[]
+    createMany?: RecognitionCreateManyUserInputEnvelope
+    connect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+  }
+
+  export type RecognitionUncheckedCreateNestedManyWithoutGiverInput = {
+    create?: XOR<RecognitionCreateWithoutGiverInput, RecognitionUncheckedCreateWithoutGiverInput> | RecognitionCreateWithoutGiverInput[] | RecognitionUncheckedCreateWithoutGiverInput[]
+    connectOrCreate?: RecognitionCreateOrConnectWithoutGiverInput | RecognitionCreateOrConnectWithoutGiverInput[]
+    createMany?: RecognitionCreateManyGiverInputEnvelope
+    connect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+  }
+
   export type TimesheetUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<TimesheetCreateWithoutUserInput, TimesheetUncheckedCreateWithoutUserInput> | TimesheetCreateWithoutUserInput[] | TimesheetUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TimesheetCreateOrConnectWithoutUserInput | TimesheetCreateOrConnectWithoutUserInput[]
@@ -68455,6 +74214,13 @@ export namespace Prisma {
     create?: XOR<UserDocumentCreateWithoutUserInput, UserDocumentUncheckedCreateWithoutUserInput> | UserDocumentCreateWithoutUserInput[] | UserDocumentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserDocumentCreateOrConnectWithoutUserInput | UserDocumentCreateOrConnectWithoutUserInput[]
     createMany?: UserDocumentCreateManyUserInputEnvelope
+    connect?: UserDocumentWhereUniqueInput | UserDocumentWhereUniqueInput[]
+  }
+
+  export type UserDocumentUncheckedCreateNestedManyWithoutUploaderInput = {
+    create?: XOR<UserDocumentCreateWithoutUploaderInput, UserDocumentUncheckedCreateWithoutUploaderInput> | UserDocumentCreateWithoutUploaderInput[] | UserDocumentUncheckedCreateWithoutUploaderInput[]
+    connectOrCreate?: UserDocumentCreateOrConnectWithoutUploaderInput | UserDocumentCreateOrConnectWithoutUploaderInput[]
+    createMany?: UserDocumentCreateManyUploaderInputEnvelope
     connect?: UserDocumentWhereUniqueInput | UserDocumentWhereUniqueInput[]
   }
 
@@ -68729,6 +74495,48 @@ export namespace Prisma {
     deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
+  export type TaskUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<TaskCreateWithoutCreatorInput, TaskUncheckedCreateWithoutCreatorInput> | TaskCreateWithoutCreatorInput[] | TaskUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutCreatorInput | TaskCreateOrConnectWithoutCreatorInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutCreatorInput | TaskUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: TaskCreateManyCreatorInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutCreatorInput | TaskUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutCreatorInput | TaskUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type RecognitionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RecognitionCreateWithoutUserInput, RecognitionUncheckedCreateWithoutUserInput> | RecognitionCreateWithoutUserInput[] | RecognitionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecognitionCreateOrConnectWithoutUserInput | RecognitionCreateOrConnectWithoutUserInput[]
+    upsert?: RecognitionUpsertWithWhereUniqueWithoutUserInput | RecognitionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RecognitionCreateManyUserInputEnvelope
+    set?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    disconnect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    delete?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    connect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    update?: RecognitionUpdateWithWhereUniqueWithoutUserInput | RecognitionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RecognitionUpdateManyWithWhereWithoutUserInput | RecognitionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RecognitionScalarWhereInput | RecognitionScalarWhereInput[]
+  }
+
+  export type RecognitionUpdateManyWithoutGiverNestedInput = {
+    create?: XOR<RecognitionCreateWithoutGiverInput, RecognitionUncheckedCreateWithoutGiverInput> | RecognitionCreateWithoutGiverInput[] | RecognitionUncheckedCreateWithoutGiverInput[]
+    connectOrCreate?: RecognitionCreateOrConnectWithoutGiverInput | RecognitionCreateOrConnectWithoutGiverInput[]
+    upsert?: RecognitionUpsertWithWhereUniqueWithoutGiverInput | RecognitionUpsertWithWhereUniqueWithoutGiverInput[]
+    createMany?: RecognitionCreateManyGiverInputEnvelope
+    set?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    disconnect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    delete?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    connect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    update?: RecognitionUpdateWithWhereUniqueWithoutGiverInput | RecognitionUpdateWithWhereUniqueWithoutGiverInput[]
+    updateMany?: RecognitionUpdateManyWithWhereWithoutGiverInput | RecognitionUpdateManyWithWhereWithoutGiverInput[]
+    deleteMany?: RecognitionScalarWhereInput | RecognitionScalarWhereInput[]
+  }
+
   export type TimesheetUpdateManyWithoutUserNestedInput = {
     create?: XOR<TimesheetCreateWithoutUserInput, TimesheetUncheckedCreateWithoutUserInput> | TimesheetCreateWithoutUserInput[] | TimesheetUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TimesheetCreateOrConnectWithoutUserInput | TimesheetCreateOrConnectWithoutUserInput[]
@@ -68798,6 +74606,20 @@ export namespace Prisma {
     connect?: UserDocumentWhereUniqueInput | UserDocumentWhereUniqueInput[]
     update?: UserDocumentUpdateWithWhereUniqueWithoutUserInput | UserDocumentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UserDocumentUpdateManyWithWhereWithoutUserInput | UserDocumentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserDocumentScalarWhereInput | UserDocumentScalarWhereInput[]
+  }
+
+  export type UserDocumentUpdateManyWithoutUploaderNestedInput = {
+    create?: XOR<UserDocumentCreateWithoutUploaderInput, UserDocumentUncheckedCreateWithoutUploaderInput> | UserDocumentCreateWithoutUploaderInput[] | UserDocumentUncheckedCreateWithoutUploaderInput[]
+    connectOrCreate?: UserDocumentCreateOrConnectWithoutUploaderInput | UserDocumentCreateOrConnectWithoutUploaderInput[]
+    upsert?: UserDocumentUpsertWithWhereUniqueWithoutUploaderInput | UserDocumentUpsertWithWhereUniqueWithoutUploaderInput[]
+    createMany?: UserDocumentCreateManyUploaderInputEnvelope
+    set?: UserDocumentWhereUniqueInput | UserDocumentWhereUniqueInput[]
+    disconnect?: UserDocumentWhereUniqueInput | UserDocumentWhereUniqueInput[]
+    delete?: UserDocumentWhereUniqueInput | UserDocumentWhereUniqueInput[]
+    connect?: UserDocumentWhereUniqueInput | UserDocumentWhereUniqueInput[]
+    update?: UserDocumentUpdateWithWhereUniqueWithoutUploaderInput | UserDocumentUpdateWithWhereUniqueWithoutUploaderInput[]
+    updateMany?: UserDocumentUpdateManyWithWhereWithoutUploaderInput | UserDocumentUpdateManyWithWhereWithoutUploaderInput[]
     deleteMany?: UserDocumentScalarWhereInput | UserDocumentScalarWhereInput[]
   }
 
@@ -69075,6 +74897,48 @@ export namespace Prisma {
     deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
+  export type TaskUncheckedUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<TaskCreateWithoutCreatorInput, TaskUncheckedCreateWithoutCreatorInput> | TaskCreateWithoutCreatorInput[] | TaskUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutCreatorInput | TaskCreateOrConnectWithoutCreatorInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutCreatorInput | TaskUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: TaskCreateManyCreatorInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutCreatorInput | TaskUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutCreatorInput | TaskUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type RecognitionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RecognitionCreateWithoutUserInput, RecognitionUncheckedCreateWithoutUserInput> | RecognitionCreateWithoutUserInput[] | RecognitionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecognitionCreateOrConnectWithoutUserInput | RecognitionCreateOrConnectWithoutUserInput[]
+    upsert?: RecognitionUpsertWithWhereUniqueWithoutUserInput | RecognitionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RecognitionCreateManyUserInputEnvelope
+    set?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    disconnect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    delete?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    connect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    update?: RecognitionUpdateWithWhereUniqueWithoutUserInput | RecognitionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RecognitionUpdateManyWithWhereWithoutUserInput | RecognitionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RecognitionScalarWhereInput | RecognitionScalarWhereInput[]
+  }
+
+  export type RecognitionUncheckedUpdateManyWithoutGiverNestedInput = {
+    create?: XOR<RecognitionCreateWithoutGiverInput, RecognitionUncheckedCreateWithoutGiverInput> | RecognitionCreateWithoutGiverInput[] | RecognitionUncheckedCreateWithoutGiverInput[]
+    connectOrCreate?: RecognitionCreateOrConnectWithoutGiverInput | RecognitionCreateOrConnectWithoutGiverInput[]
+    upsert?: RecognitionUpsertWithWhereUniqueWithoutGiverInput | RecognitionUpsertWithWhereUniqueWithoutGiverInput[]
+    createMany?: RecognitionCreateManyGiverInputEnvelope
+    set?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    disconnect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    delete?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    connect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+    update?: RecognitionUpdateWithWhereUniqueWithoutGiverInput | RecognitionUpdateWithWhereUniqueWithoutGiverInput[]
+    updateMany?: RecognitionUpdateManyWithWhereWithoutGiverInput | RecognitionUpdateManyWithWhereWithoutGiverInput[]
+    deleteMany?: RecognitionScalarWhereInput | RecognitionScalarWhereInput[]
+  }
+
   export type TimesheetUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<TimesheetCreateWithoutUserInput, TimesheetUncheckedCreateWithoutUserInput> | TimesheetCreateWithoutUserInput[] | TimesheetUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TimesheetCreateOrConnectWithoutUserInput | TimesheetCreateOrConnectWithoutUserInput[]
@@ -69114,6 +74978,20 @@ export namespace Prisma {
     connect?: UserDocumentWhereUniqueInput | UserDocumentWhereUniqueInput[]
     update?: UserDocumentUpdateWithWhereUniqueWithoutUserInput | UserDocumentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UserDocumentUpdateManyWithWhereWithoutUserInput | UserDocumentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserDocumentScalarWhereInput | UserDocumentScalarWhereInput[]
+  }
+
+  export type UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput = {
+    create?: XOR<UserDocumentCreateWithoutUploaderInput, UserDocumentUncheckedCreateWithoutUploaderInput> | UserDocumentCreateWithoutUploaderInput[] | UserDocumentUncheckedCreateWithoutUploaderInput[]
+    connectOrCreate?: UserDocumentCreateOrConnectWithoutUploaderInput | UserDocumentCreateOrConnectWithoutUploaderInput[]
+    upsert?: UserDocumentUpsertWithWhereUniqueWithoutUploaderInput | UserDocumentUpsertWithWhereUniqueWithoutUploaderInput[]
+    createMany?: UserDocumentCreateManyUploaderInputEnvelope
+    set?: UserDocumentWhereUniqueInput | UserDocumentWhereUniqueInput[]
+    disconnect?: UserDocumentWhereUniqueInput | UserDocumentWhereUniqueInput[]
+    delete?: UserDocumentWhereUniqueInput | UserDocumentWhereUniqueInput[]
+    connect?: UserDocumentWhereUniqueInput | UserDocumentWhereUniqueInput[]
+    update?: UserDocumentUpdateWithWhereUniqueWithoutUploaderInput | UserDocumentUpdateWithWhereUniqueWithoutUploaderInput[]
+    updateMany?: UserDocumentUpdateManyWithWhereWithoutUploaderInput | UserDocumentUpdateManyWithWhereWithoutUploaderInput[]
     deleteMany?: UserDocumentScalarWhereInput | UserDocumentScalarWhereInput[]
   }
 
@@ -69197,6 +75075,18 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type BranchCreateNestedOneWithoutProfilesInput = {
+    create?: XOR<BranchCreateWithoutProfilesInput, BranchUncheckedCreateWithoutProfilesInput>
+    connectOrCreate?: BranchCreateOrConnectWithoutProfilesInput
+    connect?: BranchWhereUniqueInput
+  }
+
+  export type DepartmentCreateNestedOneWithoutProfilesInput = {
+    create?: XOR<DepartmentCreateWithoutProfilesInput, DepartmentUncheckedCreateWithoutProfilesInput>
+    connectOrCreate?: DepartmentCreateOrConnectWithoutProfilesInput
+    connect?: DepartmentWhereUniqueInput
+  }
+
   export type CompanyUpdateOneWithoutProfilesNestedInput = {
     create?: XOR<CompanyCreateWithoutProfilesInput, CompanyUncheckedCreateWithoutProfilesInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutProfilesInput
@@ -69213,6 +75103,26 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutProfileInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProfileInput, UserUpdateWithoutProfileInput>, UserUncheckedUpdateWithoutProfileInput>
+  }
+
+  export type BranchUpdateOneWithoutProfilesNestedInput = {
+    create?: XOR<BranchCreateWithoutProfilesInput, BranchUncheckedCreateWithoutProfilesInput>
+    connectOrCreate?: BranchCreateOrConnectWithoutProfilesInput
+    upsert?: BranchUpsertWithoutProfilesInput
+    disconnect?: BranchWhereInput | boolean
+    delete?: BranchWhereInput | boolean
+    connect?: BranchWhereUniqueInput
+    update?: XOR<XOR<BranchUpdateToOneWithWhereWithoutProfilesInput, BranchUpdateWithoutProfilesInput>, BranchUncheckedUpdateWithoutProfilesInput>
+  }
+
+  export type DepartmentUpdateOneWithoutProfilesNestedInput = {
+    create?: XOR<DepartmentCreateWithoutProfilesInput, DepartmentUncheckedCreateWithoutProfilesInput>
+    connectOrCreate?: DepartmentCreateOrConnectWithoutProfilesInput
+    upsert?: DepartmentUpsertWithoutProfilesInput
+    disconnect?: DepartmentWhereInput | boolean
+    delete?: DepartmentWhereInput | boolean
+    connect?: DepartmentWhereUniqueInput
+    update?: XOR<XOR<DepartmentUpdateToOneWithWhereWithoutProfilesInput, DepartmentUpdateWithoutProfilesInput>, DepartmentUncheckedUpdateWithoutProfilesInput>
   }
 
   export type ShiftCreateNestedOneWithoutAttendanceInput = {
@@ -70081,6 +75991,50 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReviewsInput, UserUpdateWithoutReviewsInput>, UserUncheckedUpdateWithoutReviewsInput>
   }
 
+  export type UserCreateNestedOneWithoutRecognitionsReceivedInput = {
+    create?: XOR<UserCreateWithoutRecognitionsReceivedInput, UserUncheckedCreateWithoutRecognitionsReceivedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecognitionsReceivedInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutRecognitionsGivenInput = {
+    create?: XOR<UserCreateWithoutRecognitionsGivenInput, UserUncheckedCreateWithoutRecognitionsGivenInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecognitionsGivenInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutRecognitionsInput = {
+    create?: XOR<CompanyCreateWithoutRecognitionsInput, CompanyUncheckedCreateWithoutRecognitionsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutRecognitionsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutRecognitionsReceivedNestedInput = {
+    create?: XOR<UserCreateWithoutRecognitionsReceivedInput, UserUncheckedCreateWithoutRecognitionsReceivedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecognitionsReceivedInput
+    upsert?: UserUpsertWithoutRecognitionsReceivedInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRecognitionsReceivedInput, UserUpdateWithoutRecognitionsReceivedInput>, UserUncheckedUpdateWithoutRecognitionsReceivedInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutRecognitionsGivenNestedInput = {
+    create?: XOR<UserCreateWithoutRecognitionsGivenInput, UserUncheckedCreateWithoutRecognitionsGivenInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecognitionsGivenInput
+    upsert?: UserUpsertWithoutRecognitionsGivenInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRecognitionsGivenInput, UserUpdateWithoutRecognitionsGivenInput>, UserUncheckedUpdateWithoutRecognitionsGivenInput>
+  }
+
+  export type CompanyUpdateOneWithoutRecognitionsNestedInput = {
+    create?: XOR<CompanyCreateWithoutRecognitionsInput, CompanyUncheckedCreateWithoutRecognitionsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutRecognitionsInput
+    upsert?: CompanyUpsertWithoutRecognitionsInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutRecognitionsInput, CompanyUpdateWithoutRecognitionsInput>, CompanyUncheckedUpdateWithoutRecognitionsInput>
+  }
+
   export type JobApplicationCreateNestedManyWithoutJobInput = {
     create?: XOR<JobApplicationCreateWithoutJobInput, JobApplicationUncheckedCreateWithoutJobInput> | JobApplicationCreateWithoutJobInput[] | JobApplicationUncheckedCreateWithoutJobInput[]
     connectOrCreate?: JobApplicationCreateOrConnectWithoutJobInput | JobApplicationCreateOrConnectWithoutJobInput[]
@@ -70291,12 +76245,28 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutUploadedDocsInput = {
+    create?: XOR<UserCreateWithoutUploadedDocsInput, UserUncheckedCreateWithoutUploadedDocsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUploadedDocsInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type UserUpdateOneRequiredWithoutDocumentsNestedInput = {
     create?: XOR<UserCreateWithoutDocumentsInput, UserUncheckedCreateWithoutDocumentsInput>
     connectOrCreate?: UserCreateOrConnectWithoutDocumentsInput
     upsert?: UserUpsertWithoutDocumentsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDocumentsInput, UserUpdateWithoutDocumentsInput>, UserUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type UserUpdateOneWithoutUploadedDocsNestedInput = {
+    create?: XOR<UserCreateWithoutUploadedDocsInput, UserUncheckedCreateWithoutUploadedDocsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUploadedDocsInput
+    upsert?: UserUpsertWithoutUploadedDocsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUploadedDocsInput, UserUpdateWithoutUploadedDocsInput>, UserUncheckedUpdateWithoutUploadedDocsInput>
   }
 
   export type UserCreateNestedOneWithoutNotificationsInput = {
@@ -70427,6 +76397,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutCreatedTasksInput = {
+    create?: XOR<UserCreateWithoutCreatedTasksInput, UserUncheckedCreateWithoutCreatedTasksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedTasksInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type TimesheetEntryCreateNestedManyWithoutTaskInput = {
     create?: XOR<TimesheetEntryCreateWithoutTaskInput, TimesheetEntryUncheckedCreateWithoutTaskInput> | TimesheetEntryCreateWithoutTaskInput[] | TimesheetEntryUncheckedCreateWithoutTaskInput[]
     connectOrCreate?: TimesheetEntryCreateOrConnectWithoutTaskInput | TimesheetEntryCreateOrConnectWithoutTaskInput[]
@@ -70459,6 +76435,16 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTasksInput, UserUpdateWithoutTasksInput>, UserUncheckedUpdateWithoutTasksInput>
+  }
+
+  export type UserUpdateOneWithoutCreatedTasksNestedInput = {
+    create?: XOR<UserCreateWithoutCreatedTasksInput, UserUncheckedCreateWithoutCreatedTasksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedTasksInput
+    upsert?: UserUpsertWithoutCreatedTasksInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCreatedTasksInput, UserUpdateWithoutCreatedTasksInput>, UserUncheckedUpdateWithoutCreatedTasksInput>
   }
 
   export type TimesheetEntryUpdateManyWithoutTaskNestedInput = {
@@ -70545,6 +76531,176 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAuditsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuditsInput, UserUpdateWithoutAuditsInput>, UserUncheckedUpdateWithoutAuditsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutBranchesInput = {
+    create?: XOR<CompanyCreateWithoutBranchesInput, CompanyUncheckedCreateWithoutBranchesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutBranchesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type DepartmentCreateNestedManyWithoutBranchInput = {
+    create?: XOR<DepartmentCreateWithoutBranchInput, DepartmentUncheckedCreateWithoutBranchInput> | DepartmentCreateWithoutBranchInput[] | DepartmentUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: DepartmentCreateOrConnectWithoutBranchInput | DepartmentCreateOrConnectWithoutBranchInput[]
+    createMany?: DepartmentCreateManyBranchInputEnvelope
+    connect?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+  }
+
+  export type ProfileCreateNestedManyWithoutBranchInput = {
+    create?: XOR<ProfileCreateWithoutBranchInput, ProfileUncheckedCreateWithoutBranchInput> | ProfileCreateWithoutBranchInput[] | ProfileUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: ProfileCreateOrConnectWithoutBranchInput | ProfileCreateOrConnectWithoutBranchInput[]
+    createMany?: ProfileCreateManyBranchInputEnvelope
+    connect?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+  }
+
+  export type DepartmentUncheckedCreateNestedManyWithoutBranchInput = {
+    create?: XOR<DepartmentCreateWithoutBranchInput, DepartmentUncheckedCreateWithoutBranchInput> | DepartmentCreateWithoutBranchInput[] | DepartmentUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: DepartmentCreateOrConnectWithoutBranchInput | DepartmentCreateOrConnectWithoutBranchInput[]
+    createMany?: DepartmentCreateManyBranchInputEnvelope
+    connect?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+  }
+
+  export type ProfileUncheckedCreateNestedManyWithoutBranchInput = {
+    create?: XOR<ProfileCreateWithoutBranchInput, ProfileUncheckedCreateWithoutBranchInput> | ProfileCreateWithoutBranchInput[] | ProfileUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: ProfileCreateOrConnectWithoutBranchInput | ProfileCreateOrConnectWithoutBranchInput[]
+    createMany?: ProfileCreateManyBranchInputEnvelope
+    connect?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutBranchesNestedInput = {
+    create?: XOR<CompanyCreateWithoutBranchesInput, CompanyUncheckedCreateWithoutBranchesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutBranchesInput
+    upsert?: CompanyUpsertWithoutBranchesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutBranchesInput, CompanyUpdateWithoutBranchesInput>, CompanyUncheckedUpdateWithoutBranchesInput>
+  }
+
+  export type DepartmentUpdateManyWithoutBranchNestedInput = {
+    create?: XOR<DepartmentCreateWithoutBranchInput, DepartmentUncheckedCreateWithoutBranchInput> | DepartmentCreateWithoutBranchInput[] | DepartmentUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: DepartmentCreateOrConnectWithoutBranchInput | DepartmentCreateOrConnectWithoutBranchInput[]
+    upsert?: DepartmentUpsertWithWhereUniqueWithoutBranchInput | DepartmentUpsertWithWhereUniqueWithoutBranchInput[]
+    createMany?: DepartmentCreateManyBranchInputEnvelope
+    set?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    disconnect?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    delete?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    connect?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    update?: DepartmentUpdateWithWhereUniqueWithoutBranchInput | DepartmentUpdateWithWhereUniqueWithoutBranchInput[]
+    updateMany?: DepartmentUpdateManyWithWhereWithoutBranchInput | DepartmentUpdateManyWithWhereWithoutBranchInput[]
+    deleteMany?: DepartmentScalarWhereInput | DepartmentScalarWhereInput[]
+  }
+
+  export type ProfileUpdateManyWithoutBranchNestedInput = {
+    create?: XOR<ProfileCreateWithoutBranchInput, ProfileUncheckedCreateWithoutBranchInput> | ProfileCreateWithoutBranchInput[] | ProfileUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: ProfileCreateOrConnectWithoutBranchInput | ProfileCreateOrConnectWithoutBranchInput[]
+    upsert?: ProfileUpsertWithWhereUniqueWithoutBranchInput | ProfileUpsertWithWhereUniqueWithoutBranchInput[]
+    createMany?: ProfileCreateManyBranchInputEnvelope
+    set?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    disconnect?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    delete?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    connect?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    update?: ProfileUpdateWithWhereUniqueWithoutBranchInput | ProfileUpdateWithWhereUniqueWithoutBranchInput[]
+    updateMany?: ProfileUpdateManyWithWhereWithoutBranchInput | ProfileUpdateManyWithWhereWithoutBranchInput[]
+    deleteMany?: ProfileScalarWhereInput | ProfileScalarWhereInput[]
+  }
+
+  export type DepartmentUncheckedUpdateManyWithoutBranchNestedInput = {
+    create?: XOR<DepartmentCreateWithoutBranchInput, DepartmentUncheckedCreateWithoutBranchInput> | DepartmentCreateWithoutBranchInput[] | DepartmentUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: DepartmentCreateOrConnectWithoutBranchInput | DepartmentCreateOrConnectWithoutBranchInput[]
+    upsert?: DepartmentUpsertWithWhereUniqueWithoutBranchInput | DepartmentUpsertWithWhereUniqueWithoutBranchInput[]
+    createMany?: DepartmentCreateManyBranchInputEnvelope
+    set?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    disconnect?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    delete?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    connect?: DepartmentWhereUniqueInput | DepartmentWhereUniqueInput[]
+    update?: DepartmentUpdateWithWhereUniqueWithoutBranchInput | DepartmentUpdateWithWhereUniqueWithoutBranchInput[]
+    updateMany?: DepartmentUpdateManyWithWhereWithoutBranchInput | DepartmentUpdateManyWithWhereWithoutBranchInput[]
+    deleteMany?: DepartmentScalarWhereInput | DepartmentScalarWhereInput[]
+  }
+
+  export type ProfileUncheckedUpdateManyWithoutBranchNestedInput = {
+    create?: XOR<ProfileCreateWithoutBranchInput, ProfileUncheckedCreateWithoutBranchInput> | ProfileCreateWithoutBranchInput[] | ProfileUncheckedCreateWithoutBranchInput[]
+    connectOrCreate?: ProfileCreateOrConnectWithoutBranchInput | ProfileCreateOrConnectWithoutBranchInput[]
+    upsert?: ProfileUpsertWithWhereUniqueWithoutBranchInput | ProfileUpsertWithWhereUniqueWithoutBranchInput[]
+    createMany?: ProfileCreateManyBranchInputEnvelope
+    set?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    disconnect?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    delete?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    connect?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    update?: ProfileUpdateWithWhereUniqueWithoutBranchInput | ProfileUpdateWithWhereUniqueWithoutBranchInput[]
+    updateMany?: ProfileUpdateManyWithWhereWithoutBranchInput | ProfileUpdateManyWithWhereWithoutBranchInput[]
+    deleteMany?: ProfileScalarWhereInput | ProfileScalarWhereInput[]
+  }
+
+  export type CompanyCreateNestedOneWithoutDepartmentsInput = {
+    create?: XOR<CompanyCreateWithoutDepartmentsInput, CompanyUncheckedCreateWithoutDepartmentsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutDepartmentsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type BranchCreateNestedOneWithoutDepartmentsInput = {
+    create?: XOR<BranchCreateWithoutDepartmentsInput, BranchUncheckedCreateWithoutDepartmentsInput>
+    connectOrCreate?: BranchCreateOrConnectWithoutDepartmentsInput
+    connect?: BranchWhereUniqueInput
+  }
+
+  export type ProfileCreateNestedManyWithoutDepartmentRefInput = {
+    create?: XOR<ProfileCreateWithoutDepartmentRefInput, ProfileUncheckedCreateWithoutDepartmentRefInput> | ProfileCreateWithoutDepartmentRefInput[] | ProfileUncheckedCreateWithoutDepartmentRefInput[]
+    connectOrCreate?: ProfileCreateOrConnectWithoutDepartmentRefInput | ProfileCreateOrConnectWithoutDepartmentRefInput[]
+    createMany?: ProfileCreateManyDepartmentRefInputEnvelope
+    connect?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+  }
+
+  export type ProfileUncheckedCreateNestedManyWithoutDepartmentRefInput = {
+    create?: XOR<ProfileCreateWithoutDepartmentRefInput, ProfileUncheckedCreateWithoutDepartmentRefInput> | ProfileCreateWithoutDepartmentRefInput[] | ProfileUncheckedCreateWithoutDepartmentRefInput[]
+    connectOrCreate?: ProfileCreateOrConnectWithoutDepartmentRefInput | ProfileCreateOrConnectWithoutDepartmentRefInput[]
+    createMany?: ProfileCreateManyDepartmentRefInputEnvelope
+    connect?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutDepartmentsNestedInput = {
+    create?: XOR<CompanyCreateWithoutDepartmentsInput, CompanyUncheckedCreateWithoutDepartmentsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutDepartmentsInput
+    upsert?: CompanyUpsertWithoutDepartmentsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutDepartmentsInput, CompanyUpdateWithoutDepartmentsInput>, CompanyUncheckedUpdateWithoutDepartmentsInput>
+  }
+
+  export type BranchUpdateOneWithoutDepartmentsNestedInput = {
+    create?: XOR<BranchCreateWithoutDepartmentsInput, BranchUncheckedCreateWithoutDepartmentsInput>
+    connectOrCreate?: BranchCreateOrConnectWithoutDepartmentsInput
+    upsert?: BranchUpsertWithoutDepartmentsInput
+    disconnect?: BranchWhereInput | boolean
+    delete?: BranchWhereInput | boolean
+    connect?: BranchWhereUniqueInput
+    update?: XOR<XOR<BranchUpdateToOneWithWhereWithoutDepartmentsInput, BranchUpdateWithoutDepartmentsInput>, BranchUncheckedUpdateWithoutDepartmentsInput>
+  }
+
+  export type ProfileUpdateManyWithoutDepartmentRefNestedInput = {
+    create?: XOR<ProfileCreateWithoutDepartmentRefInput, ProfileUncheckedCreateWithoutDepartmentRefInput> | ProfileCreateWithoutDepartmentRefInput[] | ProfileUncheckedCreateWithoutDepartmentRefInput[]
+    connectOrCreate?: ProfileCreateOrConnectWithoutDepartmentRefInput | ProfileCreateOrConnectWithoutDepartmentRefInput[]
+    upsert?: ProfileUpsertWithWhereUniqueWithoutDepartmentRefInput | ProfileUpsertWithWhereUniqueWithoutDepartmentRefInput[]
+    createMany?: ProfileCreateManyDepartmentRefInputEnvelope
+    set?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    disconnect?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    delete?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    connect?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    update?: ProfileUpdateWithWhereUniqueWithoutDepartmentRefInput | ProfileUpdateWithWhereUniqueWithoutDepartmentRefInput[]
+    updateMany?: ProfileUpdateManyWithWhereWithoutDepartmentRefInput | ProfileUpdateManyWithWhereWithoutDepartmentRefInput[]
+    deleteMany?: ProfileScalarWhereInput | ProfileScalarWhereInput[]
+  }
+
+  export type ProfileUncheckedUpdateManyWithoutDepartmentRefNestedInput = {
+    create?: XOR<ProfileCreateWithoutDepartmentRefInput, ProfileUncheckedCreateWithoutDepartmentRefInput> | ProfileCreateWithoutDepartmentRefInput[] | ProfileUncheckedCreateWithoutDepartmentRefInput[]
+    connectOrCreate?: ProfileCreateOrConnectWithoutDepartmentRefInput | ProfileCreateOrConnectWithoutDepartmentRefInput[]
+    upsert?: ProfileUpsertWithWhereUniqueWithoutDepartmentRefInput | ProfileUpsertWithWhereUniqueWithoutDepartmentRefInput[]
+    createMany?: ProfileCreateManyDepartmentRefInputEnvelope
+    set?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    disconnect?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    delete?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    connect?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
+    update?: ProfileUpdateWithWhereUniqueWithoutDepartmentRefInput | ProfileUpdateWithWhereUniqueWithoutDepartmentRefInput[]
+    updateMany?: ProfileUpdateManyWithWhereWithoutDepartmentRefInput | ProfileUpdateManyWithWhereWithoutDepartmentRefInput[]
+    deleteMany?: ProfileScalarWhereInput | ProfileScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -70842,6 +76998,62 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BranchCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    departments?: DepartmentCreateNestedManyWithoutBranchInput
+    profiles?: ProfileCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    departments?: DepartmentUncheckedCreateNestedManyWithoutBranchInput
+    profiles?: ProfileUncheckedCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchCreateOrConnectWithoutCompanyInput = {
+    where: BranchWhereUniqueInput
+    create: XOR<BranchCreateWithoutCompanyInput, BranchUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type BranchCreateManyCompanyInputEnvelope = {
+    data: BranchCreateManyCompanyInput | BranchCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DepartmentCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    branch?: BranchCreateNestedOneWithoutDepartmentsInput
+    profiles?: ProfileCreateNestedManyWithoutDepartmentRefInput
+  }
+
+  export type DepartmentUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    branchId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profiles?: ProfileUncheckedCreateNestedManyWithoutDepartmentRefInput
+  }
+
+  export type DepartmentCreateOrConnectWithoutCompanyInput = {
+    where: DepartmentWhereUniqueInput
+    create: XOR<DepartmentCreateWithoutCompanyInput, DepartmentUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type DepartmentCreateManyCompanyInputEnvelope = {
+    data: DepartmentCreateManyCompanyInput | DepartmentCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AttendancePolicyCreateWithoutCompanyInput = {
     id?: string
     graceMinutes?: number
@@ -71065,14 +77277,30 @@ export namespace Prisma {
     bankName?: string | null
     accountNumber?: string | null
     ifscCode?: string | null
+    bankBranch?: string | null
+    bankAddress?: string | null
+    paymentMode?: string | null
     aadhaarNumber?: string | null
     panNumber?: string | null
     uanNumber?: string | null
+    nationality?: string | null
+    bloodGroup?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    presentAddress?: string | null
+    permanentAddress?: string | null
+    emergencyContactName?: string | null
+    emergencyContactRelation?: string | null
+    emergencyContactPhone?: string | null
+    emergencyContactAlternate?: string | null
+    emergencyContactAddress?: string | null
     profilePhoto?: string | null
     profilePhotoSettings?: string | null
     profilePhotoMediumUrl?: string | null
     profilePhotoThumbnailUrl?: string | null
     user: UserCreateNestedOneWithoutProfileInput
+    branch?: BranchCreateNestedOneWithoutProfilesInput
+    departmentRef?: DepartmentCreateNestedOneWithoutProfilesInput
   }
 
   export type ProfileUncheckedCreateWithoutCompanyInput = {
@@ -71085,6 +77313,8 @@ export namespace Prisma {
     emergencyContact?: string | null
     designation?: string | null
     department?: string | null
+    branchId?: string | null
+    departmentId?: string | null
     employmentType?: string
     dateOfJoining?: Date | string | null
     dob?: Date | string | null
@@ -71092,9 +77322,23 @@ export namespace Prisma {
     bankName?: string | null
     accountNumber?: string | null
     ifscCode?: string | null
+    bankBranch?: string | null
+    bankAddress?: string | null
+    paymentMode?: string | null
     aadhaarNumber?: string | null
     panNumber?: string | null
     uanNumber?: string | null
+    nationality?: string | null
+    bloodGroup?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    presentAddress?: string | null
+    permanentAddress?: string | null
+    emergencyContactName?: string | null
+    emergencyContactRelation?: string | null
+    emergencyContactPhone?: string | null
+    emergencyContactAlternate?: string | null
+    emergencyContactAddress?: string | null
     profilePhoto?: string | null
     profilePhotoSettings?: string | null
     profilePhotoMediumUrl?: string | null
@@ -71155,21 +77399,25 @@ export namespace Prisma {
     status?: string
     priority?: string
     dueDate?: Date | string | null
+    completionComment?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutTasksInput
+    creator?: UserCreateNestedOneWithoutCreatedTasksInput
     entries?: TimesheetEntryCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutCompanyInput = {
     id?: string
     userId?: string | null
+    creatorId?: string | null
     title: string
     description?: string | null
     project?: string | null
     status?: string
     priority?: string
     dueDate?: Date | string | null
+    completionComment?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     entries?: TimesheetEntryUncheckedCreateNestedManyWithoutTaskInput
@@ -71213,11 +77461,15 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -71252,9 +77504,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -71301,6 +77557,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type RecognitionCreateWithoutCompanyInput = {
+    id?: string
+    category?: string
+    badge?: string | null
+    message: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutRecognitionsReceivedInput
+    giver: UserCreateNestedOneWithoutRecognitionsGivenInput
+  }
+
+  export type RecognitionUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    userId: string
+    giverId: string
+    category?: string
+    badge?: string | null
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type RecognitionCreateOrConnectWithoutCompanyInput = {
+    where: RecognitionWhereUniqueInput
+    create: XOR<RecognitionCreateWithoutCompanyInput, RecognitionUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type RecognitionCreateManyCompanyInputEnvelope = {
+    data: RecognitionCreateManyCompanyInput | RecognitionCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AssetUpsertWithWhereUniqueWithoutCompanyInput = {
     where: AssetWhereUniqueInput
     update: XOR<AssetUpdateWithoutCompanyInput, AssetUncheckedUpdateWithoutCompanyInput>
@@ -71330,6 +77616,61 @@ export namespace Prisma {
     purchasedAt?: DateTimeNullableFilter<"Asset"> | Date | string | null
     createdAt?: DateTimeFilter<"Asset"> | Date | string
     companyId?: StringNullableFilter<"Asset"> | string | null
+  }
+
+  export type BranchUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: BranchWhereUniqueInput
+    update: XOR<BranchUpdateWithoutCompanyInput, BranchUncheckedUpdateWithoutCompanyInput>
+    create: XOR<BranchCreateWithoutCompanyInput, BranchUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type BranchUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: BranchWhereUniqueInput
+    data: XOR<BranchUpdateWithoutCompanyInput, BranchUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type BranchUpdateManyWithWhereWithoutCompanyInput = {
+    where: BranchScalarWhereInput
+    data: XOR<BranchUpdateManyMutationInput, BranchUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type BranchScalarWhereInput = {
+    AND?: BranchScalarWhereInput | BranchScalarWhereInput[]
+    OR?: BranchScalarWhereInput[]
+    NOT?: BranchScalarWhereInput | BranchScalarWhereInput[]
+    id?: StringFilter<"Branch"> | string
+    name?: StringFilter<"Branch"> | string
+    companyId?: StringFilter<"Branch"> | string
+    createdAt?: DateTimeFilter<"Branch"> | Date | string
+    updatedAt?: DateTimeFilter<"Branch"> | Date | string
+  }
+
+  export type DepartmentUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: DepartmentWhereUniqueInput
+    update: XOR<DepartmentUpdateWithoutCompanyInput, DepartmentUncheckedUpdateWithoutCompanyInput>
+    create: XOR<DepartmentCreateWithoutCompanyInput, DepartmentUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type DepartmentUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: DepartmentWhereUniqueInput
+    data: XOR<DepartmentUpdateWithoutCompanyInput, DepartmentUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type DepartmentUpdateManyWithWhereWithoutCompanyInput = {
+    where: DepartmentScalarWhereInput
+    data: XOR<DepartmentUpdateManyMutationInput, DepartmentUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type DepartmentScalarWhereInput = {
+    AND?: DepartmentScalarWhereInput | DepartmentScalarWhereInput[]
+    OR?: DepartmentScalarWhereInput[]
+    NOT?: DepartmentScalarWhereInput | DepartmentScalarWhereInput[]
+    id?: StringFilter<"Department"> | string
+    name?: StringFilter<"Department"> | string
+    branchId?: StringNullableFilter<"Department"> | string | null
+    companyId?: StringFilter<"Department"> | string
+    createdAt?: DateTimeFilter<"Department"> | Date | string
+    updatedAt?: DateTimeFilter<"Department"> | Date | string
   }
 
   export type AttendancePolicyUpsertWithoutCompanyInput = {
@@ -71574,6 +77915,8 @@ export namespace Prisma {
     emergencyContact?: StringNullableFilter<"Profile"> | string | null
     designation?: StringNullableFilter<"Profile"> | string | null
     department?: StringNullableFilter<"Profile"> | string | null
+    branchId?: StringNullableFilter<"Profile"> | string | null
+    departmentId?: StringNullableFilter<"Profile"> | string | null
     employmentType?: StringFilter<"Profile"> | string
     dateOfJoining?: DateTimeNullableFilter<"Profile"> | Date | string | null
     dob?: DateTimeNullableFilter<"Profile"> | Date | string | null
@@ -71581,9 +77924,23 @@ export namespace Prisma {
     bankName?: StringNullableFilter<"Profile"> | string | null
     accountNumber?: StringNullableFilter<"Profile"> | string | null
     ifscCode?: StringNullableFilter<"Profile"> | string | null
+    bankBranch?: StringNullableFilter<"Profile"> | string | null
+    bankAddress?: StringNullableFilter<"Profile"> | string | null
+    paymentMode?: StringNullableFilter<"Profile"> | string | null
     aadhaarNumber?: StringNullableFilter<"Profile"> | string | null
     panNumber?: StringNullableFilter<"Profile"> | string | null
     uanNumber?: StringNullableFilter<"Profile"> | string | null
+    nationality?: StringNullableFilter<"Profile"> | string | null
+    bloodGroup?: StringNullableFilter<"Profile"> | string | null
+    gender?: StringNullableFilter<"Profile"> | string | null
+    maritalStatus?: StringNullableFilter<"Profile"> | string | null
+    presentAddress?: StringNullableFilter<"Profile"> | string | null
+    permanentAddress?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactName?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactRelation?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactPhone?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactAlternate?: StringNullableFilter<"Profile"> | string | null
+    emergencyContactAddress?: StringNullableFilter<"Profile"> | string | null
     profilePhoto?: StringNullableFilter<"Profile"> | string | null
     profilePhotoSettings?: StringNullableFilter<"Profile"> | string | null
     companyId?: StringNullableFilter<"Profile"> | string | null
@@ -71643,12 +78000,14 @@ export namespace Prisma {
     NOT?: TaskScalarWhereInput | TaskScalarWhereInput[]
     id?: StringFilter<"Task"> | string
     userId?: StringNullableFilter<"Task"> | string | null
+    creatorId?: StringNullableFilter<"Task"> | string | null
     title?: StringFilter<"Task"> | string
     description?: StringNullableFilter<"Task"> | string | null
     project?: StringNullableFilter<"Task"> | string | null
     status?: StringFilter<"Task"> | string
     priority?: StringFilter<"Task"> | string
     dueDate?: DateTimeNullableFilter<"Task"> | Date | string | null
+    completionComment?: StringNullableFilter<"Task"> | string | null
     companyId?: StringNullableFilter<"Task"> | string | null
     createdAt?: DateTimeFilter<"Task"> | Date | string
     updatedAt?: DateTimeFilter<"Task"> | Date | string
@@ -71716,6 +78075,36 @@ export namespace Prisma {
     companyId?: StringNullableFilter<"WorkLog"> | string | null
     createdAt?: DateTimeFilter<"WorkLog"> | Date | string
     updatedAt?: DateTimeFilter<"WorkLog"> | Date | string
+  }
+
+  export type RecognitionUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: RecognitionWhereUniqueInput
+    update: XOR<RecognitionUpdateWithoutCompanyInput, RecognitionUncheckedUpdateWithoutCompanyInput>
+    create: XOR<RecognitionCreateWithoutCompanyInput, RecognitionUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type RecognitionUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: RecognitionWhereUniqueInput
+    data: XOR<RecognitionUpdateWithoutCompanyInput, RecognitionUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type RecognitionUpdateManyWithWhereWithoutCompanyInput = {
+    where: RecognitionScalarWhereInput
+    data: XOR<RecognitionUpdateManyMutationInput, RecognitionUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type RecognitionScalarWhereInput = {
+    AND?: RecognitionScalarWhereInput | RecognitionScalarWhereInput[]
+    OR?: RecognitionScalarWhereInput[]
+    NOT?: RecognitionScalarWhereInput | RecognitionScalarWhereInput[]
+    id?: StringFilter<"Recognition"> | string
+    userId?: StringFilter<"Recognition"> | string
+    giverId?: StringFilter<"Recognition"> | string
+    companyId?: StringNullableFilter<"Recognition"> | string | null
+    category?: StringFilter<"Recognition"> | string
+    badge?: StringNullableFilter<"Recognition"> | string | null
+    message?: StringFilter<"Recognition"> | string
+    createdAt?: DateTimeFilter<"Recognition"> | Date | string
   }
 
   export type AssetCreateWithoutUserInput = {
@@ -71997,6 +78386,7 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     days: number
+    duration?: string
     reason: string
     status?: string
     managerComment?: string | null
@@ -72010,6 +78400,7 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     days: number
+    duration?: string
     reason: string
     status?: string
     managerComment?: string | null
@@ -72338,14 +78729,30 @@ export namespace Prisma {
     bankName?: string | null
     accountNumber?: string | null
     ifscCode?: string | null
+    bankBranch?: string | null
+    bankAddress?: string | null
+    paymentMode?: string | null
     aadhaarNumber?: string | null
     panNumber?: string | null
     uanNumber?: string | null
+    nationality?: string | null
+    bloodGroup?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    presentAddress?: string | null
+    permanentAddress?: string | null
+    emergencyContactName?: string | null
+    emergencyContactRelation?: string | null
+    emergencyContactPhone?: string | null
+    emergencyContactAlternate?: string | null
+    emergencyContactAddress?: string | null
     profilePhoto?: string | null
     profilePhotoSettings?: string | null
     profilePhotoMediumUrl?: string | null
     profilePhotoThumbnailUrl?: string | null
     company?: CompanyCreateNestedOneWithoutProfilesInput
+    branch?: BranchCreateNestedOneWithoutProfilesInput
+    departmentRef?: DepartmentCreateNestedOneWithoutProfilesInput
   }
 
   export type ProfileUncheckedCreateWithoutUserInput = {
@@ -72357,6 +78764,8 @@ export namespace Prisma {
     emergencyContact?: string | null
     designation?: string | null
     department?: string | null
+    branchId?: string | null
+    departmentId?: string | null
     employmentType?: string
     dateOfJoining?: Date | string | null
     dob?: Date | string | null
@@ -72364,9 +78773,23 @@ export namespace Prisma {
     bankName?: string | null
     accountNumber?: string | null
     ifscCode?: string | null
+    bankBranch?: string | null
+    bankAddress?: string | null
+    paymentMode?: string | null
     aadhaarNumber?: string | null
     panNumber?: string | null
     uanNumber?: string | null
+    nationality?: string | null
+    bloodGroup?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    presentAddress?: string | null
+    permanentAddress?: string | null
+    emergencyContactName?: string | null
+    emergencyContactRelation?: string | null
+    emergencyContactPhone?: string | null
+    emergencyContactAlternate?: string | null
+    emergencyContactAddress?: string | null
     profilePhoto?: string | null
     profilePhotoSettings?: string | null
     companyId?: string | null
@@ -72418,20 +78841,24 @@ export namespace Prisma {
     status?: string
     priority?: string
     dueDate?: Date | string | null
+    completionComment?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company?: CompanyCreateNestedOneWithoutTasksInput
+    creator?: UserCreateNestedOneWithoutCreatedTasksInput
     entries?: TimesheetEntryCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutUserInput = {
     id?: string
+    creatorId?: string | null
     title: string
     description?: string | null
     project?: string | null
     status?: string
     priority?: string
     dueDate?: Date | string | null
+    completionComment?: string | null
     companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -72445,6 +78872,108 @@ export namespace Prisma {
 
   export type TaskCreateManyUserInputEnvelope = {
     data: TaskCreateManyUserInput | TaskCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TaskCreateWithoutCreatorInput = {
+    id?: string
+    title: string
+    description?: string | null
+    project?: string | null
+    status?: string
+    priority?: string
+    dueDate?: Date | string | null
+    completionComment?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutTasksInput
+    user?: UserCreateNestedOneWithoutTasksInput
+    entries?: TimesheetEntryCreateNestedManyWithoutTaskInput
+  }
+
+  export type TaskUncheckedCreateWithoutCreatorInput = {
+    id?: string
+    userId?: string | null
+    title: string
+    description?: string | null
+    project?: string | null
+    status?: string
+    priority?: string
+    dueDate?: Date | string | null
+    completionComment?: string | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    entries?: TimesheetEntryUncheckedCreateNestedManyWithoutTaskInput
+  }
+
+  export type TaskCreateOrConnectWithoutCreatorInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutCreatorInput, TaskUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type TaskCreateManyCreatorInputEnvelope = {
+    data: TaskCreateManyCreatorInput | TaskCreateManyCreatorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RecognitionCreateWithoutUserInput = {
+    id?: string
+    category?: string
+    badge?: string | null
+    message: string
+    createdAt?: Date | string
+    giver: UserCreateNestedOneWithoutRecognitionsGivenInput
+    company?: CompanyCreateNestedOneWithoutRecognitionsInput
+  }
+
+  export type RecognitionUncheckedCreateWithoutUserInput = {
+    id?: string
+    giverId: string
+    companyId?: string | null
+    category?: string
+    badge?: string | null
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type RecognitionCreateOrConnectWithoutUserInput = {
+    where: RecognitionWhereUniqueInput
+    create: XOR<RecognitionCreateWithoutUserInput, RecognitionUncheckedCreateWithoutUserInput>
+  }
+
+  export type RecognitionCreateManyUserInputEnvelope = {
+    data: RecognitionCreateManyUserInput | RecognitionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RecognitionCreateWithoutGiverInput = {
+    id?: string
+    category?: string
+    badge?: string | null
+    message: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutRecognitionsReceivedInput
+    company?: CompanyCreateNestedOneWithoutRecognitionsInput
+  }
+
+  export type RecognitionUncheckedCreateWithoutGiverInput = {
+    id?: string
+    userId: string
+    companyId?: string | null
+    category?: string
+    badge?: string | null
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type RecognitionCreateOrConnectWithoutGiverInput = {
+    where: RecognitionWhereUniqueInput
+    create: XOR<RecognitionCreateWithoutGiverInput, RecognitionUncheckedCreateWithoutGiverInput>
+  }
+
+  export type RecognitionCreateManyGiverInputEnvelope = {
+    data: RecognitionCreateManyGiverInput | RecognitionCreateManyGiverInput[]
     skipDuplicates?: boolean
   }
 
@@ -72492,6 +79021,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
     holidays?: HolidayCreateNestedManyWithoutCompanyInput
@@ -72502,6 +79033,7 @@ export namespace Prisma {
     shifts?: ShiftCreateNestedManyWithoutCompanyInput
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -72518,6 +79050,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
@@ -72528,6 +79062,7 @@ export namespace Prisma {
     shifts?: ShiftUncheckedCreateNestedManyWithoutCompanyInput
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -72563,11 +79098,15 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -72603,8 +79142,12 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -72642,11 +79185,15 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -72681,9 +79228,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -72731,24 +79282,42 @@ export namespace Prisma {
 
   export type UserDocumentCreateWithoutUserInput = {
     id?: string
-    type: string
     name: string
+    category: string
     url: string
-    expiryDate?: Date | string | null
-    status?: string
-    verifiedBy?: string | null
+    fileSize?: number | null
+    fileType?: string | null
     uploadedAt?: Date | string
+    updatedAt?: Date | string
+    expiryDate?: Date | string | null
+    notes?: string | null
+    tags?: string | null
+    status?: string
+    version?: number
+    isLatest?: boolean
+    parentDocId?: string | null
+    verifiedBy?: string | null
+    uploader?: UserCreateNestedOneWithoutUploadedDocsInput
   }
 
   export type UserDocumentUncheckedCreateWithoutUserInput = {
     id?: string
-    type: string
     name: string
+    category: string
     url: string
-    expiryDate?: Date | string | null
-    status?: string
-    verifiedBy?: string | null
+    fileSize?: number | null
+    fileType?: string | null
+    uploadedById?: string | null
     uploadedAt?: Date | string
+    updatedAt?: Date | string
+    expiryDate?: Date | string | null
+    notes?: string | null
+    tags?: string | null
+    status?: string
+    version?: number
+    isLatest?: boolean
+    parentDocId?: string | null
+    verifiedBy?: string | null
   }
 
   export type UserDocumentCreateOrConnectWithoutUserInput = {
@@ -72758,6 +79327,56 @@ export namespace Prisma {
 
   export type UserDocumentCreateManyUserInputEnvelope = {
     data: UserDocumentCreateManyUserInput | UserDocumentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserDocumentCreateWithoutUploaderInput = {
+    id?: string
+    name: string
+    category: string
+    url: string
+    fileSize?: number | null
+    fileType?: string | null
+    uploadedAt?: Date | string
+    updatedAt?: Date | string
+    expiryDate?: Date | string | null
+    notes?: string | null
+    tags?: string | null
+    status?: string
+    version?: number
+    isLatest?: boolean
+    parentDocId?: string | null
+    verifiedBy?: string | null
+    user: UserCreateNestedOneWithoutDocumentsInput
+  }
+
+  export type UserDocumentUncheckedCreateWithoutUploaderInput = {
+    id?: string
+    userId: string
+    name: string
+    category: string
+    url: string
+    fileSize?: number | null
+    fileType?: string | null
+    uploadedAt?: Date | string
+    updatedAt?: Date | string
+    expiryDate?: Date | string | null
+    notes?: string | null
+    tags?: string | null
+    status?: string
+    version?: number
+    isLatest?: boolean
+    parentDocId?: string | null
+    verifiedBy?: string | null
+  }
+
+  export type UserDocumentCreateOrConnectWithoutUploaderInput = {
+    where: UserDocumentWhereUniqueInput
+    create: XOR<UserDocumentCreateWithoutUploaderInput, UserDocumentUncheckedCreateWithoutUploaderInput>
+  }
+
+  export type UserDocumentCreateManyUploaderInputEnvelope = {
+    data: UserDocumentCreateManyUploaderInput | UserDocumentCreateManyUploaderInput[]
     skipDuplicates?: boolean
   }
 
@@ -73102,6 +79721,7 @@ export namespace Prisma {
     startDate?: DateTimeFilter<"LeaveRequest"> | Date | string
     endDate?: DateTimeFilter<"LeaveRequest"> | Date | string
     days?: FloatFilter<"LeaveRequest"> | number
+    duration?: StringFilter<"LeaveRequest"> | string
     reason?: StringFilter<"LeaveRequest"> | string
     status?: StringFilter<"LeaveRequest"> | string
     managerComment?: StringNullableFilter<"LeaveRequest"> | string | null
@@ -73423,14 +80043,30 @@ export namespace Prisma {
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
     uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompanyUpdateOneWithoutProfilesNestedInput
+    branch?: BranchUpdateOneWithoutProfilesNestedInput
+    departmentRef?: DepartmentUpdateOneWithoutProfilesNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutUserInput = {
@@ -73442,6 +80078,8 @@ export namespace Prisma {
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     department?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     employmentType?: StringFieldUpdateOperationsInput | string
     dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -73449,9 +80087,23 @@ export namespace Prisma {
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
     uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -73512,6 +80164,54 @@ export namespace Prisma {
     data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutUserInput>
   }
 
+  export type TaskUpsertWithWhereUniqueWithoutCreatorInput = {
+    where: TaskWhereUniqueInput
+    update: XOR<TaskUpdateWithoutCreatorInput, TaskUncheckedUpdateWithoutCreatorInput>
+    create: XOR<TaskCreateWithoutCreatorInput, TaskUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type TaskUpdateWithWhereUniqueWithoutCreatorInput = {
+    where: TaskWhereUniqueInput
+    data: XOR<TaskUpdateWithoutCreatorInput, TaskUncheckedUpdateWithoutCreatorInput>
+  }
+
+  export type TaskUpdateManyWithWhereWithoutCreatorInput = {
+    where: TaskScalarWhereInput
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutCreatorInput>
+  }
+
+  export type RecognitionUpsertWithWhereUniqueWithoutUserInput = {
+    where: RecognitionWhereUniqueInput
+    update: XOR<RecognitionUpdateWithoutUserInput, RecognitionUncheckedUpdateWithoutUserInput>
+    create: XOR<RecognitionCreateWithoutUserInput, RecognitionUncheckedCreateWithoutUserInput>
+  }
+
+  export type RecognitionUpdateWithWhereUniqueWithoutUserInput = {
+    where: RecognitionWhereUniqueInput
+    data: XOR<RecognitionUpdateWithoutUserInput, RecognitionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RecognitionUpdateManyWithWhereWithoutUserInput = {
+    where: RecognitionScalarWhereInput
+    data: XOR<RecognitionUpdateManyMutationInput, RecognitionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RecognitionUpsertWithWhereUniqueWithoutGiverInput = {
+    where: RecognitionWhereUniqueInput
+    update: XOR<RecognitionUpdateWithoutGiverInput, RecognitionUncheckedUpdateWithoutGiverInput>
+    create: XOR<RecognitionCreateWithoutGiverInput, RecognitionUncheckedCreateWithoutGiverInput>
+  }
+
+  export type RecognitionUpdateWithWhereUniqueWithoutGiverInput = {
+    where: RecognitionWhereUniqueInput
+    data: XOR<RecognitionUpdateWithoutGiverInput, RecognitionUncheckedUpdateWithoutGiverInput>
+  }
+
+  export type RecognitionUpdateManyWithWhereWithoutGiverInput = {
+    where: RecognitionScalarWhereInput
+    data: XOR<RecognitionUpdateManyMutationInput, RecognitionUncheckedUpdateManyWithoutGiverInput>
+  }
+
   export type TimesheetUpsertWithWhereUniqueWithoutUserInput = {
     where: TimesheetWhereUniqueInput
     update: XOR<TimesheetUpdateWithoutUserInput, TimesheetUncheckedUpdateWithoutUserInput>
@@ -73566,6 +80266,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUpdateManyWithoutCompanyNestedInput
@@ -73576,6 +80278,7 @@ export namespace Prisma {
     shifts?: ShiftUpdateManyWithoutCompanyNestedInput
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -73592,6 +80295,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
@@ -73602,6 +80307,7 @@ export namespace Prisma {
     shifts?: ShiftUncheckedUpdateManyWithoutCompanyNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutSubordinatesInput = {
@@ -73643,11 +80349,15 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -73683,8 +80393,12 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -73764,13 +80478,38 @@ export namespace Prisma {
     NOT?: UserDocumentScalarWhereInput | UserDocumentScalarWhereInput[]
     id?: StringFilter<"UserDocument"> | string
     userId?: StringFilter<"UserDocument"> | string
-    type?: StringFilter<"UserDocument"> | string
     name?: StringFilter<"UserDocument"> | string
+    category?: StringFilter<"UserDocument"> | string
     url?: StringFilter<"UserDocument"> | string
-    expiryDate?: DateTimeNullableFilter<"UserDocument"> | Date | string | null
-    status?: StringFilter<"UserDocument"> | string
-    verifiedBy?: StringNullableFilter<"UserDocument"> | string | null
+    fileSize?: IntNullableFilter<"UserDocument"> | number | null
+    fileType?: StringNullableFilter<"UserDocument"> | string | null
+    uploadedById?: StringNullableFilter<"UserDocument"> | string | null
     uploadedAt?: DateTimeFilter<"UserDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"UserDocument"> | Date | string
+    expiryDate?: DateTimeNullableFilter<"UserDocument"> | Date | string | null
+    notes?: StringNullableFilter<"UserDocument"> | string | null
+    tags?: StringNullableFilter<"UserDocument"> | string | null
+    status?: StringFilter<"UserDocument"> | string
+    version?: IntFilter<"UserDocument"> | number
+    isLatest?: BoolFilter<"UserDocument"> | boolean
+    parentDocId?: StringNullableFilter<"UserDocument"> | string | null
+    verifiedBy?: StringNullableFilter<"UserDocument"> | string | null
+  }
+
+  export type UserDocumentUpsertWithWhereUniqueWithoutUploaderInput = {
+    where: UserDocumentWhereUniqueInput
+    update: XOR<UserDocumentUpdateWithoutUploaderInput, UserDocumentUncheckedUpdateWithoutUploaderInput>
+    create: XOR<UserDocumentCreateWithoutUploaderInput, UserDocumentUncheckedCreateWithoutUploaderInput>
+  }
+
+  export type UserDocumentUpdateWithWhereUniqueWithoutUploaderInput = {
+    where: UserDocumentWhereUniqueInput
+    data: XOR<UserDocumentUpdateWithoutUploaderInput, UserDocumentUncheckedUpdateWithoutUploaderInput>
+  }
+
+  export type UserDocumentUpdateManyWithWhereWithoutUploaderInput = {
+    where: UserDocumentScalarWhereInput
+    data: XOR<UserDocumentUpdateManyMutationInput, UserDocumentUncheckedUpdateManyWithoutUploaderInput>
   }
 
   export type UserPolicyOverrideUpsertWithoutUserInput = {
@@ -73849,12 +80588,16 @@ export namespace Prisma {
     reviews?: PerformanceReviewCreateNestedManyWithoutUserInput
     profile?: ProfileCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -73889,9 +80632,13 @@ export namespace Prisma {
     reviews?: PerformanceReviewUncheckedCreateNestedManyWithoutUserInput
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -73939,12 +80686,16 @@ export namespace Prisma {
     reviews?: PerformanceReviewUpdateManyWithoutUserNestedInput
     profile?: ProfileUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -73979,9 +80730,13 @@ export namespace Prisma {
     reviews?: PerformanceReviewUncheckedUpdateManyWithoutUserNestedInput
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -74013,12 +80768,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -74053,9 +80812,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -74103,12 +80866,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -74143,9 +80910,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -74164,6 +80935,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
     holidays?: HolidayCreateNestedManyWithoutCompanyInput
@@ -74174,6 +80947,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutProfilesInput = {
@@ -74190,6 +80964,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
@@ -74200,6 +80976,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutProfilesInput = {
@@ -74234,12 +81011,16 @@ export namespace Prisma {
     reviews?: PerformanceReviewCreateNestedManyWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -74274,9 +81055,13 @@ export namespace Prisma {
     reviews?: PerformanceReviewUncheckedCreateNestedManyWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -74284,6 +81069,52 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutProfileInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutProfileInput, UserUncheckedCreateWithoutProfileInput>
+  }
+
+  export type BranchCreateWithoutProfilesInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBranchesInput
+    departments?: DepartmentCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchUncheckedCreateWithoutProfilesInput = {
+    id?: string
+    name: string
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    departments?: DepartmentUncheckedCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchCreateOrConnectWithoutProfilesInput = {
+    where: BranchWhereUniqueInput
+    create: XOR<BranchCreateWithoutProfilesInput, BranchUncheckedCreateWithoutProfilesInput>
+  }
+
+  export type DepartmentCreateWithoutProfilesInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutDepartmentsInput
+    branch?: BranchCreateNestedOneWithoutDepartmentsInput
+  }
+
+  export type DepartmentUncheckedCreateWithoutProfilesInput = {
+    id?: string
+    name: string
+    branchId?: string | null
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DepartmentCreateOrConnectWithoutProfilesInput = {
+    where: DepartmentWhereUniqueInput
+    create: XOR<DepartmentCreateWithoutProfilesInput, DepartmentUncheckedCreateWithoutProfilesInput>
   }
 
   export type CompanyUpsertWithoutProfilesInput = {
@@ -74311,6 +81142,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUpdateManyWithoutCompanyNestedInput
@@ -74321,6 +81154,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutProfilesInput = {
@@ -74337,6 +81171,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
@@ -74347,6 +81183,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutProfileInput = {
@@ -74387,12 +81224,16 @@ export namespace Prisma {
     reviews?: PerformanceReviewUpdateManyWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -74427,11 +81268,73 @@ export namespace Prisma {
     reviews?: PerformanceReviewUncheckedUpdateManyWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type BranchUpsertWithoutProfilesInput = {
+    update: XOR<BranchUpdateWithoutProfilesInput, BranchUncheckedUpdateWithoutProfilesInput>
+    create: XOR<BranchCreateWithoutProfilesInput, BranchUncheckedCreateWithoutProfilesInput>
+    where?: BranchWhereInput
+  }
+
+  export type BranchUpdateToOneWithWhereWithoutProfilesInput = {
+    where?: BranchWhereInput
+    data: XOR<BranchUpdateWithoutProfilesInput, BranchUncheckedUpdateWithoutProfilesInput>
+  }
+
+  export type BranchUpdateWithoutProfilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBranchesNestedInput
+    departments?: DepartmentUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchUncheckedUpdateWithoutProfilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    departments?: DepartmentUncheckedUpdateManyWithoutBranchNestedInput
+  }
+
+  export type DepartmentUpsertWithoutProfilesInput = {
+    update: XOR<DepartmentUpdateWithoutProfilesInput, DepartmentUncheckedUpdateWithoutProfilesInput>
+    create: XOR<DepartmentCreateWithoutProfilesInput, DepartmentUncheckedCreateWithoutProfilesInput>
+    where?: DepartmentWhereInput
+  }
+
+  export type DepartmentUpdateToOneWithWhereWithoutProfilesInput = {
+    where?: DepartmentWhereInput
+    data: XOR<DepartmentUpdateWithoutProfilesInput, DepartmentUncheckedUpdateWithoutProfilesInput>
+  }
+
+  export type DepartmentUpdateWithoutProfilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutDepartmentsNestedInput
+    branch?: BranchUpdateOneWithoutDepartmentsNestedInput
+  }
+
+  export type DepartmentUncheckedUpdateWithoutProfilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ShiftCreateWithoutAttendanceInput = {
@@ -74492,12 +81395,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -74532,9 +81439,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -74643,12 +81554,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -74683,9 +81598,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -74767,6 +81686,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
     holidays?: HolidayCreateNestedManyWithoutCompanyInput
@@ -74777,6 +81698,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutShiftsInput = {
@@ -74793,6 +81715,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
@@ -74803,6 +81727,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutShiftsInput = {
@@ -74873,11 +81798,15 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -74912,9 +81841,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -74970,6 +81903,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUpdateManyWithoutCompanyNestedInput
@@ -74980,6 +81915,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutShiftsInput = {
@@ -74996,6 +81932,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
@@ -75006,6 +81944,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ShiftPolicyOverrideUpsertWithoutShiftInput = {
@@ -75079,6 +82018,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
     expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
     holidays?: HolidayCreateNestedManyWithoutCompanyInput
     jobPostings?: JobPostingCreateNestedManyWithoutCompanyInput
@@ -75089,6 +82030,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAttendancePolicyInput = {
@@ -75105,6 +82047,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
     jobPostings?: JobPostingUncheckedCreateNestedManyWithoutCompanyInput
@@ -75115,6 +82059,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAttendancePolicyInput = {
@@ -75147,6 +82092,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUpdateManyWithoutCompanyNestedInput
     jobPostings?: JobPostingUpdateManyWithoutCompanyNestedInput
@@ -75157,6 +82104,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAttendancePolicyInput = {
@@ -75173,6 +82121,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
     jobPostings?: JobPostingUncheckedUpdateManyWithoutCompanyNestedInput
@@ -75183,6 +82133,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ShiftCreateWithoutPolicyOverrideInput = {
@@ -75281,12 +82232,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
 
@@ -75321,9 +82276,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -75371,12 +82330,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
 
@@ -75411,9 +82374,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -75548,6 +82515,7 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     days: number
+    duration?: string
     reason: string
     status?: string
     managerComment?: string | null
@@ -75561,6 +82529,7 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     days: number
+    duration?: string
     reason: string
     status?: string
     managerComment?: string | null
@@ -75591,6 +82560,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
     holidays?: HolidayCreateNestedManyWithoutCompanyInput
@@ -75601,6 +82572,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeaveTypesInput = {
@@ -75617,6 +82589,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
@@ -75627,6 +82601,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeaveTypesInput = {
@@ -75707,6 +82682,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUpdateManyWithoutCompanyNestedInput
@@ -75717,6 +82694,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeaveTypesInput = {
@@ -75733,6 +82711,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
@@ -75743,6 +82723,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeaveTypeCreateWithoutEncashmentsInput = {
@@ -75801,12 +82782,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -75841,9 +82826,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -75926,12 +82915,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -75966,9 +82959,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -76029,12 +83026,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -76069,9 +83070,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -76154,12 +83159,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -76194,9 +83203,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -76257,12 +83270,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -76297,9 +83314,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -76382,12 +83403,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -76422,9 +83447,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -76443,6 +83472,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
     jobPostings?: JobPostingCreateNestedManyWithoutCompanyInput
@@ -76453,6 +83484,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutHolidaysInput = {
@@ -76469,6 +83501,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
     jobPostings?: JobPostingUncheckedCreateNestedManyWithoutCompanyInput
@@ -76479,6 +83513,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutHolidaysInput = {
@@ -76511,6 +83546,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
     jobPostings?: JobPostingUpdateManyWithoutCompanyNestedInput
@@ -76521,6 +83558,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutHolidaysInput = {
@@ -76537,6 +83575,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     jobPostings?: JobPostingUncheckedUpdateManyWithoutCompanyNestedInput
@@ -76547,6 +83587,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutOnboardingInput = {
@@ -76576,12 +83617,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -76616,9 +83661,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -76774,12 +83823,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -76814,9 +83867,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -78117,12 +85174,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -78157,9 +85218,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -78232,12 +85297,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -78272,9 +85341,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -78358,12 +85431,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -78398,9 +85475,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -78448,12 +85529,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -78488,9 +85573,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -78522,12 +85611,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -78562,9 +85655,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -78601,12 +85698,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -78641,9 +85742,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -78691,12 +85796,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -78731,9 +85840,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -78776,12 +85889,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -78816,11 +85933,507 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutRecognitionsReceivedInput = {
+    id?: string
+    employeeId?: string | null
+    email: string
+    passwordHash: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    status?: string
+    role?: $Enums.Role
+    assets?: AssetCreateNestedManyWithoutUserInput
+    attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    audits?: AuditLogCreateNestedManyWithoutActorInput
+    certificates?: CertificateCreateNestedManyWithoutUserInput
+    expenses?: ExpenseClaimCreateNestedManyWithoutUserInput
+    goals?: GoalCreateNestedManyWithoutUserInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutUserInput
+    encashments?: LeaveEncashmentCreateNestedManyWithoutUserInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    offboarding?: OffboardingCreateNestedOneWithoutUserInput
+    onboarding?: OnboardingCreateNestedOneWithoutUserInput
+    payslips?: PayslipCreateNestedManyWithoutUserInput
+    reviewsGiven?: PerformanceReviewCreateNestedManyWithoutReviewerInput
+    reviews?: PerformanceReviewCreateNestedManyWithoutUserInput
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    salary?: SalaryStructureCreateNestedOneWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    manager?: UserCreateNestedOneWithoutSubordinatesInput
+    subordinates?: UserCreateNestedManyWithoutManagerInput
+    shift?: ShiftCreateNestedOneWithoutUsersInput
+    documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
+    policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
+    workLogs?: WorkLogCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRecognitionsReceivedInput = {
+    id?: string
+    employeeId?: string | null
+    email: string
+    passwordHash: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    status?: string
+    role?: $Enums.Role
+    managerId?: string | null
+    shiftId?: string | null
+    companyId?: string | null
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
+    certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    expenses?: ExpenseClaimUncheckedCreateNestedManyWithoutUserInput
+    goals?: GoalUncheckedCreateNestedManyWithoutUserInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutUserInput
+    encashments?: LeaveEncashmentUncheckedCreateNestedManyWithoutUserInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    offboarding?: OffboardingUncheckedCreateNestedOneWithoutUserInput
+    onboarding?: OnboardingUncheckedCreateNestedOneWithoutUserInput
+    payslips?: PayslipUncheckedCreateNestedManyWithoutUserInput
+    reviewsGiven?: PerformanceReviewUncheckedCreateNestedManyWithoutReviewerInput
+    reviews?: PerformanceReviewUncheckedCreateNestedManyWithoutUserInput
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
+    documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
+    policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
+    workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRecognitionsReceivedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRecognitionsReceivedInput, UserUncheckedCreateWithoutRecognitionsReceivedInput>
+  }
+
+  export type UserCreateWithoutRecognitionsGivenInput = {
+    id?: string
+    employeeId?: string | null
+    email: string
+    passwordHash: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    status?: string
+    role?: $Enums.Role
+    assets?: AssetCreateNestedManyWithoutUserInput
+    attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    audits?: AuditLogCreateNestedManyWithoutActorInput
+    certificates?: CertificateCreateNestedManyWithoutUserInput
+    expenses?: ExpenseClaimCreateNestedManyWithoutUserInput
+    goals?: GoalCreateNestedManyWithoutUserInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutUserInput
+    encashments?: LeaveEncashmentCreateNestedManyWithoutUserInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    offboarding?: OffboardingCreateNestedOneWithoutUserInput
+    onboarding?: OnboardingCreateNestedOneWithoutUserInput
+    payslips?: PayslipCreateNestedManyWithoutUserInput
+    reviewsGiven?: PerformanceReviewCreateNestedManyWithoutReviewerInput
+    reviews?: PerformanceReviewCreateNestedManyWithoutUserInput
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    salary?: SalaryStructureCreateNestedOneWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    manager?: UserCreateNestedOneWithoutSubordinatesInput
+    subordinates?: UserCreateNestedManyWithoutManagerInput
+    shift?: ShiftCreateNestedOneWithoutUsersInput
+    documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
+    policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
+    workLogs?: WorkLogCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRecognitionsGivenInput = {
+    id?: string
+    employeeId?: string | null
+    email: string
+    passwordHash: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    status?: string
+    role?: $Enums.Role
+    managerId?: string | null
+    shiftId?: string | null
+    companyId?: string | null
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
+    certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    expenses?: ExpenseClaimUncheckedCreateNestedManyWithoutUserInput
+    goals?: GoalUncheckedCreateNestedManyWithoutUserInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutUserInput
+    encashments?: LeaveEncashmentUncheckedCreateNestedManyWithoutUserInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    offboarding?: OffboardingUncheckedCreateNestedOneWithoutUserInput
+    onboarding?: OnboardingUncheckedCreateNestedOneWithoutUserInput
+    payslips?: PayslipUncheckedCreateNestedManyWithoutUserInput
+    reviewsGiven?: PerformanceReviewUncheckedCreateNestedManyWithoutReviewerInput
+    reviews?: PerformanceReviewUncheckedCreateNestedManyWithoutUserInput
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
+    documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
+    policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
+    workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRecognitionsGivenInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRecognitionsGivenInput, UserUncheckedCreateWithoutRecognitionsGivenInput>
+  }
+
+  export type CompanyCreateWithoutRecognitionsInput = {
+    id?: string
+    name: string
+    subdomain?: string | null
+    domain?: string | null
+    plan?: string
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    slogan?: string | null
+    logoMediumUrl?: string | null
+    logoThumbnailUrl?: string | null
+    faviconUrl?: string | null
+    assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
+    attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
+    expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
+    holidays?: HolidayCreateNestedManyWithoutCompanyInput
+    jobPostings?: JobPostingCreateNestedManyWithoutCompanyInput
+    jobRoles?: JobRoleCreateNestedManyWithoutCompanyInput
+    leaveTypes?: LeaveTypeCreateNestedManyWithoutCompanyInput
+    profiles?: ProfileCreateNestedManyWithoutCompanyInput
+    shifts?: ShiftCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutRecognitionsInput = {
+    id?: string
+    name: string
+    subdomain?: string | null
+    domain?: string | null
+    plan?: string
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    slogan?: string | null
+    logoMediumUrl?: string | null
+    logoThumbnailUrl?: string | null
+    faviconUrl?: string | null
+    assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
+    attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
+    expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
+    jobPostings?: JobPostingUncheckedCreateNestedManyWithoutCompanyInput
+    jobRoles?: JobRoleUncheckedCreateNestedManyWithoutCompanyInput
+    leaveTypes?: LeaveTypeUncheckedCreateNestedManyWithoutCompanyInput
+    profiles?: ProfileUncheckedCreateNestedManyWithoutCompanyInput
+    shifts?: ShiftUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutRecognitionsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutRecognitionsInput, CompanyUncheckedCreateWithoutRecognitionsInput>
+  }
+
+  export type UserUpsertWithoutRecognitionsReceivedInput = {
+    update: XOR<UserUpdateWithoutRecognitionsReceivedInput, UserUncheckedUpdateWithoutRecognitionsReceivedInput>
+    create: XOR<UserCreateWithoutRecognitionsReceivedInput, UserUncheckedCreateWithoutRecognitionsReceivedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRecognitionsReceivedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRecognitionsReceivedInput, UserUncheckedUpdateWithoutRecognitionsReceivedInput>
+  }
+
+  export type UserUpdateWithoutRecognitionsReceivedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    audits?: AuditLogUpdateManyWithoutActorNestedInput
+    certificates?: CertificateUpdateManyWithoutUserNestedInput
+    expenses?: ExpenseClaimUpdateManyWithoutUserNestedInput
+    goals?: GoalUpdateManyWithoutUserNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutUserNestedInput
+    encashments?: LeaveEncashmentUpdateManyWithoutUserNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    offboarding?: OffboardingUpdateOneWithoutUserNestedInput
+    onboarding?: OnboardingUpdateOneWithoutUserNestedInput
+    payslips?: PayslipUpdateManyWithoutUserNestedInput
+    reviewsGiven?: PerformanceReviewUpdateManyWithoutReviewerNestedInput
+    reviews?: PerformanceReviewUpdateManyWithoutUserNestedInput
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    salary?: SalaryStructureUpdateOneWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    manager?: UserUpdateOneWithoutSubordinatesNestedInput
+    subordinates?: UserUpdateManyWithoutManagerNestedInput
+    shift?: ShiftUpdateOneWithoutUsersNestedInput
+    documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
+    policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
+    workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRecognitionsReceivedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
+    certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    expenses?: ExpenseClaimUncheckedUpdateManyWithoutUserNestedInput
+    goals?: GoalUncheckedUpdateManyWithoutUserNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
+    encashments?: LeaveEncashmentUncheckedUpdateManyWithoutUserNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    offboarding?: OffboardingUncheckedUpdateOneWithoutUserNestedInput
+    onboarding?: OnboardingUncheckedUpdateOneWithoutUserNestedInput
+    payslips?: PayslipUncheckedUpdateManyWithoutUserNestedInput
+    reviewsGiven?: PerformanceReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    reviews?: PerformanceReviewUncheckedUpdateManyWithoutUserNestedInput
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
+    policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
+    workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithoutRecognitionsGivenInput = {
+    update: XOR<UserUpdateWithoutRecognitionsGivenInput, UserUncheckedUpdateWithoutRecognitionsGivenInput>
+    create: XOR<UserCreateWithoutRecognitionsGivenInput, UserUncheckedCreateWithoutRecognitionsGivenInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRecognitionsGivenInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRecognitionsGivenInput, UserUncheckedUpdateWithoutRecognitionsGivenInput>
+  }
+
+  export type UserUpdateWithoutRecognitionsGivenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    audits?: AuditLogUpdateManyWithoutActorNestedInput
+    certificates?: CertificateUpdateManyWithoutUserNestedInput
+    expenses?: ExpenseClaimUpdateManyWithoutUserNestedInput
+    goals?: GoalUpdateManyWithoutUserNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutUserNestedInput
+    encashments?: LeaveEncashmentUpdateManyWithoutUserNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    offboarding?: OffboardingUpdateOneWithoutUserNestedInput
+    onboarding?: OnboardingUpdateOneWithoutUserNestedInput
+    payslips?: PayslipUpdateManyWithoutUserNestedInput
+    reviewsGiven?: PerformanceReviewUpdateManyWithoutReviewerNestedInput
+    reviews?: PerformanceReviewUpdateManyWithoutUserNestedInput
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    salary?: SalaryStructureUpdateOneWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    manager?: UserUpdateOneWithoutSubordinatesNestedInput
+    subordinates?: UserUpdateManyWithoutManagerNestedInput
+    shift?: ShiftUpdateOneWithoutUsersNestedInput
+    documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
+    policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
+    workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRecognitionsGivenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
+    certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    expenses?: ExpenseClaimUncheckedUpdateManyWithoutUserNestedInput
+    goals?: GoalUncheckedUpdateManyWithoutUserNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
+    encashments?: LeaveEncashmentUncheckedUpdateManyWithoutUserNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    offboarding?: OffboardingUncheckedUpdateOneWithoutUserNestedInput
+    onboarding?: OnboardingUncheckedUpdateOneWithoutUserNestedInput
+    payslips?: PayslipUncheckedUpdateManyWithoutUserNestedInput
+    reviewsGiven?: PerformanceReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    reviews?: PerformanceReviewUncheckedUpdateManyWithoutUserNestedInput
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
+    policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
+    workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type CompanyUpsertWithoutRecognitionsInput = {
+    update: XOR<CompanyUpdateWithoutRecognitionsInput, CompanyUncheckedUpdateWithoutRecognitionsInput>
+    create: XOR<CompanyCreateWithoutRecognitionsInput, CompanyUncheckedCreateWithoutRecognitionsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutRecognitionsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutRecognitionsInput, CompanyUncheckedUpdateWithoutRecognitionsInput>
+  }
+
+  export type CompanyUpdateWithoutRecognitionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: NullableStringFieldUpdateOperationsInput | string | null
+    domain?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
+    attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
+    expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
+    holidays?: HolidayUpdateManyWithoutCompanyNestedInput
+    jobPostings?: JobPostingUpdateManyWithoutCompanyNestedInput
+    jobRoles?: JobRoleUpdateManyWithoutCompanyNestedInput
+    leaveTypes?: LeaveTypeUpdateManyWithoutCompanyNestedInput
+    profiles?: ProfileUpdateManyWithoutCompanyNestedInput
+    shifts?: ShiftUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutRecognitionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: NullableStringFieldUpdateOperationsInput | string | null
+    domain?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
+    attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
+    jobPostings?: JobPostingUncheckedUpdateManyWithoutCompanyNestedInput
+    jobRoles?: JobRoleUncheckedUpdateManyWithoutCompanyNestedInput
+    leaveTypes?: LeaveTypeUncheckedUpdateManyWithoutCompanyNestedInput
+    profiles?: ProfileUncheckedUpdateManyWithoutCompanyNestedInput
+    shifts?: ShiftUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type JobApplicationCreateWithoutJobInput = {
@@ -78867,6 +86480,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
     holidays?: HolidayCreateNestedManyWithoutCompanyInput
@@ -78877,6 +86492,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutJobPostingsInput = {
@@ -78893,6 +86509,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
@@ -78903,6 +86521,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutJobPostingsInput = {
@@ -78965,6 +86584,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUpdateManyWithoutCompanyNestedInput
@@ -78975,6 +86596,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutJobPostingsInput = {
@@ -78991,6 +86613,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
@@ -79001,6 +86625,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type JobPostingCreateWithoutApplicationsInput = {
@@ -79073,6 +86698,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
     holidays?: HolidayCreateNestedManyWithoutCompanyInput
     jobPostings?: JobPostingCreateNestedManyWithoutCompanyInput
@@ -79083,6 +86710,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutExpenseCategoriesInput = {
@@ -79099,6 +86727,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
     jobPostings?: JobPostingUncheckedCreateNestedManyWithoutCompanyInput
@@ -79109,6 +86739,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutExpenseCategoriesInput = {
@@ -79173,6 +86804,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
     holidays?: HolidayUpdateManyWithoutCompanyNestedInput
     jobPostings?: JobPostingUpdateManyWithoutCompanyNestedInput
@@ -79183,6 +86816,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutExpenseCategoriesInput = {
@@ -79199,6 +86833,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
     jobPostings?: JobPostingUncheckedUpdateManyWithoutCompanyNestedInput
@@ -79209,6 +86845,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ExpenseClaimUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -79273,12 +86910,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -79313,9 +86954,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -79388,12 +87033,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -79428,9 +87077,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -79462,12 +87115,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -79502,9 +87159,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -79552,12 +87213,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -79592,9 +87257,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -79626,12 +87295,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -79666,9 +87339,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -79691,6 +87368,8 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
     holidays?: HolidayCreateNestedManyWithoutCompanyInput
@@ -79702,6 +87381,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssetsInput = {
@@ -79717,6 +87397,8 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
@@ -79728,6 +87410,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssetsInput = {
@@ -79773,12 +87456,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -79813,9 +87500,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -79844,6 +87535,8 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUpdateManyWithoutCompanyNestedInput
@@ -79855,6 +87548,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssetsInput = {
@@ -79870,6 +87564,8 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
@@ -79881,6 +87577,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutDocumentsInput = {
@@ -79911,11 +87608,15 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -79951,8 +87652,12 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -79960,6 +87665,93 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutDocumentsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutDocumentsInput, UserUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type UserCreateWithoutUploadedDocsInput = {
+    id?: string
+    employeeId?: string | null
+    email: string
+    passwordHash: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    status?: string
+    role?: $Enums.Role
+    assets?: AssetCreateNestedManyWithoutUserInput
+    attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    audits?: AuditLogCreateNestedManyWithoutActorInput
+    certificates?: CertificateCreateNestedManyWithoutUserInput
+    expenses?: ExpenseClaimCreateNestedManyWithoutUserInput
+    goals?: GoalCreateNestedManyWithoutUserInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutUserInput
+    encashments?: LeaveEncashmentCreateNestedManyWithoutUserInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    offboarding?: OffboardingCreateNestedOneWithoutUserInput
+    onboarding?: OnboardingCreateNestedOneWithoutUserInput
+    payslips?: PayslipCreateNestedManyWithoutUserInput
+    reviewsGiven?: PerformanceReviewCreateNestedManyWithoutReviewerInput
+    reviews?: PerformanceReviewCreateNestedManyWithoutUserInput
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    salary?: SalaryStructureCreateNestedOneWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    manager?: UserCreateNestedOneWithoutSubordinatesInput
+    subordinates?: UserCreateNestedManyWithoutManagerInput
+    shift?: ShiftCreateNestedOneWithoutUsersInput
+    documents?: UserDocumentCreateNestedManyWithoutUserInput
+    policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
+    workLogs?: WorkLogCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutUploadedDocsInput = {
+    id?: string
+    employeeId?: string | null
+    email: string
+    passwordHash: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    status?: string
+    role?: $Enums.Role
+    managerId?: string | null
+    shiftId?: string | null
+    companyId?: string | null
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
+    certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    expenses?: ExpenseClaimUncheckedCreateNestedManyWithoutUserInput
+    goals?: GoalUncheckedCreateNestedManyWithoutUserInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutUserInput
+    encashments?: LeaveEncashmentUncheckedCreateNestedManyWithoutUserInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    offboarding?: OffboardingUncheckedCreateNestedOneWithoutUserInput
+    onboarding?: OnboardingUncheckedCreateNestedOneWithoutUserInput
+    payslips?: PayslipUncheckedCreateNestedManyWithoutUserInput
+    reviewsGiven?: PerformanceReviewUncheckedCreateNestedManyWithoutReviewerInput
+    reviews?: PerformanceReviewUncheckedCreateNestedManyWithoutUserInput
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
+    documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
+    workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutUploadedDocsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUploadedDocsInput, UserUncheckedCreateWithoutUploadedDocsInput>
   }
 
   export type UserUpsertWithoutDocumentsInput = {
@@ -80001,11 +87793,15 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -80041,8 +87837,105 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
+    policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
+    workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithoutUploadedDocsInput = {
+    update: XOR<UserUpdateWithoutUploadedDocsInput, UserUncheckedUpdateWithoutUploadedDocsInput>
+    create: XOR<UserCreateWithoutUploadedDocsInput, UserUncheckedCreateWithoutUploadedDocsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUploadedDocsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUploadedDocsInput, UserUncheckedUpdateWithoutUploadedDocsInput>
+  }
+
+  export type UserUpdateWithoutUploadedDocsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    audits?: AuditLogUpdateManyWithoutActorNestedInput
+    certificates?: CertificateUpdateManyWithoutUserNestedInput
+    expenses?: ExpenseClaimUpdateManyWithoutUserNestedInput
+    goals?: GoalUpdateManyWithoutUserNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutUserNestedInput
+    encashments?: LeaveEncashmentUpdateManyWithoutUserNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    offboarding?: OffboardingUpdateOneWithoutUserNestedInput
+    onboarding?: OnboardingUpdateOneWithoutUserNestedInput
+    payslips?: PayslipUpdateManyWithoutUserNestedInput
+    reviewsGiven?: PerformanceReviewUpdateManyWithoutReviewerNestedInput
+    reviews?: PerformanceReviewUpdateManyWithoutUserNestedInput
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    salary?: SalaryStructureUpdateOneWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    manager?: UserUpdateOneWithoutSubordinatesNestedInput
+    subordinates?: UserUpdateManyWithoutManagerNestedInput
+    shift?: ShiftUpdateOneWithoutUsersNestedInput
+    documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
+    workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUploadedDocsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
+    certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    expenses?: ExpenseClaimUncheckedUpdateManyWithoutUserNestedInput
+    goals?: GoalUncheckedUpdateManyWithoutUserNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
+    encashments?: LeaveEncashmentUncheckedUpdateManyWithoutUserNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    offboarding?: OffboardingUncheckedUpdateOneWithoutUserNestedInput
+    onboarding?: OnboardingUncheckedUpdateOneWithoutUserNestedInput
+    payslips?: PayslipUncheckedUpdateManyWithoutUserNestedInput
+    reviewsGiven?: PerformanceReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    reviews?: PerformanceReviewUncheckedUpdateManyWithoutUserNestedInput
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -80074,12 +87967,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -80114,9 +88011,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -80164,12 +88065,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -80204,9 +88109,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -80225,6 +88134,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
     holidays?: HolidayCreateNestedManyWithoutCompanyInput
@@ -80235,6 +88146,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutJobRolesInput = {
@@ -80251,6 +88163,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
@@ -80261,6 +88175,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutJobRolesInput = {
@@ -80293,6 +88208,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUpdateManyWithoutCompanyNestedInput
@@ -80303,6 +88220,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutJobRolesInput = {
@@ -80319,6 +88237,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
@@ -80329,6 +88249,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutTimesheetsInput = {
@@ -80359,11 +88280,15 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -80399,8 +88324,12 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -80489,11 +88418,15 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -80529,8 +88462,12 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -80578,21 +88515,25 @@ export namespace Prisma {
     status?: string
     priority?: string
     dueDate?: Date | string | null
+    completionComment?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company?: CompanyCreateNestedOneWithoutTasksInput
     user?: UserCreateNestedOneWithoutTasksInput
+    creator?: UserCreateNestedOneWithoutCreatedTasksInput
   }
 
   export type TaskUncheckedCreateWithoutEntriesInput = {
     id?: string
     userId?: string | null
+    creatorId?: string | null
     title: string
     description?: string | null
     project?: string | null
     status?: string
     priority?: string
     dueDate?: Date | string | null
+    completionComment?: string | null
     companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -80647,21 +88588,25 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     priority?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneWithoutTasksNestedInput
     user?: UserUpdateOneWithoutTasksNestedInput
+    creator?: UserUpdateOneWithoutCreatedTasksNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutEntriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     project?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priority?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80712,6 +88657,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
     holidays?: HolidayCreateNestedManyWithoutCompanyInput
@@ -80722,6 +88669,7 @@ export namespace Prisma {
     shifts?: ShiftCreateNestedManyWithoutCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTasksInput = {
@@ -80738,6 +88686,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
@@ -80748,6 +88698,7 @@ export namespace Prisma {
     shifts?: ShiftUncheckedCreateNestedManyWithoutCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTasksInput = {
@@ -80782,12 +88733,16 @@ export namespace Prisma {
     reviews?: PerformanceReviewCreateNestedManyWithoutUserInput
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -80822,9 +88777,13 @@ export namespace Prisma {
     reviews?: PerformanceReviewUncheckedCreateNestedManyWithoutUserInput
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -80832,6 +88791,93 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutTasksInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutTasksInput, UserUncheckedCreateWithoutTasksInput>
+  }
+
+  export type UserCreateWithoutCreatedTasksInput = {
+    id?: string
+    employeeId?: string | null
+    email: string
+    passwordHash: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    status?: string
+    role?: $Enums.Role
+    assets?: AssetCreateNestedManyWithoutUserInput
+    attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    audits?: AuditLogCreateNestedManyWithoutActorInput
+    certificates?: CertificateCreateNestedManyWithoutUserInput
+    expenses?: ExpenseClaimCreateNestedManyWithoutUserInput
+    goals?: GoalCreateNestedManyWithoutUserInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutUserInput
+    encashments?: LeaveEncashmentCreateNestedManyWithoutUserInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    offboarding?: OffboardingCreateNestedOneWithoutUserInput
+    onboarding?: OnboardingCreateNestedOneWithoutUserInput
+    payslips?: PayslipCreateNestedManyWithoutUserInput
+    reviewsGiven?: PerformanceReviewCreateNestedManyWithoutReviewerInput
+    reviews?: PerformanceReviewCreateNestedManyWithoutUserInput
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    salary?: SalaryStructureCreateNestedOneWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    manager?: UserCreateNestedOneWithoutSubordinatesInput
+    subordinates?: UserCreateNestedManyWithoutManagerInput
+    shift?: ShiftCreateNestedOneWithoutUsersInput
+    documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
+    policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
+    workLogs?: WorkLogCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCreatedTasksInput = {
+    id?: string
+    employeeId?: string | null
+    email: string
+    passwordHash: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    status?: string
+    role?: $Enums.Role
+    managerId?: string | null
+    shiftId?: string | null
+    companyId?: string | null
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
+    certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    expenses?: ExpenseClaimUncheckedCreateNestedManyWithoutUserInput
+    goals?: GoalUncheckedCreateNestedManyWithoutUserInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutUserInput
+    encashments?: LeaveEncashmentUncheckedCreateNestedManyWithoutUserInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    offboarding?: OffboardingUncheckedCreateNestedOneWithoutUserInput
+    onboarding?: OnboardingUncheckedCreateNestedOneWithoutUserInput
+    payslips?: PayslipUncheckedCreateNestedManyWithoutUserInput
+    reviewsGiven?: PerformanceReviewUncheckedCreateNestedManyWithoutReviewerInput
+    reviews?: PerformanceReviewUncheckedCreateNestedManyWithoutUserInput
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
+    documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
+    policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
+    workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCreatedTasksInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCreatedTasksInput, UserUncheckedCreateWithoutCreatedTasksInput>
   }
 
   export type TimesheetEntryCreateWithoutTaskInput = {
@@ -80899,6 +88945,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUpdateManyWithoutCompanyNestedInput
@@ -80909,6 +88957,7 @@ export namespace Prisma {
     shifts?: ShiftUpdateManyWithoutCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTasksInput = {
@@ -80925,6 +88974,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
@@ -80935,6 +88986,7 @@ export namespace Prisma {
     shifts?: ShiftUncheckedUpdateManyWithoutCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTasksInput = {
@@ -80975,12 +89027,16 @@ export namespace Prisma {
     reviews?: PerformanceReviewUpdateManyWithoutUserNestedInput
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -81015,9 +89071,106 @@ export namespace Prisma {
     reviews?: PerformanceReviewUncheckedUpdateManyWithoutUserNestedInput
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
+    policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
+    workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithoutCreatedTasksInput = {
+    update: XOR<UserUpdateWithoutCreatedTasksInput, UserUncheckedUpdateWithoutCreatedTasksInput>
+    create: XOR<UserCreateWithoutCreatedTasksInput, UserUncheckedCreateWithoutCreatedTasksInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCreatedTasksInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCreatedTasksInput, UserUncheckedUpdateWithoutCreatedTasksInput>
+  }
+
+  export type UserUpdateWithoutCreatedTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    audits?: AuditLogUpdateManyWithoutActorNestedInput
+    certificates?: CertificateUpdateManyWithoutUserNestedInput
+    expenses?: ExpenseClaimUpdateManyWithoutUserNestedInput
+    goals?: GoalUpdateManyWithoutUserNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutUserNestedInput
+    encashments?: LeaveEncashmentUpdateManyWithoutUserNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    offboarding?: OffboardingUpdateOneWithoutUserNestedInput
+    onboarding?: OnboardingUpdateOneWithoutUserNestedInput
+    payslips?: PayslipUpdateManyWithoutUserNestedInput
+    reviewsGiven?: PerformanceReviewUpdateManyWithoutReviewerNestedInput
+    reviews?: PerformanceReviewUpdateManyWithoutUserNestedInput
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    salary?: SalaryStructureUpdateOneWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    manager?: UserUpdateOneWithoutSubordinatesNestedInput
+    subordinates?: UserUpdateManyWithoutManagerNestedInput
+    shift?: ShiftUpdateOneWithoutUsersNestedInput
+    documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
+    policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
+    workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCreatedTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
+    certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    expenses?: ExpenseClaimUncheckedUpdateManyWithoutUserNestedInput
+    goals?: GoalUncheckedUpdateManyWithoutUserNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
+    encashments?: LeaveEncashmentUncheckedUpdateManyWithoutUserNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    offboarding?: OffboardingUncheckedUpdateOneWithoutUserNestedInput
+    onboarding?: OnboardingUncheckedUpdateOneWithoutUserNestedInput
+    payslips?: PayslipUncheckedUpdateManyWithoutUserNestedInput
+    reviewsGiven?: PerformanceReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    reviews?: PerformanceReviewUncheckedUpdateManyWithoutUserNestedInput
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -81052,6 +89205,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
     holidays?: HolidayCreateNestedManyWithoutCompanyInput
@@ -81062,6 +89217,7 @@ export namespace Prisma {
     shifts?: ShiftCreateNestedManyWithoutCompanyInput
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWorkLogsInput = {
@@ -81078,6 +89234,8 @@ export namespace Prisma {
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
     expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
     holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
@@ -81088,6 +89246,7 @@ export namespace Prisma {
     shifts?: ShiftUncheckedCreateNestedManyWithoutCompanyInput
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWorkLogsInput = {
@@ -81123,12 +89282,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
   }
 
@@ -81163,9 +89326,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -81199,6 +89366,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUpdateManyWithoutCompanyNestedInput
@@ -81209,6 +89378,7 @@ export namespace Prisma {
     shifts?: ShiftUpdateManyWithoutCompanyNestedInput
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWorkLogsInput = {
@@ -81225,6 +89395,8 @@ export namespace Prisma {
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
     expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
@@ -81235,6 +89407,7 @@ export namespace Prisma {
     shifts?: ShiftUncheckedUpdateManyWithoutCompanyNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutWorkLogsInput = {
@@ -81276,12 +89449,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
   }
 
@@ -81316,9 +89493,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -81349,12 +89530,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -81389,9 +89574,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -81439,12 +89628,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -81479,9 +89672,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -81513,12 +89710,16 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     salary?: SalaryStructureCreateNestedOneWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetCreateNestedManyWithoutUserInput
     company?: CompanyCreateNestedOneWithoutUsersInput
     manager?: UserCreateNestedOneWithoutSubordinatesInput
     subordinates?: UserCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutUsersInput
     documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
   }
@@ -81553,9 +89754,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
     timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
     subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
     documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -81603,12 +89808,16 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -81643,11 +89852,595 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type CompanyCreateWithoutBranchesInput = {
+    id?: string
+    name: string
+    subdomain?: string | null
+    domain?: string | null
+    plan?: string
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    slogan?: string | null
+    logoMediumUrl?: string | null
+    logoThumbnailUrl?: string | null
+    faviconUrl?: string | null
+    assets?: AssetCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
+    attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
+    expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
+    holidays?: HolidayCreateNestedManyWithoutCompanyInput
+    jobPostings?: JobPostingCreateNestedManyWithoutCompanyInput
+    jobRoles?: JobRoleCreateNestedManyWithoutCompanyInput
+    leaveTypes?: LeaveTypeCreateNestedManyWithoutCompanyInput
+    profiles?: ProfileCreateNestedManyWithoutCompanyInput
+    shifts?: ShiftCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutBranchesInput = {
+    id?: string
+    name: string
+    subdomain?: string | null
+    domain?: string | null
+    plan?: string
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    slogan?: string | null
+    logoMediumUrl?: string | null
+    logoThumbnailUrl?: string | null
+    faviconUrl?: string | null
+    assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
+    attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
+    expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
+    jobPostings?: JobPostingUncheckedCreateNestedManyWithoutCompanyInput
+    jobRoles?: JobRoleUncheckedCreateNestedManyWithoutCompanyInput
+    leaveTypes?: LeaveTypeUncheckedCreateNestedManyWithoutCompanyInput
+    profiles?: ProfileUncheckedCreateNestedManyWithoutCompanyInput
+    shifts?: ShiftUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutBranchesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutBranchesInput, CompanyUncheckedCreateWithoutBranchesInput>
+  }
+
+  export type DepartmentCreateWithoutBranchInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutDepartmentsInput
+    profiles?: ProfileCreateNestedManyWithoutDepartmentRefInput
+  }
+
+  export type DepartmentUncheckedCreateWithoutBranchInput = {
+    id?: string
+    name: string
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profiles?: ProfileUncheckedCreateNestedManyWithoutDepartmentRefInput
+  }
+
+  export type DepartmentCreateOrConnectWithoutBranchInput = {
+    where: DepartmentWhereUniqueInput
+    create: XOR<DepartmentCreateWithoutBranchInput, DepartmentUncheckedCreateWithoutBranchInput>
+  }
+
+  export type DepartmentCreateManyBranchInputEnvelope = {
+    data: DepartmentCreateManyBranchInput | DepartmentCreateManyBranchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProfileCreateWithoutBranchInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    phone?: string | null
+    address?: string | null
+    emergencyContact?: string | null
+    designation?: string | null
+    department?: string | null
+    employmentType?: string
+    dateOfJoining?: Date | string | null
+    dob?: Date | string | null
+    documents?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    bankBranch?: string | null
+    bankAddress?: string | null
+    paymentMode?: string | null
+    aadhaarNumber?: string | null
+    panNumber?: string | null
+    uanNumber?: string | null
+    nationality?: string | null
+    bloodGroup?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    presentAddress?: string | null
+    permanentAddress?: string | null
+    emergencyContactName?: string | null
+    emergencyContactRelation?: string | null
+    emergencyContactPhone?: string | null
+    emergencyContactAlternate?: string | null
+    emergencyContactAddress?: string | null
+    profilePhoto?: string | null
+    profilePhotoSettings?: string | null
+    profilePhotoMediumUrl?: string | null
+    profilePhotoThumbnailUrl?: string | null
+    company?: CompanyCreateNestedOneWithoutProfilesInput
+    user: UserCreateNestedOneWithoutProfileInput
+    departmentRef?: DepartmentCreateNestedOneWithoutProfilesInput
+  }
+
+  export type ProfileUncheckedCreateWithoutBranchInput = {
+    id?: string
+    userId: string
+    firstName: string
+    lastName: string
+    phone?: string | null
+    address?: string | null
+    emergencyContact?: string | null
+    designation?: string | null
+    department?: string | null
+    departmentId?: string | null
+    employmentType?: string
+    dateOfJoining?: Date | string | null
+    dob?: Date | string | null
+    documents?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    bankBranch?: string | null
+    bankAddress?: string | null
+    paymentMode?: string | null
+    aadhaarNumber?: string | null
+    panNumber?: string | null
+    uanNumber?: string | null
+    nationality?: string | null
+    bloodGroup?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    presentAddress?: string | null
+    permanentAddress?: string | null
+    emergencyContactName?: string | null
+    emergencyContactRelation?: string | null
+    emergencyContactPhone?: string | null
+    emergencyContactAlternate?: string | null
+    emergencyContactAddress?: string | null
+    profilePhoto?: string | null
+    profilePhotoSettings?: string | null
+    companyId?: string | null
+    profilePhotoMediumUrl?: string | null
+    profilePhotoThumbnailUrl?: string | null
+  }
+
+  export type ProfileCreateOrConnectWithoutBranchInput = {
+    where: ProfileWhereUniqueInput
+    create: XOR<ProfileCreateWithoutBranchInput, ProfileUncheckedCreateWithoutBranchInput>
+  }
+
+  export type ProfileCreateManyBranchInputEnvelope = {
+    data: ProfileCreateManyBranchInput | ProfileCreateManyBranchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutBranchesInput = {
+    update: XOR<CompanyUpdateWithoutBranchesInput, CompanyUncheckedUpdateWithoutBranchesInput>
+    create: XOR<CompanyCreateWithoutBranchesInput, CompanyUncheckedCreateWithoutBranchesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutBranchesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutBranchesInput, CompanyUncheckedUpdateWithoutBranchesInput>
+  }
+
+  export type CompanyUpdateWithoutBranchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: NullableStringFieldUpdateOperationsInput | string | null
+    domain?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    assets?: AssetUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
+    attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
+    expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
+    holidays?: HolidayUpdateManyWithoutCompanyNestedInput
+    jobPostings?: JobPostingUpdateManyWithoutCompanyNestedInput
+    jobRoles?: JobRoleUpdateManyWithoutCompanyNestedInput
+    leaveTypes?: LeaveTypeUpdateManyWithoutCompanyNestedInput
+    profiles?: ProfileUpdateManyWithoutCompanyNestedInput
+    shifts?: ShiftUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutBranchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: NullableStringFieldUpdateOperationsInput | string | null
+    domain?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
+    attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
+    jobPostings?: JobPostingUncheckedUpdateManyWithoutCompanyNestedInput
+    jobRoles?: JobRoleUncheckedUpdateManyWithoutCompanyNestedInput
+    leaveTypes?: LeaveTypeUncheckedUpdateManyWithoutCompanyNestedInput
+    profiles?: ProfileUncheckedUpdateManyWithoutCompanyNestedInput
+    shifts?: ShiftUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type DepartmentUpsertWithWhereUniqueWithoutBranchInput = {
+    where: DepartmentWhereUniqueInput
+    update: XOR<DepartmentUpdateWithoutBranchInput, DepartmentUncheckedUpdateWithoutBranchInput>
+    create: XOR<DepartmentCreateWithoutBranchInput, DepartmentUncheckedCreateWithoutBranchInput>
+  }
+
+  export type DepartmentUpdateWithWhereUniqueWithoutBranchInput = {
+    where: DepartmentWhereUniqueInput
+    data: XOR<DepartmentUpdateWithoutBranchInput, DepartmentUncheckedUpdateWithoutBranchInput>
+  }
+
+  export type DepartmentUpdateManyWithWhereWithoutBranchInput = {
+    where: DepartmentScalarWhereInput
+    data: XOR<DepartmentUpdateManyMutationInput, DepartmentUncheckedUpdateManyWithoutBranchInput>
+  }
+
+  export type ProfileUpsertWithWhereUniqueWithoutBranchInput = {
+    where: ProfileWhereUniqueInput
+    update: XOR<ProfileUpdateWithoutBranchInput, ProfileUncheckedUpdateWithoutBranchInput>
+    create: XOR<ProfileCreateWithoutBranchInput, ProfileUncheckedCreateWithoutBranchInput>
+  }
+
+  export type ProfileUpdateWithWhereUniqueWithoutBranchInput = {
+    where: ProfileWhereUniqueInput
+    data: XOR<ProfileUpdateWithoutBranchInput, ProfileUncheckedUpdateWithoutBranchInput>
+  }
+
+  export type ProfileUpdateManyWithWhereWithoutBranchInput = {
+    where: ProfileScalarWhereInput
+    data: XOR<ProfileUpdateManyMutationInput, ProfileUncheckedUpdateManyWithoutBranchInput>
+  }
+
+  export type CompanyCreateWithoutDepartmentsInput = {
+    id?: string
+    name: string
+    subdomain?: string | null
+    domain?: string | null
+    plan?: string
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    slogan?: string | null
+    logoMediumUrl?: string | null
+    logoThumbnailUrl?: string | null
+    faviconUrl?: string | null
+    assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
+    expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
+    holidays?: HolidayCreateNestedManyWithoutCompanyInput
+    jobPostings?: JobPostingCreateNestedManyWithoutCompanyInput
+    jobRoles?: JobRoleCreateNestedManyWithoutCompanyInput
+    leaveTypes?: LeaveTypeCreateNestedManyWithoutCompanyInput
+    profiles?: ProfileCreateNestedManyWithoutCompanyInput
+    shifts?: ShiftCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutDepartmentsInput = {
+    id?: string
+    name: string
+    subdomain?: string | null
+    domain?: string | null
+    plan?: string
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    slogan?: string | null
+    logoMediumUrl?: string | null
+    logoThumbnailUrl?: string | null
+    faviconUrl?: string | null
+    assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
+    expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
+    jobPostings?: JobPostingUncheckedCreateNestedManyWithoutCompanyInput
+    jobRoles?: JobRoleUncheckedCreateNestedManyWithoutCompanyInput
+    leaveTypes?: LeaveTypeUncheckedCreateNestedManyWithoutCompanyInput
+    profiles?: ProfileUncheckedCreateNestedManyWithoutCompanyInput
+    shifts?: ShiftUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutDepartmentsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutDepartmentsInput, CompanyUncheckedCreateWithoutDepartmentsInput>
+  }
+
+  export type BranchCreateWithoutDepartmentsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutBranchesInput
+    profiles?: ProfileCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchUncheckedCreateWithoutDepartmentsInput = {
+    id?: string
+    name: string
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profiles?: ProfileUncheckedCreateNestedManyWithoutBranchInput
+  }
+
+  export type BranchCreateOrConnectWithoutDepartmentsInput = {
+    where: BranchWhereUniqueInput
+    create: XOR<BranchCreateWithoutDepartmentsInput, BranchUncheckedCreateWithoutDepartmentsInput>
+  }
+
+  export type ProfileCreateWithoutDepartmentRefInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    phone?: string | null
+    address?: string | null
+    emergencyContact?: string | null
+    designation?: string | null
+    department?: string | null
+    employmentType?: string
+    dateOfJoining?: Date | string | null
+    dob?: Date | string | null
+    documents?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    bankBranch?: string | null
+    bankAddress?: string | null
+    paymentMode?: string | null
+    aadhaarNumber?: string | null
+    panNumber?: string | null
+    uanNumber?: string | null
+    nationality?: string | null
+    bloodGroup?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    presentAddress?: string | null
+    permanentAddress?: string | null
+    emergencyContactName?: string | null
+    emergencyContactRelation?: string | null
+    emergencyContactPhone?: string | null
+    emergencyContactAlternate?: string | null
+    emergencyContactAddress?: string | null
+    profilePhoto?: string | null
+    profilePhotoSettings?: string | null
+    profilePhotoMediumUrl?: string | null
+    profilePhotoThumbnailUrl?: string | null
+    company?: CompanyCreateNestedOneWithoutProfilesInput
+    user: UserCreateNestedOneWithoutProfileInput
+    branch?: BranchCreateNestedOneWithoutProfilesInput
+  }
+
+  export type ProfileUncheckedCreateWithoutDepartmentRefInput = {
+    id?: string
+    userId: string
+    firstName: string
+    lastName: string
+    phone?: string | null
+    address?: string | null
+    emergencyContact?: string | null
+    designation?: string | null
+    department?: string | null
+    branchId?: string | null
+    employmentType?: string
+    dateOfJoining?: Date | string | null
+    dob?: Date | string | null
+    documents?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    bankBranch?: string | null
+    bankAddress?: string | null
+    paymentMode?: string | null
+    aadhaarNumber?: string | null
+    panNumber?: string | null
+    uanNumber?: string | null
+    nationality?: string | null
+    bloodGroup?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    presentAddress?: string | null
+    permanentAddress?: string | null
+    emergencyContactName?: string | null
+    emergencyContactRelation?: string | null
+    emergencyContactPhone?: string | null
+    emergencyContactAlternate?: string | null
+    emergencyContactAddress?: string | null
+    profilePhoto?: string | null
+    profilePhotoSettings?: string | null
+    companyId?: string | null
+    profilePhotoMediumUrl?: string | null
+    profilePhotoThumbnailUrl?: string | null
+  }
+
+  export type ProfileCreateOrConnectWithoutDepartmentRefInput = {
+    where: ProfileWhereUniqueInput
+    create: XOR<ProfileCreateWithoutDepartmentRefInput, ProfileUncheckedCreateWithoutDepartmentRefInput>
+  }
+
+  export type ProfileCreateManyDepartmentRefInputEnvelope = {
+    data: ProfileCreateManyDepartmentRefInput | ProfileCreateManyDepartmentRefInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutDepartmentsInput = {
+    update: XOR<CompanyUpdateWithoutDepartmentsInput, CompanyUncheckedUpdateWithoutDepartmentsInput>
+    create: XOR<CompanyCreateWithoutDepartmentsInput, CompanyUncheckedCreateWithoutDepartmentsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutDepartmentsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutDepartmentsInput, CompanyUncheckedUpdateWithoutDepartmentsInput>
+  }
+
+  export type CompanyUpdateWithoutDepartmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: NullableStringFieldUpdateOperationsInput | string | null
+    domain?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
+    expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
+    holidays?: HolidayUpdateManyWithoutCompanyNestedInput
+    jobPostings?: JobPostingUpdateManyWithoutCompanyNestedInput
+    jobRoles?: JobRoleUpdateManyWithoutCompanyNestedInput
+    leaveTypes?: LeaveTypeUpdateManyWithoutCompanyNestedInput
+    profiles?: ProfileUpdateManyWithoutCompanyNestedInput
+    shifts?: ShiftUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutDepartmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: NullableStringFieldUpdateOperationsInput | string | null
+    domain?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
+    jobPostings?: JobPostingUncheckedUpdateManyWithoutCompanyNestedInput
+    jobRoles?: JobRoleUncheckedUpdateManyWithoutCompanyNestedInput
+    leaveTypes?: LeaveTypeUncheckedUpdateManyWithoutCompanyNestedInput
+    profiles?: ProfileUncheckedUpdateManyWithoutCompanyNestedInput
+    shifts?: ShiftUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type BranchUpsertWithoutDepartmentsInput = {
+    update: XOR<BranchUpdateWithoutDepartmentsInput, BranchUncheckedUpdateWithoutDepartmentsInput>
+    create: XOR<BranchCreateWithoutDepartmentsInput, BranchUncheckedCreateWithoutDepartmentsInput>
+    where?: BranchWhereInput
+  }
+
+  export type BranchUpdateToOneWithWhereWithoutDepartmentsInput = {
+    where?: BranchWhereInput
+    data: XOR<BranchUpdateWithoutDepartmentsInput, BranchUncheckedUpdateWithoutDepartmentsInput>
+  }
+
+  export type BranchUpdateWithoutDepartmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutBranchesNestedInput
+    profiles?: ProfileUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchUncheckedUpdateWithoutDepartmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profiles?: ProfileUncheckedUpdateManyWithoutBranchNestedInput
+  }
+
+  export type ProfileUpsertWithWhereUniqueWithoutDepartmentRefInput = {
+    where: ProfileWhereUniqueInput
+    update: XOR<ProfileUpdateWithoutDepartmentRefInput, ProfileUncheckedUpdateWithoutDepartmentRefInput>
+    create: XOR<ProfileCreateWithoutDepartmentRefInput, ProfileUncheckedCreateWithoutDepartmentRefInput>
+  }
+
+  export type ProfileUpdateWithWhereUniqueWithoutDepartmentRefInput = {
+    where: ProfileWhereUniqueInput
+    data: XOR<ProfileUpdateWithoutDepartmentRefInput, ProfileUncheckedUpdateWithoutDepartmentRefInput>
+  }
+
+  export type ProfileUpdateManyWithWhereWithoutDepartmentRefInput = {
+    where: ProfileScalarWhereInput
+    data: XOR<ProfileUpdateManyMutationInput, ProfileUncheckedUpdateManyWithoutDepartmentRefInput>
   }
 
   export type AssetCreateManyCompanyInput = {
@@ -81659,6 +90452,21 @@ export namespace Prisma {
     assignedTo?: string | null
     purchasedAt?: Date | string | null
     createdAt?: Date | string
+  }
+
+  export type BranchCreateManyCompanyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DepartmentCreateManyCompanyInput = {
+    id?: string
+    name: string
+    branchId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ExpenseCategoryCreateManyCompanyInput = {
@@ -81711,6 +90519,8 @@ export namespace Prisma {
     emergencyContact?: string | null
     designation?: string | null
     department?: string | null
+    branchId?: string | null
+    departmentId?: string | null
     employmentType?: string
     dateOfJoining?: Date | string | null
     dob?: Date | string | null
@@ -81718,9 +90528,23 @@ export namespace Prisma {
     bankName?: string | null
     accountNumber?: string | null
     ifscCode?: string | null
+    bankBranch?: string | null
+    bankAddress?: string | null
+    paymentMode?: string | null
     aadhaarNumber?: string | null
     panNumber?: string | null
     uanNumber?: string | null
+    nationality?: string | null
+    bloodGroup?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    presentAddress?: string | null
+    permanentAddress?: string | null
+    emergencyContactName?: string | null
+    emergencyContactRelation?: string | null
+    emergencyContactPhone?: string | null
+    emergencyContactAlternate?: string | null
+    emergencyContactAddress?: string | null
     profilePhoto?: string | null
     profilePhotoSettings?: string | null
     profilePhotoMediumUrl?: string | null
@@ -81740,12 +90564,14 @@ export namespace Prisma {
   export type TaskCreateManyCompanyInput = {
     id?: string
     userId?: string | null
+    creatorId?: string | null
     title: string
     description?: string | null
     project?: string | null
     status?: string
     priority?: string
     dueDate?: Date | string | null
+    completionComment?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -81772,6 +90598,16 @@ export namespace Prisma {
     description: string
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type RecognitionCreateManyCompanyInput = {
+    id?: string
+    userId: string
+    giverId: string
+    category?: string
+    badge?: string | null
+    message: string
+    createdAt?: Date | string
   }
 
   export type AssetUpdateWithoutCompanyInput = {
@@ -81805,6 +90641,57 @@ export namespace Prisma {
     assignedTo?: NullableStringFieldUpdateOperationsInput | string | null
     purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BranchUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    departments?: DepartmentUpdateManyWithoutBranchNestedInput
+    profiles?: ProfileUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    departments?: DepartmentUncheckedUpdateManyWithoutBranchNestedInput
+    profiles?: ProfileUncheckedUpdateManyWithoutBranchNestedInput
+  }
+
+  export type BranchUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DepartmentUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    branch?: BranchUpdateOneWithoutDepartmentsNestedInput
+    profiles?: ProfileUpdateManyWithoutDepartmentRefNestedInput
+  }
+
+  export type DepartmentUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profiles?: ProfileUncheckedUpdateManyWithoutDepartmentRefNestedInput
+  }
+
+  export type DepartmentUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ExpenseCategoryUpdateWithoutCompanyInput = {
@@ -81953,14 +90840,30 @@ export namespace Prisma {
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
     uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutProfileNestedInput
+    branch?: BranchUpdateOneWithoutProfilesNestedInput
+    departmentRef?: DepartmentUpdateOneWithoutProfilesNestedInput
   }
 
   export type ProfileUncheckedUpdateWithoutCompanyInput = {
@@ -81973,6 +90876,8 @@ export namespace Prisma {
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     department?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     employmentType?: StringFieldUpdateOperationsInput | string
     dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -81980,9 +90885,23 @@ export namespace Prisma {
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
     uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81999,6 +90918,8 @@ export namespace Prisma {
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     department?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
     employmentType?: StringFieldUpdateOperationsInput | string
     dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -82006,9 +90927,23 @@ export namespace Prisma {
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
     aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
     panNumber?: NullableStringFieldUpdateOperationsInput | string | null
     uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
     profilePhotoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82059,21 +90994,25 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     priority?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutTasksNestedInput
+    creator?: UserUpdateOneWithoutCreatedTasksNestedInput
     entries?: TimesheetEntryUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     project?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priority?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     entries?: TimesheetEntryUncheckedUpdateManyWithoutTaskNestedInput
@@ -82082,12 +91021,14 @@ export namespace Prisma {
   export type TaskUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     project?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priority?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -82120,11 +91061,15 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -82159,9 +91104,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -82210,6 +91159,36 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecognitionUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    badge?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRecognitionsReceivedNestedInput
+    giver?: UserUpdateOneRequiredWithoutRecognitionsGivenNestedInput
+  }
+
+  export type RecognitionUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    giverId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    badge?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecognitionUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    giverId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    badge?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AssetCreateManyUserInput = {
@@ -82309,6 +91288,7 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     days: number
+    duration?: string
     reason: string
     status?: string
     managerComment?: string | null
@@ -82364,15 +91344,52 @@ export namespace Prisma {
 
   export type TaskCreateManyUserInput = {
     id?: string
+    creatorId?: string | null
     title: string
     description?: string | null
     project?: string | null
     status?: string
     priority?: string
     dueDate?: Date | string | null
+    completionComment?: string | null
     companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type TaskCreateManyCreatorInput = {
+    id?: string
+    userId?: string | null
+    title: string
+    description?: string | null
+    project?: string | null
+    status?: string
+    priority?: string
+    dueDate?: Date | string | null
+    completionComment?: string | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RecognitionCreateManyUserInput = {
+    id?: string
+    giverId: string
+    companyId?: string | null
+    category?: string
+    badge?: string | null
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type RecognitionCreateManyGiverInput = {
+    id?: string
+    userId: string
+    companyId?: string | null
+    category?: string
+    badge?: string | null
+    message: string
+    createdAt?: Date | string
   }
 
   export type TimesheetCreateManyUserInput = {
@@ -82399,13 +91416,42 @@ export namespace Prisma {
 
   export type UserDocumentCreateManyUserInput = {
     id?: string
-    type: string
     name: string
+    category: string
     url: string
-    expiryDate?: Date | string | null
-    status?: string
-    verifiedBy?: string | null
+    fileSize?: number | null
+    fileType?: string | null
+    uploadedById?: string | null
     uploadedAt?: Date | string
+    updatedAt?: Date | string
+    expiryDate?: Date | string | null
+    notes?: string | null
+    tags?: string | null
+    status?: string
+    version?: number
+    isLatest?: boolean
+    parentDocId?: string | null
+    verifiedBy?: string | null
+  }
+
+  export type UserDocumentCreateManyUploaderInput = {
+    id?: string
+    userId: string
+    name: string
+    category: string
+    url: string
+    fileSize?: number | null
+    fileType?: string | null
+    uploadedAt?: Date | string
+    updatedAt?: Date | string
+    expiryDate?: Date | string | null
+    notes?: string | null
+    tags?: string | null
+    status?: string
+    version?: number
+    isLatest?: boolean
+    parentDocId?: string | null
+    verifiedBy?: string | null
   }
 
   export type WorkLogCreateManyUserInput = {
@@ -82699,6 +91745,7 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     days?: FloatFieldUpdateOperationsInput | number
+    duration?: StringFieldUpdateOperationsInput | string
     reason?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     managerComment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82712,6 +91759,7 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     days?: FloatFieldUpdateOperationsInput | number
+    duration?: StringFieldUpdateOperationsInput | string
     reason?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     managerComment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82724,6 +91772,7 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     days?: FloatFieldUpdateOperationsInput | number
+    duration?: StringFieldUpdateOperationsInput | string
     reason?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     managerComment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82879,20 +91928,24 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     priority?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneWithoutTasksNestedInput
+    creator?: UserUpdateOneWithoutCreatedTasksNestedInput
     entries?: TimesheetEntryUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     project?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priority?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -82901,15 +91954,124 @@ export namespace Prisma {
 
   export type TaskUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     project?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priority?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TaskUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    project?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    priority?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutTasksNestedInput
+    user?: UserUpdateOneWithoutTasksNestedInput
+    entries?: TimesheetEntryUpdateManyWithoutTaskNestedInput
+  }
+
+  export type TaskUncheckedUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    project?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    priority?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    entries?: TimesheetEntryUncheckedUpdateManyWithoutTaskNestedInput
+  }
+
+  export type TaskUncheckedUpdateManyWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    project?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    priority?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionComment?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecognitionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    badge?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    giver?: UserUpdateOneRequiredWithoutRecognitionsGivenNestedInput
+    company?: CompanyUpdateOneWithoutRecognitionsNestedInput
+  }
+
+  export type RecognitionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    giverId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    badge?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecognitionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    giverId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    badge?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecognitionUpdateWithoutGiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    badge?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRecognitionsReceivedNestedInput
+    company?: CompanyUpdateOneWithoutRecognitionsNestedInput
+  }
+
+  export type RecognitionUncheckedUpdateWithoutGiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    badge?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecognitionUncheckedUpdateManyWithoutGiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    badge?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TimesheetUpdateWithoutUserInput = {
@@ -82969,11 +92131,15 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutUsersNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -83008,9 +92174,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -83030,35 +92200,122 @@ export namespace Prisma {
 
   export type UserDocumentUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
-    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    isLatest?: BoolFieldUpdateOperationsInput | boolean
+    parentDocId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    uploader?: UserUpdateOneWithoutUploadedDocsNestedInput
   }
 
   export type UserDocumentUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
-    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    isLatest?: BoolFieldUpdateOperationsInput | boolean
+    parentDocId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserDocumentUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
-    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    isLatest?: BoolFieldUpdateOperationsInput | boolean
+    parentDocId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserDocumentUpdateWithoutUploaderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    isLatest?: BoolFieldUpdateOperationsInput | boolean
+    parentDocId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutDocumentsNestedInput
+  }
+
+  export type UserDocumentUncheckedUpdateWithoutUploaderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    isLatest?: BoolFieldUpdateOperationsInput | boolean
+    parentDocId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserDocumentUncheckedUpdateManyWithoutUploaderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    isLatest?: BoolFieldUpdateOperationsInput | boolean
+    parentDocId?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WorkLogUpdateWithoutUserInput = {
@@ -83213,11 +92470,15 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUpdateOneWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUpdateManyWithoutUserNestedInput
     company?: CompanyUpdateOneWithoutUsersNestedInput
     manager?: UserUpdateOneWithoutSubordinatesNestedInput
     subordinates?: UserUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
   }
@@ -83252,9 +92513,13 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
     timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
     subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
     documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -83297,6 +92562,7 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     days: number
+    duration?: string
     reason: string
     status?: string
     managerComment?: string | null
@@ -83365,6 +92631,7 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     days?: FloatFieldUpdateOperationsInput | number
+    duration?: StringFieldUpdateOperationsInput | string
     reason?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     managerComment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83378,6 +92645,7 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     days?: FloatFieldUpdateOperationsInput | number
+    duration?: StringFieldUpdateOperationsInput | string
     reason?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     managerComment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83390,6 +92658,7 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     days?: FloatFieldUpdateOperationsInput | number
+    duration?: StringFieldUpdateOperationsInput | string
     reason?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     managerComment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83734,6 +93003,376 @@ export namespace Prisma {
     sat?: FloatFieldUpdateOperationsInput | number
     sun?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type DepartmentCreateManyBranchInput = {
+    id?: string
+    name: string
+    companyId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProfileCreateManyBranchInput = {
+    id?: string
+    userId: string
+    firstName: string
+    lastName: string
+    phone?: string | null
+    address?: string | null
+    emergencyContact?: string | null
+    designation?: string | null
+    department?: string | null
+    departmentId?: string | null
+    employmentType?: string
+    dateOfJoining?: Date | string | null
+    dob?: Date | string | null
+    documents?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    bankBranch?: string | null
+    bankAddress?: string | null
+    paymentMode?: string | null
+    aadhaarNumber?: string | null
+    panNumber?: string | null
+    uanNumber?: string | null
+    nationality?: string | null
+    bloodGroup?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    presentAddress?: string | null
+    permanentAddress?: string | null
+    emergencyContactName?: string | null
+    emergencyContactRelation?: string | null
+    emergencyContactPhone?: string | null
+    emergencyContactAlternate?: string | null
+    emergencyContactAddress?: string | null
+    profilePhoto?: string | null
+    profilePhotoSettings?: string | null
+    companyId?: string | null
+    profilePhotoMediumUrl?: string | null
+    profilePhotoThumbnailUrl?: string | null
+  }
+
+  export type DepartmentUpdateWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutDepartmentsNestedInput
+    profiles?: ProfileUpdateManyWithoutDepartmentRefNestedInput
+  }
+
+  export type DepartmentUncheckedUpdateWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profiles?: ProfileUncheckedUpdateManyWithoutDepartmentRefNestedInput
+  }
+
+  export type DepartmentUncheckedUpdateManyWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProfileUpdateWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    documents?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneWithoutProfilesNestedInput
+    user?: UserUpdateOneRequiredWithoutProfileNestedInput
+    departmentRef?: DepartmentUpdateOneWithoutProfilesNestedInput
+  }
+
+  export type ProfileUncheckedUpdateWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    documents?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ProfileUncheckedUpdateManyWithoutBranchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    departmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    documents?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ProfileCreateManyDepartmentRefInput = {
+    id?: string
+    userId: string
+    firstName: string
+    lastName: string
+    phone?: string | null
+    address?: string | null
+    emergencyContact?: string | null
+    designation?: string | null
+    department?: string | null
+    branchId?: string | null
+    employmentType?: string
+    dateOfJoining?: Date | string | null
+    dob?: Date | string | null
+    documents?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    ifscCode?: string | null
+    bankBranch?: string | null
+    bankAddress?: string | null
+    paymentMode?: string | null
+    aadhaarNumber?: string | null
+    panNumber?: string | null
+    uanNumber?: string | null
+    nationality?: string | null
+    bloodGroup?: string | null
+    gender?: string | null
+    maritalStatus?: string | null
+    presentAddress?: string | null
+    permanentAddress?: string | null
+    emergencyContactName?: string | null
+    emergencyContactRelation?: string | null
+    emergencyContactPhone?: string | null
+    emergencyContactAlternate?: string | null
+    emergencyContactAddress?: string | null
+    profilePhoto?: string | null
+    profilePhotoSettings?: string | null
+    companyId?: string | null
+    profilePhotoMediumUrl?: string | null
+    profilePhotoThumbnailUrl?: string | null
+  }
+
+  export type ProfileUpdateWithoutDepartmentRefInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    documents?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneWithoutProfilesNestedInput
+    user?: UserUpdateOneRequiredWithoutProfileNestedInput
+    branch?: BranchUpdateOneWithoutProfilesNestedInput
+  }
+
+  export type ProfileUncheckedUpdateWithoutDepartmentRefInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    documents?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ProfileUncheckedUpdateManyWithoutDepartmentRefInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    dateOfJoining?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dob?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    documents?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMode?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    uanNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    presentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactName?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactRelation?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAlternate?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContactAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoSettings?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhotoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

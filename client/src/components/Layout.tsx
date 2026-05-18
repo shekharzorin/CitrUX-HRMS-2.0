@@ -111,6 +111,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         '/leaves': { title: 'Leaves', subtitle: 'Leave requests & balances' },
         '/worklogs': { title: 'Work Log', subtitle: 'Daily activities' },
         '/tasks': { title: 'Tasks', subtitle: 'Project management' },
+        '/engagement': { title: 'Engagement', subtitle: 'Culture & Appraisals' },
         '/users': { title: 'Employees', subtitle: 'Organization directory' },
         '/payslips': { title: 'Payroll', subtitle: 'Salary & benefits' },
         '/expenses': { title: 'Expenses', subtitle: 'Claims & reimbursements' },
@@ -165,6 +166,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <NavItem to="/leaves" icon="leaves" label="Leaves" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/worklogs" icon="timesheet" label="Work Log" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/tasks" icon="approvals" label="Tasks" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/engagement" icon="celebration" label="Engagement" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/documents" icon="file_text" label="Documents" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 
                 <div className="px-5 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Finance</div>
                 <NavItem to="/expenses" icon="expenses" label="Expenses" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
