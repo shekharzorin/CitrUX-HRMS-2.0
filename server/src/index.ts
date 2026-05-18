@@ -131,7 +131,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 // Secure Uploads Access
 import jwt from 'jsonwebtoken';
 
-app.use('/uploads/:filepath(*)', (req, res, next) => {
+app.use('/uploads/:filepath(.*)', (req, res, next) => {
     const token = req.query.token as string;
     const filepath = req.params.filepath;
 
