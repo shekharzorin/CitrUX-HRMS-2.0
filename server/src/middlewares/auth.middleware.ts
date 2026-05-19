@@ -27,11 +27,29 @@ export const authenticateToken = (req: AuthRequest, res: Response, next: NextFun
 
 export const authorizeRole = (roles: string[]) => {
     return (req: AuthRequest, res: Response, next: NextFunction) => {
-        if (!req.user || !roles.includes(req.user.role.toUpperCase())) {
+        if (!req.user) {
             return res.status(403).json({ message: 'Forbidden: insufficient permissions' });
         }
-        next();
+        const userRole = req.user.role.toUpperCase();
+        if (userRole === 'SUPER_ADMIN' || roles.map(r => r.toUpperCase()).includes(userRole)) {
+            return next();
+        }
+        return res.status(403).json({ message: 'Forbidden: insufficient permissions' });
     };
+};
+
+export const optionalAuthenticateToken = (req: AuthRequest, res: Response, next: NextFunction) => {
+    const authHeader = req.headers['authorization'] as string | undefined;
+    const token = (authHeader && authHeader.split(' ')[1]) || (req.query.token as string);
+
+    if (!token) return next();
+
+    jwt.verify(token, process.env.JWT_SECRET as string, (err: any, decoded: any) => {
+        if (!err) {
+            req.user = decoded as JwtPayload;
+        }
+        next();
+    });
 };
 
 /**

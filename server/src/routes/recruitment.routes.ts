@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import { createJob, getJobs, applyForJob, getApplications, updateApplicationStatus } from '../controllers/recruitment.controller';
-import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware';
+import { authenticateToken, authorizeRole, optionalAuthenticateToken } from '../middlewares/auth.middleware';
 
 const router = Router();
 
 // Public Routes
-router.get('/jobs', getJobs);
+router.get('/jobs', optionalAuthenticateToken, getJobs);
 router.post('/apply', applyForJob);
 
 // Admin Routes

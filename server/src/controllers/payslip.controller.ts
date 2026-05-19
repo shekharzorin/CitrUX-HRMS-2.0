@@ -39,7 +39,7 @@ export const getMyPayslips = async (req: AuthRequest, res: Response) => {
         const userId = req.user.userId;
         const payslips = await prisma.payslip.findMany({
             where: { userId },
-            orderBy: { year: 'desc', month: 'desc' }
+            orderBy: [{ year: 'desc' }, { month: 'desc' }]
         });
         res.json(payslips);
     } catch (error) {

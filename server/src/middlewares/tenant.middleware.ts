@@ -45,7 +45,13 @@ export const tenantScope = (req: AuthRequest, res: Response, next: NextFunction)
  * For everyone else: returns { companyId: '...' }.
  */
 export const getTenantScope = (req: AuthRequest): { companyId?: string } => {
-    const { role, companyId } = req.user!;
+    if (!req.user) {
+        if (req.query.companyId && typeof req.query.companyId === 'string') {
+            return { companyId: req.query.companyId };
+        }
+        return {};
+    }
+    const { role, companyId } = req.user;
 
     if (role.toUpperCase() === 'SUPER_ADMIN' && !companyId) {
         return {}; // Unrestricted — sees all companies
