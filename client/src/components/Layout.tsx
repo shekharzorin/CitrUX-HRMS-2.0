@@ -162,20 +162,37 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <NavItem to="/" icon="dashboard" label="Dashboard" precise collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <div className="px-5 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Workspace</div>
                 <NavItem to="/users" icon="employees" label="Employees" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/org-chart" icon="org_chart" label="Org Chart" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/attendance" icon="attendance" label="Attendance" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/leaves" icon="leaves" label="Leaves" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/worklogs" icon="timesheet" label="Work Log" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/tasks" icon="approvals" label="Tasks" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/engagement" icon="celebration" label="Engagement" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/performance" icon="performance" label="Performance" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/recruitment/jobs" icon="ats" label="Recruitment" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/assets" icon="assets" label="Assets" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/documents" icon="file_text" label="Documents" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 
                 <div className="px-5 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Finance</div>
                 <NavItem to="/expenses" icon="expenses" label="Expenses" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
-                <NavItem to="/payslips" icon="payroll" label="Payroll" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                <NavItem to="/payslips" icon="payroll" label="My Payslips" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                {['ADMIN', 'HR', 'SUPER_ADMIN'].includes(user?.role || '') && (
+                    <NavItem to="/admin/payroll" icon="payroll" label="Run Payroll" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                )}
                 
                 <div className="px-5 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Management</div>
                 <NavItem to="/analytics" icon="analytics" label="Insights" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                 <NavItem to="/settings" icon="settings" label="Settings" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                {['ADMIN', 'SUPER_ADMIN'].includes(user?.role || '') && (
+                    <NavItem to="/admin/system-health" icon="bolt" label="System Health" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                )}
+
+                {user?.role === 'SUPER_ADMIN' && (
+                    <>
+                        <div className="px-5 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Super Admin</div>
+                        <NavItem to="/super-admin/companies" icon="departments" label="Global Companies" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                    </>
+                )}
             </nav>
 
             <div className="p-4 border-t border-slate-100 dark:border-slate-800">
