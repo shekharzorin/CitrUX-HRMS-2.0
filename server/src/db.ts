@@ -8,8 +8,8 @@ const getDbUrl = (): string | undefined => {
     const directUrl = process.env.DIRECT_URL;
     
     // If DATABASE_URL is pointing to db.prisma.io (which is currently unreachable),
-    // and DIRECT_URL is provided, prioritize DIRECT_URL.
-    if (dbUrl?.includes('db.prisma.io') && directUrl) {
+    // and DIRECT_URL is provided (pointing to a different provider like Supabase), prioritize DIRECT_URL.
+    if (dbUrl?.includes('db.prisma.io') && directUrl && !directUrl.includes('db.prisma.io')) {
         console.log('[DB] DATABASE_URL points to db.prisma.io which is unreachable. Falling back to DIRECT_URL.');
         return directUrl;
     }
