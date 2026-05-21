@@ -5,7 +5,11 @@ from pydantic import field_validator
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "HRMS Chatbot"
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://user:password@localhost/hrms")
+    DATABASE_URL: str = (
+        os.getenv("DIRECT_URL")
+        if (os.getenv("DATABASE_URL") and "db.prisma.io" in os.getenv("DATABASE_URL") and os.getenv("DIRECT_URL"))
+        else os.getenv("DATABASE_URL", "postgresql://user:password@localhost/hrms")
+    )
     SECRET_KEY: str = os.getenv("SECRET_KEY", "your-secret-key-for-jwt")
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30

@@ -63,6 +63,8 @@ services:
     envVars:
       - key: DATABASE_URL
         sync: false
+      - key: DIRECT_URL
+        sync: false
       - key: GROQ_API_KEY
         sync: false                          # Primary provider — LLaMA 3.3 open source
       - key: GEMINI_API_KEY
@@ -86,6 +88,8 @@ services:
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
         sync: false
       - key: SECRET_KEY
         generateValue: true

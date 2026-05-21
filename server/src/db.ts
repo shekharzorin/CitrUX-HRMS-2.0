@@ -3,8 +3,27 @@ export { Prisma };
 
 const isDev = process.env.NODE_ENV !== 'production';
 
+const getDbUrl = (): string | undefined => {
+    const dbUrl = process.env.DATABASE_URL;
+    const directUrl = process.env.DIRECT_URL;
+    
+    // If DATABASE_URL is pointing to db.prisma.io (which is currently unreachable),
+    // and DIRECT_URL is provided, prioritize DIRECT_URL.
+    if (dbUrl?.includes('db.prisma.io') && directUrl) {
+        console.log('[DB] DATABASE_URL points to db.prisma.io which is unreachable. Falling back to DIRECT_URL.');
+        return directUrl;
+    }
+    
+    return dbUrl;
+};
+
 export const prisma = new PrismaClient({
     log: isDev ? ['warn', 'error'] : ['error'],
+    datasources: {
+        db: {
+            url: getDbUrl()
+        }
+    }
 });
 
 /**
