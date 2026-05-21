@@ -1,6 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../src/db';
 
-const prisma = new PrismaClient();
 
 async function main() {
     console.log("🔥 Starting System Smoke Test...");

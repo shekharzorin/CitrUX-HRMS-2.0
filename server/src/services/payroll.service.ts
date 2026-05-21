@@ -1,9 +1,8 @@
-import { PrismaClient } from '../../generated/prisma';
+import { prisma } from '../db';
 import PDFDocument from 'pdfkit';
 import fs from 'fs';
 import path from 'path';
 
-const prisma = new PrismaClient();
 
 interface PayrollCalculationResult {
     salaryStructure: any;
