@@ -17,6 +17,7 @@ export const globalSearch = async (req: AuthRequest, res: Response) => {
         const users = await prisma.user.findMany({
             where: {
                 ...tenantWhere,
+                status: { not: 'ARCHIVED' },
                 OR: [
                     { email: { contains: query, mode: 'insensitive' } },
                     { employeeId: { contains: query, mode: 'insensitive' } },

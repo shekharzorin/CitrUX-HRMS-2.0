@@ -36,7 +36,7 @@ export const login = async (req: Request, res: Response) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        if (user.status === 'INACTIVE') {
+        if (user.status === 'INACTIVE' || user.status === 'ARCHIVED') {
             return res.status(403).json({ message: 'Account has been deactivated. Contact HR.' });
         }
 

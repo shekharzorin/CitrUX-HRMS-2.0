@@ -148,7 +148,8 @@ export const getLeaveReport = async (req: AuthRequest, res: Response) => {
         const balances = await prisma.leaveBalance.findMany({
             where: {
                 user: {
-                    ...scope
+                    ...scope,
+                    status: { not: 'ARCHIVED' }
                 }
             },
             include: {

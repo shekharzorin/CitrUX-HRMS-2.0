@@ -11,8 +11,19 @@ import { Avatar } from '../components/ui/Avatar';
 import { useToast } from '../contexts/ToastContext';
 import { canManageUser } from '../utils/permissions';
 import { resolveImageUrl } from '../utils/image';
+import { Tabs } from '../components/ui/Tabs';
 
-const UserCard = ({ user, currentUser, onDelete }: { user: any, currentUser: any, onDelete: (id: string, name: string) => void }) => {
+const UserCard = ({ 
+    user, 
+    currentUser, 
+    onDelete, 
+    onRestore 
+}: { 
+    user: any, 
+    currentUser: any, 
+    onDelete: (id: string, name: string) => void, 
+    onRestore: (id: string, name: string) => void 
+}) => {
     return (
         <div className="card-premium p-6 flex flex-col items-center text-center relative group hover:-translate-y-1 transition-transform duration-300 border border-[var(--border-light)] dark:border-slate-800 bg-[var(--bg-surface)]">
             {/* Top Pattern */}
@@ -25,8 +36,8 @@ const UserCard = ({ user, currentUser, onDelete }: { user: any, currentUser: any
                     size="80px"
                     className="border-4 border-white dark:border-slate-800 shadow-md bg-[var(--bg-surface)]"
                 />
-                <div className={`absolute bottom-1 right-1 w-5 h-5 rounded-full border-2 border-white dark:border-slate-800 flex items-center justify-center ${user.isActive !== false ? 'bg-emerald-500' : 'bg-slate-400'}`}>
-                    <Icon name={user.isActive !== false ? "check_circle" : "minus"} size={12} className="text-white" />
+                <div className={`absolute bottom-1 right-1 w-5 h-5 rounded-full border-2 border-white dark:border-slate-800 flex items-center justify-center ${user.status === 'ARCHIVED' ? 'bg-slate-400' : (user.isActive !== false ? 'bg-emerald-500' : 'bg-slate-400')}`}>
+                    <Icon name={user.status === 'ARCHIVED' ? "minus" : (user.isActive !== false ? "check_circle" : "minus")} size={12} className="text-white" />
                 </div>
             </div>
 
@@ -50,12 +61,13 @@ const UserCard = ({ user, currentUser, onDelete }: { user: any, currentUser: any
                 )}
             </div>
 
-            <span className={`mt-2 mb-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${user.role === 'ADMIN' ? 'bg-purple-100 text-purple-700 border-purple-200' :
+            <span className={`mt-2 mb-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${user.status === 'ARCHIVED' ? 'bg-slate-100 text-slate-600 border-slate-200' :
+                user.role === 'ADMIN' ? 'bg-purple-100 text-purple-700 border-purple-200' :
                 user.role === 'HR' ? 'bg-blue-100 text-blue-700 border-blue-200' :
-                    user.role === 'MANAGER' ? 'bg-amber-100 text-amber-700 border-amber-200' :
-                        'bg-slate-100 text-slate-600 border-slate-200'
+                user.role === 'MANAGER' ? 'bg-amber-100 text-amber-700 border-amber-200' :
+                'bg-slate-100 text-slate-600 border-slate-200'
                 }`}>
-                {user.role}
+                {user.status === 'ARCHIVED' ? 'ARCHIVED' : user.role}
             </span>
 
             <div className="w-full border-t border-[var(--border-light)] my-4"></div>
@@ -67,18 +79,31 @@ const UserCard = ({ user, currentUser, onDelete }: { user: any, currentUser: any
 
                 {['ADMIN', 'HR', 'SUPER_ADMIN'].includes(currentUser?.role?.toUpperCase() || '') && canManageUser(currentUser?.role, user.role) && (
                     <div className="flex gap-2">
-                        <Link to={`/users/edit/${user.id}`} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-500 hover:text-blue-600 transition-colors" title="Edit User" aria-label="Edit User">
-                            <Icon name="edit" size={16} />
-                        </Link>
-                        {user.email !== 'admin@citrux-hrms.com' && user.role !== 'SUPER_ADMIN' && user.id !== currentUser?.id && (
+                        {user.status === 'ARCHIVED' ? (
                             <button
-                                onClick={() => onDelete(user.id, user.profile?.firstName || user.email)}
-                                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-rose-50 text-slate-500 hover:text-rose-600 transition-colors"
-                                title="Delete User"
-                                aria-label="Delete User"
+                                onClick={() => onRestore(user.id, user.profile?.firstName || user.email)}
+                                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-emerald-50 text-slate-500 hover:text-emerald-600 transition-colors"
+                                title="Restore User"
+                                aria-label="Restore User"
                             >
-                                <Icon name="delete" size={16} />
+                                <Icon name="rotate_ccw" size={16} />
                             </button>
+                        ) : (
+                            <>
+                                <Link to={`/users/edit/${user.id}`} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-500 hover:text-blue-600 transition-colors" title="Edit User" aria-label="Edit User">
+                                    <Icon name="edit" size={16} />
+                                </Link>
+                                {user.email !== 'admin@citrux-hrms.com' && user.role !== 'SUPER_ADMIN' && user.id !== currentUser?.id && (
+                                    <button
+                                        onClick={() => onDelete(user.id, user.profile?.firstName || user.email)}
+                                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-rose-50 text-slate-500 hover:text-rose-600 transition-colors"
+                                        title="Delete User"
+                                        aria-label="Delete User"
+                                    >
+                                        <Icon name="delete" size={16} />
+                                    </button>
+                                )}
+                            </>
                         )}
                     </div>
                 )}
@@ -93,6 +118,7 @@ const Users: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [search, setSearch] = useState('');
+    const [activeTab, setActiveTab] = useState<'active' | 'archived'>('active');
     const { showToast } = useToast();
 
     // Import Ref
@@ -114,13 +140,15 @@ const Users: React.FC = () => {
     });
 
     useEffect(() => {
-        fetchUsers();
-    }, []);
+        setLoading(true);
+        fetchUsers(activeTab);
+    }, [activeTab]);
 
-    const fetchUsers = async () => {
+    const fetchUsers = async (tab: 'active' | 'archived' = 'active') => {
         setError(false);
         try {
-            const data = await api.get<any[]>('/users');
+            const url = tab === 'archived' ? '/users?archived=true' : '/users';
+            const data = await api.get<any[]>(url);
             if (Array.isArray(data)) {
                 setUsers(data);
             } else {
@@ -141,13 +169,30 @@ const Users: React.FC = () => {
             message: `Are you sure you want to delete ${name}? This action cannot be undone.`,
             type: 'danger',
             onConfirm: async () => {
-                // Future: Use a loading state if needed
                 try {
                     await api.delete(`/users/${id}`);
                     setUsers(users.filter(u => u.id !== id));
                     showToast(`Successfully deleted ${name}`, 'success');
                 } catch (error) {
                     showToast('Failed to delete user', 'error');
+                }
+            }
+        });
+    };
+
+    const handleRestore = (id: string, name: string) => {
+        setConfirmState({
+            isOpen: true,
+            title: 'Restore Employee',
+            message: `Are you sure you want to restore ${name} back to Active status?`,
+            type: 'info',
+            onConfirm: async () => {
+                try {
+                    await api.put(`/users/${id}/restore`, {});
+                    setUsers(users.filter(u => u.id !== id));
+                    showToast(`Successfully restored ${name}`, 'success');
+                } catch (error) {
+                    showToast('Failed to restore user', 'error');
                 }
             }
         });
@@ -161,7 +206,6 @@ const Users: React.FC = () => {
         reader.onload = async (event) => {
             const text = event.target?.result as string;
             if (!text) return;
-            // ... (Keep existing CSV logic if needed, simplified here for brevity but logic remains same)
             const lines = text.split('\n');
             const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
             const usersToImport: any[] = [];
@@ -192,7 +236,7 @@ const Users: React.FC = () => {
                     try {
                         const data = await api.post<any>('/users/import', { users: usersToImport });
                         showToast(`Imported: ${data.results.success} Success, ${data.results.failed} Failed`, 'success');
-                        fetchUsers();
+                        fetchUsers(activeTab);
                     } catch (err: any) {
                         showToast('Error importing users', 'error');
                     } finally { setLoading(false); if (fileInputRef.current) fileInputRef.current.value = ''; }
@@ -211,10 +255,15 @@ const Users: React.FC = () => {
         (user.profile?.departmentRef?.name && user.profile.departmentRef.name.toLowerCase().includes(search.toLowerCase()))
     ) : [];
 
+    const handleRetry = () => {
+        setLoading(true);
+        fetchUsers(activeTab);
+    };
+
     if (error) {
         return (
             <div className="page-container flex items-center justify-center min-h-[60vh]">
-                <EmptyState title="Unable to Load Users" description="Connection error." icon="warning" action={<Button onClick={fetchUsers}>Retry</Button>} />
+                <EmptyState title="Unable to Load Users" description="Connection error." icon="warning" action={<Button onClick={handleRetry}>Retry</Button>} />
             </div>
         );
     }
@@ -246,22 +295,36 @@ const Users: React.FC = () => {
                 </div>
             </div>
 
-            {/* Search Filter */}
-            <div className="bg-white dark:bg-slate-800 p-2 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex items-center gap-2 max-w-xl">
-                <div className="p-3 text-slate-400">
-                    <Icon name="search" size={20} />
+            {/* Search Filter & Tabs */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="bg-white dark:bg-slate-800 p-2 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex items-center gap-2 max-w-xl w-full">
+                    <div className="p-3 text-slate-400">
+                        <Icon name="search" size={20} />
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Search employees by name, email, or role..."
+                        className="flex-1 bg-transparent border-none outline-none text-sm font-medium h-full"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    {search && (
+                        <button onClick={() => setSearch('')} className="p-2 text-slate-400 hover:text-slate-600" aria-label="Clear Search">
+                            <Icon name="close" size={16} />
+                        </button>
+                    )}
                 </div>
-                <input
-                    type="text"
-                    placeholder="Search employees by name, email, or role..."
-                    className="flex-1 bg-transparent border-none outline-none text-sm font-medium h-full"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-                {search && (
-                    <button onClick={() => setSearch('')} className="p-2 text-slate-400 hover:text-slate-600" aria-label="Clear Search">
-                        <Icon name="close" size={16} />
-                    </button>
+
+                {['ADMIN', 'HR', 'SUPER_ADMIN'].includes(useUser?.role?.toUpperCase() || '') && (
+                    <Tabs
+                        tabs={[
+                            { id: 'active', label: 'Active Employees', icon: 'employees' },
+                            { id: 'archived', label: 'Archived', icon: 'offboarding' }
+                        ]}
+                        activeTab={activeTab}
+                        onChange={(id) => setActiveTab(id as 'active' | 'archived')}
+                        className="!mb-0"
+                    />
                 )}
             </div>
 
@@ -287,13 +350,14 @@ const Users: React.FC = () => {
                                     user={user}
                                     currentUser={useUser}
                                     onDelete={handleDelete}
+                                    onRestore={handleRestore}
                                 />
                             ))}
                         </div>
                     ) : (
                         <EmptyState
-                            title="No Employees Found"
-                            description={search ? `No results found for "${search}"` : "Get started by adding your first employee."}
+                            title={activeTab === 'archived' ? "No Archived Employees" : "No Employees Found"}
+                            description={search ? `No results found for "${search}"` : (activeTab === 'archived' ? "There are no archived team members." : "Get started by adding your first employee.")}
                             icon="search"
                             className="py-12"
                         />

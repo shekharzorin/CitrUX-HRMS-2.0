@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createUser, getUsers, getUserById, updateUser, deleteUser, importUsers } from '../controllers/user.controller';
+import { createUser, getUsers, getUserById, updateUser, deleteUser, importUsers, restoreUser } from '../controllers/user.controller';
 import { authenticateToken, requirePermission } from '../middlewares/auth.middleware';
 
 const router = Router();
@@ -11,6 +11,7 @@ router.post('/import', requirePermission('MANAGE_USERS'), importUsers);
 router.get('/', getUsers);
 router.get('/:id', getUserById);
 router.put('/:id', requirePermission('MANAGE_USERS'), updateUser);
+router.put('/:id/restore', requirePermission('MANAGE_USERS'), restoreUser);
 router.delete('/:id', requirePermission('MANAGE_USERS'), deleteUser);
 
 export default router;

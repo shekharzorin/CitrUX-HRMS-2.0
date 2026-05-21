@@ -273,7 +273,11 @@ export const getUsers = async (req: AuthRequest, res: Response) => {
         const { role, userId } = req.user!;
         const tenantWhere = getTenantScope(req);  // { companyId: '...' } or {} for SUPER_ADMIN
 
-        let whereClause: any = { ...tenantWhere };
+        const archivedQuery = req.query.archived === 'true';
+        let whereClause: any = { 
+            ...tenantWhere,
+            status: archivedQuery ? 'ARCHIVED' : { not: 'ARCHIVED' }
+        };
 
         if (role === 'MANAGER') {
             // Managers only see their direct reports within the same company
@@ -469,15 +473,14 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
     } catch (error) {
         logger.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
-    }
+       }
 };
-
 export const deleteUser = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id, 'User ID');
         const actorRole = req.user!.role;
 
-        // Check if attempting to delete Super Admin
+        // Check if attempting to delete
         const userToDelete = await prisma.user.findUnique({ where: { id } });
 
         if (!userToDelete) {
@@ -502,88 +505,34 @@ export const deleteUser = async (req: AuthRequest, res: Response) => {
             data: { managerId: null }
         });
 
-        // 2. Delete Breaks (must be before Attendance)
-        const deleteBreaks = prisma.break.deleteMany({
-            where: { attendance: { userId: id } }
-        });
-
-        // 3. Delete Attendance
-        const deleteAttendance = prisma.attendance.deleteMany({ where: { userId: id } });
-
-        // 4. Delete Leave balances and requests
-        const deleteLeaveBalance = prisma.leaveBalance.deleteMany({ where: { userId: id } });
-        const deleteLeaveRequest = prisma.leaveRequest.deleteMany({ where: { userId: id } });
-
-        // 5. Delete Salary and Payslips
-        const deleteSalary = prisma.salaryStructure.deleteMany({ where: { userId: id } });
-        const deletePayslips = prisma.payslip.deleteMany({ where: { userId: id } });
-
-        // 6. Handle Onboarding
-        const deleteOnboarding = prisma.onboarding.deleteMany({ where: { userId: id } });
-
-        // 7. Handle Offboarding
-        const deleteExitInterview = prisma.exitInterview.deleteMany({
-            where: { offboarding: { userId: id } }
-        });
-        const deleteOffboarding = prisma.offboarding.deleteMany({ where: { userId: id } });
-
-        // 8. Performance and Goals
-        const deleteNotifications = prisma.notification.deleteMany({ where: { userId: id } });
-        const deleteGoals = prisma.goal.deleteMany({ where: { userId: id } });
-        const deleteReviews = prisma.performanceReview.deleteMany({ where: { userId: id } });
-        const deleteGivenReviews = prisma.performanceReview.deleteMany({ where: { reviewerId: id } });
-
-        // 9. Expenses and Assets
-        const deleteClaims = prisma.expenseClaim.deleteMany({ where: { userId: id } });
+        // 2. Detach Assets
         const detachAssets = prisma.asset.updateMany({
             where: { assignedTo: id },
             data: { assignedTo: null, status: 'AVAILABLE' }
         });
 
-        // 10. Certificates and Timesheets
-        const deleteCertificates = prisma.certificate.deleteMany({ where: { userId: id } });
-        const deleteTimesheets = prisma.timesheet.deleteMany({ where: { userId: id } });
-
-        // 11. Audit Logs referencing this user as the actor
-        const deleteAuditLogs = prisma.auditLog.deleteMany({ where: { performedBy: id } });
-
-        // 12. Profile and User (User must be last)
-        const deleteProfile = prisma.profile.deleteMany({ where: { userId: id } });
-        const deleteUserRecord = prisma.user.delete({ where: { id } });
+        // 3. Update User Status to ARCHIVED
+        const archiveUser = prisma.user.update({
+            where: { id },
+            data: { status: 'ARCHIVED' }
+        });
 
         await prisma.$transaction([
             updateSubordinates,
-            deleteBreaks,
-            deleteAttendance,
-            deleteLeaveBalance,
-            deleteLeaveRequest,
-            deleteSalary,
-            deletePayslips,
-            deleteOnboarding,
-            deleteExitInterview,
-            deleteOffboarding,
-            deleteNotifications,
-            deleteGoals,
-            deleteReviews,
-            deleteGivenReviews,
-            deleteClaims,
             detachAssets,
-            deleteCertificates,
-            deleteTimesheets,
-            deleteAuditLogs,   // ← must be before deleteUserRecord
-            deleteProfile,
-            deleteUserRecord
+            archiveUser
         ]);
+
         // Audit Trail
         await AuditService.log(
             req.user!.userId,
             'DELETE',
             'EMPLOYEE',
             id,
-            { email: userToDelete.email }
+            { email: userToDelete.email, archived: true }
         );
 
-        res.json({ message: 'User and all related data deleted successfully' });
+        res.json({ message: 'User archived successfully' });
     } catch (error: any) {
         logger.error('Delete User Error:', error);
         res.status(500).json({
@@ -594,3 +543,43 @@ export const deleteUser = async (req: AuthRequest, res: Response) => {
     }
 };
 
+export const restoreUser = async (req: AuthRequest, res: Response) => {
+    try {
+        const id = requireString(req.params.id, 'User ID');
+        
+        const userToRestore = await prisma.user.findUnique({ where: { id } });
+
+        if (!userToRestore) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        if (!assertSameCompany(userToRestore.companyId, req, res)) return;
+
+        if (userToRestore.status !== 'ARCHIVED') {
+            return res.status(400).json({ message: 'User is not archived' });
+        }
+
+        // Restore user to ACTIVE status
+        const restoredUser = await prisma.user.update({
+            where: { id },
+            data: { status: 'ACTIVE' }
+        });
+
+        // Audit Trail
+        await AuditService.log(
+            req.user!.userId,
+            'RESTORE',
+            'EMPLOYEE',
+            id,
+            { email: userToRestore.email }
+        );
+
+        res.json({ message: 'User restored successfully', user: restoredUser });
+    } catch (error: any) {
+        logger.error('Restore User Error:', error);
+        res.status(500).json({
+            message: 'Internal Server Error',
+            error: error.message,
+            code: error.code
+        });
+    }
+};
