@@ -24,8 +24,23 @@ async function checkOldDb() {
     console.log(`Profiles: ${profiles}`);
     
     if (users > 0) {
-       const sampleUser = await prismaOld.user.findFirst({ select: { email: true } });
-       console.log('Sample User in Old DB:', sampleUser);
+       const dbUsers = await prismaOld.user.findMany({
+         select: {
+           email: true,
+           profile: {
+             select: {
+               firstName: true,
+               lastName: true,
+               designation: true
+             }
+           }
+         }
+       });
+       console.log('--- Users in Supabase DB ---');
+       dbUsers.forEach((u, i) => {
+         const name = u.profile ? `${u.profile.firstName} ${u.profile.lastName}` : 'No Profile';
+         console.log(`${i+1}. ${u.email} - ${name} (${u.profile?.designation ?? 'N/A'})`);
+       });
     }
 
   } catch (e) {
