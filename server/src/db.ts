@@ -17,13 +17,10 @@ const getDbUrl = (): string | undefined => {
     return dbUrl;
 };
 
+const dbUrl = getDbUrl();
 export const prisma = new PrismaClient({
     log: isDev ? ['warn', 'error'] : ['error'],
-    datasources: {
-        db: {
-            url: getDbUrl()
-        }
-    }
+    ...(dbUrl ? { datasources: { db: { url: dbUrl } } } : {})
 });
 
 /**

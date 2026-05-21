@@ -1,6 +1,6 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { authorizeRole } from './middlewares/auth.middleware';
@@ -48,7 +48,6 @@ import { createServer } from 'http';
 import { CronService } from './services/cron.service';
 import { SocketService } from './services/socket.service';
 
-dotenv.config();
 
 import { prisma, connectDB } from './db';
 import logger from './utils/logger';
