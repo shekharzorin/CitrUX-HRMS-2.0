@@ -189,4 +189,48 @@ router.delete('/:id', async (req: AuthRequest, res) => {
     }
 });
 
+// 5. Restore (Unarchive) a company
+router.put('/:id/restore', async (req: AuthRequest, res) => {
+    try {
+        const { id } = req.params;
+
+        const existingCompany = await prisma.company.findUnique({ where: { id } });
+        if (!existingCompany) {
+            return res.status(404).json({ message: "Company not found" });
+        }
+
+        const restoredCompany = await prisma.company.update({
+            where: { id },
+            data: { status: 'ACTIVE' }
+        });
+
+        res.json({ message: "Company restored successfully", company: restoredCompany });
+    } catch (error: any) {
+        console.error("Error restoring company:", error);
+        res.status(500).json({ message: "Failed to restore company" });
+    }
+});
+
+// 6. Hard Delete a company
+router.delete('/:id/hard', async (req: AuthRequest, res) => {
+    try {
+        const { id } = req.params;
+
+        const existingCompany = await prisma.company.findUnique({ where: { id } });
+        if (!existingCompany) {
+            return res.status(404).json({ message: "Company not found" });
+        }
+
+        // Because we added onDelete: Cascade to the schema, this will delete the company and all associated records.
+        await prisma.company.delete({
+            where: { id }
+        });
+
+        res.json({ message: "Company permanently deleted" });
+    } catch (error: any) {
+        console.error("Error permanently deleting company:", error);
+        res.status(500).json({ message: "Failed to permanently delete company" });
+    }
+});
+
 export default router;

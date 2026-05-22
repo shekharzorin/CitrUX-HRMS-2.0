@@ -73,6 +73,29 @@ export const GlobalCompanies: React.FC = () => {
         }
     };
 
+    const handleUnarchive = async (id: string) => {
+        try {
+            await api.put(`/companies/${id}/restore`, {});
+            loadCompanies();
+        } catch (e: any) {
+            alert(e.message || "Failed to unarchive company");
+        }
+    };
+
+    const handleHardDelete = async (id: string) => {
+        const input = window.prompt("WARNING: This will permanently delete the company and ALL its data (users, leaves, etc.). This CANNOT be undone.\n\nType 'DELETE' to confirm:");
+        if (input === 'DELETE') {
+            try {
+                await api.delete(`/companies/${id}/hard`);
+                loadCompanies();
+            } catch (e: any) {
+                alert(e.message || "Failed to permanently delete company");
+            }
+        } else if (input !== null) {
+            alert("Confirmation failed. Company was not deleted.");
+        }
+    };
+
     return (
         <div className="space-y-6">
             <PageHeader 
@@ -184,12 +207,28 @@ export const GlobalCompanies: React.FC = () => {
                                             {c.status !== 'ARCHIVED' && (
                                                 <button
                                                     onClick={() => handleArchive(c.id)}
-                                                    className="text-red-600 hover:text-red-800 p-2 transition-colors inline-flex items-center justify-center bg-red-50 hover:bg-red-100 rounded-lg ml-2"
+                                                    className="text-orange-600 hover:text-orange-800 p-2 transition-colors inline-flex items-center justify-center bg-orange-50 hover:bg-orange-100 rounded-lg ml-2"
                                                     title="Archive Company"
                                                 >
-                                                    <Icon name="delete" size={18} />
+                                                    <Icon name="download" size={18} />
                                                 </button>
                                             )}
+                                            {c.status === 'ARCHIVED' && (
+                                                <button
+                                                    onClick={() => handleUnarchive(c.id)}
+                                                    className="text-green-600 hover:text-green-800 p-2 transition-colors inline-flex items-center justify-center bg-green-50 hover:bg-green-100 rounded-lg ml-2"
+                                                    title="Unarchive Company"
+                                                >
+                                                    <Icon name="rotate_ccw" size={18} />
+                                                </button>
+                                            )}
+                                            <button
+                                                onClick={() => handleHardDelete(c.id)}
+                                                className="text-red-600 hover:text-red-800 p-2 transition-colors inline-flex items-center justify-center bg-red-50 hover:bg-red-100 rounded-lg ml-2"
+                                                title="Delete Permanently"
+                                            >
+                                                <Icon name="delete" size={18} />
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}
