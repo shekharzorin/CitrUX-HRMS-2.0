@@ -56,7 +56,7 @@ export const login = async (req: Request, res: Response) => {
                 companyId: user.companyId ?? null,  // Multi-tenant: companyId scoped into every token
             },
             process.env.JWT_SECRET as string,
-            { expiresIn: '8h' }
+            { expiresIn: '7d' }
         );
         logger.info('Token generated');
 

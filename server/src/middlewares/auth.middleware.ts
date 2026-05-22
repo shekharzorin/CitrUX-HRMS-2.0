@@ -19,7 +19,7 @@ export const authenticateToken = (req: AuthRequest, res: Response, next: NextFun
     if (!token) return res.status(401).json({ message: 'Access Denied' });
 
     jwt.verify(token, process.env.JWT_SECRET as string, (err: any, decoded: any) => {
-        if (err) return res.status(403).json({ message: 'Invalid or expired token' });
+        if (err) return res.status(401).json({ message: 'Invalid or expired token' });
         req.user = decoded as JwtPayload;
         next();
     });
