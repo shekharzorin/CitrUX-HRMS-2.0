@@ -355,7 +355,8 @@
 }
 
 .profile-dropdown {
-  @apply absolute right-0 mt-2 w-72 bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden z-50 animate-scale-up;
+  @apply absolute right-0 mt-2 w-72 bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden z-50;
+  animation: var(--animate-scale-up);
 }
 
 .profile-header-section {

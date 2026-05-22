@@ -456,7 +456,7 @@ const Settings: React.FC = () => {
                         { id: 'holidays', label: 'Holidays', icon: 'holidays' },
                         { id: 'shifts', label: 'Shifts', icon: 'shifts' },
                         { id: 'salary', label: 'Salary', icon: 'payroll' },
-                        { id: 'org', label: 'Organization', icon: 'company' },
+                        { id: 'org', label: 'Organization', icon: 'departments' },
                         { id: 'ai', label: 'AI Assistant', icon: 'bolt' },
                         { id: 'security', label: 'Security', icon: 'profile' },
                     ]}
