@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Layout from './components/Layout';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -54,8 +54,9 @@ import NotFound from './pages/NotFound';
 
 const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactElement; allowedRoles?: string[] }) => {
   const { isAuthenticated, user } = useAuth();
-  if (!isAuthenticated) return <Navigate to="/login" />;
-  if (allowedRoles && user && !allowedRoles.includes(user.role.toUpperCase())) return <Navigate to="/" />;
+  const location = useLocation();
+  if (!isAuthenticated) return <Navigate to="/login" state={{ from: location }} replace />;
+  if (allowedRoles && user && !allowedRoles.includes(user.role.toUpperCase())) return <Navigate to="/" replace />;
   return <Layout>{children}</Layout>;
 };
 

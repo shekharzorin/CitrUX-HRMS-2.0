@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { api } from '../services/api';
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -14,15 +14,17 @@ const Login: React.FC = () => {
     const [loadingMessage, setLoadingMessage] = useState('');
     const [logo, setLogo] = useState('');
     const [companyName, setCompanyName] = useState('');
-    const { login, isAuthenticated } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+    const { login, isAuthenticated } = useAuth();
+    const from = location.state?.from?.pathname || '/';
 
     // specific effect to redirect when auth state updates
     React.useEffect(() => {
         if (isAuthenticated) {
-            navigate('/', { replace: true });
+            navigate(from, { replace: true });
         }
-    }, [isAuthenticated, navigate]);
+    }, [isAuthenticated, navigate, from]);
 
     React.useEffect(() => {
         const fetchSettings = async () => {
