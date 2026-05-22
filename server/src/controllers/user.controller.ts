@@ -357,7 +357,7 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
             branchId, departmentId, nationality, bloodGroup, gender, maritalStatus,
             presentAddress, permanentAddress, emergencyContactName, emergencyContactRelation,
             emergencyContactPhone, emergencyContactAlternate, emergencyContactAddress,
-            aadhaarNumber, panNumber, uanNumber
+            aadhaarNumber, panNumber, uanNumber, managerId, joiningDate
         } = req.body;
         const actorRole = req.user!.role;
 
@@ -408,29 +408,31 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
         const dataToUpdate: any = {
             role: role ? role.toUpperCase() : undefined,
             employeeId: employeeId ? employeeId.toString() : undefined,
+            managerId: managerId || null,
             profile: {
                 update: {
                     firstName,
                     lastName,
-                    phone,
-                    designation,
+                    phone: phone || null,
+                    designation: designation || null,
                     employmentType,
-                    branchId,
-                    departmentId,
-                    nationality,
-                    bloodGroup,
-                    gender,
-                    maritalStatus,
-                    presentAddress,
-                    permanentAddress,
-                    emergencyContactName,
-                    emergencyContactRelation,
-                    emergencyContactPhone,
-                    emergencyContactAlternate,
-                    emergencyContactAddress,
-                    aadhaarNumber,
+                    branchId: branchId || null,
+                    departmentId: departmentId || null,
+                    nationality: nationality || null,
+                    bloodGroup: bloodGroup || null,
+                    gender: gender || null,
+                    maritalStatus: maritalStatus || null,
+                    presentAddress: presentAddress || null,
+                    permanentAddress: permanentAddress || null,
+                    emergencyContactName: emergencyContactName || null,
+                    emergencyContactRelation: emergencyContactRelation || null,
+                    emergencyContactPhone: emergencyContactPhone || null,
+                    emergencyContactAlternate: emergencyContactAlternate || null,
+                    emergencyContactAddress: emergencyContactAddress || null,
+                    aadhaarNumber: aadhaarNumber || null,
                     panNumber: panNumber ? panNumber.toUpperCase() : undefined,
-                    uanNumber
+                    uanNumber: uanNumber || null,
+                    dateOfJoining: joiningDate ? new Date(joiningDate) : undefined
                 }
             }
         };
