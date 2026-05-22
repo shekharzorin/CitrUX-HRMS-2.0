@@ -23,6 +23,7 @@ model Company {
   logoUrl           String?
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
+  status            String            @default("ACTIVE")
   slogan            String?           @default("Citrux SaaS")
   logoMediumUrl     String?
   logoThumbnailUrl  String?

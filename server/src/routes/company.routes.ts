@@ -34,6 +34,7 @@ router.get('/', async (req: AuthRequest, res) => {
             slogan: c.slogan,
             createdAt: c.createdAt,
             employeeCount: c._count.users,
+            status: c.status,
             superAdminEmail: c.users[0]?.email || null,
             superAdminName: c.users[0]?.profile ? `${c.users[0].profile.firstName} ${c.users[0].profile.lastName}` : null
         }));
@@ -163,6 +164,28 @@ router.put('/:id', async (req: AuthRequest, res) => {
             return res.status(400).json({ message: "Admin email already in use" });
         }
         res.status(500).json({ message: "Failed to update company" });
+    }
+});
+
+// 4. Archive (Soft Delete) a company
+router.delete('/:id', async (req: AuthRequest, res) => {
+    try {
+        const { id } = req.params;
+
+        const existingCompany = await prisma.company.findUnique({ where: { id } });
+        if (!existingCompany) {
+            return res.status(404).json({ message: "Company not found" });
+        }
+
+        const archivedCompany = await prisma.company.update({
+            where: { id },
+            data: { status: 'ARCHIVED' }
+        });
+
+        res.json({ message: "Company archived successfully", company: archivedCompany });
+    } catch (error: any) {
+        console.error("Error archiving company:", error);
+        res.status(500).json({ message: "Failed to archive company" });
     }
 });
 

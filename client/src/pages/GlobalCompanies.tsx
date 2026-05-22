@@ -62,6 +62,17 @@ export const GlobalCompanies: React.FC = () => {
         }
     };
 
+    const handleArchive = async (id: string) => {
+        if (window.confirm("Are you sure you want to archive this company? Users will no longer be able to access the platform.")) {
+            try {
+                await api.delete(`/companies/${id}`);
+                loadCompanies();
+            } catch (e: any) {
+                alert(e.message || "Failed to archive company");
+            }
+        }
+    };
+
     return (
         <div className="space-y-6">
             <PageHeader 
@@ -119,7 +130,7 @@ export const GlobalCompanies: React.FC = () => {
                             </thead>
                             <tbody className="divide-y divide-[var(--border-light)]">
                                 {companies.map((c: any) => (
-                                    <tr key={c.id} className="group hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors">
+                                    <tr key={c.id} className={`group hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors ${c.status === 'ARCHIVED' ? 'opacity-60 grayscale' : ''}`}>
                                         <td className="py-4 font-semibold text-[var(--text-main)] flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold shadow-sm">
                                                 {c.name.charAt(0).toUpperCase()}
@@ -132,6 +143,11 @@ export const GlobalCompanies: React.FC = () => {
                                             <span className="px-2.5 py-1 bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 rounded-lg text-xs font-bold border border-purple-200 dark:border-purple-800/50">
                                                 {c.plan}
                                             </span>
+                                            {c.status === 'ARCHIVED' && (
+                                                <span className="ml-2 px-2.5 py-1 bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-700">
+                                                    Archived
+                                                </span>
+                                            )}
                                         </td>
                                         <td className="py-4">
                                             <div className="flex flex-col">
@@ -165,6 +181,15 @@ export const GlobalCompanies: React.FC = () => {
                                             >
                                                 <Icon name="edit" size={18} />
                                             </button>
+                                            {c.status !== 'ARCHIVED' && (
+                                                <button
+                                                    onClick={() => handleArchive(c.id)}
+                                                    className="text-red-600 hover:text-red-800 p-2 transition-colors inline-flex items-center justify-center bg-red-50 hover:bg-red-100 rounded-lg ml-2"
+                                                    title="Archive Company"
+                                                >
+                                                    <Icon name="delete" size={18} />
+                                                </button>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}

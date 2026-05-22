@@ -5744,6 +5744,7 @@ export namespace Prisma {
     logoUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    status: string | null
     slogan: string | null
     logoMediumUrl: string | null
     logoThumbnailUrl: string | null
@@ -5759,6 +5760,7 @@ export namespace Prisma {
     logoUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    status: string | null
     slogan: string | null
     logoMediumUrl: string | null
     logoThumbnailUrl: string | null
@@ -5774,6 +5776,7 @@ export namespace Prisma {
     logoUrl: number
     createdAt: number
     updatedAt: number
+    status: number
     slogan: number
     logoMediumUrl: number
     logoThumbnailUrl: number
@@ -5791,6 +5794,7 @@ export namespace Prisma {
     logoUrl?: true
     createdAt?: true
     updatedAt?: true
+    status?: true
     slogan?: true
     logoMediumUrl?: true
     logoThumbnailUrl?: true
@@ -5806,6 +5810,7 @@ export namespace Prisma {
     logoUrl?: true
     createdAt?: true
     updatedAt?: true
+    status?: true
     slogan?: true
     logoMediumUrl?: true
     logoThumbnailUrl?: true
@@ -5821,6 +5826,7 @@ export namespace Prisma {
     logoUrl?: true
     createdAt?: true
     updatedAt?: true
+    status?: true
     slogan?: true
     logoMediumUrl?: true
     logoThumbnailUrl?: true
@@ -5909,6 +5915,7 @@ export namespace Prisma {
     logoUrl: string | null
     createdAt: Date
     updatedAt: Date
+    status: string
     slogan: string | null
     logoMediumUrl: string | null
     logoThumbnailUrl: string | null
@@ -5941,6 +5948,7 @@ export namespace Prisma {
     logoUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    status?: boolean
     slogan?: boolean
     logoMediumUrl?: boolean
     logoThumbnailUrl?: boolean
@@ -5972,6 +5980,7 @@ export namespace Prisma {
     logoUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    status?: boolean
     slogan?: boolean
     logoMediumUrl?: boolean
     logoThumbnailUrl?: boolean
@@ -5987,6 +5996,7 @@ export namespace Prisma {
     logoUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    status?: boolean
     slogan?: boolean
     logoMediumUrl?: boolean
     logoThumbnailUrl?: boolean
@@ -6002,13 +6012,14 @@ export namespace Prisma {
     logoUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    status?: boolean
     slogan?: boolean
     logoMediumUrl?: boolean
     logoThumbnailUrl?: boolean
     faviconUrl?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subdomain" | "domain" | "plan" | "logoUrl" | "createdAt" | "updatedAt" | "slogan" | "logoMediumUrl" | "logoThumbnailUrl" | "faviconUrl", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subdomain" | "domain" | "plan" | "logoUrl" | "createdAt" | "updatedAt" | "status" | "slogan" | "logoMediumUrl" | "logoThumbnailUrl" | "faviconUrl", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assets?: boolean | Company$assetsArgs<ExtArgs>
     branches?: boolean | Company$branchesArgs<ExtArgs>
@@ -6058,6 +6069,7 @@ export namespace Prisma {
       logoUrl: string | null
       createdAt: Date
       updatedAt: Date
+      status: string
       slogan: string | null
       logoMediumUrl: string | null
       logoThumbnailUrl: string | null
@@ -6508,6 +6520,7 @@ export namespace Prisma {
     readonly logoUrl: FieldRef<"Company", 'String'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
     readonly updatedAt: FieldRef<"Company", 'DateTime'>
+    readonly status: FieldRef<"Company", 'String'>
     readonly slogan: FieldRef<"Company", 'String'>
     readonly logoMediumUrl: FieldRef<"Company", 'String'>
     readonly logoThumbnailUrl: FieldRef<"Company", 'String'>
@@ -60791,6 +60804,7 @@ export namespace Prisma {
     logoUrl: 'logoUrl',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    status: 'status',
     slogan: 'slogan',
     logoMediumUrl: 'logoMediumUrl',
     logoThumbnailUrl: 'logoThumbnailUrl',
@@ -61662,6 +61676,7 @@ export namespace Prisma {
     logoUrl?: StringNullableFilter<"Company"> | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
+    status?: StringFilter<"Company"> | string
     slogan?: StringNullableFilter<"Company"> | string | null
     logoMediumUrl?: StringNullableFilter<"Company"> | string | null
     logoThumbnailUrl?: StringNullableFilter<"Company"> | string | null
@@ -61692,6 +61707,7 @@ export namespace Prisma {
     logoUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    status?: SortOrder
     slogan?: SortOrderInput | SortOrder
     logoMediumUrl?: SortOrderInput | SortOrder
     logoThumbnailUrl?: SortOrderInput | SortOrder
@@ -61725,6 +61741,7 @@ export namespace Prisma {
     logoUrl?: StringNullableFilter<"Company"> | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
+    status?: StringFilter<"Company"> | string
     slogan?: StringNullableFilter<"Company"> | string | null
     logoMediumUrl?: StringNullableFilter<"Company"> | string | null
     logoThumbnailUrl?: StringNullableFilter<"Company"> | string | null
@@ -61755,6 +61772,7 @@ export namespace Prisma {
     logoUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    status?: SortOrder
     slogan?: SortOrderInput | SortOrder
     logoMediumUrl?: SortOrderInput | SortOrder
     logoThumbnailUrl?: SortOrderInput | SortOrder
@@ -61776,6 +61794,7 @@ export namespace Prisma {
     logoUrl?: StringNullableWithAggregatesFilter<"Company"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
+    status?: StringWithAggregatesFilter<"Company"> | string
     slogan?: StringNullableWithAggregatesFilter<"Company"> | string | null
     logoMediumUrl?: StringNullableWithAggregatesFilter<"Company"> | string | null
     logoThumbnailUrl?: StringNullableWithAggregatesFilter<"Company"> | string | null
@@ -65741,6 +65760,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -65771,6 +65791,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -65801,6 +65822,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65831,6 +65853,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65861,6 +65884,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -65876,6 +65900,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65891,6 +65916,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -70465,6 +70491,7 @@ export namespace Prisma {
     logoUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    status?: SortOrder
     slogan?: SortOrder
     logoMediumUrl?: SortOrder
     logoThumbnailUrl?: SortOrder
@@ -70480,6 +70507,7 @@ export namespace Prisma {
     logoUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    status?: SortOrder
     slogan?: SortOrder
     logoMediumUrl?: SortOrder
     logoThumbnailUrl?: SortOrder
@@ -70495,6 +70523,7 @@ export namespace Prisma {
     logoUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    status?: SortOrder
     slogan?: SortOrder
     logoMediumUrl?: SortOrder
     logoThumbnailUrl?: SortOrder
@@ -79016,6 +79045,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -79045,6 +79075,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -80261,6 +80292,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -80290,6 +80322,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -80930,6 +80963,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -80959,6 +80993,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -81137,6 +81172,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81166,6 +81202,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81681,6 +81718,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -81710,6 +81748,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -81898,6 +81937,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81927,6 +81967,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82013,6 +82054,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -82042,6 +82084,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -82087,6 +82130,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82116,6 +82160,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82555,6 +82600,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -82584,6 +82630,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -82677,6 +82724,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82706,6 +82754,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83467,6 +83516,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -83496,6 +83546,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -83541,6 +83592,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83570,6 +83622,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86127,6 +86180,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -86156,6 +86210,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -86387,6 +86442,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86416,6 +86472,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86475,6 +86532,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -86504,6 +86562,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -86579,6 +86638,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86608,6 +86668,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86693,6 +86754,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -86722,6 +86784,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -86799,6 +86862,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86828,6 +86892,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -87364,6 +87429,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -87393,6 +87459,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -87531,6 +87598,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -87560,6 +87628,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88129,6 +88198,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -88158,6 +88228,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -88203,6 +88274,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88232,6 +88304,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88652,6 +88725,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -88681,6 +88755,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -88940,6 +89015,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88969,6 +89045,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89200,6 +89277,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -89229,6 +89307,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -89361,6 +89440,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89390,6 +89470,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89872,6 +89953,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -89901,6 +89983,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -90068,6 +90151,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -90097,6 +90181,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -90158,6 +90243,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -90187,6 +90273,7 @@ export namespace Prisma {
     logoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status?: string
     slogan?: string | null
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
@@ -90349,6 +90436,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -90378,6 +90466,7 @@ export namespace Prisma {
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
     slogan?: NullableStringFieldUpdateOperationsInput | string | null
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null

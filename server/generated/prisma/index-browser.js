@@ -130,6 +130,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   logoUrl: 'logoUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  status: 'status',
   slogan: 'slogan',
   logoMediumUrl: 'logoMediumUrl',
   logoThumbnailUrl: 'logoThumbnailUrl',
