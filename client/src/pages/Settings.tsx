@@ -189,7 +189,8 @@ const Settings: React.FC = () => {
                     company: {
                         ...user.company,
                         name: companyName,
-                        logoUrl: companyLogo
+                        logoUrl: companyLogo,
+                        faviconUrl: companyFavicon
                     }
                 });
             }
