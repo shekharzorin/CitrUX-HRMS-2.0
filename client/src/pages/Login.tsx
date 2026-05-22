@@ -93,7 +93,7 @@ const Login: React.FC = () => {
                         Transform your <br/> HR  Experience.
                     </h1>
                     <p className="text-indigo-100 text-lg font-medium leading-relaxed">
-                        Citrux HRMS provides the tools to manage your entire workforce efficiently. Simplify attendance, payroll, and recruitment with one unified platform.
+                        Our HRMS provides the tools to manage your entire workforce efficiently. Simplify attendance, payroll, and recruitment with one unified platform.
                     </p>
                 </div>
             </div>
