@@ -57,3 +57,53 @@ export const createDepartment = async (req: AuthRequest, res: Response) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
+export const deleteBranch = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const companyId = req.user!.companyId;
+
+        const branch = await prisma.branch.findFirst({ where: { id, companyId: companyId as string } });
+        if (!branch) return res.status(404).json({ message: 'Branch not found' });
+
+        // Unlink profiles
+        await prisma.profile.updateMany({
+            where: { branchId: id },
+            data: { branchId: null }
+        });
+
+        // Unlink departments
+        await prisma.department.updateMany({
+            where: { branchId: id },
+            data: { branchId: null }
+        });
+
+        await prisma.branch.delete({ where: { id } });
+        res.json({ message: 'Branch deleted successfully' });
+    } catch (error) {
+        logger.error('Error deleting branch:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+export const deleteDepartment = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const companyId = req.user!.companyId;
+
+        const department = await prisma.department.findFirst({ where: { id, companyId: companyId as string } });
+        if (!department) return res.status(404).json({ message: 'Department not found' });
+
+        // Unlink profiles
+        await prisma.profile.updateMany({
+            where: { departmentId: id },
+            data: { departmentId: null }
+        });
+
+        await prisma.department.delete({ where: { id } });
+        res.json({ message: 'Department deleted successfully' });
+    } catch (error) {
+        logger.error('Error deleting department:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};

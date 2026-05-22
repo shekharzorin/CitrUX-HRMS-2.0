@@ -61,10 +61,16 @@ const Settings: React.FC = () => {
         type: 'danger'
     });
 
+    // Organization State
+    const [branches, setBranches] = useState<any[]>([]);
+    const [departments, setDepartments] = useState<any[]>([]);
+    const [newBranch, setNewBranch] = useState({ name: '' });
+    const [newDepartment, setNewDepartment] = useState({ name: '', branchId: '' });
+
     // Roles State
     const [roles, setRoles] = useState<any[]>([]);
     const [newRole, setNewRole] = useState({ title: '', department: '', level: 0, description: '' });
-    const [activeTab, setActiveTab] = useState<'general' | 'roles' | 'leaves' | 'holidays' | 'shifts' | 'salary' | 'ai' | 'security' | 'danger'>('general');
+    const [activeTab, setActiveTab] = useState<'general' | 'roles' | 'leaves' | 'holidays' | 'shifts' | 'salary' | 'ai' | 'security' | 'danger' | 'org'>('general');
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -75,6 +81,10 @@ const Settings: React.FC = () => {
         if (activeTab === 'roles') fetchRoles();
         if (activeTab === 'leaves') fetchLeaveTypes();
         if (activeTab === 'holidays') fetchHolidays();
+        if (activeTab === 'org') {
+            fetchBranches();
+            fetchDepartments();
+        }
     }, [activeTab]);
 
     const fetchSettings = async () => {
@@ -124,6 +134,20 @@ const Settings: React.FC = () => {
         try {
             const data = await api.get<any[]>('/holidays');
             setHolidays(data || []);
+        } catch (error) { console.error(error); }
+    };
+
+    const fetchBranches = async () => {
+        try {
+            const data = await api.get<any[]>('/organization/branches');
+            setBranches(data || []);
+        } catch (error) { console.error(error); }
+    };
+
+    const fetchDepartments = async () => {
+        try {
+            const data = await api.get<any[]>('/organization/departments');
+            setDepartments(data || []);
         } catch (error) { console.error(error); }
     };
 
@@ -360,6 +384,50 @@ const Settings: React.FC = () => {
         });
     };
 
+    const handleCreateBranch = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await api.post('/organization/branches', newBranch);
+            setNewBranch({ name: '' });
+            fetchBranches();
+        } catch (error) { console.error(error); }
+    };
+
+    const handleDeleteBranch = (id: string) => {
+        setConfirmState({
+            isOpen: true,
+            title: 'Delete Branch',
+            message: 'Are you sure you want to delete this branch? Employees assigned to it will have their branch cleared.',
+            type: 'danger',
+            onConfirm: async () => {
+                await api.delete(`/organization/branches/${id}`);
+                fetchBranches();
+            }
+        });
+    };
+
+    const handleCreateDepartment = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await api.post('/organization/departments', newDepartment);
+            setNewDepartment({ name: '', branchId: '' });
+            fetchDepartments();
+        } catch (error) { console.error(error); }
+    };
+
+    const handleDeleteDepartment = (id: string) => {
+        setConfirmState({
+            isOpen: true,
+            title: 'Delete Department',
+            message: 'Are you sure you want to delete this department? Employees assigned to it will have their department cleared.',
+            type: 'danger',
+            onConfirm: async () => {
+                await api.delete(`/organization/departments/${id}`);
+                fetchDepartments();
+            }
+        });
+    };
+
     const handleLogoutConfirm = () => {
         setConfirmState({
             isOpen: true,
@@ -388,6 +456,7 @@ const Settings: React.FC = () => {
                         { id: 'holidays', label: 'Holidays', icon: 'holidays' },
                         { id: 'shifts', label: 'Shifts', icon: 'shifts' },
                         { id: 'salary', label: 'Salary', icon: 'payroll' },
+                        { id: 'org', label: 'Organization', icon: 'company' },
                         { id: 'ai', label: 'AI Assistant', icon: 'bolt' },
                         { id: 'security', label: 'Security', icon: 'profile' },
                     ]}
@@ -675,6 +744,74 @@ const Settings: React.FC = () => {
                                                     <EmptyState title="No Holidays" description="Add holidays to the calendar." icon="holidays" className="py-12" />
                                                 </td>
                                             </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {activeTab === 'org' && (
+                    <div className="space-y-6 animate-fade-in">
+                        <div className="glass-panel p-6 md:p-8">
+                            <h2 className="text-lg font-bold mb-6 text-slate-800 dark:text-white">Manage Branches</h2>
+                            <form onSubmit={handleCreateBranch} className="flex flex-col md:flex-row gap-6 items-end mb-6">
+                                <div className="flex-1 w-full"><label htmlFor="branchName" className="form-label">Branch Name</label><input id="branchName" className="input-field" required value={newBranch.name} onChange={e => setNewBranch({ ...newBranch, name: e.target.value })} /></div>
+                                <button type="submit" className="btn btn-primary w-full md:w-auto px-6 py-2.5 rounded-lg shadow-md hover:shadow-lg transition-all">Add Branch</button>
+                            </form>
+                            <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
+                                <table className="table-premium min-w-full">
+                                    <thead><tr><th>Name</th><th></th></tr></thead>
+                                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                                        {loading ? (
+                                            <tr><td className="p-4" colSpan={2}><Skeleton height={20} /></td></tr>
+                                        ) : branches.length > 0 ? (
+                                            branches.map(b => (
+                                                <tr key={b.id}>
+                                                    <td className="font-bold text-slate-900 dark:text-white">{b.name}</td>
+                                                    <td className="text-right"><button onClick={() => handleDeleteBranch(b.id)} className="text-red-500 hover:text-red-700 font-medium text-xs">Delete</button></td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr><td colSpan={2} className="p-8 text-center text-slate-500">No Branches</td></tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div className="glass-panel p-6 md:p-8">
+                            <h2 className="text-lg font-bold mb-6 text-slate-800 dark:text-white">Manage Departments</h2>
+                            <form onSubmit={handleCreateDepartment} className="flex flex-col md:flex-row gap-6 items-end mb-6">
+                                <div className="flex-1 w-full"><label htmlFor="deptName" className="form-label">Department Name</label><input id="deptName" className="input-field" required value={newDepartment.name} onChange={e => setNewDepartment({ ...newDepartment, name: e.target.value })} /></div>
+                                <div className="flex-1 w-full"><label htmlFor="deptBranch" className="form-label">Branch (Optional)</label>
+                                    <select id="deptBranch" className="input-field" value={newDepartment.branchId} onChange={e => setNewDepartment({ ...newDepartment, branchId: e.target.value })}>
+                                        <option value="">No Branch</option>
+                                        {branches.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
+                                    </select>
+                                </div>
+                                <button type="submit" className="btn btn-primary w-full md:w-auto px-6 py-2.5 rounded-lg shadow-md hover:shadow-lg transition-all">Add Dept</button>
+                            </form>
+                            <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
+                                <table className="table-premium min-w-full">
+                                    <thead><tr><th>Name</th><th>Branch</th><th></th></tr></thead>
+                                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                                        {loading ? (
+                                            <tr><td className="p-4" colSpan={3}><Skeleton height={20} /></td></tr>
+                                        ) : departments.length > 0 ? (
+                                            departments.map(d => {
+                                                const branch = branches.find(b => b.id === d.branchId);
+                                                return (
+                                                    <tr key={d.id}>
+                                                        <td className="font-bold text-slate-900 dark:text-white">{d.name}</td>
+                                                        <td>{branch ? branch.name : '-'}</td>
+                                                        <td className="text-right"><button onClick={() => handleDeleteDepartment(d.id)} className="text-red-500 hover:text-red-700 font-medium text-xs">Delete</button></td>
+                                                    </tr>
+                                                );
+                                            })
+                                        ) : (
+                                            <tr><td colSpan={3} className="p-8 text-center text-slate-500">No Departments</td></tr>
                                         )}
                                     </tbody>
                                 </table>
