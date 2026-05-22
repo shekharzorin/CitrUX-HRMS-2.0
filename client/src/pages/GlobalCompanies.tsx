@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Icon } from '../components/ui/Icons';
 import { PageHeader } from '../components/ui/PageHeader';
 import { StatsCardPremium } from '../components/ui/DashboardElements';
+import { Dropdown } from '../components/ui/Dropdown';
+import { Modal } from '../components/ui/Modal';
 
 import { api } from '../services/api';
 
@@ -10,6 +12,7 @@ export const GlobalCompanies: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
+    const [confirmDelete, setConfirmDelete] = useState<{ id: string, type: 'hard' | 'archive' } | null>(null);
     
     // Modal state
     const [formData, setFormData] = useState({
@@ -62,15 +65,8 @@ export const GlobalCompanies: React.FC = () => {
         }
     };
 
-    const handleArchive = async (id: string) => {
-        if (window.confirm("Are you sure you want to archive this company? Users will no longer be able to access the platform.")) {
-            try {
-                await api.delete(`/companies/${id}`);
-                loadCompanies();
-            } catch (e: any) {
-                alert(e.message || "Failed to archive company");
-            }
-        }
+    const handleArchive = (id: string) => {
+        setConfirmDelete({ id, type: 'archive' });
     };
 
     const handleUnarchive = async (id: string) => {
@@ -82,18 +78,8 @@ export const GlobalCompanies: React.FC = () => {
         }
     };
 
-    const handleHardDelete = async (id: string) => {
-        const input = window.prompt("WARNING: This will permanently delete the company and ALL its data (users, leaves, etc.). This CANNOT be undone.\n\nType 'DELETE' to confirm:");
-        if (input === 'DELETE') {
-            try {
-                await api.delete(`/companies/${id}/hard`);
-                loadCompanies();
-            } catch (e: any) {
-                alert(e.message || "Failed to permanently delete company");
-            }
-        } else if (input !== null) {
-            alert("Confirmation failed. Company was not deleted.");
-        }
+    const handleHardDelete = (id: string) => {
+        setConfirmDelete({ id, type: 'hard' });
     };
 
     return (
@@ -183,52 +169,49 @@ export const GlobalCompanies: React.FC = () => {
                                             {new Date(c.createdAt).toLocaleDateString()}
                                         </td>
                                         <td className="py-4 text-right">
-                                            <button 
-                                                onClick={() => {
-                                                    const [fName, ...lName] = (c.superAdminName || '').split(' ');
-                                                    setEditingId(c.id);
-                                                    setFormData({
-                                                        name: c.name,
-                                                        domain: c.domain || '',
-                                                        plan: c.plan || 'STARTER',
-                                                        slogan: c.slogan || '',
-                                                        adminEmail: c.superAdminEmail || '',
-                                                        adminPassword: '', // Password intentionally empty, only required on new
-                                                        adminFirstName: fName || '',
-                                                        adminLastName: lName.join(' ') || ''
-                                                    });
-                                                    setShowModal(true);
-                                                }}
-                                                className="text-indigo-600 hover:text-indigo-800 p-2 transition-colors inline-flex items-center justify-center bg-indigo-50 hover:bg-indigo-100 rounded-lg ml-2"
-                                                title="Edit Company"
-                                            >
-                                                <Icon name="edit" size={18} />
-                                            </button>
-                                            {c.status !== 'ARCHIVED' && (
-                                                <button
-                                                    onClick={() => handleArchive(c.id)}
-                                                    className="text-orange-600 hover:text-orange-800 p-2 transition-colors inline-flex items-center justify-center bg-orange-50 hover:bg-orange-100 rounded-lg ml-2"
-                                                    title="Archive Company"
-                                                >
-                                                    <Icon name="download" size={18} />
-                                                </button>
-                                            )}
-                                            {c.status === 'ARCHIVED' && (
-                                                <button
-                                                    onClick={() => handleUnarchive(c.id)}
-                                                    className="text-green-600 hover:text-green-800 p-2 transition-colors inline-flex items-center justify-center bg-green-50 hover:bg-green-100 rounded-lg ml-2"
-                                                    title="Unarchive Company"
-                                                >
-                                                    <Icon name="rotate_ccw" size={18} />
-                                                </button>
-                                            )}
-                                            <button
-                                                onClick={() => handleHardDelete(c.id)}
-                                                className="text-red-600 hover:text-red-800 p-2 transition-colors inline-flex items-center justify-center bg-red-50 hover:bg-red-100 rounded-lg ml-2"
-                                                title="Delete Permanently"
-                                            >
-                                                <Icon name="delete" size={18} />
-                                            </button>
+                                            <Dropdown
+                                                trigger={
+                                                    <button className="text-[var(--text-muted)] hover:text-[var(--text-main)] p-2 transition-colors inline-flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+                                                        <Icon name="more_horizontal" size={20} />
+                                                    </button>
+                                                }
+                                                items={[
+                                                    {
+                                                        label: 'Edit',
+                                                        icon: 'edit',
+                                                        onClick: () => {
+                                                            const [fName, ...lName] = (c.superAdminName || '').split(' ');
+                                                            setEditingId(c.id);
+                                                            setFormData({
+                                                                name: c.name,
+                                                                domain: c.domain || '',
+                                                                plan: c.plan || 'STARTER',
+                                                                slogan: c.slogan || '',
+                                                                adminEmail: c.superAdminEmail || '',
+                                                                adminPassword: '',
+                                                                adminFirstName: fName || '',
+                                                                adminLastName: lName.join(' ') || ''
+                                                            });
+                                                            setShowModal(true);
+                                                        }
+                                                    },
+                                                    c.status !== 'ARCHIVED' ? {
+                                                        label: 'Archive',
+                                                        icon: 'download',
+                                                        onClick: () => handleArchive(c.id)
+                                                    } : {
+                                                        label: 'Unarchive',
+                                                        icon: 'rotate_ccw',
+                                                        onClick: () => handleUnarchive(c.id)
+                                                    },
+                                                    {
+                                                        label: 'Delete Permanently',
+                                                        icon: 'delete',
+                                                        variant: 'danger',
+                                                        onClick: () => handleHardDelete(c.id)
+                                                    }
+                                                ]}
+                                            />
                                         </td>
                                     </tr>
                                 ))}
@@ -322,6 +305,55 @@ export const GlobalCompanies: React.FC = () => {
                     </div>
                 </div>
             )}
+
+            <Modal
+                isOpen={confirmDelete !== null}
+                onClose={() => setConfirmDelete(null)}
+                title={confirmDelete?.type === 'hard' ? 'Permanent Delete' : 'Archive Company'}
+            >
+                <div className="space-y-4">
+                    <div className="flex items-start gap-3 text-amber-600 bg-amber-50 dark:bg-amber-900/20 dark:text-amber-500 p-4 rounded-xl">
+                        <Icon name="warning" size={24} className="shrink-0 mt-0.5" />
+                        <p className="text-sm font-medium leading-relaxed">
+                            {confirmDelete?.type === 'hard' 
+                                ? "WARNING: This will permanently delete the company and ALL its data (users, leaves, etc.). This CANNOT be undone."
+                                : "Are you sure you want to archive this company? Users will no longer be able to access the platform."}
+                        </p>
+                    </div>
+                    
+                    <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+                        <button
+                            type="button"
+                            className="px-4 py-2 text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                            onClick={() => setConfirmDelete(null)}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="button"
+                            className={`px-4 py-2 text-sm font-semibold text-white rounded-lg transition-colors ${
+                                confirmDelete?.type === 'hard' ? 'bg-red-600 hover:bg-red-700' : 'bg-orange-600 hover:bg-orange-700'
+                            }`}
+                            onClick={async () => {
+                                if (!confirmDelete) return;
+                                try {
+                                    if (confirmDelete.type === 'hard') {
+                                        await api.delete(`/companies/${confirmDelete.id}/hard`);
+                                    } else {
+                                        await api.delete(`/companies/${confirmDelete.id}`);
+                                    }
+                                    loadCompanies();
+                                    setConfirmDelete(null);
+                                } catch (e: any) {
+                                    alert(e.message || "Failed to delete company");
+                                }
+                            }}
+                        >
+                            {confirmDelete?.type === 'hard' ? 'Permanently Delete' : 'Archive'}
+                        </button>
+                    </div>
+                </div>
+            </Modal>
         </div>
     );
 };
