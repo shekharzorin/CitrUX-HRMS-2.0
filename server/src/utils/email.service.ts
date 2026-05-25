@@ -46,8 +46,9 @@ import path from 'path';
 export const sendEmail = async (
     to: string,
     subject: string,
-    text: string,
-    html?: string
+    text?: string,
+    html?: string,
+    fromEmail?: string
 ) => {
     const logFile = path.join(process.cwd(), 'email_debug.log');
     const log = async (msg: string) => {
@@ -65,14 +66,25 @@ export const sendEmail = async (
         await log("⚠️ SMTP credentials missing. Dev Fallback:");
         await log(`To: ${to}`);
         await log(`Subject: ${subject}`);
-        await log(`Content:\n${text}`);
-        console.log(`⚠️ SMTP credentials missing. Reset Link printed to log: ${text}`);
+        await log(`Content:\n${text || html || ''}`);
+        console.log(`⚠️ SMTP credentials missing. Email content printed to log.`);
         return;
     }
 
     try {
+        let sender = fromEmail || process.env.SMTP_FROM || process.env.EMAIL_FROM;
+        if (!sender) {
+            if (process.env.SMTP_USER?.includes('@')) {
+                sender = process.env.SMTP_USER;
+            } else if (process.env.SMTP_HOST?.includes('resend.com')) {
+                sender = 'onboarding@resend.dev';
+            } else {
+                sender = 'noreply@citrux.in';
+            }
+        }
+
         const info = await transporter.sendMail({
-            from: process.env.SMTP_USER, // SIMPLE SENDER (No Alias)
+            from: sender,
             to,
             subject,
             text,
@@ -89,5 +101,6 @@ export const sendEmail = async (
     } catch (error: any) {
         await log(`❌ Error sending email: ${error.message}`);
         console.error("❌ Error sending email:", error);
+        throw error;
     }
 };

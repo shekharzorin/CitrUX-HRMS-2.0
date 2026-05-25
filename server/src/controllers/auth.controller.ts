@@ -138,6 +138,27 @@ export const forgotPassword = async (req: Request, res: Response) => {
 
         const companyName = (user.company?.name ?? 'Citrux').trim();
 
+        // Resolve dynamic sender domain based on tenant/origin
+        let fromEmail = process.env.SMTP_FROM || process.env.EMAIL_FROM;
+        if (!fromEmail) {
+            if (baseUrl.includes('isnap.in')) {
+                fromEmail = 'no-reply@isnap.in';
+            } else if (baseUrl.includes('isnap.online')) {
+                fromEmail = 'no-reply@isnap.online';
+            } else if (baseUrl.includes('citrux.in')) {
+                fromEmail = 'no-reply@citrux.in';
+            } else {
+                if (process.env.SMTP_USER?.includes('@')) {
+                    fromEmail = process.env.SMTP_USER;
+                } else if (process.env.SMTP_HOST?.includes('resend.com')) {
+                    fromEmail = 'onboarding@resend.dev';
+                } else {
+                    fromEmail = 'noreply@citrux.in';
+                }
+            }
+        }
+        const sender = `"${companyName} HRMS" <${fromEmail}>`;
+
         const htmlTemplate = `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f5; color: #3f3f46; border-radius: 8px;">
                 <h2 style="color: #f97316; text-align: center; margin-bottom: 24px;">${companyName} HRMS</h2>
@@ -162,7 +183,8 @@ export const forgotPassword = async (req: Request, res: Response) => {
             user.email,
             `Password Reset Request - ${companyName} HRMS`,
             `Click here to reset your password: ${resetLink}\n\nThis link will expire in 1 hour.`,
-            htmlTemplate
+            htmlTemplate,
+            sender
         );
 
         logger.info(`Forgot Password Email sent to: ${email}`);
