@@ -62,7 +62,11 @@ export const sendEmail = async (
 
     // DEV FALLBACK
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-        await log("⚠️ SMTP creds missing. Email skipped.");
+        await log("⚠️ SMTP credentials missing. Dev Fallback:");
+        await log(`To: ${to}`);
+        await log(`Subject: ${subject}`);
+        await log(`Content:\n${text}`);
+        console.log(`⚠️ SMTP credentials missing. Reset Link printed to log: ${text}`);
         return;
     }
 
