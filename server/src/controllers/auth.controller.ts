@@ -195,7 +195,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
         if (isDbConnectionError(error)) {
             return res.status(503).json({ message: 'Service temporarily unavailable. Please try again in a moment.' });
         }
-        res.status(500).json({ message: 'An unexpected error occurred. Please try again.' });
+        res.status(500).json({ message: `An unexpected error occurred: ${error.message}` });
     }
 };
 
