@@ -145,9 +145,38 @@ router.put('/:id', async (req: AuthRequest, res) => {
                         data: {
                             ...updateData,
                             profile: {
-                                update: {
-                                    firstName: adminFirstName || adminUser.profile?.firstName,
-                                    lastName: adminLastName || adminUser.profile?.lastName
+                                upsert: {
+                                    create: {
+                                        firstName: adminFirstName || 'Admin',
+                                        lastName: adminLastName || '',
+                                        companyId: id
+                                    },
+                                    update: {
+                                        firstName: adminFirstName || adminUser.profile?.firstName,
+                                        lastName: adminLastName || adminUser.profile?.lastName
+                                    }
+                                }
+                            }
+                        }
+                    });
+                } else if (adminEmail) {
+                    const existingEmail = await tx.user.findUnique({ where: { email: adminEmail } });
+                    if (existingEmail) throw new Error('Email already in use');
+
+                    const passwordStr = adminPassword || 'Admin@123';
+                    const passwordHash = await bcrypt.hash(passwordStr, 10);
+
+                    await tx.user.create({
+                        data: {
+                            email: adminEmail,
+                            passwordHash,
+                            role: Role.ADMIN,
+                            companyId: id,
+                            profile: {
+                                create: {
+                                    firstName: adminFirstName || 'Admin',
+                                    lastName: adminLastName || '',
+                                    companyId: id
                                 }
                             }
                         }
