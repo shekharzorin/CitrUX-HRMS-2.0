@@ -27,6 +27,11 @@ model Company {
   logoMediumUrl     String?
   logoThumbnailUrl  String?
   faviconUrl        String?
+  // Leave accrual policy chosen by the company admin:
+  //   MANUAL  → balances are managed manually (no automatic crediting) [default]
+  //   MONTHLY → credit daysPerYear/12 to each active employee on the 1st of each month
+  //   ANNUAL  → credit the full daysPerYear on Jan 1
+  leaveAccrualMode  String            @default("MANUAL")
   assets            Asset[]
   branches          Branch[]
   departments       Department[]
@@ -42,6 +47,7 @@ model Company {
   users             User[]
   workLogs          WorkLog[]
   recognitions      Recognition[]
+  accessRoles       AccessRole[]
 }
 
 model User {
@@ -51,8 +57,13 @@ model User {
   passwordHash         String
   resetToken           String?
   resetTokenExpiry     DateTime?
+  refreshToken         String?
+  refreshTokenExpiry   DateTime?
   status               String              @default("ACTIVE")
   role                 Role                @default(EMPLOYEE)
+  // Per-tenant dynamic role (RBAC v2). Nullable during migration: when null,
+  // authorization falls back to the legacy `role` enum + static permission map.
+  accessRoleId         String?
   managerId            String?
   shiftId              String?
   companyId            String?
@@ -87,6 +98,35 @@ model User {
   uploadedDocs         UserDocument[]      @relation("Uploader")
   policyOverride       UserPolicyOverride?
   workLogs             WorkLog[]
+  accessRole           AccessRole?         @relation(fields: [accessRoleId], references: [id])
+}
+
+// ── RBAC v2: per-tenant dynamic roles ────────────────────────────────────────
+// A company-scoped, named bundle of permissions. Distinct from the legacy `Role`
+// enum (platform-fixed) and from `JobRole` (HR designation/title).
+model AccessRole {
+  id          String                 @id @default(uuid())
+  name        String
+  description String?
+  companyId   String
+  isSystem    Boolean                @default(false) // seeded default; cannot be deleted
+  isOwner     Boolean                @default(false) // protected owner role; always all permissions
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+  company     Company                @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  permissions AccessRolePermission[]
+  users       User[]
+
+  @@unique([companyId, name])
+}
+
+model AccessRolePermission {
+  id           String     @id @default(uuid())
+  accessRoleId String
+  permission   String // matches the code-defined permission catalog
+  accessRole   AccessRole @relation(fields: [accessRoleId], references: [id], onDelete: Cascade)
+
+  @@unique([accessRoleId, permission])
 }
 
 model SalaryStructure {

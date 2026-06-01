@@ -134,7 +134,8 @@ exports.Prisma.CompanyScalarFieldEnum = {
   slogan: 'slogan',
   logoMediumUrl: 'logoMediumUrl',
   logoThumbnailUrl: 'logoThumbnailUrl',
-  faviconUrl: 'faviconUrl'
+  faviconUrl: 'faviconUrl',
+  leaveAccrualMode: 'leaveAccrualMode'
 };
 
 exports.Prisma.UserScalarFieldEnum = {
@@ -144,11 +145,31 @@ exports.Prisma.UserScalarFieldEnum = {
   passwordHash: 'passwordHash',
   resetToken: 'resetToken',
   resetTokenExpiry: 'resetTokenExpiry',
+  refreshToken: 'refreshToken',
+  refreshTokenExpiry: 'refreshTokenExpiry',
   status: 'status',
   role: 'role',
+  accessRoleId: 'accessRoleId',
   managerId: 'managerId',
   shiftId: 'shiftId',
   companyId: 'companyId'
+};
+
+exports.Prisma.AccessRoleScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  companyId: 'companyId',
+  isSystem: 'isSystem',
+  isOwner: 'isOwner',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AccessRolePermissionScalarFieldEnum = {
+  id: 'id',
+  accessRoleId: 'accessRoleId',
+  permission: 'permission'
 };
 
 exports.Prisma.SalaryStructureScalarFieldEnum = {
@@ -768,6 +789,8 @@ exports.Role = exports.$Enums.Role = {
 exports.Prisma.ModelName = {
   Company: 'Company',
   User: 'User',
+  AccessRole: 'AccessRole',
+  AccessRolePermission: 'AccessRolePermission',
   SalaryStructure: 'SalaryStructure',
   Payslip: 'Payslip',
   Profile: 'Profile',

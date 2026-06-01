@@ -1,11 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { PermissionService, Permission, Role } from '../services/permission.service';
+import { Permission } from '../services/permission.service';
+import { RoleService } from '../services/role.service';
 
 export interface JwtPayload {
     userId: string;
     role: string;
     companyId: string | null;
+    // RBAC v2: the user's per-tenant AccessRole. Optional during migration —
+    // when absent, permission checks fall back to the legacy `role` enum.
+    accessRoleId?: string | null;
 }
 
 export interface AuthRequest extends Request {
@@ -64,16 +68,21 @@ export const requireCompany = (req: AuthRequest, res: Response, next: NextFuncti
 };
 
 export const requirePermission = (permission: Permission) => {
-    return (req: AuthRequest, res: Response, next: NextFunction) => {
+    return async (req: AuthRequest, res: Response, next: NextFunction) => {
         if (!req.user) {
             return res.status(401).json({ message: 'Access Denied' });
         }
-        
-        const hasAccess = PermissionService.hasPermission(req.user.role as Role, permission);
-        
-        if (!hasAccess) {
-            return res.status(403).json({ message: `Forbidden: requires ${permission} permission` });
+
+        try {
+            // Dual-read: resolves via the user's AccessRole if assigned, else
+            // falls back to the legacy `role` enum's static permissions.
+            const hasAccess = await RoleService.hasPermission(req.user, permission);
+            if (!hasAccess) {
+                return res.status(403).json({ message: `Forbidden: requires ${permission} permission` });
+            }
+            next();
+        } catch (err) {
+            next(err);
         }
-        next();
     };
 };

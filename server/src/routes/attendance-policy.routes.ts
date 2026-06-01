@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticateToken, authorizeRole, requireCompany } from '../middlewares/auth.middleware';
+import { authenticateToken, requirePermission, requireCompany } from '../middlewares/auth.middleware';
 import {
     getPolicy,
     upsertPolicy,
@@ -16,8 +16,9 @@ import {
 
 const router = Router();
 
-const adminOrHR  = authorizeRole(['ADMIN', 'HR', 'SUPER_ADMIN']);
-const adminOnly  = authorizeRole(['ADMIN', 'SUPER_ADMIN']);
+// Read access for those who manage attendance; edit access for company admins only.
+const adminOrHR  = requirePermission('MANAGE_ATTENDANCE');
+const adminOnly  = requirePermission('MANAGE_COMPANY_SETTINGS');
 const allRoles   = authenticateToken;
 
 // ─── Company Policy ───────────────────────────────────────────────────────────

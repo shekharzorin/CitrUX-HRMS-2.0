@@ -2,8 +2,18 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
 import { authorizeRole } from './middlewares/auth.middleware';
+import { tracingMiddleware } from './middlewares/tracing.middleware';
+import { serverAdapter } from './queues/bull-board';
+import { initSchedulers, attendanceQueue, payslipQueue, leaveQueue } from './queues/scheduler';
+// Importing the workers instantiates the BullMQ Worker instances so the
+// repeatable jobs scheduled by initSchedulers are actually consumed.
+// Without these imports the jobs are enqueued into Redis but never processed.
+import { attendanceWorker } from './queues/workers/attendanceWorker';
+import { payslipWorker } from './queues/workers/payslipWorker';
+import { leaveWorker } from './queues/workers/leaveWorker';
+import { connection as redisConnection, cacheConnection } from './queues/index';
+import { authRateLimiter, tenantRateLimiter } from './middlewares/rateLimit.middleware';
 
 import userRoutes from './routes/user.routes';
 import authRoutes from './routes/auth.routes';
@@ -42,17 +52,15 @@ import searchRoutes from './routes/search.routes';
 import { errorHandler } from './middlewares/error.middleware';
 import organizationRoutes from './routes/organization.routes';
 import engagementRoutes from './routes/engagement.routes';
+import roleRoutes from './routes/role.routes';
 
 import path from 'path';
 import { createServer } from 'http';
-import { CronService } from './services/cron.service';
 import { SocketService } from './services/socket.service';
 
 
 import { prisma, connectDB } from './db';
 import logger from './utils/logger';
-import { initAttendanceScheduler } from './schedulers/attendance.scheduler';
-import { initLeaveScheduler } from './schedulers/leave.scheduler';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -68,9 +76,8 @@ process.on('unhandledRejection', (reason: any, promise) => {
     // This prevents "Failed to fetch" on client when Cloudinary errors occur.
 });
 
-// Initialize Schedulers
-initAttendanceScheduler();
-initLeaveScheduler();
+// Trace injection
+app.use(tracingMiddleware);
 
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
 const allowedOrigins = clientUrl.includes(',') ? clientUrl.split(',') : clientUrl;
@@ -95,8 +102,12 @@ app.use(cors({
 }));
 
 // Request Logging Middleware
+// Redact query strings so JWTs passed as ?token=... (used by signed upload URLs
+// and socket handshakes) never get written to logs in plaintext.
 app.use((req, res, next) => {
-    logger.info(`${req.method} ${req.url}`);
+    const pathOnly = req.url.split('?')[0];
+    const redactedQuery = req.url.includes('?') ? '?[redacted]' : '';
+    logger.info(`${req.method} ${pathOnly}${redactedQuery}`);
     next();
 });
 
@@ -112,15 +123,15 @@ app.use(helmet({
     },
 }));
 
-// Rate Limiting: 100 requests per 15 minutes per IP
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 1000, // Increased from 100 to prevent blocking normal SPA usage
-    standardHeaders: true,
-    legacyHeaders: false,
-    message: 'Too many requests from this IP, please try again after 15 minutes'
+// Rate Limiting
+app.use('/api/auth', authRateLimiter);
+app.use('/api', (req, res, next) => {
+    // Skip tenantRateLimiter for /api/auth since it has its own stricter limiter
+    if (req.path.startsWith('/auth')) {
+        return next();
+    }
+    tenantRateLimiter(req, res, next);
 });
-app.use(limiter);
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
@@ -157,6 +168,9 @@ app.use('/uploads/*filepath', (req, res, next) => {
 app.get('/', (req, res) => {
     res.send('Citrux HRMS API is running');
 });
+
+// BullMQ Dashboard
+app.use('/admin/queues', serverAdapter.getRouter());
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -197,6 +211,7 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/organization', organizationRoutes);
 app.use('/api/engagement', engagementRoutes);
+app.use('/api/roles', roleRoutes);
 
 // Catch-all 404 for API routes
 app.use('/api', (req, res) => {
@@ -214,8 +229,57 @@ SocketService.initialize(server);
 server.listen(port, async () => {
     logger.info(`Server running on port ${port}`);
     await connectDB();  // Test and report DB connectivity at startup
-    
+
     // Initialize background jobs
-    CronService.start();
+    await initSchedulers();
 });
-// Trigger nodemon restart
+
+/**
+ * Graceful shutdown — on deploy/restart Render sends SIGTERM. Drain in-flight
+ * HTTP requests, let running BullMQ jobs finish, then close all connections so
+ * we don't drop requests, lose jobs mid-execution, or leak DB/Redis sockets.
+ */
+let shuttingDown = false;
+const gracefulShutdown = async (signal: string) => {
+    if (shuttingDown) return;
+    shuttingDown = true;
+    logger.info(`[Shutdown] Received ${signal}, shutting down gracefully…`);
+
+    // Stop accepting new connections.
+    server.close(() => logger.info('[Shutdown] HTTP server closed'));
+
+    const FORCE_EXIT_MS = 25_000;
+    const forceTimer = setTimeout(() => {
+        logger.error('[Shutdown] Forced exit after timeout');
+        process.exit(1);
+    }, FORCE_EXIT_MS);
+    forceTimer.unref();
+
+    try {
+        // close() waits for active jobs to finish before resolving.
+        await Promise.allSettled([
+            attendanceWorker.close(),
+            payslipWorker.close(),
+            leaveWorker.close(),
+            attendanceQueue.close(),
+            payslipQueue.close(),
+            leaveQueue.close(),
+        ]);
+        logger.info('[Shutdown] BullMQ workers and queues closed');
+
+        await prisma.$disconnect();
+        logger.info('[Shutdown] Prisma disconnected');
+
+        await Promise.allSettled([redisConnection.quit(), cacheConnection.quit()]);
+        logger.info('[Shutdown] Redis connections closed');
+
+        clearTimeout(forceTimer);
+        process.exit(0);
+    } catch (err: any) {
+        logger.error(`[Shutdown] Error during shutdown: ${err.message}`);
+        process.exit(1);
+    }
+};
+
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));

@@ -110,10 +110,7 @@ export const broadcastNotification = async (req: AuthRequest, res: Response) => 
         const { message } = req.body;
         const senderId = req.user.userId;
 
-        if (req.user.role !== 'ADMIN' && req.user.role !== 'HR' && req.user.role !== 'SUPER_ADMIN') {
-            return res.status(403).json({ message: 'Access denied' });
-        }
-
+        // Authorization is enforced at the route via requirePermission('MANAGE_USERS').
         const scope = getTenantScope(req);
         const users = await withRetry(() => prisma.user.findMany({
             where: { status: 'ACTIVE', ...scope },

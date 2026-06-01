@@ -58,3 +58,9 @@ logs/
 # Uploads
 uploads/
 server/uploads/
+
+# Local dev artifacts (portable Redis, dumps, temp engine files, ad-hoc scripts)
+.redis/
+*.rdb
+server/generated/prisma/*.tmp*
+server/resetPassword.ts

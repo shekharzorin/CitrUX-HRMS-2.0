@@ -6,6 +6,8 @@ import { requireString } from '../utils/requestUtils';
 import { calculateWorkingDays } from '../utils/date.util';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
+import { CacheService } from '../services/cacheService';
+import { RoleService } from '../services/role.service';
 
 // Get available Leave Types (tenant-scoped)
 export const getLeaveTypes = async (req: AuthRequest, res: Response) => {
@@ -148,14 +150,9 @@ export const applyLeave = async (req: Request, res: Response) => {
             }
         }
 
-        // 3. Notify HR & Admins — scoped to same company only
-        const recipientUsers = await prisma.user.findMany({
-            where: {
-                role: { in: ['HR', 'ADMIN'] },
-                companyId: user?.companyId  // Only notify same-company admins
-            },
-            select: { id: true, email: true }
-        });
+        // 3. Notify whoever can oversee all leave in this company (VIEW_ALL_LEAVES).
+        //    Permission-based so custom roles are included, not just HR/ADMIN.
+        const recipientUsers = await RoleService.getUsersWithPermission(user?.companyId, 'VIEW_ALL_LEAVES');
 
         // In-app notifications (batch)
         if (recipientUsers.length > 0) {
@@ -357,6 +354,9 @@ export const createLeaveType = async (req: AuthRequest, res: Response) => {
                 companyId: scope.companyId
             }
         });
+
+        if (scope.companyId) await CacheService.delByPattern(`tenant:${scope.companyId}:resource:leaveTypes:*`);
+
         res.json(type);
     } catch (error) {
         console.error(error);
@@ -376,6 +376,9 @@ export const deleteLeaveType = async (req: AuthRequest, res: Response) => {
 
         // @ts-ignore
         await prisma.leaveType.delete({ where: { id } });
+
+        if (existing.companyId) await CacheService.delByPattern(`tenant:${existing.companyId}:resource:leaveTypes:*`);
+
         res.json({ message: 'Leave type deleted' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting leave type' });
@@ -546,13 +549,8 @@ export const encashLeave = async (req: AuthRequest, res: Response) => {
             });
         });
 
-        // Notify HR (only in same company)
-        const recipientUsers = await prisma.user.findMany({
-            where: {
-                role: { in: ['HR', 'ADMIN'] },
-                companyId: req.user!.companyId
-            }
-        });
+        // Notify whoever can approve encashments (MANAGE_PAYROLL) in this company.
+        const recipientUsers = await RoleService.getUsersWithPermission(req.user!.companyId, 'MANAGE_PAYROLL');
         
         if (recipientUsers.length > 0) {
             await prisma.notification.createMany({

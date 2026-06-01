@@ -37,6 +37,7 @@ import MyProfile from './pages/MyProfile';
 import Notifications from './pages/Notifications';
 import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
+import RolesPermissions from './pages/RolesPermissions';
 import Payslips from './pages/Payslips';
 import SalaryConfig from './pages/SalaryConfig';
 import IssueCertificate from './pages/IssueCertificate';
@@ -131,6 +132,7 @@ const App: React.FC = () => {
                 <Route path="/super-admin/companies" element={<ProtectedRoute allowedRoles={['SUPER_ADMIN']}><GlobalCompanies /></ProtectedRoute>} />
 
                 <Route path="/settings" element={<ProtectedRoute allowedRoles={['ADMIN', 'HR', 'SUPER_ADMIN']}><Settings /></ProtectedRoute>} />
+                <Route path="/admin/roles" element={<ProtectedRoute allowedRoles={['ADMIN', 'SUPER_ADMIN']}><RolesPermissions /></ProtectedRoute>} />
 
                 <Route path="*" element={<NotFound />} />
               </Routes>

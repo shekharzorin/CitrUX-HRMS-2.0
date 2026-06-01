@@ -7,7 +7,7 @@ import {
     updateOnboarding,
     rejectOnboarding
 } from '../controllers/onboarding.controller';
-import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware';
+import { authenticateToken, requirePermission } from '../middlewares/auth.middleware';
 
 import { upload } from '../middlewares/upload.middleware';
 
@@ -50,8 +50,8 @@ router.post('/submit', authenticateToken, submitOnboarding);
 router.get('/status', authenticateToken, getOnboardingStatus);
 // router.put('/task/status', authenticateToken, updateTaskStatus); // Removed
 
-router.get('/pending', authenticateToken, authorizeRole(['ADMIN', 'HR']), getPendingOnboardings);
-router.put('/:id/approve', authenticateToken, authorizeRole(['ADMIN', 'HR']), approveOnboarding);
-router.put('/:id/reject', authenticateToken, authorizeRole(['ADMIN', 'HR']), rejectOnboarding);
+router.get('/pending', authenticateToken, requirePermission('MANAGE_ONBOARDING'), getPendingOnboardings);
+router.put('/:id/approve', authenticateToken, requirePermission('MANAGE_ONBOARDING'), approveOnboarding);
+router.put('/:id/reject', authenticateToken, requirePermission('MANAGE_ONBOARDING'), rejectOnboarding);
 
 export default router;

@@ -22,3 +22,30 @@
 [2026-05-12T09:56:24.484Z] ✅ Email sent successfully! MessageID: <19e34de3-db45-c448-4b62-be9bef5c73c2@ethereal.email>
 [2026-05-12T09:56:24.487Z] Response: 250 Accepted [STATUS=new MSGID=agLgQpnvM5eyzrpSagL5SIIKErNPZMR1AAAAAhXzngVsM27s2sC03Bb31Gs]
 [2026-05-12T09:56:24.490Z] 📧 Preview URL: https://ethereal.email/message/agLgQpnvM5eyzrpSagL5SIIKErNPZMR1AAAAAhXzngVsM27s2sC03Bb31Gs
+[2026-05-29T12:57:40.315Z] Attempting to send email to: shekharzorin@gmail.com
+[2026-05-29T12:57:44.039Z] ✅ Email sent successfully! MessageID: <f49b3311-f065-58bb-6e53-0e6844a18e08@resend.dev>
+[2026-05-29T12:57:44.043Z] Response: 250 ced53875-80fd-4d17-b784-ae0b1440362d
+[2026-05-31T18:30:01.385Z] Attempting to send email to: shekharux@gmail.com
+[2026-05-31T18:30:01.403Z] Attempting to send email to: support@isnap.in
+[2026-05-31T18:30:01.406Z] Attempting to send email to: kanksha.ch@isnap.online
+[2026-05-31T18:30:01.408Z] Attempting to send email to: vineethng203@gmail.com
+[2026-05-31T18:30:01.649Z] Attempting to send email to: shekharux@gmail.com
+[2026-05-31T18:30:01.654Z] Attempting to send email to: support@isnap.in
+[2026-05-31T18:30:01.658Z] Attempting to send email to: kanksha.ch@isnap.online
+[2026-05-31T18:30:01.659Z] Attempting to send email to: vineethng203@gmail.com
+[2026-05-31T18:30:01.861Z] Attempting to send email to: shekharux@gmail.com
+[2026-05-31T18:30:01.863Z] Attempting to send email to: support@isnap.in
+[2026-05-31T18:30:01.867Z] Attempting to send email to: kanksha.ch@isnap.online
+[2026-05-31T18:30:01.870Z] Attempting to send email to: vineethng203@gmail.com
+[2026-05-31T18:30:04.814Z] ❌ Error sending email: Message failed: 550 You can only send testing emails to your own email address (shekharzorin@gmail.com). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain.
+[2026-05-31T18:30:04.876Z] ❌ Error sending email: Message failed: 550 You can only send testing emails to your own email address (shekharzorin@gmail.com). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain.
+[2026-05-31T18:30:04.887Z] ❌ Error sending email: Message failed: 550 You can only send testing emails to your own email address (shekharzorin@gmail.com). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain.
+[2026-05-31T18:30:04.899Z] ❌ Error sending email: Message failed: 550 You can only send testing emails to your own email address (shekharzorin@gmail.com). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain.
+[2026-05-31T18:30:05.060Z] ❌ Error sending email: Message failed: 550 Too many requests. You can only make 5 requests per second. See rate limit response headers for more information. Or contact support to increase rate limit.
+[2026-05-31T18:30:05.074Z] ❌ Error sending email: Message failed: 550 Too many requests. You can only make 5 requests per second. See rate limit response headers for more information. Or contact support to increase rate limit.
+[2026-05-31T18:30:05.079Z] ❌ Error sending email: Message failed: 550 Too many requests. You can only make 5 requests per second. See rate limit response headers for more information. Or contact support to increase rate limit.
+[2026-05-31T18:30:05.090Z] ❌ Error sending email: Message failed: 550 You can only send testing emails to your own email address (shekharzorin@gmail.com). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain.
+[2026-05-31T18:30:05.347Z] ❌ Error sending email: Message failed: 550 Too many requests. You can only make 5 requests per second. See rate limit response headers for more information. Or contact support to increase rate limit.
+[2026-05-31T18:30:05.375Z] ❌ Error sending email: Message failed: 550 Too many requests. You can only make 5 requests per second. See rate limit response headers for more information. Or contact support to increase rate limit.
+[2026-05-31T18:30:05.394Z] ❌ Error sending email: Message failed: 550 Too many requests. You can only make 5 requests per second. See rate limit response headers for more information. Or contact support to increase rate limit.
+[2026-05-31T18:30:05.401Z] ❌ Error sending email: Message failed: 550 Too many requests. You can only make 5 requests per second. See rate limit response headers for more information. Or contact support to increase rate limit.

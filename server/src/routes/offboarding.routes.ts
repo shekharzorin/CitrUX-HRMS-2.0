@@ -1,17 +1,19 @@
 import { Router } from 'express';
 import { resign, getOffboardingStatus, submitExitInterview, getResignations, updateOffboardingStatus, terminateEmployee } from '../controllers/offboarding.controller';
-import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware';
+import { authenticateToken, requirePermission } from '../middlewares/auth.middleware';
+import { validate } from '../middlewares/validate.middleware';
+import { resignSchema, exitInterviewSchema, statusOnlySchema, terminateSchema } from '../validators/schemas';
 
 const router = Router();
 
 router.use(authenticateToken);
 
-router.post('/resign', resign);
+router.post('/resign', validate({ body: resignSchema }), resign);
 router.get('/status', getOffboardingStatus);
-router.post('/exit-interview', submitExitInterview);
+router.post('/exit-interview', validate({ body: exitInterviewSchema }), submitExitInterview);
 
-router.get('/all', authorizeRole(['ADMIN', 'HR']), getResignations);
-router.put('/:id/status', authorizeRole(['ADMIN', 'HR']), updateOffboardingStatus);
-router.post('/terminate', authorizeRole(['ADMIN', 'HR']), terminateEmployee);
+router.get('/all', requirePermission('MANAGE_OFFBOARDING'), getResignations);
+router.put('/:id/status', requirePermission('MANAGE_OFFBOARDING'), validate({ body: statusOnlySchema }), updateOffboardingStatus);
+router.post('/terminate', requirePermission('MANAGE_OFFBOARDING'), validate({ body: terminateSchema }), terminateEmployee);
 
 export default router;

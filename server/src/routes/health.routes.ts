@@ -1,12 +1,12 @@
 
 import { Router } from 'express';
 import { getSystemStatus, getSystemErrors } from '../controllers/health.controller';
-import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware';
+import { authenticateToken, requirePermission } from '../middlewares/auth.middleware';
 
 const router = Router();
 
 // Stats - Admin Only
-router.get('/status', authenticateToken, authorizeRole(['ADMIN', 'SUPER_ADMIN']), getSystemStatus);
-router.get('/errors', authenticateToken, authorizeRole(['ADMIN', 'SUPER_ADMIN']), getSystemErrors);
+router.get('/status', authenticateToken, requirePermission('VIEW_SYSTEM_HEALTH'), getSystemStatus);
+router.get('/errors', authenticateToken, requirePermission('VIEW_SYSTEM_HEALTH'), getSystemErrors);
 
 export default router;

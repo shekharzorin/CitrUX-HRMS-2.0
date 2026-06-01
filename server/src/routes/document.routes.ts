@@ -2,6 +2,8 @@ import { Router } from 'express';
 import multer from 'multer';
 import path from 'path';
 import { authenticateToken, authorizeRole, requirePermission } from '../middlewares/auth.middleware';
+import { validate } from '../middlewares/validate.middleware';
+import { uploadDocumentSchema, verifyDocumentSchema } from '../validators/schemas';
 import {
     uploadDocument,
     getMyDocuments,
@@ -23,7 +25,7 @@ const upload = multer({ storage });
 router.use(authenticateToken);
 
 router.get('/generate-url/*filename', generateSecureUrl);
-router.post('/upload', upload.single('file'), uploadDocument);
+router.post('/upload', upload.single('file'), validate({ body: uploadDocumentSchema }), uploadDocument);
 router.get('/my', getMyDocuments);
 
 // User & Admin shared (access controlled in controller)
@@ -32,8 +34,8 @@ router.delete('/:id', deleteDocument);
 
 // Admin Routes
 router.get('/company/all', requirePermission('MANAGE_DOCUMENTS'), getAllCompanyDocuments);
-router.get('/user/:userId', authorizeRole(['ADMIN', 'HR', 'MANAGER']), getUserDocuments);
-router.put('/:id/verify', requirePermission('MANAGE_DOCUMENTS'), verifyDocument);
+router.get('/user/:userId', requirePermission('VIEW_USER_DOCUMENTS'), getUserDocuments);
+router.put('/:id/verify', requirePermission('MANAGE_DOCUMENTS'), validate({ body: verifyDocumentSchema }), verifyDocument);
 router.get('/expiring', requirePermission('MANAGE_DOCUMENTS'), getExpiringDocuments);
 
 export default router;

@@ -3,6 +3,11 @@ import { authenticateToken, authorizeRole, AuthRequest } from '../middlewares/au
 import { prisma } from '../db';
 import { Role } from '../../generated/prisma';
 import bcrypt from 'bcryptjs';
+import { cacheMiddleware } from '../middlewares/cache.middleware';
+import { CacheService } from '../services/cacheService';
+import { validate } from '../middlewares/validate.middleware';
+import { createCompanySchema } from '../validators/schemas';
+import { RoleService } from '../services/role.service';
 
 const router = Router();
 
@@ -11,7 +16,7 @@ router.use(authenticateToken);
 router.use(authorizeRole(['SUPER_ADMIN']));
 
 // 1. Get all companies with stats
-router.get('/', async (req: AuthRequest, res) => {
+router.get('/', cacheMiddleware('company', parseInt(process.env.CACHE_TTL_COMPANY || '600000')), async (req: AuthRequest, res) => {
     try {
         const companies = await prisma.company.findMany({
             include: {
@@ -47,7 +52,7 @@ router.get('/', async (req: AuthRequest, res) => {
 });
 
 // 2. Create a new company
-router.post('/', async (req: AuthRequest, res) => {
+router.post('/', validate({ body: createCompanySchema }), async (req: AuthRequest, res) => {
     try {
         const { name, domain, plan, slogan, adminEmail, adminPassword, adminFirstName, adminLastName } = req.body;
 
@@ -70,7 +75,7 @@ router.post('/', async (req: AuthRequest, res) => {
 
         const passwordHash = await bcrypt.hash(adminPassword, 10);
 
-        // Transaction to create company + initial super admin user
+        // Transaction to create company + default roles + initial admin user
         const newCompany = await prisma.$transaction(async (tx) => {
             const company = await tx.company.create({
                 data: {
@@ -81,11 +86,16 @@ router.post('/', async (req: AuthRequest, res) => {
                 }
             });
 
+            // RBAC v2: seed the tenant's default roles and assign the first admin
+            // to the protected Owner role (keeps the legacy enum role too).
+            const roleIds = await RoleService.seedDefaultRoles(company.id, tx);
+
             await tx.user.create({
                 data: {
                     email: adminEmail,
                     passwordHash,
                     role: Role.ADMIN,
+                    accessRoleId: roleIds.OWNER,
                     companyId: company.id,
                     profile: {
                         create: {
@@ -100,6 +110,7 @@ router.post('/', async (req: AuthRequest, res) => {
             return company;
         });
 
+        await CacheService.delByPattern(`tenant:${newCompany.id}:resource:company:*`);
         res.status(201).json(newCompany);
     } catch (error: any) {
         console.error("Error creating company:", error);
@@ -186,6 +197,7 @@ router.put('/:id', async (req: AuthRequest, res) => {
             return company;
         });
 
+        await CacheService.delByPattern(`tenant:${id}:resource:company:*`);
         res.json(updatedCompany);
     } catch (error: any) {
         console.error("Error updating company:", error);
@@ -211,6 +223,7 @@ router.delete('/:id', async (req: AuthRequest, res) => {
             data: { status: 'ARCHIVED' }
         });
 
+        await CacheService.delByPattern(`tenant:${id}:resource:company:*`);
         res.json({ message: "Company archived successfully", company: archivedCompany });
     } catch (error: any) {
         console.error("Error archiving company:", error);
@@ -233,6 +246,7 @@ router.put('/:id/restore', async (req: AuthRequest, res) => {
             data: { status: 'ACTIVE' }
         });
 
+        await CacheService.delByPattern(`tenant:${id}:resource:company:*`);
         res.json({ message: "Company restored successfully", company: restoredCompany });
     } catch (error: any) {
         console.error("Error restoring company:", error);
@@ -255,6 +269,7 @@ router.delete('/:id/hard', async (req: AuthRequest, res) => {
             where: { id }
         });
 
+        await CacheService.delByPattern(`tenant:${id}:resource:company:*`);
         res.json({ message: "Company permanently deleted" });
     } catch (error: any) {
         console.error("Error permanently deleting company:", error);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 import { Icon } from '../components/ui/Icons';
+import { Button } from '../design-system/components/Button';
 import { useToast } from '../contexts/ToastContext';
 
 interface Document {
@@ -145,9 +146,9 @@ const Documents: React.FC = () => {
                     <h1 className="page-title text-2xl font-bold text-slate-800 dark:text-white">Document Management</h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage KYC, educational, and internal documents.</p>
                 </div>
-                <button onClick={() => setIsUploadModalOpen(true)} className="btn-primary flex items-center gap-2">
+                <Button onClick={() => setIsUploadModalOpen(true)} variant="primary" className="flex items-center gap-2">
                     <Icon name="upload" size={16} /> Upload Document
-                </button>
+                </Button>
             </div>
 
             {isPrivileged && (
@@ -225,18 +226,18 @@ const Documents: React.FC = () => {
                                     </td>
                                     <td className="p-4">
                                         <div className="flex gap-2">
-                                            <button onClick={() => viewDocument(doc)} className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors" title="View">
+                                            <Button onClick={() => viewDocument(doc)} variant="ghost" size="icon" className="p-2" title="View">
                                                 <Icon name="eye" size={16} />
-                                            </button>
-                                            <button onClick={() => {
+                                            </Button>
+                                            <Button onClick={() => {
                                                 setUploadData(prev => ({ ...prev, name: doc.name, category: doc.category, parentDocId: doc.id, targetUserId: doc.user?.employeeId || doc.userId }));
                                                 setIsUploadModalOpen(true);
-                                            }} className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 rounded-lg transition-colors" title="Upload New Version">
+                                            }} variant="ghost" size="icon" className="p-2" title="Upload New Version">
                                                 <Icon name="upload" size={16} />
-                                            </button>
-                                            <button onClick={() => deleteDocument(doc.id)} className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors" title="Archive">
+                                            </Button>
+                                            <Button onClick={() => deleteDocument(doc.id)} variant="ghost" size="icon" className="p-2" title="Archive">
                                                 <Icon name="delete" size={16} />
-                                            </button>
+                                            </Button>
                                         </div>
                                     </td>
                                 </tr>
@@ -297,9 +298,9 @@ const Documents: React.FC = () => {
                                 <button type="button" onClick={() => setIsUploadModalOpen(false)} className="px-4 py-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
                                     Cancel
                                 </button>
-                                <button type="submit" disabled={isUploading || !uploadFile} className="btn-primary">
+                                <Button type="submit" disabled={isUploading || !uploadFile} variant="primary">
                                     {isUploading ? 'Uploading...' : 'Upload'}
-                                </button>
+                                </Button>
                             </div>
                         </form>
                     </div>

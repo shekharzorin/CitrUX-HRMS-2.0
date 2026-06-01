@@ -3,18 +3,40 @@ export { Prisma };
 
 const isDev = process.env.NODE_ENV !== 'production';
 
+/**
+ * Appends pool-sizing params to the connection URL if they aren't already set.
+ * With horizontal scaling, total DB connections = (instances × connection_limit),
+ * so each instance must use a bounded pool to stay under the provider's cap
+ * (e.g. Supabase). Tune via DB_CONNECTION_LIMIT / DB_POOL_TIMEOUT.
+ */
+const withPoolParams = (url: string): string => {
+    try {
+        const u = new URL(url);
+        if (!u.searchParams.has('connection_limit')) {
+            u.searchParams.set('connection_limit', process.env.DB_CONNECTION_LIMIT || '5');
+        }
+        if (!u.searchParams.has('pool_timeout')) {
+            u.searchParams.set('pool_timeout', process.env.DB_POOL_TIMEOUT || '15');
+        }
+        return u.toString();
+    } catch {
+        // Non-standard URL — leave it untouched rather than risk corrupting it.
+        return url;
+    }
+};
+
 const getDbUrl = (): string | undefined => {
     const dbUrl = process.env.DATABASE_URL;
     const directUrl = process.env.DIRECT_URL;
-    
+
     // If DATABASE_URL is pointing to db.prisma.io (which is currently unreachable),
     // and DIRECT_URL is provided (pointing to a different provider like Supabase), prioritize DIRECT_URL.
     if (dbUrl?.includes('db.prisma.io') && directUrl && !directUrl.includes('db.prisma.io')) {
         console.log('[DB] DATABASE_URL points to db.prisma.io which is unreachable. Falling back to DIRECT_URL.');
-        return directUrl;
+        return withPoolParams(directUrl);
     }
-    
-    return dbUrl;
+
+    return dbUrl ? withPoolParams(dbUrl) : dbUrl;
 };
 
 const dbUrl = getDbUrl();

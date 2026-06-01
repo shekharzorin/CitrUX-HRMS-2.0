@@ -1,21 +1,32 @@
 import { Server as SocketServer, Socket } from 'socket.io';
 import { Server as HttpServer } from 'http';
+import { createAdapter } from '@socket.io/redis-adapter';
 import jwt from 'jsonwebtoken';
+import { connection } from '../queues/index';
 import logger from '../utils/logger';
 
 export class SocketService {
     private static io: SocketServer;
-    // Map userId to their connected socket IDs to handle multiple tabs/devices
-    private static userSockets = new Map<string, Set<string>>();
 
     static initialize(server: HttpServer) {
         this.io = new SocketServer(server, {
             cors: {
-                origin: process.env.CLIENT_URL || 'http://localhost:5173',
+                origin: process.env.CLIENT_URL?.includes(',')
+                    ? process.env.CLIENT_URL.split(',')
+                    : (process.env.CLIENT_URL || 'http://localhost:5173'),
                 methods: ['GET', 'POST'],
                 credentials: true
             }
         });
+
+        // Redis adapter so emits/broadcasts reach clients connected to ANY
+        // instance. Without this, rooms only work within a single process and
+        // notifications silently fail under horizontal scaling.
+        const pubClient = connection.duplicate();
+        const subClient = connection.duplicate();
+        this.io.adapter(createAdapter(pubClient, subClient));
+        pubClient.on('error', (err) => logger.error(`[SocketService] pub client error: ${err.message}`));
+        subClient.on('error', (err) => logger.error(`[SocketService] sub client error: ${err.message}`));
 
         // Socket Authentication Middleware
         this.io.use((socket, next) => {
@@ -33,50 +44,35 @@ export class SocketService {
 
         this.io.on('connection', (socket: Socket) => {
             const userId = socket.data.user?.userId;
+            const companyId = socket.data.user?.companyId;
             logger.info(`[SocketService] User Connected: ${userId} (Socket: ${socket.id})`);
 
-            // Track user's active connections
-            if (!this.userSockets.has(userId)) {
-                this.userSockets.set(userId, new Set());
-            }
-            this.userSockets.get(userId)!.add(socket.id);
-
-            // Join Company Room (for company-wide broadcasts)
-            const companyId = socket.data.user?.companyId;
-            if (companyId) {
-                socket.join(`company_${companyId}`);
-            }
+            // Join per-user and per-company rooms. Room membership is tracked by
+            // the Redis adapter across instances, so we no longer need an
+            // in-memory Map (which only knew about this process's sockets).
+            if (userId) socket.join(`user_${userId}`);
+            if (companyId) socket.join(`company_${companyId}`);
 
             socket.on('disconnect', () => {
                 logger.info(`[SocketService] User Disconnected: ${userId} (Socket: ${socket.id})`);
-                const userSocketSet = this.userSockets.get(userId);
-                if (userSocketSet) {
-                    userSocketSet.delete(socket.id);
-                    if (userSocketSet.size === 0) {
-                        this.userSockets.delete(userId);
-                    }
-                }
             });
         });
 
-        logger.info('[SocketService] WebSocket server initialized and ready.');
+        logger.info('[SocketService] WebSocket server initialized with Redis adapter.');
     }
 
     /**
-     * Send real-time notification to a specific user across all their active devices.
+     * Send a real-time event to a specific user across all their devices and
+     * across all server instances (delivered via the per-user room).
      */
     static sendToUser(userId: string, event: string, payload: any) {
         if (!this.io) return;
-        const socketIds = this.userSockets.get(userId);
-        if (socketIds) {
-            socketIds.forEach(socketId => {
-                this.io.to(socketId).emit(event, payload);
-            });
-        }
+        this.io.to(`user_${userId}`).emit(event, payload);
     }
 
     /**
-     * Broadcast an event to all connected users within a specific company.
+     * Broadcast an event to all connected users within a specific company,
+     * across all server instances.
      */
     static broadcastToCompany(companyId: string, event: string, payload: any) {
         if (!this.io) return;

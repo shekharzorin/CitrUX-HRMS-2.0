@@ -24,6 +24,16 @@ export type Company = $Result.DefaultSelection<Prisma.$CompanyPayload>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model AccessRole
+ * 
+ */
+export type AccessRole = $Result.DefaultSelection<Prisma.$AccessRolePayload>
+/**
+ * Model AccessRolePermission
+ * 
+ */
+export type AccessRolePermission = $Result.DefaultSelection<Prisma.$AccessRolePermissionPayload>
+/**
  * Model SalaryStructure
  * 
  */
@@ -401,6 +411,26 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.accessRole`: Exposes CRUD operations for the **AccessRole** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AccessRoles
+    * const accessRoles = await prisma.accessRole.findMany()
+    * ```
+    */
+  get accessRole(): Prisma.AccessRoleDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.accessRolePermission`: Exposes CRUD operations for the **AccessRolePermission** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AccessRolePermissions
+    * const accessRolePermissions = await prisma.accessRolePermission.findMany()
+    * ```
+    */
+  get accessRolePermission(): Prisma.AccessRolePermissionDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.salaryStructure`: Exposes CRUD operations for the **SalaryStructure** model.
@@ -1284,6 +1314,8 @@ export namespace Prisma {
   export const ModelName: {
     Company: 'Company',
     User: 'User',
+    AccessRole: 'AccessRole',
+    AccessRolePermission: 'AccessRolePermission',
     SalaryStructure: 'SalaryStructure',
     Payslip: 'Payslip',
     Profile: 'Profile',
@@ -1346,7 +1378,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "salaryStructure" | "payslip" | "profile" | "attendance" | "shift" | "attendancePolicy" | "shiftPolicyOverride" | "userPolicyOverride" | "break" | "leaveType" | "leaveEncashment" | "leaveBalance" | "leaveRequest" | "holiday" | "onboarding" | "onboardingEmergencyContact" | "onboardingExperience" | "onboardingEducation" | "onboardingDocument" | "offboarding" | "exitInterview" | "goal" | "performanceReview" | "recognition" | "jobPosting" | "jobApplication" | "expenseCategory" | "expenseClaim" | "certificate" | "asset" | "userDocument" | "notification" | "jobRole" | "systemSetting" | "timesheet" | "timesheetEntry" | "task" | "workLog" | "attendanceRequest" | "auditLog" | "systemError" | "moduleHealth" | "branch" | "department"
+      modelProps: "company" | "user" | "accessRole" | "accessRolePermission" | "salaryStructure" | "payslip" | "profile" | "attendance" | "shift" | "attendancePolicy" | "shiftPolicyOverride" | "userPolicyOverride" | "break" | "leaveType" | "leaveEncashment" | "leaveBalance" | "leaveRequest" | "holiday" | "onboarding" | "onboardingEmergencyContact" | "onboardingExperience" | "onboardingEducation" | "onboardingDocument" | "offboarding" | "exitInterview" | "goal" | "performanceReview" | "recognition" | "jobPosting" | "jobApplication" | "expenseCategory" | "expenseClaim" | "certificate" | "asset" | "userDocument" | "notification" | "jobRole" | "systemSetting" | "timesheet" | "timesheetEntry" | "task" | "workLog" | "attendanceRequest" | "auditLog" | "systemError" | "moduleHealth" | "branch" | "department"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1495,6 +1527,154 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      AccessRole: {
+        payload: Prisma.$AccessRolePayload<ExtArgs>
+        fields: Prisma.AccessRoleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AccessRoleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AccessRoleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePayload>
+          }
+          findFirst: {
+            args: Prisma.AccessRoleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AccessRoleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePayload>
+          }
+          findMany: {
+            args: Prisma.AccessRoleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePayload>[]
+          }
+          create: {
+            args: Prisma.AccessRoleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePayload>
+          }
+          createMany: {
+            args: Prisma.AccessRoleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AccessRoleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePayload>[]
+          }
+          delete: {
+            args: Prisma.AccessRoleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePayload>
+          }
+          update: {
+            args: Prisma.AccessRoleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePayload>
+          }
+          deleteMany: {
+            args: Prisma.AccessRoleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AccessRoleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AccessRoleUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePayload>[]
+          }
+          upsert: {
+            args: Prisma.AccessRoleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePayload>
+          }
+          aggregate: {
+            args: Prisma.AccessRoleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAccessRole>
+          }
+          groupBy: {
+            args: Prisma.AccessRoleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AccessRoleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AccessRoleCountArgs<ExtArgs>
+            result: $Utils.Optional<AccessRoleCountAggregateOutputType> | number
+          }
+        }
+      }
+      AccessRolePermission: {
+        payload: Prisma.$AccessRolePermissionPayload<ExtArgs>
+        fields: Prisma.AccessRolePermissionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AccessRolePermissionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePermissionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AccessRolePermissionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePermissionPayload>
+          }
+          findFirst: {
+            args: Prisma.AccessRolePermissionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePermissionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AccessRolePermissionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePermissionPayload>
+          }
+          findMany: {
+            args: Prisma.AccessRolePermissionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePermissionPayload>[]
+          }
+          create: {
+            args: Prisma.AccessRolePermissionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePermissionPayload>
+          }
+          createMany: {
+            args: Prisma.AccessRolePermissionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AccessRolePermissionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePermissionPayload>[]
+          }
+          delete: {
+            args: Prisma.AccessRolePermissionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePermissionPayload>
+          }
+          update: {
+            args: Prisma.AccessRolePermissionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePermissionPayload>
+          }
+          deleteMany: {
+            args: Prisma.AccessRolePermissionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AccessRolePermissionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AccessRolePermissionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePermissionPayload>[]
+          }
+          upsert: {
+            args: Prisma.AccessRolePermissionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccessRolePermissionPayload>
+          }
+          aggregate: {
+            args: Prisma.AccessRolePermissionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAccessRolePermission>
+          }
+          groupBy: {
+            args: Prisma.AccessRolePermissionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AccessRolePermissionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AccessRolePermissionCountArgs<ExtArgs>
+            result: $Utils.Optional<AccessRolePermissionCountAggregateOutputType> | number
           }
         }
       }
@@ -4852,6 +5032,8 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     company?: CompanyOmit
     user?: UserOmit
+    accessRole?: AccessRoleOmit
+    accessRolePermission?: AccessRolePermissionOmit
     salaryStructure?: SalaryStructureOmit
     payslip?: PayslipOmit
     profile?: ProfileOmit
@@ -4990,6 +5172,7 @@ export namespace Prisma {
     users: number
     workLogs: number
     recognitions: number
+    accessRoles: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5007,6 +5190,7 @@ export namespace Prisma {
     users?: boolean | CompanyCountOutputTypeCountUsersArgs
     workLogs?: boolean | CompanyCountOutputTypeCountWorkLogsArgs
     recognitions?: boolean | CompanyCountOutputTypeCountRecognitionsArgs
+    accessRoles?: boolean | CompanyCountOutputTypeCountAccessRolesArgs
   }
 
   // Custom InputTypes
@@ -5116,6 +5300,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountRecognitionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RecognitionWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountAccessRolesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccessRoleWhereInput
   }
 
 
@@ -5345,6 +5536,46 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountWorkLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WorkLogWhereInput
+  }
+
+
+  /**
+   * Count Type AccessRoleCountOutputType
+   */
+
+  export type AccessRoleCountOutputType = {
+    permissions: number
+    users: number
+  }
+
+  export type AccessRoleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    permissions?: boolean | AccessRoleCountOutputTypeCountPermissionsArgs
+    users?: boolean | AccessRoleCountOutputTypeCountUsersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AccessRoleCountOutputType without action
+   */
+  export type AccessRoleCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRoleCountOutputType
+     */
+    select?: AccessRoleCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AccessRoleCountOutputType without action
+   */
+  export type AccessRoleCountOutputTypeCountPermissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccessRolePermissionWhereInput
+  }
+
+  /**
+   * AccessRoleCountOutputType without action
+   */
+  export type AccessRoleCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
   }
 
 
@@ -5749,6 +5980,7 @@ export namespace Prisma {
     logoMediumUrl: string | null
     logoThumbnailUrl: string | null
     faviconUrl: string | null
+    leaveAccrualMode: string | null
   }
 
   export type CompanyMaxAggregateOutputType = {
@@ -5765,6 +5997,7 @@ export namespace Prisma {
     logoMediumUrl: string | null
     logoThumbnailUrl: string | null
     faviconUrl: string | null
+    leaveAccrualMode: string | null
   }
 
   export type CompanyCountAggregateOutputType = {
@@ -5781,6 +6014,7 @@ export namespace Prisma {
     logoMediumUrl: number
     logoThumbnailUrl: number
     faviconUrl: number
+    leaveAccrualMode: number
     _all: number
   }
 
@@ -5799,6 +6033,7 @@ export namespace Prisma {
     logoMediumUrl?: true
     logoThumbnailUrl?: true
     faviconUrl?: true
+    leaveAccrualMode?: true
   }
 
   export type CompanyMaxAggregateInputType = {
@@ -5815,6 +6050,7 @@ export namespace Prisma {
     logoMediumUrl?: true
     logoThumbnailUrl?: true
     faviconUrl?: true
+    leaveAccrualMode?: true
   }
 
   export type CompanyCountAggregateInputType = {
@@ -5831,6 +6067,7 @@ export namespace Prisma {
     logoMediumUrl?: true
     logoThumbnailUrl?: true
     faviconUrl?: true
+    leaveAccrualMode?: true
     _all?: true
   }
 
@@ -5920,6 +6157,7 @@ export namespace Prisma {
     logoMediumUrl: string | null
     logoThumbnailUrl: string | null
     faviconUrl: string | null
+    leaveAccrualMode: string
     _count: CompanyCountAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
     _max: CompanyMaxAggregateOutputType | null
@@ -5953,6 +6191,7 @@ export namespace Prisma {
     logoMediumUrl?: boolean
     logoThumbnailUrl?: boolean
     faviconUrl?: boolean
+    leaveAccrualMode?: boolean
     assets?: boolean | Company$assetsArgs<ExtArgs>
     branches?: boolean | Company$branchesArgs<ExtArgs>
     departments?: boolean | Company$departmentsArgs<ExtArgs>
@@ -5968,6 +6207,7 @@ export namespace Prisma {
     users?: boolean | Company$usersArgs<ExtArgs>
     workLogs?: boolean | Company$workLogsArgs<ExtArgs>
     recognitions?: boolean | Company$recognitionsArgs<ExtArgs>
+    accessRoles?: boolean | Company$accessRolesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -5985,6 +6225,7 @@ export namespace Prisma {
     logoMediumUrl?: boolean
     logoThumbnailUrl?: boolean
     faviconUrl?: boolean
+    leaveAccrualMode?: boolean
   }, ExtArgs["result"]["company"]>
 
   export type CompanySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6001,6 +6242,7 @@ export namespace Prisma {
     logoMediumUrl?: boolean
     logoThumbnailUrl?: boolean
     faviconUrl?: boolean
+    leaveAccrualMode?: boolean
   }, ExtArgs["result"]["company"]>
 
   export type CompanySelectScalar = {
@@ -6017,9 +6259,10 @@ export namespace Prisma {
     logoMediumUrl?: boolean
     logoThumbnailUrl?: boolean
     faviconUrl?: boolean
+    leaveAccrualMode?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subdomain" | "domain" | "plan" | "logoUrl" | "createdAt" | "updatedAt" | "status" | "slogan" | "logoMediumUrl" | "logoThumbnailUrl" | "faviconUrl", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subdomain" | "domain" | "plan" | "logoUrl" | "createdAt" | "updatedAt" | "status" | "slogan" | "logoMediumUrl" | "logoThumbnailUrl" | "faviconUrl" | "leaveAccrualMode", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assets?: boolean | Company$assetsArgs<ExtArgs>
     branches?: boolean | Company$branchesArgs<ExtArgs>
@@ -6036,6 +6279,7 @@ export namespace Prisma {
     users?: boolean | Company$usersArgs<ExtArgs>
     workLogs?: boolean | Company$workLogsArgs<ExtArgs>
     recognitions?: boolean | Company$recognitionsArgs<ExtArgs>
+    accessRoles?: boolean | Company$accessRolesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -6059,6 +6303,7 @@ export namespace Prisma {
       users: Prisma.$UserPayload<ExtArgs>[]
       workLogs: Prisma.$WorkLogPayload<ExtArgs>[]
       recognitions: Prisma.$RecognitionPayload<ExtArgs>[]
+      accessRoles: Prisma.$AccessRolePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6074,6 +6319,7 @@ export namespace Prisma {
       logoMediumUrl: string | null
       logoThumbnailUrl: string | null
       faviconUrl: string | null
+      leaveAccrualMode: string
     }, ExtArgs["result"]["company"]>
     composites: {}
   }
@@ -6483,6 +6729,7 @@ export namespace Prisma {
     users<T extends Company$usersArgs<ExtArgs> = {}>(args?: Subset<T, Company$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workLogs<T extends Company$workLogsArgs<ExtArgs> = {}>(args?: Subset<T, Company$workLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     recognitions<T extends Company$recognitionsArgs<ExtArgs> = {}>(args?: Subset<T, Company$recognitionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecognitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    accessRoles<T extends Company$accessRolesArgs<ExtArgs> = {}>(args?: Subset<T, Company$accessRolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccessRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6525,6 +6772,7 @@ export namespace Prisma {
     readonly logoMediumUrl: FieldRef<"Company", 'String'>
     readonly logoThumbnailUrl: FieldRef<"Company", 'String'>
     readonly faviconUrl: FieldRef<"Company", 'String'>
+    readonly leaveAccrualMode: FieldRef<"Company", 'String'>
   }
     
 
@@ -7268,6 +7516,30 @@ export namespace Prisma {
   }
 
   /**
+   * Company.accessRoles
+   */
+  export type Company$accessRolesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRole
+     */
+    select?: AccessRoleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRole
+     */
+    omit?: AccessRoleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRoleInclude<ExtArgs> | null
+    where?: AccessRoleWhereInput
+    orderBy?: AccessRoleOrderByWithRelationInput | AccessRoleOrderByWithRelationInput[]
+    cursor?: AccessRoleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AccessRoleScalarFieldEnum | AccessRoleScalarFieldEnum[]
+  }
+
+  /**
    * Company without action
    */
   export type CompanyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7303,8 +7575,11 @@ export namespace Prisma {
     passwordHash: string | null
     resetToken: string | null
     resetTokenExpiry: Date | null
+    refreshToken: string | null
+    refreshTokenExpiry: Date | null
     status: string | null
     role: $Enums.Role | null
+    accessRoleId: string | null
     managerId: string | null
     shiftId: string | null
     companyId: string | null
@@ -7317,8 +7592,11 @@ export namespace Prisma {
     passwordHash: string | null
     resetToken: string | null
     resetTokenExpiry: Date | null
+    refreshToken: string | null
+    refreshTokenExpiry: Date | null
     status: string | null
     role: $Enums.Role | null
+    accessRoleId: string | null
     managerId: string | null
     shiftId: string | null
     companyId: string | null
@@ -7331,8 +7609,11 @@ export namespace Prisma {
     passwordHash: number
     resetToken: number
     resetTokenExpiry: number
+    refreshToken: number
+    refreshTokenExpiry: number
     status: number
     role: number
+    accessRoleId: number
     managerId: number
     shiftId: number
     companyId: number
@@ -7347,8 +7628,11 @@ export namespace Prisma {
     passwordHash?: true
     resetToken?: true
     resetTokenExpiry?: true
+    refreshToken?: true
+    refreshTokenExpiry?: true
     status?: true
     role?: true
+    accessRoleId?: true
     managerId?: true
     shiftId?: true
     companyId?: true
@@ -7361,8 +7645,11 @@ export namespace Prisma {
     passwordHash?: true
     resetToken?: true
     resetTokenExpiry?: true
+    refreshToken?: true
+    refreshTokenExpiry?: true
     status?: true
     role?: true
+    accessRoleId?: true
     managerId?: true
     shiftId?: true
     companyId?: true
@@ -7375,8 +7662,11 @@ export namespace Prisma {
     passwordHash?: true
     resetToken?: true
     resetTokenExpiry?: true
+    refreshToken?: true
+    refreshTokenExpiry?: true
     status?: true
     role?: true
+    accessRoleId?: true
     managerId?: true
     shiftId?: true
     companyId?: true
@@ -7462,8 +7752,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken: string | null
     resetTokenExpiry: Date | null
+    refreshToken: string | null
+    refreshTokenExpiry: Date | null
     status: string
     role: $Enums.Role
+    accessRoleId: string | null
     managerId: string | null
     shiftId: string | null
     companyId: string | null
@@ -7493,8 +7786,11 @@ export namespace Prisma {
     passwordHash?: boolean
     resetToken?: boolean
     resetTokenExpiry?: boolean
+    refreshToken?: boolean
+    refreshTokenExpiry?: boolean
     status?: boolean
     role?: boolean
+    accessRoleId?: boolean
     managerId?: boolean
     shiftId?: boolean
     companyId?: boolean
@@ -7529,6 +7825,7 @@ export namespace Prisma {
     uploadedDocs?: boolean | User$uploadedDocsArgs<ExtArgs>
     policyOverride?: boolean | User$policyOverrideArgs<ExtArgs>
     workLogs?: boolean | User$workLogsArgs<ExtArgs>
+    accessRole?: boolean | User$accessRoleArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -7539,14 +7836,18 @@ export namespace Prisma {
     passwordHash?: boolean
     resetToken?: boolean
     resetTokenExpiry?: boolean
+    refreshToken?: boolean
+    refreshTokenExpiry?: boolean
     status?: boolean
     role?: boolean
+    accessRoleId?: boolean
     managerId?: boolean
     shiftId?: boolean
     companyId?: boolean
     company?: boolean | User$companyArgs<ExtArgs>
     manager?: boolean | User$managerArgs<ExtArgs>
     shift?: boolean | User$shiftArgs<ExtArgs>
+    accessRole?: boolean | User$accessRoleArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7556,14 +7857,18 @@ export namespace Prisma {
     passwordHash?: boolean
     resetToken?: boolean
     resetTokenExpiry?: boolean
+    refreshToken?: boolean
+    refreshTokenExpiry?: boolean
     status?: boolean
     role?: boolean
+    accessRoleId?: boolean
     managerId?: boolean
     shiftId?: boolean
     companyId?: boolean
     company?: boolean | User$companyArgs<ExtArgs>
     manager?: boolean | User$managerArgs<ExtArgs>
     shift?: boolean | User$shiftArgs<ExtArgs>
+    accessRole?: boolean | User$accessRoleArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -7573,14 +7878,17 @@ export namespace Prisma {
     passwordHash?: boolean
     resetToken?: boolean
     resetTokenExpiry?: boolean
+    refreshToken?: boolean
+    refreshTokenExpiry?: boolean
     status?: boolean
     role?: boolean
+    accessRoleId?: boolean
     managerId?: boolean
     shiftId?: boolean
     companyId?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "email" | "passwordHash" | "resetToken" | "resetTokenExpiry" | "status" | "role" | "managerId" | "shiftId" | "companyId", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "email" | "passwordHash" | "resetToken" | "resetTokenExpiry" | "refreshToken" | "refreshTokenExpiry" | "status" | "role" | "accessRoleId" | "managerId" | "shiftId" | "companyId", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assets?: boolean | User$assetsArgs<ExtArgs>
     attendance?: boolean | User$attendanceArgs<ExtArgs>
@@ -7613,17 +7921,20 @@ export namespace Prisma {
     uploadedDocs?: boolean | User$uploadedDocsArgs<ExtArgs>
     policyOverride?: boolean | User$policyOverrideArgs<ExtArgs>
     workLogs?: boolean | User$workLogsArgs<ExtArgs>
+    accessRole?: boolean | User$accessRoleArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | User$companyArgs<ExtArgs>
     manager?: boolean | User$managerArgs<ExtArgs>
     shift?: boolean | User$shiftArgs<ExtArgs>
+    accessRole?: boolean | User$accessRoleArgs<ExtArgs>
   }
   export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | User$companyArgs<ExtArgs>
     manager?: boolean | User$managerArgs<ExtArgs>
     shift?: boolean | User$shiftArgs<ExtArgs>
+    accessRole?: boolean | User$accessRoleArgs<ExtArgs>
   }
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7660,6 +7971,7 @@ export namespace Prisma {
       uploadedDocs: Prisma.$UserDocumentPayload<ExtArgs>[]
       policyOverride: Prisma.$UserPolicyOverridePayload<ExtArgs> | null
       workLogs: Prisma.$WorkLogPayload<ExtArgs>[]
+      accessRole: Prisma.$AccessRolePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7668,8 +7980,11 @@ export namespace Prisma {
       passwordHash: string
       resetToken: string | null
       resetTokenExpiry: Date | null
+      refreshToken: string | null
+      refreshTokenExpiry: Date | null
       status: string
       role: $Enums.Role
+      accessRoleId: string | null
       managerId: string | null
       shiftId: string | null
       companyId: string | null
@@ -8098,6 +8413,7 @@ export namespace Prisma {
     uploadedDocs<T extends User$uploadedDocsArgs<ExtArgs> = {}>(args?: Subset<T, User$uploadedDocsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     policyOverride<T extends User$policyOverrideArgs<ExtArgs> = {}>(args?: Subset<T, User$policyOverrideArgs<ExtArgs>>): Prisma__UserPolicyOverrideClient<$Result.GetResult<Prisma.$UserPolicyOverridePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     workLogs<T extends User$workLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$workLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    accessRole<T extends User$accessRoleArgs<ExtArgs> = {}>(args?: Subset<T, User$accessRoleArgs<ExtArgs>>): Prisma__AccessRoleClient<$Result.GetResult<Prisma.$AccessRolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8133,8 +8449,11 @@ export namespace Prisma {
     readonly passwordHash: FieldRef<"User", 'String'>
     readonly resetToken: FieldRef<"User", 'String'>
     readonly resetTokenExpiry: FieldRef<"User", 'DateTime'>
+    readonly refreshToken: FieldRef<"User", 'String'>
+    readonly refreshTokenExpiry: FieldRef<"User", 'DateTime'>
     readonly status: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
+    readonly accessRoleId: FieldRef<"User", 'String'>
     readonly managerId: FieldRef<"User", 'String'>
     readonly shiftId: FieldRef<"User", 'String'>
     readonly companyId: FieldRef<"User", 'String'>
@@ -9238,6 +9557,25 @@ export namespace Prisma {
   }
 
   /**
+   * User.accessRole
+   */
+  export type User$accessRoleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRole
+     */
+    select?: AccessRoleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRole
+     */
+    omit?: AccessRoleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRoleInclude<ExtArgs> | null
+    where?: AccessRoleWhereInput
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9253,6 +9591,2193 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AccessRole
+   */
+
+  export type AggregateAccessRole = {
+    _count: AccessRoleCountAggregateOutputType | null
+    _min: AccessRoleMinAggregateOutputType | null
+    _max: AccessRoleMaxAggregateOutputType | null
+  }
+
+  export type AccessRoleMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    companyId: string | null
+    isSystem: boolean | null
+    isOwner: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AccessRoleMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    companyId: string | null
+    isSystem: boolean | null
+    isOwner: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AccessRoleCountAggregateOutputType = {
+    id: number
+    name: number
+    description: number
+    companyId: number
+    isSystem: number
+    isOwner: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AccessRoleMinAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    companyId?: true
+    isSystem?: true
+    isOwner?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AccessRoleMaxAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    companyId?: true
+    isSystem?: true
+    isOwner?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AccessRoleCountAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    companyId?: true
+    isSystem?: true
+    isOwner?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AccessRoleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AccessRole to aggregate.
+     */
+    where?: AccessRoleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccessRoles to fetch.
+     */
+    orderBy?: AccessRoleOrderByWithRelationInput | AccessRoleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AccessRoleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccessRoles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccessRoles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AccessRoles
+    **/
+    _count?: true | AccessRoleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AccessRoleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AccessRoleMaxAggregateInputType
+  }
+
+  export type GetAccessRoleAggregateType<T extends AccessRoleAggregateArgs> = {
+        [P in keyof T & keyof AggregateAccessRole]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAccessRole[P]>
+      : GetScalarType<T[P], AggregateAccessRole[P]>
+  }
+
+
+
+
+  export type AccessRoleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccessRoleWhereInput
+    orderBy?: AccessRoleOrderByWithAggregationInput | AccessRoleOrderByWithAggregationInput[]
+    by: AccessRoleScalarFieldEnum[] | AccessRoleScalarFieldEnum
+    having?: AccessRoleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AccessRoleCountAggregateInputType | true
+    _min?: AccessRoleMinAggregateInputType
+    _max?: AccessRoleMaxAggregateInputType
+  }
+
+  export type AccessRoleGroupByOutputType = {
+    id: string
+    name: string
+    description: string | null
+    companyId: string
+    isSystem: boolean
+    isOwner: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: AccessRoleCountAggregateOutputType | null
+    _min: AccessRoleMinAggregateOutputType | null
+    _max: AccessRoleMaxAggregateOutputType | null
+  }
+
+  type GetAccessRoleGroupByPayload<T extends AccessRoleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AccessRoleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AccessRoleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AccessRoleGroupByOutputType[P]>
+            : GetScalarType<T[P], AccessRoleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AccessRoleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    companyId?: boolean
+    isSystem?: boolean
+    isOwner?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    permissions?: boolean | AccessRole$permissionsArgs<ExtArgs>
+    users?: boolean | AccessRole$usersArgs<ExtArgs>
+    _count?: boolean | AccessRoleCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["accessRole"]>
+
+  export type AccessRoleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    companyId?: boolean
+    isSystem?: boolean
+    isOwner?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["accessRole"]>
+
+  export type AccessRoleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    companyId?: boolean
+    isSystem?: boolean
+    isOwner?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["accessRole"]>
+
+  export type AccessRoleSelectScalar = {
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    companyId?: boolean
+    isSystem?: boolean
+    isOwner?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AccessRoleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "companyId" | "isSystem" | "isOwner" | "createdAt" | "updatedAt", ExtArgs["result"]["accessRole"]>
+  export type AccessRoleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    permissions?: boolean | AccessRole$permissionsArgs<ExtArgs>
+    users?: boolean | AccessRole$usersArgs<ExtArgs>
+    _count?: boolean | AccessRoleCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AccessRoleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type AccessRoleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $AccessRolePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AccessRole"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      permissions: Prisma.$AccessRolePermissionPayload<ExtArgs>[]
+      users: Prisma.$UserPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      description: string | null
+      companyId: string
+      isSystem: boolean
+      isOwner: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["accessRole"]>
+    composites: {}
+  }
+
+  type AccessRoleGetPayload<S extends boolean | null | undefined | AccessRoleDefaultArgs> = $Result.GetResult<Prisma.$AccessRolePayload, S>
+
+  type AccessRoleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AccessRoleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AccessRoleCountAggregateInputType | true
+    }
+
+  export interface AccessRoleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AccessRole'], meta: { name: 'AccessRole' } }
+    /**
+     * Find zero or one AccessRole that matches the filter.
+     * @param {AccessRoleFindUniqueArgs} args - Arguments to find a AccessRole
+     * @example
+     * // Get one AccessRole
+     * const accessRole = await prisma.accessRole.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AccessRoleFindUniqueArgs>(args: SelectSubset<T, AccessRoleFindUniqueArgs<ExtArgs>>): Prisma__AccessRoleClient<$Result.GetResult<Prisma.$AccessRolePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AccessRole that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AccessRoleFindUniqueOrThrowArgs} args - Arguments to find a AccessRole
+     * @example
+     * // Get one AccessRole
+     * const accessRole = await prisma.accessRole.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AccessRoleFindUniqueOrThrowArgs>(args: SelectSubset<T, AccessRoleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AccessRoleClient<$Result.GetResult<Prisma.$AccessRolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AccessRole that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessRoleFindFirstArgs} args - Arguments to find a AccessRole
+     * @example
+     * // Get one AccessRole
+     * const accessRole = await prisma.accessRole.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AccessRoleFindFirstArgs>(args?: SelectSubset<T, AccessRoleFindFirstArgs<ExtArgs>>): Prisma__AccessRoleClient<$Result.GetResult<Prisma.$AccessRolePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AccessRole that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessRoleFindFirstOrThrowArgs} args - Arguments to find a AccessRole
+     * @example
+     * // Get one AccessRole
+     * const accessRole = await prisma.accessRole.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AccessRoleFindFirstOrThrowArgs>(args?: SelectSubset<T, AccessRoleFindFirstOrThrowArgs<ExtArgs>>): Prisma__AccessRoleClient<$Result.GetResult<Prisma.$AccessRolePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AccessRoles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessRoleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AccessRoles
+     * const accessRoles = await prisma.accessRole.findMany()
+     * 
+     * // Get first 10 AccessRoles
+     * const accessRoles = await prisma.accessRole.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const accessRoleWithIdOnly = await prisma.accessRole.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AccessRoleFindManyArgs>(args?: SelectSubset<T, AccessRoleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccessRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AccessRole.
+     * @param {AccessRoleCreateArgs} args - Arguments to create a AccessRole.
+     * @example
+     * // Create one AccessRole
+     * const AccessRole = await prisma.accessRole.create({
+     *   data: {
+     *     // ... data to create a AccessRole
+     *   }
+     * })
+     * 
+     */
+    create<T extends AccessRoleCreateArgs>(args: SelectSubset<T, AccessRoleCreateArgs<ExtArgs>>): Prisma__AccessRoleClient<$Result.GetResult<Prisma.$AccessRolePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AccessRoles.
+     * @param {AccessRoleCreateManyArgs} args - Arguments to create many AccessRoles.
+     * @example
+     * // Create many AccessRoles
+     * const accessRole = await prisma.accessRole.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AccessRoleCreateManyArgs>(args?: SelectSubset<T, AccessRoleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AccessRoles and returns the data saved in the database.
+     * @param {AccessRoleCreateManyAndReturnArgs} args - Arguments to create many AccessRoles.
+     * @example
+     * // Create many AccessRoles
+     * const accessRole = await prisma.accessRole.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AccessRoles and only return the `id`
+     * const accessRoleWithIdOnly = await prisma.accessRole.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AccessRoleCreateManyAndReturnArgs>(args?: SelectSubset<T, AccessRoleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccessRolePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AccessRole.
+     * @param {AccessRoleDeleteArgs} args - Arguments to delete one AccessRole.
+     * @example
+     * // Delete one AccessRole
+     * const AccessRole = await prisma.accessRole.delete({
+     *   where: {
+     *     // ... filter to delete one AccessRole
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AccessRoleDeleteArgs>(args: SelectSubset<T, AccessRoleDeleteArgs<ExtArgs>>): Prisma__AccessRoleClient<$Result.GetResult<Prisma.$AccessRolePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AccessRole.
+     * @param {AccessRoleUpdateArgs} args - Arguments to update one AccessRole.
+     * @example
+     * // Update one AccessRole
+     * const accessRole = await prisma.accessRole.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AccessRoleUpdateArgs>(args: SelectSubset<T, AccessRoleUpdateArgs<ExtArgs>>): Prisma__AccessRoleClient<$Result.GetResult<Prisma.$AccessRolePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AccessRoles.
+     * @param {AccessRoleDeleteManyArgs} args - Arguments to filter AccessRoles to delete.
+     * @example
+     * // Delete a few AccessRoles
+     * const { count } = await prisma.accessRole.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AccessRoleDeleteManyArgs>(args?: SelectSubset<T, AccessRoleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AccessRoles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessRoleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AccessRoles
+     * const accessRole = await prisma.accessRole.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AccessRoleUpdateManyArgs>(args: SelectSubset<T, AccessRoleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AccessRoles and returns the data updated in the database.
+     * @param {AccessRoleUpdateManyAndReturnArgs} args - Arguments to update many AccessRoles.
+     * @example
+     * // Update many AccessRoles
+     * const accessRole = await prisma.accessRole.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AccessRoles and only return the `id`
+     * const accessRoleWithIdOnly = await prisma.accessRole.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AccessRoleUpdateManyAndReturnArgs>(args: SelectSubset<T, AccessRoleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccessRolePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AccessRole.
+     * @param {AccessRoleUpsertArgs} args - Arguments to update or create a AccessRole.
+     * @example
+     * // Update or create a AccessRole
+     * const accessRole = await prisma.accessRole.upsert({
+     *   create: {
+     *     // ... data to create a AccessRole
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AccessRole we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AccessRoleUpsertArgs>(args: SelectSubset<T, AccessRoleUpsertArgs<ExtArgs>>): Prisma__AccessRoleClient<$Result.GetResult<Prisma.$AccessRolePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AccessRoles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessRoleCountArgs} args - Arguments to filter AccessRoles to count.
+     * @example
+     * // Count the number of AccessRoles
+     * const count = await prisma.accessRole.count({
+     *   where: {
+     *     // ... the filter for the AccessRoles we want to count
+     *   }
+     * })
+    **/
+    count<T extends AccessRoleCountArgs>(
+      args?: Subset<T, AccessRoleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AccessRoleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AccessRole.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessRoleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AccessRoleAggregateArgs>(args: Subset<T, AccessRoleAggregateArgs>): Prisma.PrismaPromise<GetAccessRoleAggregateType<T>>
+
+    /**
+     * Group by AccessRole.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessRoleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AccessRoleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AccessRoleGroupByArgs['orderBy'] }
+        : { orderBy?: AccessRoleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AccessRoleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAccessRoleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AccessRole model
+   */
+  readonly fields: AccessRoleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AccessRole.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AccessRoleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    permissions<T extends AccessRole$permissionsArgs<ExtArgs> = {}>(args?: Subset<T, AccessRole$permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccessRolePermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    users<T extends AccessRole$usersArgs<ExtArgs> = {}>(args?: Subset<T, AccessRole$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AccessRole model
+   */
+  interface AccessRoleFieldRefs {
+    readonly id: FieldRef<"AccessRole", 'String'>
+    readonly name: FieldRef<"AccessRole", 'String'>
+    readonly description: FieldRef<"AccessRole", 'String'>
+    readonly companyId: FieldRef<"AccessRole", 'String'>
+    readonly isSystem: FieldRef<"AccessRole", 'Boolean'>
+    readonly isOwner: FieldRef<"AccessRole", 'Boolean'>
+    readonly createdAt: FieldRef<"AccessRole", 'DateTime'>
+    readonly updatedAt: FieldRef<"AccessRole", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AccessRole findUnique
+   */
+  export type AccessRoleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRole
+     */
+    select?: AccessRoleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRole
+     */
+    omit?: AccessRoleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRoleInclude<ExtArgs> | null
+    /**
+     * Filter, which AccessRole to fetch.
+     */
+    where: AccessRoleWhereUniqueInput
+  }
+
+  /**
+   * AccessRole findUniqueOrThrow
+   */
+  export type AccessRoleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRole
+     */
+    select?: AccessRoleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRole
+     */
+    omit?: AccessRoleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRoleInclude<ExtArgs> | null
+    /**
+     * Filter, which AccessRole to fetch.
+     */
+    where: AccessRoleWhereUniqueInput
+  }
+
+  /**
+   * AccessRole findFirst
+   */
+  export type AccessRoleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRole
+     */
+    select?: AccessRoleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRole
+     */
+    omit?: AccessRoleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRoleInclude<ExtArgs> | null
+    /**
+     * Filter, which AccessRole to fetch.
+     */
+    where?: AccessRoleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccessRoles to fetch.
+     */
+    orderBy?: AccessRoleOrderByWithRelationInput | AccessRoleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AccessRoles.
+     */
+    cursor?: AccessRoleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccessRoles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccessRoles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AccessRoles.
+     */
+    distinct?: AccessRoleScalarFieldEnum | AccessRoleScalarFieldEnum[]
+  }
+
+  /**
+   * AccessRole findFirstOrThrow
+   */
+  export type AccessRoleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRole
+     */
+    select?: AccessRoleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRole
+     */
+    omit?: AccessRoleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRoleInclude<ExtArgs> | null
+    /**
+     * Filter, which AccessRole to fetch.
+     */
+    where?: AccessRoleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccessRoles to fetch.
+     */
+    orderBy?: AccessRoleOrderByWithRelationInput | AccessRoleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AccessRoles.
+     */
+    cursor?: AccessRoleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccessRoles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccessRoles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AccessRoles.
+     */
+    distinct?: AccessRoleScalarFieldEnum | AccessRoleScalarFieldEnum[]
+  }
+
+  /**
+   * AccessRole findMany
+   */
+  export type AccessRoleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRole
+     */
+    select?: AccessRoleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRole
+     */
+    omit?: AccessRoleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRoleInclude<ExtArgs> | null
+    /**
+     * Filter, which AccessRoles to fetch.
+     */
+    where?: AccessRoleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccessRoles to fetch.
+     */
+    orderBy?: AccessRoleOrderByWithRelationInput | AccessRoleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AccessRoles.
+     */
+    cursor?: AccessRoleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccessRoles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccessRoles.
+     */
+    skip?: number
+    distinct?: AccessRoleScalarFieldEnum | AccessRoleScalarFieldEnum[]
+  }
+
+  /**
+   * AccessRole create
+   */
+  export type AccessRoleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRole
+     */
+    select?: AccessRoleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRole
+     */
+    omit?: AccessRoleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRoleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AccessRole.
+     */
+    data: XOR<AccessRoleCreateInput, AccessRoleUncheckedCreateInput>
+  }
+
+  /**
+   * AccessRole createMany
+   */
+  export type AccessRoleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AccessRoles.
+     */
+    data: AccessRoleCreateManyInput | AccessRoleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AccessRole createManyAndReturn
+   */
+  export type AccessRoleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRole
+     */
+    select?: AccessRoleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRole
+     */
+    omit?: AccessRoleOmit<ExtArgs> | null
+    /**
+     * The data used to create many AccessRoles.
+     */
+    data: AccessRoleCreateManyInput | AccessRoleCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRoleIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AccessRole update
+   */
+  export type AccessRoleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRole
+     */
+    select?: AccessRoleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRole
+     */
+    omit?: AccessRoleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRoleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AccessRole.
+     */
+    data: XOR<AccessRoleUpdateInput, AccessRoleUncheckedUpdateInput>
+    /**
+     * Choose, which AccessRole to update.
+     */
+    where: AccessRoleWhereUniqueInput
+  }
+
+  /**
+   * AccessRole updateMany
+   */
+  export type AccessRoleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AccessRoles.
+     */
+    data: XOR<AccessRoleUpdateManyMutationInput, AccessRoleUncheckedUpdateManyInput>
+    /**
+     * Filter which AccessRoles to update
+     */
+    where?: AccessRoleWhereInput
+    /**
+     * Limit how many AccessRoles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AccessRole updateManyAndReturn
+   */
+  export type AccessRoleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRole
+     */
+    select?: AccessRoleSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRole
+     */
+    omit?: AccessRoleOmit<ExtArgs> | null
+    /**
+     * The data used to update AccessRoles.
+     */
+    data: XOR<AccessRoleUpdateManyMutationInput, AccessRoleUncheckedUpdateManyInput>
+    /**
+     * Filter which AccessRoles to update
+     */
+    where?: AccessRoleWhereInput
+    /**
+     * Limit how many AccessRoles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRoleIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AccessRole upsert
+   */
+  export type AccessRoleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRole
+     */
+    select?: AccessRoleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRole
+     */
+    omit?: AccessRoleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRoleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AccessRole to update in case it exists.
+     */
+    where: AccessRoleWhereUniqueInput
+    /**
+     * In case the AccessRole found by the `where` argument doesn't exist, create a new AccessRole with this data.
+     */
+    create: XOR<AccessRoleCreateInput, AccessRoleUncheckedCreateInput>
+    /**
+     * In case the AccessRole was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AccessRoleUpdateInput, AccessRoleUncheckedUpdateInput>
+  }
+
+  /**
+   * AccessRole delete
+   */
+  export type AccessRoleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRole
+     */
+    select?: AccessRoleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRole
+     */
+    omit?: AccessRoleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRoleInclude<ExtArgs> | null
+    /**
+     * Filter which AccessRole to delete.
+     */
+    where: AccessRoleWhereUniqueInput
+  }
+
+  /**
+   * AccessRole deleteMany
+   */
+  export type AccessRoleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AccessRoles to delete
+     */
+    where?: AccessRoleWhereInput
+    /**
+     * Limit how many AccessRoles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AccessRole.permissions
+   */
+  export type AccessRole$permissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRolePermission
+     */
+    select?: AccessRolePermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRolePermission
+     */
+    omit?: AccessRolePermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRolePermissionInclude<ExtArgs> | null
+    where?: AccessRolePermissionWhereInput
+    orderBy?: AccessRolePermissionOrderByWithRelationInput | AccessRolePermissionOrderByWithRelationInput[]
+    cursor?: AccessRolePermissionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AccessRolePermissionScalarFieldEnum | AccessRolePermissionScalarFieldEnum[]
+  }
+
+  /**
+   * AccessRole.users
+   */
+  export type AccessRole$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    cursor?: UserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * AccessRole without action
+   */
+  export type AccessRoleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRole
+     */
+    select?: AccessRoleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRole
+     */
+    omit?: AccessRoleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRoleInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AccessRolePermission
+   */
+
+  export type AggregateAccessRolePermission = {
+    _count: AccessRolePermissionCountAggregateOutputType | null
+    _min: AccessRolePermissionMinAggregateOutputType | null
+    _max: AccessRolePermissionMaxAggregateOutputType | null
+  }
+
+  export type AccessRolePermissionMinAggregateOutputType = {
+    id: string | null
+    accessRoleId: string | null
+    permission: string | null
+  }
+
+  export type AccessRolePermissionMaxAggregateOutputType = {
+    id: string | null
+    accessRoleId: string | null
+    permission: string | null
+  }
+
+  export type AccessRolePermissionCountAggregateOutputType = {
+    id: number
+    accessRoleId: number
+    permission: number
+    _all: number
+  }
+
+
+  export type AccessRolePermissionMinAggregateInputType = {
+    id?: true
+    accessRoleId?: true
+    permission?: true
+  }
+
+  export type AccessRolePermissionMaxAggregateInputType = {
+    id?: true
+    accessRoleId?: true
+    permission?: true
+  }
+
+  export type AccessRolePermissionCountAggregateInputType = {
+    id?: true
+    accessRoleId?: true
+    permission?: true
+    _all?: true
+  }
+
+  export type AccessRolePermissionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AccessRolePermission to aggregate.
+     */
+    where?: AccessRolePermissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccessRolePermissions to fetch.
+     */
+    orderBy?: AccessRolePermissionOrderByWithRelationInput | AccessRolePermissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AccessRolePermissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccessRolePermissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccessRolePermissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AccessRolePermissions
+    **/
+    _count?: true | AccessRolePermissionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AccessRolePermissionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AccessRolePermissionMaxAggregateInputType
+  }
+
+  export type GetAccessRolePermissionAggregateType<T extends AccessRolePermissionAggregateArgs> = {
+        [P in keyof T & keyof AggregateAccessRolePermission]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAccessRolePermission[P]>
+      : GetScalarType<T[P], AggregateAccessRolePermission[P]>
+  }
+
+
+
+
+  export type AccessRolePermissionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AccessRolePermissionWhereInput
+    orderBy?: AccessRolePermissionOrderByWithAggregationInput | AccessRolePermissionOrderByWithAggregationInput[]
+    by: AccessRolePermissionScalarFieldEnum[] | AccessRolePermissionScalarFieldEnum
+    having?: AccessRolePermissionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AccessRolePermissionCountAggregateInputType | true
+    _min?: AccessRolePermissionMinAggregateInputType
+    _max?: AccessRolePermissionMaxAggregateInputType
+  }
+
+  export type AccessRolePermissionGroupByOutputType = {
+    id: string
+    accessRoleId: string
+    permission: string
+    _count: AccessRolePermissionCountAggregateOutputType | null
+    _min: AccessRolePermissionMinAggregateOutputType | null
+    _max: AccessRolePermissionMaxAggregateOutputType | null
+  }
+
+  type GetAccessRolePermissionGroupByPayload<T extends AccessRolePermissionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AccessRolePermissionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AccessRolePermissionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AccessRolePermissionGroupByOutputType[P]>
+            : GetScalarType<T[P], AccessRolePermissionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AccessRolePermissionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accessRoleId?: boolean
+    permission?: boolean
+    accessRole?: boolean | AccessRoleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["accessRolePermission"]>
+
+  export type AccessRolePermissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accessRoleId?: boolean
+    permission?: boolean
+    accessRole?: boolean | AccessRoleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["accessRolePermission"]>
+
+  export type AccessRolePermissionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accessRoleId?: boolean
+    permission?: boolean
+    accessRole?: boolean | AccessRoleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["accessRolePermission"]>
+
+  export type AccessRolePermissionSelectScalar = {
+    id?: boolean
+    accessRoleId?: boolean
+    permission?: boolean
+  }
+
+  export type AccessRolePermissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accessRoleId" | "permission", ExtArgs["result"]["accessRolePermission"]>
+  export type AccessRolePermissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    accessRole?: boolean | AccessRoleDefaultArgs<ExtArgs>
+  }
+  export type AccessRolePermissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    accessRole?: boolean | AccessRoleDefaultArgs<ExtArgs>
+  }
+  export type AccessRolePermissionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    accessRole?: boolean | AccessRoleDefaultArgs<ExtArgs>
+  }
+
+  export type $AccessRolePermissionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AccessRolePermission"
+    objects: {
+      accessRole: Prisma.$AccessRolePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      accessRoleId: string
+      permission: string
+    }, ExtArgs["result"]["accessRolePermission"]>
+    composites: {}
+  }
+
+  type AccessRolePermissionGetPayload<S extends boolean | null | undefined | AccessRolePermissionDefaultArgs> = $Result.GetResult<Prisma.$AccessRolePermissionPayload, S>
+
+  type AccessRolePermissionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AccessRolePermissionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AccessRolePermissionCountAggregateInputType | true
+    }
+
+  export interface AccessRolePermissionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AccessRolePermission'], meta: { name: 'AccessRolePermission' } }
+    /**
+     * Find zero or one AccessRolePermission that matches the filter.
+     * @param {AccessRolePermissionFindUniqueArgs} args - Arguments to find a AccessRolePermission
+     * @example
+     * // Get one AccessRolePermission
+     * const accessRolePermission = await prisma.accessRolePermission.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AccessRolePermissionFindUniqueArgs>(args: SelectSubset<T, AccessRolePermissionFindUniqueArgs<ExtArgs>>): Prisma__AccessRolePermissionClient<$Result.GetResult<Prisma.$AccessRolePermissionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AccessRolePermission that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AccessRolePermissionFindUniqueOrThrowArgs} args - Arguments to find a AccessRolePermission
+     * @example
+     * // Get one AccessRolePermission
+     * const accessRolePermission = await prisma.accessRolePermission.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AccessRolePermissionFindUniqueOrThrowArgs>(args: SelectSubset<T, AccessRolePermissionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AccessRolePermissionClient<$Result.GetResult<Prisma.$AccessRolePermissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AccessRolePermission that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessRolePermissionFindFirstArgs} args - Arguments to find a AccessRolePermission
+     * @example
+     * // Get one AccessRolePermission
+     * const accessRolePermission = await prisma.accessRolePermission.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AccessRolePermissionFindFirstArgs>(args?: SelectSubset<T, AccessRolePermissionFindFirstArgs<ExtArgs>>): Prisma__AccessRolePermissionClient<$Result.GetResult<Prisma.$AccessRolePermissionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AccessRolePermission that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessRolePermissionFindFirstOrThrowArgs} args - Arguments to find a AccessRolePermission
+     * @example
+     * // Get one AccessRolePermission
+     * const accessRolePermission = await prisma.accessRolePermission.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AccessRolePermissionFindFirstOrThrowArgs>(args?: SelectSubset<T, AccessRolePermissionFindFirstOrThrowArgs<ExtArgs>>): Prisma__AccessRolePermissionClient<$Result.GetResult<Prisma.$AccessRolePermissionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AccessRolePermissions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessRolePermissionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AccessRolePermissions
+     * const accessRolePermissions = await prisma.accessRolePermission.findMany()
+     * 
+     * // Get first 10 AccessRolePermissions
+     * const accessRolePermissions = await prisma.accessRolePermission.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const accessRolePermissionWithIdOnly = await prisma.accessRolePermission.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AccessRolePermissionFindManyArgs>(args?: SelectSubset<T, AccessRolePermissionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccessRolePermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AccessRolePermission.
+     * @param {AccessRolePermissionCreateArgs} args - Arguments to create a AccessRolePermission.
+     * @example
+     * // Create one AccessRolePermission
+     * const AccessRolePermission = await prisma.accessRolePermission.create({
+     *   data: {
+     *     // ... data to create a AccessRolePermission
+     *   }
+     * })
+     * 
+     */
+    create<T extends AccessRolePermissionCreateArgs>(args: SelectSubset<T, AccessRolePermissionCreateArgs<ExtArgs>>): Prisma__AccessRolePermissionClient<$Result.GetResult<Prisma.$AccessRolePermissionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AccessRolePermissions.
+     * @param {AccessRolePermissionCreateManyArgs} args - Arguments to create many AccessRolePermissions.
+     * @example
+     * // Create many AccessRolePermissions
+     * const accessRolePermission = await prisma.accessRolePermission.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AccessRolePermissionCreateManyArgs>(args?: SelectSubset<T, AccessRolePermissionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AccessRolePermissions and returns the data saved in the database.
+     * @param {AccessRolePermissionCreateManyAndReturnArgs} args - Arguments to create many AccessRolePermissions.
+     * @example
+     * // Create many AccessRolePermissions
+     * const accessRolePermission = await prisma.accessRolePermission.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AccessRolePermissions and only return the `id`
+     * const accessRolePermissionWithIdOnly = await prisma.accessRolePermission.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AccessRolePermissionCreateManyAndReturnArgs>(args?: SelectSubset<T, AccessRolePermissionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccessRolePermissionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AccessRolePermission.
+     * @param {AccessRolePermissionDeleteArgs} args - Arguments to delete one AccessRolePermission.
+     * @example
+     * // Delete one AccessRolePermission
+     * const AccessRolePermission = await prisma.accessRolePermission.delete({
+     *   where: {
+     *     // ... filter to delete one AccessRolePermission
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AccessRolePermissionDeleteArgs>(args: SelectSubset<T, AccessRolePermissionDeleteArgs<ExtArgs>>): Prisma__AccessRolePermissionClient<$Result.GetResult<Prisma.$AccessRolePermissionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AccessRolePermission.
+     * @param {AccessRolePermissionUpdateArgs} args - Arguments to update one AccessRolePermission.
+     * @example
+     * // Update one AccessRolePermission
+     * const accessRolePermission = await prisma.accessRolePermission.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AccessRolePermissionUpdateArgs>(args: SelectSubset<T, AccessRolePermissionUpdateArgs<ExtArgs>>): Prisma__AccessRolePermissionClient<$Result.GetResult<Prisma.$AccessRolePermissionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AccessRolePermissions.
+     * @param {AccessRolePermissionDeleteManyArgs} args - Arguments to filter AccessRolePermissions to delete.
+     * @example
+     * // Delete a few AccessRolePermissions
+     * const { count } = await prisma.accessRolePermission.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AccessRolePermissionDeleteManyArgs>(args?: SelectSubset<T, AccessRolePermissionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AccessRolePermissions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessRolePermissionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AccessRolePermissions
+     * const accessRolePermission = await prisma.accessRolePermission.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AccessRolePermissionUpdateManyArgs>(args: SelectSubset<T, AccessRolePermissionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AccessRolePermissions and returns the data updated in the database.
+     * @param {AccessRolePermissionUpdateManyAndReturnArgs} args - Arguments to update many AccessRolePermissions.
+     * @example
+     * // Update many AccessRolePermissions
+     * const accessRolePermission = await prisma.accessRolePermission.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AccessRolePermissions and only return the `id`
+     * const accessRolePermissionWithIdOnly = await prisma.accessRolePermission.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AccessRolePermissionUpdateManyAndReturnArgs>(args: SelectSubset<T, AccessRolePermissionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccessRolePermissionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AccessRolePermission.
+     * @param {AccessRolePermissionUpsertArgs} args - Arguments to update or create a AccessRolePermission.
+     * @example
+     * // Update or create a AccessRolePermission
+     * const accessRolePermission = await prisma.accessRolePermission.upsert({
+     *   create: {
+     *     // ... data to create a AccessRolePermission
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AccessRolePermission we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AccessRolePermissionUpsertArgs>(args: SelectSubset<T, AccessRolePermissionUpsertArgs<ExtArgs>>): Prisma__AccessRolePermissionClient<$Result.GetResult<Prisma.$AccessRolePermissionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AccessRolePermissions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessRolePermissionCountArgs} args - Arguments to filter AccessRolePermissions to count.
+     * @example
+     * // Count the number of AccessRolePermissions
+     * const count = await prisma.accessRolePermission.count({
+     *   where: {
+     *     // ... the filter for the AccessRolePermissions we want to count
+     *   }
+     * })
+    **/
+    count<T extends AccessRolePermissionCountArgs>(
+      args?: Subset<T, AccessRolePermissionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AccessRolePermissionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AccessRolePermission.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessRolePermissionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AccessRolePermissionAggregateArgs>(args: Subset<T, AccessRolePermissionAggregateArgs>): Prisma.PrismaPromise<GetAccessRolePermissionAggregateType<T>>
+
+    /**
+     * Group by AccessRolePermission.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessRolePermissionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AccessRolePermissionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AccessRolePermissionGroupByArgs['orderBy'] }
+        : { orderBy?: AccessRolePermissionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AccessRolePermissionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAccessRolePermissionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AccessRolePermission model
+   */
+  readonly fields: AccessRolePermissionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AccessRolePermission.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AccessRolePermissionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    accessRole<T extends AccessRoleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccessRoleDefaultArgs<ExtArgs>>): Prisma__AccessRoleClient<$Result.GetResult<Prisma.$AccessRolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AccessRolePermission model
+   */
+  interface AccessRolePermissionFieldRefs {
+    readonly id: FieldRef<"AccessRolePermission", 'String'>
+    readonly accessRoleId: FieldRef<"AccessRolePermission", 'String'>
+    readonly permission: FieldRef<"AccessRolePermission", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AccessRolePermission findUnique
+   */
+  export type AccessRolePermissionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRolePermission
+     */
+    select?: AccessRolePermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRolePermission
+     */
+    omit?: AccessRolePermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRolePermissionInclude<ExtArgs> | null
+    /**
+     * Filter, which AccessRolePermission to fetch.
+     */
+    where: AccessRolePermissionWhereUniqueInput
+  }
+
+  /**
+   * AccessRolePermission findUniqueOrThrow
+   */
+  export type AccessRolePermissionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRolePermission
+     */
+    select?: AccessRolePermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRolePermission
+     */
+    omit?: AccessRolePermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRolePermissionInclude<ExtArgs> | null
+    /**
+     * Filter, which AccessRolePermission to fetch.
+     */
+    where: AccessRolePermissionWhereUniqueInput
+  }
+
+  /**
+   * AccessRolePermission findFirst
+   */
+  export type AccessRolePermissionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRolePermission
+     */
+    select?: AccessRolePermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRolePermission
+     */
+    omit?: AccessRolePermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRolePermissionInclude<ExtArgs> | null
+    /**
+     * Filter, which AccessRolePermission to fetch.
+     */
+    where?: AccessRolePermissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccessRolePermissions to fetch.
+     */
+    orderBy?: AccessRolePermissionOrderByWithRelationInput | AccessRolePermissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AccessRolePermissions.
+     */
+    cursor?: AccessRolePermissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccessRolePermissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccessRolePermissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AccessRolePermissions.
+     */
+    distinct?: AccessRolePermissionScalarFieldEnum | AccessRolePermissionScalarFieldEnum[]
+  }
+
+  /**
+   * AccessRolePermission findFirstOrThrow
+   */
+  export type AccessRolePermissionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRolePermission
+     */
+    select?: AccessRolePermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRolePermission
+     */
+    omit?: AccessRolePermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRolePermissionInclude<ExtArgs> | null
+    /**
+     * Filter, which AccessRolePermission to fetch.
+     */
+    where?: AccessRolePermissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccessRolePermissions to fetch.
+     */
+    orderBy?: AccessRolePermissionOrderByWithRelationInput | AccessRolePermissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AccessRolePermissions.
+     */
+    cursor?: AccessRolePermissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccessRolePermissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccessRolePermissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AccessRolePermissions.
+     */
+    distinct?: AccessRolePermissionScalarFieldEnum | AccessRolePermissionScalarFieldEnum[]
+  }
+
+  /**
+   * AccessRolePermission findMany
+   */
+  export type AccessRolePermissionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRolePermission
+     */
+    select?: AccessRolePermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRolePermission
+     */
+    omit?: AccessRolePermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRolePermissionInclude<ExtArgs> | null
+    /**
+     * Filter, which AccessRolePermissions to fetch.
+     */
+    where?: AccessRolePermissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AccessRolePermissions to fetch.
+     */
+    orderBy?: AccessRolePermissionOrderByWithRelationInput | AccessRolePermissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AccessRolePermissions.
+     */
+    cursor?: AccessRolePermissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AccessRolePermissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AccessRolePermissions.
+     */
+    skip?: number
+    distinct?: AccessRolePermissionScalarFieldEnum | AccessRolePermissionScalarFieldEnum[]
+  }
+
+  /**
+   * AccessRolePermission create
+   */
+  export type AccessRolePermissionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRolePermission
+     */
+    select?: AccessRolePermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRolePermission
+     */
+    omit?: AccessRolePermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRolePermissionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AccessRolePermission.
+     */
+    data: XOR<AccessRolePermissionCreateInput, AccessRolePermissionUncheckedCreateInput>
+  }
+
+  /**
+   * AccessRolePermission createMany
+   */
+  export type AccessRolePermissionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AccessRolePermissions.
+     */
+    data: AccessRolePermissionCreateManyInput | AccessRolePermissionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AccessRolePermission createManyAndReturn
+   */
+  export type AccessRolePermissionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRolePermission
+     */
+    select?: AccessRolePermissionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRolePermission
+     */
+    omit?: AccessRolePermissionOmit<ExtArgs> | null
+    /**
+     * The data used to create many AccessRolePermissions.
+     */
+    data: AccessRolePermissionCreateManyInput | AccessRolePermissionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRolePermissionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AccessRolePermission update
+   */
+  export type AccessRolePermissionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRolePermission
+     */
+    select?: AccessRolePermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRolePermission
+     */
+    omit?: AccessRolePermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRolePermissionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AccessRolePermission.
+     */
+    data: XOR<AccessRolePermissionUpdateInput, AccessRolePermissionUncheckedUpdateInput>
+    /**
+     * Choose, which AccessRolePermission to update.
+     */
+    where: AccessRolePermissionWhereUniqueInput
+  }
+
+  /**
+   * AccessRolePermission updateMany
+   */
+  export type AccessRolePermissionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AccessRolePermissions.
+     */
+    data: XOR<AccessRolePermissionUpdateManyMutationInput, AccessRolePermissionUncheckedUpdateManyInput>
+    /**
+     * Filter which AccessRolePermissions to update
+     */
+    where?: AccessRolePermissionWhereInput
+    /**
+     * Limit how many AccessRolePermissions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AccessRolePermission updateManyAndReturn
+   */
+  export type AccessRolePermissionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRolePermission
+     */
+    select?: AccessRolePermissionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRolePermission
+     */
+    omit?: AccessRolePermissionOmit<ExtArgs> | null
+    /**
+     * The data used to update AccessRolePermissions.
+     */
+    data: XOR<AccessRolePermissionUpdateManyMutationInput, AccessRolePermissionUncheckedUpdateManyInput>
+    /**
+     * Filter which AccessRolePermissions to update
+     */
+    where?: AccessRolePermissionWhereInput
+    /**
+     * Limit how many AccessRolePermissions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRolePermissionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AccessRolePermission upsert
+   */
+  export type AccessRolePermissionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRolePermission
+     */
+    select?: AccessRolePermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRolePermission
+     */
+    omit?: AccessRolePermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRolePermissionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AccessRolePermission to update in case it exists.
+     */
+    where: AccessRolePermissionWhereUniqueInput
+    /**
+     * In case the AccessRolePermission found by the `where` argument doesn't exist, create a new AccessRolePermission with this data.
+     */
+    create: XOR<AccessRolePermissionCreateInput, AccessRolePermissionUncheckedCreateInput>
+    /**
+     * In case the AccessRolePermission was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AccessRolePermissionUpdateInput, AccessRolePermissionUncheckedUpdateInput>
+  }
+
+  /**
+   * AccessRolePermission delete
+   */
+  export type AccessRolePermissionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRolePermission
+     */
+    select?: AccessRolePermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRolePermission
+     */
+    omit?: AccessRolePermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRolePermissionInclude<ExtArgs> | null
+    /**
+     * Filter which AccessRolePermission to delete.
+     */
+    where: AccessRolePermissionWhereUniqueInput
+  }
+
+  /**
+   * AccessRolePermission deleteMany
+   */
+  export type AccessRolePermissionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AccessRolePermissions to delete
+     */
+    where?: AccessRolePermissionWhereInput
+    /**
+     * Limit how many AccessRolePermissions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AccessRolePermission without action
+   */
+  export type AccessRolePermissionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AccessRolePermission
+     */
+    select?: AccessRolePermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AccessRolePermission
+     */
+    omit?: AccessRolePermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccessRolePermissionInclude<ExtArgs> | null
   }
 
 
@@ -60808,7 +63333,8 @@ export namespace Prisma {
     slogan: 'slogan',
     logoMediumUrl: 'logoMediumUrl',
     logoThumbnailUrl: 'logoThumbnailUrl',
-    faviconUrl: 'faviconUrl'
+    faviconUrl: 'faviconUrl',
+    leaveAccrualMode: 'leaveAccrualMode'
   };
 
   export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
@@ -60821,14 +63347,40 @@ export namespace Prisma {
     passwordHash: 'passwordHash',
     resetToken: 'resetToken',
     resetTokenExpiry: 'resetTokenExpiry',
+    refreshToken: 'refreshToken',
+    refreshTokenExpiry: 'refreshTokenExpiry',
     status: 'status',
     role: 'role',
+    accessRoleId: 'accessRoleId',
     managerId: 'managerId',
     shiftId: 'shiftId',
     companyId: 'companyId'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const AccessRoleScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    description: 'description',
+    companyId: 'companyId',
+    isSystem: 'isSystem',
+    isOwner: 'isOwner',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AccessRoleScalarFieldEnum = (typeof AccessRoleScalarFieldEnum)[keyof typeof AccessRoleScalarFieldEnum]
+
+
+  export const AccessRolePermissionScalarFieldEnum: {
+    id: 'id',
+    accessRoleId: 'accessRoleId',
+    permission: 'permission'
+  };
+
+  export type AccessRolePermissionScalarFieldEnum = (typeof AccessRolePermissionScalarFieldEnum)[keyof typeof AccessRolePermissionScalarFieldEnum]
 
 
   export const SalaryStructureScalarFieldEnum: {
@@ -61627,6 +64179,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -61652,13 +64211,6 @@ export namespace Prisma {
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
   /**
    * Deep Input Types
    */
@@ -61681,6 +64233,7 @@ export namespace Prisma {
     logoMediumUrl?: StringNullableFilter<"Company"> | string | null
     logoThumbnailUrl?: StringNullableFilter<"Company"> | string | null
     faviconUrl?: StringNullableFilter<"Company"> | string | null
+    leaveAccrualMode?: StringFilter<"Company"> | string
     assets?: AssetListRelationFilter
     branches?: BranchListRelationFilter
     departments?: DepartmentListRelationFilter
@@ -61696,6 +64249,7 @@ export namespace Prisma {
     users?: UserListRelationFilter
     workLogs?: WorkLogListRelationFilter
     recognitions?: RecognitionListRelationFilter
+    accessRoles?: AccessRoleListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -61712,6 +64266,7 @@ export namespace Prisma {
     logoMediumUrl?: SortOrderInput | SortOrder
     logoThumbnailUrl?: SortOrderInput | SortOrder
     faviconUrl?: SortOrderInput | SortOrder
+    leaveAccrualMode?: SortOrder
     assets?: AssetOrderByRelationAggregateInput
     branches?: BranchOrderByRelationAggregateInput
     departments?: DepartmentOrderByRelationAggregateInput
@@ -61727,6 +64282,7 @@ export namespace Prisma {
     users?: UserOrderByRelationAggregateInput
     workLogs?: WorkLogOrderByRelationAggregateInput
     recognitions?: RecognitionOrderByRelationAggregateInput
+    accessRoles?: AccessRoleOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -61746,6 +64302,7 @@ export namespace Prisma {
     logoMediumUrl?: StringNullableFilter<"Company"> | string | null
     logoThumbnailUrl?: StringNullableFilter<"Company"> | string | null
     faviconUrl?: StringNullableFilter<"Company"> | string | null
+    leaveAccrualMode?: StringFilter<"Company"> | string
     assets?: AssetListRelationFilter
     branches?: BranchListRelationFilter
     departments?: DepartmentListRelationFilter
@@ -61761,6 +64318,7 @@ export namespace Prisma {
     users?: UserListRelationFilter
     workLogs?: WorkLogListRelationFilter
     recognitions?: RecognitionListRelationFilter
+    accessRoles?: AccessRoleListRelationFilter
   }, "id" | "name" | "subdomain">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -61777,6 +64335,7 @@ export namespace Prisma {
     logoMediumUrl?: SortOrderInput | SortOrder
     logoThumbnailUrl?: SortOrderInput | SortOrder
     faviconUrl?: SortOrderInput | SortOrder
+    leaveAccrualMode?: SortOrder
     _count?: CompanyCountOrderByAggregateInput
     _max?: CompanyMaxOrderByAggregateInput
     _min?: CompanyMinOrderByAggregateInput
@@ -61799,6 +64358,7 @@ export namespace Prisma {
     logoMediumUrl?: StringNullableWithAggregatesFilter<"Company"> | string | null
     logoThumbnailUrl?: StringNullableWithAggregatesFilter<"Company"> | string | null
     faviconUrl?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    leaveAccrualMode?: StringWithAggregatesFilter<"Company"> | string
   }
 
   export type UserWhereInput = {
@@ -61811,8 +64371,11 @@ export namespace Prisma {
     passwordHash?: StringFilter<"User"> | string
     resetToken?: StringNullableFilter<"User"> | string | null
     resetTokenExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
+    refreshToken?: StringNullableFilter<"User"> | string | null
+    refreshTokenExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
     status?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    accessRoleId?: StringNullableFilter<"User"> | string | null
     managerId?: StringNullableFilter<"User"> | string | null
     shiftId?: StringNullableFilter<"User"> | string | null
     companyId?: StringNullableFilter<"User"> | string | null
@@ -61847,6 +64410,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentListRelationFilter
     policyOverride?: XOR<UserPolicyOverrideNullableScalarRelationFilter, UserPolicyOverrideWhereInput> | null
     workLogs?: WorkLogListRelationFilter
+    accessRole?: XOR<AccessRoleNullableScalarRelationFilter, AccessRoleWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -61856,8 +64420,11 @@ export namespace Prisma {
     passwordHash?: SortOrder
     resetToken?: SortOrderInput | SortOrder
     resetTokenExpiry?: SortOrderInput | SortOrder
+    refreshToken?: SortOrderInput | SortOrder
+    refreshTokenExpiry?: SortOrderInput | SortOrder
     status?: SortOrder
     role?: SortOrder
+    accessRoleId?: SortOrderInput | SortOrder
     managerId?: SortOrderInput | SortOrder
     shiftId?: SortOrderInput | SortOrder
     companyId?: SortOrderInput | SortOrder
@@ -61892,6 +64459,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentOrderByRelationAggregateInput
     policyOverride?: UserPolicyOverrideOrderByWithRelationInput
     workLogs?: WorkLogOrderByRelationAggregateInput
+    accessRole?: AccessRoleOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -61904,8 +64472,11 @@ export namespace Prisma {
     passwordHash?: StringFilter<"User"> | string
     resetToken?: StringNullableFilter<"User"> | string | null
     resetTokenExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
+    refreshToken?: StringNullableFilter<"User"> | string | null
+    refreshTokenExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
     status?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    accessRoleId?: StringNullableFilter<"User"> | string | null
     managerId?: StringNullableFilter<"User"> | string | null
     shiftId?: StringNullableFilter<"User"> | string | null
     companyId?: StringNullableFilter<"User"> | string | null
@@ -61940,6 +64511,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentListRelationFilter
     policyOverride?: XOR<UserPolicyOverrideNullableScalarRelationFilter, UserPolicyOverrideWhereInput> | null
     workLogs?: WorkLogListRelationFilter
+    accessRole?: XOR<AccessRoleNullableScalarRelationFilter, AccessRoleWhereInput> | null
   }, "id" | "employeeId" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -61949,8 +64521,11 @@ export namespace Prisma {
     passwordHash?: SortOrder
     resetToken?: SortOrderInput | SortOrder
     resetTokenExpiry?: SortOrderInput | SortOrder
+    refreshToken?: SortOrderInput | SortOrder
+    refreshTokenExpiry?: SortOrderInput | SortOrder
     status?: SortOrder
     role?: SortOrder
+    accessRoleId?: SortOrderInput | SortOrder
     managerId?: SortOrderInput | SortOrder
     shiftId?: SortOrderInput | SortOrder
     companyId?: SortOrderInput | SortOrder
@@ -61969,11 +64544,137 @@ export namespace Prisma {
     passwordHash?: StringWithAggregatesFilter<"User"> | string
     resetToken?: StringNullableWithAggregatesFilter<"User"> | string | null
     resetTokenExpiry?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    refreshToken?: StringNullableWithAggregatesFilter<"User"> | string | null
+    refreshTokenExpiry?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     status?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+    accessRoleId?: StringNullableWithAggregatesFilter<"User"> | string | null
     managerId?: StringNullableWithAggregatesFilter<"User"> | string | null
     shiftId?: StringNullableWithAggregatesFilter<"User"> | string | null
     companyId?: StringNullableWithAggregatesFilter<"User"> | string | null
+  }
+
+  export type AccessRoleWhereInput = {
+    AND?: AccessRoleWhereInput | AccessRoleWhereInput[]
+    OR?: AccessRoleWhereInput[]
+    NOT?: AccessRoleWhereInput | AccessRoleWhereInput[]
+    id?: StringFilter<"AccessRole"> | string
+    name?: StringFilter<"AccessRole"> | string
+    description?: StringNullableFilter<"AccessRole"> | string | null
+    companyId?: StringFilter<"AccessRole"> | string
+    isSystem?: BoolFilter<"AccessRole"> | boolean
+    isOwner?: BoolFilter<"AccessRole"> | boolean
+    createdAt?: DateTimeFilter<"AccessRole"> | Date | string
+    updatedAt?: DateTimeFilter<"AccessRole"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    permissions?: AccessRolePermissionListRelationFilter
+    users?: UserListRelationFilter
+  }
+
+  export type AccessRoleOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    companyId?: SortOrder
+    isSystem?: SortOrder
+    isOwner?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    permissions?: AccessRolePermissionOrderByRelationAggregateInput
+    users?: UserOrderByRelationAggregateInput
+  }
+
+  export type AccessRoleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_name?: AccessRoleCompanyIdNameCompoundUniqueInput
+    AND?: AccessRoleWhereInput | AccessRoleWhereInput[]
+    OR?: AccessRoleWhereInput[]
+    NOT?: AccessRoleWhereInput | AccessRoleWhereInput[]
+    name?: StringFilter<"AccessRole"> | string
+    description?: StringNullableFilter<"AccessRole"> | string | null
+    companyId?: StringFilter<"AccessRole"> | string
+    isSystem?: BoolFilter<"AccessRole"> | boolean
+    isOwner?: BoolFilter<"AccessRole"> | boolean
+    createdAt?: DateTimeFilter<"AccessRole"> | Date | string
+    updatedAt?: DateTimeFilter<"AccessRole"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    permissions?: AccessRolePermissionListRelationFilter
+    users?: UserListRelationFilter
+  }, "id" | "companyId_name">
+
+  export type AccessRoleOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    companyId?: SortOrder
+    isSystem?: SortOrder
+    isOwner?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AccessRoleCountOrderByAggregateInput
+    _max?: AccessRoleMaxOrderByAggregateInput
+    _min?: AccessRoleMinOrderByAggregateInput
+  }
+
+  export type AccessRoleScalarWhereWithAggregatesInput = {
+    AND?: AccessRoleScalarWhereWithAggregatesInput | AccessRoleScalarWhereWithAggregatesInput[]
+    OR?: AccessRoleScalarWhereWithAggregatesInput[]
+    NOT?: AccessRoleScalarWhereWithAggregatesInput | AccessRoleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AccessRole"> | string
+    name?: StringWithAggregatesFilter<"AccessRole"> | string
+    description?: StringNullableWithAggregatesFilter<"AccessRole"> | string | null
+    companyId?: StringWithAggregatesFilter<"AccessRole"> | string
+    isSystem?: BoolWithAggregatesFilter<"AccessRole"> | boolean
+    isOwner?: BoolWithAggregatesFilter<"AccessRole"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"AccessRole"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AccessRole"> | Date | string
+  }
+
+  export type AccessRolePermissionWhereInput = {
+    AND?: AccessRolePermissionWhereInput | AccessRolePermissionWhereInput[]
+    OR?: AccessRolePermissionWhereInput[]
+    NOT?: AccessRolePermissionWhereInput | AccessRolePermissionWhereInput[]
+    id?: StringFilter<"AccessRolePermission"> | string
+    accessRoleId?: StringFilter<"AccessRolePermission"> | string
+    permission?: StringFilter<"AccessRolePermission"> | string
+    accessRole?: XOR<AccessRoleScalarRelationFilter, AccessRoleWhereInput>
+  }
+
+  export type AccessRolePermissionOrderByWithRelationInput = {
+    id?: SortOrder
+    accessRoleId?: SortOrder
+    permission?: SortOrder
+    accessRole?: AccessRoleOrderByWithRelationInput
+  }
+
+  export type AccessRolePermissionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    accessRoleId_permission?: AccessRolePermissionAccessRoleIdPermissionCompoundUniqueInput
+    AND?: AccessRolePermissionWhereInput | AccessRolePermissionWhereInput[]
+    OR?: AccessRolePermissionWhereInput[]
+    NOT?: AccessRolePermissionWhereInput | AccessRolePermissionWhereInput[]
+    accessRoleId?: StringFilter<"AccessRolePermission"> | string
+    permission?: StringFilter<"AccessRolePermission"> | string
+    accessRole?: XOR<AccessRoleScalarRelationFilter, AccessRoleWhereInput>
+  }, "id" | "accessRoleId_permission">
+
+  export type AccessRolePermissionOrderByWithAggregationInput = {
+    id?: SortOrder
+    accessRoleId?: SortOrder
+    permission?: SortOrder
+    _count?: AccessRolePermissionCountOrderByAggregateInput
+    _max?: AccessRolePermissionMaxOrderByAggregateInput
+    _min?: AccessRolePermissionMinOrderByAggregateInput
+  }
+
+  export type AccessRolePermissionScalarWhereWithAggregatesInput = {
+    AND?: AccessRolePermissionScalarWhereWithAggregatesInput | AccessRolePermissionScalarWhereWithAggregatesInput[]
+    OR?: AccessRolePermissionScalarWhereWithAggregatesInput[]
+    NOT?: AccessRolePermissionScalarWhereWithAggregatesInput | AccessRolePermissionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AccessRolePermission"> | string
+    accessRoleId?: StringWithAggregatesFilter<"AccessRolePermission"> | string
+    permission?: StringWithAggregatesFilter<"AccessRolePermission"> | string
   }
 
   export type SalaryStructureWhereInput = {
@@ -65765,6 +68466,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     branches?: BranchCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
@@ -65780,6 +68482,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -65796,6 +68499,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -65811,6 +68515,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -65827,6 +68532,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
@@ -65842,6 +68548,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -65858,6 +68565,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -65873,6 +68581,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -65889,6 +68598,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
   }
 
   export type CompanyUpdateManyMutationInput = {
@@ -65905,6 +68615,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
   }
 
   export type CompanyUncheckedUpdateManyInput = {
@@ -65921,6 +68632,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserCreateInput = {
@@ -65930,6 +68642,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -65963,6 +68677,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -65972,8 +68687,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -66014,6 +68732,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -66047,6 +68767,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -66056,8 +68777,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -66098,8 +68822,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -66112,6 +68839,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
@@ -66123,11 +68852,139 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AccessRoleCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    isSystem?: boolean
+    isOwner?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAccessRolesInput
+    permissions?: AccessRolePermissionCreateNestedManyWithoutAccessRoleInput
+    users?: UserCreateNestedManyWithoutAccessRoleInput
+  }
+
+  export type AccessRoleUncheckedCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    companyId: string
+    isSystem?: boolean
+    isOwner?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    permissions?: AccessRolePermissionUncheckedCreateNestedManyWithoutAccessRoleInput
+    users?: UserUncheckedCreateNestedManyWithoutAccessRoleInput
+  }
+
+  export type AccessRoleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
+    isOwner?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAccessRolesNestedInput
+    permissions?: AccessRolePermissionUpdateManyWithoutAccessRoleNestedInput
+    users?: UserUpdateManyWithoutAccessRoleNestedInput
+  }
+
+  export type AccessRoleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
+    isOwner?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    permissions?: AccessRolePermissionUncheckedUpdateManyWithoutAccessRoleNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccessRoleNestedInput
+  }
+
+  export type AccessRoleCreateManyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    companyId: string
+    isSystem?: boolean
+    isOwner?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AccessRoleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
+    isOwner?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccessRoleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
+    isOwner?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccessRolePermissionCreateInput = {
+    id?: string
+    permission: string
+    accessRole: AccessRoleCreateNestedOneWithoutPermissionsInput
+  }
+
+  export type AccessRolePermissionUncheckedCreateInput = {
+    id?: string
+    accessRoleId: string
+    permission: string
+  }
+
+  export type AccessRolePermissionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+    accessRole?: AccessRoleUpdateOneRequiredWithoutPermissionsNestedInput
+  }
+
+  export type AccessRolePermissionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accessRoleId?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AccessRolePermissionCreateManyInput = {
+    id?: string
+    accessRoleId: string
+    permission: string
+  }
+
+  export type AccessRolePermissionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AccessRolePermissionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    accessRoleId?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
   }
 
   export type SalaryStructureCreateInput = {
@@ -70421,6 +73278,12 @@ export namespace Prisma {
     none?: RecognitionWhereInput
   }
 
+  export type AccessRoleListRelationFilter = {
+    every?: AccessRoleWhereInput
+    some?: AccessRoleWhereInput
+    none?: AccessRoleWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -70482,6 +73345,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type AccessRoleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type CompanyCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -70496,6 +73363,7 @@ export namespace Prisma {
     logoMediumUrl?: SortOrder
     logoThumbnailUrl?: SortOrder
     faviconUrl?: SortOrder
+    leaveAccrualMode?: SortOrder
   }
 
   export type CompanyMaxOrderByAggregateInput = {
@@ -70512,6 +73380,7 @@ export namespace Prisma {
     logoMediumUrl?: SortOrder
     logoThumbnailUrl?: SortOrder
     faviconUrl?: SortOrder
+    leaveAccrualMode?: SortOrder
   }
 
   export type CompanyMinOrderByAggregateInput = {
@@ -70528,6 +73397,7 @@ export namespace Prisma {
     logoMediumUrl?: SortOrder
     logoThumbnailUrl?: SortOrder
     faviconUrl?: SortOrder
+    leaveAccrualMode?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -70722,6 +73592,11 @@ export namespace Prisma {
     isNot?: UserPolicyOverrideWhereInput | null
   }
 
+  export type AccessRoleNullableScalarRelationFilter = {
+    is?: AccessRoleWhereInput | null
+    isNot?: AccessRoleWhereInput | null
+  }
+
   export type AttendanceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -70785,8 +73660,11 @@ export namespace Prisma {
     passwordHash?: SortOrder
     resetToken?: SortOrder
     resetTokenExpiry?: SortOrder
+    refreshToken?: SortOrder
+    refreshTokenExpiry?: SortOrder
     status?: SortOrder
     role?: SortOrder
+    accessRoleId?: SortOrder
     managerId?: SortOrder
     shiftId?: SortOrder
     companyId?: SortOrder
@@ -70799,8 +73677,11 @@ export namespace Prisma {
     passwordHash?: SortOrder
     resetToken?: SortOrder
     resetTokenExpiry?: SortOrder
+    refreshToken?: SortOrder
+    refreshTokenExpiry?: SortOrder
     status?: SortOrder
     role?: SortOrder
+    accessRoleId?: SortOrder
     managerId?: SortOrder
     shiftId?: SortOrder
     companyId?: SortOrder
@@ -70813,8 +73694,11 @@ export namespace Prisma {
     passwordHash?: SortOrder
     resetToken?: SortOrder
     resetTokenExpiry?: SortOrder
+    refreshToken?: SortOrder
+    refreshTokenExpiry?: SortOrder
     status?: SortOrder
     role?: SortOrder
+    accessRoleId?: SortOrder
     managerId?: SortOrder
     shiftId?: SortOrder
     companyId?: SortOrder
@@ -70842,6 +73726,100 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type CompanyScalarRelationFilter = {
+    is?: CompanyWhereInput
+    isNot?: CompanyWhereInput
+  }
+
+  export type AccessRolePermissionListRelationFilter = {
+    every?: AccessRolePermissionWhereInput
+    some?: AccessRolePermissionWhereInput
+    none?: AccessRolePermissionWhereInput
+  }
+
+  export type AccessRolePermissionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AccessRoleCompanyIdNameCompoundUniqueInput = {
+    companyId: string
+    name: string
+  }
+
+  export type AccessRoleCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    companyId?: SortOrder
+    isSystem?: SortOrder
+    isOwner?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AccessRoleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    companyId?: SortOrder
+    isSystem?: SortOrder
+    isOwner?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AccessRoleMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    companyId?: SortOrder
+    isSystem?: SortOrder
+    isOwner?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type AccessRoleScalarRelationFilter = {
+    is?: AccessRoleWhereInput
+    isNot?: AccessRoleWhereInput
+  }
+
+  export type AccessRolePermissionAccessRoleIdPermissionCompoundUniqueInput = {
+    accessRoleId: string
+    permission: string
+  }
+
+  export type AccessRolePermissionCountOrderByAggregateInput = {
+    id?: SortOrder
+    accessRoleId?: SortOrder
+    permission?: SortOrder
+  }
+
+  export type AccessRolePermissionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    accessRoleId?: SortOrder
+    permission?: SortOrder
+  }
+
+  export type AccessRolePermissionMinOrderByAggregateInput = {
+    id?: SortOrder
+    accessRoleId?: SortOrder
+    permission?: SortOrder
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -71210,11 +74188,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type BreakListRelationFilter = {
     every?: BreakWhereInput
     some?: BreakWhereInput
@@ -71293,14 +74266,6 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type ShiftPolicyOverrideNullableScalarRelationFilter = {
     is?: ShiftPolicyOverrideWhereInput | null
     isNot?: ShiftPolicyOverrideWhereInput | null
@@ -71345,11 +74310,6 @@ export namespace Prisma {
 
   export type ShiftSumOrderByAggregateInput = {
     graceTime?: SortOrder
-  }
-
-  export type CompanyScalarRelationFilter = {
-    is?: CompanyWhereInput
-    isNot?: CompanyWhereInput
   }
 
   export type AttendancePolicyCountOrderByAggregateInput = {
@@ -73338,6 +76298,13 @@ export namespace Prisma {
     connect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
   }
 
+  export type AccessRoleCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AccessRoleCreateWithoutCompanyInput, AccessRoleUncheckedCreateWithoutCompanyInput> | AccessRoleCreateWithoutCompanyInput[] | AccessRoleUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AccessRoleCreateOrConnectWithoutCompanyInput | AccessRoleCreateOrConnectWithoutCompanyInput[]
+    createMany?: AccessRoleCreateManyCompanyInputEnvelope
+    connect?: AccessRoleWhereUniqueInput | AccessRoleWhereUniqueInput[]
+  }
+
   export type AssetUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<AssetCreateWithoutCompanyInput, AssetUncheckedCreateWithoutCompanyInput> | AssetCreateWithoutCompanyInput[] | AssetUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutCompanyInput | AssetCreateOrConnectWithoutCompanyInput[]
@@ -73440,6 +76407,13 @@ export namespace Prisma {
     connectOrCreate?: RecognitionCreateOrConnectWithoutCompanyInput | RecognitionCreateOrConnectWithoutCompanyInput[]
     createMany?: RecognitionCreateManyCompanyInputEnvelope
     connect?: RecognitionWhereUniqueInput | RecognitionWhereUniqueInput[]
+  }
+
+  export type AccessRoleUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AccessRoleCreateWithoutCompanyInput, AccessRoleUncheckedCreateWithoutCompanyInput> | AccessRoleCreateWithoutCompanyInput[] | AccessRoleUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AccessRoleCreateOrConnectWithoutCompanyInput | AccessRoleCreateOrConnectWithoutCompanyInput[]
+    createMany?: AccessRoleCreateManyCompanyInputEnvelope
+    connect?: AccessRoleWhereUniqueInput | AccessRoleWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -73660,6 +76634,20 @@ export namespace Prisma {
     deleteMany?: RecognitionScalarWhereInput | RecognitionScalarWhereInput[]
   }
 
+  export type AccessRoleUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AccessRoleCreateWithoutCompanyInput, AccessRoleUncheckedCreateWithoutCompanyInput> | AccessRoleCreateWithoutCompanyInput[] | AccessRoleUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AccessRoleCreateOrConnectWithoutCompanyInput | AccessRoleCreateOrConnectWithoutCompanyInput[]
+    upsert?: AccessRoleUpsertWithWhereUniqueWithoutCompanyInput | AccessRoleUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AccessRoleCreateManyCompanyInputEnvelope
+    set?: AccessRoleWhereUniqueInput | AccessRoleWhereUniqueInput[]
+    disconnect?: AccessRoleWhereUniqueInput | AccessRoleWhereUniqueInput[]
+    delete?: AccessRoleWhereUniqueInput | AccessRoleWhereUniqueInput[]
+    connect?: AccessRoleWhereUniqueInput | AccessRoleWhereUniqueInput[]
+    update?: AccessRoleUpdateWithWhereUniqueWithoutCompanyInput | AccessRoleUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AccessRoleUpdateManyWithWhereWithoutCompanyInput | AccessRoleUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AccessRoleScalarWhereInput | AccessRoleScalarWhereInput[]
+  }
+
   export type AssetUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<AssetCreateWithoutCompanyInput, AssetUncheckedCreateWithoutCompanyInput> | AssetCreateWithoutCompanyInput[] | AssetUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutCompanyInput | AssetCreateOrConnectWithoutCompanyInput[]
@@ -73864,6 +76852,20 @@ export namespace Prisma {
     update?: RecognitionUpdateWithWhereUniqueWithoutCompanyInput | RecognitionUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: RecognitionUpdateManyWithWhereWithoutCompanyInput | RecognitionUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: RecognitionScalarWhereInput | RecognitionScalarWhereInput[]
+  }
+
+  export type AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AccessRoleCreateWithoutCompanyInput, AccessRoleUncheckedCreateWithoutCompanyInput> | AccessRoleCreateWithoutCompanyInput[] | AccessRoleUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AccessRoleCreateOrConnectWithoutCompanyInput | AccessRoleCreateOrConnectWithoutCompanyInput[]
+    upsert?: AccessRoleUpsertWithWhereUniqueWithoutCompanyInput | AccessRoleUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AccessRoleCreateManyCompanyInputEnvelope
+    set?: AccessRoleWhereUniqueInput | AccessRoleWhereUniqueInput[]
+    disconnect?: AccessRoleWhereUniqueInput | AccessRoleWhereUniqueInput[]
+    delete?: AccessRoleWhereUniqueInput | AccessRoleWhereUniqueInput[]
+    connect?: AccessRoleWhereUniqueInput | AccessRoleWhereUniqueInput[]
+    update?: AccessRoleUpdateWithWhereUniqueWithoutCompanyInput | AccessRoleUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AccessRoleUpdateManyWithWhereWithoutCompanyInput | AccessRoleUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AccessRoleScalarWhereInput | AccessRoleScalarWhereInput[]
   }
 
   export type AssetCreateNestedManyWithoutUserInput = {
@@ -74073,6 +77075,12 @@ export namespace Prisma {
     connectOrCreate?: WorkLogCreateOrConnectWithoutUserInput | WorkLogCreateOrConnectWithoutUserInput[]
     createMany?: WorkLogCreateManyUserInputEnvelope
     connect?: WorkLogWhereUniqueInput | WorkLogWhereUniqueInput[]
+  }
+
+  export type AccessRoleCreateNestedOneWithoutUsersInput = {
+    create?: XOR<AccessRoleCreateWithoutUsersInput, AccessRoleUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: AccessRoleCreateOrConnectWithoutUsersInput
+    connect?: AccessRoleWhereUniqueInput
   }
 
   export type AssetUncheckedCreateNestedManyWithoutUserInput = {
@@ -74676,6 +77684,16 @@ export namespace Prisma {
     deleteMany?: WorkLogScalarWhereInput | WorkLogScalarWhereInput[]
   }
 
+  export type AccessRoleUpdateOneWithoutUsersNestedInput = {
+    create?: XOR<AccessRoleCreateWithoutUsersInput, AccessRoleUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: AccessRoleCreateOrConnectWithoutUsersInput
+    upsert?: AccessRoleUpsertWithoutUsersInput
+    disconnect?: AccessRoleWhereInput | boolean
+    delete?: AccessRoleWhereInput | boolean
+    connect?: AccessRoleWhereUniqueInput
+    update?: XOR<XOR<AccessRoleUpdateToOneWithWhereWithoutUsersInput, AccessRoleUpdateWithoutUsersInput>, AccessRoleUncheckedUpdateWithoutUsersInput>
+  }
+
   export type AssetUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AssetCreateWithoutUserInput, AssetUncheckedCreateWithoutUserInput> | AssetCreateWithoutUserInput[] | AssetUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutUserInput | AssetCreateOrConnectWithoutUserInput[]
@@ -75048,6 +78066,122 @@ export namespace Prisma {
     deleteMany?: WorkLogScalarWhereInput | WorkLogScalarWhereInput[]
   }
 
+  export type CompanyCreateNestedOneWithoutAccessRolesInput = {
+    create?: XOR<CompanyCreateWithoutAccessRolesInput, CompanyUncheckedCreateWithoutAccessRolesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAccessRolesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type AccessRolePermissionCreateNestedManyWithoutAccessRoleInput = {
+    create?: XOR<AccessRolePermissionCreateWithoutAccessRoleInput, AccessRolePermissionUncheckedCreateWithoutAccessRoleInput> | AccessRolePermissionCreateWithoutAccessRoleInput[] | AccessRolePermissionUncheckedCreateWithoutAccessRoleInput[]
+    connectOrCreate?: AccessRolePermissionCreateOrConnectWithoutAccessRoleInput | AccessRolePermissionCreateOrConnectWithoutAccessRoleInput[]
+    createMany?: AccessRolePermissionCreateManyAccessRoleInputEnvelope
+    connect?: AccessRolePermissionWhereUniqueInput | AccessRolePermissionWhereUniqueInput[]
+  }
+
+  export type UserCreateNestedManyWithoutAccessRoleInput = {
+    create?: XOR<UserCreateWithoutAccessRoleInput, UserUncheckedCreateWithoutAccessRoleInput> | UserCreateWithoutAccessRoleInput[] | UserUncheckedCreateWithoutAccessRoleInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutAccessRoleInput | UserCreateOrConnectWithoutAccessRoleInput[]
+    createMany?: UserCreateManyAccessRoleInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type AccessRolePermissionUncheckedCreateNestedManyWithoutAccessRoleInput = {
+    create?: XOR<AccessRolePermissionCreateWithoutAccessRoleInput, AccessRolePermissionUncheckedCreateWithoutAccessRoleInput> | AccessRolePermissionCreateWithoutAccessRoleInput[] | AccessRolePermissionUncheckedCreateWithoutAccessRoleInput[]
+    connectOrCreate?: AccessRolePermissionCreateOrConnectWithoutAccessRoleInput | AccessRolePermissionCreateOrConnectWithoutAccessRoleInput[]
+    createMany?: AccessRolePermissionCreateManyAccessRoleInputEnvelope
+    connect?: AccessRolePermissionWhereUniqueInput | AccessRolePermissionWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedManyWithoutAccessRoleInput = {
+    create?: XOR<UserCreateWithoutAccessRoleInput, UserUncheckedCreateWithoutAccessRoleInput> | UserCreateWithoutAccessRoleInput[] | UserUncheckedCreateWithoutAccessRoleInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutAccessRoleInput | UserCreateOrConnectWithoutAccessRoleInput[]
+    createMany?: UserCreateManyAccessRoleInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type CompanyUpdateOneRequiredWithoutAccessRolesNestedInput = {
+    create?: XOR<CompanyCreateWithoutAccessRolesInput, CompanyUncheckedCreateWithoutAccessRolesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAccessRolesInput
+    upsert?: CompanyUpsertWithoutAccessRolesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAccessRolesInput, CompanyUpdateWithoutAccessRolesInput>, CompanyUncheckedUpdateWithoutAccessRolesInput>
+  }
+
+  export type AccessRolePermissionUpdateManyWithoutAccessRoleNestedInput = {
+    create?: XOR<AccessRolePermissionCreateWithoutAccessRoleInput, AccessRolePermissionUncheckedCreateWithoutAccessRoleInput> | AccessRolePermissionCreateWithoutAccessRoleInput[] | AccessRolePermissionUncheckedCreateWithoutAccessRoleInput[]
+    connectOrCreate?: AccessRolePermissionCreateOrConnectWithoutAccessRoleInput | AccessRolePermissionCreateOrConnectWithoutAccessRoleInput[]
+    upsert?: AccessRolePermissionUpsertWithWhereUniqueWithoutAccessRoleInput | AccessRolePermissionUpsertWithWhereUniqueWithoutAccessRoleInput[]
+    createMany?: AccessRolePermissionCreateManyAccessRoleInputEnvelope
+    set?: AccessRolePermissionWhereUniqueInput | AccessRolePermissionWhereUniqueInput[]
+    disconnect?: AccessRolePermissionWhereUniqueInput | AccessRolePermissionWhereUniqueInput[]
+    delete?: AccessRolePermissionWhereUniqueInput | AccessRolePermissionWhereUniqueInput[]
+    connect?: AccessRolePermissionWhereUniqueInput | AccessRolePermissionWhereUniqueInput[]
+    update?: AccessRolePermissionUpdateWithWhereUniqueWithoutAccessRoleInput | AccessRolePermissionUpdateWithWhereUniqueWithoutAccessRoleInput[]
+    updateMany?: AccessRolePermissionUpdateManyWithWhereWithoutAccessRoleInput | AccessRolePermissionUpdateManyWithWhereWithoutAccessRoleInput[]
+    deleteMany?: AccessRolePermissionScalarWhereInput | AccessRolePermissionScalarWhereInput[]
+  }
+
+  export type UserUpdateManyWithoutAccessRoleNestedInput = {
+    create?: XOR<UserCreateWithoutAccessRoleInput, UserUncheckedCreateWithoutAccessRoleInput> | UserCreateWithoutAccessRoleInput[] | UserUncheckedCreateWithoutAccessRoleInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutAccessRoleInput | UserCreateOrConnectWithoutAccessRoleInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutAccessRoleInput | UserUpsertWithWhereUniqueWithoutAccessRoleInput[]
+    createMany?: UserCreateManyAccessRoleInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutAccessRoleInput | UserUpdateWithWhereUniqueWithoutAccessRoleInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutAccessRoleInput | UserUpdateManyWithWhereWithoutAccessRoleInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type AccessRolePermissionUncheckedUpdateManyWithoutAccessRoleNestedInput = {
+    create?: XOR<AccessRolePermissionCreateWithoutAccessRoleInput, AccessRolePermissionUncheckedCreateWithoutAccessRoleInput> | AccessRolePermissionCreateWithoutAccessRoleInput[] | AccessRolePermissionUncheckedCreateWithoutAccessRoleInput[]
+    connectOrCreate?: AccessRolePermissionCreateOrConnectWithoutAccessRoleInput | AccessRolePermissionCreateOrConnectWithoutAccessRoleInput[]
+    upsert?: AccessRolePermissionUpsertWithWhereUniqueWithoutAccessRoleInput | AccessRolePermissionUpsertWithWhereUniqueWithoutAccessRoleInput[]
+    createMany?: AccessRolePermissionCreateManyAccessRoleInputEnvelope
+    set?: AccessRolePermissionWhereUniqueInput | AccessRolePermissionWhereUniqueInput[]
+    disconnect?: AccessRolePermissionWhereUniqueInput | AccessRolePermissionWhereUniqueInput[]
+    delete?: AccessRolePermissionWhereUniqueInput | AccessRolePermissionWhereUniqueInput[]
+    connect?: AccessRolePermissionWhereUniqueInput | AccessRolePermissionWhereUniqueInput[]
+    update?: AccessRolePermissionUpdateWithWhereUniqueWithoutAccessRoleInput | AccessRolePermissionUpdateWithWhereUniqueWithoutAccessRoleInput[]
+    updateMany?: AccessRolePermissionUpdateManyWithWhereWithoutAccessRoleInput | AccessRolePermissionUpdateManyWithWhereWithoutAccessRoleInput[]
+    deleteMany?: AccessRolePermissionScalarWhereInput | AccessRolePermissionScalarWhereInput[]
+  }
+
+  export type UserUncheckedUpdateManyWithoutAccessRoleNestedInput = {
+    create?: XOR<UserCreateWithoutAccessRoleInput, UserUncheckedCreateWithoutAccessRoleInput> | UserCreateWithoutAccessRoleInput[] | UserUncheckedCreateWithoutAccessRoleInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutAccessRoleInput | UserCreateOrConnectWithoutAccessRoleInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutAccessRoleInput | UserUpsertWithWhereUniqueWithoutAccessRoleInput[]
+    createMany?: UserCreateManyAccessRoleInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutAccessRoleInput | UserUpdateWithWhereUniqueWithoutAccessRoleInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutAccessRoleInput | UserUpdateManyWithWhereWithoutAccessRoleInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type AccessRoleCreateNestedOneWithoutPermissionsInput = {
+    create?: XOR<AccessRoleCreateWithoutPermissionsInput, AccessRoleUncheckedCreateWithoutPermissionsInput>
+    connectOrCreate?: AccessRoleCreateOrConnectWithoutPermissionsInput
+    connect?: AccessRoleWhereUniqueInput
+  }
+
+  export type AccessRoleUpdateOneRequiredWithoutPermissionsNestedInput = {
+    create?: XOR<AccessRoleCreateWithoutPermissionsInput, AccessRoleUncheckedCreateWithoutPermissionsInput>
+    connectOrCreate?: AccessRoleCreateOrConnectWithoutPermissionsInput
+    upsert?: AccessRoleUpsertWithoutPermissionsInput
+    connect?: AccessRoleWhereUniqueInput
+    update?: XOR<XOR<AccessRoleUpdateToOneWithWhereWithoutPermissionsInput, AccessRoleUpdateWithoutPermissionsInput>, AccessRoleUncheckedUpdateWithoutPermissionsInput>
+  }
+
   export type UserCreateNestedOneWithoutSalaryInput = {
     create?: XOR<UserCreateWithoutSalaryInput, UserUncheckedCreateWithoutSalaryInput>
     connectOrCreate?: UserCreateOrConnectWithoutSalaryInput
@@ -75186,10 +78320,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type ShiftUpdateOneWithoutAttendanceNestedInput = {
@@ -76883,6 +80013,19 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -76937,11 +80080,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -76956,14 +80094,6 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedBoolNullableFilter<$PrismaModel = never> = {
@@ -77469,6 +80599,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -77501,6 +80633,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -77510,8 +80643,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
@@ -77613,6 +80749,40 @@ export namespace Prisma {
 
   export type RecognitionCreateManyCompanyInputEnvelope = {
     data: RecognitionCreateManyCompanyInput | RecognitionCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AccessRoleCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    isSystem?: boolean
+    isOwner?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    permissions?: AccessRolePermissionCreateNestedManyWithoutAccessRoleInput
+    users?: UserCreateNestedManyWithoutAccessRoleInput
+  }
+
+  export type AccessRoleUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    isSystem?: boolean
+    isOwner?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    permissions?: AccessRolePermissionUncheckedCreateNestedManyWithoutAccessRoleInput
+    users?: UserUncheckedCreateNestedManyWithoutAccessRoleInput
+  }
+
+  export type AccessRoleCreateOrConnectWithoutCompanyInput = {
+    where: AccessRoleWhereUniqueInput
+    create: XOR<AccessRoleCreateWithoutCompanyInput, AccessRoleUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AccessRoleCreateManyCompanyInputEnvelope = {
+    data: AccessRoleCreateManyCompanyInput | AccessRoleCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -78068,8 +81238,11 @@ export namespace Prisma {
     passwordHash?: StringFilter<"User"> | string
     resetToken?: StringNullableFilter<"User"> | string | null
     resetTokenExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
+    refreshToken?: StringNullableFilter<"User"> | string | null
+    refreshTokenExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
     status?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    accessRoleId?: StringNullableFilter<"User"> | string | null
     managerId?: StringNullableFilter<"User"> | string | null
     shiftId?: StringNullableFilter<"User"> | string | null
     companyId?: StringNullableFilter<"User"> | string | null
@@ -78134,6 +81307,36 @@ export namespace Prisma {
     badge?: StringNullableFilter<"Recognition"> | string | null
     message?: StringFilter<"Recognition"> | string
     createdAt?: DateTimeFilter<"Recognition"> | Date | string
+  }
+
+  export type AccessRoleUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: AccessRoleWhereUniqueInput
+    update: XOR<AccessRoleUpdateWithoutCompanyInput, AccessRoleUncheckedUpdateWithoutCompanyInput>
+    create: XOR<AccessRoleCreateWithoutCompanyInput, AccessRoleUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AccessRoleUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: AccessRoleWhereUniqueInput
+    data: XOR<AccessRoleUpdateWithoutCompanyInput, AccessRoleUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type AccessRoleUpdateManyWithWhereWithoutCompanyInput = {
+    where: AccessRoleScalarWhereInput
+    data: XOR<AccessRoleUpdateManyMutationInput, AccessRoleUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type AccessRoleScalarWhereInput = {
+    AND?: AccessRoleScalarWhereInput | AccessRoleScalarWhereInput[]
+    OR?: AccessRoleScalarWhereInput[]
+    NOT?: AccessRoleScalarWhereInput | AccessRoleScalarWhereInput[]
+    id?: StringFilter<"AccessRole"> | string
+    name?: StringFilter<"AccessRole"> | string
+    description?: StringNullableFilter<"AccessRole"> | string | null
+    companyId?: StringFilter<"AccessRole"> | string
+    isSystem?: BoolFilter<"AccessRole"> | boolean
+    isOwner?: BoolFilter<"AccessRole"> | boolean
+    createdAt?: DateTimeFilter<"AccessRole"> | Date | string
+    updatedAt?: DateTimeFilter<"AccessRole"> | Date | string
   }
 
   export type AssetCreateWithoutUserInput = {
@@ -79050,6 +82253,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     branches?: BranchCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
@@ -79064,6 +82268,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -79080,6 +82285,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -79094,6 +82300,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -79108,6 +82315,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -79140,6 +82349,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutSubordinatesInput = {
@@ -79149,8 +82359,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -79195,6 +82408,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -79227,6 +82442,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutManagerInput = {
@@ -79236,8 +82452,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     shiftId?: string | null
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
@@ -79468,6 +82687,35 @@ export namespace Prisma {
   export type WorkLogCreateManyUserInputEnvelope = {
     data: WorkLogCreateManyUserInput | WorkLogCreateManyUserInput[]
     skipDuplicates?: boolean
+  }
+
+  export type AccessRoleCreateWithoutUsersInput = {
+    id?: string
+    name: string
+    description?: string | null
+    isSystem?: boolean
+    isOwner?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAccessRolesInput
+    permissions?: AccessRolePermissionCreateNestedManyWithoutAccessRoleInput
+  }
+
+  export type AccessRoleUncheckedCreateWithoutUsersInput = {
+    id?: string
+    name: string
+    description?: string | null
+    companyId: string
+    isSystem?: boolean
+    isOwner?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    permissions?: AccessRolePermissionUncheckedCreateNestedManyWithoutAccessRoleInput
+  }
+
+  export type AccessRoleCreateOrConnectWithoutUsersInput = {
+    where: AccessRoleWhereUniqueInput
+    create: XOR<AccessRoleCreateWithoutUsersInput, AccessRoleUncheckedCreateWithoutUsersInput>
   }
 
   export type AssetUpsertWithWhereUniqueWithoutUserInput = {
@@ -80297,6 +83545,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
@@ -80311,6 +83560,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -80327,6 +83577,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -80341,6 +83592,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutSubordinatesInput = {
@@ -80361,6 +83613,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -80393,6 +83647,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubordinatesInput = {
@@ -80402,8 +83657,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -80594,6 +83852,408 @@ export namespace Prisma {
     data: XOR<WorkLogUpdateManyMutationInput, WorkLogUncheckedUpdateManyWithoutUserInput>
   }
 
+  export type AccessRoleUpsertWithoutUsersInput = {
+    update: XOR<AccessRoleUpdateWithoutUsersInput, AccessRoleUncheckedUpdateWithoutUsersInput>
+    create: XOR<AccessRoleCreateWithoutUsersInput, AccessRoleUncheckedCreateWithoutUsersInput>
+    where?: AccessRoleWhereInput
+  }
+
+  export type AccessRoleUpdateToOneWithWhereWithoutUsersInput = {
+    where?: AccessRoleWhereInput
+    data: XOR<AccessRoleUpdateWithoutUsersInput, AccessRoleUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type AccessRoleUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
+    isOwner?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAccessRolesNestedInput
+    permissions?: AccessRolePermissionUpdateManyWithoutAccessRoleNestedInput
+  }
+
+  export type AccessRoleUncheckedUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
+    isOwner?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    permissions?: AccessRolePermissionUncheckedUpdateManyWithoutAccessRoleNestedInput
+  }
+
+  export type CompanyCreateWithoutAccessRolesInput = {
+    id?: string
+    name: string
+    subdomain?: string | null
+    domain?: string | null
+    plan?: string
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: string
+    slogan?: string | null
+    logoMediumUrl?: string | null
+    logoThumbnailUrl?: string | null
+    faviconUrl?: string | null
+    leaveAccrualMode?: string
+    assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
+    attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
+    expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
+    holidays?: HolidayCreateNestedManyWithoutCompanyInput
+    jobPostings?: JobPostingCreateNestedManyWithoutCompanyInput
+    jobRoles?: JobRoleCreateNestedManyWithoutCompanyInput
+    leaveTypes?: LeaveTypeCreateNestedManyWithoutCompanyInput
+    profiles?: ProfileCreateNestedManyWithoutCompanyInput
+    shifts?: ShiftCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutAccessRolesInput = {
+    id?: string
+    name: string
+    subdomain?: string | null
+    domain?: string | null
+    plan?: string
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: string
+    slogan?: string | null
+    logoMediumUrl?: string | null
+    logoThumbnailUrl?: string | null
+    faviconUrl?: string | null
+    leaveAccrualMode?: string
+    assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
+    attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
+    expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
+    jobPostings?: JobPostingUncheckedCreateNestedManyWithoutCompanyInput
+    jobRoles?: JobRoleUncheckedCreateNestedManyWithoutCompanyInput
+    leaveTypes?: LeaveTypeUncheckedCreateNestedManyWithoutCompanyInput
+    profiles?: ProfileUncheckedCreateNestedManyWithoutCompanyInput
+    shifts?: ShiftUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutAccessRolesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutAccessRolesInput, CompanyUncheckedCreateWithoutAccessRolesInput>
+  }
+
+  export type AccessRolePermissionCreateWithoutAccessRoleInput = {
+    id?: string
+    permission: string
+  }
+
+  export type AccessRolePermissionUncheckedCreateWithoutAccessRoleInput = {
+    id?: string
+    permission: string
+  }
+
+  export type AccessRolePermissionCreateOrConnectWithoutAccessRoleInput = {
+    where: AccessRolePermissionWhereUniqueInput
+    create: XOR<AccessRolePermissionCreateWithoutAccessRoleInput, AccessRolePermissionUncheckedCreateWithoutAccessRoleInput>
+  }
+
+  export type AccessRolePermissionCreateManyAccessRoleInputEnvelope = {
+    data: AccessRolePermissionCreateManyAccessRoleInput | AccessRolePermissionCreateManyAccessRoleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserCreateWithoutAccessRoleInput = {
+    id?: string
+    employeeId?: string | null
+    email: string
+    passwordHash: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
+    status?: string
+    role?: $Enums.Role
+    assets?: AssetCreateNestedManyWithoutUserInput
+    attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    audits?: AuditLogCreateNestedManyWithoutActorInput
+    certificates?: CertificateCreateNestedManyWithoutUserInput
+    expenses?: ExpenseClaimCreateNestedManyWithoutUserInput
+    goals?: GoalCreateNestedManyWithoutUserInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutUserInput
+    encashments?: LeaveEncashmentCreateNestedManyWithoutUserInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    offboarding?: OffboardingCreateNestedOneWithoutUserInput
+    onboarding?: OnboardingCreateNestedOneWithoutUserInput
+    payslips?: PayslipCreateNestedManyWithoutUserInput
+    reviewsGiven?: PerformanceReviewCreateNestedManyWithoutReviewerInput
+    reviews?: PerformanceReviewCreateNestedManyWithoutUserInput
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    salary?: SalaryStructureCreateNestedOneWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    manager?: UserCreateNestedOneWithoutSubordinatesInput
+    subordinates?: UserCreateNestedManyWithoutManagerInput
+    shift?: ShiftCreateNestedOneWithoutUsersInput
+    documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
+    policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
+    workLogs?: WorkLogCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAccessRoleInput = {
+    id?: string
+    employeeId?: string | null
+    email: string
+    passwordHash: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
+    status?: string
+    role?: $Enums.Role
+    managerId?: string | null
+    shiftId?: string | null
+    companyId?: string | null
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
+    certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    expenses?: ExpenseClaimUncheckedCreateNestedManyWithoutUserInput
+    goals?: GoalUncheckedCreateNestedManyWithoutUserInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutUserInput
+    encashments?: LeaveEncashmentUncheckedCreateNestedManyWithoutUserInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    offboarding?: OffboardingUncheckedCreateNestedOneWithoutUserInput
+    onboarding?: OnboardingUncheckedCreateNestedOneWithoutUserInput
+    payslips?: PayslipUncheckedCreateNestedManyWithoutUserInput
+    reviewsGiven?: PerformanceReviewUncheckedCreateNestedManyWithoutReviewerInput
+    reviews?: PerformanceReviewUncheckedCreateNestedManyWithoutUserInput
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
+    documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
+    policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
+    workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAccessRoleInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAccessRoleInput, UserUncheckedCreateWithoutAccessRoleInput>
+  }
+
+  export type UserCreateManyAccessRoleInputEnvelope = {
+    data: UserCreateManyAccessRoleInput | UserCreateManyAccessRoleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutAccessRolesInput = {
+    update: XOR<CompanyUpdateWithoutAccessRolesInput, CompanyUncheckedUpdateWithoutAccessRolesInput>
+    create: XOR<CompanyCreateWithoutAccessRolesInput, CompanyUncheckedCreateWithoutAccessRolesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutAccessRolesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutAccessRolesInput, CompanyUncheckedUpdateWithoutAccessRolesInput>
+  }
+
+  export type CompanyUpdateWithoutAccessRolesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: NullableStringFieldUpdateOperationsInput | string | null
+    domain?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
+    assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
+    attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
+    expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
+    holidays?: HolidayUpdateManyWithoutCompanyNestedInput
+    jobPostings?: JobPostingUpdateManyWithoutCompanyNestedInput
+    jobRoles?: JobRoleUpdateManyWithoutCompanyNestedInput
+    leaveTypes?: LeaveTypeUpdateManyWithoutCompanyNestedInput
+    profiles?: ProfileUpdateManyWithoutCompanyNestedInput
+    shifts?: ShiftUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutAccessRolesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: NullableStringFieldUpdateOperationsInput | string | null
+    domain?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
+    assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
+    attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
+    jobPostings?: JobPostingUncheckedUpdateManyWithoutCompanyNestedInput
+    jobRoles?: JobRoleUncheckedUpdateManyWithoutCompanyNestedInput
+    leaveTypes?: LeaveTypeUncheckedUpdateManyWithoutCompanyNestedInput
+    profiles?: ProfileUncheckedUpdateManyWithoutCompanyNestedInput
+    shifts?: ShiftUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type AccessRolePermissionUpsertWithWhereUniqueWithoutAccessRoleInput = {
+    where: AccessRolePermissionWhereUniqueInput
+    update: XOR<AccessRolePermissionUpdateWithoutAccessRoleInput, AccessRolePermissionUncheckedUpdateWithoutAccessRoleInput>
+    create: XOR<AccessRolePermissionCreateWithoutAccessRoleInput, AccessRolePermissionUncheckedCreateWithoutAccessRoleInput>
+  }
+
+  export type AccessRolePermissionUpdateWithWhereUniqueWithoutAccessRoleInput = {
+    where: AccessRolePermissionWhereUniqueInput
+    data: XOR<AccessRolePermissionUpdateWithoutAccessRoleInput, AccessRolePermissionUncheckedUpdateWithoutAccessRoleInput>
+  }
+
+  export type AccessRolePermissionUpdateManyWithWhereWithoutAccessRoleInput = {
+    where: AccessRolePermissionScalarWhereInput
+    data: XOR<AccessRolePermissionUpdateManyMutationInput, AccessRolePermissionUncheckedUpdateManyWithoutAccessRoleInput>
+  }
+
+  export type AccessRolePermissionScalarWhereInput = {
+    AND?: AccessRolePermissionScalarWhereInput | AccessRolePermissionScalarWhereInput[]
+    OR?: AccessRolePermissionScalarWhereInput[]
+    NOT?: AccessRolePermissionScalarWhereInput | AccessRolePermissionScalarWhereInput[]
+    id?: StringFilter<"AccessRolePermission"> | string
+    accessRoleId?: StringFilter<"AccessRolePermission"> | string
+    permission?: StringFilter<"AccessRolePermission"> | string
+  }
+
+  export type UserUpsertWithWhereUniqueWithoutAccessRoleInput = {
+    where: UserWhereUniqueInput
+    update: XOR<UserUpdateWithoutAccessRoleInput, UserUncheckedUpdateWithoutAccessRoleInput>
+    create: XOR<UserCreateWithoutAccessRoleInput, UserUncheckedCreateWithoutAccessRoleInput>
+  }
+
+  export type UserUpdateWithWhereUniqueWithoutAccessRoleInput = {
+    where: UserWhereUniqueInput
+    data: XOR<UserUpdateWithoutAccessRoleInput, UserUncheckedUpdateWithoutAccessRoleInput>
+  }
+
+  export type UserUpdateManyWithWhereWithoutAccessRoleInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutAccessRoleInput>
+  }
+
+  export type AccessRoleCreateWithoutPermissionsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    isSystem?: boolean
+    isOwner?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAccessRolesInput
+    users?: UserCreateNestedManyWithoutAccessRoleInput
+  }
+
+  export type AccessRoleUncheckedCreateWithoutPermissionsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    companyId: string
+    isSystem?: boolean
+    isOwner?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutAccessRoleInput
+  }
+
+  export type AccessRoleCreateOrConnectWithoutPermissionsInput = {
+    where: AccessRoleWhereUniqueInput
+    create: XOR<AccessRoleCreateWithoutPermissionsInput, AccessRoleUncheckedCreateWithoutPermissionsInput>
+  }
+
+  export type AccessRoleUpsertWithoutPermissionsInput = {
+    update: XOR<AccessRoleUpdateWithoutPermissionsInput, AccessRoleUncheckedUpdateWithoutPermissionsInput>
+    create: XOR<AccessRoleCreateWithoutPermissionsInput, AccessRoleUncheckedCreateWithoutPermissionsInput>
+    where?: AccessRoleWhereInput
+  }
+
+  export type AccessRoleUpdateToOneWithWhereWithoutPermissionsInput = {
+    where?: AccessRoleWhereInput
+    data: XOR<AccessRoleUpdateWithoutPermissionsInput, AccessRoleUncheckedUpdateWithoutPermissionsInput>
+  }
+
+  export type AccessRoleUpdateWithoutPermissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
+    isOwner?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAccessRolesNestedInput
+    users?: UserUpdateManyWithoutAccessRoleNestedInput
+  }
+
+  export type AccessRoleUncheckedUpdateWithoutPermissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
+    isOwner?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutAccessRoleNestedInput
+  }
+
   export type UserCreateWithoutSalaryInput = {
     id?: string
     employeeId?: string | null
@@ -80601,6 +84261,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -80633,6 +84295,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutSalaryInput = {
@@ -80642,8 +84305,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -80699,6 +84365,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -80731,6 +84399,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSalaryInput = {
@@ -80740,8 +84409,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -80781,6 +84453,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -80813,6 +84487,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutPayslipsInput = {
@@ -80822,8 +84497,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -80879,6 +84557,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -80911,6 +84591,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPayslipsInput = {
@@ -80920,8 +84601,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -80968,6 +84652,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     branches?: BranchCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
@@ -80982,6 +84667,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutProfilesInput = {
@@ -80998,6 +84684,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -81012,6 +84699,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutProfilesInput = {
@@ -81026,6 +84714,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -81058,6 +84748,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutProfileInput = {
@@ -81067,8 +84758,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -81177,6 +84871,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
@@ -81191,6 +84886,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutProfilesInput = {
@@ -81207,6 +84903,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -81221,6 +84918,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutProfileInput = {
@@ -81241,6 +84939,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -81273,6 +84973,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProfileInput = {
@@ -81282,8 +84983,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81412,6 +85116,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -81444,6 +85150,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutAttendanceInput = {
@@ -81453,8 +85160,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -81571,6 +85281,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -81603,6 +85315,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAttendanceInput = {
@@ -81612,8 +85325,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81723,6 +85439,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     branches?: BranchCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
@@ -81737,6 +85454,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutShiftsInput = {
@@ -81753,6 +85471,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -81767,6 +85486,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutShiftsInput = {
@@ -81816,6 +85536,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -81848,6 +85570,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutShiftInput = {
@@ -81857,8 +85580,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
@@ -81942,6 +85668,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
@@ -81956,6 +85683,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutShiftsInput = {
@@ -81972,6 +85700,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -81986,6 +85715,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ShiftPolicyOverrideUpsertWithoutShiftInput = {
@@ -82059,6 +85789,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     branches?: BranchCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
@@ -82073,6 +85804,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAttendancePolicyInput = {
@@ -82089,6 +85821,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -82103,6 +85836,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAttendancePolicyInput = {
@@ -82135,6 +85869,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
@@ -82149,6 +85884,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAttendancePolicyInput = {
@@ -82165,6 +85901,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -82179,6 +85916,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ShiftCreateWithoutPolicyOverrideInput = {
@@ -82256,6 +85994,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -82288,6 +86028,7 @@ export namespace Prisma {
     documents?: UserDocumentCreateNestedManyWithoutUserInput
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutPolicyOverrideInput = {
@@ -82297,8 +86038,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -82354,6 +86098,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -82386,6 +86132,7 @@ export namespace Prisma {
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPolicyOverrideInput = {
@@ -82395,8 +86142,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82605,6 +86355,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     branches?: BranchCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
@@ -82619,6 +86370,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeaveTypesInput = {
@@ -82635,6 +86387,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -82649,6 +86402,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeaveTypesInput = {
@@ -82729,6 +86483,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
@@ -82743,6 +86498,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeaveTypesInput = {
@@ -82759,6 +86515,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -82773,6 +86530,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeaveTypeCreateWithoutEncashmentsInput = {
@@ -82811,6 +86569,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -82843,6 +86603,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutEncashmentsInput = {
@@ -82852,8 +86613,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -82944,6 +86708,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -82976,6 +86742,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEncashmentsInput = {
@@ -82985,8 +86752,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83055,6 +86825,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -83087,6 +86859,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutLeaveBalancesInput = {
@@ -83096,8 +86869,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -83188,6 +86964,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -83220,6 +86998,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLeaveBalancesInput = {
@@ -83229,8 +87008,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83299,6 +87081,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -83331,6 +87115,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutLeaveRequestsInput = {
@@ -83340,8 +87125,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -83432,6 +87220,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -83464,6 +87254,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLeaveRequestsInput = {
@@ -83473,8 +87264,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83521,6 +87315,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     branches?: BranchCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
@@ -83535,6 +87330,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutHolidaysInput = {
@@ -83551,6 +87347,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -83565,6 +87362,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutHolidaysInput = {
@@ -83597,6 +87395,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
@@ -83611,6 +87410,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutHolidaysInput = {
@@ -83627,6 +87427,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -83641,6 +87442,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutOnboardingInput = {
@@ -83650,6 +87452,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -83682,6 +87486,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutOnboardingInput = {
@@ -83691,8 +87496,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -83856,6 +87664,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -83888,6 +87698,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOnboardingInput = {
@@ -83897,8 +87708,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85207,6 +89021,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -85239,6 +89055,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutOffboardingInput = {
@@ -85248,8 +89065,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -85330,6 +89150,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -85362,6 +89184,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOffboardingInput = {
@@ -85371,8 +89194,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85464,6 +89290,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -85496,6 +89324,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutGoalsInput = {
@@ -85505,8 +89334,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -85562,6 +89394,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -85594,6 +89428,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoalsInput = {
@@ -85603,8 +89438,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85644,6 +89482,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -85676,6 +89516,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutReviewsGivenInput = {
@@ -85685,8 +89526,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -85731,6 +89575,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -85763,6 +89609,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutReviewsInput = {
@@ -85772,8 +89619,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -85829,6 +89679,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -85861,6 +89713,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsGivenInput = {
@@ -85870,8 +89723,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85922,6 +89778,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -85954,6 +89812,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -85963,8 +89822,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86004,6 +89866,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -86036,6 +89900,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutRecognitionsReceivedInput = {
@@ -86045,8 +89910,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -86091,6 +89959,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -86123,6 +89993,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutRecognitionsGivenInput = {
@@ -86132,8 +90003,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -86185,6 +90059,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     branches?: BranchCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
@@ -86199,6 +90074,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRecognitionsInput = {
@@ -86215,6 +90091,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -86229,6 +90106,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRecognitionsInput = {
@@ -86254,6 +90132,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -86286,6 +90166,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRecognitionsReceivedInput = {
@@ -86295,8 +90176,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86347,6 +90231,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -86379,6 +90265,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRecognitionsGivenInput = {
@@ -86388,8 +90275,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86447,6 +90337,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
@@ -86461,6 +90352,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRecognitionsInput = {
@@ -86477,6 +90369,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -86491,6 +90384,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type JobApplicationCreateWithoutJobInput = {
@@ -86537,6 +90431,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     branches?: BranchCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
@@ -86551,6 +90446,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutJobPostingsInput = {
@@ -86567,6 +90463,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -86581,6 +90478,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutJobPostingsInput = {
@@ -86643,6 +90541,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
@@ -86657,6 +90556,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutJobPostingsInput = {
@@ -86673,6 +90573,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -86687,6 +90588,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type JobPostingCreateWithoutApplicationsInput = {
@@ -86759,6 +90661,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     branches?: BranchCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
@@ -86773,6 +90676,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutExpenseCategoriesInput = {
@@ -86789,6 +90693,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -86803,6 +90708,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutExpenseCategoriesInput = {
@@ -86867,6 +90773,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
@@ -86881,6 +90788,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutExpenseCategoriesInput = {
@@ -86897,6 +90805,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -86911,6 +90820,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ExpenseClaimUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -86955,6 +90865,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -86987,6 +90899,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutExpensesInput = {
@@ -86996,8 +90909,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -87078,6 +90994,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -87110,6 +91028,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExpensesInput = {
@@ -87119,8 +91038,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -87160,6 +91082,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -87192,6 +91116,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutCertificatesInput = {
@@ -87201,8 +91126,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -87258,6 +91186,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -87290,6 +91220,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCertificatesInput = {
@@ -87299,8 +91230,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -87340,6 +91274,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     attendance?: AttendanceCreateNestedManyWithoutUserInput
@@ -87372,6 +91308,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutAssetsInput = {
@@ -87381,8 +91318,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -87434,6 +91374,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     branches?: BranchCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
@@ -87448,6 +91389,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssetsInput = {
@@ -87464,6 +91406,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
@@ -87478,6 +91421,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssetsInput = {
@@ -87503,6 +91447,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
@@ -87535,6 +91481,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssetsInput = {
@@ -87544,8 +91491,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -87603,6 +91553,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
@@ -87617,6 +91568,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssetsInput = {
@@ -87633,6 +91585,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
@@ -87647,6 +91600,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutDocumentsInput = {
@@ -87656,6 +91610,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -87688,6 +91644,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutDocumentsInput = {
@@ -87697,8 +91654,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -87743,6 +91703,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -87775,6 +91737,7 @@ export namespace Prisma {
     documents?: UserDocumentCreateNestedManyWithoutUserInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutUploadedDocsInput = {
@@ -87784,8 +91747,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -87841,6 +91807,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -87873,6 +91841,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDocumentsInput = {
@@ -87882,8 +91851,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -87934,6 +91906,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -87966,6 +91940,7 @@ export namespace Prisma {
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUploadedDocsInput = {
@@ -87975,8 +91950,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88016,6 +91994,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -88048,6 +92028,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -88057,8 +92038,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -88114,6 +92098,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -88146,6 +92132,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -88155,8 +92142,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88203,6 +92193,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     branches?: BranchCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
@@ -88217,6 +92208,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutJobRolesInput = {
@@ -88233,6 +92225,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -88247,6 +92240,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutJobRolesInput = {
@@ -88279,6 +92273,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
@@ -88293,6 +92288,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutJobRolesInput = {
@@ -88309,6 +92305,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -88323,6 +92320,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutTimesheetsInput = {
@@ -88332,6 +92330,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -88364,6 +92364,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutTimesheetsInput = {
@@ -88373,8 +92374,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -88470,6 +92474,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -88502,6 +92508,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimesheetsInput = {
@@ -88511,8 +92518,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88730,6 +92740,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     branches?: BranchCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
@@ -88744,6 +92755,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTasksInput = {
@@ -88760,6 +92772,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -88774,6 +92787,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTasksInput = {
@@ -88788,6 +92802,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -88820,6 +92836,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutTasksInput = {
@@ -88829,8 +92846,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -88875,6 +92895,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -88907,6 +92929,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutCreatedTasksInput = {
@@ -88916,8 +92939,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -89020,6 +93046,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
@@ -89034,6 +93061,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTasksInput = {
@@ -89050,6 +93078,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -89064,6 +93093,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTasksInput = {
@@ -89084,6 +93114,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -89116,6 +93148,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksInput = {
@@ -89125,8 +93158,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89177,6 +93213,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -89209,6 +93247,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedTasksInput = {
@@ -89218,8 +93257,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89282,6 +93324,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     branches?: BranchCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
@@ -89296,6 +93339,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWorkLogsInput = {
@@ -89312,6 +93356,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -89326,6 +93371,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWorkLogsInput = {
@@ -89340,6 +93386,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -89372,6 +93420,7 @@ export namespace Prisma {
     documents?: UserDocumentCreateNestedManyWithoutUserInput
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutWorkLogsInput = {
@@ -89381,8 +93430,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -89445,6 +93497,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
@@ -89459,6 +93512,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWorkLogsInput = {
@@ -89475,6 +93529,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -89489,6 +93544,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutWorkLogsInput = {
@@ -89509,6 +93565,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -89541,6 +93599,7 @@ export namespace Prisma {
     documents?: UserDocumentUpdateManyWithoutUserNestedInput
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWorkLogsInput = {
@@ -89550,8 +93609,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89591,6 +93653,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -89623,6 +93687,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutAttendanceRequestsInput = {
@@ -89632,8 +93697,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -89689,6 +93757,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -89721,6 +93791,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAttendanceRequestsInput = {
@@ -89730,8 +93801,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89771,6 +93845,8 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
@@ -89803,6 +93879,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
     policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
     workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
   }
 
   export type UserUncheckedCreateWithoutAuditsInput = {
@@ -89812,8 +93889,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
     companyId?: string | null
@@ -89869,6 +93949,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -89901,6 +93983,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuditsInput = {
@@ -89910,8 +93993,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89958,6 +94044,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     departments?: DepartmentCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
@@ -89972,6 +94059,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBranchesInput = {
@@ -89988,6 +94076,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
@@ -90002,6 +94091,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBranchesInput = {
@@ -90156,6 +94246,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
@@ -90170,6 +94261,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBranchesInput = {
@@ -90186,6 +94278,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
@@ -90200,6 +94293,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type DepartmentUpsertWithWhereUniqueWithoutBranchInput = {
@@ -90248,6 +94342,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetCreateNestedManyWithoutCompanyInput
     branches?: BranchCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
@@ -90262,6 +94357,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutDepartmentsInput = {
@@ -90278,6 +94374,7 @@ export namespace Prisma {
     logoMediumUrl?: string | null
     logoThumbnailUrl?: string | null
     faviconUrl?: string | null
+    leaveAccrualMode?: string
     assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
     branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
     attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
@@ -90292,6 +94389,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
     recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutDepartmentsInput = {
@@ -90441,6 +94539,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUpdateManyWithoutCompanyNestedInput
     branches?: BranchUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
@@ -90455,6 +94554,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutDepartmentsInput = {
@@ -90471,6 +94571,7 @@ export namespace Prisma {
     logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
     logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
     assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
     branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
     attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
@@ -90485,6 +94586,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
     recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type BranchUpsertWithoutDepartmentsInput = {
@@ -90672,8 +94774,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     shiftId?: string | null
   }
@@ -90697,6 +94802,16 @@ export namespace Prisma {
     badge?: string | null
     message: string
     createdAt?: Date | string
+  }
+
+  export type AccessRoleCreateManyCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    isSystem?: boolean
+    isOwner?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AssetUpdateWithoutCompanyInput = {
@@ -91129,6 +95244,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -91161,6 +95278,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -91170,8 +95288,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
@@ -91211,8 +95332,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -91278,6 +95402,40 @@ export namespace Prisma {
     badge?: NullableStringFieldUpdateOperationsInput | string | null
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AccessRoleUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
+    isOwner?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    permissions?: AccessRolePermissionUpdateManyWithoutAccessRoleNestedInput
+    users?: UserUpdateManyWithoutAccessRoleNestedInput
+  }
+
+  export type AccessRoleUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
+    isOwner?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    permissions?: AccessRolePermissionUncheckedUpdateManyWithoutAccessRoleNestedInput
+    users?: UserUncheckedUpdateManyWithoutAccessRoleNestedInput
+  }
+
+  export type AccessRoleUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
+    isOwner?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AssetCreateManyUserInput = {
@@ -91497,8 +95655,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     shiftId?: string | null
     companyId?: string | null
   }
@@ -92199,6 +96360,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -92231,6 +96394,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutManagerInput = {
@@ -92240,8 +96404,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
@@ -92281,8 +96448,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -92440,6 +96610,146 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AccessRolePermissionCreateManyAccessRoleInput = {
+    id?: string
+    permission: string
+  }
+
+  export type UserCreateManyAccessRoleInput = {
+    id?: string
+    employeeId?: string | null
+    email: string
+    passwordHash: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
+    status?: string
+    role?: $Enums.Role
+    managerId?: string | null
+    shiftId?: string | null
+    companyId?: string | null
+  }
+
+  export type AccessRolePermissionUpdateWithoutAccessRoleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AccessRolePermissionUncheckedUpdateWithoutAccessRoleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AccessRolePermissionUncheckedUpdateManyWithoutAccessRoleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserUpdateWithoutAccessRoleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    audits?: AuditLogUpdateManyWithoutActorNestedInput
+    certificates?: CertificateUpdateManyWithoutUserNestedInput
+    expenses?: ExpenseClaimUpdateManyWithoutUserNestedInput
+    goals?: GoalUpdateManyWithoutUserNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutUserNestedInput
+    encashments?: LeaveEncashmentUpdateManyWithoutUserNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    offboarding?: OffboardingUpdateOneWithoutUserNestedInput
+    onboarding?: OnboardingUpdateOneWithoutUserNestedInput
+    payslips?: PayslipUpdateManyWithoutUserNestedInput
+    reviewsGiven?: PerformanceReviewUpdateManyWithoutReviewerNestedInput
+    reviews?: PerformanceReviewUpdateManyWithoutUserNestedInput
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    salary?: SalaryStructureUpdateOneWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    manager?: UserUpdateOneWithoutSubordinatesNestedInput
+    subordinates?: UserUpdateManyWithoutManagerNestedInput
+    shift?: ShiftUpdateOneWithoutUsersNestedInput
+    documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
+    policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
+    workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAccessRoleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
+    certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    expenses?: ExpenseClaimUncheckedUpdateManyWithoutUserNestedInput
+    goals?: GoalUncheckedUpdateManyWithoutUserNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
+    encashments?: LeaveEncashmentUncheckedUpdateManyWithoutUserNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    offboarding?: OffboardingUncheckedUpdateOneWithoutUserNestedInput
+    onboarding?: OnboardingUncheckedUpdateOneWithoutUserNestedInput
+    payslips?: PayslipUncheckedUpdateManyWithoutUserNestedInput
+    reviewsGiven?: PerformanceReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    reviews?: PerformanceReviewUncheckedUpdateManyWithoutUserNestedInput
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
+    policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
+    workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutAccessRoleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type BreakCreateManyAttendanceInput = {
     id?: string
     startTime: Date | string
@@ -92487,8 +96797,11 @@ export namespace Prisma {
     passwordHash: string
     resetToken?: string | null
     resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
     status?: string
     role?: $Enums.Role
+    accessRoleId?: string | null
     managerId?: string | null
     companyId?: string | null
   }
@@ -92538,6 +96851,8 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
@@ -92570,6 +96885,7 @@ export namespace Prisma {
     uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
     policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
     workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
   }
 
   export type UserUncheckedUpdateWithoutShiftInput = {
@@ -92579,8 +96895,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
@@ -92620,8 +96939,11 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
   }

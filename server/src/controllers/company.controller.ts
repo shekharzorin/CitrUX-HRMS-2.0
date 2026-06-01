@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { prisma } from '../db';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import logger from '../utils/logger';
+import { CacheService } from '../services/cacheService';
 
 // GET /api/companies — SUPER_ADMIN: all companies; others: their own company
 export const getCompanies = async (req: AuthRequest, res: Response) => {
@@ -73,16 +74,29 @@ export const createCompany = async (req: AuthRequest, res: Response) => {
 export const updateCompany = async (req: AuthRequest, res: Response) => {
     try {
         const { id } = req.params;
-        const { name, logoUrl, subdomain } = req.body;
+        const { name, logoUrl, subdomain, leaveAccrualMode } = req.body;
 
         if (req.user?.role !== 'SUPER_ADMIN' && req.user?.companyId !== id) {
             return res.status(403).json({ message: 'Access denied' });
         }
 
+        const VALID_ACCRUAL_MODES = ['MANUAL', 'MONTHLY', 'ANNUAL'];
+        if (leaveAccrualMode !== undefined && !VALID_ACCRUAL_MODES.includes(leaveAccrualMode)) {
+            return res.status(400).json({ message: `leaveAccrualMode must be one of ${VALID_ACCRUAL_MODES.join(', ')}` });
+        }
+
         const company = await prisma.company.update({
             where: { id },
-            data: { name, logoUrl, subdomain }
+            data: {
+                name,
+                logoUrl,
+                subdomain,
+                ...(leaveAccrualMode !== undefined ? { leaveAccrualMode } : {}),
+            }
         });
+        
+        await CacheService.delByPattern(`tenant:${id}:resource:company:*`);
+        
         res.json(company);
     } catch (error: any) {
         logger.error('updateCompany Error:', error);

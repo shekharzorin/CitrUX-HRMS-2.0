@@ -4,6 +4,8 @@ import {
     validateIFSC, getPayrollInfo, updatePayrollInfo
 } from '../controllers/payroll.controller';
 import { authenticateToken, requirePermission } from '../middlewares/auth.middleware';
+import { validate } from '../middlewares/validate.middleware';
+import { payrollRunSchema } from '../validators/schemas';
 
 const router = express.Router();
 
@@ -12,8 +14,8 @@ router.use(authenticateToken);
 // Admin / HR only routes
 const adminOnly = requirePermission('MANAGE_PAYROLL');
 
-router.post('/calculate', adminOnly, calculatePayroll);
-router.post('/generate', adminOnly, generatePayroll);
+router.post('/calculate', adminOnly, validate({ body: payrollRunSchema }), calculatePayroll);
+router.post('/generate', adminOnly, validate({ body: payrollRunSchema }), generatePayroll);
 router.get('/list', adminOnly, listPayslips);
 router.get('/stats', adminOnly, getPayrollStats);
 

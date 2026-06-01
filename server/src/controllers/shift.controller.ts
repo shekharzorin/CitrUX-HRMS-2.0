@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { prisma } from '../db';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
+import { CacheService } from '../services/cacheService';
 
 // ─── Create ───────────────────────────────────────────────────────────────────
 export const createShift = async (req: AuthRequest, res: Response) => {
@@ -32,6 +33,8 @@ export const createShift = async (req: AuthRequest, res: Response) => {
                 companyId:    companyId    ?? null,
             },
         });
+
+        if (companyId) await CacheService.delByPattern(`tenant:${companyId}:resource:shifts:*`);
 
         res.status(201).json(shift);
     } catch (error) {
@@ -121,6 +124,8 @@ export const updateShift = async (req: AuthRequest, res: Response) => {
             },
         });
 
+        if (companyId) await CacheService.delByPattern(`tenant:${companyId}:resource:shifts:*`);
+
         res.json(shift);
     } catch (error) {
         res.status(500).json({ message: 'Error updating shift' });
@@ -150,6 +155,7 @@ export const deleteShift = async (req: AuthRequest, res: Response) => {
         }
 
         await prisma.shift.delete({ where: { id } });
+        if (companyId) await CacheService.delByPattern(`tenant:${companyId}:resource:shifts:*`);
         res.json({ message: 'Shift deleted' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting shift' });

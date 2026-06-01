@@ -1,63 +1,58 @@
 import winston from 'winston';
-import path from 'path';
+import 'winston-daily-rotate-file';
+import { getTraceId, getTraceCompanyId } from '../middlewares/tracing.middleware';
 
-// Define log levels
-const levels = {
-    error: 0,
-    warn: 1,
-    info: 2,
-    http: 3,
-    debug: 4,
-};
+const { combine, timestamp, printf, colorize, errors } = winston.format;
 
-// Define colors (for console)
-const colors = {
-    error: 'red',
-    warn: 'yellow',
-    info: 'green',
-    http: 'magenta',
-    debug: 'white',
-};
+// Format that injects cls-hooked trace context
+const traceFormat = printf(({ level, message, timestamp, stack, ...meta }) => {
+    const traceId = getTraceId();
+    const companyId = getTraceCompanyId();
+    const metaStr = Object.keys(meta).length ? JSON.stringify(meta) : '';
+    return `${timestamp} [${companyId}] [${traceId}] ${level}: ${stack || message} ${metaStr}`;
+});
 
-// Add colors to winston
-winston.addColors(colors);
-
-// Format logs
-const format = winston.format.combine(
-    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
-    winston.format.colorize({ all: true }),
-    winston.format.printf(
-        (info) => `${info.timestamp} ${info.level}: ${info.message}`
-    )
-);
-
-// Create logger
+// File transports write to local disk, which is EPHEMERAL on platforms like
+// Render (wiped on every deploy/restart) and not shared across instances.
+// Render/most PaaS capture stdout, so Console is the source of truth there.
+// Enable rotating files only when LOG_TO_FILE=true (e.g. a VM with a volume).
 const transports: winston.transport[] = [
     new winston.transports.Console({
-        format,
-    }),
+        format: combine(
+            colorize(),
+            traceFormat
+        )
+    })
 ];
 
-// Only add file transports if not in production
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.LOG_TO_FILE === 'true') {
     transports.push(
-        new winston.transports.File({
-            filename: path.join(__dirname, '../../logs/error.log'),
-            level: 'error',
-            format: winston.format.json()
+        new winston.transports.DailyRotateFile({
+            filename: 'logs/application-%DATE%.log',
+            datePattern: 'YYYY-MM-DD',
+            zippedArchive: true,
+            maxSize: '20m',
+            maxFiles: '14d'
         }),
-        new winston.transports.File({
-            filename: path.join(__dirname, '../../logs/combined.log'),
-            format: winston.format.json()
+        new winston.transports.DailyRotateFile({
+            filename: 'logs/error-%DATE%.log',
+            level: 'error',
+            datePattern: 'YYYY-MM-DD',
+            zippedArchive: true,
+            maxSize: '20m',
+            maxFiles: '14d'
         })
     );
 }
 
-// Create logger
 const logger = winston.createLogger({
-    levels,
-    level: process.env.LOG_LEVEL || 'info',
-    transports,
+    level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+    format: combine(
+        errors({ stack: true }),
+        timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        traceFormat
+    ),
+    transports
 });
 
 export default logger;

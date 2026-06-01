@@ -49,14 +49,23 @@ export const login = async (req: Request, res: Response) => {
 
         if (!process.env.JWT_SECRET) logger.error('JWT_SECRET is missing!');
 
+        // Role-based token lifetime. SUPER_ADMIN is a cross-tenant role, so it
+        // should get a shorter session — configure JWT_EXPIRES_IN_SUPER_ADMIN
+        // (e.g. '1h') once refresh-token rotation is in place. Defaults preserve
+        // the previous 7d behaviour so nothing changes until you opt in.
+        const expiresIn = (user.role === 'SUPER_ADMIN'
+            ? process.env.JWT_EXPIRES_IN_SUPER_ADMIN
+            : process.env.JWT_EXPIRES_IN) || '7d';
+
         const token = jwt.sign(
             {
                 userId: user.id,
                 role: user.role,
                 companyId: user.companyId ?? null,  // Multi-tenant: companyId scoped into every token
+                accessRoleId: user.accessRoleId ?? null,  // RBAC v2: per-tenant role for permission resolution
             },
             process.env.JWT_SECRET as string,
-            { expiresIn: '7d' }
+            { expiresIn: expiresIn as any }
         );
         logger.info('Token generated');
 

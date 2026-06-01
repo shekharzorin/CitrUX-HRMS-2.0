@@ -3,6 +3,7 @@ import { prisma } from '../db';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope } from '../middlewares/tenant.middleware';
 import logger from '../utils/logger';
+import { CacheService } from '../services/cacheService';
 
 export const getBranches = async (req: AuthRequest, res: Response) => {
     try {
@@ -51,6 +52,7 @@ export const createDepartment = async (req: AuthRequest, res: Response) => {
         const department = await prisma.department.create({
             data: { name, branchId, companyId: companyId as string }
         });
+        await CacheService.delByPattern(`tenant:${companyId}:resource:departments:*`);
         res.status(201).json(department);
     } catch (error) {
         logger.error('Error creating department:', error);
@@ -101,6 +103,7 @@ export const deleteDepartment = async (req: AuthRequest, res: Response) => {
         });
 
         await prisma.department.delete({ where: { id } });
+        await CacheService.delByPattern(`tenant:${companyId}:resource:departments:*`);
         res.json({ message: 'Department deleted successfully' });
     } catch (error) {
         logger.error('Error deleting department:', error);

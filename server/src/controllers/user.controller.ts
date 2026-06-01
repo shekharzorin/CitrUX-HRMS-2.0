@@ -7,7 +7,24 @@ import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middlew
 import { IdService } from '../services/id.service';
 import { AuditService } from '../services/audit.service';
 import { NotificationService } from '../services/notification.service';
+import { RoleService } from '../services/role.service';
 import logger from '../utils/logger';
+
+/**
+ * Privilege guard (RBAC v2). A "privileged" user is one who can manage other
+ * users (holds MANAGE_USERS). Only actors who can manage roles (MANAGE_ROLES —
+ * i.e. company owner/admin, not plain HR) may modify/delete a privileged user
+ * or assign a privileged role. Replaces the old enum-name hierarchy check and
+ * works with custom roles.
+ */
+const PRIVILEGED_ENUM_ROLES = ['ADMIN', 'SUPER_ADMIN', 'HR'];
+
+async function isPrivilegedTarget(target: { accessRoleId: string | null; role: string; companyId: string | null }): Promise<boolean> {
+    return RoleService.hasPermission(
+        { accessRoleId: target.accessRoleId, role: target.role, companyId: target.companyId },
+        'MANAGE_USERS'
+    );
+}
 
 export const createUser = async (req: AuthRequest, res: Response) => {
     try {
@@ -366,13 +383,14 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
         if (!existing) return res.status(404).json({ message: 'User not found' });
         if (!assertSameCompany(existing.companyId, req, res)) return;
 
-        // Enforce Role Hierarchy
-        if (actorRole.toUpperCase() === 'HR') {
-            if (existing.role === 'ADMIN' || existing.role === 'SUPER_ADMIN' || existing.role === 'HR') {
+        // Enforce privilege hierarchy (permission-based, custom-role aware).
+        const actorCanManageRoles = await RoleService.hasPermission(req.user!, 'MANAGE_ROLES');
+        if (!actorCanManageRoles) {
+            if (await isPrivilegedTarget(existing)) {
                 return res.status(403).json({ message: 'Insufficient permissions to modify this user' });
             }
-            // Prevent promoting to Admin/HR
-            if (role && (role === 'ADMIN' || role === 'SUPER_ADMIN' || role === 'HR')) {
+            // Prevent promoting to a privileged role.
+            if (role && PRIVILEGED_ENUM_ROLES.includes(String(role).toUpperCase())) {
                 return res.status(403).json({ message: 'Insufficient permissions to assign this role' });
             }
         }
@@ -490,11 +508,10 @@ export const deleteUser = async (req: AuthRequest, res: Response) => {
         }
         if (!assertSameCompany(userToDelete.companyId, req, res)) return;
 
-        // Enforce Role Hierarchy
-        if (actorRole.toUpperCase() === 'HR') {
-            if (userToDelete.role === 'ADMIN' || userToDelete.role === 'SUPER_ADMIN' || userToDelete.role === 'HR') {
-                return res.status(403).json({ message: 'Insufficient permissions to delete this user' });
-            }
+        // Enforce privilege hierarchy (permission-based, custom-role aware).
+        const actorCanManageRoles = await RoleService.hasPermission(req.user!, 'MANAGE_ROLES');
+        if (!actorCanManageRoles && await isPrivilegedTarget(userToDelete)) {
+            return res.status(403).json({ message: 'Insufficient permissions to delete this user' });
         }
 
         if (userToDelete.email === 'admin@citrux.com' || userToDelete.role === 'SUPER_ADMIN') {
