@@ -48,6 +48,9 @@ model Company {
   workLogs          WorkLog[]
   recognitions      Recognition[]
   accessRoles       AccessRole[]
+  tickets            Ticket[]
+  supportDepartments SupportDepartment[]
+  ticketCategories   TicketCategory[]
 }
 
 model User {
@@ -99,6 +102,16 @@ model User {
   policyOverride       UserPolicyOverride?
   workLogs             WorkLog[]
   accessRole           AccessRole?         @relation(fields: [accessRoleId], references: [id])
+  // Support Desk (Phase 1) back-relations
+  ticketsRequested          Ticket[]            @relation("TicketRequester")
+  ticketsAssigned           Ticket[]            @relation("TicketAssignee")
+  ticketComments            TicketComment[]     @relation("TicketCommentAuthor")
+  ticketAttachmentsUploaded TicketAttachment[]  @relation("TicketAttachmentUploader")
+  ticketActivities          TicketActivity[]    @relation("TicketActivityActor")
+  ticketWatching            TicketWatcher[]     @relation("TicketWatcher")
+  ticketAssignmentsTo       TicketAssignment[]  @relation("TicketAssignedTo")
+  ticketAssignmentsBy       TicketAssignment[]  @relation("TicketAssignedBy")
+  supportQueuesOwned        SupportDepartment[] @relation("QueueDefaultAssignee")
 }
 
 // ── RBAC v2: per-tenant dynamic roles ────────────────────────────────────────
@@ -116,6 +129,7 @@ model AccessRole {
   company     Company                @relation(fields: [companyId], references: [id], onDelete: Cascade)
   permissions AccessRolePermission[]
   users       User[]
+  supportQueueRoles SupportQueueRole[]
 
   @@unique([companyId, name])
 }
@@ -127,6 +141,328 @@ model AccessRolePermission {
   accessRole   AccessRole @relation(fields: [accessRoleId], references: [id], onDelete: Cascade)
 
   @@unique([accessRoleId, permission])
+}
+
+// ═══════════════════════════ Support Desk (Phase 1) ═══════════════════════════
+// Operational ticketing domain. Distinct from HRMS Department (org structure):
+// tickets route to SupportDepartment (admin-created queues). All tenant-scoped.
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  ON_HOLD
+  RESOLVED
+  CLOSED
+  REOPENED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TicketSource {
+  WEB
+  MOBILE
+  EMAIL
+  WHATSAPP
+  SLACK
+  TEAMS
+  SYSTEM
+  AI_AGENT
+}
+
+enum CommentVisibility {
+  PUBLIC
+  INTERNAL
+  ADMIN_ONLY
+}
+
+enum SlaStatus {
+  NONE
+  ON_TRACK
+  AT_RISK
+  BREACHED
+  PAUSED
+}
+
+enum AiProcessingStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  SKIPPED
+}
+
+enum AssignmentType {
+  MANUAL
+  AUTO
+  AI
+  ROUND_ROBIN
+  ESCALATION
+}
+
+enum WatcherType {
+  MANUAL
+  AUTO
+  MENTION
+  DEPARTMENT
+}
+
+enum TicketRelationType {
+  DUPLICATES
+  RELATED
+  BLOCKS
+  PARENT_CHILD
+  INCIDENT_LINK
+}
+
+enum SupportQueueVisibility {
+  PUBLIC
+  INTERNAL
+  RESTRICTED
+}
+
+enum TicketActivityType {
+  CREATED
+  STATUS_CHANGED
+  PRIORITY_CHANGED
+  ASSIGNED
+  UNASSIGNED
+  CATEGORY_CHANGED
+  COMMENT_ADDED
+  ATTACHMENT_ADDED
+  AI_CATEGORIZED
+  REOPENED
+  SLA_BREACHED
+  DELETED
+  RESTORED
+  WATCHER_ADDED
+  WATCHER_REMOVED
+  MENTIONED
+  LINKED
+  UNLINKED
+}
+
+// Admin-created operational queue (IT, HR, Facilities…). The ticket routing target.
+model SupportDepartment {
+  id                String                 @id @default(uuid())
+  companyId         String
+  name              String
+  description       String?
+  icon              String?
+  color             String?
+  isActive          Boolean                @default(true)
+  defaultAssigneeId String?
+  visibility        SupportQueueVisibility @default(PUBLIC)
+  sortOrder         Int                    @default(0)
+  deletedAt         DateTime?
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+  company           Company                @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  defaultAssignee   User?                  @relation("QueueDefaultAssignee", fields: [defaultAssigneeId], references: [id])
+  categories        TicketCategory[]
+  tickets           Ticket[]
+  visibleToRoles    SupportQueueRole[]
+
+  @@unique([companyId, name])
+  @@index([companyId, isActive, sortOrder])
+}
+
+// Role-based queue visibility (only meaningful when visibility = RESTRICTED).
+model SupportQueueRole {
+  id                  String            @id @default(uuid())
+  supportDepartmentId String
+  accessRoleId        String
+  supportDepartment   SupportDepartment @relation(fields: [supportDepartmentId], references: [id], onDelete: Cascade)
+  accessRole          AccessRole        @relation(fields: [accessRoleId], references: [id], onDelete: Cascade)
+
+  @@unique([supportDepartmentId, accessRoleId])
+}
+
+// Optional secondary classification, scoped under a SupportDepartment.
+model TicketCategory {
+  id                  String            @id @default(uuid())
+  companyId           String
+  supportDepartmentId String
+  name                String
+  description         String?
+  isActive            Boolean           @default(true)
+  deletedAt           DateTime?
+  company             Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  supportDepartment   SupportDepartment @relation(fields: [supportDepartmentId], references: [id], onDelete: Cascade)
+  tickets             Ticket[]
+
+  @@unique([supportDepartmentId, name])
+}
+
+model Ticket {
+  id                  String             @id @default(uuid())
+  ticketNumber        Int
+  companyId           String
+  subject             String
+  description         String
+  status              TicketStatus       @default(OPEN)
+  priority            TicketPriority     @default(MEDIUM)
+  source              TicketSource       @default(WEB)
+  requesterId         String
+  assigneeId          String?
+  supportDepartmentId String?
+  categoryId          String?
+  // Searchability (FTS GIN index added later via raw SQL — §12)
+  normalizedTitle     String?
+  searchableContent   String?
+  tags                String[]           @default([])
+  // AI lifecycle
+  aiStatus            AiProcessingStatus @default(PENDING)
+  aiCategorized       Boolean            @default(false)
+  aiConfidence        Float?
+  // SLA-compatible fields (no logic in Phase 1)
+  firstResponseAt     DateTime?
+  dueAt               DateTime?
+  resolvedAt          DateTime?
+  closedAt            DateTime?
+  slaStatus           SlaStatus          @default(NONE)
+  // Soft delete
+  deletedAt           DateTime?
+  deletedById         String?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+
+  company           Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  requester         User                 @relation("TicketRequester", fields: [requesterId], references: [id])
+  assignee          User?                @relation("TicketAssignee", fields: [assigneeId], references: [id])
+  supportDepartment SupportDepartment?   @relation(fields: [supportDepartmentId], references: [id])
+  category          TicketCategory?      @relation(fields: [categoryId], references: [id])
+  comments          TicketComment[]
+  attachments       TicketAttachment[]
+  activities        TicketActivity[]
+  watchers          TicketWatcher[]
+  assignmentHistory TicketAssignment[]
+  relationsFrom     TicketRelationship[] @relation("TicketRelSource")
+  relationsTo       TicketRelationship[] @relation("TicketRelTarget")
+  aiJobs            AiJob[]
+
+  @@unique([companyId, ticketNumber])
+  @@index([companyId, status, deletedAt])
+  @@index([companyId, assigneeId])
+  @@index([companyId, supportDepartmentId, status])
+}
+
+model TicketComment {
+  id          String            @id @default(uuid())
+  ticketId    String
+  authorId    String
+  body        String
+  visibility  CommentVisibility @default(PUBLIC)
+  deletedAt   DateTime?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  ticket      Ticket             @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  author      User               @relation("TicketCommentAuthor", fields: [authorId], references: [id])
+  attachments TicketAttachment[]
+
+  @@index([ticketId])
+}
+
+model TicketAttachment {
+  id           String    @id @default(uuid())
+  ticketId     String
+  commentId    String?
+  uploadedById String
+  fileName     String
+  url          String
+  fileType     String
+  fileSize     Int
+  deletedAt    DateTime?
+  createdAt    DateTime  @default(now())
+  ticket       Ticket         @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  comment      TicketComment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  uploadedBy   User           @relation("TicketAttachmentUploader", fields: [uploadedById], references: [id])
+
+  @@index([ticketId])
+}
+
+// Unified activity timeline / audit (every meaningful change appends a row).
+model TicketActivity {
+  id        String             @id @default(uuid())
+  ticketId  String
+  type      TicketActivityType
+  actorId   String?
+  data      String?
+  createdAt DateTime           @default(now())
+  ticket    Ticket             @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  actor     User?              @relation("TicketActivityActor", fields: [actorId], references: [id])
+
+  @@index([ticketId, createdAt])
+}
+
+// Followers: manual, auto, mention-based, future department.
+model TicketWatcher {
+  id        String      @id @default(uuid())
+  ticketId  String
+  userId    String
+  type      WatcherType @default(MANUAL)
+  addedById String?
+  createdAt DateTime    @default(now())
+  ticket    Ticket      @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user      User        @relation("TicketWatcher", fields: [userId], references: [id])
+
+  @@unique([ticketId, userId])
+  @@index([ticketId])
+}
+
+// Assignment history chain (Ticket.assigneeId stays the current assignee).
+model TicketAssignment {
+  id             String         @id @default(uuid())
+  ticketId       String
+  assignedToId   String
+  assignedById   String?
+  assignmentType AssignmentType @default(MANUAL)
+  reason         String?
+  assignedAt     DateTime       @default(now())
+  unassignedAt   DateTime?
+  ticket         Ticket         @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  assignedTo     User           @relation("TicketAssignedTo", fields: [assignedToId], references: [id])
+  assignedBy     User?          @relation("TicketAssignedBy", fields: [assignedById], references: [id])
+
+  @@index([ticketId])
+}
+
+// Ticket-to-ticket relationships — FUTURE-READY (schema only, no endpoints in Phase 1).
+model TicketRelationship {
+  id          String             @id @default(uuid())
+  companyId   String
+  sourceId    String
+  targetId    String
+  type        TicketRelationType
+  createdById String?
+  createdAt   DateTime           @default(now())
+  source      Ticket             @relation("TicketRelSource", fields: [sourceId], references: [id], onDelete: Cascade)
+  target      Ticket             @relation("TicketRelTarget", fields: [targetId], references: [id], onDelete: Cascade)
+
+  @@unique([sourceId, targetId, type])
+  @@index([targetId])
+}
+
+// AI job audit trail (powers retries/idempotency + lifecycle).
+model AiJob {
+  id          String             @id @default(uuid())
+  ticketId    String?
+  type        String
+  provider    String?
+  status      AiProcessingStatus @default(PENDING)
+  inputHash   String?
+  output      String?
+  confidence  Float?
+  error       String?
+  createdAt   DateTime           @default(now())
+  completedAt DateTime?
+  ticket      Ticket?            @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId])
 }
 
 model SalaryStructure {

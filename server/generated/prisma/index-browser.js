@@ -172,6 +172,145 @@ exports.Prisma.AccessRolePermissionScalarFieldEnum = {
   permission: 'permission'
 };
 
+exports.Prisma.SupportDepartmentScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  name: 'name',
+  description: 'description',
+  icon: 'icon',
+  color: 'color',
+  isActive: 'isActive',
+  defaultAssigneeId: 'defaultAssigneeId',
+  visibility: 'visibility',
+  sortOrder: 'sortOrder',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SupportQueueRoleScalarFieldEnum = {
+  id: 'id',
+  supportDepartmentId: 'supportDepartmentId',
+  accessRoleId: 'accessRoleId'
+};
+
+exports.Prisma.TicketCategoryScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  supportDepartmentId: 'supportDepartmentId',
+  name: 'name',
+  description: 'description',
+  isActive: 'isActive',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.TicketScalarFieldEnum = {
+  id: 'id',
+  ticketNumber: 'ticketNumber',
+  companyId: 'companyId',
+  subject: 'subject',
+  description: 'description',
+  status: 'status',
+  priority: 'priority',
+  source: 'source',
+  requesterId: 'requesterId',
+  assigneeId: 'assigneeId',
+  supportDepartmentId: 'supportDepartmentId',
+  categoryId: 'categoryId',
+  normalizedTitle: 'normalizedTitle',
+  searchableContent: 'searchableContent',
+  tags: 'tags',
+  aiStatus: 'aiStatus',
+  aiCategorized: 'aiCategorized',
+  aiConfidence: 'aiConfidence',
+  firstResponseAt: 'firstResponseAt',
+  dueAt: 'dueAt',
+  resolvedAt: 'resolvedAt',
+  closedAt: 'closedAt',
+  slaStatus: 'slaStatus',
+  deletedAt: 'deletedAt',
+  deletedById: 'deletedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TicketCommentScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  authorId: 'authorId',
+  body: 'body',
+  visibility: 'visibility',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TicketAttachmentScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  commentId: 'commentId',
+  uploadedById: 'uploadedById',
+  fileName: 'fileName',
+  url: 'url',
+  fileType: 'fileType',
+  fileSize: 'fileSize',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TicketActivityScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  type: 'type',
+  actorId: 'actorId',
+  data: 'data',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TicketWatcherScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  userId: 'userId',
+  type: 'type',
+  addedById: 'addedById',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TicketAssignmentScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  assignedToId: 'assignedToId',
+  assignedById: 'assignedById',
+  assignmentType: 'assignmentType',
+  reason: 'reason',
+  assignedAt: 'assignedAt',
+  unassignedAt: 'unassignedAt'
+};
+
+exports.Prisma.TicketRelationshipScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  sourceId: 'sourceId',
+  targetId: 'targetId',
+  type: 'type',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AiJobScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  type: 'type',
+  provider: 'provider',
+  status: 'status',
+  inputHash: 'inputHash',
+  output: 'output',
+  confidence: 'confidence',
+  error: 'error',
+  createdAt: 'createdAt',
+  completedAt: 'completedAt'
+};
+
 exports.Prisma.SalaryStructureScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -786,11 +925,121 @@ exports.Role = exports.$Enums.Role = {
   EMPLOYEE: 'EMPLOYEE'
 };
 
+exports.SupportQueueVisibility = exports.$Enums.SupportQueueVisibility = {
+  PUBLIC: 'PUBLIC',
+  INTERNAL: 'INTERNAL',
+  RESTRICTED: 'RESTRICTED'
+};
+
+exports.TicketStatus = exports.$Enums.TicketStatus = {
+  OPEN: 'OPEN',
+  IN_PROGRESS: 'IN_PROGRESS',
+  ON_HOLD: 'ON_HOLD',
+  RESOLVED: 'RESOLVED',
+  CLOSED: 'CLOSED',
+  REOPENED: 'REOPENED'
+};
+
+exports.TicketPriority = exports.$Enums.TicketPriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT'
+};
+
+exports.TicketSource = exports.$Enums.TicketSource = {
+  WEB: 'WEB',
+  MOBILE: 'MOBILE',
+  EMAIL: 'EMAIL',
+  WHATSAPP: 'WHATSAPP',
+  SLACK: 'SLACK',
+  TEAMS: 'TEAMS',
+  SYSTEM: 'SYSTEM',
+  AI_AGENT: 'AI_AGENT'
+};
+
+exports.AiProcessingStatus = exports.$Enums.AiProcessingStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  SKIPPED: 'SKIPPED'
+};
+
+exports.SlaStatus = exports.$Enums.SlaStatus = {
+  NONE: 'NONE',
+  ON_TRACK: 'ON_TRACK',
+  AT_RISK: 'AT_RISK',
+  BREACHED: 'BREACHED',
+  PAUSED: 'PAUSED'
+};
+
+exports.CommentVisibility = exports.$Enums.CommentVisibility = {
+  PUBLIC: 'PUBLIC',
+  INTERNAL: 'INTERNAL',
+  ADMIN_ONLY: 'ADMIN_ONLY'
+};
+
+exports.TicketActivityType = exports.$Enums.TicketActivityType = {
+  CREATED: 'CREATED',
+  STATUS_CHANGED: 'STATUS_CHANGED',
+  PRIORITY_CHANGED: 'PRIORITY_CHANGED',
+  ASSIGNED: 'ASSIGNED',
+  UNASSIGNED: 'UNASSIGNED',
+  CATEGORY_CHANGED: 'CATEGORY_CHANGED',
+  COMMENT_ADDED: 'COMMENT_ADDED',
+  ATTACHMENT_ADDED: 'ATTACHMENT_ADDED',
+  AI_CATEGORIZED: 'AI_CATEGORIZED',
+  REOPENED: 'REOPENED',
+  SLA_BREACHED: 'SLA_BREACHED',
+  DELETED: 'DELETED',
+  RESTORED: 'RESTORED',
+  WATCHER_ADDED: 'WATCHER_ADDED',
+  WATCHER_REMOVED: 'WATCHER_REMOVED',
+  MENTIONED: 'MENTIONED',
+  LINKED: 'LINKED',
+  UNLINKED: 'UNLINKED'
+};
+
+exports.WatcherType = exports.$Enums.WatcherType = {
+  MANUAL: 'MANUAL',
+  AUTO: 'AUTO',
+  MENTION: 'MENTION',
+  DEPARTMENT: 'DEPARTMENT'
+};
+
+exports.AssignmentType = exports.$Enums.AssignmentType = {
+  MANUAL: 'MANUAL',
+  AUTO: 'AUTO',
+  AI: 'AI',
+  ROUND_ROBIN: 'ROUND_ROBIN',
+  ESCALATION: 'ESCALATION'
+};
+
+exports.TicketRelationType = exports.$Enums.TicketRelationType = {
+  DUPLICATES: 'DUPLICATES',
+  RELATED: 'RELATED',
+  BLOCKS: 'BLOCKS',
+  PARENT_CHILD: 'PARENT_CHILD',
+  INCIDENT_LINK: 'INCIDENT_LINK'
+};
+
 exports.Prisma.ModelName = {
   Company: 'Company',
   User: 'User',
   AccessRole: 'AccessRole',
   AccessRolePermission: 'AccessRolePermission',
+  SupportDepartment: 'SupportDepartment',
+  SupportQueueRole: 'SupportQueueRole',
+  TicketCategory: 'TicketCategory',
+  Ticket: 'Ticket',
+  TicketComment: 'TicketComment',
+  TicketAttachment: 'TicketAttachment',
+  TicketActivity: 'TicketActivity',
+  TicketWatcher: 'TicketWatcher',
+  TicketAssignment: 'TicketAssignment',
+  TicketRelationship: 'TicketRelationship',
+  AiJob: 'AiJob',
   SalaryStructure: 'SalaryStructure',
   Payslip: 'Payslip',
   Profile: 'Profile',
