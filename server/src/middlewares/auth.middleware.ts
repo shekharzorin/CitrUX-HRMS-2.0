@@ -86,3 +86,22 @@ export const requirePermission = (permission: Permission) => {
         }
     };
 };
+
+/** Allows the request if the user holds ANY of the given permissions. */
+export const requireAnyPermission = (permissions: Permission[]) => {
+    return async (req: AuthRequest, res: Response, next: NextFunction) => {
+        if (!req.user) {
+            return res.status(401).json({ message: 'Access Denied' });
+        }
+        try {
+            for (const permission of permissions) {
+                if (await RoleService.hasPermission(req.user, permission)) {
+                    return next();
+                }
+            }
+            return res.status(403).json({ message: `Forbidden: requires one of ${permissions.join(', ')}` });
+        } catch (err) {
+            next(err);
+        }
+    };
+};

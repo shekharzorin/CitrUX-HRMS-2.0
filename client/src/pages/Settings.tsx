@@ -44,6 +44,8 @@ const Settings: React.FC = () => {
     const [leaves, setLeaves] = useState<any[]>([]);
     const [holidays, setHolidays] = useState<any[]>([]);
     const [newLeave, setNewLeave] = useState({ name: '', code: '', daysPerYear: 12, carryForward: false });
+    const [leaveAccrualMode, setLeaveAccrualMode] = useState('MANUAL');
+    const [savingAccrual, setSavingAccrual] = useState(false);
     const [newHoliday, setNewHoliday] = useState({ name: '', date: '', type: 'Public' });
 
     // Modal State
@@ -102,6 +104,7 @@ const Settings: React.FC = () => {
                     padding: data['EMP_ID_PADDING'] || '4'
                 });
                 setAiProvider(data['ai_provider'] || 'groq');
+                if (data['leaveAccrualMode']) setLeaveAccrualMode(data['leaveAccrualMode']);
                 setLogoConfig({
                     maxSizeMB: Number(data['LOGO_MAX_SIZE_MB']) || 2,
                     aspectRatio: Number(data['LOGO_ASPECT_RATIO']) || 1
@@ -174,6 +177,18 @@ const Settings: React.FC = () => {
         } catch (error: any) {
             console.error(error);
             alert(error.message || 'Failed to update password');
+        }
+    };
+
+    const handleSaveAccrual = async () => {
+        setSavingAccrual(true);
+        try {
+            await api.post('/settings', { settings: { leaveAccrualMode } });
+            window.dispatchEvent(new CustomEvent('app:toast', { detail: { message: 'Leave accrual policy saved', type: 'success' } }));
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setSavingAccrual(false);
         }
     };
 
@@ -647,6 +662,21 @@ const Settings: React.FC = () => {
 
                 {activeTab === 'leaves' && (
                     <div className="space-y-6 animate-fade-in">
+                        <div className="glass-panel p-6 md:p-8">
+                            <h2 className="text-lg font-bold mb-2 text-slate-800 dark:text-white">Leave Accrual Policy</h2>
+                            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">How leave balances are credited automatically for this company.</p>
+                            <div className="flex flex-col sm:flex-row sm:items-end gap-4">
+                                <div className="flex-1 max-w-xs">
+                                    <label htmlFor="leaveAccrualMode" className="form-label">Accrual Mode</label>
+                                    <select id="leaveAccrualMode" className="input-field" value={leaveAccrualMode} onChange={e => setLeaveAccrualMode(e.target.value)} title="Leave accrual mode">
+                                        <option value="MANUAL">Manual — no automatic crediting</option>
+                                        <option value="MONTHLY">Monthly — credit days/12 on the 1st</option>
+                                        <option value="ANNUAL">Annual — credit full days on Jan 1</option>
+                                    </select>
+                                </div>
+                                <Button onClick={handleSaveAccrual} disabled={savingAccrual}>{savingAccrual ? 'Saving…' : 'Save Policy'}</Button>
+                            </div>
+                        </div>
                         <div className="glass-panel p-6 md:p-8">
                             <h2 className="text-lg font-bold mb-6 text-slate-800 dark:text-white">Leave Types Configuration</h2>
                             <form onSubmit={handleCreateLeave} className="grid grid-cols-1 md:grid-cols-2 gap-6">

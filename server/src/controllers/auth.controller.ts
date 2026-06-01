@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import logger from '../utils/logger';
 import { AuthRequest } from '../middlewares/auth.middleware';
+import { RoleService } from '../services/role.service';
 
 function isDbConnectionError(err: any): boolean {
     if (err instanceof Prisma.PrismaClientInitializationError) return true;
@@ -71,7 +72,12 @@ export const login = async (req: Request, res: Response) => {
 
         const { passwordHash, ...userData } = user;
 
-        res.json({ token, user: userData });
+        // Effective permissions so the client can gate UI by capability, not role name.
+        const permissions = await RoleService.getEffectivePermissions({
+            accessRoleId: user.accessRoleId, role: user.role, companyId: user.companyId,
+        });
+
+        res.json({ token, user: { ...userData, permissions } });
     } catch (error: any) {
         logger.error(`Login Error: ${error.message}`, { stack: error.stack });
         if (isDbConnectionError(error)) {
@@ -92,7 +98,10 @@ export const getMe = async (req: AuthRequest, res: Response) => {
         ) as any;
         if (!user) return res.status(404).json({ message: 'User not found' });
         const { passwordHash, ...userData } = user;
-        res.json(userData);
+        const permissions = await RoleService.getEffectivePermissions({
+            accessRoleId: user.accessRoleId, role: user.role, companyId: user.companyId,
+        });
+        res.json({ ...userData, permissions });
     } catch (error: any) {
         logger.error(`GetMe Error: ${error.message}`);
         if (isDbConnectionError(error)) {

@@ -19,6 +19,8 @@ export interface User {
         faviconUrl?: string;
         slogan?: string;
     };
+    /** RBAC v2: the user's effective permission strings (from login / /auth/me). */
+    permissions?: string[];
 }
 
 
@@ -28,6 +30,7 @@ interface AuthContextType {
     login: (token: string, user: User) => void;
     logout: () => void;
     updateUser: (user: User) => void;
+    hasPermission: (permission: string) => boolean;
     isAuthenticated: boolean;
     isLoading: boolean;
 }
@@ -68,11 +71,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const updateUser = (updatedUser: User) => {
         try {
             if (updatedUser.role) updatedUser.role = updatedUser.role.toUpperCase();
+            // Preserve permissions if the update payload doesn't include them
+            // (e.g. a self profile-save via PUT /users/:id returns no permissions).
+            if (!updatedUser.permissions && user?.permissions) {
+                updatedUser.permissions = user.permissions;
+            }
             localStorage.setItem('user', JSON.stringify(updatedUser));
             setUser(updatedUser);
         } catch (error) {
             console.error("Update user failed", error);
         }
+    };
+
+    // Capability check used to gate UI. SUPER_ADMIN implicitly has everything.
+    const hasPermission = (permission: string): boolean => {
+        if (!user) return false;
+        if (user.role === 'SUPER_ADMIN') return true;
+        return user.permissions?.includes(permission) ?? false;
     };
 
     // Initial Bootstrap
@@ -199,7 +214,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout, updateUser, isAuthenticated: !!token, isLoading }}>
+        <AuthContext.Provider value={{ user, token, login, logout, updateUser, hasPermission, isAuthenticated: !!token, isLoading }}>
             {children}
         </AuthContext.Provider>
     );

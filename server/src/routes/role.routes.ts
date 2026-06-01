@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticateToken, requirePermission } from '../middlewares/auth.middleware';
+import { authenticateToken, requirePermission, requireAnyPermission } from '../middlewares/auth.middleware';
 import { validate } from '../middlewares/validate.middleware';
 import { createRoleSchema, updateRoleSchema, assignRoleSchema } from '../validators/schemas';
 import {
@@ -15,9 +15,10 @@ const router = Router();
 
 router.use(authenticateToken);
 
-// Permission catalog + role management (gated by MANAGE_ROLES).
-router.get('/catalog', requirePermission('MANAGE_ROLES'), getPermissionCatalog);
-router.get('/', requirePermission('MANAGE_ROLES'), getRoles);
+// Listing roles/catalog is allowed for role managers AND user managers (the
+// latter need it to assign roles to users from the Edit User screen).
+router.get('/catalog', requireAnyPermission(['MANAGE_ROLES', 'MANAGE_USERS']), getPermissionCatalog);
+router.get('/', requireAnyPermission(['MANAGE_ROLES', 'MANAGE_USERS']), getRoles);
 router.post('/', requirePermission('MANAGE_ROLES'), validate({ body: createRoleSchema }), createRole);
 
 // Assigning a user to a role is a user-management action (+ escalation guard in the controller).

@@ -35,7 +35,7 @@ const NavItem = ({ to, icon, label, precise = false, collapsed, isMobile, onClos
 };
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { user, logout } = useAuth();
+    const { user, logout, hasPermission } = useAuth();
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -185,7 +185,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <SidebarGroup title={(!collapsed || isMobile) ? "Finance" : ""}>
                     <NavItem to="/expenses" icon="expenses" label="Expenses" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                     <NavItem to="/payslips" icon="payroll" label="My Payslips" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
-                    {['ADMIN', 'HR', 'SUPER_ADMIN'].includes(user?.role || '') && (
+                    {hasPermission('MANAGE_PAYROLL') && (
                         <NavItem to="/admin/payroll" icon="payroll" label="Run Payroll" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                     )}
                 </SidebarGroup>
@@ -193,10 +193,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <SidebarGroup title={(!collapsed || isMobile) ? "Management" : ""}>
                     <NavItem to="/analytics" icon="analytics" label="Insights" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                     <NavItem to="/settings" icon="settings" label="Settings" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
-                    {['ADMIN', 'SUPER_ADMIN'].includes(user?.role || '') && (
+                    {hasPermission('MANAGE_ROLES') && (
                         <NavItem to="/admin/roles" icon="employees" label="Roles & Permissions" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                     )}
-                    {['ADMIN', 'SUPER_ADMIN'].includes(user?.role || '') && (
+                    {hasPermission('VIEW_SYSTEM_HEALTH') && (
                         <NavItem to="/admin/system-health" icon="bolt" label="System Health" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                     )}
                 </SidebarGroup>

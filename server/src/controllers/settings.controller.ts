@@ -23,6 +23,7 @@ export const getSettings = async (req: AuthRequest, res: Response) => {
                 if (company.name) settingsMap['company_name'] = company.name;
                 if (company.logoUrl) settingsMap['company_logo'] = company.logoUrl;
                 if (company.faviconUrl) settingsMap['company_favicon'] = company.faviconUrl;
+                settingsMap['leaveAccrualMode'] = company.leaveAccrualMode || 'MANUAL';
             }
         }
 
@@ -82,6 +83,13 @@ export const updateSettings = async (req: AuthRequest, res: Response) => {
             if (settings['company_name']) companyData.name = settings['company_name'];
             if (settings['company_logo']) companyData.logoUrl = settings['company_logo'];
             if (settings['company_favicon']) companyData.faviconUrl = settings['company_favicon'];
+            if (settings['leaveAccrualMode'] !== undefined) {
+                const VALID = ['MANUAL', 'MONTHLY', 'ANNUAL'];
+                if (!VALID.includes(settings['leaveAccrualMode'])) {
+                    return res.status(400).json({ message: `leaveAccrualMode must be one of ${VALID.join(', ')}` });
+                }
+                companyData.leaveAccrualMode = settings['leaveAccrualMode'];
+            }
 
             if (Object.keys(companyData).length > 0) {
                 await prisma.company.update({

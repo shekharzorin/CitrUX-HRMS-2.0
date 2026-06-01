@@ -14,7 +14,7 @@ const EditUser: React.FC = () => {
         // Basic Info
         firstName: '', lastName: '', email: '', phone: '', employeeId: '',
         // Work Info
-        designation: '', role: 'EMPLOYEE', managerId: '', shiftId: '', joiningDate: '', branchId: '', departmentId: '', employmentType: 'FULL_TIME',
+        designation: '', role: 'EMPLOYEE', accessRoleId: '', managerId: '', shiftId: '', joiningDate: '', branchId: '', departmentId: '', employmentType: 'FULL_TIME',
         // Personal Info
         dob: '', nationality: '', bloodGroup: '', gender: '', maritalStatus: '',
         // Address
@@ -26,6 +26,7 @@ const EditUser: React.FC = () => {
     });
 
     const [jobRoles, setJobRoles] = useState<any[]>([]);
+    const [accessRoles, setAccessRoles] = useState<any[]>([]);
     const [managers, setManagers] = useState<any[]>([]);
     const [shifts, setShifts] = useState<any[]>([]);
     const [branches, setBranches] = useState<any[]>([]);
@@ -35,15 +36,18 @@ const EditUser: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [rolesRes, usersRes, shiftsRes, branchesRes, deptsRes] = await Promise.all([
+                const [rolesRes, usersRes, shiftsRes, branchesRes, deptsRes, accessRolesRes] = await Promise.all([
                     api.get<any[]>('/job-roles'),
                     api.get<any[]>('/users'),
                     api.get<any[]>('/shifts'),
                     api.get<any[]>('/organization/branches'),
-                    api.get<any[]>('/organization/departments')
+                    api.get<any[]>('/organization/departments'),
+                    // Tolerate 403 (e.g. caller without role-list access) — just hide the picker.
+                    api.get<any[]>('/roles', { silent: true }).catch(() => [])
                 ]);
 
                 if (rolesRes) setJobRoles(rolesRes);
+                if (accessRolesRes) setAccessRoles(accessRolesRes);
                 if (usersRes && id) {
                     setManagers(usersRes.filter((u: any) => u.id !== id));
                 }
@@ -66,6 +70,7 @@ const EditUser: React.FC = () => {
                     
                     designation: data.profile?.designation || '',
                     role: data.role || 'EMPLOYEE',
+                    accessRoleId: data.accessRoleId || '',
                     managerId: data.managerId || '',
                     shiftId: data.shift?.id || '',
                     joiningDate: data.profile?.dateOfJoining ? new Date(data.profile.dateOfJoining).toISOString().split('T')[0] : '',
@@ -131,6 +136,11 @@ const EditUser: React.FC = () => {
         setIsSubmitting(true);
         try {
             const updatedUser = await api.put<User>(`/users/${id}`, formData);
+
+            // Assign the per-tenant access role (separate endpoint / permission).
+            if (accessRoles.length > 0 && formData.accessRoleId) {
+                await api.put(`/roles/assign/${id}`, { roleId: formData.accessRoleId }).catch((e) => console.error('Role assign failed', e));
+            }
 
             if (user && id === user.id && updateUser) {
                 if (updatedUser && updatedUser.id) {
@@ -216,6 +226,16 @@ const EditUser: React.FC = () => {
                                     <option value="ADMIN">Admin</option>
                                 </select>
                             </div>
+                            {accessRoles.length > 0 && (
+                                <div>
+                                    <label htmlFor="accessRoleId" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Access Role (permissions)</label>
+                                    <select id="accessRoleId" name="accessRoleId" className="input-field" onChange={handleChange} value={formData.accessRoleId} title="Select Access Role">
+                                        <option value="">No access role</option>
+                                        {accessRoles.map((r: any) => <option key={r.id} value={r.id}>{r.name}</option>)}
+                                    </select>
+                                    <p className="text-xs text-slate-400 mt-1">Determines what this user can actually do. Manage roles under Roles &amp; Permissions.</p>
+                                </div>
+                            )}
                             <div>
                                 <label htmlFor="managerId" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Reporting Manager</label>
                                 <select id="managerId" name="managerId" className="input-field" onChange={handleChange} value={formData.managerId} title="Select Reporting Manager">
