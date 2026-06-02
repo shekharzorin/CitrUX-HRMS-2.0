@@ -47,6 +47,14 @@ export const PERMISSIONS = [
     'MANAGE_RECRUITMENT',
     // Platform observability
     'VIEW_SYSTEM_HEALTH',
+    // Support Desk (Phase 1)
+    'CREATE_TICKETS',            // raise a ticket (employees)
+    'VIEW_TICKETS',              // view own tickets
+    'VIEW_ALL_TICKETS',          // view the company ticket queue (agent)
+    'MANAGE_TICKETS',            // assign, change status, edit, internal notes
+    'MANAGE_SUPPORT_DEPARTMENTS',// CRUD support queues + visibility/ownership
+    'MANAGE_TICKET_CATEGORIES',  // CRUD categories under a queue
+    'DELETE_TICKETS',            // soft-delete/restore tickets (admin)
 ] as const;
 
 export type Permission = typeof PERMISSIONS[number];
@@ -69,6 +77,9 @@ export class PermissionService {
             'APPROVE_EXPENSES', 'MANAGE_EXPENSE_CONFIG', 'MANAGE_HOLIDAYS', 'MANAGE_JOB_ROLES',
             'MANAGE_ONBOARDING', 'MANAGE_OFFBOARDING', 'MANAGE_ORG_STRUCTURE', 'MANAGE_SHIFTS',
             'ISSUE_CERTIFICATES', 'MANAGE_RECRUITMENT', 'VIEW_SYSTEM_HEALTH',
+            // Support Desk: full control
+            'CREATE_TICKETS', 'VIEW_TICKETS', 'VIEW_ALL_TICKETS', 'MANAGE_TICKETS',
+            'MANAGE_SUPPORT_DEPARTMENTS', 'MANAGE_TICKET_CATEGORIES', 'DELETE_TICKETS',
         ],
         // People-ops: no company config/payroll (distinct from ADMIN).
         HR: [
@@ -78,12 +89,18 @@ export class PermissionService {
             'APPROVE_EXPENSES', 'MANAGE_HOLIDAYS', 'MANAGE_JOB_ROLES', 'MANAGE_ONBOARDING',
             'MANAGE_OFFBOARDING', 'MANAGE_ORG_STRUCTURE', 'MANAGE_SHIFTS', 'ISSUE_CERTIFICATES',
             'MANAGE_RECRUITMENT',
+            // Support Desk: agent + category management (no queue admin / delete)
+            'CREATE_TICKETS', 'VIEW_TICKETS', 'VIEW_ALL_TICKETS', 'MANAGE_TICKETS',
+            'MANAGE_TICKET_CATEGORIES',
         ],
         MANAGER: [
             'APPROVE_LEAVES', 'APPROVE_ATTENDANCE', 'APPROVE_TIMESHEETS', 'APPROVE_EXPENSES',
             'VIEW_USER_DOCUMENTS', 'ASSIGN_TASKS', 'VIEW_REPORTS', 'SUBMIT_APPRAISAL',
+            // Support Desk: team agent
+            'CREATE_TICKETS', 'VIEW_TICKETS', 'VIEW_ALL_TICKETS', 'MANAGE_TICKETS',
         ],
-        EMPLOYEE: [],
+        // Support Desk: every employee can raise + track their own tickets.
+        EMPLOYEE: ['CREATE_TICKETS', 'VIEW_TICKETS'],
     };
 
     /** Check if a legacy role has a permission (static map). */
