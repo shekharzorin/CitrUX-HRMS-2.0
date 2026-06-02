@@ -167,6 +167,27 @@ export class SupportDepartmentService {
         return queue;
     }
 
+    /**
+     * Assert the caller may file a ticket into this queue (same company, active,
+     * and visible to them). Returns the queue. Reused by ticket creation.
+     */
+    static async assertUsable(user: JwtPayload, supportDepartmentId: string) {
+        const companyId = requireCompany(user);
+        const queue = await prisma.supportDepartment.findUnique({
+            where: { id: supportDepartmentId },
+            include: { visibleToRoles: { select: { accessRoleId: true } } },
+        });
+        if (!queue || queue.deletedAt || !queue.isActive || queue.companyId !== companyId) {
+            throw new AppError('Support queue not found', 404);
+        }
+        if (await RoleService.hasPermission(user, 'MANAGE_SUPPORT_DEPARTMENTS')) return queue;
+        if (queue.visibility === 'PUBLIC') return queue;
+        if (queue.visibility === 'INTERNAL' && (await RoleService.hasPermission(user, 'VIEW_ALL_TICKETS'))) return queue;
+        if (queue.visibility === 'RESTRICTED' && user.accessRoleId
+            && queue.visibleToRoles.some((r) => r.accessRoleId === user.accessRoleId)) return queue;
+        throw new AppError('You cannot file into this queue', 403);
+    }
+
     // ── helpers ──────────────────────────────────────────────────────────────
     private static async getOwned(companyId: string, id: string, opts: { includeDeleted?: boolean } = {}) {
         const queue = await prisma.supportDepartment.findUnique({ where: { id } });
