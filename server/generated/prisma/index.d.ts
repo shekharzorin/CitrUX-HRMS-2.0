@@ -13672,6 +13672,7 @@ export namespace Prisma {
     icon: string | null
     color: string | null
     isActive: boolean | null
+    isSystem: boolean | null
     defaultAssigneeId: string | null
     visibility: $Enums.SupportQueueVisibility | null
     sortOrder: number | null
@@ -13688,6 +13689,7 @@ export namespace Prisma {
     icon: string | null
     color: string | null
     isActive: boolean | null
+    isSystem: boolean | null
     defaultAssigneeId: string | null
     visibility: $Enums.SupportQueueVisibility | null
     sortOrder: number | null
@@ -13704,6 +13706,7 @@ export namespace Prisma {
     icon: number
     color: number
     isActive: number
+    isSystem: number
     defaultAssigneeId: number
     visibility: number
     sortOrder: number
@@ -13730,6 +13733,7 @@ export namespace Prisma {
     icon?: true
     color?: true
     isActive?: true
+    isSystem?: true
     defaultAssigneeId?: true
     visibility?: true
     sortOrder?: true
@@ -13746,6 +13750,7 @@ export namespace Prisma {
     icon?: true
     color?: true
     isActive?: true
+    isSystem?: true
     defaultAssigneeId?: true
     visibility?: true
     sortOrder?: true
@@ -13762,6 +13767,7 @@ export namespace Prisma {
     icon?: true
     color?: true
     isActive?: true
+    isSystem?: true
     defaultAssigneeId?: true
     visibility?: true
     sortOrder?: true
@@ -13865,6 +13871,7 @@ export namespace Prisma {
     icon: string | null
     color: string | null
     isActive: boolean
+    isSystem: boolean
     defaultAssigneeId: string | null
     visibility: $Enums.SupportQueueVisibility
     sortOrder: number
@@ -13900,6 +13907,7 @@ export namespace Prisma {
     icon?: boolean
     color?: boolean
     isActive?: boolean
+    isSystem?: boolean
     defaultAssigneeId?: boolean
     visibility?: boolean
     sortOrder?: boolean
@@ -13922,6 +13930,7 @@ export namespace Prisma {
     icon?: boolean
     color?: boolean
     isActive?: boolean
+    isSystem?: boolean
     defaultAssigneeId?: boolean
     visibility?: boolean
     sortOrder?: boolean
@@ -13940,6 +13949,7 @@ export namespace Prisma {
     icon?: boolean
     color?: boolean
     isActive?: boolean
+    isSystem?: boolean
     defaultAssigneeId?: boolean
     visibility?: boolean
     sortOrder?: boolean
@@ -13958,6 +13968,7 @@ export namespace Prisma {
     icon?: boolean
     color?: boolean
     isActive?: boolean
+    isSystem?: boolean
     defaultAssigneeId?: boolean
     visibility?: boolean
     sortOrder?: boolean
@@ -13966,7 +13977,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type SupportDepartmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "name" | "description" | "icon" | "color" | "isActive" | "defaultAssigneeId" | "visibility" | "sortOrder" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["supportDepartment"]>
+  export type SupportDepartmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "name" | "description" | "icon" | "color" | "isActive" | "isSystem" | "defaultAssigneeId" | "visibility" | "sortOrder" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["supportDepartment"]>
   export type SupportDepartmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     defaultAssignee?: boolean | SupportDepartment$defaultAssigneeArgs<ExtArgs>
@@ -14001,6 +14012,7 @@ export namespace Prisma {
       icon: string | null
       color: string | null
       isActive: boolean
+      isSystem: boolean
       defaultAssigneeId: string | null
       visibility: $Enums.SupportQueueVisibility
       sortOrder: number
@@ -14442,6 +14454,7 @@ export namespace Prisma {
     readonly icon: FieldRef<"SupportDepartment", 'String'>
     readonly color: FieldRef<"SupportDepartment", 'String'>
     readonly isActive: FieldRef<"SupportDepartment", 'Boolean'>
+    readonly isSystem: FieldRef<"SupportDepartment", 'Boolean'>
     readonly defaultAssigneeId: FieldRef<"SupportDepartment", 'String'>
     readonly visibility: FieldRef<"SupportDepartment", 'SupportQueueVisibility'>
     readonly sortOrder: FieldRef<"SupportDepartment", 'Int'>
@@ -78335,6 +78348,7 @@ export namespace Prisma {
     icon: 'icon',
     color: 'color',
     isActive: 'isActive',
+    isSystem: 'isSystem',
     defaultAssigneeId: 'defaultAssigneeId',
     visibility: 'visibility',
     sortOrder: 'sortOrder',
@@ -79997,6 +80011,7 @@ export namespace Prisma {
     icon?: StringNullableFilter<"SupportDepartment"> | string | null
     color?: StringNullableFilter<"SupportDepartment"> | string | null
     isActive?: BoolFilter<"SupportDepartment"> | boolean
+    isSystem?: BoolFilter<"SupportDepartment"> | boolean
     defaultAssigneeId?: StringNullableFilter<"SupportDepartment"> | string | null
     visibility?: EnumSupportQueueVisibilityFilter<"SupportDepartment"> | $Enums.SupportQueueVisibility
     sortOrder?: IntFilter<"SupportDepartment"> | number
@@ -80018,6 +80033,7 @@ export namespace Prisma {
     icon?: SortOrderInput | SortOrder
     color?: SortOrderInput | SortOrder
     isActive?: SortOrder
+    isSystem?: SortOrder
     defaultAssigneeId?: SortOrderInput | SortOrder
     visibility?: SortOrder
     sortOrder?: SortOrder
@@ -80043,6 +80059,7 @@ export namespace Prisma {
     icon?: StringNullableFilter<"SupportDepartment"> | string | null
     color?: StringNullableFilter<"SupportDepartment"> | string | null
     isActive?: BoolFilter<"SupportDepartment"> | boolean
+    isSystem?: BoolFilter<"SupportDepartment"> | boolean
     defaultAssigneeId?: StringNullableFilter<"SupportDepartment"> | string | null
     visibility?: EnumSupportQueueVisibilityFilter<"SupportDepartment"> | $Enums.SupportQueueVisibility
     sortOrder?: IntFilter<"SupportDepartment"> | number
@@ -80064,6 +80081,7 @@ export namespace Prisma {
     icon?: SortOrderInput | SortOrder
     color?: SortOrderInput | SortOrder
     isActive?: SortOrder
+    isSystem?: SortOrder
     defaultAssigneeId?: SortOrderInput | SortOrder
     visibility?: SortOrder
     sortOrder?: SortOrder
@@ -80088,6 +80106,7 @@ export namespace Prisma {
     icon?: StringNullableWithAggregatesFilter<"SupportDepartment"> | string | null
     color?: StringNullableWithAggregatesFilter<"SupportDepartment"> | string | null
     isActive?: BoolWithAggregatesFilter<"SupportDepartment"> | boolean
+    isSystem?: BoolWithAggregatesFilter<"SupportDepartment"> | boolean
     defaultAssigneeId?: StringNullableWithAggregatesFilter<"SupportDepartment"> | string | null
     visibility?: EnumSupportQueueVisibilityWithAggregatesFilter<"SupportDepartment"> | $Enums.SupportQueueVisibility
     sortOrder?: IntWithAggregatesFilter<"SupportDepartment"> | number
@@ -85313,6 +85332,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
     deletedAt?: Date | string | null
@@ -85333,6 +85353,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     defaultAssigneeId?: string | null
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
@@ -85351,6 +85372,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -85371,6 +85393,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     defaultAssigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -85390,6 +85413,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     defaultAssigneeId?: string | null
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
@@ -85405,6 +85429,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -85420,6 +85445,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     defaultAssigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -91261,6 +91287,7 @@ export namespace Prisma {
     icon?: SortOrder
     color?: SortOrder
     isActive?: SortOrder
+    isSystem?: SortOrder
     defaultAssigneeId?: SortOrder
     visibility?: SortOrder
     sortOrder?: SortOrder
@@ -91281,6 +91308,7 @@ export namespace Prisma {
     icon?: SortOrder
     color?: SortOrder
     isActive?: SortOrder
+    isSystem?: SortOrder
     defaultAssigneeId?: SortOrder
     visibility?: SortOrder
     sortOrder?: SortOrder
@@ -91297,6 +91325,7 @@ export namespace Prisma {
     icon?: SortOrder
     color?: SortOrder
     isActive?: SortOrder
+    isSystem?: SortOrder
     defaultAssigneeId?: SortOrder
     visibility?: SortOrder
     sortOrder?: SortOrder
@@ -100742,6 +100771,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
     deletedAt?: Date | string | null
@@ -100760,6 +100790,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     defaultAssigneeId?: string | null
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
@@ -101440,6 +101471,7 @@ export namespace Prisma {
     icon?: StringNullableFilter<"SupportDepartment"> | string | null
     color?: StringNullableFilter<"SupportDepartment"> | string | null
     isActive?: BoolFilter<"SupportDepartment"> | boolean
+    isSystem?: BoolFilter<"SupportDepartment"> | boolean
     defaultAssigneeId?: StringNullableFilter<"SupportDepartment"> | string | null
     visibility?: EnumSupportQueueVisibilityFilter<"SupportDepartment"> | $Enums.SupportQueueVisibility
     sortOrder?: IntFilter<"SupportDepartment"> | number
@@ -103253,6 +103285,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
     deletedAt?: Date | string | null
@@ -103272,6 +103305,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
     deletedAt?: Date | string | null
@@ -105718,6 +105752,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
     deletedAt?: Date | string | null
@@ -105737,6 +105772,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     defaultAssigneeId?: string | null
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
@@ -105801,6 +105837,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -105820,6 +105857,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     defaultAssigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -105949,6 +105987,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
     deletedAt?: Date | string | null
@@ -105968,6 +106007,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     defaultAssigneeId?: string | null
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
@@ -106166,6 +106206,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -106185,6 +106226,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     defaultAssigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -106515,6 +106557,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
     deletedAt?: Date | string | null
@@ -106534,6 +106577,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     defaultAssigneeId?: string | null
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
@@ -107147,6 +107191,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -107166,6 +107211,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     defaultAssigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -121909,6 +121955,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     defaultAssigneeId?: string | null
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
@@ -122680,6 +122727,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -122698,6 +122746,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     defaultAssigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -122716,6 +122765,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     defaultAssigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -123154,6 +123204,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     isActive?: boolean
+    isSystem?: boolean
     visibility?: $Enums.SupportQueueVisibility
     sortOrder?: number
     deletedAt?: Date | string | null
@@ -124463,6 +124514,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -124482,6 +124534,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -124500,6 +124553,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     visibility?: EnumSupportQueueVisibilityFieldUpdateOperationsInput | $Enums.SupportQueueVisibility
     sortOrder?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

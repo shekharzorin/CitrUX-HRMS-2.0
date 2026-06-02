@@ -180,6 +180,7 @@ exports.Prisma.SupportDepartmentScalarFieldEnum = {
   icon: 'icon',
   color: 'color',
   isActive: 'isActive',
+  isSystem: 'isSystem',
   defaultAssigneeId: 'defaultAssigneeId',
   visibility: 'visibility',
   sortOrder: 'sortOrder',

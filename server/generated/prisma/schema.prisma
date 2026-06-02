@@ -255,6 +255,7 @@ model SupportDepartment {
   icon              String?
   color             String?
   isActive          Boolean                @default(true)
+  isSystem          Boolean                @default(false) // seeded default queue; cannot be deleted
   defaultAssigneeId String?
   visibility        SupportQueueVisibility @default(PUBLIC)
   sortOrder         Int                    @default(0)
