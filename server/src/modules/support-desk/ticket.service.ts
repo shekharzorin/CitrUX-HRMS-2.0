@@ -9,6 +9,8 @@ import { TicketActivityService } from './activity.service';
 import { canTransition, isReopen, TicketStatusValue } from './ticket-status';
 import { SupportNotifier } from './notifications';
 import { serializeTicketForEmployee, serializeTicketForAgent } from './serializers';
+import { featureFlags } from '../../shared/feature-flags';
+import { enqueueAiRoute } from '../../queues/supportQueue';
 
 interface CreateTicketInput {
     subject: string;
@@ -74,6 +76,10 @@ export class TicketService {
 
         const ticket = await this.createWithNumber(companyId, user.userId, input, uploaded);
         SupportNotifier.onCreated(ticket); // fire-and-forget: notify queue agents
+        // Async AI routing — never blocks creation; only when the flag is enabled.
+        if (await featureFlags.isEnabled('SUPPORT_AI_CATEGORIZATION', companyId)) {
+            enqueueAiRoute(ticket.id).catch(() => {});
+        }
         return serializeTicketForEmployee(ticket);
     }
 

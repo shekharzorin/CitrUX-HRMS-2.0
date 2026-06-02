@@ -6,6 +6,9 @@ import { authorizeRole, authenticateToken } from './middlewares/auth.middleware'
 import { tracingMiddleware } from './middlewares/tracing.middleware';
 import { requireFeature } from './shared/feature-flags';
 import supportDeskRouter from './modules/support-desk';
+import { supportQueue } from './queues/supportQueue';
+// Instantiates the BullMQ worker that processes support AI routing jobs.
+import { aiRouteWorker } from './modules/support-desk/ai-route.worker';
 import { serverAdapter } from './queues/bull-board';
 import { initSchedulers, attendanceQueue, payslipQueue, leaveQueue } from './queues/scheduler';
 // Importing the workers instantiates the BullMQ Worker instances so the
@@ -266,9 +269,11 @@ const gracefulShutdown = async (signal: string) => {
             attendanceWorker.close(),
             payslipWorker.close(),
             leaveWorker.close(),
+            aiRouteWorker.close(),
             attendanceQueue.close(),
             payslipQueue.close(),
             leaveQueue.close(),
+            supportQueue.close(),
         ]);
         logger.info('[Shutdown] BullMQ workers and queues closed');
 
