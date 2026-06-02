@@ -21,6 +21,8 @@ export interface User {
     };
     /** RBAC v2: the user's effective permission strings (from login / /auth/me). */
     permissions?: string[];
+    /** Feature flags enabled for this user's company (from login / /auth/me). */
+    features?: Record<string, boolean>;
 }
 
 
@@ -31,6 +33,7 @@ interface AuthContextType {
     logout: () => void;
     updateUser: (user: User) => void;
     hasPermission: (permission: string) => boolean;
+    hasFeature: (flag: string) => boolean;
     isAuthenticated: boolean;
     isLoading: boolean;
 }
@@ -76,6 +79,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             if (!updatedUser.permissions && user?.permissions) {
                 updatedUser.permissions = user.permissions;
             }
+            if (!updatedUser.features && user?.features) {
+                updatedUser.features = user.features;
+            }
             localStorage.setItem('user', JSON.stringify(updatedUser));
             setUser(updatedUser);
         } catch (error) {
@@ -89,6 +95,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (user.role === 'SUPER_ADMIN') return true;
         return user.permissions?.includes(permission) ?? false;
     };
+
+    // Feature-flag check used to gate modules/nav (safe default: off).
+    const hasFeature = (flag: string): boolean => user?.features?.[flag] ?? false;
 
     // Initial Bootstrap
     useEffect(() => {
@@ -214,7 +223,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout, updateUser, hasPermission, isAuthenticated: !!token, isLoading }}>
+        <AuthContext.Provider value={{ user, token, login, logout, updateUser, hasPermission, hasFeature, isAuthenticated: !!token, isLoading }}>
             {children}
         </AuthContext.Provider>
     );

@@ -6,6 +6,7 @@ import crypto from 'crypto';
 import logger from '../utils/logger';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { RoleService } from '../services/role.service';
+import { featureFlags } from '../shared/feature-flags';
 
 function isDbConnectionError(err: any): boolean {
     if (err instanceof Prisma.PrismaClientInitializationError) return true;
@@ -76,8 +77,9 @@ export const login = async (req: Request, res: Response) => {
         const permissions = await RoleService.getEffectivePermissions({
             accessRoleId: user.accessRoleId, role: user.role, companyId: user.companyId,
         });
+        const features = await featureFlags.getEnabledFlags(user.companyId);
 
-        res.json({ token, user: { ...userData, permissions } });
+        res.json({ token, user: { ...userData, permissions, features } });
     } catch (error: any) {
         logger.error(`Login Error: ${error.message}`, { stack: error.stack });
         if (isDbConnectionError(error)) {
@@ -101,7 +103,8 @@ export const getMe = async (req: AuthRequest, res: Response) => {
         const permissions = await RoleService.getEffectivePermissions({
             accessRoleId: user.accessRoleId, role: user.role, companyId: user.companyId,
         });
-        res.json({ ...userData, permissions });
+        const features = await featureFlags.getEnabledFlags(user.companyId);
+        res.json({ ...userData, permissions, features });
     } catch (error: any) {
         logger.error(`GetMe Error: ${error.message}`);
         if (isDbConnectionError(error)) {
