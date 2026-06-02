@@ -23,3 +23,28 @@ export const getTicket = async (req: AuthRequest, res: Response, next: NextFunct
         res.json(await TicketService.getById(req.user!, req.params.id));
     } catch (err) { next(err); }
 };
+
+export const changeTicketStatus = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+        res.json(await TicketService.changeStatus(req.user!, req.params.id, req.body.status, req.body.note));
+    } catch (err) { next(err); }
+};
+
+export const assignTicket = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+        res.json(await TicketService.assign(req.user!, req.params.id, req.body.assigneeId, req.body.reason));
+    } catch (err) { next(err); }
+};
+
+export const unassignTicket = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+        res.json(await TicketService.unassign(req.user!, req.params.id));
+    } catch (err) { next(err); }
+};
+
+export const assignTicketToMe = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+        res.json(await TicketService.assignToMe(req.user!, req.params.id));
+    } catch (err) { next(err); }
+};
+

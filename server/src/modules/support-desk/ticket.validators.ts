@@ -19,3 +19,18 @@ export const updateCategorySchema = z.object({
     description: z.string().nullable().optional(),
     isActive: z.boolean().optional(),
 }).passthrough();
+
+export const createCommentSchema = z.object({
+    body: z.string().min(1, 'Comment body is required'),
+    visibility: z.enum(['PUBLIC', 'INTERNAL', 'ADMIN_ONLY']).optional(),
+}).passthrough();
+
+export const changeStatusSchema = z.object({
+    status: z.enum(['OPEN', 'IN_PROGRESS', 'ON_HOLD', 'RESOLVED', 'CLOSED', 'REOPENED']),
+    note: z.string().optional(),
+}).passthrough();
+
+export const assignSchema = z.object({
+    assigneeId: z.string().min(1, 'assigneeId is required'),
+    reason: z.string().optional(),
+}).passthrough();

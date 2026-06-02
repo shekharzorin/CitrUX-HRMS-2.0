@@ -6,6 +6,9 @@ import { UploadService } from '../../services/upload.service';
 import { SupportDepartmentService } from './support-department.service';
 import { TicketCategoryService } from './ticket-category.service';
 import { TicketActivityService } from './activity.service';
+import { canTransition, isReopen, TicketStatusValue } from './ticket-status';
+import { SupportNotifier } from './notifications';
+import { serializeTicketForEmployee, serializeTicketForAgent } from './serializers';
 
 interface CreateTicketInput {
     subject: string;
@@ -36,7 +39,14 @@ const detailInclude = {
     attachments: { where: { deletedAt: null }, select: { id: true, fileName: true, url: true, fileType: true, fileSize: true } },
     requester: userSelect,
     assignee: userSelect,
-    comments: { where: { deletedAt: null }, orderBy: { createdAt: 'asc' as const } },
+    comments: {
+        where: { deletedAt: null },
+        orderBy: { createdAt: 'asc' as const },
+        include: {
+            author: { select: { id: true, profile: { select: { firstName: true, lastName: true } } } },
+            attachments: { where: { deletedAt: null } },
+        },
+    },
 };
 
 export class TicketService {
@@ -63,7 +73,8 @@ export class TicketService {
         }
 
         const ticket = await this.createWithNumber(companyId, user.userId, input, uploaded);
-        return this.serialize(ticket, { full: false });
+        SupportNotifier.onCreated(ticket); // fire-and-forget: notify queue agents
+        return serializeTicketForEmployee(ticket);
     }
 
     /** Allocate the per-company ticketNumber + create ticket/attachments/activity atomically. */
@@ -151,42 +162,111 @@ export class TicketService {
         const isParticipant = ticket.requesterId === user.userId || ticket.assigneeId === user.userId;
         if (!canViewAll && !isParticipant) throw new AppError('Access denied', 403);
 
-        // Filter comments by visibility tier.
+        return this.serializeForCaller(user, ticket);
+    }
+
+    /** POST status change with central transition rules + optimistic concurrency. */
+    static async changeStatus(user: JwtPayload, id: string, toStatus: TicketStatusValue, note?: string) {
+        const companyId = requireCompany(user);
+        const ticket = await prisma.ticket.findUnique({ where: { id } });
+        if (!ticket || ticket.deletedAt || ticket.companyId !== companyId) throw new AppError('Ticket not found', 404);
+
+        const from = ticket.status as TicketStatusValue;
+        const canManage = await RoleService.hasPermission(user, 'MANAGE_TICKETS');
+        const isRequester = ticket.requesterId === user.userId;
+        // Requesters may only reopen their own resolved/closed tickets.
+        if (!canManage && !(isRequester && isReopen(from, toStatus))) throw new AppError('Access denied', 403);
+        if (!canTransition(from, toStatus)) throw new AppError(`Cannot move ticket from ${from} to ${toStatus}`, 409);
+
+        const data: any = { status: toStatus };
+        if (toStatus === 'RESOLVED') data.resolvedAt = new Date();
+        else if (toStatus === 'CLOSED') data.closedAt = new Date();
+        else if (toStatus === 'REOPENED') { data.resolvedAt = null; data.closedAt = null; }
+
+        const updated = await prisma.$transaction(async (tx) => {
+            // Optimistic guard: only transition if status is still `from`.
+            const res = await tx.ticket.updateMany({ where: { id, status: from }, data });
+            if (res.count === 0) throw new AppError('Ticket status changed concurrently. Please retry.', 409);
+            await TicketActivityService.record(tx, {
+                ticketId: id,
+                type: isReopen(from, toStatus) ? 'REOPENED' : 'STATUS_CHANGED',
+                actorId: user.userId,
+                data: { from, to: toStatus, note: note ?? null },
+            });
+            return tx.ticket.findUnique({ where: { id }, include: detailInclude });
+        });
+        SupportNotifier.onStatusChange(updated as any, toStatus, user.userId);
+        return this.serializeForCaller(user, updated);
+    }
+
+    /** Assign a ticket to an agent (same-company + queue-aware) with history. */
+    static async assign(user: JwtPayload, id: string, assigneeId: string, reason?: string) {
+        const companyId = requireCompany(user);
+        const ticket = await prisma.ticket.findUnique({
+            where: { id },
+            include: { supportDepartment: { include: { visibleToRoles: { select: { accessRoleId: true } } } } },
+        });
+        if (!ticket || ticket.deletedAt || ticket.companyId !== companyId) throw new AppError('Ticket not found', 404);
+
+        const assignee = await prisma.user.findUnique({
+            where: { id: assigneeId },
+            select: { id: true, role: true, accessRoleId: true, companyId: true },
+        });
+        if (!assignee || assignee.companyId !== companyId) throw new AppError('Assignee must be a user in your company', 400);
+        const ctx = { userId: assignee.id, role: assignee.role, companyId: assignee.companyId, accessRoleId: assignee.accessRoleId };
+        const isAgent = (await RoleService.hasPermission(ctx, 'MANAGE_TICKETS')) || (await RoleService.hasPermission(ctx, 'VIEW_ALL_TICKETS'));
+        if (!isAgent) throw new AppError('Assignee must be a support agent', 400);
+
+        // Queue-aware: a RESTRICTED queue requires the assignee to have access.
+        const q = ticket.supportDepartment;
+        if (q && q.visibility === 'RESTRICTED') {
+            const queueAdmin = await RoleService.hasPermission(ctx, 'MANAGE_SUPPORT_DEPARTMENTS');
+            const inRoles = assignee.accessRoleId && q.visibleToRoles.some((r) => r.accessRoleId === assignee.accessRoleId);
+            if (!queueAdmin && !inRoles) throw new AppError('Assignee lacks access to this restricted queue', 400);
+        }
+
+        if (ticket.assigneeId !== assigneeId) {
+            await prisma.$transaction(async (tx) => {
+                await tx.ticketAssignment.updateMany({ where: { ticketId: id, unassignedAt: null }, data: { unassignedAt: new Date() } });
+                await tx.ticketAssignment.create({
+                    data: { ticketId: id, assignedToId: assigneeId, assignedById: user.userId, assignmentType: 'MANUAL', reason: reason ?? null },
+                });
+                await tx.ticket.update({ where: { id }, data: { assigneeId } });
+                await TicketActivityService.record(tx, { ticketId: id, type: 'ASSIGNED', actorId: user.userId, data: { assigneeId, reason: reason ?? null } });
+            });
+            SupportNotifier.onAssigned(ticket, assigneeId, user.userId);
+        }
+        return this.serializeForCaller(user, await prisma.ticket.findUnique({ where: { id }, include: detailInclude }));
+    }
+
+    static async unassign(user: JwtPayload, id: string) {
+        const companyId = requireCompany(user);
+        const ticket = await prisma.ticket.findUnique({ where: { id } });
+        if (!ticket || ticket.deletedAt || ticket.companyId !== companyId) throw new AppError('Ticket not found', 404);
+        if (ticket.assigneeId) {
+            await prisma.$transaction(async (tx) => {
+                await tx.ticketAssignment.updateMany({ where: { ticketId: id, unassignedAt: null }, data: { unassignedAt: new Date() } });
+                await tx.ticket.update({ where: { id }, data: { assigneeId: null } });
+                await TicketActivityService.record(tx, { ticketId: id, type: 'UNASSIGNED', actorId: user.userId });
+            });
+        }
+        return this.serializeForCaller(user, await prisma.ticket.findUnique({ where: { id }, include: detailInclude }));
+    }
+
+    static async assignToMe(user: JwtPayload, id: string) {
+        return this.assign(user, id, user.userId, 'Self-assigned');
+    }
+
+    /** Filter comments to the caller's visibility tier, then pick the serializer. */
+    private static async serializeForCaller(user: JwtPayload, ticket: any) {
+        const canViewAll = await RoleService.hasPermission(user, 'VIEW_ALL_TICKETS');
         const canSeeInternal = canViewAll || (await RoleService.hasPermission(user, 'MANAGE_TICKETS'));
         const canSeeAdmin = await RoleService.hasPermission(user, 'DELETE_TICKETS');
-        ticket.comments = ticket.comments.filter((c: any) =>
+        ticket.comments = (ticket.comments ?? []).filter((c: any) =>
             c.visibility === 'PUBLIC'
             || (c.visibility === 'INTERNAL' && canSeeInternal)
             || (c.visibility === 'ADMIN_ONLY' && canSeeAdmin),
         );
-
-        return this.serialize(ticket, { full: canViewAll });
-    }
-
-    /** Minimal employee payload by default; agents get the fuller shape. */
-    private static serialize(t: any, { full }: { full: boolean }) {
-        const base = {
-            id: t.id,
-            ticketNumber: t.ticketNumber,
-            subject: t.subject,
-            description: t.description,
-            status: t.status,
-            priority: t.priority,
-            createdAt: t.createdAt,
-            updatedAt: t.updatedAt,
-            supportDepartment: t.supportDepartment ?? null,
-            category: t.category ?? null,
-            attachments: t.attachments ?? [],
-            comments: t.comments ?? [],
-        };
-        if (!full) return base;
-        return {
-            ...base,
-            source: t.source,
-            aiStatus: t.aiStatus,
-            slaStatus: t.slaStatus,
-            requester: t.requester ?? null,
-            assignee: t.assignee ?? null,
-        };
+        return canViewAll ? serializeTicketForAgent(ticket) : serializeTicketForEmployee(ticket);
     }
 }
