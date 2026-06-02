@@ -2,8 +2,10 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import { authorizeRole } from './middlewares/auth.middleware';
+import { authorizeRole, authenticateToken } from './middlewares/auth.middleware';
 import { tracingMiddleware } from './middlewares/tracing.middleware';
+import { requireFeature } from './shared/feature-flags';
+import supportDeskRouter from './modules/support-desk';
 import { serverAdapter } from './queues/bull-board';
 import { initSchedulers, attendanceQueue, payslipQueue, leaveQueue } from './queues/scheduler';
 // Importing the workers instantiates the BullMQ Worker instances so the
@@ -212,6 +214,9 @@ app.use('/api/search', searchRoutes);
 app.use('/api/organization', organizationRoutes);
 app.use('/api/engagement', engagementRoutes);
 app.use('/api/roles', roleRoutes);
+// Support Desk — feature-flagged; 404 (no leakage) when SUPPORT_DESK is off.
+// requireFeature runs AFTER authenticateToken so companyId is resolved.
+app.use('/api/support', authenticateToken, requireFeature('SUPPORT_DESK'), supportDeskRouter);
 
 // Catch-all 404 for API routes
 app.use('/api', (req, res) => {
