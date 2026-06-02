@@ -38,6 +38,12 @@ import Notifications from './pages/Notifications';
 import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
 import RolesPermissions from './pages/RolesPermissions';
+import EmployeeHome from './modules/support-desk/pages/EmployeeHome';
+import NewTicket from './modules/support-desk/pages/NewTicket';
+import TicketDetail from './modules/support-desk/pages/TicketDetail';
+import AgentQueue from './modules/support-desk/pages/AgentQueue';
+import AgentConsole from './modules/support-desk/pages/AgentConsole';
+import { RequireSupportFeature, RequirePermission } from './modules/support-desk/ui';
 import Payslips from './pages/Payslips';
 import SalaryConfig from './pages/SalaryConfig';
 import IssueCertificate from './pages/IssueCertificate';
@@ -133,6 +139,13 @@ const App: React.FC = () => {
 
                 <Route path="/settings" element={<ProtectedRoute allowedRoles={['ADMIN', 'HR', 'SUPER_ADMIN']}><Settings /></ProtectedRoute>} />
                 <Route path="/admin/roles" element={<ProtectedRoute allowedRoles={['ADMIN', 'SUPER_ADMIN']}><RolesPermissions /></ProtectedRoute>} />
+
+                {/* Support Desk — feature-gated; employee + agent surfaces */}
+                <Route path="/support" element={<ProtectedRoute><RequireSupportFeature><EmployeeHome /></RequireSupportFeature></ProtectedRoute>} />
+                <Route path="/support/new" element={<ProtectedRoute><RequireSupportFeature><NewTicket /></RequireSupportFeature></ProtectedRoute>} />
+                <Route path="/support/tickets/:id" element={<ProtectedRoute><RequireSupportFeature><TicketDetail /></RequireSupportFeature></ProtectedRoute>} />
+                <Route path="/support/console" element={<ProtectedRoute><RequireSupportFeature><RequirePermission permission="VIEW_ALL_TICKETS"><AgentQueue /></RequirePermission></RequireSupportFeature></ProtectedRoute>} />
+                <Route path="/support/console/:id" element={<ProtectedRoute><RequireSupportFeature><RequirePermission permission="VIEW_ALL_TICKETS"><AgentConsole /></RequirePermission></RequireSupportFeature></ProtectedRoute>} />
 
                 <Route path="*" element={<NotFound />} />
               </Routes>

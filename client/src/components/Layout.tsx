@@ -35,7 +35,7 @@ const NavItem = ({ to, icon, label, precise = false, collapsed, isMobile, onClos
 };
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { user, logout, hasPermission } = useAuth();
+    const { user, logout, hasPermission, hasFeature } = useAuth();
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -180,6 +180,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <NavItem to="/recruitment/jobs" icon="ats" label="Recruitment" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                     <NavItem to="/assets" icon="assets" label="Assets" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                     <NavItem to="/documents" icon="file_text" label="Documents" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                    {hasFeature('SUPPORT_DESK') && (
+                        <NavItem to="/support" icon="approvals" label="Support" precise collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                    )}
                 </SidebarGroup>
                 
                 <SidebarGroup title={(!collapsed || isMobile) ? "Finance" : ""}>
@@ -198,6 +201,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     )}
                     {hasPermission('VIEW_SYSTEM_HEALTH') && (
                         <NavItem to="/admin/system-health" icon="bolt" label="System Health" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                    )}
+                    {hasFeature('SUPPORT_DESK') && hasPermission('VIEW_ALL_TICKETS') && (
+                        <NavItem to="/support/console" icon="approvals" label="Support Console" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                     )}
                 </SidebarGroup>
 
