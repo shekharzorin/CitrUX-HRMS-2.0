@@ -9,12 +9,14 @@ export const supportQueue = new Queue('supportQueue', { connection });
  * re-enqueues), bounded retries with backoff. Fire-and-forget from the caller —
  * must never block ticket creation.
  */
-export function enqueueAiRoute(ticketId: string) {
+export function enqueueAiRoute(ticketId: string, opts: { force?: boolean } = {}) {
     return supportQueue.add(
         'ai-route',
         { ticketId },
         {
-            jobId: `ai-route-${ticketId}`, // BullMQ forbids ':' in custom job ids
+            // Auto-categorize on create dedupes by jobId; manual reprocess forces a
+            // fresh run (auto id) so a retained failed/old job can't block it.
+            ...(opts.force ? {} : { jobId: `ai-route-${ticketId}` }), // BullMQ forbids ':' in custom ids
             attempts: 3,
             backoff: { type: 'exponential', delay: 5000 },
             removeOnComplete: true,

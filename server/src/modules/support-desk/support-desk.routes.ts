@@ -17,7 +17,7 @@ import {
 import { listCategories, createCategory, updateCategory, deleteCategory } from './ticket-category.controller';
 import {
     createTicket, listTickets, getTicket,
-    changeTicketStatus, assignTicket, unassignTicket, assignTicketToMe,
+    changeTicketStatus, assignTicket, unassignTicket, assignTicketToMe, reprocessTicketAi,
 } from './ticket.controller';
 import { listComments, createComment } from './comment.controller';
 
@@ -63,6 +63,7 @@ router.post('/tickets/:id/status', requirePermission('VIEW_TICKETS'), validate({
 router.post('/tickets/:id/assign', requirePermission('MANAGE_TICKETS'), validate({ body: assignSchema }), assignTicket);
 router.post('/tickets/:id/unassign', requirePermission('MANAGE_TICKETS'), unassignTicket);
 router.post('/tickets/:id/assign-to-me', requirePermission('MANAGE_TICKETS'), assignTicketToMe);
+router.post('/tickets/:id/ai-reprocess', requirePermission('MANAGE_TICKETS'), reprocessTicketAi);
 
 // Comments (withAttachments tolerates JSON too; visibility enforced in service).
 router.get('/tickets/:id/comments', requirePermission('VIEW_TICKETS'), listComments);

@@ -48,3 +48,9 @@ export const assignTicketToMe = async (req: AuthRequest, res: Response, next: Ne
     } catch (err) { next(err); }
 };
 
+export const reprocessTicketAi = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+        res.json(await TicketService.reprocessAi(req.user!, req.params.id));
+    } catch (err) { next(err); }
+};
+

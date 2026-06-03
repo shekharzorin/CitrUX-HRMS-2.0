@@ -263,6 +263,31 @@ export class TicketService {
         return this.assign(user, id, user.userId, 'Self-assigned');
     }
 
+    /** Manually re-run AI routing. Rate-limited: no concurrent run + cooldown. */
+    static async reprocessAi(user: JwtPayload, id: string) {
+        const companyId = requireCompany(user);
+        const ticket = await prisma.ticket.findUnique({ where: { id } });
+        if (!ticket || ticket.deletedAt || ticket.companyId !== companyId) throw new AppError('Ticket not found', 404);
+        if (!(await featureFlags.isEnabled('SUPPORT_AI_CATEGORIZATION', companyId))) {
+            throw new AppError('AI categorization is disabled for this company', 400);
+        }
+        // Rate-limit safeguard: block concurrent runs + enforce a cooldown.
+        const lastJob = await prisma.aiJob.findFirst({ where: { ticketId: id }, orderBy: { createdAt: 'desc' } });
+        if (lastJob) {
+            if (lastJob.status === 'PENDING' || lastJob.status === 'PROCESSING') {
+                throw new AppError('AI processing is already in progress for this ticket', 429);
+            }
+            const cooldownMs = Number(process.env.AI_REPROCESS_COOLDOWN_MS || '60000');
+            const since = (lastJob.completedAt ?? lastJob.createdAt).getTime();
+            if (Date.now() - since < cooldownMs) {
+                throw new AppError('Please wait before reprocessing this ticket again', 429);
+            }
+        }
+        await prisma.ticket.update({ where: { id }, data: { aiStatus: 'PENDING' } });
+        await enqueueAiRoute(id, { force: true });
+        return { message: 'AI reprocessing queued' };
+    }
+
     /** Filter comments to the caller's visibility tier, then pick the serializer. */
     private static async serializeForCaller(user: JwtPayload, ticket: any) {
         const canViewAll = await RoleService.hasPermission(user, 'VIEW_ALL_TICKETS');
