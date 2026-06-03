@@ -205,6 +205,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     {hasFeature('SUPPORT_DESK') && hasPermission('VIEW_ALL_TICKETS') && (
                         <NavItem to="/support/console" icon="approvals" label="Support Console" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                     )}
+                    {hasFeature('SUPPORT_DESK') && hasPermission('MANAGE_SUPPORT_DEPARTMENTS') && (
+                        <NavItem to="/support/admin/queues" icon="departments" label="Support Queues" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                    )}
                 </SidebarGroup>
 
                 {user?.role === 'SUPER_ADMIN' && (

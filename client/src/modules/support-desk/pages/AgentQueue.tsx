@@ -33,7 +33,15 @@ const AgentQueue = () => {
             </div>
 
             {isLoading && <div className="h-40 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse" />}
-            {tickets && tickets.length === 0 && <p className="text-sm text-slate-500 py-10 text-center">No tickets match these filters.</p>}
+            {tickets && tickets.length === 0 && (
+                <div className="text-center py-16 border border-dashed border-slate-200 dark:border-slate-700 rounded-xl">
+                    <div className="text-3xl mb-2" aria-hidden>📭</div>
+                    <p className="text-slate-500">{(status || deptId) ? 'No tickets match these filters.' : 'No tickets in the queue yet.'}</p>
+                    {(status || deptId) && (
+                        <button className="text-sm text-primary mt-2 hover:underline" onClick={() => { setStatus(''); setDeptId(''); }}>Clear filters</button>
+                    )}
+                </div>
+            )}
 
             {tickets && tickets.length > 0 && (
                 <div className="divide-y divide-slate-100 dark:divide-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">

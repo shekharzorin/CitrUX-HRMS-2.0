@@ -43,6 +43,7 @@ import NewTicket from './modules/support-desk/pages/NewTicket';
 import TicketDetail from './modules/support-desk/pages/TicketDetail';
 import AgentQueue from './modules/support-desk/pages/AgentQueue';
 import AgentConsole from './modules/support-desk/pages/AgentConsole';
+import QueueAdmin from './modules/support-desk/pages/QueueAdmin';
 import { RequireSupportFeature, RequirePermission } from './modules/support-desk/ui';
 import Payslips from './pages/Payslips';
 import SalaryConfig from './pages/SalaryConfig';
@@ -146,6 +147,7 @@ const App: React.FC = () => {
                 <Route path="/support/tickets/:id" element={<ProtectedRoute><RequireSupportFeature><TicketDetail /></RequireSupportFeature></ProtectedRoute>} />
                 <Route path="/support/console" element={<ProtectedRoute><RequireSupportFeature><RequirePermission permission="VIEW_ALL_TICKETS"><AgentQueue /></RequirePermission></RequireSupportFeature></ProtectedRoute>} />
                 <Route path="/support/console/:id" element={<ProtectedRoute><RequireSupportFeature><RequirePermission permission="VIEW_ALL_TICKETS"><AgentConsole /></RequirePermission></RequireSupportFeature></ProtectedRoute>} />
+                <Route path="/support/admin/queues" element={<ProtectedRoute><RequireSupportFeature><RequirePermission permission="MANAGE_SUPPORT_DEPARTMENTS"><QueueAdmin /></RequirePermission></RequireSupportFeature></ProtectedRoute>} />
 
                 <Route path="*" element={<NotFound />} />
               </Routes>

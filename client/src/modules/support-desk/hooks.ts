@@ -60,6 +60,47 @@ export const useChangeStatus = (ticketId: string) => {
     });
 };
 
+export const useReprocessAi = (ticketId: string) => {
+    const qc = useQueryClient();
+    return useMutation({
+        mutationFn: () => supportApi.reprocessAi(ticketId),
+        onSuccess: () => { qc.invalidateQueries({ queryKey: keys.ticket(ticketId) }); },
+    });
+};
+
+// ── Admin: queues, categories, pickers ───────────────────────────────────────
+export const useDepartmentsAdmin = () =>
+    useQuery({ queryKey: ['support', 'departments', 'admin'], queryFn: supportApi.listDepartmentsAdmin });
+
+export const useUsers = () =>
+    useQuery({ queryKey: ['support', 'users'], queryFn: supportApi.listUsers, staleTime: 5 * 60_000 });
+
+export const useRoles = () =>
+    useQuery({ queryKey: ['support', 'roles'], queryFn: supportApi.listRoles, staleTime: 5 * 60_000 });
+
+export const useQueueMutations = () => {
+    const qc = useQueryClient();
+    const invalidate = () => {
+        qc.invalidateQueries({ queryKey: ['support', 'departments'] });
+    };
+    return {
+        create: useMutation({ mutationFn: supportApi.createDepartment, onSuccess: invalidate }),
+        update: useMutation({ mutationFn: (v: { id: string; input: any }) => supportApi.updateDepartment(v.id, v.input), onSuccess: invalidate }),
+        remove: useMutation({ mutationFn: (id: string) => supportApi.deleteDepartment(id), onSuccess: invalidate }),
+        restore: useMutation({ mutationFn: (id: string) => supportApi.restoreDepartment(id), onSuccess: invalidate }),
+    };
+};
+
+export const useCategoryMutations = (deptId: string) => {
+    const qc = useQueryClient();
+    const invalidate = () => { qc.invalidateQueries({ queryKey: keys.categories(deptId) }); };
+    return {
+        create: useMutation({ mutationFn: (input: { name: string; description?: string }) => supportApi.createCategory(deptId, input), onSuccess: invalidate }),
+        update: useMutation({ mutationFn: (v: { id: string; input: any }) => supportApi.updateCategory(v.id, v.input), onSuccess: invalidate }),
+        remove: useMutation({ mutationFn: (id: string) => supportApi.deleteCategory(id), onSuccess: invalidate }),
+    };
+};
+
 export const useAssignment = (ticketId: string) => {
     const qc = useQueryClient();
     const invalidate = () => {

@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
 import { Button } from '../../../components/ui/Button';
-import { useTicket, useTicketActivity, useAddComment, useChangeStatus, useAssignment } from '../hooks';
+import { useTicket, useTicketActivity, useAddComment, useChangeStatus, useAssignment, useReprocessAi } from '../hooks';
 import { StatusBadge, PriorityBadge, AttachmentList, humanize, relativeTime } from '../ui';
 import { TicketTimeline } from '../Timeline';
 import { CommentComposer } from '../Composer';
@@ -24,6 +24,7 @@ const AgentConsole = () => {
     const addComment = useAddComment(id!);
     const changeStatus = useChangeStatus(id!);
     const { assignToMe, unassign } = useAssignment(id!);
+    const reprocess = useReprocessAi(id!);
 
     if (isLoading) return <div className="p-6 max-w-5xl mx-auto"><div className="h-40 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse" /></div>;
     if (!ticket) return <div className="p-6 max-w-5xl mx-auto text-slate-500">Ticket not found.</div>;
@@ -88,6 +89,29 @@ const AgentConsole = () => {
 
                 {/* Side column: actions */}
                 <aside className="space-y-4">
+                    {canManage && (
+                        <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                            <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">Quick actions</h3>
+                            <div className="flex flex-wrap gap-2">
+                                {nextStatuses.includes('RESOLVED') && (
+                                    <Button onClick={() => changeStatus.mutate({ status: 'RESOLVED' })} disabled={changeStatus.isPending}>Resolve</Button>
+                                )}
+                                {nextStatuses.includes('REOPENED') && (
+                                    <Button variant="secondary" onClick={() => changeStatus.mutate({ status: 'REOPENED' })} disabled={changeStatus.isPending}>Reopen</Button>
+                                )}
+                                {!isMine && <Button variant="secondary" onClick={() => assignToMe.mutate()} disabled={assignToMe.isPending}>Assign to me</Button>}
+                            </div>
+                        </div>
+                    )}
+                    {canManage && (
+                        <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                            <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">AI</h3>
+                            <p className="text-xs text-slate-500 mb-2">Routing: {ticket.aiStatus ?? 'PENDING'}</p>
+                            <Button variant="secondary" onClick={() => reprocess.mutate()} disabled={reprocess.isPending}>
+                                {reprocess.isPending ? 'Queuing…' : 'Reprocess AI'}
+                            </Button>
+                        </div>
+                    )}
                     {canManage && (
                         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-700">
                             <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">Status</h3>

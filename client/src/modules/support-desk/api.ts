@@ -44,4 +44,24 @@ export const supportApi = {
         api.post<Ticket>(`/support/tickets/${id}/assign`, { assigneeId, reason }),
     assignToMe: (id: string) => api.post<Ticket>(`/support/tickets/${id}/assign-to-me`, {}),
     unassign: (id: string) => api.post<Ticket>(`/support/tickets/${id}/unassign`, {}),
+    reprocessAi: (id: string) => api.post<{ message: string }>(`/support/tickets/${id}/ai-reprocess`, {}),
+
+    // ── Admin: queue + category management ───────────────────────────────────
+    listDepartmentsAdmin: () => api.get<SupportDepartment[]>('/support/departments?includeInactive=true'),
+    createDepartment: (input: Partial<SupportDepartment> & { roleIds?: string[] }) =>
+        api.post<SupportDepartment>('/support/departments', input),
+    updateDepartment: (id: string, input: Partial<SupportDepartment> & { roleIds?: string[] }) =>
+        api.put<SupportDepartment>(`/support/departments/${id}`, input),
+    deleteDepartment: (id: string) => api.delete<{ message: string }>(`/support/departments/${id}`),
+    restoreDepartment: (id: string) => api.post<SupportDepartment>(`/support/departments/${id}/restore`, {}),
+
+    createCategory: (deptId: string, input: { name: string; description?: string }) =>
+        api.post<TicketCategory>(`/support/departments/${deptId}/categories`, input),
+    updateCategory: (id: string, input: { name?: string; description?: string; isActive?: boolean }) =>
+        api.put<TicketCategory>(`/support/categories/${id}`, input),
+    deleteCategory: (id: string) => api.delete<{ message: string }>(`/support/categories/${id}`),
+
+    // HRMS endpoints reused for pickers
+    listUsers: () => api.get<any[]>('/users'),
+    listRoles: () => api.get<any[]>('/roles'),
 };
