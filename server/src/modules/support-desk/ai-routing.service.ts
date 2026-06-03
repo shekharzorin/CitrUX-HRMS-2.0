@@ -47,14 +47,20 @@ export async function classifyTicket(input: ClassifyInput): Promise<ClassifyResu
  * Idempotent (skips already COMPLETED/SKIPPED). Throws on classify failure so
  * BullMQ can retry (status left FAILED meanwhile). Exported for unit testing.
  */
-export async function runAiRoute(ticketId: string): Promise<void> {
+export async function runAiRoute(
+    ticketId: string,
+    opts: { trigger?: 'AUTO' | 'MANUAL'; actorId?: string | null } = {},
+): Promise<void> {
+    const triggerType: 'AUTO' | 'MANUAL' = opts.trigger === 'MANUAL' ? 'MANUAL' : 'AUTO';
+    const actorId = triggerType === 'MANUAL' ? (opts.actorId ?? null) : null;
+
     const ticket = await prisma.ticket.findUnique({ where: { id: ticketId } });
     if (!ticket || ticket.deletedAt) return;
     if (ticket.aiStatus === 'COMPLETED' || ticket.aiStatus === 'SKIPPED') return; // idempotent
 
     const skip = async () => {
         await prisma.ticket.update({ where: { id: ticketId }, data: { aiStatus: 'SKIPPED' } });
-        await prisma.aiJob.create({ data: { ticketId, type: 'CATEGORIZATION', status: 'SKIPPED' } });
+        await prisma.aiJob.create({ data: { ticketId, type: 'CATEGORIZATION', status: 'SKIPPED', triggerType } });
     };
 
     if (!(await featureFlags.isEnabled('SUPPORT_AI_CATEGORIZATION', ticket.companyId))) return skip();
@@ -69,8 +75,11 @@ export async function runAiRoute(ticketId: string): Promise<void> {
         select: { id: true, name: true, supportDepartmentId: true },
     });
 
+    const previousCategory = ticket.categoryId ?? null;
+    const previousPriority = ticket.priority;
+
     await prisma.ticket.update({ where: { id: ticketId }, data: { aiStatus: 'PROCESSING' } });
-    const job = await prisma.aiJob.create({ data: { ticketId, type: 'CATEGORIZATION', provider: AiEngine.provider(), status: 'PROCESSING' } });
+    const job = await prisma.aiJob.create({ data: { ticketId, type: 'CATEGORIZATION', triggerType, provider: AiEngine.provider(), status: 'PROCESSING' } });
 
     let result: ClassifyResult;
     try {
@@ -123,9 +132,19 @@ export async function runAiRoute(ticketId: string): Promise<void> {
         await TicketActivityService.record(prisma, {
             ticketId,
             type: 'AI_CATEGORIZED',
-            actorId: null,
-            data: { provider: AiEngine.provider(), confidence: result.confidence, applied: { supportDepartmentId: data.supportDepartmentId, categoryId: data.categoryId, priority: data.priority } },
+            actorId,
+            data: {
+                provider: AiEngine.provider(),
+                confidence: result.confidence,
+                triggerType,
+                actorId,
+                previousCategory,
+                newCategory: data.categoryId ?? previousCategory,
+                previousPriority,
+                newPriority: data.priority ?? previousPriority,
+                applied: { supportDepartmentId: data.supportDepartmentId, categoryId: data.categoryId, priority: data.priority },
+            },
         });
     }
-    logger.info(`[AiRoute] ticket ${ticketId} aiStatus=COMPLETED applied=${applied} confidence=${result.confidence}`);
+    logger.info(`[AiRoute] ticket ${ticketId} aiStatus=COMPLETED trigger=${triggerType} applied=${applied} confidence=${result.confidence}`);
 }

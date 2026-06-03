@@ -453,6 +453,7 @@ model AiJob {
   id          String             @id @default(uuid())
   ticketId    String?
   type        String
+  triggerType String             @default("AUTO") // AUTO = initial routing on create; MANUAL = agent reprocess (cooldown applies)
   provider    String?
   status      AiProcessingStatus @default(PENDING)
   inputHash   String?

@@ -271,20 +271,27 @@ export class TicketService {
         if (!(await featureFlags.isEnabled('SUPPORT_AI_CATEGORIZATION', companyId))) {
             throw new AppError('AI categorization is disabled for this company', 400);
         }
-        // Rate-limit safeguard: block concurrent runs + enforce a cooldown.
-        const lastJob = await prisma.aiJob.findFirst({ where: { ticketId: id }, orderBy: { createdAt: 'desc' } });
-        if (lastJob) {
-            if (lastJob.status === 'PENDING' || lastJob.status === 'PROCESSING') {
-                throw new AppError('AI processing is already in progress for this ticket', 429);
-            }
+        // Concurrent-run protection (any trigger): never enqueue while a run is queued
+        // or in flight. ticket.aiStatus is set synchronously below, closing the race
+        // window before the worker creates its AiJob row; the job lookup is a backstop.
+        if (ticket.aiStatus === 'PENDING' || ticket.aiStatus === 'PROCESSING') {
+            throw new AppError('AI processing is already in progress for this ticket', 429);
+        }
+        const activeJob = await prisma.aiJob.findFirst({ where: { ticketId: id, status: { in: ['PENDING', 'PROCESSING'] } } });
+        if (activeJob) throw new AppError('AI processing is already in progress for this ticket', 429);
+
+        // Cooldown applies ONLY to prior MANUAL reprocesses — the initial auto-routing
+        // run does not start the timer, so agents can reprocess right after creation.
+        const lastManual = await prisma.aiJob.findFirst({ where: { ticketId: id, triggerType: 'MANUAL' }, orderBy: { createdAt: 'desc' } });
+        if (lastManual) {
             const cooldownMs = Number(process.env.AI_REPROCESS_COOLDOWN_MS || '60000');
-            const since = (lastJob.completedAt ?? lastJob.createdAt).getTime();
+            const since = (lastManual.completedAt ?? lastManual.createdAt).getTime();
             if (Date.now() - since < cooldownMs) {
                 throw new AppError('Please wait before reprocessing this ticket again', 429);
             }
         }
         await prisma.ticket.update({ where: { id }, data: { aiStatus: 'PENDING' } });
-        await enqueueAiRoute(id, { force: true });
+        await enqueueAiRoute(id, { force: true, trigger: 'MANUAL', actorId: user.userId });
         return { message: 'AI reprocessing queued' };
     }
 

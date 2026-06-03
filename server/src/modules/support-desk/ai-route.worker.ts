@@ -7,8 +7,10 @@ import logger from '../../utils/logger';
 export const aiRouteWorker = new Worker(
     'supportQueue',
     async (job: Job) => {
-        if (job.name === 'ai-route') await runAiRoute(job.data.ticketId);
-        else logger.warn(`[AiRouteWorker] unknown job: ${job.name}`);
+        if (job.name === 'ai-route') {
+            // trigger/actorId default safely for jobs enqueued before this field existed.
+            await runAiRoute(job.data.ticketId, { trigger: job.data.trigger, actorId: job.data.actorId });
+        } else logger.warn(`[AiRouteWorker] unknown job: ${job.name}`);
     },
     // Dedicated blocking connection (BullMQ requirement — workers must not share
     // the connection used by queues/other workers for BRPOPLPUSH).

@@ -302,6 +302,7 @@ exports.Prisma.AiJobScalarFieldEnum = {
   id: 'id',
   ticketId: 'ticketId',
   type: 'type',
+  triggerType: 'triggerType',
   provider: 'provider',
   status: 'status',
   inputHash: 'inputHash',

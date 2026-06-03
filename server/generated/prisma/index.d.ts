@@ -25573,6 +25573,7 @@ export namespace Prisma {
     id: string | null
     ticketId: string | null
     type: string | null
+    triggerType: string | null
     provider: string | null
     status: $Enums.AiProcessingStatus | null
     inputHash: string | null
@@ -25587,6 +25588,7 @@ export namespace Prisma {
     id: string | null
     ticketId: string | null
     type: string | null
+    triggerType: string | null
     provider: string | null
     status: $Enums.AiProcessingStatus | null
     inputHash: string | null
@@ -25601,6 +25603,7 @@ export namespace Prisma {
     id: number
     ticketId: number
     type: number
+    triggerType: number
     provider: number
     status: number
     inputHash: number
@@ -25625,6 +25628,7 @@ export namespace Prisma {
     id?: true
     ticketId?: true
     type?: true
+    triggerType?: true
     provider?: true
     status?: true
     inputHash?: true
@@ -25639,6 +25643,7 @@ export namespace Prisma {
     id?: true
     ticketId?: true
     type?: true
+    triggerType?: true
     provider?: true
     status?: true
     inputHash?: true
@@ -25653,6 +25658,7 @@ export namespace Prisma {
     id?: true
     ticketId?: true
     type?: true
+    triggerType?: true
     provider?: true
     status?: true
     inputHash?: true
@@ -25754,6 +25760,7 @@ export namespace Prisma {
     id: string
     ticketId: string | null
     type: string
+    triggerType: string
     provider: string | null
     status: $Enums.AiProcessingStatus
     inputHash: string | null
@@ -25787,6 +25794,7 @@ export namespace Prisma {
     id?: boolean
     ticketId?: boolean
     type?: boolean
+    triggerType?: boolean
     provider?: boolean
     status?: boolean
     inputHash?: boolean
@@ -25802,6 +25810,7 @@ export namespace Prisma {
     id?: boolean
     ticketId?: boolean
     type?: boolean
+    triggerType?: boolean
     provider?: boolean
     status?: boolean
     inputHash?: boolean
@@ -25817,6 +25826,7 @@ export namespace Prisma {
     id?: boolean
     ticketId?: boolean
     type?: boolean
+    triggerType?: boolean
     provider?: boolean
     status?: boolean
     inputHash?: boolean
@@ -25832,6 +25842,7 @@ export namespace Prisma {
     id?: boolean
     ticketId?: boolean
     type?: boolean
+    triggerType?: boolean
     provider?: boolean
     status?: boolean
     inputHash?: boolean
@@ -25842,7 +25853,7 @@ export namespace Prisma {
     completedAt?: boolean
   }
 
-  export type AiJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ticketId" | "type" | "provider" | "status" | "inputHash" | "output" | "confidence" | "error" | "createdAt" | "completedAt", ExtArgs["result"]["aiJob"]>
+  export type AiJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ticketId" | "type" | "triggerType" | "provider" | "status" | "inputHash" | "output" | "confidence" | "error" | "createdAt" | "completedAt", ExtArgs["result"]["aiJob"]>
   export type AiJobInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ticket?: boolean | AiJob$ticketArgs<ExtArgs>
   }
@@ -25862,6 +25873,7 @@ export namespace Prisma {
       id: string
       ticketId: string | null
       type: string
+      triggerType: string
       provider: string | null
       status: $Enums.AiProcessingStatus
       inputHash: string | null
@@ -26297,6 +26309,7 @@ export namespace Prisma {
     readonly id: FieldRef<"AiJob", 'String'>
     readonly ticketId: FieldRef<"AiJob", 'String'>
     readonly type: FieldRef<"AiJob", 'String'>
+    readonly triggerType: FieldRef<"AiJob", 'String'>
     readonly provider: FieldRef<"AiJob", 'String'>
     readonly status: FieldRef<"AiJob", 'AiProcessingStatus'>
     readonly inputHash: FieldRef<"AiJob", 'String'>
@@ -78500,6 +78513,7 @@ export namespace Prisma {
     id: 'id',
     ticketId: 'ticketId',
     type: 'type',
+    triggerType: 'triggerType',
     provider: 'provider',
     status: 'status',
     inputHash: 'inputHash',
@@ -80883,6 +80897,7 @@ export namespace Prisma {
     id?: StringFilter<"AiJob"> | string
     ticketId?: StringNullableFilter<"AiJob"> | string | null
     type?: StringFilter<"AiJob"> | string
+    triggerType?: StringFilter<"AiJob"> | string
     provider?: StringNullableFilter<"AiJob"> | string | null
     status?: EnumAiProcessingStatusFilter<"AiJob"> | $Enums.AiProcessingStatus
     inputHash?: StringNullableFilter<"AiJob"> | string | null
@@ -80898,6 +80913,7 @@ export namespace Prisma {
     id?: SortOrder
     ticketId?: SortOrderInput | SortOrder
     type?: SortOrder
+    triggerType?: SortOrder
     provider?: SortOrderInput | SortOrder
     status?: SortOrder
     inputHash?: SortOrderInput | SortOrder
@@ -80916,6 +80932,7 @@ export namespace Prisma {
     NOT?: AiJobWhereInput | AiJobWhereInput[]
     ticketId?: StringNullableFilter<"AiJob"> | string | null
     type?: StringFilter<"AiJob"> | string
+    triggerType?: StringFilter<"AiJob"> | string
     provider?: StringNullableFilter<"AiJob"> | string | null
     status?: EnumAiProcessingStatusFilter<"AiJob"> | $Enums.AiProcessingStatus
     inputHash?: StringNullableFilter<"AiJob"> | string | null
@@ -80931,6 +80948,7 @@ export namespace Prisma {
     id?: SortOrder
     ticketId?: SortOrderInput | SortOrder
     type?: SortOrder
+    triggerType?: SortOrder
     provider?: SortOrderInput | SortOrder
     status?: SortOrder
     inputHash?: SortOrderInput | SortOrder
@@ -80953,6 +80971,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"AiJob"> | string
     ticketId?: StringNullableWithAggregatesFilter<"AiJob"> | string | null
     type?: StringWithAggregatesFilter<"AiJob"> | string
+    triggerType?: StringWithAggregatesFilter<"AiJob"> | string
     provider?: StringNullableWithAggregatesFilter<"AiJob"> | string | null
     status?: EnumAiProcessingStatusWithAggregatesFilter<"AiJob"> | $Enums.AiProcessingStatus
     inputHash?: StringNullableWithAggregatesFilter<"AiJob"> | string | null
@@ -86237,6 +86256,7 @@ export namespace Prisma {
   export type AiJobCreateInput = {
     id?: string
     type: string
+    triggerType?: string
     provider?: string | null
     status?: $Enums.AiProcessingStatus
     inputHash?: string | null
@@ -86252,6 +86272,7 @@ export namespace Prisma {
     id?: string
     ticketId?: string | null
     type: string
+    triggerType?: string
     provider?: string | null
     status?: $Enums.AiProcessingStatus
     inputHash?: string | null
@@ -86265,6 +86286,7 @@ export namespace Prisma {
   export type AiJobUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
+    triggerType?: StringFieldUpdateOperationsInput | string
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAiProcessingStatusFieldUpdateOperationsInput | $Enums.AiProcessingStatus
     inputHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86280,6 +86302,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
+    triggerType?: StringFieldUpdateOperationsInput | string
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAiProcessingStatusFieldUpdateOperationsInput | $Enums.AiProcessingStatus
     inputHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86294,6 +86317,7 @@ export namespace Prisma {
     id?: string
     ticketId?: string | null
     type: string
+    triggerType?: string
     provider?: string | null
     status?: $Enums.AiProcessingStatus
     inputHash?: string | null
@@ -86307,6 +86331,7 @@ export namespace Prisma {
   export type AiJobUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
+    triggerType?: StringFieldUpdateOperationsInput | string
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAiProcessingStatusFieldUpdateOperationsInput | $Enums.AiProcessingStatus
     inputHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86321,6 +86346,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
+    triggerType?: StringFieldUpdateOperationsInput | string
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAiProcessingStatusFieldUpdateOperationsInput | $Enums.AiProcessingStatus
     inputHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -91997,6 +92023,7 @@ export namespace Prisma {
     id?: SortOrder
     ticketId?: SortOrder
     type?: SortOrder
+    triggerType?: SortOrder
     provider?: SortOrder
     status?: SortOrder
     inputHash?: SortOrder
@@ -92015,6 +92042,7 @@ export namespace Prisma {
     id?: SortOrder
     ticketId?: SortOrder
     type?: SortOrder
+    triggerType?: SortOrder
     provider?: SortOrder
     status?: SortOrder
     inputHash?: SortOrder
@@ -92029,6 +92057,7 @@ export namespace Prisma {
     id?: SortOrder
     ticketId?: SortOrder
     type?: SortOrder
+    triggerType?: SortOrder
     provider?: SortOrder
     status?: SortOrder
     inputHash?: SortOrder
@@ -106825,6 +106854,7 @@ export namespace Prisma {
   export type AiJobCreateWithoutTicketInput = {
     id?: string
     type: string
+    triggerType?: string
     provider?: string | null
     status?: $Enums.AiProcessingStatus
     inputHash?: string | null
@@ -106838,6 +106868,7 @@ export namespace Prisma {
   export type AiJobUncheckedCreateWithoutTicketInput = {
     id?: string
     type: string
+    triggerType?: string
     provider?: string | null
     status?: $Enums.AiProcessingStatus
     inputHash?: string | null
@@ -107401,6 +107432,7 @@ export namespace Prisma {
     id?: StringFilter<"AiJob"> | string
     ticketId?: StringNullableFilter<"AiJob"> | string | null
     type?: StringFilter<"AiJob"> | string
+    triggerType?: StringFilter<"AiJob"> | string
     provider?: StringNullableFilter<"AiJob"> | string | null
     status?: EnumAiProcessingStatusFilter<"AiJob"> | $Enums.AiProcessingStatus
     inputHash?: StringNullableFilter<"AiJob"> | string | null
@@ -125130,6 +125162,7 @@ export namespace Prisma {
   export type AiJobCreateManyTicketInput = {
     id?: string
     type: string
+    triggerType?: string
     provider?: string | null
     status?: $Enums.AiProcessingStatus
     inputHash?: string | null
@@ -125343,6 +125376,7 @@ export namespace Prisma {
   export type AiJobUpdateWithoutTicketInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
+    triggerType?: StringFieldUpdateOperationsInput | string
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAiProcessingStatusFieldUpdateOperationsInput | $Enums.AiProcessingStatus
     inputHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -125356,6 +125390,7 @@ export namespace Prisma {
   export type AiJobUncheckedUpdateWithoutTicketInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
+    triggerType?: StringFieldUpdateOperationsInput | string
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAiProcessingStatusFieldUpdateOperationsInput | $Enums.AiProcessingStatus
     inputHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -125369,6 +125404,7 @@ export namespace Prisma {
   export type AiJobUncheckedUpdateManyWithoutTicketInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
+    triggerType?: StringFieldUpdateOperationsInput | string
     provider?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAiProcessingStatusFieldUpdateOperationsInput | $Enums.AiProcessingStatus
     inputHash?: NullableStringFieldUpdateOperationsInput | string | null
