@@ -16,7 +16,7 @@ import { AuthRequest } from '../middlewares/auth.middleware';
  * (right for a phased per-tenant rollout). Reads are cached (with negative
  * caching); a future flag-toggle API must call `invalidate()`.
  */
-export const FEATURE_FLAGS = ['SUPPORT_DESK', 'SUPPORT_AI_CATEGORIZATION'] as const;
+export const FEATURE_FLAGS = ['SUPPORT_DESK', 'SUPPORT_AI_CATEGORIZATION', 'ATTENDANCE_FRAMEWORK'] as const;
 export type FeatureFlag = typeof FEATURE_FLAGS[number];
 
 const FLAG_TTL_MS = 5 * 60 * 1000;

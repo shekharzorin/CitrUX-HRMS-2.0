@@ -51,6 +51,7 @@ model Company {
   tickets            Ticket[]
   supportDepartments SupportDepartment[]
   ticketCategories   TicketCategory[]
+  attendanceSources  AttendanceSource[]  @relation("CompanyAttendanceSources")
 }
 
 model User {
@@ -567,6 +568,57 @@ model Attendance {
   breaks   Break[]
 
   @@unique([userId, date])
+}
+
+// ── Attendance Management Framework ──────────────────────────────────────────
+// AttendanceSource = an admin-configured attendance method for a company (one of
+// many: biometric, mobile GPS, QR, CSV, etc.). This is the config layer; the
+// event/projection layers (AttendanceEvent → Attendance) are added in later slices.
+enum AttendanceSourceType {
+  BIOMETRIC_ZKTECO
+  BIOMETRIC_ESSL
+  BIOMETRIC_MATRIX
+  BIOMETRIC_GENERIC
+  MOBILE_GPS
+  QR
+  RFID_NFC
+  WEBCAM
+  MANUAL
+  CSV_IMPORT
+  EXTERNAL_API
+  WEB_PORTAL
+}
+
+enum AttendanceIngestionMode {
+  WEBHOOK
+  PULL_SYNC
+  IMPORT
+  DIRECT
+}
+
+enum AttendanceSourceHealth {
+  UNKNOWN
+  HEALTHY
+  DEGRADED
+  ERROR
+}
+
+model AttendanceSource {
+  id            String                  @id @default(uuid())
+  companyId     String
+  name          String
+  type          AttendanceSourceType
+  ingestionMode AttendanceIngestionMode
+  configuration Json                    @default("{}")
+  isActive      Boolean                 @default(true)
+  priority      Int                     @default(0)
+  healthStatus  AttendanceSourceHealth  @default(UNKNOWN)
+  lastSyncAt    DateTime?
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+  company       Company                 @relation("CompanyAttendanceSources", fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId, isActive])
 }
 
 model Shift {

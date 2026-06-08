@@ -404,6 +404,21 @@ exports.Prisma.AttendanceScalarFieldEnum = {
   isLate: 'isLate'
 };
 
+exports.Prisma.AttendanceSourceScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  name: 'name',
+  type: 'type',
+  ingestionMode: 'ingestionMode',
+  configuration: 'configuration',
+  isActive: 'isActive',
+  priority: 'priority',
+  healthStatus: 'healthStatus',
+  lastSyncAt: 'lastSyncAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ShiftScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -910,6 +925,10 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -918,6 +937,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.Role = exports.$Enums.Role = {
   SUPER_ADMIN: 'SUPER_ADMIN',
@@ -1026,6 +1051,35 @@ exports.TicketRelationType = exports.$Enums.TicketRelationType = {
   INCIDENT_LINK: 'INCIDENT_LINK'
 };
 
+exports.AttendanceSourceType = exports.$Enums.AttendanceSourceType = {
+  BIOMETRIC_ZKTECO: 'BIOMETRIC_ZKTECO',
+  BIOMETRIC_ESSL: 'BIOMETRIC_ESSL',
+  BIOMETRIC_MATRIX: 'BIOMETRIC_MATRIX',
+  BIOMETRIC_GENERIC: 'BIOMETRIC_GENERIC',
+  MOBILE_GPS: 'MOBILE_GPS',
+  QR: 'QR',
+  RFID_NFC: 'RFID_NFC',
+  WEBCAM: 'WEBCAM',
+  MANUAL: 'MANUAL',
+  CSV_IMPORT: 'CSV_IMPORT',
+  EXTERNAL_API: 'EXTERNAL_API',
+  WEB_PORTAL: 'WEB_PORTAL'
+};
+
+exports.AttendanceIngestionMode = exports.$Enums.AttendanceIngestionMode = {
+  WEBHOOK: 'WEBHOOK',
+  PULL_SYNC: 'PULL_SYNC',
+  IMPORT: 'IMPORT',
+  DIRECT: 'DIRECT'
+};
+
+exports.AttendanceSourceHealth = exports.$Enums.AttendanceSourceHealth = {
+  UNKNOWN: 'UNKNOWN',
+  HEALTHY: 'HEALTHY',
+  DEGRADED: 'DEGRADED',
+  ERROR: 'ERROR'
+};
+
 exports.Prisma.ModelName = {
   Company: 'Company',
   User: 'User',
@@ -1046,6 +1100,7 @@ exports.Prisma.ModelName = {
   Payslip: 'Payslip',
   Profile: 'Profile',
   Attendance: 'Attendance',
+  AttendanceSource: 'AttendanceSource',
   Shift: 'Shift',
   AttendancePolicy: 'AttendancePolicy',
   ShiftPolicyOverride: 'ShiftPolicyOverride',

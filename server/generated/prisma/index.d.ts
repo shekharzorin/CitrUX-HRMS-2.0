@@ -109,6 +109,11 @@ export type Profile = $Result.DefaultSelection<Prisma.$ProfilePayload>
  */
 export type Attendance = $Result.DefaultSelection<Prisma.$AttendancePayload>
 /**
+ * Model AttendanceSource
+ * 
+ */
+export type AttendanceSource = $Result.DefaultSelection<Prisma.$AttendanceSourcePayload>
+/**
  * Model Shift
  * 
  */
@@ -445,6 +450,44 @@ export const TicketActivityType: {
 export type TicketActivityType = (typeof TicketActivityType)[keyof typeof TicketActivityType]
 
 
+export const AttendanceSourceType: {
+  BIOMETRIC_ZKTECO: 'BIOMETRIC_ZKTECO',
+  BIOMETRIC_ESSL: 'BIOMETRIC_ESSL',
+  BIOMETRIC_MATRIX: 'BIOMETRIC_MATRIX',
+  BIOMETRIC_GENERIC: 'BIOMETRIC_GENERIC',
+  MOBILE_GPS: 'MOBILE_GPS',
+  QR: 'QR',
+  RFID_NFC: 'RFID_NFC',
+  WEBCAM: 'WEBCAM',
+  MANUAL: 'MANUAL',
+  CSV_IMPORT: 'CSV_IMPORT',
+  EXTERNAL_API: 'EXTERNAL_API',
+  WEB_PORTAL: 'WEB_PORTAL'
+};
+
+export type AttendanceSourceType = (typeof AttendanceSourceType)[keyof typeof AttendanceSourceType]
+
+
+export const AttendanceIngestionMode: {
+  WEBHOOK: 'WEBHOOK',
+  PULL_SYNC: 'PULL_SYNC',
+  IMPORT: 'IMPORT',
+  DIRECT: 'DIRECT'
+};
+
+export type AttendanceIngestionMode = (typeof AttendanceIngestionMode)[keyof typeof AttendanceIngestionMode]
+
+
+export const AttendanceSourceHealth: {
+  UNKNOWN: 'UNKNOWN',
+  HEALTHY: 'HEALTHY',
+  DEGRADED: 'DEGRADED',
+  ERROR: 'ERROR'
+};
+
+export type AttendanceSourceHealth = (typeof AttendanceSourceHealth)[keyof typeof AttendanceSourceHealth]
+
+
 export const Role: {
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
@@ -500,6 +543,18 @@ export const SupportQueueVisibility: typeof $Enums.SupportQueueVisibility
 export type TicketActivityType = $Enums.TicketActivityType
 
 export const TicketActivityType: typeof $Enums.TicketActivityType
+
+export type AttendanceSourceType = $Enums.AttendanceSourceType
+
+export const AttendanceSourceType: typeof $Enums.AttendanceSourceType
+
+export type AttendanceIngestionMode = $Enums.AttendanceIngestionMode
+
+export const AttendanceIngestionMode: typeof $Enums.AttendanceIngestionMode
+
+export type AttendanceSourceHealth = $Enums.AttendanceSourceHealth
+
+export const AttendanceSourceHealth: typeof $Enums.AttendanceSourceHealth
 
 export type Role = $Enums.Role
 
@@ -812,6 +867,16 @@ export class PrismaClient<
     * ```
     */
   get attendance(): Prisma.AttendanceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.attendanceSource`: Exposes CRUD operations for the **AttendanceSource** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AttendanceSources
+    * const attendanceSources = await prisma.attendanceSource.findMany()
+    * ```
+    */
+  get attendanceSource(): Prisma.AttendanceSourceDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.shift`: Exposes CRUD operations for the **Shift** model.
@@ -1672,6 +1737,7 @@ export namespace Prisma {
     Payslip: 'Payslip',
     Profile: 'Profile',
     Attendance: 'Attendance',
+    AttendanceSource: 'AttendanceSource',
     Shift: 'Shift',
     AttendancePolicy: 'AttendancePolicy',
     ShiftPolicyOverride: 'ShiftPolicyOverride',
@@ -1730,7 +1796,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "accessRole" | "accessRolePermission" | "supportDepartment" | "supportQueueRole" | "ticketCategory" | "ticket" | "ticketComment" | "ticketAttachment" | "ticketActivity" | "ticketWatcher" | "ticketAssignment" | "ticketRelationship" | "aiJob" | "salaryStructure" | "payslip" | "profile" | "attendance" | "shift" | "attendancePolicy" | "shiftPolicyOverride" | "userPolicyOverride" | "break" | "leaveType" | "leaveEncashment" | "leaveBalance" | "leaveRequest" | "holiday" | "onboarding" | "onboardingEmergencyContact" | "onboardingExperience" | "onboardingEducation" | "onboardingDocument" | "offboarding" | "exitInterview" | "goal" | "performanceReview" | "recognition" | "jobPosting" | "jobApplication" | "expenseCategory" | "expenseClaim" | "certificate" | "asset" | "userDocument" | "notification" | "jobRole" | "systemSetting" | "timesheet" | "timesheetEntry" | "task" | "workLog" | "attendanceRequest" | "auditLog" | "systemError" | "moduleHealth" | "branch" | "department"
+      modelProps: "company" | "user" | "accessRole" | "accessRolePermission" | "supportDepartment" | "supportQueueRole" | "ticketCategory" | "ticket" | "ticketComment" | "ticketAttachment" | "ticketActivity" | "ticketWatcher" | "ticketAssignment" | "ticketRelationship" | "aiJob" | "salaryStructure" | "payslip" | "profile" | "attendance" | "attendanceSource" | "shift" | "attendancePolicy" | "shiftPolicyOverride" | "userPolicyOverride" | "break" | "leaveType" | "leaveEncashment" | "leaveBalance" | "leaveRequest" | "holiday" | "onboarding" | "onboardingEmergencyContact" | "onboardingExperience" | "onboardingEducation" | "onboardingDocument" | "offboarding" | "exitInterview" | "goal" | "performanceReview" | "recognition" | "jobPosting" | "jobApplication" | "expenseCategory" | "expenseClaim" | "certificate" | "asset" | "userDocument" | "notification" | "jobRole" | "systemSetting" | "timesheet" | "timesheetEntry" | "task" | "workLog" | "attendanceRequest" | "auditLog" | "systemError" | "moduleHealth" | "branch" | "department"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3137,6 +3203,80 @@ export namespace Prisma {
           count: {
             args: Prisma.AttendanceCountArgs<ExtArgs>
             result: $Utils.Optional<AttendanceCountAggregateOutputType> | number
+          }
+        }
+      }
+      AttendanceSource: {
+        payload: Prisma.$AttendanceSourcePayload<ExtArgs>
+        fields: Prisma.AttendanceSourceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AttendanceSourceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSourcePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AttendanceSourceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSourcePayload>
+          }
+          findFirst: {
+            args: Prisma.AttendanceSourceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSourcePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AttendanceSourceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSourcePayload>
+          }
+          findMany: {
+            args: Prisma.AttendanceSourceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSourcePayload>[]
+          }
+          create: {
+            args: Prisma.AttendanceSourceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSourcePayload>
+          }
+          createMany: {
+            args: Prisma.AttendanceSourceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AttendanceSourceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSourcePayload>[]
+          }
+          delete: {
+            args: Prisma.AttendanceSourceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSourcePayload>
+          }
+          update: {
+            args: Prisma.AttendanceSourceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSourcePayload>
+          }
+          deleteMany: {
+            args: Prisma.AttendanceSourceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AttendanceSourceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AttendanceSourceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSourcePayload>[]
+          }
+          upsert: {
+            args: Prisma.AttendanceSourceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSourcePayload>
+          }
+          aggregate: {
+            args: Prisma.AttendanceSourceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAttendanceSource>
+          }
+          groupBy: {
+            args: Prisma.AttendanceSourceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AttendanceSourceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AttendanceSourceCountArgs<ExtArgs>
+            result: $Utils.Optional<AttendanceSourceCountAggregateOutputType> | number
           }
         }
       }
@@ -6215,6 +6355,7 @@ export namespace Prisma {
     payslip?: PayslipOmit
     profile?: ProfileOmit
     attendance?: AttendanceOmit
+    attendanceSource?: AttendanceSourceOmit
     shift?: ShiftOmit
     attendancePolicy?: AttendancePolicyOmit
     shiftPolicyOverride?: ShiftPolicyOverrideOmit
@@ -6353,6 +6494,7 @@ export namespace Prisma {
     tickets: number
     supportDepartments: number
     ticketCategories: number
+    attendanceSources: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6374,6 +6516,7 @@ export namespace Prisma {
     tickets?: boolean | CompanyCountOutputTypeCountTicketsArgs
     supportDepartments?: boolean | CompanyCountOutputTypeCountSupportDepartmentsArgs
     ticketCategories?: boolean | CompanyCountOutputTypeCountTicketCategoriesArgs
+    attendanceSources?: boolean | CompanyCountOutputTypeCountAttendanceSourcesArgs
   }
 
   // Custom InputTypes
@@ -6511,6 +6654,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountTicketCategoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TicketCategoryWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountAttendanceSourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceSourceWhereInput
   }
 
 
@@ -7710,6 +7860,7 @@ export namespace Prisma {
     tickets?: boolean | Company$ticketsArgs<ExtArgs>
     supportDepartments?: boolean | Company$supportDepartmentsArgs<ExtArgs>
     ticketCategories?: boolean | Company$ticketCategoriesArgs<ExtArgs>
+    attendanceSources?: boolean | Company$attendanceSourcesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -7785,6 +7936,7 @@ export namespace Prisma {
     tickets?: boolean | Company$ticketsArgs<ExtArgs>
     supportDepartments?: boolean | Company$supportDepartmentsArgs<ExtArgs>
     ticketCategories?: boolean | Company$ticketCategoriesArgs<ExtArgs>
+    attendanceSources?: boolean | Company$attendanceSourcesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7812,6 +7964,7 @@ export namespace Prisma {
       tickets: Prisma.$TicketPayload<ExtArgs>[]
       supportDepartments: Prisma.$SupportDepartmentPayload<ExtArgs>[]
       ticketCategories: Prisma.$TicketCategoryPayload<ExtArgs>[]
+      attendanceSources: Prisma.$AttendanceSourcePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8241,6 +8394,7 @@ export namespace Prisma {
     tickets<T extends Company$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Company$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     supportDepartments<T extends Company$supportDepartmentsArgs<ExtArgs> = {}>(args?: Subset<T, Company$supportDepartmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportDepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ticketCategories<T extends Company$ticketCategoriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$ticketCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attendanceSources<T extends Company$attendanceSourcesArgs<ExtArgs> = {}>(args?: Subset<T, Company$attendanceSourcesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceSourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9120,6 +9274,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TicketCategoryScalarFieldEnum | TicketCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * Company.attendanceSources
+   */
+  export type Company$attendanceSourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSource
+     */
+    select?: AttendanceSourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSource
+     */
+    omit?: AttendanceSourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSourceInclude<ExtArgs> | null
+    where?: AttendanceSourceWhereInput
+    orderBy?: AttendanceSourceOrderByWithRelationInput | AttendanceSourceOrderByWithRelationInput[]
+    cursor?: AttendanceSourceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttendanceSourceScalarFieldEnum | AttendanceSourceScalarFieldEnum[]
   }
 
   /**
@@ -32059,6 +32237,1185 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AttendanceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AttendanceSource
+   */
+
+  export type AggregateAttendanceSource = {
+    _count: AttendanceSourceCountAggregateOutputType | null
+    _avg: AttendanceSourceAvgAggregateOutputType | null
+    _sum: AttendanceSourceSumAggregateOutputType | null
+    _min: AttendanceSourceMinAggregateOutputType | null
+    _max: AttendanceSourceMaxAggregateOutputType | null
+  }
+
+  export type AttendanceSourceAvgAggregateOutputType = {
+    priority: number | null
+  }
+
+  export type AttendanceSourceSumAggregateOutputType = {
+    priority: number | null
+  }
+
+  export type AttendanceSourceMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    name: string | null
+    type: $Enums.AttendanceSourceType | null
+    ingestionMode: $Enums.AttendanceIngestionMode | null
+    isActive: boolean | null
+    priority: number | null
+    healthStatus: $Enums.AttendanceSourceHealth | null
+    lastSyncAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AttendanceSourceMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    name: string | null
+    type: $Enums.AttendanceSourceType | null
+    ingestionMode: $Enums.AttendanceIngestionMode | null
+    isActive: boolean | null
+    priority: number | null
+    healthStatus: $Enums.AttendanceSourceHealth | null
+    lastSyncAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AttendanceSourceCountAggregateOutputType = {
+    id: number
+    companyId: number
+    name: number
+    type: number
+    ingestionMode: number
+    configuration: number
+    isActive: number
+    priority: number
+    healthStatus: number
+    lastSyncAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AttendanceSourceAvgAggregateInputType = {
+    priority?: true
+  }
+
+  export type AttendanceSourceSumAggregateInputType = {
+    priority?: true
+  }
+
+  export type AttendanceSourceMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    name?: true
+    type?: true
+    ingestionMode?: true
+    isActive?: true
+    priority?: true
+    healthStatus?: true
+    lastSyncAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AttendanceSourceMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    name?: true
+    type?: true
+    ingestionMode?: true
+    isActive?: true
+    priority?: true
+    healthStatus?: true
+    lastSyncAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AttendanceSourceCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    name?: true
+    type?: true
+    ingestionMode?: true
+    configuration?: true
+    isActive?: true
+    priority?: true
+    healthStatus?: true
+    lastSyncAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AttendanceSourceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttendanceSource to aggregate.
+     */
+    where?: AttendanceSourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceSources to fetch.
+     */
+    orderBy?: AttendanceSourceOrderByWithRelationInput | AttendanceSourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AttendanceSourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceSources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceSources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AttendanceSources
+    **/
+    _count?: true | AttendanceSourceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AttendanceSourceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AttendanceSourceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AttendanceSourceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AttendanceSourceMaxAggregateInputType
+  }
+
+  export type GetAttendanceSourceAggregateType<T extends AttendanceSourceAggregateArgs> = {
+        [P in keyof T & keyof AggregateAttendanceSource]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAttendanceSource[P]>
+      : GetScalarType<T[P], AggregateAttendanceSource[P]>
+  }
+
+
+
+
+  export type AttendanceSourceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceSourceWhereInput
+    orderBy?: AttendanceSourceOrderByWithAggregationInput | AttendanceSourceOrderByWithAggregationInput[]
+    by: AttendanceSourceScalarFieldEnum[] | AttendanceSourceScalarFieldEnum
+    having?: AttendanceSourceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AttendanceSourceCountAggregateInputType | true
+    _avg?: AttendanceSourceAvgAggregateInputType
+    _sum?: AttendanceSourceSumAggregateInputType
+    _min?: AttendanceSourceMinAggregateInputType
+    _max?: AttendanceSourceMaxAggregateInputType
+  }
+
+  export type AttendanceSourceGroupByOutputType = {
+    id: string
+    companyId: string
+    name: string
+    type: $Enums.AttendanceSourceType
+    ingestionMode: $Enums.AttendanceIngestionMode
+    configuration: JsonValue
+    isActive: boolean
+    priority: number
+    healthStatus: $Enums.AttendanceSourceHealth
+    lastSyncAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AttendanceSourceCountAggregateOutputType | null
+    _avg: AttendanceSourceAvgAggregateOutputType | null
+    _sum: AttendanceSourceSumAggregateOutputType | null
+    _min: AttendanceSourceMinAggregateOutputType | null
+    _max: AttendanceSourceMaxAggregateOutputType | null
+  }
+
+  type GetAttendanceSourceGroupByPayload<T extends AttendanceSourceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AttendanceSourceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AttendanceSourceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AttendanceSourceGroupByOutputType[P]>
+            : GetScalarType<T[P], AttendanceSourceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AttendanceSourceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    name?: boolean
+    type?: boolean
+    ingestionMode?: boolean
+    configuration?: boolean
+    isActive?: boolean
+    priority?: boolean
+    healthStatus?: boolean
+    lastSyncAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceSource"]>
+
+  export type AttendanceSourceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    name?: boolean
+    type?: boolean
+    ingestionMode?: boolean
+    configuration?: boolean
+    isActive?: boolean
+    priority?: boolean
+    healthStatus?: boolean
+    lastSyncAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceSource"]>
+
+  export type AttendanceSourceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    name?: boolean
+    type?: boolean
+    ingestionMode?: boolean
+    configuration?: boolean
+    isActive?: boolean
+    priority?: boolean
+    healthStatus?: boolean
+    lastSyncAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceSource"]>
+
+  export type AttendanceSourceSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    name?: boolean
+    type?: boolean
+    ingestionMode?: boolean
+    configuration?: boolean
+    isActive?: boolean
+    priority?: boolean
+    healthStatus?: boolean
+    lastSyncAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AttendanceSourceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "name" | "type" | "ingestionMode" | "configuration" | "isActive" | "priority" | "healthStatus" | "lastSyncAt" | "createdAt" | "updatedAt", ExtArgs["result"]["attendanceSource"]>
+  export type AttendanceSourceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type AttendanceSourceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type AttendanceSourceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $AttendanceSourcePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AttendanceSource"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      name: string
+      type: $Enums.AttendanceSourceType
+      ingestionMode: $Enums.AttendanceIngestionMode
+      configuration: Prisma.JsonValue
+      isActive: boolean
+      priority: number
+      healthStatus: $Enums.AttendanceSourceHealth
+      lastSyncAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["attendanceSource"]>
+    composites: {}
+  }
+
+  type AttendanceSourceGetPayload<S extends boolean | null | undefined | AttendanceSourceDefaultArgs> = $Result.GetResult<Prisma.$AttendanceSourcePayload, S>
+
+  type AttendanceSourceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AttendanceSourceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AttendanceSourceCountAggregateInputType | true
+    }
+
+  export interface AttendanceSourceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AttendanceSource'], meta: { name: 'AttendanceSource' } }
+    /**
+     * Find zero or one AttendanceSource that matches the filter.
+     * @param {AttendanceSourceFindUniqueArgs} args - Arguments to find a AttendanceSource
+     * @example
+     * // Get one AttendanceSource
+     * const attendanceSource = await prisma.attendanceSource.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AttendanceSourceFindUniqueArgs>(args: SelectSubset<T, AttendanceSourceFindUniqueArgs<ExtArgs>>): Prisma__AttendanceSourceClient<$Result.GetResult<Prisma.$AttendanceSourcePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AttendanceSource that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AttendanceSourceFindUniqueOrThrowArgs} args - Arguments to find a AttendanceSource
+     * @example
+     * // Get one AttendanceSource
+     * const attendanceSource = await prisma.attendanceSource.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AttendanceSourceFindUniqueOrThrowArgs>(args: SelectSubset<T, AttendanceSourceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttendanceSourceClient<$Result.GetResult<Prisma.$AttendanceSourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttendanceSource that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceSourceFindFirstArgs} args - Arguments to find a AttendanceSource
+     * @example
+     * // Get one AttendanceSource
+     * const attendanceSource = await prisma.attendanceSource.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AttendanceSourceFindFirstArgs>(args?: SelectSubset<T, AttendanceSourceFindFirstArgs<ExtArgs>>): Prisma__AttendanceSourceClient<$Result.GetResult<Prisma.$AttendanceSourcePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttendanceSource that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceSourceFindFirstOrThrowArgs} args - Arguments to find a AttendanceSource
+     * @example
+     * // Get one AttendanceSource
+     * const attendanceSource = await prisma.attendanceSource.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AttendanceSourceFindFirstOrThrowArgs>(args?: SelectSubset<T, AttendanceSourceFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttendanceSourceClient<$Result.GetResult<Prisma.$AttendanceSourcePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AttendanceSources that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceSourceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AttendanceSources
+     * const attendanceSources = await prisma.attendanceSource.findMany()
+     * 
+     * // Get first 10 AttendanceSources
+     * const attendanceSources = await prisma.attendanceSource.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const attendanceSourceWithIdOnly = await prisma.attendanceSource.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AttendanceSourceFindManyArgs>(args?: SelectSubset<T, AttendanceSourceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceSourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AttendanceSource.
+     * @param {AttendanceSourceCreateArgs} args - Arguments to create a AttendanceSource.
+     * @example
+     * // Create one AttendanceSource
+     * const AttendanceSource = await prisma.attendanceSource.create({
+     *   data: {
+     *     // ... data to create a AttendanceSource
+     *   }
+     * })
+     * 
+     */
+    create<T extends AttendanceSourceCreateArgs>(args: SelectSubset<T, AttendanceSourceCreateArgs<ExtArgs>>): Prisma__AttendanceSourceClient<$Result.GetResult<Prisma.$AttendanceSourcePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AttendanceSources.
+     * @param {AttendanceSourceCreateManyArgs} args - Arguments to create many AttendanceSources.
+     * @example
+     * // Create many AttendanceSources
+     * const attendanceSource = await prisma.attendanceSource.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AttendanceSourceCreateManyArgs>(args?: SelectSubset<T, AttendanceSourceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AttendanceSources and returns the data saved in the database.
+     * @param {AttendanceSourceCreateManyAndReturnArgs} args - Arguments to create many AttendanceSources.
+     * @example
+     * // Create many AttendanceSources
+     * const attendanceSource = await prisma.attendanceSource.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AttendanceSources and only return the `id`
+     * const attendanceSourceWithIdOnly = await prisma.attendanceSource.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AttendanceSourceCreateManyAndReturnArgs>(args?: SelectSubset<T, AttendanceSourceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceSourcePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AttendanceSource.
+     * @param {AttendanceSourceDeleteArgs} args - Arguments to delete one AttendanceSource.
+     * @example
+     * // Delete one AttendanceSource
+     * const AttendanceSource = await prisma.attendanceSource.delete({
+     *   where: {
+     *     // ... filter to delete one AttendanceSource
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AttendanceSourceDeleteArgs>(args: SelectSubset<T, AttendanceSourceDeleteArgs<ExtArgs>>): Prisma__AttendanceSourceClient<$Result.GetResult<Prisma.$AttendanceSourcePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AttendanceSource.
+     * @param {AttendanceSourceUpdateArgs} args - Arguments to update one AttendanceSource.
+     * @example
+     * // Update one AttendanceSource
+     * const attendanceSource = await prisma.attendanceSource.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AttendanceSourceUpdateArgs>(args: SelectSubset<T, AttendanceSourceUpdateArgs<ExtArgs>>): Prisma__AttendanceSourceClient<$Result.GetResult<Prisma.$AttendanceSourcePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AttendanceSources.
+     * @param {AttendanceSourceDeleteManyArgs} args - Arguments to filter AttendanceSources to delete.
+     * @example
+     * // Delete a few AttendanceSources
+     * const { count } = await prisma.attendanceSource.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AttendanceSourceDeleteManyArgs>(args?: SelectSubset<T, AttendanceSourceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttendanceSources.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceSourceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AttendanceSources
+     * const attendanceSource = await prisma.attendanceSource.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AttendanceSourceUpdateManyArgs>(args: SelectSubset<T, AttendanceSourceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttendanceSources and returns the data updated in the database.
+     * @param {AttendanceSourceUpdateManyAndReturnArgs} args - Arguments to update many AttendanceSources.
+     * @example
+     * // Update many AttendanceSources
+     * const attendanceSource = await prisma.attendanceSource.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AttendanceSources and only return the `id`
+     * const attendanceSourceWithIdOnly = await prisma.attendanceSource.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AttendanceSourceUpdateManyAndReturnArgs>(args: SelectSubset<T, AttendanceSourceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceSourcePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AttendanceSource.
+     * @param {AttendanceSourceUpsertArgs} args - Arguments to update or create a AttendanceSource.
+     * @example
+     * // Update or create a AttendanceSource
+     * const attendanceSource = await prisma.attendanceSource.upsert({
+     *   create: {
+     *     // ... data to create a AttendanceSource
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AttendanceSource we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AttendanceSourceUpsertArgs>(args: SelectSubset<T, AttendanceSourceUpsertArgs<ExtArgs>>): Prisma__AttendanceSourceClient<$Result.GetResult<Prisma.$AttendanceSourcePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AttendanceSources.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceSourceCountArgs} args - Arguments to filter AttendanceSources to count.
+     * @example
+     * // Count the number of AttendanceSources
+     * const count = await prisma.attendanceSource.count({
+     *   where: {
+     *     // ... the filter for the AttendanceSources we want to count
+     *   }
+     * })
+    **/
+    count<T extends AttendanceSourceCountArgs>(
+      args?: Subset<T, AttendanceSourceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AttendanceSourceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AttendanceSource.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceSourceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AttendanceSourceAggregateArgs>(args: Subset<T, AttendanceSourceAggregateArgs>): Prisma.PrismaPromise<GetAttendanceSourceAggregateType<T>>
+
+    /**
+     * Group by AttendanceSource.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceSourceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AttendanceSourceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AttendanceSourceGroupByArgs['orderBy'] }
+        : { orderBy?: AttendanceSourceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AttendanceSourceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttendanceSourceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AttendanceSource model
+   */
+  readonly fields: AttendanceSourceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AttendanceSource.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AttendanceSourceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AttendanceSource model
+   */
+  interface AttendanceSourceFieldRefs {
+    readonly id: FieldRef<"AttendanceSource", 'String'>
+    readonly companyId: FieldRef<"AttendanceSource", 'String'>
+    readonly name: FieldRef<"AttendanceSource", 'String'>
+    readonly type: FieldRef<"AttendanceSource", 'AttendanceSourceType'>
+    readonly ingestionMode: FieldRef<"AttendanceSource", 'AttendanceIngestionMode'>
+    readonly configuration: FieldRef<"AttendanceSource", 'Json'>
+    readonly isActive: FieldRef<"AttendanceSource", 'Boolean'>
+    readonly priority: FieldRef<"AttendanceSource", 'Int'>
+    readonly healthStatus: FieldRef<"AttendanceSource", 'AttendanceSourceHealth'>
+    readonly lastSyncAt: FieldRef<"AttendanceSource", 'DateTime'>
+    readonly createdAt: FieldRef<"AttendanceSource", 'DateTime'>
+    readonly updatedAt: FieldRef<"AttendanceSource", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AttendanceSource findUnique
+   */
+  export type AttendanceSourceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSource
+     */
+    select?: AttendanceSourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSource
+     */
+    omit?: AttendanceSourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSourceInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceSource to fetch.
+     */
+    where: AttendanceSourceWhereUniqueInput
+  }
+
+  /**
+   * AttendanceSource findUniqueOrThrow
+   */
+  export type AttendanceSourceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSource
+     */
+    select?: AttendanceSourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSource
+     */
+    omit?: AttendanceSourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSourceInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceSource to fetch.
+     */
+    where: AttendanceSourceWhereUniqueInput
+  }
+
+  /**
+   * AttendanceSource findFirst
+   */
+  export type AttendanceSourceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSource
+     */
+    select?: AttendanceSourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSource
+     */
+    omit?: AttendanceSourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSourceInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceSource to fetch.
+     */
+    where?: AttendanceSourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceSources to fetch.
+     */
+    orderBy?: AttendanceSourceOrderByWithRelationInput | AttendanceSourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttendanceSources.
+     */
+    cursor?: AttendanceSourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceSources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceSources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttendanceSources.
+     */
+    distinct?: AttendanceSourceScalarFieldEnum | AttendanceSourceScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceSource findFirstOrThrow
+   */
+  export type AttendanceSourceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSource
+     */
+    select?: AttendanceSourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSource
+     */
+    omit?: AttendanceSourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSourceInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceSource to fetch.
+     */
+    where?: AttendanceSourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceSources to fetch.
+     */
+    orderBy?: AttendanceSourceOrderByWithRelationInput | AttendanceSourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttendanceSources.
+     */
+    cursor?: AttendanceSourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceSources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceSources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttendanceSources.
+     */
+    distinct?: AttendanceSourceScalarFieldEnum | AttendanceSourceScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceSource findMany
+   */
+  export type AttendanceSourceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSource
+     */
+    select?: AttendanceSourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSource
+     */
+    omit?: AttendanceSourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSourceInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceSources to fetch.
+     */
+    where?: AttendanceSourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceSources to fetch.
+     */
+    orderBy?: AttendanceSourceOrderByWithRelationInput | AttendanceSourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AttendanceSources.
+     */
+    cursor?: AttendanceSourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceSources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceSources.
+     */
+    skip?: number
+    distinct?: AttendanceSourceScalarFieldEnum | AttendanceSourceScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceSource create
+   */
+  export type AttendanceSourceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSource
+     */
+    select?: AttendanceSourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSource
+     */
+    omit?: AttendanceSourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSourceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AttendanceSource.
+     */
+    data: XOR<AttendanceSourceCreateInput, AttendanceSourceUncheckedCreateInput>
+  }
+
+  /**
+   * AttendanceSource createMany
+   */
+  export type AttendanceSourceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AttendanceSources.
+     */
+    data: AttendanceSourceCreateManyInput | AttendanceSourceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AttendanceSource createManyAndReturn
+   */
+  export type AttendanceSourceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSource
+     */
+    select?: AttendanceSourceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSource
+     */
+    omit?: AttendanceSourceOmit<ExtArgs> | null
+    /**
+     * The data used to create many AttendanceSources.
+     */
+    data: AttendanceSourceCreateManyInput | AttendanceSourceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSourceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AttendanceSource update
+   */
+  export type AttendanceSourceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSource
+     */
+    select?: AttendanceSourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSource
+     */
+    omit?: AttendanceSourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSourceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AttendanceSource.
+     */
+    data: XOR<AttendanceSourceUpdateInput, AttendanceSourceUncheckedUpdateInput>
+    /**
+     * Choose, which AttendanceSource to update.
+     */
+    where: AttendanceSourceWhereUniqueInput
+  }
+
+  /**
+   * AttendanceSource updateMany
+   */
+  export type AttendanceSourceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AttendanceSources.
+     */
+    data: XOR<AttendanceSourceUpdateManyMutationInput, AttendanceSourceUncheckedUpdateManyInput>
+    /**
+     * Filter which AttendanceSources to update
+     */
+    where?: AttendanceSourceWhereInput
+    /**
+     * Limit how many AttendanceSources to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendanceSource updateManyAndReturn
+   */
+  export type AttendanceSourceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSource
+     */
+    select?: AttendanceSourceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSource
+     */
+    omit?: AttendanceSourceOmit<ExtArgs> | null
+    /**
+     * The data used to update AttendanceSources.
+     */
+    data: XOR<AttendanceSourceUpdateManyMutationInput, AttendanceSourceUncheckedUpdateManyInput>
+    /**
+     * Filter which AttendanceSources to update
+     */
+    where?: AttendanceSourceWhereInput
+    /**
+     * Limit how many AttendanceSources to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSourceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AttendanceSource upsert
+   */
+  export type AttendanceSourceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSource
+     */
+    select?: AttendanceSourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSource
+     */
+    omit?: AttendanceSourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSourceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AttendanceSource to update in case it exists.
+     */
+    where: AttendanceSourceWhereUniqueInput
+    /**
+     * In case the AttendanceSource found by the `where` argument doesn't exist, create a new AttendanceSource with this data.
+     */
+    create: XOR<AttendanceSourceCreateInput, AttendanceSourceUncheckedCreateInput>
+    /**
+     * In case the AttendanceSource was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AttendanceSourceUpdateInput, AttendanceSourceUncheckedUpdateInput>
+  }
+
+  /**
+   * AttendanceSource delete
+   */
+  export type AttendanceSourceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSource
+     */
+    select?: AttendanceSourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSource
+     */
+    omit?: AttendanceSourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSourceInclude<ExtArgs> | null
+    /**
+     * Filter which AttendanceSource to delete.
+     */
+    where: AttendanceSourceWhereUniqueInput
+  }
+
+  /**
+   * AttendanceSource deleteMany
+   */
+  export type AttendanceSourceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttendanceSources to delete
+     */
+    where?: AttendanceSourceWhereInput
+    /**
+     * Limit how many AttendanceSources to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendanceSource without action
+   */
+  export type AttendanceSourceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSource
+     */
+    select?: AttendanceSourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSource
+     */
+    omit?: AttendanceSourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSourceInclude<ExtArgs> | null
   }
 
 
@@ -78630,6 +79987,24 @@ export namespace Prisma {
   export type AttendanceScalarFieldEnum = (typeof AttendanceScalarFieldEnum)[keyof typeof AttendanceScalarFieldEnum]
 
 
+  export const AttendanceSourceScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    name: 'name',
+    type: 'type',
+    ingestionMode: 'ingestionMode',
+    configuration: 'configuration',
+    isActive: 'isActive',
+    priority: 'priority',
+    healthStatus: 'healthStatus',
+    lastSyncAt: 'lastSyncAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AttendanceSourceScalarFieldEnum = (typeof AttendanceSourceScalarFieldEnum)[keyof typeof AttendanceSourceScalarFieldEnum]
+
+
   export const ShiftScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -79259,6 +80634,13 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -79273,6 +80655,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -79509,6 +80900,62 @@ export namespace Prisma {
    */
   export type ListEnumTicketRelationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketRelationType[]'>
     
+
+
+  /**
+   * Reference to a field of type 'AttendanceSourceType'
+   */
+  export type EnumAttendanceSourceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceSourceType'>
+    
+
+
+  /**
+   * Reference to a field of type 'AttendanceSourceType[]'
+   */
+  export type ListEnumAttendanceSourceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceSourceType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AttendanceIngestionMode'
+   */
+  export type EnumAttendanceIngestionModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceIngestionMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'AttendanceIngestionMode[]'
+   */
+  export type ListEnumAttendanceIngestionModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceIngestionMode[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'AttendanceSourceHealth'
+   */
+  export type EnumAttendanceSourceHealthFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceSourceHealth'>
+    
+
+
+  /**
+   * Reference to a field of type 'AttendanceSourceHealth[]'
+   */
+  export type ListEnumAttendanceSourceHealthFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceSourceHealth[]'>
+    
   /**
    * Deep Input Types
    */
@@ -79551,6 +80998,7 @@ export namespace Prisma {
     tickets?: TicketListRelationFilter
     supportDepartments?: SupportDepartmentListRelationFilter
     ticketCategories?: TicketCategoryListRelationFilter
+    attendanceSources?: AttendanceSourceListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -79587,6 +81035,7 @@ export namespace Prisma {
     tickets?: TicketOrderByRelationAggregateInput
     supportDepartments?: SupportDepartmentOrderByRelationAggregateInput
     ticketCategories?: TicketCategoryOrderByRelationAggregateInput
+    attendanceSources?: AttendanceSourceOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -79626,6 +81075,7 @@ export namespace Prisma {
     tickets?: TicketListRelationFilter
     supportDepartments?: SupportDepartmentListRelationFilter
     ticketCategories?: TicketCategoryListRelationFilter
+    attendanceSources?: AttendanceSourceListRelationFilter
   }, "id" | "name" | "subdomain">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -81517,6 +82967,98 @@ export namespace Prisma {
     shiftId?: StringNullableWithAggregatesFilter<"Attendance"> | string | null
     status?: StringWithAggregatesFilter<"Attendance"> | string
     isLate?: BoolWithAggregatesFilter<"Attendance"> | boolean
+  }
+
+  export type AttendanceSourceWhereInput = {
+    AND?: AttendanceSourceWhereInput | AttendanceSourceWhereInput[]
+    OR?: AttendanceSourceWhereInput[]
+    NOT?: AttendanceSourceWhereInput | AttendanceSourceWhereInput[]
+    id?: StringFilter<"AttendanceSource"> | string
+    companyId?: StringFilter<"AttendanceSource"> | string
+    name?: StringFilter<"AttendanceSource"> | string
+    type?: EnumAttendanceSourceTypeFilter<"AttendanceSource"> | $Enums.AttendanceSourceType
+    ingestionMode?: EnumAttendanceIngestionModeFilter<"AttendanceSource"> | $Enums.AttendanceIngestionMode
+    configuration?: JsonFilter<"AttendanceSource">
+    isActive?: BoolFilter<"AttendanceSource"> | boolean
+    priority?: IntFilter<"AttendanceSource"> | number
+    healthStatus?: EnumAttendanceSourceHealthFilter<"AttendanceSource"> | $Enums.AttendanceSourceHealth
+    lastSyncAt?: DateTimeNullableFilter<"AttendanceSource"> | Date | string | null
+    createdAt?: DateTimeFilter<"AttendanceSource"> | Date | string
+    updatedAt?: DateTimeFilter<"AttendanceSource"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }
+
+  export type AttendanceSourceOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    ingestionMode?: SortOrder
+    configuration?: SortOrder
+    isActive?: SortOrder
+    priority?: SortOrder
+    healthStatus?: SortOrder
+    lastSyncAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type AttendanceSourceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AttendanceSourceWhereInput | AttendanceSourceWhereInput[]
+    OR?: AttendanceSourceWhereInput[]
+    NOT?: AttendanceSourceWhereInput | AttendanceSourceWhereInput[]
+    companyId?: StringFilter<"AttendanceSource"> | string
+    name?: StringFilter<"AttendanceSource"> | string
+    type?: EnumAttendanceSourceTypeFilter<"AttendanceSource"> | $Enums.AttendanceSourceType
+    ingestionMode?: EnumAttendanceIngestionModeFilter<"AttendanceSource"> | $Enums.AttendanceIngestionMode
+    configuration?: JsonFilter<"AttendanceSource">
+    isActive?: BoolFilter<"AttendanceSource"> | boolean
+    priority?: IntFilter<"AttendanceSource"> | number
+    healthStatus?: EnumAttendanceSourceHealthFilter<"AttendanceSource"> | $Enums.AttendanceSourceHealth
+    lastSyncAt?: DateTimeNullableFilter<"AttendanceSource"> | Date | string | null
+    createdAt?: DateTimeFilter<"AttendanceSource"> | Date | string
+    updatedAt?: DateTimeFilter<"AttendanceSource"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }, "id">
+
+  export type AttendanceSourceOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    ingestionMode?: SortOrder
+    configuration?: SortOrder
+    isActive?: SortOrder
+    priority?: SortOrder
+    healthStatus?: SortOrder
+    lastSyncAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AttendanceSourceCountOrderByAggregateInput
+    _avg?: AttendanceSourceAvgOrderByAggregateInput
+    _max?: AttendanceSourceMaxOrderByAggregateInput
+    _min?: AttendanceSourceMinOrderByAggregateInput
+    _sum?: AttendanceSourceSumOrderByAggregateInput
+  }
+
+  export type AttendanceSourceScalarWhereWithAggregatesInput = {
+    AND?: AttendanceSourceScalarWhereWithAggregatesInput | AttendanceSourceScalarWhereWithAggregatesInput[]
+    OR?: AttendanceSourceScalarWhereWithAggregatesInput[]
+    NOT?: AttendanceSourceScalarWhereWithAggregatesInput | AttendanceSourceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AttendanceSource"> | string
+    companyId?: StringWithAggregatesFilter<"AttendanceSource"> | string
+    name?: StringWithAggregatesFilter<"AttendanceSource"> | string
+    type?: EnumAttendanceSourceTypeWithAggregatesFilter<"AttendanceSource"> | $Enums.AttendanceSourceType
+    ingestionMode?: EnumAttendanceIngestionModeWithAggregatesFilter<"AttendanceSource"> | $Enums.AttendanceIngestionMode
+    configuration?: JsonWithAggregatesFilter<"AttendanceSource">
+    isActive?: BoolWithAggregatesFilter<"AttendanceSource"> | boolean
+    priority?: IntWithAggregatesFilter<"AttendanceSource"> | number
+    healthStatus?: EnumAttendanceSourceHealthWithAggregatesFilter<"AttendanceSource"> | $Enums.AttendanceSourceHealth
+    lastSyncAt?: DateTimeNullableWithAggregatesFilter<"AttendanceSource"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AttendanceSource"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AttendanceSource"> | Date | string
   }
 
   export type ShiftWhereInput = {
@@ -84791,6 +86333,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -84827,6 +86370,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -84863,6 +86407,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -84899,6 +86444,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -86988,6 +88534,110 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isLate?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type AttendanceSourceCreateInput = {
+    id?: string
+    name: string
+    type: $Enums.AttendanceSourceType
+    ingestionMode: $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    priority?: number
+    healthStatus?: $Enums.AttendanceSourceHealth
+    lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAttendanceSourcesInput
+  }
+
+  export type AttendanceSourceUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AttendanceSourceType
+    ingestionMode: $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    priority?: number
+    healthStatus?: $Enums.AttendanceSourceHealth
+    lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceSourceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttendanceSourceTypeFieldUpdateOperationsInput | $Enums.AttendanceSourceType
+    ingestionMode?: EnumAttendanceIngestionModeFieldUpdateOperationsInput | $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    healthStatus?: EnumAttendanceSourceHealthFieldUpdateOperationsInput | $Enums.AttendanceSourceHealth
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAttendanceSourcesNestedInput
+  }
+
+  export type AttendanceSourceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttendanceSourceTypeFieldUpdateOperationsInput | $Enums.AttendanceSourceType
+    ingestionMode?: EnumAttendanceIngestionModeFieldUpdateOperationsInput | $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    healthStatus?: EnumAttendanceSourceHealthFieldUpdateOperationsInput | $Enums.AttendanceSourceHealth
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceSourceCreateManyInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AttendanceSourceType
+    ingestionMode: $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    priority?: number
+    healthStatus?: $Enums.AttendanceSourceHealth
+    lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceSourceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttendanceSourceTypeFieldUpdateOperationsInput | $Enums.AttendanceSourceType
+    ingestionMode?: EnumAttendanceIngestionModeFieldUpdateOperationsInput | $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    healthStatus?: EnumAttendanceSourceHealthFieldUpdateOperationsInput | $Enums.AttendanceSourceHealth
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceSourceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttendanceSourceTypeFieldUpdateOperationsInput | $Enums.AttendanceSourceType
+    ingestionMode?: EnumAttendanceIngestionModeFieldUpdateOperationsInput | $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    healthStatus?: EnumAttendanceSourceHealthFieldUpdateOperationsInput | $Enums.AttendanceSourceHealth
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ShiftCreateInput = {
@@ -90672,6 +92322,12 @@ export namespace Prisma {
     none?: TicketCategoryWhereInput
   }
 
+  export type AttendanceSourceListRelationFilter = {
+    every?: AttendanceSourceWhereInput
+    some?: AttendanceSourceWhereInput
+    none?: AttendanceSourceWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -90746,6 +92402,10 @@ export namespace Prisma {
   }
 
   export type TicketCategoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AttendanceSourceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -92455,6 +94115,157 @@ export namespace Prisma {
 
   export type AttendanceSumOrderByAggregateInput = {
     hours?: SortOrder
+  }
+
+  export type EnumAttendanceSourceTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceSourceType | EnumAttendanceSourceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceSourceType[] | ListEnumAttendanceSourceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceSourceType[] | ListEnumAttendanceSourceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceSourceTypeFilter<$PrismaModel> | $Enums.AttendanceSourceType
+  }
+
+  export type EnumAttendanceIngestionModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceIngestionMode | EnumAttendanceIngestionModeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceIngestionMode[] | ListEnumAttendanceIngestionModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceIngestionMode[] | ListEnumAttendanceIngestionModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceIngestionModeFilter<$PrismaModel> | $Enums.AttendanceIngestionMode
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type EnumAttendanceSourceHealthFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceSourceHealth | EnumAttendanceSourceHealthFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceSourceHealth[] | ListEnumAttendanceSourceHealthFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceSourceHealth[] | ListEnumAttendanceSourceHealthFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceSourceHealthFilter<$PrismaModel> | $Enums.AttendanceSourceHealth
+  }
+
+  export type AttendanceSourceCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    ingestionMode?: SortOrder
+    configuration?: SortOrder
+    isActive?: SortOrder
+    priority?: SortOrder
+    healthStatus?: SortOrder
+    lastSyncAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttendanceSourceAvgOrderByAggregateInput = {
+    priority?: SortOrder
+  }
+
+  export type AttendanceSourceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    ingestionMode?: SortOrder
+    isActive?: SortOrder
+    priority?: SortOrder
+    healthStatus?: SortOrder
+    lastSyncAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttendanceSourceMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    ingestionMode?: SortOrder
+    isActive?: SortOrder
+    priority?: SortOrder
+    healthStatus?: SortOrder
+    lastSyncAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AttendanceSourceSumOrderByAggregateInput = {
+    priority?: SortOrder
+  }
+
+  export type EnumAttendanceSourceTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceSourceType | EnumAttendanceSourceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceSourceType[] | ListEnumAttendanceSourceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceSourceType[] | ListEnumAttendanceSourceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceSourceTypeWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceSourceType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceSourceTypeFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceSourceTypeFilter<$PrismaModel>
+  }
+
+  export type EnumAttendanceIngestionModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceIngestionMode | EnumAttendanceIngestionModeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceIngestionMode[] | ListEnumAttendanceIngestionModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceIngestionMode[] | ListEnumAttendanceIngestionModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceIngestionModeWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceIngestionMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceIngestionModeFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceIngestionModeFilter<$PrismaModel>
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type EnumAttendanceSourceHealthWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceSourceHealth | EnumAttendanceSourceHealthFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceSourceHealth[] | ListEnumAttendanceSourceHealthFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceSourceHealth[] | ListEnumAttendanceSourceHealthFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceSourceHealthWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceSourceHealth
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceSourceHealthFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceSourceHealthFilter<$PrismaModel>
   }
 
   export type ShiftPolicyOverrideNullableScalarRelationFilter = {
@@ -94517,6 +96328,13 @@ export namespace Prisma {
     connect?: TicketCategoryWhereUniqueInput | TicketCategoryWhereUniqueInput[]
   }
 
+  export type AttendanceSourceCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AttendanceSourceCreateWithoutCompanyInput, AttendanceSourceUncheckedCreateWithoutCompanyInput> | AttendanceSourceCreateWithoutCompanyInput[] | AttendanceSourceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AttendanceSourceCreateOrConnectWithoutCompanyInput | AttendanceSourceCreateOrConnectWithoutCompanyInput[]
+    createMany?: AttendanceSourceCreateManyCompanyInputEnvelope
+    connect?: AttendanceSourceWhereUniqueInput | AttendanceSourceWhereUniqueInput[]
+  }
+
   export type AssetUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<AssetCreateWithoutCompanyInput, AssetUncheckedCreateWithoutCompanyInput> | AssetCreateWithoutCompanyInput[] | AssetUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutCompanyInput | AssetCreateOrConnectWithoutCompanyInput[]
@@ -94647,6 +96465,13 @@ export namespace Prisma {
     connectOrCreate?: TicketCategoryCreateOrConnectWithoutCompanyInput | TicketCategoryCreateOrConnectWithoutCompanyInput[]
     createMany?: TicketCategoryCreateManyCompanyInputEnvelope
     connect?: TicketCategoryWhereUniqueInput | TicketCategoryWhereUniqueInput[]
+  }
+
+  export type AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AttendanceSourceCreateWithoutCompanyInput, AttendanceSourceUncheckedCreateWithoutCompanyInput> | AttendanceSourceCreateWithoutCompanyInput[] | AttendanceSourceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AttendanceSourceCreateOrConnectWithoutCompanyInput | AttendanceSourceCreateOrConnectWithoutCompanyInput[]
+    createMany?: AttendanceSourceCreateManyCompanyInputEnvelope
+    connect?: AttendanceSourceWhereUniqueInput | AttendanceSourceWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -94923,6 +96748,20 @@ export namespace Prisma {
     deleteMany?: TicketCategoryScalarWhereInput | TicketCategoryScalarWhereInput[]
   }
 
+  export type AttendanceSourceUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AttendanceSourceCreateWithoutCompanyInput, AttendanceSourceUncheckedCreateWithoutCompanyInput> | AttendanceSourceCreateWithoutCompanyInput[] | AttendanceSourceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AttendanceSourceCreateOrConnectWithoutCompanyInput | AttendanceSourceCreateOrConnectWithoutCompanyInput[]
+    upsert?: AttendanceSourceUpsertWithWhereUniqueWithoutCompanyInput | AttendanceSourceUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AttendanceSourceCreateManyCompanyInputEnvelope
+    set?: AttendanceSourceWhereUniqueInput | AttendanceSourceWhereUniqueInput[]
+    disconnect?: AttendanceSourceWhereUniqueInput | AttendanceSourceWhereUniqueInput[]
+    delete?: AttendanceSourceWhereUniqueInput | AttendanceSourceWhereUniqueInput[]
+    connect?: AttendanceSourceWhereUniqueInput | AttendanceSourceWhereUniqueInput[]
+    update?: AttendanceSourceUpdateWithWhereUniqueWithoutCompanyInput | AttendanceSourceUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AttendanceSourceUpdateManyWithWhereWithoutCompanyInput | AttendanceSourceUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AttendanceSourceScalarWhereInput | AttendanceSourceScalarWhereInput[]
+  }
+
   export type AssetUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<AssetCreateWithoutCompanyInput, AssetUncheckedCreateWithoutCompanyInput> | AssetCreateWithoutCompanyInput[] | AssetUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutCompanyInput | AssetCreateOrConnectWithoutCompanyInput[]
@@ -95183,6 +97022,20 @@ export namespace Prisma {
     update?: TicketCategoryUpdateWithWhereUniqueWithoutCompanyInput | TicketCategoryUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: TicketCategoryUpdateManyWithWhereWithoutCompanyInput | TicketCategoryUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: TicketCategoryScalarWhereInput | TicketCategoryScalarWhereInput[]
+  }
+
+  export type AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AttendanceSourceCreateWithoutCompanyInput, AttendanceSourceUncheckedCreateWithoutCompanyInput> | AttendanceSourceCreateWithoutCompanyInput[] | AttendanceSourceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AttendanceSourceCreateOrConnectWithoutCompanyInput | AttendanceSourceCreateOrConnectWithoutCompanyInput[]
+    upsert?: AttendanceSourceUpsertWithWhereUniqueWithoutCompanyInput | AttendanceSourceUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AttendanceSourceCreateManyCompanyInputEnvelope
+    set?: AttendanceSourceWhereUniqueInput | AttendanceSourceWhereUniqueInput[]
+    disconnect?: AttendanceSourceWhereUniqueInput | AttendanceSourceWhereUniqueInput[]
+    delete?: AttendanceSourceWhereUniqueInput | AttendanceSourceWhereUniqueInput[]
+    connect?: AttendanceSourceWhereUniqueInput | AttendanceSourceWhereUniqueInput[]
+    update?: AttendanceSourceUpdateWithWhereUniqueWithoutCompanyInput | AttendanceSourceUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AttendanceSourceUpdateManyWithWhereWithoutCompanyInput | AttendanceSourceUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AttendanceSourceScalarWhereInput | AttendanceSourceScalarWhereInput[]
   }
 
   export type AssetCreateNestedManyWithoutUserInput = {
@@ -98084,6 +99937,32 @@ export namespace Prisma {
     deleteMany?: BreakScalarWhereInput | BreakScalarWhereInput[]
   }
 
+  export type CompanyCreateNestedOneWithoutAttendanceSourcesInput = {
+    create?: XOR<CompanyCreateWithoutAttendanceSourcesInput, CompanyUncheckedCreateWithoutAttendanceSourcesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAttendanceSourcesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type EnumAttendanceSourceTypeFieldUpdateOperationsInput = {
+    set?: $Enums.AttendanceSourceType
+  }
+
+  export type EnumAttendanceIngestionModeFieldUpdateOperationsInput = {
+    set?: $Enums.AttendanceIngestionMode
+  }
+
+  export type EnumAttendanceSourceHealthFieldUpdateOperationsInput = {
+    set?: $Enums.AttendanceSourceHealth
+  }
+
+  export type CompanyUpdateOneRequiredWithoutAttendanceSourcesNestedInput = {
+    create?: XOR<CompanyCreateWithoutAttendanceSourcesInput, CompanyUncheckedCreateWithoutAttendanceSourcesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAttendanceSourcesInput
+    upsert?: CompanyUpsertWithoutAttendanceSourcesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAttendanceSourcesInput, CompanyUpdateWithoutAttendanceSourcesInput>, CompanyUncheckedUpdateWithoutAttendanceSourcesInput>
+  }
+
   export type AttendanceCreateNestedManyWithoutShiftInput = {
     create?: XOR<AttendanceCreateWithoutShiftInput, AttendanceUncheckedCreateWithoutShiftInput> | AttendanceCreateWithoutShiftInput[] | AttendanceUncheckedCreateWithoutShiftInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutShiftInput | AttendanceCreateOrConnectWithoutShiftInput[]
@@ -99999,6 +101878,80 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedEnumAttendanceSourceTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceSourceType | EnumAttendanceSourceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceSourceType[] | ListEnumAttendanceSourceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceSourceType[] | ListEnumAttendanceSourceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceSourceTypeFilter<$PrismaModel> | $Enums.AttendanceSourceType
+  }
+
+  export type NestedEnumAttendanceIngestionModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceIngestionMode | EnumAttendanceIngestionModeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceIngestionMode[] | ListEnumAttendanceIngestionModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceIngestionMode[] | ListEnumAttendanceIngestionModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceIngestionModeFilter<$PrismaModel> | $Enums.AttendanceIngestionMode
+  }
+
+  export type NestedEnumAttendanceSourceHealthFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceSourceHealth | EnumAttendanceSourceHealthFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceSourceHealth[] | ListEnumAttendanceSourceHealthFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceSourceHealth[] | ListEnumAttendanceSourceHealthFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceSourceHealthFilter<$PrismaModel> | $Enums.AttendanceSourceHealth
+  }
+
+  export type NestedEnumAttendanceSourceTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceSourceType | EnumAttendanceSourceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceSourceType[] | ListEnumAttendanceSourceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceSourceType[] | ListEnumAttendanceSourceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceSourceTypeWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceSourceType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceSourceTypeFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceSourceTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAttendanceIngestionModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceIngestionMode | EnumAttendanceIngestionModeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceIngestionMode[] | ListEnumAttendanceIngestionModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceIngestionMode[] | ListEnumAttendanceIngestionModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceIngestionModeWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceIngestionMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceIngestionModeFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceIngestionModeFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumAttendanceSourceHealthWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceSourceHealth | EnumAttendanceSourceHealthFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceSourceHealth[] | ListEnumAttendanceSourceHealthFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceSourceHealth[] | ListEnumAttendanceSourceHealthFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceSourceHealthWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceSourceHealth
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceSourceHealthFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceSourceHealthFilter<$PrismaModel>
+  }
+
   export type NestedBoolNullableFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
@@ -100871,6 +102824,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AttendanceSourceCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    type: $Enums.AttendanceSourceType
+    ingestionMode: $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    priority?: number
+    healthStatus?: $Enums.AttendanceSourceHealth
+    lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceSourceUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    type: $Enums.AttendanceSourceType
+    ingestionMode: $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    priority?: number
+    healthStatus?: $Enums.AttendanceSourceHealth
+    lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceSourceCreateOrConnectWithoutCompanyInput = {
+    where: AttendanceSourceWhereUniqueInput
+    create: XOR<AttendanceSourceCreateWithoutCompanyInput, AttendanceSourceUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AttendanceSourceCreateManyCompanyInputEnvelope = {
+    data: AttendanceSourceCreateManyCompanyInput | AttendanceSourceCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AssetUpsertWithWhereUniqueWithoutCompanyInput = {
     where: AssetWhereUniqueInput
     update: XOR<AssetUpdateWithoutCompanyInput, AssetUncheckedUpdateWithoutCompanyInput>
@@ -101536,6 +103527,40 @@ export namespace Prisma {
     description?: StringNullableFilter<"TicketCategory"> | string | null
     isActive?: BoolFilter<"TicketCategory"> | boolean
     deletedAt?: DateTimeNullableFilter<"TicketCategory"> | Date | string | null
+  }
+
+  export type AttendanceSourceUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: AttendanceSourceWhereUniqueInput
+    update: XOR<AttendanceSourceUpdateWithoutCompanyInput, AttendanceSourceUncheckedUpdateWithoutCompanyInput>
+    create: XOR<AttendanceSourceCreateWithoutCompanyInput, AttendanceSourceUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AttendanceSourceUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: AttendanceSourceWhereUniqueInput
+    data: XOR<AttendanceSourceUpdateWithoutCompanyInput, AttendanceSourceUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type AttendanceSourceUpdateManyWithWhereWithoutCompanyInput = {
+    where: AttendanceSourceScalarWhereInput
+    data: XOR<AttendanceSourceUpdateManyMutationInput, AttendanceSourceUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type AttendanceSourceScalarWhereInput = {
+    AND?: AttendanceSourceScalarWhereInput | AttendanceSourceScalarWhereInput[]
+    OR?: AttendanceSourceScalarWhereInput[]
+    NOT?: AttendanceSourceScalarWhereInput | AttendanceSourceScalarWhereInput[]
+    id?: StringFilter<"AttendanceSource"> | string
+    companyId?: StringFilter<"AttendanceSource"> | string
+    name?: StringFilter<"AttendanceSource"> | string
+    type?: EnumAttendanceSourceTypeFilter<"AttendanceSource"> | $Enums.AttendanceSourceType
+    ingestionMode?: EnumAttendanceIngestionModeFilter<"AttendanceSource"> | $Enums.AttendanceIngestionMode
+    configuration?: JsonFilter<"AttendanceSource">
+    isActive?: BoolFilter<"AttendanceSource"> | boolean
+    priority?: IntFilter<"AttendanceSource"> | number
+    healthStatus?: EnumAttendanceSourceHealthFilter<"AttendanceSource"> | $Enums.AttendanceSourceHealth
+    lastSyncAt?: DateTimeNullableFilter<"AttendanceSource"> | Date | string | null
+    createdAt?: DateTimeFilter<"AttendanceSource"> | Date | string
+    updatedAt?: DateTimeFilter<"AttendanceSource"> | Date | string
   }
 
   export type AssetCreateWithoutUserInput = {
@@ -102471,6 +104496,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -102506,6 +104532,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -104201,6 +106228,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -104236,6 +106264,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutSubordinatesInput = {
@@ -104795,6 +106824,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAccessRolesInput = {
@@ -104830,6 +106860,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAccessRolesInput = {
@@ -105037,6 +107068,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAccessRolesInput = {
@@ -105072,6 +107104,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type AccessRolePermissionUpsertWithWhereUniqueWithoutAccessRoleInput = {
@@ -105241,6 +107274,7 @@ export namespace Prisma {
     accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSupportDepartmentsInput = {
@@ -105276,6 +107310,7 @@ export namespace Prisma {
     accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSupportDepartmentsInput = {
@@ -105572,6 +107607,7 @@ export namespace Prisma {
     accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSupportDepartmentsInput = {
@@ -105607,6 +107643,7 @@ export namespace Prisma {
     accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutSupportQueuesOwnedInput = {
@@ -105967,6 +108004,7 @@ export namespace Prisma {
     accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketCategoriesInput = {
@@ -106002,6 +108040,7 @@ export namespace Prisma {
     accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketCategoriesInput = {
@@ -106180,6 +108219,7 @@ export namespace Prisma {
     accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketCategoriesInput = {
@@ -106215,6 +108255,7 @@ export namespace Prisma {
     accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type SupportDepartmentUpsertWithoutCategoriesInput = {
@@ -106315,6 +108356,7 @@ export namespace Prisma {
     accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -106350,6 +108392,7 @@ export namespace Prisma {
     accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -106933,6 +108976,7 @@ export namespace Prisma {
     accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -106968,6 +109012,7 @@ export namespace Prisma {
     accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsRequestedInput = {
@@ -110722,6 +112767,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutProfilesInput = {
@@ -110757,6 +112803,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutProfilesInput = {
@@ -110965,6 +113012,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutProfilesInput = {
@@ -111000,6 +113048,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutProfileInput = {
@@ -111524,6 +113573,166 @@ export namespace Prisma {
     duration?: FloatNullableFilter<"Break"> | number | null
   }
 
+  export type CompanyCreateWithoutAttendanceSourcesInput = {
+    id?: string
+    name: string
+    subdomain?: string | null
+    domain?: string | null
+    plan?: string
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: string
+    slogan?: string | null
+    logoMediumUrl?: string | null
+    logoThumbnailUrl?: string | null
+    faviconUrl?: string | null
+    leaveAccrualMode?: string
+    assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
+    attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
+    expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
+    holidays?: HolidayCreateNestedManyWithoutCompanyInput
+    jobPostings?: JobPostingCreateNestedManyWithoutCompanyInput
+    jobRoles?: JobRoleCreateNestedManyWithoutCompanyInput
+    leaveTypes?: LeaveTypeCreateNestedManyWithoutCompanyInput
+    profiles?: ProfileCreateNestedManyWithoutCompanyInput
+    shifts?: ShiftCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
+    ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutAttendanceSourcesInput = {
+    id?: string
+    name: string
+    subdomain?: string | null
+    domain?: string | null
+    plan?: string
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: string
+    slogan?: string | null
+    logoMediumUrl?: string | null
+    logoThumbnailUrl?: string | null
+    faviconUrl?: string | null
+    leaveAccrualMode?: string
+    assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
+    attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
+    expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
+    jobPostings?: JobPostingUncheckedCreateNestedManyWithoutCompanyInput
+    jobRoles?: JobRoleUncheckedCreateNestedManyWithoutCompanyInput
+    leaveTypes?: LeaveTypeUncheckedCreateNestedManyWithoutCompanyInput
+    profiles?: ProfileUncheckedCreateNestedManyWithoutCompanyInput
+    shifts?: ShiftUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
+    ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutAttendanceSourcesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutAttendanceSourcesInput, CompanyUncheckedCreateWithoutAttendanceSourcesInput>
+  }
+
+  export type CompanyUpsertWithoutAttendanceSourcesInput = {
+    update: XOR<CompanyUpdateWithoutAttendanceSourcesInput, CompanyUncheckedUpdateWithoutAttendanceSourcesInput>
+    create: XOR<CompanyCreateWithoutAttendanceSourcesInput, CompanyUncheckedCreateWithoutAttendanceSourcesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutAttendanceSourcesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutAttendanceSourcesInput, CompanyUncheckedUpdateWithoutAttendanceSourcesInput>
+  }
+
+  export type CompanyUpdateWithoutAttendanceSourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: NullableStringFieldUpdateOperationsInput | string | null
+    domain?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
+    assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
+    attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
+    expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
+    holidays?: HolidayUpdateManyWithoutCompanyNestedInput
+    jobPostings?: JobPostingUpdateManyWithoutCompanyNestedInput
+    jobRoles?: JobRoleUpdateManyWithoutCompanyNestedInput
+    leaveTypes?: LeaveTypeUpdateManyWithoutCompanyNestedInput
+    profiles?: ProfileUpdateManyWithoutCompanyNestedInput
+    shifts?: ShiftUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
+    ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutAttendanceSourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: NullableStringFieldUpdateOperationsInput | string | null
+    domain?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
+    assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
+    attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
+    jobPostings?: JobPostingUncheckedUpdateManyWithoutCompanyNestedInput
+    jobRoles?: JobRoleUncheckedUpdateManyWithoutCompanyNestedInput
+    leaveTypes?: LeaveTypeUncheckedUpdateManyWithoutCompanyNestedInput
+    profiles?: ProfileUncheckedUpdateManyWithoutCompanyNestedInput
+    shifts?: ShiftUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
   export type AttendanceCreateWithoutShiftInput = {
     id?: string
     date: Date | string
@@ -111593,6 +113802,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutShiftsInput = {
@@ -111628,6 +113838,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutShiftsInput = {
@@ -111846,6 +114057,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutShiftsInput = {
@@ -111881,6 +114093,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ShiftPolicyOverrideUpsertWithoutShiftInput = {
@@ -111973,6 +114186,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAttendancePolicyInput = {
@@ -112008,6 +114222,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAttendancePolicyInput = {
@@ -112059,6 +114274,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAttendancePolicyInput = {
@@ -112094,6 +114310,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ShiftCreateWithoutPolicyOverrideInput = {
@@ -112587,6 +114804,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeaveTypesInput = {
@@ -112622,6 +114840,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeaveTypesInput = {
@@ -112721,6 +114940,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeaveTypesInput = {
@@ -112756,6 +114976,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeaveTypeCreateWithoutEncashmentsInput = {
@@ -113667,6 +115888,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutHolidaysInput = {
@@ -113702,6 +115924,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutHolidaysInput = {
@@ -113753,6 +115976,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutHolidaysInput = {
@@ -113788,6 +116012,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutOnboardingInput = {
@@ -116639,6 +118864,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRecognitionsInput = {
@@ -116674,6 +118900,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRecognitionsInput = {
@@ -116959,6 +119186,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRecognitionsInput = {
@@ -116994,6 +119222,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type JobApplicationCreateWithoutJobInput = {
@@ -117059,6 +119288,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutJobPostingsInput = {
@@ -117094,6 +119324,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutJobPostingsInput = {
@@ -117175,6 +119406,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutJobPostingsInput = {
@@ -117210,6 +119442,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type JobPostingCreateWithoutApplicationsInput = {
@@ -117301,6 +119534,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutExpenseCategoriesInput = {
@@ -117336,6 +119570,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutExpenseCategoriesInput = {
@@ -117419,6 +119654,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutExpenseCategoriesInput = {
@@ -117454,6 +119690,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ExpenseClaimUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -118116,6 +120353,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssetsInput = {
@@ -118151,6 +120389,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssetsInput = {
@@ -118319,6 +120558,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssetsInput = {
@@ -118354,6 +120594,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutDocumentsInput = {
@@ -119073,6 +121314,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutJobRolesInput = {
@@ -119108,6 +121350,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutJobRolesInput = {
@@ -119159,6 +121402,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutJobRolesInput = {
@@ -119194,6 +121438,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutTimesheetsInput = {
@@ -119668,6 +121913,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTasksInput = {
@@ -119703,6 +121949,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTasksInput = {
@@ -120016,6 +122263,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTasksInput = {
@@ -120051,6 +122299,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTasksInput = {
@@ -120336,6 +122585,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWorkLogsInput = {
@@ -120371,6 +122621,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWorkLogsInput = {
@@ -120533,6 +122784,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWorkLogsInput = {
@@ -120568,6 +122820,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutWorkLogsInput = {
@@ -121176,6 +123429,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBranchesInput = {
@@ -121211,6 +123465,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBranchesInput = {
@@ -121384,6 +123639,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBranchesInput = {
@@ -121419,6 +123675,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type DepartmentUpsertWithWhereUniqueWithoutBranchInput = {
@@ -121486,6 +123743,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutDepartmentsInput = {
@@ -121521,6 +123779,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutDepartmentsInput = {
@@ -121689,6 +123948,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutDepartmentsInput = {
@@ -121724,6 +123984,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type BranchUpsertWithoutDepartmentsInput = {
@@ -122003,6 +124264,20 @@ export namespace Prisma {
     description?: string | null
     isActive?: boolean
     deletedAt?: Date | string | null
+  }
+
+  export type AttendanceSourceCreateManyCompanyInput = {
+    id?: string
+    name: string
+    type: $Enums.AttendanceSourceType
+    ingestionMode: $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    priority?: number
+    healthStatus?: $Enums.AttendanceSourceHealth
+    lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AssetUpdateWithoutCompanyInput = {
@@ -122833,6 +125108,48 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AttendanceSourceUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttendanceSourceTypeFieldUpdateOperationsInput | $Enums.AttendanceSourceType
+    ingestionMode?: EnumAttendanceIngestionModeFieldUpdateOperationsInput | $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    healthStatus?: EnumAttendanceSourceHealthFieldUpdateOperationsInput | $Enums.AttendanceSourceHealth
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceSourceUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttendanceSourceTypeFieldUpdateOperationsInput | $Enums.AttendanceSourceType
+    ingestionMode?: EnumAttendanceIngestionModeFieldUpdateOperationsInput | $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    healthStatus?: EnumAttendanceSourceHealthFieldUpdateOperationsInput | $Enums.AttendanceSourceHealth
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceSourceUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttendanceSourceTypeFieldUpdateOperationsInput | $Enums.AttendanceSourceType
+    ingestionMode?: EnumAttendanceIngestionModeFieldUpdateOperationsInput | $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    healthStatus?: EnumAttendanceSourceHealthFieldUpdateOperationsInput | $Enums.AttendanceSourceHealth
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AssetCreateManyUserInput = {
