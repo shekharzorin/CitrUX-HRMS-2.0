@@ -1,5 +1,13 @@
 import { z } from 'zod';
 
+export const gpsCheckinSchema = z.object({
+    eventType: z.enum(['CHECK_IN', 'CHECK_OUT']),
+    lat: z.coerce.number().min(-90).max(90),
+    lng: z.coerce.number().min(-180).max(180),
+    accuracy: z.coerce.number().nonnegative().optional(),
+    selfieUrl: z.string().url().optional().or(z.literal('')),
+}).passthrough();
+
 export const manualSchema = z.object({
     userId: z.string().min(1, 'Employee is required'),
     sourceId: z.string().min(1).nullable().optional(),

@@ -2,12 +2,17 @@ import { Router, Request, Response, NextFunction } from 'express';
 import multer from 'multer';
 import { requirePermission } from '../../shared/auth';
 import { validate } from '../../middlewares/validate.middleware';
-import { manualSchema } from './attendance-ingestion.validators';
-import { recordManual, previewCsv, importCsv } from './attendance-ingestion.controller';
+import { manualSchema, gpsCheckinSchema } from './attendance-ingestion.validators';
+import { recordManual, previewCsv, importCsv, getCheckinOptions, gpsCheckin } from './attendance-ingestion.controller';
 
 // Mounted at /api/attendance-ingestion behind authenticateToken + requireFeature('ATTENDANCE_FRAMEWORK').
-// Recording attendance requires MANAGE_ATTENDANCE (ADMIN / HR).
 const router = Router();
+
+// ── Employee self-service GPS check-in (no MANAGE_ATTENDANCE — you check yourself in) ──
+router.get('/checkin/options', getCheckinOptions);
+router.post('/checkin', validate({ body: gpsCheckinSchema }), gpsCheckin);
+
+// ── Admin/HR recording (manual + CSV) requires MANAGE_ATTENDANCE ──
 router.use(requirePermission('MANAGE_ATTENDANCE'));
 
 const csvUpload = multer({

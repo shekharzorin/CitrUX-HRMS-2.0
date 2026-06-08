@@ -3,6 +3,17 @@ import { AuthRequest } from '../../shared/auth';
 import { AppError } from '../../middlewares/error.middleware';
 import { AttendanceIngestionService } from './attendance-ingestion.service';
 
+export const getCheckinOptions = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try { res.json(await AttendanceIngestionService.getCheckinOptions(req.user!)); } catch (err) { next(err); }
+};
+
+export const gpsCheckin = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+        const body = { ...req.body, selfieUrl: req.body.selfieUrl || undefined };
+        res.status(201).json(await AttendanceIngestionService.gpsCheckIn(req.user!, body));
+    } catch (err) { next(err); }
+};
+
 export const recordManual = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
         const body = { ...req.body, checkOut: req.body.checkOut || undefined };

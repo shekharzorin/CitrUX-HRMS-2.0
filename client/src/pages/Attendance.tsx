@@ -12,9 +12,10 @@ import { useAttendanceWidget } from '../hooks/useAttendanceWidget';
 // Sub-components
 import { AttendanceTable } from '../components/attendance/AttendanceTable';
 import { FiltersBar } from '../components/attendance/FiltersBar';
+import GpsCheckIn from '../components/attendance/GpsCheckIn';
 
 const Attendance: React.FC = () => {
-    const { user } = useAuth();
+    const { user, hasFeature } = useAuth();
     
     // Core Logic Hook
     const { 
@@ -84,7 +85,10 @@ const Attendance: React.FC = () => {
 
     return (
         <div className="page-container space-y-8 pb-12 bg-slate-50/50 min-h-screen">
-            
+
+            {/* GPS attendance (Attendance Framework) — renders only when a Mobile GPS source is active */}
+            {hasFeature('ATTENDANCE_FRAMEWORK') && <GpsCheckIn onDone={refresh} />}
+
             {/* 1. WORK CONTROL PANEL (Main Component) */}
             <div className="card-premium p-0 overflow-hidden border-none shadow-2xl shadow-indigo-500/10">
                 <div className="bg-white dark:bg-slate-900 p-8 flex flex-col md:flex-row items-center justify-between gap-8">

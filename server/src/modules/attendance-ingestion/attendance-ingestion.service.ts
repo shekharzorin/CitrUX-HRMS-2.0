@@ -4,6 +4,7 @@ import { AuditService } from '../../services/audit.service';
 import type { JwtPayload } from '../../shared/auth';
 import { utcMidnight, combineDateTime, upsertEvent, deleteEventByDedup, parseCsv } from './ingestion.util';
 import { projectDay, projectDays } from './attendance-engine';
+import { findContainingGeofence } from './geofence.util';
 
 const MAX_CSV_ROWS = 5000;
 
@@ -65,6 +66,74 @@ export class AttendanceIngestionService {
             via: 'MANUAL', date: input.date, sourceId: source?.id ?? null,
         });
         return result;
+    }
+
+    // ── Mobile GPS (employee self check-in) ───────────────────────────────────
+    private static async activeGpsSource(companyId: string) {
+        return prisma.attendanceSource.findFirst({
+            where: { companyId, type: 'MOBILE_GPS', isActive: true },
+            orderBy: { priority: 'desc' },
+        });
+    }
+
+    /** What the employee app needs to render the GPS check-in surface. */
+    static async getCheckinOptions(user: JwtPayload) {
+        const companyId = requireCompany(user);
+        const source = await this.activeGpsSource(companyId);
+        const cfg: any = source?.configuration ?? {};
+        return {
+            gpsEnabled: !!source,
+            sourceName: source?.name ?? null,
+            requireGeofence: !!cfg.requireGeofence,
+            requireSelfie: !!cfg.requireSelfie,
+            accuracyThresholdMeters: Number(cfg.accuracyThresholdMeters) || null,
+        };
+    }
+
+    /** Employee checks THEMSELVES in/out via GPS → validated event → projection. */
+    static async gpsCheckIn(user: JwtPayload, input: {
+        eventType: 'CHECK_IN' | 'CHECK_OUT'; lat: number; lng: number; accuracy?: number; selfieUrl?: string;
+    }) {
+        const companyId = requireCompany(user);
+        const source = await this.activeGpsSource(companyId);
+        if (!source) throw new AppError('GPS attendance is not enabled for your company', 400);
+        const cfg: any = source.configuration ?? {};
+
+        if (cfg.requireSelfie && !input.selfieUrl) throw new AppError('A selfie is required to check in', 400);
+
+        const threshold = Number(cfg.accuracyThresholdMeters) || 0;
+        if (threshold > 0 && typeof input.accuracy === 'number' && input.accuracy > threshold) {
+            throw new AppError(`Location accuracy too low (${Math.round(input.accuracy)}m > ${threshold}m). Try again outdoors.`, 400);
+        }
+
+        let geofenceId: string | null = null;
+        let geofenceName: string | null = null;
+        if (cfg.requireGeofence) {
+            const fences = await prisma.geofence.findMany({ where: { companyId, isActive: true } });
+            if (fences.length === 0) throw new AppError('No allowed locations are configured. Contact your admin.', 400);
+            const match = findContainingGeofence(input.lat, input.lng, fences as any);
+            if (!match) throw new AppError('You are outside an allowed location for attendance', 403);
+            geofenceId = match.fence.id;
+            geofenceName = match.fence.name;
+        }
+
+        const now = new Date();
+        const dateStr = now.toISOString().slice(0, 10); // UTC business date
+        const businessDate = utcMidnight(dateStr);
+        const dedupKey = `gps:${user.userId}:${dateStr}:${input.eventType}`;
+
+        await upsertEvent({
+            companyId, userId: user.userId, sourceId: source.id, eventType: input.eventType,
+            timestamp: now, businessDate, verificationMethod: 'MOBILE_GPS', dedupKey,
+            locationData: { lat: input.lat, lng: input.lng, accuracy: input.accuracy ?? null, geofenceId, selfieUrl: input.selfieUrl ?? null },
+            ingestedVia: 'MOBILE_GPS', createdById: user.userId,
+        });
+
+        const result = await projectDay(companyId, user.userId, businessDate, source.id);
+        await AuditService.log(user.userId, 'CREATE', 'ATTENDANCE_EVENT', user.userId, {
+            via: 'MOBILE_GPS', eventType: input.eventType, geofence: geofenceName,
+        });
+        return { ...result, eventType: input.eventType, geofence: geofenceName };
     }
 
     // ── CSV ──────────────────────────────────────────────────────────────────

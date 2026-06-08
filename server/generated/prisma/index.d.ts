@@ -119,6 +119,11 @@ export type AttendanceEvent = $Result.DefaultSelection<Prisma.$AttendanceEventPa
  */
 export type AttendanceSource = $Result.DefaultSelection<Prisma.$AttendanceSourcePayload>
 /**
+ * Model Geofence
+ * 
+ */
+export type Geofence = $Result.DefaultSelection<Prisma.$GeofencePayload>
+/**
  * Model Shift
  * 
  */
@@ -904,6 +909,16 @@ export class PrismaClient<
     * ```
     */
   get attendanceSource(): Prisma.AttendanceSourceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.geofence`: Exposes CRUD operations for the **Geofence** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Geofences
+    * const geofences = await prisma.geofence.findMany()
+    * ```
+    */
+  get geofence(): Prisma.GeofenceDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.shift`: Exposes CRUD operations for the **Shift** model.
@@ -1766,6 +1781,7 @@ export namespace Prisma {
     Attendance: 'Attendance',
     AttendanceEvent: 'AttendanceEvent',
     AttendanceSource: 'AttendanceSource',
+    Geofence: 'Geofence',
     Shift: 'Shift',
     AttendancePolicy: 'AttendancePolicy',
     ShiftPolicyOverride: 'ShiftPolicyOverride',
@@ -1824,7 +1840,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "accessRole" | "accessRolePermission" | "supportDepartment" | "supportQueueRole" | "ticketCategory" | "ticket" | "ticketComment" | "ticketAttachment" | "ticketActivity" | "ticketWatcher" | "ticketAssignment" | "ticketRelationship" | "aiJob" | "salaryStructure" | "payslip" | "profile" | "attendance" | "attendanceEvent" | "attendanceSource" | "shift" | "attendancePolicy" | "shiftPolicyOverride" | "userPolicyOverride" | "break" | "leaveType" | "leaveEncashment" | "leaveBalance" | "leaveRequest" | "holiday" | "onboarding" | "onboardingEmergencyContact" | "onboardingExperience" | "onboardingEducation" | "onboardingDocument" | "offboarding" | "exitInterview" | "goal" | "performanceReview" | "recognition" | "jobPosting" | "jobApplication" | "expenseCategory" | "expenseClaim" | "certificate" | "asset" | "userDocument" | "notification" | "jobRole" | "systemSetting" | "timesheet" | "timesheetEntry" | "task" | "workLog" | "attendanceRequest" | "auditLog" | "systemError" | "moduleHealth" | "branch" | "department"
+      modelProps: "company" | "user" | "accessRole" | "accessRolePermission" | "supportDepartment" | "supportQueueRole" | "ticketCategory" | "ticket" | "ticketComment" | "ticketAttachment" | "ticketActivity" | "ticketWatcher" | "ticketAssignment" | "ticketRelationship" | "aiJob" | "salaryStructure" | "payslip" | "profile" | "attendance" | "attendanceEvent" | "attendanceSource" | "geofence" | "shift" | "attendancePolicy" | "shiftPolicyOverride" | "userPolicyOverride" | "break" | "leaveType" | "leaveEncashment" | "leaveBalance" | "leaveRequest" | "holiday" | "onboarding" | "onboardingEmergencyContact" | "onboardingExperience" | "onboardingEducation" | "onboardingDocument" | "offboarding" | "exitInterview" | "goal" | "performanceReview" | "recognition" | "jobPosting" | "jobApplication" | "expenseCategory" | "expenseClaim" | "certificate" | "asset" | "userDocument" | "notification" | "jobRole" | "systemSetting" | "timesheet" | "timesheetEntry" | "task" | "workLog" | "attendanceRequest" | "auditLog" | "systemError" | "moduleHealth" | "branch" | "department"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3379,6 +3395,80 @@ export namespace Prisma {
           count: {
             args: Prisma.AttendanceSourceCountArgs<ExtArgs>
             result: $Utils.Optional<AttendanceSourceCountAggregateOutputType> | number
+          }
+        }
+      }
+      Geofence: {
+        payload: Prisma.$GeofencePayload<ExtArgs>
+        fields: Prisma.GeofenceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GeofenceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeofencePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GeofenceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeofencePayload>
+          }
+          findFirst: {
+            args: Prisma.GeofenceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeofencePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GeofenceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeofencePayload>
+          }
+          findMany: {
+            args: Prisma.GeofenceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeofencePayload>[]
+          }
+          create: {
+            args: Prisma.GeofenceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeofencePayload>
+          }
+          createMany: {
+            args: Prisma.GeofenceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GeofenceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeofencePayload>[]
+          }
+          delete: {
+            args: Prisma.GeofenceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeofencePayload>
+          }
+          update: {
+            args: Prisma.GeofenceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeofencePayload>
+          }
+          deleteMany: {
+            args: Prisma.GeofenceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GeofenceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GeofenceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeofencePayload>[]
+          }
+          upsert: {
+            args: Prisma.GeofenceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeofencePayload>
+          }
+          aggregate: {
+            args: Prisma.GeofenceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGeofence>
+          }
+          groupBy: {
+            args: Prisma.GeofenceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GeofenceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GeofenceCountArgs<ExtArgs>
+            result: $Utils.Optional<GeofenceCountAggregateOutputType> | number
           }
         }
       }
@@ -6459,6 +6549,7 @@ export namespace Prisma {
     attendance?: AttendanceOmit
     attendanceEvent?: AttendanceEventOmit
     attendanceSource?: AttendanceSourceOmit
+    geofence?: GeofenceOmit
     shift?: ShiftOmit
     attendancePolicy?: AttendancePolicyOmit
     shiftPolicyOverride?: ShiftPolicyOverrideOmit
@@ -6598,6 +6689,7 @@ export namespace Prisma {
     supportDepartments: number
     ticketCategories: number
     attendanceSources: number
+    geofences: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6620,6 +6712,7 @@ export namespace Prisma {
     supportDepartments?: boolean | CompanyCountOutputTypeCountSupportDepartmentsArgs
     ticketCategories?: boolean | CompanyCountOutputTypeCountTicketCategoriesArgs
     attendanceSources?: boolean | CompanyCountOutputTypeCountAttendanceSourcesArgs
+    geofences?: boolean | CompanyCountOutputTypeCountGeofencesArgs
   }
 
   // Custom InputTypes
@@ -6764,6 +6857,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountAttendanceSourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttendanceSourceWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountGeofencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GeofenceWhereInput
   }
 
 
@@ -8004,6 +8104,7 @@ export namespace Prisma {
     supportDepartments?: boolean | Company$supportDepartmentsArgs<ExtArgs>
     ticketCategories?: boolean | Company$ticketCategoriesArgs<ExtArgs>
     attendanceSources?: boolean | Company$attendanceSourcesArgs<ExtArgs>
+    geofences?: boolean | Company$geofencesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -8080,6 +8181,7 @@ export namespace Prisma {
     supportDepartments?: boolean | Company$supportDepartmentsArgs<ExtArgs>
     ticketCategories?: boolean | Company$ticketCategoriesArgs<ExtArgs>
     attendanceSources?: boolean | Company$attendanceSourcesArgs<ExtArgs>
+    geofences?: boolean | Company$geofencesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8108,6 +8210,7 @@ export namespace Prisma {
       supportDepartments: Prisma.$SupportDepartmentPayload<ExtArgs>[]
       ticketCategories: Prisma.$TicketCategoryPayload<ExtArgs>[]
       attendanceSources: Prisma.$AttendanceSourcePayload<ExtArgs>[]
+      geofences: Prisma.$GeofencePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8538,6 +8641,7 @@ export namespace Prisma {
     supportDepartments<T extends Company$supportDepartmentsArgs<ExtArgs> = {}>(args?: Subset<T, Company$supportDepartmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportDepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ticketCategories<T extends Company$ticketCategoriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$ticketCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     attendanceSources<T extends Company$attendanceSourcesArgs<ExtArgs> = {}>(args?: Subset<T, Company$attendanceSourcesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceSourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    geofences<T extends Company$geofencesArgs<ExtArgs> = {}>(args?: Subset<T, Company$geofencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeofencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9441,6 +9545,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AttendanceSourceScalarFieldEnum | AttendanceSourceScalarFieldEnum[]
+  }
+
+  /**
+   * Company.geofences
+   */
+  export type Company$geofencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Geofence
+     */
+    select?: GeofenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Geofence
+     */
+    omit?: GeofenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeofenceInclude<ExtArgs> | null
+    where?: GeofenceWhereInput
+    orderBy?: GeofenceOrderByWithRelationInput | GeofenceOrderByWithRelationInput[]
+    cursor?: GeofenceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GeofenceScalarFieldEnum | GeofenceScalarFieldEnum[]
   }
 
   /**
@@ -34863,6 +34991,1158 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AttendanceSourceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Geofence
+   */
+
+  export type AggregateGeofence = {
+    _count: GeofenceCountAggregateOutputType | null
+    _avg: GeofenceAvgAggregateOutputType | null
+    _sum: GeofenceSumAggregateOutputType | null
+    _min: GeofenceMinAggregateOutputType | null
+    _max: GeofenceMaxAggregateOutputType | null
+  }
+
+  export type GeofenceAvgAggregateOutputType = {
+    centerLat: number | null
+    centerLng: number | null
+    radiusMeters: number | null
+  }
+
+  export type GeofenceSumAggregateOutputType = {
+    centerLat: number | null
+    centerLng: number | null
+    radiusMeters: number | null
+  }
+
+  export type GeofenceMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    name: string | null
+    centerLat: number | null
+    centerLng: number | null
+    radiusMeters: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GeofenceMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    name: string | null
+    centerLat: number | null
+    centerLng: number | null
+    radiusMeters: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GeofenceCountAggregateOutputType = {
+    id: number
+    companyId: number
+    name: number
+    centerLat: number
+    centerLng: number
+    radiusMeters: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GeofenceAvgAggregateInputType = {
+    centerLat?: true
+    centerLng?: true
+    radiusMeters?: true
+  }
+
+  export type GeofenceSumAggregateInputType = {
+    centerLat?: true
+    centerLng?: true
+    radiusMeters?: true
+  }
+
+  export type GeofenceMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    name?: true
+    centerLat?: true
+    centerLng?: true
+    radiusMeters?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GeofenceMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    name?: true
+    centerLat?: true
+    centerLng?: true
+    radiusMeters?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GeofenceCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    name?: true
+    centerLat?: true
+    centerLng?: true
+    radiusMeters?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GeofenceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Geofence to aggregate.
+     */
+    where?: GeofenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Geofences to fetch.
+     */
+    orderBy?: GeofenceOrderByWithRelationInput | GeofenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GeofenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Geofences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Geofences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Geofences
+    **/
+    _count?: true | GeofenceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GeofenceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GeofenceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GeofenceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GeofenceMaxAggregateInputType
+  }
+
+  export type GetGeofenceAggregateType<T extends GeofenceAggregateArgs> = {
+        [P in keyof T & keyof AggregateGeofence]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGeofence[P]>
+      : GetScalarType<T[P], AggregateGeofence[P]>
+  }
+
+
+
+
+  export type GeofenceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GeofenceWhereInput
+    orderBy?: GeofenceOrderByWithAggregationInput | GeofenceOrderByWithAggregationInput[]
+    by: GeofenceScalarFieldEnum[] | GeofenceScalarFieldEnum
+    having?: GeofenceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GeofenceCountAggregateInputType | true
+    _avg?: GeofenceAvgAggregateInputType
+    _sum?: GeofenceSumAggregateInputType
+    _min?: GeofenceMinAggregateInputType
+    _max?: GeofenceMaxAggregateInputType
+  }
+
+  export type GeofenceGroupByOutputType = {
+    id: string
+    companyId: string
+    name: string
+    centerLat: number
+    centerLng: number
+    radiusMeters: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: GeofenceCountAggregateOutputType | null
+    _avg: GeofenceAvgAggregateOutputType | null
+    _sum: GeofenceSumAggregateOutputType | null
+    _min: GeofenceMinAggregateOutputType | null
+    _max: GeofenceMaxAggregateOutputType | null
+  }
+
+  type GetGeofenceGroupByPayload<T extends GeofenceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GeofenceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GeofenceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GeofenceGroupByOutputType[P]>
+            : GetScalarType<T[P], GeofenceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GeofenceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    name?: boolean
+    centerLat?: boolean
+    centerLng?: boolean
+    radiusMeters?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["geofence"]>
+
+  export type GeofenceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    name?: boolean
+    centerLat?: boolean
+    centerLng?: boolean
+    radiusMeters?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["geofence"]>
+
+  export type GeofenceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    name?: boolean
+    centerLat?: boolean
+    centerLng?: boolean
+    radiusMeters?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["geofence"]>
+
+  export type GeofenceSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    name?: boolean
+    centerLat?: boolean
+    centerLng?: boolean
+    radiusMeters?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type GeofenceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "name" | "centerLat" | "centerLng" | "radiusMeters" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["geofence"]>
+  export type GeofenceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type GeofenceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type GeofenceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $GeofencePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Geofence"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      name: string
+      centerLat: number
+      centerLng: number
+      radiusMeters: number
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["geofence"]>
+    composites: {}
+  }
+
+  type GeofenceGetPayload<S extends boolean | null | undefined | GeofenceDefaultArgs> = $Result.GetResult<Prisma.$GeofencePayload, S>
+
+  type GeofenceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GeofenceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GeofenceCountAggregateInputType | true
+    }
+
+  export interface GeofenceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Geofence'], meta: { name: 'Geofence' } }
+    /**
+     * Find zero or one Geofence that matches the filter.
+     * @param {GeofenceFindUniqueArgs} args - Arguments to find a Geofence
+     * @example
+     * // Get one Geofence
+     * const geofence = await prisma.geofence.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GeofenceFindUniqueArgs>(args: SelectSubset<T, GeofenceFindUniqueArgs<ExtArgs>>): Prisma__GeofenceClient<$Result.GetResult<Prisma.$GeofencePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Geofence that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GeofenceFindUniqueOrThrowArgs} args - Arguments to find a Geofence
+     * @example
+     * // Get one Geofence
+     * const geofence = await prisma.geofence.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GeofenceFindUniqueOrThrowArgs>(args: SelectSubset<T, GeofenceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GeofenceClient<$Result.GetResult<Prisma.$GeofencePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Geofence that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeofenceFindFirstArgs} args - Arguments to find a Geofence
+     * @example
+     * // Get one Geofence
+     * const geofence = await prisma.geofence.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GeofenceFindFirstArgs>(args?: SelectSubset<T, GeofenceFindFirstArgs<ExtArgs>>): Prisma__GeofenceClient<$Result.GetResult<Prisma.$GeofencePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Geofence that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeofenceFindFirstOrThrowArgs} args - Arguments to find a Geofence
+     * @example
+     * // Get one Geofence
+     * const geofence = await prisma.geofence.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GeofenceFindFirstOrThrowArgs>(args?: SelectSubset<T, GeofenceFindFirstOrThrowArgs<ExtArgs>>): Prisma__GeofenceClient<$Result.GetResult<Prisma.$GeofencePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Geofences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeofenceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Geofences
+     * const geofences = await prisma.geofence.findMany()
+     * 
+     * // Get first 10 Geofences
+     * const geofences = await prisma.geofence.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const geofenceWithIdOnly = await prisma.geofence.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GeofenceFindManyArgs>(args?: SelectSubset<T, GeofenceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeofencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Geofence.
+     * @param {GeofenceCreateArgs} args - Arguments to create a Geofence.
+     * @example
+     * // Create one Geofence
+     * const Geofence = await prisma.geofence.create({
+     *   data: {
+     *     // ... data to create a Geofence
+     *   }
+     * })
+     * 
+     */
+    create<T extends GeofenceCreateArgs>(args: SelectSubset<T, GeofenceCreateArgs<ExtArgs>>): Prisma__GeofenceClient<$Result.GetResult<Prisma.$GeofencePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Geofences.
+     * @param {GeofenceCreateManyArgs} args - Arguments to create many Geofences.
+     * @example
+     * // Create many Geofences
+     * const geofence = await prisma.geofence.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GeofenceCreateManyArgs>(args?: SelectSubset<T, GeofenceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Geofences and returns the data saved in the database.
+     * @param {GeofenceCreateManyAndReturnArgs} args - Arguments to create many Geofences.
+     * @example
+     * // Create many Geofences
+     * const geofence = await prisma.geofence.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Geofences and only return the `id`
+     * const geofenceWithIdOnly = await prisma.geofence.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GeofenceCreateManyAndReturnArgs>(args?: SelectSubset<T, GeofenceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeofencePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Geofence.
+     * @param {GeofenceDeleteArgs} args - Arguments to delete one Geofence.
+     * @example
+     * // Delete one Geofence
+     * const Geofence = await prisma.geofence.delete({
+     *   where: {
+     *     // ... filter to delete one Geofence
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GeofenceDeleteArgs>(args: SelectSubset<T, GeofenceDeleteArgs<ExtArgs>>): Prisma__GeofenceClient<$Result.GetResult<Prisma.$GeofencePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Geofence.
+     * @param {GeofenceUpdateArgs} args - Arguments to update one Geofence.
+     * @example
+     * // Update one Geofence
+     * const geofence = await prisma.geofence.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GeofenceUpdateArgs>(args: SelectSubset<T, GeofenceUpdateArgs<ExtArgs>>): Prisma__GeofenceClient<$Result.GetResult<Prisma.$GeofencePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Geofences.
+     * @param {GeofenceDeleteManyArgs} args - Arguments to filter Geofences to delete.
+     * @example
+     * // Delete a few Geofences
+     * const { count } = await prisma.geofence.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GeofenceDeleteManyArgs>(args?: SelectSubset<T, GeofenceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Geofences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeofenceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Geofences
+     * const geofence = await prisma.geofence.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GeofenceUpdateManyArgs>(args: SelectSubset<T, GeofenceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Geofences and returns the data updated in the database.
+     * @param {GeofenceUpdateManyAndReturnArgs} args - Arguments to update many Geofences.
+     * @example
+     * // Update many Geofences
+     * const geofence = await prisma.geofence.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Geofences and only return the `id`
+     * const geofenceWithIdOnly = await prisma.geofence.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GeofenceUpdateManyAndReturnArgs>(args: SelectSubset<T, GeofenceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeofencePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Geofence.
+     * @param {GeofenceUpsertArgs} args - Arguments to update or create a Geofence.
+     * @example
+     * // Update or create a Geofence
+     * const geofence = await prisma.geofence.upsert({
+     *   create: {
+     *     // ... data to create a Geofence
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Geofence we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GeofenceUpsertArgs>(args: SelectSubset<T, GeofenceUpsertArgs<ExtArgs>>): Prisma__GeofenceClient<$Result.GetResult<Prisma.$GeofencePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Geofences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeofenceCountArgs} args - Arguments to filter Geofences to count.
+     * @example
+     * // Count the number of Geofences
+     * const count = await prisma.geofence.count({
+     *   where: {
+     *     // ... the filter for the Geofences we want to count
+     *   }
+     * })
+    **/
+    count<T extends GeofenceCountArgs>(
+      args?: Subset<T, GeofenceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GeofenceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Geofence.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeofenceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GeofenceAggregateArgs>(args: Subset<T, GeofenceAggregateArgs>): Prisma.PrismaPromise<GetGeofenceAggregateType<T>>
+
+    /**
+     * Group by Geofence.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeofenceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GeofenceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GeofenceGroupByArgs['orderBy'] }
+        : { orderBy?: GeofenceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GeofenceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGeofenceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Geofence model
+   */
+  readonly fields: GeofenceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Geofence.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GeofenceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Geofence model
+   */
+  interface GeofenceFieldRefs {
+    readonly id: FieldRef<"Geofence", 'String'>
+    readonly companyId: FieldRef<"Geofence", 'String'>
+    readonly name: FieldRef<"Geofence", 'String'>
+    readonly centerLat: FieldRef<"Geofence", 'Float'>
+    readonly centerLng: FieldRef<"Geofence", 'Float'>
+    readonly radiusMeters: FieldRef<"Geofence", 'Int'>
+    readonly isActive: FieldRef<"Geofence", 'Boolean'>
+    readonly createdAt: FieldRef<"Geofence", 'DateTime'>
+    readonly updatedAt: FieldRef<"Geofence", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Geofence findUnique
+   */
+  export type GeofenceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Geofence
+     */
+    select?: GeofenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Geofence
+     */
+    omit?: GeofenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeofenceInclude<ExtArgs> | null
+    /**
+     * Filter, which Geofence to fetch.
+     */
+    where: GeofenceWhereUniqueInput
+  }
+
+  /**
+   * Geofence findUniqueOrThrow
+   */
+  export type GeofenceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Geofence
+     */
+    select?: GeofenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Geofence
+     */
+    omit?: GeofenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeofenceInclude<ExtArgs> | null
+    /**
+     * Filter, which Geofence to fetch.
+     */
+    where: GeofenceWhereUniqueInput
+  }
+
+  /**
+   * Geofence findFirst
+   */
+  export type GeofenceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Geofence
+     */
+    select?: GeofenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Geofence
+     */
+    omit?: GeofenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeofenceInclude<ExtArgs> | null
+    /**
+     * Filter, which Geofence to fetch.
+     */
+    where?: GeofenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Geofences to fetch.
+     */
+    orderBy?: GeofenceOrderByWithRelationInput | GeofenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Geofences.
+     */
+    cursor?: GeofenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Geofences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Geofences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Geofences.
+     */
+    distinct?: GeofenceScalarFieldEnum | GeofenceScalarFieldEnum[]
+  }
+
+  /**
+   * Geofence findFirstOrThrow
+   */
+  export type GeofenceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Geofence
+     */
+    select?: GeofenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Geofence
+     */
+    omit?: GeofenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeofenceInclude<ExtArgs> | null
+    /**
+     * Filter, which Geofence to fetch.
+     */
+    where?: GeofenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Geofences to fetch.
+     */
+    orderBy?: GeofenceOrderByWithRelationInput | GeofenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Geofences.
+     */
+    cursor?: GeofenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Geofences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Geofences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Geofences.
+     */
+    distinct?: GeofenceScalarFieldEnum | GeofenceScalarFieldEnum[]
+  }
+
+  /**
+   * Geofence findMany
+   */
+  export type GeofenceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Geofence
+     */
+    select?: GeofenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Geofence
+     */
+    omit?: GeofenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeofenceInclude<ExtArgs> | null
+    /**
+     * Filter, which Geofences to fetch.
+     */
+    where?: GeofenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Geofences to fetch.
+     */
+    orderBy?: GeofenceOrderByWithRelationInput | GeofenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Geofences.
+     */
+    cursor?: GeofenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Geofences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Geofences.
+     */
+    skip?: number
+    distinct?: GeofenceScalarFieldEnum | GeofenceScalarFieldEnum[]
+  }
+
+  /**
+   * Geofence create
+   */
+  export type GeofenceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Geofence
+     */
+    select?: GeofenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Geofence
+     */
+    omit?: GeofenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeofenceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Geofence.
+     */
+    data: XOR<GeofenceCreateInput, GeofenceUncheckedCreateInput>
+  }
+
+  /**
+   * Geofence createMany
+   */
+  export type GeofenceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Geofences.
+     */
+    data: GeofenceCreateManyInput | GeofenceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Geofence createManyAndReturn
+   */
+  export type GeofenceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Geofence
+     */
+    select?: GeofenceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Geofence
+     */
+    omit?: GeofenceOmit<ExtArgs> | null
+    /**
+     * The data used to create many Geofences.
+     */
+    data: GeofenceCreateManyInput | GeofenceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeofenceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Geofence update
+   */
+  export type GeofenceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Geofence
+     */
+    select?: GeofenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Geofence
+     */
+    omit?: GeofenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeofenceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Geofence.
+     */
+    data: XOR<GeofenceUpdateInput, GeofenceUncheckedUpdateInput>
+    /**
+     * Choose, which Geofence to update.
+     */
+    where: GeofenceWhereUniqueInput
+  }
+
+  /**
+   * Geofence updateMany
+   */
+  export type GeofenceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Geofences.
+     */
+    data: XOR<GeofenceUpdateManyMutationInput, GeofenceUncheckedUpdateManyInput>
+    /**
+     * Filter which Geofences to update
+     */
+    where?: GeofenceWhereInput
+    /**
+     * Limit how many Geofences to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Geofence updateManyAndReturn
+   */
+  export type GeofenceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Geofence
+     */
+    select?: GeofenceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Geofence
+     */
+    omit?: GeofenceOmit<ExtArgs> | null
+    /**
+     * The data used to update Geofences.
+     */
+    data: XOR<GeofenceUpdateManyMutationInput, GeofenceUncheckedUpdateManyInput>
+    /**
+     * Filter which Geofences to update
+     */
+    where?: GeofenceWhereInput
+    /**
+     * Limit how many Geofences to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeofenceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Geofence upsert
+   */
+  export type GeofenceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Geofence
+     */
+    select?: GeofenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Geofence
+     */
+    omit?: GeofenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeofenceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Geofence to update in case it exists.
+     */
+    where: GeofenceWhereUniqueInput
+    /**
+     * In case the Geofence found by the `where` argument doesn't exist, create a new Geofence with this data.
+     */
+    create: XOR<GeofenceCreateInput, GeofenceUncheckedCreateInput>
+    /**
+     * In case the Geofence was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GeofenceUpdateInput, GeofenceUncheckedUpdateInput>
+  }
+
+  /**
+   * Geofence delete
+   */
+  export type GeofenceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Geofence
+     */
+    select?: GeofenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Geofence
+     */
+    omit?: GeofenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeofenceInclude<ExtArgs> | null
+    /**
+     * Filter which Geofence to delete.
+     */
+    where: GeofenceWhereUniqueInput
+  }
+
+  /**
+   * Geofence deleteMany
+   */
+  export type GeofenceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Geofences to delete
+     */
+    where?: GeofenceWhereInput
+    /**
+     * Limit how many Geofences to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Geofence without action
+   */
+  export type GeofenceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Geofence
+     */
+    select?: GeofenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Geofence
+     */
+    omit?: GeofenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeofenceInclude<ExtArgs> | null
   }
 
 
@@ -81476,6 +82756,21 @@ export namespace Prisma {
   export type AttendanceSourceScalarFieldEnum = (typeof AttendanceSourceScalarFieldEnum)[keyof typeof AttendanceSourceScalarFieldEnum]
 
 
+  export const GeofenceScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    name: 'name',
+    centerLat: 'centerLat',
+    centerLng: 'centerLng',
+    radiusMeters: 'radiusMeters',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type GeofenceScalarFieldEnum = (typeof GeofenceScalarFieldEnum)[keyof typeof GeofenceScalarFieldEnum]
+
+
   export const ShiftScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -82492,6 +83787,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentListRelationFilter
     ticketCategories?: TicketCategoryListRelationFilter
     attendanceSources?: AttendanceSourceListRelationFilter
+    geofences?: GeofenceListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -82529,6 +83825,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentOrderByRelationAggregateInput
     ticketCategories?: TicketCategoryOrderByRelationAggregateInput
     attendanceSources?: AttendanceSourceOrderByRelationAggregateInput
+    geofences?: GeofenceOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -82569,6 +83866,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentListRelationFilter
     ticketCategories?: TicketCategoryListRelationFilter
     attendanceSources?: AttendanceSourceListRelationFilter
+    geofences?: GeofenceListRelationFilter
   }, "id" | "name" | "subdomain">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -84682,6 +85980,83 @@ export namespace Prisma {
     lastSyncAt?: DateTimeNullableWithAggregatesFilter<"AttendanceSource"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AttendanceSource"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AttendanceSource"> | Date | string
+  }
+
+  export type GeofenceWhereInput = {
+    AND?: GeofenceWhereInput | GeofenceWhereInput[]
+    OR?: GeofenceWhereInput[]
+    NOT?: GeofenceWhereInput | GeofenceWhereInput[]
+    id?: StringFilter<"Geofence"> | string
+    companyId?: StringFilter<"Geofence"> | string
+    name?: StringFilter<"Geofence"> | string
+    centerLat?: FloatFilter<"Geofence"> | number
+    centerLng?: FloatFilter<"Geofence"> | number
+    radiusMeters?: IntFilter<"Geofence"> | number
+    isActive?: BoolFilter<"Geofence"> | boolean
+    createdAt?: DateTimeFilter<"Geofence"> | Date | string
+    updatedAt?: DateTimeFilter<"Geofence"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }
+
+  export type GeofenceOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    centerLat?: SortOrder
+    centerLng?: SortOrder
+    radiusMeters?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type GeofenceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: GeofenceWhereInput | GeofenceWhereInput[]
+    OR?: GeofenceWhereInput[]
+    NOT?: GeofenceWhereInput | GeofenceWhereInput[]
+    companyId?: StringFilter<"Geofence"> | string
+    name?: StringFilter<"Geofence"> | string
+    centerLat?: FloatFilter<"Geofence"> | number
+    centerLng?: FloatFilter<"Geofence"> | number
+    radiusMeters?: IntFilter<"Geofence"> | number
+    isActive?: BoolFilter<"Geofence"> | boolean
+    createdAt?: DateTimeFilter<"Geofence"> | Date | string
+    updatedAt?: DateTimeFilter<"Geofence"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }, "id">
+
+  export type GeofenceOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    centerLat?: SortOrder
+    centerLng?: SortOrder
+    radiusMeters?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: GeofenceCountOrderByAggregateInput
+    _avg?: GeofenceAvgOrderByAggregateInput
+    _max?: GeofenceMaxOrderByAggregateInput
+    _min?: GeofenceMinOrderByAggregateInput
+    _sum?: GeofenceSumOrderByAggregateInput
+  }
+
+  export type GeofenceScalarWhereWithAggregatesInput = {
+    AND?: GeofenceScalarWhereWithAggregatesInput | GeofenceScalarWhereWithAggregatesInput[]
+    OR?: GeofenceScalarWhereWithAggregatesInput[]
+    NOT?: GeofenceScalarWhereWithAggregatesInput | GeofenceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Geofence"> | string
+    companyId?: StringWithAggregatesFilter<"Geofence"> | string
+    name?: StringWithAggregatesFilter<"Geofence"> | string
+    centerLat?: FloatWithAggregatesFilter<"Geofence"> | number
+    centerLng?: FloatWithAggregatesFilter<"Geofence"> | number
+    radiusMeters?: IntWithAggregatesFilter<"Geofence"> | number
+    isActive?: BoolWithAggregatesFilter<"Geofence"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Geofence"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Geofence"> | Date | string
   }
 
   export type ShiftWhereInput = {
@@ -87957,6 +89332,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -87994,6 +89370,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -88031,6 +89408,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -88068,6 +89446,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -90412,6 +91791,89 @@ export namespace Prisma {
     priority?: IntFieldUpdateOperationsInput | number
     healthStatus?: EnumAttendanceSourceHealthFieldUpdateOperationsInput | $Enums.AttendanceSourceHealth
     lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeofenceCreateInput = {
+    id?: string
+    name: string
+    centerLat: number
+    centerLng: number
+    radiusMeters?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutGeofencesInput
+  }
+
+  export type GeofenceUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    name: string
+    centerLat: number
+    centerLng: number
+    radiusMeters?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GeofenceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    centerLat?: FloatFieldUpdateOperationsInput | number
+    centerLng?: FloatFieldUpdateOperationsInput | number
+    radiusMeters?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutGeofencesNestedInput
+  }
+
+  export type GeofenceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    centerLat?: FloatFieldUpdateOperationsInput | number
+    centerLng?: FloatFieldUpdateOperationsInput | number
+    radiusMeters?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeofenceCreateManyInput = {
+    id?: string
+    companyId: string
+    name: string
+    centerLat: number
+    centerLng: number
+    radiusMeters?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GeofenceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    centerLat?: FloatFieldUpdateOperationsInput | number
+    centerLng?: FloatFieldUpdateOperationsInput | number
+    radiusMeters?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeofenceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    centerLat?: FloatFieldUpdateOperationsInput | number
+    centerLng?: FloatFieldUpdateOperationsInput | number
+    radiusMeters?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -94104,6 +95566,12 @@ export namespace Prisma {
     none?: AttendanceSourceWhereInput
   }
 
+  export type GeofenceListRelationFilter = {
+    every?: GeofenceWhereInput
+    some?: GeofenceWhereInput
+    none?: GeofenceWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -94182,6 +95650,10 @@ export namespace Prisma {
   }
 
   export type AttendanceSourceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GeofenceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -96187,6 +97659,54 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAttendanceSourceHealthFilter<$PrismaModel>
     _max?: NestedEnumAttendanceSourceHealthFilter<$PrismaModel>
+  }
+
+  export type GeofenceCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    centerLat?: SortOrder
+    centerLng?: SortOrder
+    radiusMeters?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GeofenceAvgOrderByAggregateInput = {
+    centerLat?: SortOrder
+    centerLng?: SortOrder
+    radiusMeters?: SortOrder
+  }
+
+  export type GeofenceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    centerLat?: SortOrder
+    centerLng?: SortOrder
+    radiusMeters?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GeofenceMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    centerLat?: SortOrder
+    centerLng?: SortOrder
+    radiusMeters?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GeofenceSumOrderByAggregateInput = {
+    centerLat?: SortOrder
+    centerLng?: SortOrder
+    radiusMeters?: SortOrder
   }
 
   export type ShiftPolicyOverrideNullableScalarRelationFilter = {
@@ -98256,6 +99776,13 @@ export namespace Prisma {
     connect?: AttendanceSourceWhereUniqueInput | AttendanceSourceWhereUniqueInput[]
   }
 
+  export type GeofenceCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<GeofenceCreateWithoutCompanyInput, GeofenceUncheckedCreateWithoutCompanyInput> | GeofenceCreateWithoutCompanyInput[] | GeofenceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GeofenceCreateOrConnectWithoutCompanyInput | GeofenceCreateOrConnectWithoutCompanyInput[]
+    createMany?: GeofenceCreateManyCompanyInputEnvelope
+    connect?: GeofenceWhereUniqueInput | GeofenceWhereUniqueInput[]
+  }
+
   export type AssetUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<AssetCreateWithoutCompanyInput, AssetUncheckedCreateWithoutCompanyInput> | AssetCreateWithoutCompanyInput[] | AssetUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutCompanyInput | AssetCreateOrConnectWithoutCompanyInput[]
@@ -98393,6 +99920,13 @@ export namespace Prisma {
     connectOrCreate?: AttendanceSourceCreateOrConnectWithoutCompanyInput | AttendanceSourceCreateOrConnectWithoutCompanyInput[]
     createMany?: AttendanceSourceCreateManyCompanyInputEnvelope
     connect?: AttendanceSourceWhereUniqueInput | AttendanceSourceWhereUniqueInput[]
+  }
+
+  export type GeofenceUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<GeofenceCreateWithoutCompanyInput, GeofenceUncheckedCreateWithoutCompanyInput> | GeofenceCreateWithoutCompanyInput[] | GeofenceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GeofenceCreateOrConnectWithoutCompanyInput | GeofenceCreateOrConnectWithoutCompanyInput[]
+    createMany?: GeofenceCreateManyCompanyInputEnvelope
+    connect?: GeofenceWhereUniqueInput | GeofenceWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -98683,6 +100217,20 @@ export namespace Prisma {
     deleteMany?: AttendanceSourceScalarWhereInput | AttendanceSourceScalarWhereInput[]
   }
 
+  export type GeofenceUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<GeofenceCreateWithoutCompanyInput, GeofenceUncheckedCreateWithoutCompanyInput> | GeofenceCreateWithoutCompanyInput[] | GeofenceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GeofenceCreateOrConnectWithoutCompanyInput | GeofenceCreateOrConnectWithoutCompanyInput[]
+    upsert?: GeofenceUpsertWithWhereUniqueWithoutCompanyInput | GeofenceUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: GeofenceCreateManyCompanyInputEnvelope
+    set?: GeofenceWhereUniqueInput | GeofenceWhereUniqueInput[]
+    disconnect?: GeofenceWhereUniqueInput | GeofenceWhereUniqueInput[]
+    delete?: GeofenceWhereUniqueInput | GeofenceWhereUniqueInput[]
+    connect?: GeofenceWhereUniqueInput | GeofenceWhereUniqueInput[]
+    update?: GeofenceUpdateWithWhereUniqueWithoutCompanyInput | GeofenceUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: GeofenceUpdateManyWithWhereWithoutCompanyInput | GeofenceUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: GeofenceScalarWhereInput | GeofenceScalarWhereInput[]
+  }
+
   export type AssetUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<AssetCreateWithoutCompanyInput, AssetUncheckedCreateWithoutCompanyInput> | AssetCreateWithoutCompanyInput[] | AssetUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutCompanyInput | AssetCreateOrConnectWithoutCompanyInput[]
@@ -98957,6 +100505,20 @@ export namespace Prisma {
     update?: AttendanceSourceUpdateWithWhereUniqueWithoutCompanyInput | AttendanceSourceUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: AttendanceSourceUpdateManyWithWhereWithoutCompanyInput | AttendanceSourceUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: AttendanceSourceScalarWhereInput | AttendanceSourceScalarWhereInput[]
+  }
+
+  export type GeofenceUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<GeofenceCreateWithoutCompanyInput, GeofenceUncheckedCreateWithoutCompanyInput> | GeofenceCreateWithoutCompanyInput[] | GeofenceUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GeofenceCreateOrConnectWithoutCompanyInput | GeofenceCreateOrConnectWithoutCompanyInput[]
+    upsert?: GeofenceUpsertWithWhereUniqueWithoutCompanyInput | GeofenceUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: GeofenceCreateManyCompanyInputEnvelope
+    set?: GeofenceWhereUniqueInput | GeofenceWhereUniqueInput[]
+    disconnect?: GeofenceWhereUniqueInput | GeofenceWhereUniqueInput[]
+    delete?: GeofenceWhereUniqueInput | GeofenceWhereUniqueInput[]
+    connect?: GeofenceWhereUniqueInput | GeofenceWhereUniqueInput[]
+    update?: GeofenceUpdateWithWhereUniqueWithoutCompanyInput | GeofenceUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: GeofenceUpdateManyWithWhereWithoutCompanyInput | GeofenceUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: GeofenceScalarWhereInput | GeofenceScalarWhereInput[]
   }
 
   export type AssetCreateNestedManyWithoutUserInput = {
@@ -102002,6 +103564,20 @@ export namespace Prisma {
     deleteMany?: AttendanceEventScalarWhereInput | AttendanceEventScalarWhereInput[]
   }
 
+  export type CompanyCreateNestedOneWithoutGeofencesInput = {
+    create?: XOR<CompanyCreateWithoutGeofencesInput, CompanyUncheckedCreateWithoutGeofencesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutGeofencesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutGeofencesNestedInput = {
+    create?: XOR<CompanyCreateWithoutGeofencesInput, CompanyUncheckedCreateWithoutGeofencesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutGeofencesInput
+    upsert?: CompanyUpsertWithoutGeofencesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutGeofencesInput, CompanyUpdateWithoutGeofencesInput>, CompanyUncheckedUpdateWithoutGeofencesInput>
+  }
+
   export type AttendanceCreateNestedManyWithoutShiftInput = {
     create?: XOR<AttendanceCreateWithoutShiftInput, AttendanceUncheckedCreateWithoutShiftInput> | AttendanceCreateWithoutShiftInput[] | AttendanceUncheckedCreateWithoutShiftInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutShiftInput | AttendanceCreateOrConnectWithoutShiftInput[]
@@ -104945,6 +106521,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type GeofenceCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    centerLat: number
+    centerLng: number
+    radiusMeters?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GeofenceUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    centerLat: number
+    centerLng: number
+    radiusMeters?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GeofenceCreateOrConnectWithoutCompanyInput = {
+    where: GeofenceWhereUniqueInput
+    create: XOR<GeofenceCreateWithoutCompanyInput, GeofenceUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type GeofenceCreateManyCompanyInputEnvelope = {
+    data: GeofenceCreateManyCompanyInput | GeofenceCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AssetUpsertWithWhereUniqueWithoutCompanyInput = {
     where: AssetWhereUniqueInput
     update: XOR<AssetUpdateWithoutCompanyInput, AssetUncheckedUpdateWithoutCompanyInput>
@@ -105644,6 +107252,37 @@ export namespace Prisma {
     lastSyncAt?: DateTimeNullableFilter<"AttendanceSource"> | Date | string | null
     createdAt?: DateTimeFilter<"AttendanceSource"> | Date | string
     updatedAt?: DateTimeFilter<"AttendanceSource"> | Date | string
+  }
+
+  export type GeofenceUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: GeofenceWhereUniqueInput
+    update: XOR<GeofenceUpdateWithoutCompanyInput, GeofenceUncheckedUpdateWithoutCompanyInput>
+    create: XOR<GeofenceCreateWithoutCompanyInput, GeofenceUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type GeofenceUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: GeofenceWhereUniqueInput
+    data: XOR<GeofenceUpdateWithoutCompanyInput, GeofenceUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type GeofenceUpdateManyWithWhereWithoutCompanyInput = {
+    where: GeofenceScalarWhereInput
+    data: XOR<GeofenceUpdateManyMutationInput, GeofenceUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type GeofenceScalarWhereInput = {
+    AND?: GeofenceScalarWhereInput | GeofenceScalarWhereInput[]
+    OR?: GeofenceScalarWhereInput[]
+    NOT?: GeofenceScalarWhereInput | GeofenceScalarWhereInput[]
+    id?: StringFilter<"Geofence"> | string
+    companyId?: StringFilter<"Geofence"> | string
+    name?: StringFilter<"Geofence"> | string
+    centerLat?: FloatFilter<"Geofence"> | number
+    centerLng?: FloatFilter<"Geofence"> | number
+    radiusMeters?: IntFilter<"Geofence"> | number
+    isActive?: BoolFilter<"Geofence"> | boolean
+    createdAt?: DateTimeFilter<"Geofence"> | Date | string
+    updatedAt?: DateTimeFilter<"Geofence"> | Date | string
   }
 
   export type AssetCreateWithoutUserInput = {
@@ -106630,6 +108269,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -106666,6 +108306,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -108406,6 +110047,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -108442,6 +110084,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutSubordinatesInput = {
@@ -109004,6 +110647,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAccessRolesInput = {
@@ -109040,6 +110684,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAccessRolesInput = {
@@ -109250,6 +110895,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAccessRolesInput = {
@@ -109286,6 +110932,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type AccessRolePermissionUpsertWithWhereUniqueWithoutAccessRoleInput = {
@@ -109456,6 +111103,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutSupportDepartmentsInput = {
@@ -109492,6 +111140,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutSupportDepartmentsInput = {
@@ -109791,6 +111440,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutSupportDepartmentsInput = {
@@ -109827,6 +111477,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutSupportQueuesOwnedInput = {
@@ -110190,6 +111841,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketCategoriesInput = {
@@ -110226,6 +111878,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketCategoriesInput = {
@@ -110405,6 +112058,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketCategoriesInput = {
@@ -110441,6 +112095,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type SupportDepartmentUpsertWithoutCategoriesInput = {
@@ -110542,6 +112197,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -110578,6 +112234,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -111166,6 +112823,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -111202,6 +112860,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTicketsRequestedInput = {
@@ -114993,6 +116652,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutProfilesInput = {
@@ -115029,6 +116689,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutProfilesInput = {
@@ -115240,6 +116901,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutProfilesInput = {
@@ -115276,6 +116938,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutProfileInput = {
@@ -116148,6 +117811,7 @@ export namespace Prisma {
     tickets?: TicketCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAttendanceSourcesInput = {
@@ -116184,6 +117848,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAttendanceSourcesInput = {
@@ -116282,6 +117947,7 @@ export namespace Prisma {
     tickets?: TicketUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAttendanceSourcesInput = {
@@ -116318,6 +117984,7 @@ export namespace Prisma {
     tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type AttendanceEventUpsertWithWhereUniqueWithoutSourceInput = {
@@ -116334,6 +118001,170 @@ export namespace Prisma {
   export type AttendanceEventUpdateManyWithWhereWithoutSourceInput = {
     where: AttendanceEventScalarWhereInput
     data: XOR<AttendanceEventUpdateManyMutationInput, AttendanceEventUncheckedUpdateManyWithoutSourceInput>
+  }
+
+  export type CompanyCreateWithoutGeofencesInput = {
+    id?: string
+    name: string
+    subdomain?: string | null
+    domain?: string | null
+    plan?: string
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: string
+    slogan?: string | null
+    logoMediumUrl?: string | null
+    logoThumbnailUrl?: string | null
+    faviconUrl?: string | null
+    leaveAccrualMode?: string
+    assets?: AssetCreateNestedManyWithoutCompanyInput
+    branches?: BranchCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentCreateNestedManyWithoutCompanyInput
+    attendancePolicy?: AttendancePolicyCreateNestedOneWithoutCompanyInput
+    expenseCategories?: ExpenseCategoryCreateNestedManyWithoutCompanyInput
+    holidays?: HolidayCreateNestedManyWithoutCompanyInput
+    jobPostings?: JobPostingCreateNestedManyWithoutCompanyInput
+    jobRoles?: JobRoleCreateNestedManyWithoutCompanyInput
+    leaveTypes?: LeaveTypeCreateNestedManyWithoutCompanyInput
+    profiles?: ProfileCreateNestedManyWithoutCompanyInput
+    shifts?: ShiftCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    workLogs?: WorkLogCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
+    ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutGeofencesInput = {
+    id?: string
+    name: string
+    subdomain?: string | null
+    domain?: string | null
+    plan?: string
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: string
+    slogan?: string | null
+    logoMediumUrl?: string | null
+    logoThumbnailUrl?: string | null
+    faviconUrl?: string | null
+    leaveAccrualMode?: string
+    assets?: AssetUncheckedCreateNestedManyWithoutCompanyInput
+    branches?: BranchUncheckedCreateNestedManyWithoutCompanyInput
+    departments?: DepartmentUncheckedCreateNestedManyWithoutCompanyInput
+    attendancePolicy?: AttendancePolicyUncheckedCreateNestedOneWithoutCompanyInput
+    expenseCategories?: ExpenseCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    holidays?: HolidayUncheckedCreateNestedManyWithoutCompanyInput
+    jobPostings?: JobPostingUncheckedCreateNestedManyWithoutCompanyInput
+    jobRoles?: JobRoleUncheckedCreateNestedManyWithoutCompanyInput
+    leaveTypes?: LeaveTypeUncheckedCreateNestedManyWithoutCompanyInput
+    profiles?: ProfileUncheckedCreateNestedManyWithoutCompanyInput
+    shifts?: ShiftUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    workLogs?: WorkLogUncheckedCreateNestedManyWithoutCompanyInput
+    recognitions?: RecognitionUncheckedCreateNestedManyWithoutCompanyInput
+    accessRoles?: AccessRoleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
+    ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutGeofencesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutGeofencesInput, CompanyUncheckedCreateWithoutGeofencesInput>
+  }
+
+  export type CompanyUpsertWithoutGeofencesInput = {
+    update: XOR<CompanyUpdateWithoutGeofencesInput, CompanyUncheckedUpdateWithoutGeofencesInput>
+    create: XOR<CompanyCreateWithoutGeofencesInput, CompanyUncheckedCreateWithoutGeofencesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutGeofencesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutGeofencesInput, CompanyUncheckedUpdateWithoutGeofencesInput>
+  }
+
+  export type CompanyUpdateWithoutGeofencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: NullableStringFieldUpdateOperationsInput | string | null
+    domain?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
+    assets?: AssetUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUpdateManyWithoutCompanyNestedInput
+    attendancePolicy?: AttendancePolicyUpdateOneWithoutCompanyNestedInput
+    expenseCategories?: ExpenseCategoryUpdateManyWithoutCompanyNestedInput
+    holidays?: HolidayUpdateManyWithoutCompanyNestedInput
+    jobPostings?: JobPostingUpdateManyWithoutCompanyNestedInput
+    jobRoles?: JobRoleUpdateManyWithoutCompanyNestedInput
+    leaveTypes?: LeaveTypeUpdateManyWithoutCompanyNestedInput
+    profiles?: ProfileUpdateManyWithoutCompanyNestedInput
+    shifts?: ShiftUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    workLogs?: WorkLogUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
+    ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutGeofencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: NullableStringFieldUpdateOperationsInput | string | null
+    domain?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    logoMediumUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    logoThumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    faviconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveAccrualMode?: StringFieldUpdateOperationsInput | string
+    assets?: AssetUncheckedUpdateManyWithoutCompanyNestedInput
+    branches?: BranchUncheckedUpdateManyWithoutCompanyNestedInput
+    departments?: DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
+    attendancePolicy?: AttendancePolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    expenseCategories?: ExpenseCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    holidays?: HolidayUncheckedUpdateManyWithoutCompanyNestedInput
+    jobPostings?: JobPostingUncheckedUpdateManyWithoutCompanyNestedInput
+    jobRoles?: JobRoleUncheckedUpdateManyWithoutCompanyNestedInput
+    leaveTypes?: LeaveTypeUncheckedUpdateManyWithoutCompanyNestedInput
+    profiles?: ProfileUncheckedUpdateManyWithoutCompanyNestedInput
+    shifts?: ShiftUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    workLogs?: WorkLogUncheckedUpdateManyWithoutCompanyNestedInput
+    recognitions?: RecognitionUncheckedUpdateManyWithoutCompanyNestedInput
+    accessRoles?: AccessRoleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type AttendanceCreateWithoutShiftInput = {
@@ -116410,6 +118241,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutShiftsInput = {
@@ -116446,6 +118278,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutShiftsInput = {
@@ -116667,6 +118500,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutShiftsInput = {
@@ -116703,6 +118537,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ShiftPolicyOverrideUpsertWithoutShiftInput = {
@@ -116796,6 +118631,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAttendancePolicyInput = {
@@ -116832,6 +118668,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAttendancePolicyInput = {
@@ -116884,6 +118721,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAttendancePolicyInput = {
@@ -116920,6 +118758,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ShiftCreateWithoutPolicyOverrideInput = {
@@ -117426,6 +119265,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutLeaveTypesInput = {
@@ -117462,6 +119302,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLeaveTypesInput = {
@@ -117562,6 +119403,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutLeaveTypesInput = {
@@ -117598,6 +119440,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type LeaveTypeCreateWithoutEncashmentsInput = {
@@ -118522,6 +120365,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutHolidaysInput = {
@@ -118558,6 +120402,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutHolidaysInput = {
@@ -118610,6 +120455,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutHolidaysInput = {
@@ -118646,6 +120492,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutOnboardingInput = {
@@ -121522,6 +123369,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRecognitionsInput = {
@@ -121558,6 +123406,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRecognitionsInput = {
@@ -121848,6 +123697,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRecognitionsInput = {
@@ -121884,6 +123734,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type JobApplicationCreateWithoutJobInput = {
@@ -121950,6 +123801,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutJobPostingsInput = {
@@ -121986,6 +123838,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutJobPostingsInput = {
@@ -122068,6 +123921,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutJobPostingsInput = {
@@ -122104,6 +123958,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type JobPostingCreateWithoutApplicationsInput = {
@@ -122196,6 +124051,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutExpenseCategoriesInput = {
@@ -122232,6 +124088,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutExpenseCategoriesInput = {
@@ -122316,6 +124173,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutExpenseCategoriesInput = {
@@ -122352,6 +124210,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ExpenseClaimUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -123025,6 +124884,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutAssetsInput = {
@@ -123061,6 +124921,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutAssetsInput = {
@@ -123232,6 +125093,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutAssetsInput = {
@@ -123268,6 +125130,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutDocumentsInput = {
@@ -124000,6 +125863,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutJobRolesInput = {
@@ -124036,6 +125900,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutJobRolesInput = {
@@ -124088,6 +125953,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutJobRolesInput = {
@@ -124124,6 +125990,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutTimesheetsInput = {
@@ -124603,6 +126470,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTasksInput = {
@@ -124639,6 +126507,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTasksInput = {
@@ -124957,6 +126826,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTasksInput = {
@@ -124993,6 +126863,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutTasksInput = {
@@ -125283,6 +127154,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutWorkLogsInput = {
@@ -125319,6 +127191,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutWorkLogsInput = {
@@ -125484,6 +127357,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutWorkLogsInput = {
@@ -125520,6 +127394,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutWorkLogsInput = {
@@ -126139,6 +128014,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutBranchesInput = {
@@ -126175,6 +128051,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutBranchesInput = {
@@ -126349,6 +128226,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutBranchesInput = {
@@ -126385,6 +128263,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type DepartmentUpsertWithWhereUniqueWithoutBranchInput = {
@@ -126453,6 +128332,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutDepartmentsInput = {
@@ -126489,6 +128369,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedCreateNestedManyWithoutCompanyInput
     ticketCategories?: TicketCategoryUncheckedCreateNestedManyWithoutCompanyInput
     attendanceSources?: AttendanceSourceUncheckedCreateNestedManyWithoutCompanyInput
+    geofences?: GeofenceUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutDepartmentsInput = {
@@ -126658,6 +128539,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutDepartmentsInput = {
@@ -126694,6 +128576,7 @@ export namespace Prisma {
     supportDepartments?: SupportDepartmentUncheckedUpdateManyWithoutCompanyNestedInput
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
     attendanceSources?: AttendanceSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    geofences?: GeofenceUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type BranchUpsertWithoutDepartmentsInput = {
@@ -126985,6 +128868,17 @@ export namespace Prisma {
     priority?: number
     healthStatus?: $Enums.AttendanceSourceHealth
     lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GeofenceCreateManyCompanyInput = {
+    id?: string
+    name: string
+    centerLat: number
+    centerLng: number
+    radiusMeters?: number
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -127861,6 +129755,39 @@ export namespace Prisma {
     priority?: IntFieldUpdateOperationsInput | number
     healthStatus?: EnumAttendanceSourceHealthFieldUpdateOperationsInput | $Enums.AttendanceSourceHealth
     lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeofenceUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    centerLat?: FloatFieldUpdateOperationsInput | number
+    centerLng?: FloatFieldUpdateOperationsInput | number
+    radiusMeters?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeofenceUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    centerLat?: FloatFieldUpdateOperationsInput | number
+    centerLng?: FloatFieldUpdateOperationsInput | number
+    radiusMeters?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeofenceUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    centerLat?: FloatFieldUpdateOperationsInput | number
+    centerLng?: FloatFieldUpdateOperationsInput | number
+    radiusMeters?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

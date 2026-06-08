@@ -440,6 +440,18 @@ exports.Prisma.AttendanceSourceScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.GeofenceScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  name: 'name',
+  centerLat: 'centerLat',
+  centerLng: 'centerLng',
+  radiusMeters: 'radiusMeters',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ShiftScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -1133,6 +1145,7 @@ exports.Prisma.ModelName = {
   Attendance: 'Attendance',
   AttendanceEvent: 'AttendanceEvent',
   AttendanceSource: 'AttendanceSource',
+  Geofence: 'Geofence',
   Shift: 'Shift',
   AttendancePolicy: 'AttendancePolicy',
   ShiftPolicyOverride: 'ShiftPolicyOverride',

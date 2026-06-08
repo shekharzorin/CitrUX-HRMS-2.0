@@ -297,6 +297,101 @@ const CsvImportPanel = ({ source, onClose }: { source: AttendanceSource; onClose
     );
 };
 
+// ── Geofence manager (admin) ─────────────────────────────────────────────────
+interface Geofence { id: string; name: string; centerLat: number; centerLng: number; radiusMeters: number; isActive: boolean }
+
+const blankFence = () => ({ name: '', centerLat: '', centerLng: '', radiusMeters: '100', isActive: true });
+
+const GeofenceManager: React.FC = () => {
+    const [fences, setFences] = useState<Geofence[]>([]);
+    const [editing, setEditing] = useState<Geofence | 'new' | null>(null);
+    const [form, setForm] = useState<any>(blankFence());
+    const [busy, setBusy] = useState(false);
+
+    const load = () => api.get<Geofence[]>('/attendance-sources/geofences').then(setFences).catch(() => {});
+    useEffect(() => { load(); }, []);
+
+    const openEditor = (f: Geofence | 'new') => {
+        setEditing(f);
+        setForm(f === 'new' ? blankFence() : { name: f.name, centerLat: String(f.centerLat), centerLng: String(f.centerLng), radiusMeters: String(f.radiusMeters), isActive: f.isActive });
+    };
+    const set = (k: string, v: any) => setForm((s: any) => ({ ...s, [k]: v }));
+
+    const save = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const payload = {
+            name: form.name.trim(), centerLat: Number(form.centerLat), centerLng: Number(form.centerLng),
+            radiusMeters: Number(form.radiusMeters), isActive: form.isActive,
+        };
+        if (!payload.name) { toast('Name is required', 'error'); return; }
+        if (!Number.isFinite(payload.centerLat) || !Number.isFinite(payload.centerLng)) { toast('Valid lat/lng required', 'error'); return; }
+        setBusy(true);
+        try {
+            if (editing && editing !== 'new') await api.put(`/attendance-sources/geofences/${editing.id}`, payload);
+            else await api.post('/attendance-sources/geofences', payload);
+            toast('Geofence saved'); setEditing(null); load();
+        } catch { /* toast */ } finally { setBusy(false); }
+    };
+
+    const remove = async (f: Geofence) => {
+        if (!window.confirm(`Remove geofence "${f.name}"?`)) return;
+        try { await api.delete(`/attendance-sources/geofences/${f.id}`); toast('Geofence removed'); setFences((a) => a.filter((x) => x.id !== f.id)); } catch { /* toast */ }
+    };
+
+    return (
+        <div className="mt-8 space-y-3">
+            <div className="flex items-center justify-between">
+                <div>
+                    <h3 className="text-base font-bold text-slate-800 dark:text-white">Geofences</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">Allowed locations for GPS attendance (used when a Mobile GPS source requires a geofence).</p>
+                </div>
+                {editing === null && <Button variant="secondary" onClick={() => openEditor('new')}>Add geofence</Button>}
+            </div>
+
+            {editing !== null && (
+                <form onSubmit={save} className="glass-panel p-4 space-y-3">
+                    <input value={form.name} onChange={(e) => set('name', e.target.value)} placeholder="Name (e.g. Head Office)"
+                        className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm" />
+                    <div className="grid grid-cols-3 gap-3">
+                        <input value={form.centerLat} onChange={(e) => set('centerLat', e.target.value)} placeholder="Latitude" type="number" step="any"
+                            className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm" />
+                        <input value={form.centerLng} onChange={(e) => set('centerLng', e.target.value)} placeholder="Longitude" type="number" step="any"
+                            className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm" />
+                        <input value={form.radiusMeters} onChange={(e) => set('radiusMeters', e.target.value)} placeholder="Radius (m)" type="number"
+                            className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm" />
+                    </div>
+                    <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                        <input type="checkbox" checked={form.isActive} onChange={(e) => set('isActive', e.target.checked)} /> Active
+                    </label>
+                    <div className="flex gap-2">
+                        <Button type="submit" disabled={busy}>{busy ? 'Saving…' : 'Save'}</Button>
+                        <Button type="button" variant="secondary" onClick={() => setEditing(null)}>Cancel</Button>
+                    </div>
+                </form>
+            )}
+
+            {fences.length === 0 && editing === null && <p className="text-sm text-slate-400">No geofences yet.</p>}
+            <div className="space-y-2">
+                {fences.map((f) => (
+                    <div key={f.id} className="glass-panel p-3 flex items-center justify-between gap-3 flex-wrap">
+                        <div className="min-w-0">
+                            <p className="font-medium text-slate-800 dark:text-white flex items-center gap-2">
+                                📍 {f.name}
+                                {!f.isActive && <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">INACTIVE</span>}
+                            </p>
+                            <p className="text-xs text-slate-400">{f.centerLat.toFixed(5)}, {f.centerLng.toFixed(5)} · {f.radiusMeters} m</p>
+                        </div>
+                        <div className="flex items-center gap-3 text-sm shrink-0">
+                            <button className="text-slate-500 hover:text-slate-700" onClick={() => openEditor(f)}>Edit</button>
+                            <button className="text-red-500 hover:text-red-600" onClick={() => remove(f)}>Remove</button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
 // ── Main ─────────────────────────────────────────────────────────────────────
 const AttendanceSources: React.FC = () => {
     const [types, setTypes] = useState<SourceTypeDescriptor[]>([]);
@@ -403,6 +498,8 @@ const AttendanceSources: React.FC = () => {
                     </div>
                 ))}
             </div>
+
+            <GeofenceManager />
         </div>
     );
 };

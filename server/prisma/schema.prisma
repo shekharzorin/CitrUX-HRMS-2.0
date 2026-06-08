@@ -52,6 +52,7 @@ model Company {
   supportDepartments SupportDepartment[]
   ticketCategories   TicketCategory[]
   attendanceSources  AttendanceSource[]  @relation("CompanyAttendanceSources")
+  geofences          Geofence[]          @relation("CompanyGeofences")
 }
 
 model User {
@@ -656,6 +657,23 @@ model AttendanceSource {
   updatedAt     DateTime                @updatedAt
   company       Company                 @relation("CompanyAttendanceSources", fields: [companyId], references: [id], onDelete: Cascade)
   events        AttendanceEvent[]
+
+  @@index([companyId, isActive])
+}
+
+// Geofence = an admin-defined allowed location for GPS attendance (circle: center
+// + radius). MOBILE_GPS sources can require a check-in to fall inside one.
+model Geofence {
+  id           String   @id @default(uuid())
+  companyId    String
+  name         String
+  centerLat    Float
+  centerLng    Float
+  radiusMeters Int      @default(100)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  company      Company  @relation("CompanyGeofences", fields: [companyId], references: [id], onDelete: Cascade)
 
   @@index([companyId, isActive])
 }
