@@ -172,12 +172,138 @@ const SourceEditor = ({ initial, types, onClose, onSaved }: {
     );
 };
 
+// ── Manual entry panel ───────────────────────────────────────────────────────
+interface UserOpt { id: string; email: string; profile?: { firstName?: string; lastName?: string } }
+const userLabel = (u: UserOpt) => `${u.profile?.firstName ?? ''} ${u.profile?.lastName ?? ''}`.trim() || u.email;
+const todayStr = () => new Date().toISOString().slice(0, 10);
+
+const ManualEntryPanel = ({ source, onClose }: { source: AttendanceSource; onClose: () => void }) => {
+    const [users, setUsers] = useState<UserOpt[]>([]);
+    const [userId, setUserId] = useState('');
+    const [date, setDate] = useState(todayStr());
+    const [checkIn, setCheckIn] = useState('09:00');
+    const [checkOut, setCheckOut] = useState('18:00');
+    const [note, setNote] = useState('');
+    const [saving, setSaving] = useState(false);
+
+    useEffect(() => {
+        api.get<UserOpt[]>('/users').then((u) => { setUsers(u); if (u[0]) setUserId(u[0].id); }).catch(() => {});
+    }, []);
+
+    const submit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!userId) { toast('Pick an employee', 'error'); return; }
+        setSaving(true);
+        try {
+            const r = await api.post<any>('/attendance-ingestion/manual', {
+                userId, sourceId: source.id, date, checkIn, checkOut: checkOut || undefined, note: note || undefined,
+            });
+            toast(`Recorded — ${r?.status ?? 'saved'}${r?.hours != null ? ` (${r.hours}h)` : ''}`);
+            onClose();
+        } catch { /* toast shown */ } finally { setSaving(false); }
+    };
+
+    return (
+        <form onSubmit={submit} className="mt-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 space-y-3">
+            <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-200">Record attendance · {source.name}</h4>
+            <div className="grid sm:grid-cols-2 gap-3">
+                <div>
+                    <label className="block text-xs text-slate-500 mb-1">Employee</label>
+                    <select value={userId} onChange={(e) => setUserId(e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm">
+                        {users.map((u) => <option key={u.id} value={u.id}>{userLabel(u)}</option>)}
+                    </select>
+                </div>
+                <div>
+                    <label className="block text-xs text-slate-500 mb-1">Date</label>
+                    <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm" />
+                </div>
+                <div>
+                    <label className="block text-xs text-slate-500 mb-1">Check-in</label>
+                    <input type="time" value={checkIn} onChange={(e) => setCheckIn(e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm" />
+                </div>
+                <div>
+                    <label className="block text-xs text-slate-500 mb-1">Check-out (optional)</label>
+                    <input type="time" value={checkOut} onChange={(e) => setCheckOut(e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm" />
+                </div>
+            </div>
+            <input value={note} onChange={(e) => setNote(e.target.value)} placeholder="Note (optional)"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm" />
+            <div className="flex gap-2">
+                <Button type="submit" disabled={saving}>{saving ? 'Saving…' : 'Record'}</Button>
+                <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>
+            </div>
+        </form>
+    );
+};
+
+// ── CSV import panel ─────────────────────────────────────────────────────────
+const CsvImportPanel = ({ source, onClose }: { source: AttendanceSource; onClose: () => void }) => {
+    const [file, setFile] = useState<File | null>(null);
+    const [preview, setPreview] = useState<any>(null);
+    const [busy, setBusy] = useState(false);
+
+    const empCol = source.configuration?.employeeIdColumn || 'employeeId';
+
+    const doPreview = async () => {
+        if (!file) { toast('Choose a CSV file', 'error'); return; }
+        setBusy(true);
+        try {
+            const fd = new FormData(); fd.append('sourceId', source.id); fd.append('file', file);
+            setPreview(await api.post<any>('/attendance-ingestion/csv/preview', fd));
+        } catch { /* toast */ } finally { setBusy(false); }
+    };
+    const doImport = async () => {
+        if (!file) return;
+        setBusy(true);
+        try {
+            const fd = new FormData(); fd.append('sourceId', source.id); fd.append('file', file);
+            const r = await api.post<any>('/attendance-ingestion/csv/import', fd);
+            toast(`Imported ${r.imported} row(s), ${r.daysProjected} day(s)${r.skipped ? `, ${r.skipped} skipped` : ''}`);
+            onClose();
+        } catch { /* toast */ } finally { setBusy(false); }
+    };
+
+    return (
+        <div className="mt-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 space-y-3">
+            <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-200">Import CSV · {source.name}</h4>
+            <p className="text-xs text-slate-500">
+                Columns: <code>{empCol}</code>, <code>date</code> (YYYY-MM-DD), <code>checkIn</code> (HH:mm), <code>checkOut</code> (optional).
+                Employee is matched by employee ID or email.
+            </p>
+            <input type="file" accept=".csv,text/csv" onChange={(e) => { setFile(e.target.files?.[0] ?? null); setPreview(null); }}
+                className="block text-sm text-slate-600 dark:text-slate-300" />
+            {preview && (
+                <div className="text-xs rounded-lg bg-slate-50 dark:bg-slate-800/60 p-3">
+                    <p className="text-slate-700 dark:text-slate-200">{preview.validRows} valid · {preview.errorRows} error(s) of {preview.totalRows} rows.</p>
+                    {preview.errors?.length > 0 && (
+                        <ul className="mt-1 text-red-500 list-disc list-inside">
+                            {preview.errors.slice(0, 5).map((e: any, i: number) => <li key={i}>Row {e.row}: {e.message}</li>)}
+                        </ul>
+                    )}
+                </div>
+            )}
+            <div className="flex gap-2">
+                <Button type="button" variant="secondary" onClick={doPreview} disabled={busy || !file}>Preview</Button>
+                <Button type="button" onClick={doImport} disabled={busy || !file || (preview && preview.validRows === 0)}>
+                    {busy ? 'Working…' : 'Import'}
+                </Button>
+                <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>
+            </div>
+        </div>
+    );
+};
+
 // ── Main ─────────────────────────────────────────────────────────────────────
 const AttendanceSources: React.FC = () => {
     const [types, setTypes] = useState<SourceTypeDescriptor[]>([]);
     const [sources, setSources] = useState<AttendanceSource[]>([]);
     const [loading, setLoading] = useState(true);
     const [editor, setEditor] = useState<AttendanceSource | 'new' | null>(null);
+    const [actionFor, setActionFor] = useState<{ id: string; mode: 'manual' | 'csv' } | null>(null);
 
     const load = async () => {
         setLoading(true);
@@ -247,23 +373,33 @@ const AttendanceSources: React.FC = () => {
 
             <div className="space-y-2">
                 {sources.map((s) => (
-                    <div key={s.id} className="glass-panel p-4 flex items-center justify-between gap-3 flex-wrap">
-                        <div className="min-w-0">
-                            <p className="font-medium text-slate-800 dark:text-white flex items-center gap-2">
-                                {s.name}
-                                {!s.isActive && <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">INACTIVE</span>}
-                            </p>
-                            <p className="text-xs text-slate-400">
-                                {labelFor(s.type)} · {s.ingestionMode} · priority {s.priority}
-                            </p>
+                    <div key={s.id} className="glass-panel p-4">
+                        <div className="flex items-center justify-between gap-3 flex-wrap">
+                            <div className="min-w-0">
+                                <p className="font-medium text-slate-800 dark:text-white flex items-center gap-2">
+                                    {s.name}
+                                    {!s.isActive && <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">INACTIVE</span>}
+                                </p>
+                                <p className="text-xs text-slate-400">
+                                    {labelFor(s.type)} · {s.ingestionMode} · priority {s.priority}
+                                </p>
+                            </div>
+                            <div className="flex items-center gap-3 text-sm shrink-0">
+                                {s.type === 'MANUAL' && (
+                                    <button className="text-primary hover:underline" onClick={() => setActionFor(actionFor?.id === s.id ? null : { id: s.id, mode: 'manual' })}>Record entry</button>
+                                )}
+                                {s.type === 'CSV_IMPORT' && (
+                                    <button className="text-primary hover:underline" onClick={() => setActionFor(actionFor?.id === s.id ? null : { id: s.id, mode: 'csv' })}>Import CSV</button>
+                                )}
+                                <label className="flex items-center gap-1.5 text-xs text-slate-500 cursor-pointer">
+                                    <input type="checkbox" checked={s.isActive} onChange={() => toggleActive(s)} /> Active
+                                </label>
+                                <button className="text-slate-500 hover:text-slate-700" onClick={() => setEditor(s)}>Edit</button>
+                                <button className="text-red-500 hover:text-red-600" onClick={() => remove(s)}>Remove</button>
+                            </div>
                         </div>
-                        <div className="flex items-center gap-3 text-sm shrink-0">
-                            <label className="flex items-center gap-1.5 text-xs text-slate-500 cursor-pointer">
-                                <input type="checkbox" checked={s.isActive} onChange={() => toggleActive(s)} /> Active
-                            </label>
-                            <button className="text-slate-500 hover:text-slate-700" onClick={() => setEditor(s)}>Edit</button>
-                            <button className="text-red-500 hover:text-red-600" onClick={() => remove(s)}>Remove</button>
-                        </div>
+                        {actionFor?.id === s.id && actionFor.mode === 'manual' && <ManualEntryPanel source={s} onClose={() => setActionFor(null)} />}
+                        {actionFor?.id === s.id && actionFor.mode === 'csv' && <CsvImportPanel source={s} onClose={() => setActionFor(null)} />}
                     </div>
                 ))}
             </div>

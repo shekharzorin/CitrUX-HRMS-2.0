@@ -401,7 +401,28 @@ exports.Prisma.AttendanceScalarFieldEnum = {
   hours: 'hours',
   shiftId: 'shiftId',
   status: 'status',
-  isLate: 'isLate'
+  isLate: 'isLate',
+  generatedFromEvents: 'generatedFromEvents',
+  primarySourceId: 'primarySourceId'
+};
+
+exports.Prisma.AttendanceEventScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  userId: 'userId',
+  sourceId: 'sourceId',
+  eventType: 'eventType',
+  timestamp: 'timestamp',
+  businessDate: 'businessDate',
+  verificationMethod: 'verificationMethod',
+  dedupKey: 'dedupKey',
+  status: 'status',
+  note: 'note',
+  locationData: 'locationData',
+  rawPayload: 'rawPayload',
+  ingestedVia: 'ingestedVia',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.AttendanceSourceScalarFieldEnum = {
@@ -925,6 +946,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
@@ -1051,6 +1077,11 @@ exports.TicketRelationType = exports.$Enums.TicketRelationType = {
   INCIDENT_LINK: 'INCIDENT_LINK'
 };
 
+exports.AttendanceEventType = exports.$Enums.AttendanceEventType = {
+  CHECK_IN: 'CHECK_IN',
+  CHECK_OUT: 'CHECK_OUT'
+};
+
 exports.AttendanceSourceType = exports.$Enums.AttendanceSourceType = {
   BIOMETRIC_ZKTECO: 'BIOMETRIC_ZKTECO',
   BIOMETRIC_ESSL: 'BIOMETRIC_ESSL',
@@ -1100,6 +1131,7 @@ exports.Prisma.ModelName = {
   Payslip: 'Payslip',
   Profile: 'Profile',
   Attendance: 'Attendance',
+  AttendanceEvent: 'AttendanceEvent',
   AttendanceSource: 'AttendanceSource',
   Shift: 'Shift',
   AttendancePolicy: 'AttendancePolicy',

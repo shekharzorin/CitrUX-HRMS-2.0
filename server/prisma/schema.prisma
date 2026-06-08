@@ -73,6 +73,7 @@ model User {
   companyId            String?
   assets               Asset[]
   attendance           Attendance[]
+  attendanceEvents     AttendanceEvent[]   @relation("UserAttendanceEvents")
   attendanceRequests   AttendanceRequest[]
   audits               AuditLog[]          @relation("UserAudits")
   certificates         Certificate[]
@@ -563,11 +564,48 @@ model Attendance {
   shiftId  String?
   status   String    @default("PRESENT")
   isLate   Boolean   @default(false)
+  // Attendance Management Framework: when true, this daily row is a projection of
+  // AttendanceEvents (not a direct web-portal punch). primarySourceId = the source
+  // that produced it. Additive; legacy rows keep generatedFromEvents=false.
+  generatedFromEvents Boolean @default(false)
+  primarySourceId     String?
   shift    Shift?    @relation(fields: [shiftId], references: [id], onDelete: Cascade)
   user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   breaks   Break[]
 
   @@unique([userId, date])
+}
+
+// Append-only raw punches from any attendance source (the "truth" layer). The
+// daily Attendance row above is computed from these by the calculation engine.
+enum AttendanceEventType {
+  CHECK_IN
+  CHECK_OUT
+}
+
+model AttendanceEvent {
+  id                 String              @id @default(uuid())
+  companyId          String
+  userId             String
+  sourceId           String?
+  eventType          AttendanceEventType
+  timestamp          DateTime            // when the punch happened (UTC)
+  businessDate       DateTime            // UTC midnight — matches Attendance.date
+  verificationMethod String?             // source type label, e.g. MANUAL / CSV_IMPORT
+  dedupKey           String              // idempotency: re-imports/retries upsert
+  status             String              @default("ACCEPTED") // ACCEPTED | QUARANTINED | VOIDED
+  note               String?
+  locationData       Json?
+  rawPayload         Json?
+  ingestedVia        String?
+  createdById        String?             // user who recorded it (manual/import)
+  createdAt          DateTime            @default(now())
+  user               User                @relation("UserAttendanceEvents", fields: [userId], references: [id], onDelete: Cascade)
+  source             AttendanceSource?   @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+
+  @@unique([companyId, dedupKey])
+  @@index([companyId, userId, businessDate])
+  @@index([sourceId])
 }
 
 // ── Attendance Management Framework ──────────────────────────────────────────
@@ -617,6 +655,7 @@ model AttendanceSource {
   createdAt     DateTime                @default(now())
   updatedAt     DateTime                @updatedAt
   company       Company                 @relation("CompanyAttendanceSources", fields: [companyId], references: [id], onDelete: Cascade)
+  events        AttendanceEvent[]
 
   @@index([companyId, isActive])
 }

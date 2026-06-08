@@ -7,6 +7,7 @@ import { tracingMiddleware } from './middlewares/tracing.middleware';
 import { requireFeature } from './shared/feature-flags';
 import supportDeskRouter from './modules/support-desk';
 import attendanceSourcesRouter from './modules/attendance-sources';
+import attendanceIngestionRouter from './modules/attendance-ingestion';
 import { supportQueue } from './queues/supportQueue';
 // Instantiates the BullMQ worker that processes support AI routing jobs.
 import { aiRouteWorker } from './modules/support-desk/ai-route.worker';
@@ -223,6 +224,7 @@ app.use('/api/roles', roleRoutes);
 app.use('/api/support', authenticateToken, requireFeature('SUPPORT_DESK'), supportDeskRouter);
 // Attendance framework — config layer. Feature-flagged; 404 when ATTENDANCE_FRAMEWORK is off.
 app.use('/api/attendance-sources', authenticateToken, requireFeature('ATTENDANCE_FRAMEWORK'), attendanceSourcesRouter);
+app.use('/api/attendance-ingestion', authenticateToken, requireFeature('ATTENDANCE_FRAMEWORK'), attendanceIngestionRouter);
 
 // Catch-all 404 for API routes
 app.use('/api', (req, res) => {

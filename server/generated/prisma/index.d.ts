@@ -109,6 +109,11 @@ export type Profile = $Result.DefaultSelection<Prisma.$ProfilePayload>
  */
 export type Attendance = $Result.DefaultSelection<Prisma.$AttendancePayload>
 /**
+ * Model AttendanceEvent
+ * 
+ */
+export type AttendanceEvent = $Result.DefaultSelection<Prisma.$AttendanceEventPayload>
+/**
  * Model AttendanceSource
  * 
  */
@@ -450,6 +455,14 @@ export const TicketActivityType: {
 export type TicketActivityType = (typeof TicketActivityType)[keyof typeof TicketActivityType]
 
 
+export const AttendanceEventType: {
+  CHECK_IN: 'CHECK_IN',
+  CHECK_OUT: 'CHECK_OUT'
+};
+
+export type AttendanceEventType = (typeof AttendanceEventType)[keyof typeof AttendanceEventType]
+
+
 export const AttendanceSourceType: {
   BIOMETRIC_ZKTECO: 'BIOMETRIC_ZKTECO',
   BIOMETRIC_ESSL: 'BIOMETRIC_ESSL',
@@ -543,6 +556,10 @@ export const SupportQueueVisibility: typeof $Enums.SupportQueueVisibility
 export type TicketActivityType = $Enums.TicketActivityType
 
 export const TicketActivityType: typeof $Enums.TicketActivityType
+
+export type AttendanceEventType = $Enums.AttendanceEventType
+
+export const AttendanceEventType: typeof $Enums.AttendanceEventType
 
 export type AttendanceSourceType = $Enums.AttendanceSourceType
 
@@ -867,6 +884,16 @@ export class PrismaClient<
     * ```
     */
   get attendance(): Prisma.AttendanceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.attendanceEvent`: Exposes CRUD operations for the **AttendanceEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AttendanceEvents
+    * const attendanceEvents = await prisma.attendanceEvent.findMany()
+    * ```
+    */
+  get attendanceEvent(): Prisma.AttendanceEventDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.attendanceSource`: Exposes CRUD operations for the **AttendanceSource** model.
@@ -1737,6 +1764,7 @@ export namespace Prisma {
     Payslip: 'Payslip',
     Profile: 'Profile',
     Attendance: 'Attendance',
+    AttendanceEvent: 'AttendanceEvent',
     AttendanceSource: 'AttendanceSource',
     Shift: 'Shift',
     AttendancePolicy: 'AttendancePolicy',
@@ -1796,7 +1824,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "accessRole" | "accessRolePermission" | "supportDepartment" | "supportQueueRole" | "ticketCategory" | "ticket" | "ticketComment" | "ticketAttachment" | "ticketActivity" | "ticketWatcher" | "ticketAssignment" | "ticketRelationship" | "aiJob" | "salaryStructure" | "payslip" | "profile" | "attendance" | "attendanceSource" | "shift" | "attendancePolicy" | "shiftPolicyOverride" | "userPolicyOverride" | "break" | "leaveType" | "leaveEncashment" | "leaveBalance" | "leaveRequest" | "holiday" | "onboarding" | "onboardingEmergencyContact" | "onboardingExperience" | "onboardingEducation" | "onboardingDocument" | "offboarding" | "exitInterview" | "goal" | "performanceReview" | "recognition" | "jobPosting" | "jobApplication" | "expenseCategory" | "expenseClaim" | "certificate" | "asset" | "userDocument" | "notification" | "jobRole" | "systemSetting" | "timesheet" | "timesheetEntry" | "task" | "workLog" | "attendanceRequest" | "auditLog" | "systemError" | "moduleHealth" | "branch" | "department"
+      modelProps: "company" | "user" | "accessRole" | "accessRolePermission" | "supportDepartment" | "supportQueueRole" | "ticketCategory" | "ticket" | "ticketComment" | "ticketAttachment" | "ticketActivity" | "ticketWatcher" | "ticketAssignment" | "ticketRelationship" | "aiJob" | "salaryStructure" | "payslip" | "profile" | "attendance" | "attendanceEvent" | "attendanceSource" | "shift" | "attendancePolicy" | "shiftPolicyOverride" | "userPolicyOverride" | "break" | "leaveType" | "leaveEncashment" | "leaveBalance" | "leaveRequest" | "holiday" | "onboarding" | "onboardingEmergencyContact" | "onboardingExperience" | "onboardingEducation" | "onboardingDocument" | "offboarding" | "exitInterview" | "goal" | "performanceReview" | "recognition" | "jobPosting" | "jobApplication" | "expenseCategory" | "expenseClaim" | "certificate" | "asset" | "userDocument" | "notification" | "jobRole" | "systemSetting" | "timesheet" | "timesheetEntry" | "task" | "workLog" | "attendanceRequest" | "auditLog" | "systemError" | "moduleHealth" | "branch" | "department"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3203,6 +3231,80 @@ export namespace Prisma {
           count: {
             args: Prisma.AttendanceCountArgs<ExtArgs>
             result: $Utils.Optional<AttendanceCountAggregateOutputType> | number
+          }
+        }
+      }
+      AttendanceEvent: {
+        payload: Prisma.$AttendanceEventPayload<ExtArgs>
+        fields: Prisma.AttendanceEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AttendanceEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AttendanceEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceEventPayload>
+          }
+          findFirst: {
+            args: Prisma.AttendanceEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AttendanceEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceEventPayload>
+          }
+          findMany: {
+            args: Prisma.AttendanceEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceEventPayload>[]
+          }
+          create: {
+            args: Prisma.AttendanceEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceEventPayload>
+          }
+          createMany: {
+            args: Prisma.AttendanceEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AttendanceEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceEventPayload>[]
+          }
+          delete: {
+            args: Prisma.AttendanceEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceEventPayload>
+          }
+          update: {
+            args: Prisma.AttendanceEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.AttendanceEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AttendanceEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AttendanceEventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceEventPayload>[]
+          }
+          upsert: {
+            args: Prisma.AttendanceEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceEventPayload>
+          }
+          aggregate: {
+            args: Prisma.AttendanceEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAttendanceEvent>
+          }
+          groupBy: {
+            args: Prisma.AttendanceEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AttendanceEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AttendanceEventCountArgs<ExtArgs>
+            result: $Utils.Optional<AttendanceEventCountAggregateOutputType> | number
           }
         }
       }
@@ -6355,6 +6457,7 @@ export namespace Prisma {
     payslip?: PayslipOmit
     profile?: ProfileOmit
     attendance?: AttendanceOmit
+    attendanceEvent?: AttendanceEventOmit
     attendanceSource?: AttendanceSourceOmit
     shift?: ShiftOmit
     attendancePolicy?: AttendancePolicyOmit
@@ -6671,6 +6774,7 @@ export namespace Prisma {
   export type UserCountOutputType = {
     assets: number
     attendance: number
+    attendanceEvents: number
     attendanceRequests: number
     audits: number
     certificates: number
@@ -6706,6 +6810,7 @@ export namespace Prisma {
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assets?: boolean | UserCountOutputTypeCountAssetsArgs
     attendance?: boolean | UserCountOutputTypeCountAttendanceArgs
+    attendanceEvents?: boolean | UserCountOutputTypeCountAttendanceEventsArgs
     attendanceRequests?: boolean | UserCountOutputTypeCountAttendanceRequestsArgs
     audits?: boolean | UserCountOutputTypeCountAuditsArgs
     certificates?: boolean | UserCountOutputTypeCountCertificatesArgs
@@ -6761,6 +6866,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAttendanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttendanceWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAttendanceEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceEventWhereInput
   }
 
   /**
@@ -7256,6 +7368,37 @@ export namespace Prisma {
    */
   export type AttendanceCountOutputTypeCountBreaksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BreakWhereInput
+  }
+
+
+  /**
+   * Count Type AttendanceSourceCountOutputType
+   */
+
+  export type AttendanceSourceCountOutputType = {
+    events: number
+  }
+
+  export type AttendanceSourceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    events?: boolean | AttendanceSourceCountOutputTypeCountEventsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AttendanceSourceCountOutputType without action
+   */
+  export type AttendanceSourceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSourceCountOutputType
+     */
+    select?: AttendanceSourceCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AttendanceSourceCountOutputType without action
+   */
+  export type AttendanceSourceCountOutputTypeCountEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceEventWhereInput
   }
 
 
@@ -9557,6 +9700,7 @@ export namespace Prisma {
     companyId?: boolean
     assets?: boolean | User$assetsArgs<ExtArgs>
     attendance?: boolean | User$attendanceArgs<ExtArgs>
+    attendanceEvents?: boolean | User$attendanceEventsArgs<ExtArgs>
     attendanceRequests?: boolean | User$attendanceRequestsArgs<ExtArgs>
     audits?: boolean | User$auditsArgs<ExtArgs>
     certificates?: boolean | User$certificatesArgs<ExtArgs>
@@ -9662,6 +9806,7 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assets?: boolean | User$assetsArgs<ExtArgs>
     attendance?: boolean | User$attendanceArgs<ExtArgs>
+    attendanceEvents?: boolean | User$attendanceEventsArgs<ExtArgs>
     attendanceRequests?: boolean | User$attendanceRequestsArgs<ExtArgs>
     audits?: boolean | User$auditsArgs<ExtArgs>
     certificates?: boolean | User$certificatesArgs<ExtArgs>
@@ -9721,6 +9866,7 @@ export namespace Prisma {
     objects: {
       assets: Prisma.$AssetPayload<ExtArgs>[]
       attendance: Prisma.$AttendancePayload<ExtArgs>[]
+      attendanceEvents: Prisma.$AttendanceEventPayload<ExtArgs>[]
       attendanceRequests: Prisma.$AttendanceRequestPayload<ExtArgs>[]
       audits: Prisma.$AuditLogPayload<ExtArgs>[]
       certificates: Prisma.$CertificatePayload<ExtArgs>[]
@@ -10172,6 +10318,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     assets<T extends User$assetsArgs<ExtArgs> = {}>(args?: Subset<T, User$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     attendance<T extends User$attendanceArgs<ExtArgs> = {}>(args?: Subset<T, User$attendanceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attendanceEvents<T extends User$attendanceEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$attendanceEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     attendanceRequests<T extends User$attendanceRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$attendanceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     audits<T extends User$auditsArgs<ExtArgs> = {}>(args?: Subset<T, User$auditsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     certificates<T extends User$certificatesArgs<ExtArgs> = {}>(args?: Subset<T, User$certificatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CertificatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -10695,6 +10842,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AttendanceScalarFieldEnum | AttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * User.attendanceEvents
+   */
+  export type User$attendanceEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceEvent
+     */
+    select?: AttendanceEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceEvent
+     */
+    omit?: AttendanceEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceEventInclude<ExtArgs> | null
+    where?: AttendanceEventWhereInput
+    orderBy?: AttendanceEventOrderByWithRelationInput | AttendanceEventOrderByWithRelationInput[]
+    cursor?: AttendanceEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttendanceEventScalarFieldEnum | AttendanceEventScalarFieldEnum[]
   }
 
   /**
@@ -31057,6 +31228,8 @@ export namespace Prisma {
     shiftId: string | null
     status: string | null
     isLate: boolean | null
+    generatedFromEvents: boolean | null
+    primarySourceId: string | null
   }
 
   export type AttendanceMaxAggregateOutputType = {
@@ -31070,6 +31243,8 @@ export namespace Prisma {
     shiftId: string | null
     status: string | null
     isLate: boolean | null
+    generatedFromEvents: boolean | null
+    primarySourceId: string | null
   }
 
   export type AttendanceCountAggregateOutputType = {
@@ -31083,6 +31258,8 @@ export namespace Prisma {
     shiftId: number
     status: number
     isLate: number
+    generatedFromEvents: number
+    primarySourceId: number
     _all: number
   }
 
@@ -31106,6 +31283,8 @@ export namespace Prisma {
     shiftId?: true
     status?: true
     isLate?: true
+    generatedFromEvents?: true
+    primarySourceId?: true
   }
 
   export type AttendanceMaxAggregateInputType = {
@@ -31119,6 +31298,8 @@ export namespace Prisma {
     shiftId?: true
     status?: true
     isLate?: true
+    generatedFromEvents?: true
+    primarySourceId?: true
   }
 
   export type AttendanceCountAggregateInputType = {
@@ -31132,6 +31313,8 @@ export namespace Prisma {
     shiftId?: true
     status?: true
     isLate?: true
+    generatedFromEvents?: true
+    primarySourceId?: true
     _all?: true
   }
 
@@ -31232,6 +31415,8 @@ export namespace Prisma {
     shiftId: string | null
     status: string
     isLate: boolean
+    generatedFromEvents: boolean
+    primarySourceId: string | null
     _count: AttendanceCountAggregateOutputType | null
     _avg: AttendanceAvgAggregateOutputType | null
     _sum: AttendanceSumAggregateOutputType | null
@@ -31264,6 +31449,8 @@ export namespace Prisma {
     shiftId?: boolean
     status?: boolean
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: boolean
     shift?: boolean | Attendance$shiftArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     breaks?: boolean | Attendance$breaksArgs<ExtArgs>
@@ -31281,6 +31468,8 @@ export namespace Prisma {
     shiftId?: boolean
     status?: boolean
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: boolean
     shift?: boolean | Attendance$shiftArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["attendance"]>
@@ -31296,6 +31485,8 @@ export namespace Prisma {
     shiftId?: boolean
     status?: boolean
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: boolean
     shift?: boolean | Attendance$shiftArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["attendance"]>
@@ -31311,9 +31502,11 @@ export namespace Prisma {
     shiftId?: boolean
     status?: boolean
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: boolean
   }
 
-  export type AttendanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "date" | "checkIn" | "checkOut" | "location" | "hours" | "shiftId" | "status" | "isLate", ExtArgs["result"]["attendance"]>
+  export type AttendanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "date" | "checkIn" | "checkOut" | "location" | "hours" | "shiftId" | "status" | "isLate" | "generatedFromEvents" | "primarySourceId", ExtArgs["result"]["attendance"]>
   export type AttendanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     shift?: boolean | Attendance$shiftArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -31347,6 +31540,8 @@ export namespace Prisma {
       shiftId: string | null
       status: string
       isLate: boolean
+      generatedFromEvents: boolean
+      primarySourceId: string | null
     }, ExtArgs["result"]["attendance"]>
     composites: {}
   }
@@ -31783,6 +31978,8 @@ export namespace Prisma {
     readonly shiftId: FieldRef<"Attendance", 'String'>
     readonly status: FieldRef<"Attendance", 'String'>
     readonly isLate: FieldRef<"Attendance", 'Boolean'>
+    readonly generatedFromEvents: FieldRef<"Attendance", 'Boolean'>
+    readonly primarySourceId: FieldRef<"Attendance", 'String'>
   }
     
 
@@ -32241,6 +32438,1226 @@ export namespace Prisma {
 
 
   /**
+   * Model AttendanceEvent
+   */
+
+  export type AggregateAttendanceEvent = {
+    _count: AttendanceEventCountAggregateOutputType | null
+    _min: AttendanceEventMinAggregateOutputType | null
+    _max: AttendanceEventMaxAggregateOutputType | null
+  }
+
+  export type AttendanceEventMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    userId: string | null
+    sourceId: string | null
+    eventType: $Enums.AttendanceEventType | null
+    timestamp: Date | null
+    businessDate: Date | null
+    verificationMethod: string | null
+    dedupKey: string | null
+    status: string | null
+    note: string | null
+    ingestedVia: string | null
+    createdById: string | null
+    createdAt: Date | null
+  }
+
+  export type AttendanceEventMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    userId: string | null
+    sourceId: string | null
+    eventType: $Enums.AttendanceEventType | null
+    timestamp: Date | null
+    businessDate: Date | null
+    verificationMethod: string | null
+    dedupKey: string | null
+    status: string | null
+    note: string | null
+    ingestedVia: string | null
+    createdById: string | null
+    createdAt: Date | null
+  }
+
+  export type AttendanceEventCountAggregateOutputType = {
+    id: number
+    companyId: number
+    userId: number
+    sourceId: number
+    eventType: number
+    timestamp: number
+    businessDate: number
+    verificationMethod: number
+    dedupKey: number
+    status: number
+    note: number
+    locationData: number
+    rawPayload: number
+    ingestedVia: number
+    createdById: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AttendanceEventMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    userId?: true
+    sourceId?: true
+    eventType?: true
+    timestamp?: true
+    businessDate?: true
+    verificationMethod?: true
+    dedupKey?: true
+    status?: true
+    note?: true
+    ingestedVia?: true
+    createdById?: true
+    createdAt?: true
+  }
+
+  export type AttendanceEventMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    userId?: true
+    sourceId?: true
+    eventType?: true
+    timestamp?: true
+    businessDate?: true
+    verificationMethod?: true
+    dedupKey?: true
+    status?: true
+    note?: true
+    ingestedVia?: true
+    createdById?: true
+    createdAt?: true
+  }
+
+  export type AttendanceEventCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    userId?: true
+    sourceId?: true
+    eventType?: true
+    timestamp?: true
+    businessDate?: true
+    verificationMethod?: true
+    dedupKey?: true
+    status?: true
+    note?: true
+    locationData?: true
+    rawPayload?: true
+    ingestedVia?: true
+    createdById?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AttendanceEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttendanceEvent to aggregate.
+     */
+    where?: AttendanceEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceEvents to fetch.
+     */
+    orderBy?: AttendanceEventOrderByWithRelationInput | AttendanceEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AttendanceEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AttendanceEvents
+    **/
+    _count?: true | AttendanceEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AttendanceEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AttendanceEventMaxAggregateInputType
+  }
+
+  export type GetAttendanceEventAggregateType<T extends AttendanceEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateAttendanceEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAttendanceEvent[P]>
+      : GetScalarType<T[P], AggregateAttendanceEvent[P]>
+  }
+
+
+
+
+  export type AttendanceEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceEventWhereInput
+    orderBy?: AttendanceEventOrderByWithAggregationInput | AttendanceEventOrderByWithAggregationInput[]
+    by: AttendanceEventScalarFieldEnum[] | AttendanceEventScalarFieldEnum
+    having?: AttendanceEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AttendanceEventCountAggregateInputType | true
+    _min?: AttendanceEventMinAggregateInputType
+    _max?: AttendanceEventMaxAggregateInputType
+  }
+
+  export type AttendanceEventGroupByOutputType = {
+    id: string
+    companyId: string
+    userId: string
+    sourceId: string | null
+    eventType: $Enums.AttendanceEventType
+    timestamp: Date
+    businessDate: Date
+    verificationMethod: string | null
+    dedupKey: string
+    status: string
+    note: string | null
+    locationData: JsonValue | null
+    rawPayload: JsonValue | null
+    ingestedVia: string | null
+    createdById: string | null
+    createdAt: Date
+    _count: AttendanceEventCountAggregateOutputType | null
+    _min: AttendanceEventMinAggregateOutputType | null
+    _max: AttendanceEventMaxAggregateOutputType | null
+  }
+
+  type GetAttendanceEventGroupByPayload<T extends AttendanceEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AttendanceEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AttendanceEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AttendanceEventGroupByOutputType[P]>
+            : GetScalarType<T[P], AttendanceEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AttendanceEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    userId?: boolean
+    sourceId?: boolean
+    eventType?: boolean
+    timestamp?: boolean
+    businessDate?: boolean
+    verificationMethod?: boolean
+    dedupKey?: boolean
+    status?: boolean
+    note?: boolean
+    locationData?: boolean
+    rawPayload?: boolean
+    ingestedVia?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    source?: boolean | AttendanceEvent$sourceArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceEvent"]>
+
+  export type AttendanceEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    userId?: boolean
+    sourceId?: boolean
+    eventType?: boolean
+    timestamp?: boolean
+    businessDate?: boolean
+    verificationMethod?: boolean
+    dedupKey?: boolean
+    status?: boolean
+    note?: boolean
+    locationData?: boolean
+    rawPayload?: boolean
+    ingestedVia?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    source?: boolean | AttendanceEvent$sourceArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceEvent"]>
+
+  export type AttendanceEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    userId?: boolean
+    sourceId?: boolean
+    eventType?: boolean
+    timestamp?: boolean
+    businessDate?: boolean
+    verificationMethod?: boolean
+    dedupKey?: boolean
+    status?: boolean
+    note?: boolean
+    locationData?: boolean
+    rawPayload?: boolean
+    ingestedVia?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    source?: boolean | AttendanceEvent$sourceArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceEvent"]>
+
+  export type AttendanceEventSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    userId?: boolean
+    sourceId?: boolean
+    eventType?: boolean
+    timestamp?: boolean
+    businessDate?: boolean
+    verificationMethod?: boolean
+    dedupKey?: boolean
+    status?: boolean
+    note?: boolean
+    locationData?: boolean
+    rawPayload?: boolean
+    ingestedVia?: boolean
+    createdById?: boolean
+    createdAt?: boolean
+  }
+
+  export type AttendanceEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "userId" | "sourceId" | "eventType" | "timestamp" | "businessDate" | "verificationMethod" | "dedupKey" | "status" | "note" | "locationData" | "rawPayload" | "ingestedVia" | "createdById" | "createdAt", ExtArgs["result"]["attendanceEvent"]>
+  export type AttendanceEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    source?: boolean | AttendanceEvent$sourceArgs<ExtArgs>
+  }
+  export type AttendanceEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    source?: boolean | AttendanceEvent$sourceArgs<ExtArgs>
+  }
+  export type AttendanceEventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    source?: boolean | AttendanceEvent$sourceArgs<ExtArgs>
+  }
+
+  export type $AttendanceEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AttendanceEvent"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      source: Prisma.$AttendanceSourcePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      userId: string
+      sourceId: string | null
+      eventType: $Enums.AttendanceEventType
+      timestamp: Date
+      businessDate: Date
+      verificationMethod: string | null
+      dedupKey: string
+      status: string
+      note: string | null
+      locationData: Prisma.JsonValue | null
+      rawPayload: Prisma.JsonValue | null
+      ingestedVia: string | null
+      createdById: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["attendanceEvent"]>
+    composites: {}
+  }
+
+  type AttendanceEventGetPayload<S extends boolean | null | undefined | AttendanceEventDefaultArgs> = $Result.GetResult<Prisma.$AttendanceEventPayload, S>
+
+  type AttendanceEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AttendanceEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AttendanceEventCountAggregateInputType | true
+    }
+
+  export interface AttendanceEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AttendanceEvent'], meta: { name: 'AttendanceEvent' } }
+    /**
+     * Find zero or one AttendanceEvent that matches the filter.
+     * @param {AttendanceEventFindUniqueArgs} args - Arguments to find a AttendanceEvent
+     * @example
+     * // Get one AttendanceEvent
+     * const attendanceEvent = await prisma.attendanceEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AttendanceEventFindUniqueArgs>(args: SelectSubset<T, AttendanceEventFindUniqueArgs<ExtArgs>>): Prisma__AttendanceEventClient<$Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AttendanceEvent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AttendanceEventFindUniqueOrThrowArgs} args - Arguments to find a AttendanceEvent
+     * @example
+     * // Get one AttendanceEvent
+     * const attendanceEvent = await prisma.attendanceEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AttendanceEventFindUniqueOrThrowArgs>(args: SelectSubset<T, AttendanceEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttendanceEventClient<$Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttendanceEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceEventFindFirstArgs} args - Arguments to find a AttendanceEvent
+     * @example
+     * // Get one AttendanceEvent
+     * const attendanceEvent = await prisma.attendanceEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AttendanceEventFindFirstArgs>(args?: SelectSubset<T, AttendanceEventFindFirstArgs<ExtArgs>>): Prisma__AttendanceEventClient<$Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttendanceEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceEventFindFirstOrThrowArgs} args - Arguments to find a AttendanceEvent
+     * @example
+     * // Get one AttendanceEvent
+     * const attendanceEvent = await prisma.attendanceEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AttendanceEventFindFirstOrThrowArgs>(args?: SelectSubset<T, AttendanceEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttendanceEventClient<$Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AttendanceEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AttendanceEvents
+     * const attendanceEvents = await prisma.attendanceEvent.findMany()
+     * 
+     * // Get first 10 AttendanceEvents
+     * const attendanceEvents = await prisma.attendanceEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const attendanceEventWithIdOnly = await prisma.attendanceEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AttendanceEventFindManyArgs>(args?: SelectSubset<T, AttendanceEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AttendanceEvent.
+     * @param {AttendanceEventCreateArgs} args - Arguments to create a AttendanceEvent.
+     * @example
+     * // Create one AttendanceEvent
+     * const AttendanceEvent = await prisma.attendanceEvent.create({
+     *   data: {
+     *     // ... data to create a AttendanceEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends AttendanceEventCreateArgs>(args: SelectSubset<T, AttendanceEventCreateArgs<ExtArgs>>): Prisma__AttendanceEventClient<$Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AttendanceEvents.
+     * @param {AttendanceEventCreateManyArgs} args - Arguments to create many AttendanceEvents.
+     * @example
+     * // Create many AttendanceEvents
+     * const attendanceEvent = await prisma.attendanceEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AttendanceEventCreateManyArgs>(args?: SelectSubset<T, AttendanceEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AttendanceEvents and returns the data saved in the database.
+     * @param {AttendanceEventCreateManyAndReturnArgs} args - Arguments to create many AttendanceEvents.
+     * @example
+     * // Create many AttendanceEvents
+     * const attendanceEvent = await prisma.attendanceEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AttendanceEvents and only return the `id`
+     * const attendanceEventWithIdOnly = await prisma.attendanceEvent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AttendanceEventCreateManyAndReturnArgs>(args?: SelectSubset<T, AttendanceEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AttendanceEvent.
+     * @param {AttendanceEventDeleteArgs} args - Arguments to delete one AttendanceEvent.
+     * @example
+     * // Delete one AttendanceEvent
+     * const AttendanceEvent = await prisma.attendanceEvent.delete({
+     *   where: {
+     *     // ... filter to delete one AttendanceEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AttendanceEventDeleteArgs>(args: SelectSubset<T, AttendanceEventDeleteArgs<ExtArgs>>): Prisma__AttendanceEventClient<$Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AttendanceEvent.
+     * @param {AttendanceEventUpdateArgs} args - Arguments to update one AttendanceEvent.
+     * @example
+     * // Update one AttendanceEvent
+     * const attendanceEvent = await prisma.attendanceEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AttendanceEventUpdateArgs>(args: SelectSubset<T, AttendanceEventUpdateArgs<ExtArgs>>): Prisma__AttendanceEventClient<$Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AttendanceEvents.
+     * @param {AttendanceEventDeleteManyArgs} args - Arguments to filter AttendanceEvents to delete.
+     * @example
+     * // Delete a few AttendanceEvents
+     * const { count } = await prisma.attendanceEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AttendanceEventDeleteManyArgs>(args?: SelectSubset<T, AttendanceEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttendanceEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AttendanceEvents
+     * const attendanceEvent = await prisma.attendanceEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AttendanceEventUpdateManyArgs>(args: SelectSubset<T, AttendanceEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttendanceEvents and returns the data updated in the database.
+     * @param {AttendanceEventUpdateManyAndReturnArgs} args - Arguments to update many AttendanceEvents.
+     * @example
+     * // Update many AttendanceEvents
+     * const attendanceEvent = await prisma.attendanceEvent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AttendanceEvents and only return the `id`
+     * const attendanceEventWithIdOnly = await prisma.attendanceEvent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AttendanceEventUpdateManyAndReturnArgs>(args: SelectSubset<T, AttendanceEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AttendanceEvent.
+     * @param {AttendanceEventUpsertArgs} args - Arguments to update or create a AttendanceEvent.
+     * @example
+     * // Update or create a AttendanceEvent
+     * const attendanceEvent = await prisma.attendanceEvent.upsert({
+     *   create: {
+     *     // ... data to create a AttendanceEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AttendanceEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AttendanceEventUpsertArgs>(args: SelectSubset<T, AttendanceEventUpsertArgs<ExtArgs>>): Prisma__AttendanceEventClient<$Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AttendanceEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceEventCountArgs} args - Arguments to filter AttendanceEvents to count.
+     * @example
+     * // Count the number of AttendanceEvents
+     * const count = await prisma.attendanceEvent.count({
+     *   where: {
+     *     // ... the filter for the AttendanceEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends AttendanceEventCountArgs>(
+      args?: Subset<T, AttendanceEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AttendanceEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AttendanceEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AttendanceEventAggregateArgs>(args: Subset<T, AttendanceEventAggregateArgs>): Prisma.PrismaPromise<GetAttendanceEventAggregateType<T>>
+
+    /**
+     * Group by AttendanceEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AttendanceEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AttendanceEventGroupByArgs['orderBy'] }
+        : { orderBy?: AttendanceEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AttendanceEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttendanceEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AttendanceEvent model
+   */
+  readonly fields: AttendanceEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AttendanceEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AttendanceEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    source<T extends AttendanceEvent$sourceArgs<ExtArgs> = {}>(args?: Subset<T, AttendanceEvent$sourceArgs<ExtArgs>>): Prisma__AttendanceSourceClient<$Result.GetResult<Prisma.$AttendanceSourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AttendanceEvent model
+   */
+  interface AttendanceEventFieldRefs {
+    readonly id: FieldRef<"AttendanceEvent", 'String'>
+    readonly companyId: FieldRef<"AttendanceEvent", 'String'>
+    readonly userId: FieldRef<"AttendanceEvent", 'String'>
+    readonly sourceId: FieldRef<"AttendanceEvent", 'String'>
+    readonly eventType: FieldRef<"AttendanceEvent", 'AttendanceEventType'>
+    readonly timestamp: FieldRef<"AttendanceEvent", 'DateTime'>
+    readonly businessDate: FieldRef<"AttendanceEvent", 'DateTime'>
+    readonly verificationMethod: FieldRef<"AttendanceEvent", 'String'>
+    readonly dedupKey: FieldRef<"AttendanceEvent", 'String'>
+    readonly status: FieldRef<"AttendanceEvent", 'String'>
+    readonly note: FieldRef<"AttendanceEvent", 'String'>
+    readonly locationData: FieldRef<"AttendanceEvent", 'Json'>
+    readonly rawPayload: FieldRef<"AttendanceEvent", 'Json'>
+    readonly ingestedVia: FieldRef<"AttendanceEvent", 'String'>
+    readonly createdById: FieldRef<"AttendanceEvent", 'String'>
+    readonly createdAt: FieldRef<"AttendanceEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AttendanceEvent findUnique
+   */
+  export type AttendanceEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceEvent
+     */
+    select?: AttendanceEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceEvent
+     */
+    omit?: AttendanceEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceEventInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceEvent to fetch.
+     */
+    where: AttendanceEventWhereUniqueInput
+  }
+
+  /**
+   * AttendanceEvent findUniqueOrThrow
+   */
+  export type AttendanceEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceEvent
+     */
+    select?: AttendanceEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceEvent
+     */
+    omit?: AttendanceEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceEventInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceEvent to fetch.
+     */
+    where: AttendanceEventWhereUniqueInput
+  }
+
+  /**
+   * AttendanceEvent findFirst
+   */
+  export type AttendanceEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceEvent
+     */
+    select?: AttendanceEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceEvent
+     */
+    omit?: AttendanceEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceEventInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceEvent to fetch.
+     */
+    where?: AttendanceEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceEvents to fetch.
+     */
+    orderBy?: AttendanceEventOrderByWithRelationInput | AttendanceEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttendanceEvents.
+     */
+    cursor?: AttendanceEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttendanceEvents.
+     */
+    distinct?: AttendanceEventScalarFieldEnum | AttendanceEventScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceEvent findFirstOrThrow
+   */
+  export type AttendanceEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceEvent
+     */
+    select?: AttendanceEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceEvent
+     */
+    omit?: AttendanceEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceEventInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceEvent to fetch.
+     */
+    where?: AttendanceEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceEvents to fetch.
+     */
+    orderBy?: AttendanceEventOrderByWithRelationInput | AttendanceEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttendanceEvents.
+     */
+    cursor?: AttendanceEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttendanceEvents.
+     */
+    distinct?: AttendanceEventScalarFieldEnum | AttendanceEventScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceEvent findMany
+   */
+  export type AttendanceEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceEvent
+     */
+    select?: AttendanceEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceEvent
+     */
+    omit?: AttendanceEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceEventInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceEvents to fetch.
+     */
+    where?: AttendanceEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceEvents to fetch.
+     */
+    orderBy?: AttendanceEventOrderByWithRelationInput | AttendanceEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AttendanceEvents.
+     */
+    cursor?: AttendanceEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceEvents.
+     */
+    skip?: number
+    distinct?: AttendanceEventScalarFieldEnum | AttendanceEventScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceEvent create
+   */
+  export type AttendanceEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceEvent
+     */
+    select?: AttendanceEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceEvent
+     */
+    omit?: AttendanceEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AttendanceEvent.
+     */
+    data: XOR<AttendanceEventCreateInput, AttendanceEventUncheckedCreateInput>
+  }
+
+  /**
+   * AttendanceEvent createMany
+   */
+  export type AttendanceEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AttendanceEvents.
+     */
+    data: AttendanceEventCreateManyInput | AttendanceEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AttendanceEvent createManyAndReturn
+   */
+  export type AttendanceEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceEvent
+     */
+    select?: AttendanceEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceEvent
+     */
+    omit?: AttendanceEventOmit<ExtArgs> | null
+    /**
+     * The data used to create many AttendanceEvents.
+     */
+    data: AttendanceEventCreateManyInput | AttendanceEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AttendanceEvent update
+   */
+  export type AttendanceEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceEvent
+     */
+    select?: AttendanceEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceEvent
+     */
+    omit?: AttendanceEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AttendanceEvent.
+     */
+    data: XOR<AttendanceEventUpdateInput, AttendanceEventUncheckedUpdateInput>
+    /**
+     * Choose, which AttendanceEvent to update.
+     */
+    where: AttendanceEventWhereUniqueInput
+  }
+
+  /**
+   * AttendanceEvent updateMany
+   */
+  export type AttendanceEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AttendanceEvents.
+     */
+    data: XOR<AttendanceEventUpdateManyMutationInput, AttendanceEventUncheckedUpdateManyInput>
+    /**
+     * Filter which AttendanceEvents to update
+     */
+    where?: AttendanceEventWhereInput
+    /**
+     * Limit how many AttendanceEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendanceEvent updateManyAndReturn
+   */
+  export type AttendanceEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceEvent
+     */
+    select?: AttendanceEventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceEvent
+     */
+    omit?: AttendanceEventOmit<ExtArgs> | null
+    /**
+     * The data used to update AttendanceEvents.
+     */
+    data: XOR<AttendanceEventUpdateManyMutationInput, AttendanceEventUncheckedUpdateManyInput>
+    /**
+     * Filter which AttendanceEvents to update
+     */
+    where?: AttendanceEventWhereInput
+    /**
+     * Limit how many AttendanceEvents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceEventIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AttendanceEvent upsert
+   */
+  export type AttendanceEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceEvent
+     */
+    select?: AttendanceEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceEvent
+     */
+    omit?: AttendanceEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AttendanceEvent to update in case it exists.
+     */
+    where: AttendanceEventWhereUniqueInput
+    /**
+     * In case the AttendanceEvent found by the `where` argument doesn't exist, create a new AttendanceEvent with this data.
+     */
+    create: XOR<AttendanceEventCreateInput, AttendanceEventUncheckedCreateInput>
+    /**
+     * In case the AttendanceEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AttendanceEventUpdateInput, AttendanceEventUncheckedUpdateInput>
+  }
+
+  /**
+   * AttendanceEvent delete
+   */
+  export type AttendanceEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceEvent
+     */
+    select?: AttendanceEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceEvent
+     */
+    omit?: AttendanceEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceEventInclude<ExtArgs> | null
+    /**
+     * Filter which AttendanceEvent to delete.
+     */
+    where: AttendanceEventWhereUniqueInput
+  }
+
+  /**
+   * AttendanceEvent deleteMany
+   */
+  export type AttendanceEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttendanceEvents to delete
+     */
+    where?: AttendanceEventWhereInput
+    /**
+     * Limit how many AttendanceEvents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendanceEvent.source
+   */
+  export type AttendanceEvent$sourceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSource
+     */
+    select?: AttendanceSourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSource
+     */
+    omit?: AttendanceSourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSourceInclude<ExtArgs> | null
+    where?: AttendanceSourceWhereInput
+  }
+
+  /**
+   * AttendanceEvent without action
+   */
+  export type AttendanceEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceEvent
+     */
+    select?: AttendanceEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceEvent
+     */
+    omit?: AttendanceEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceEventInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model AttendanceSource
    */
 
@@ -32491,6 +33908,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
+    events?: boolean | AttendanceSource$eventsArgs<ExtArgs>
+    _count?: boolean | AttendanceSourceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["attendanceSource"]>
 
   export type AttendanceSourceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -32543,6 +33962,8 @@ export namespace Prisma {
   export type AttendanceSourceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "name" | "type" | "ingestionMode" | "configuration" | "isActive" | "priority" | "healthStatus" | "lastSyncAt" | "createdAt" | "updatedAt", ExtArgs["result"]["attendanceSource"]>
   export type AttendanceSourceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
+    events?: boolean | AttendanceSource$eventsArgs<ExtArgs>
+    _count?: boolean | AttendanceSourceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AttendanceSourceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
@@ -32555,6 +33976,7 @@ export namespace Prisma {
     name: "AttendanceSource"
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs>
+      events: Prisma.$AttendanceEventPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -32964,6 +34386,7 @@ export namespace Prisma {
   export interface Prisma__AttendanceSourceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    events<T extends AttendanceSource$eventsArgs<ExtArgs> = {}>(args?: Subset<T, AttendanceSource$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -33398,6 +34821,30 @@ export namespace Prisma {
      * Limit how many AttendanceSources to delete.
      */
     limit?: number
+  }
+
+  /**
+   * AttendanceSource.events
+   */
+  export type AttendanceSource$eventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceEvent
+     */
+    select?: AttendanceEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceEvent
+     */
+    omit?: AttendanceEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceEventInclude<ExtArgs> | null
+    where?: AttendanceEventWhereInput
+    orderBy?: AttendanceEventOrderByWithRelationInput | AttendanceEventOrderByWithRelationInput[]
+    cursor?: AttendanceEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttendanceEventScalarFieldEnum | AttendanceEventScalarFieldEnum[]
   }
 
   /**
@@ -79981,10 +81428,34 @@ export namespace Prisma {
     hours: 'hours',
     shiftId: 'shiftId',
     status: 'status',
-    isLate: 'isLate'
+    isLate: 'isLate',
+    generatedFromEvents: 'generatedFromEvents',
+    primarySourceId: 'primarySourceId'
   };
 
   export type AttendanceScalarFieldEnum = (typeof AttendanceScalarFieldEnum)[keyof typeof AttendanceScalarFieldEnum]
+
+
+  export const AttendanceEventScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    userId: 'userId',
+    sourceId: 'sourceId',
+    eventType: 'eventType',
+    timestamp: 'timestamp',
+    businessDate: 'businessDate',
+    verificationMethod: 'verificationMethod',
+    dedupKey: 'dedupKey',
+    status: 'status',
+    note: 'note',
+    locationData: 'locationData',
+    rawPayload: 'rawPayload',
+    ingestedVia: 'ingestedVia',
+    createdById: 'createdById',
+    createdAt: 'createdAt'
+  };
+
+  export type AttendanceEventScalarFieldEnum = (typeof AttendanceEventScalarFieldEnum)[keyof typeof AttendanceEventScalarFieldEnum]
 
 
   export const AttendanceSourceScalarFieldEnum: {
@@ -80634,6 +82105,14 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
   export const JsonNullValueInput: {
     JsonNull: typeof JsonNull
   };
@@ -80903,6 +82382,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'AttendanceEventType'
+   */
+  export type EnumAttendanceEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceEventType'>
+    
+
+
+  /**
+   * Reference to a field of type 'AttendanceEventType[]'
+   */
+  export type ListEnumAttendanceEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceEventType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
    * Reference to a field of type 'AttendanceSourceType'
    */
   export type EnumAttendanceSourceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceSourceType'>
@@ -80927,20 +82434,6 @@ export namespace Prisma {
    * Reference to a field of type 'AttendanceIngestionMode[]'
    */
   export type ListEnumAttendanceIngestionModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceIngestionMode[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-  /**
-   * Reference to a field of type 'QueryMode'
-   */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -81138,6 +82631,7 @@ export namespace Prisma {
     companyId?: StringNullableFilter<"User"> | string | null
     assets?: AssetListRelationFilter
     attendance?: AttendanceListRelationFilter
+    attendanceEvents?: AttendanceEventListRelationFilter
     attendanceRequests?: AttendanceRequestListRelationFilter
     audits?: AuditLogListRelationFilter
     certificates?: CertificateListRelationFilter
@@ -81196,6 +82690,7 @@ export namespace Prisma {
     companyId?: SortOrderInput | SortOrder
     assets?: AssetOrderByRelationAggregateInput
     attendance?: AttendanceOrderByRelationAggregateInput
+    attendanceEvents?: AttendanceEventOrderByRelationAggregateInput
     attendanceRequests?: AttendanceRequestOrderByRelationAggregateInput
     audits?: AuditLogOrderByRelationAggregateInput
     certificates?: CertificateOrderByRelationAggregateInput
@@ -81257,6 +82752,7 @@ export namespace Prisma {
     companyId?: StringNullableFilter<"User"> | string | null
     assets?: AssetListRelationFilter
     attendance?: AttendanceListRelationFilter
+    attendanceEvents?: AttendanceEventListRelationFilter
     attendanceRequests?: AttendanceRequestListRelationFilter
     audits?: AuditLogListRelationFilter
     certificates?: CertificateListRelationFilter
@@ -82894,6 +84390,8 @@ export namespace Prisma {
     shiftId?: StringNullableFilter<"Attendance"> | string | null
     status?: StringFilter<"Attendance"> | string
     isLate?: BoolFilter<"Attendance"> | boolean
+    generatedFromEvents?: BoolFilter<"Attendance"> | boolean
+    primarySourceId?: StringNullableFilter<"Attendance"> | string | null
     shift?: XOR<ShiftNullableScalarRelationFilter, ShiftWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     breaks?: BreakListRelationFilter
@@ -82910,6 +84408,8 @@ export namespace Prisma {
     shiftId?: SortOrderInput | SortOrder
     status?: SortOrder
     isLate?: SortOrder
+    generatedFromEvents?: SortOrder
+    primarySourceId?: SortOrderInput | SortOrder
     shift?: ShiftOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
     breaks?: BreakOrderByRelationAggregateInput
@@ -82930,6 +84430,8 @@ export namespace Prisma {
     shiftId?: StringNullableFilter<"Attendance"> | string | null
     status?: StringFilter<"Attendance"> | string
     isLate?: BoolFilter<"Attendance"> | boolean
+    generatedFromEvents?: BoolFilter<"Attendance"> | boolean
+    primarySourceId?: StringNullableFilter<"Attendance"> | string | null
     shift?: XOR<ShiftNullableScalarRelationFilter, ShiftWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     breaks?: BreakListRelationFilter
@@ -82946,6 +84448,8 @@ export namespace Prisma {
     shiftId?: SortOrderInput | SortOrder
     status?: SortOrder
     isLate?: SortOrder
+    generatedFromEvents?: SortOrder
+    primarySourceId?: SortOrderInput | SortOrder
     _count?: AttendanceCountOrderByAggregateInput
     _avg?: AttendanceAvgOrderByAggregateInput
     _max?: AttendanceMaxOrderByAggregateInput
@@ -82967,6 +84471,122 @@ export namespace Prisma {
     shiftId?: StringNullableWithAggregatesFilter<"Attendance"> | string | null
     status?: StringWithAggregatesFilter<"Attendance"> | string
     isLate?: BoolWithAggregatesFilter<"Attendance"> | boolean
+    generatedFromEvents?: BoolWithAggregatesFilter<"Attendance"> | boolean
+    primarySourceId?: StringNullableWithAggregatesFilter<"Attendance"> | string | null
+  }
+
+  export type AttendanceEventWhereInput = {
+    AND?: AttendanceEventWhereInput | AttendanceEventWhereInput[]
+    OR?: AttendanceEventWhereInput[]
+    NOT?: AttendanceEventWhereInput | AttendanceEventWhereInput[]
+    id?: StringFilter<"AttendanceEvent"> | string
+    companyId?: StringFilter<"AttendanceEvent"> | string
+    userId?: StringFilter<"AttendanceEvent"> | string
+    sourceId?: StringNullableFilter<"AttendanceEvent"> | string | null
+    eventType?: EnumAttendanceEventTypeFilter<"AttendanceEvent"> | $Enums.AttendanceEventType
+    timestamp?: DateTimeFilter<"AttendanceEvent"> | Date | string
+    businessDate?: DateTimeFilter<"AttendanceEvent"> | Date | string
+    verificationMethod?: StringNullableFilter<"AttendanceEvent"> | string | null
+    dedupKey?: StringFilter<"AttendanceEvent"> | string
+    status?: StringFilter<"AttendanceEvent"> | string
+    note?: StringNullableFilter<"AttendanceEvent"> | string | null
+    locationData?: JsonNullableFilter<"AttendanceEvent">
+    rawPayload?: JsonNullableFilter<"AttendanceEvent">
+    ingestedVia?: StringNullableFilter<"AttendanceEvent"> | string | null
+    createdById?: StringNullableFilter<"AttendanceEvent"> | string | null
+    createdAt?: DateTimeFilter<"AttendanceEvent"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    source?: XOR<AttendanceSourceNullableScalarRelationFilter, AttendanceSourceWhereInput> | null
+  }
+
+  export type AttendanceEventOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+    sourceId?: SortOrderInput | SortOrder
+    eventType?: SortOrder
+    timestamp?: SortOrder
+    businessDate?: SortOrder
+    verificationMethod?: SortOrderInput | SortOrder
+    dedupKey?: SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    locationData?: SortOrderInput | SortOrder
+    rawPayload?: SortOrderInput | SortOrder
+    ingestedVia?: SortOrderInput | SortOrder
+    createdById?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    source?: AttendanceSourceOrderByWithRelationInput
+  }
+
+  export type AttendanceEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId_dedupKey?: AttendanceEventCompanyIdDedupKeyCompoundUniqueInput
+    AND?: AttendanceEventWhereInput | AttendanceEventWhereInput[]
+    OR?: AttendanceEventWhereInput[]
+    NOT?: AttendanceEventWhereInput | AttendanceEventWhereInput[]
+    companyId?: StringFilter<"AttendanceEvent"> | string
+    userId?: StringFilter<"AttendanceEvent"> | string
+    sourceId?: StringNullableFilter<"AttendanceEvent"> | string | null
+    eventType?: EnumAttendanceEventTypeFilter<"AttendanceEvent"> | $Enums.AttendanceEventType
+    timestamp?: DateTimeFilter<"AttendanceEvent"> | Date | string
+    businessDate?: DateTimeFilter<"AttendanceEvent"> | Date | string
+    verificationMethod?: StringNullableFilter<"AttendanceEvent"> | string | null
+    dedupKey?: StringFilter<"AttendanceEvent"> | string
+    status?: StringFilter<"AttendanceEvent"> | string
+    note?: StringNullableFilter<"AttendanceEvent"> | string | null
+    locationData?: JsonNullableFilter<"AttendanceEvent">
+    rawPayload?: JsonNullableFilter<"AttendanceEvent">
+    ingestedVia?: StringNullableFilter<"AttendanceEvent"> | string | null
+    createdById?: StringNullableFilter<"AttendanceEvent"> | string | null
+    createdAt?: DateTimeFilter<"AttendanceEvent"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    source?: XOR<AttendanceSourceNullableScalarRelationFilter, AttendanceSourceWhereInput> | null
+  }, "id" | "companyId_dedupKey">
+
+  export type AttendanceEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+    sourceId?: SortOrderInput | SortOrder
+    eventType?: SortOrder
+    timestamp?: SortOrder
+    businessDate?: SortOrder
+    verificationMethod?: SortOrderInput | SortOrder
+    dedupKey?: SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    locationData?: SortOrderInput | SortOrder
+    rawPayload?: SortOrderInput | SortOrder
+    ingestedVia?: SortOrderInput | SortOrder
+    createdById?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: AttendanceEventCountOrderByAggregateInput
+    _max?: AttendanceEventMaxOrderByAggregateInput
+    _min?: AttendanceEventMinOrderByAggregateInput
+  }
+
+  export type AttendanceEventScalarWhereWithAggregatesInput = {
+    AND?: AttendanceEventScalarWhereWithAggregatesInput | AttendanceEventScalarWhereWithAggregatesInput[]
+    OR?: AttendanceEventScalarWhereWithAggregatesInput[]
+    NOT?: AttendanceEventScalarWhereWithAggregatesInput | AttendanceEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AttendanceEvent"> | string
+    companyId?: StringWithAggregatesFilter<"AttendanceEvent"> | string
+    userId?: StringWithAggregatesFilter<"AttendanceEvent"> | string
+    sourceId?: StringNullableWithAggregatesFilter<"AttendanceEvent"> | string | null
+    eventType?: EnumAttendanceEventTypeWithAggregatesFilter<"AttendanceEvent"> | $Enums.AttendanceEventType
+    timestamp?: DateTimeWithAggregatesFilter<"AttendanceEvent"> | Date | string
+    businessDate?: DateTimeWithAggregatesFilter<"AttendanceEvent"> | Date | string
+    verificationMethod?: StringNullableWithAggregatesFilter<"AttendanceEvent"> | string | null
+    dedupKey?: StringWithAggregatesFilter<"AttendanceEvent"> | string
+    status?: StringWithAggregatesFilter<"AttendanceEvent"> | string
+    note?: StringNullableWithAggregatesFilter<"AttendanceEvent"> | string | null
+    locationData?: JsonNullableWithAggregatesFilter<"AttendanceEvent">
+    rawPayload?: JsonNullableWithAggregatesFilter<"AttendanceEvent">
+    ingestedVia?: StringNullableWithAggregatesFilter<"AttendanceEvent"> | string | null
+    createdById?: StringNullableWithAggregatesFilter<"AttendanceEvent"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AttendanceEvent"> | Date | string
   }
 
   export type AttendanceSourceWhereInput = {
@@ -82986,6 +84606,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AttendanceSource"> | Date | string
     updatedAt?: DateTimeFilter<"AttendanceSource"> | Date | string
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    events?: AttendanceEventListRelationFilter
   }
 
   export type AttendanceSourceOrderByWithRelationInput = {
@@ -83002,6 +84623,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
+    events?: AttendanceEventOrderByRelationAggregateInput
   }
 
   export type AttendanceSourceWhereUniqueInput = Prisma.AtLeast<{
@@ -83021,6 +84643,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AttendanceSource"> | Date | string
     updatedAt?: DateTimeFilter<"AttendanceSource"> | Date | string
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    events?: AttendanceEventListRelationFilter
   }, "id">
 
   export type AttendanceSourceOrderByWithAggregationInput = {
@@ -86511,6 +88134,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -86569,6 +88193,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -86619,6 +88244,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -86677,6 +88303,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -88452,6 +90079,8 @@ export namespace Prisma {
     hours?: number | null
     status?: string
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: string | null
     shift?: ShiftCreateNestedOneWithoutAttendanceInput
     user: UserCreateNestedOneWithoutAttendanceInput
     breaks?: BreakCreateNestedManyWithoutAttendanceInput
@@ -88468,6 +90097,8 @@ export namespace Prisma {
     shiftId?: string | null
     status?: string
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: string | null
     breaks?: BreakUncheckedCreateNestedManyWithoutAttendanceInput
   }
 
@@ -88480,6 +90111,8 @@ export namespace Prisma {
     hours?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     isLate?: BoolFieldUpdateOperationsInput | boolean
+    generatedFromEvents?: BoolFieldUpdateOperationsInput | boolean
+    primarySourceId?: NullableStringFieldUpdateOperationsInput | string | null
     shift?: ShiftUpdateOneWithoutAttendanceNestedInput
     user?: UserUpdateOneRequiredWithoutAttendanceNestedInput
     breaks?: BreakUpdateManyWithoutAttendanceNestedInput
@@ -88496,6 +90129,8 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isLate?: BoolFieldUpdateOperationsInput | boolean
+    generatedFromEvents?: BoolFieldUpdateOperationsInput | boolean
+    primarySourceId?: NullableStringFieldUpdateOperationsInput | string | null
     breaks?: BreakUncheckedUpdateManyWithoutAttendanceNestedInput
   }
 
@@ -88510,6 +90145,8 @@ export namespace Prisma {
     shiftId?: string | null
     status?: string
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: string | null
   }
 
   export type AttendanceUpdateManyMutationInput = {
@@ -88521,6 +90158,8 @@ export namespace Prisma {
     hours?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     isLate?: BoolFieldUpdateOperationsInput | boolean
+    generatedFromEvents?: BoolFieldUpdateOperationsInput | boolean
+    primarySourceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AttendanceUncheckedUpdateManyInput = {
@@ -88534,6 +90173,139 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isLate?: BoolFieldUpdateOperationsInput | boolean
+    generatedFromEvents?: BoolFieldUpdateOperationsInput | boolean
+    primarySourceId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AttendanceEventCreateInput = {
+    id?: string
+    companyId: string
+    eventType: $Enums.AttendanceEventType
+    timestamp: Date | string
+    businessDate: Date | string
+    verificationMethod?: string | null
+    dedupKey: string
+    status?: string
+    note?: string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutAttendanceEventsInput
+    source?: AttendanceSourceCreateNestedOneWithoutEventsInput
+  }
+
+  export type AttendanceEventUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    userId: string
+    sourceId?: string | null
+    eventType: $Enums.AttendanceEventType
+    timestamp: Date | string
+    businessDate: Date | string
+    verificationMethod?: string | null
+    dedupKey: string
+    status?: string
+    note?: string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AttendanceEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    eventType?: EnumAttendanceEventTypeFieldUpdateOperationsInput | $Enums.AttendanceEventType
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupKey?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAttendanceEventsNestedInput
+    source?: AttendanceSourceUpdateOneWithoutEventsNestedInput
+  }
+
+  export type AttendanceEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    sourceId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumAttendanceEventTypeFieldUpdateOperationsInput | $Enums.AttendanceEventType
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupKey?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceEventCreateManyInput = {
+    id?: string
+    companyId: string
+    userId: string
+    sourceId?: string | null
+    eventType: $Enums.AttendanceEventType
+    timestamp: Date | string
+    businessDate: Date | string
+    verificationMethod?: string | null
+    dedupKey: string
+    status?: string
+    note?: string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AttendanceEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    eventType?: EnumAttendanceEventTypeFieldUpdateOperationsInput | $Enums.AttendanceEventType
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupKey?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    sourceId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumAttendanceEventTypeFieldUpdateOperationsInput | $Enums.AttendanceEventType
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupKey?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttendanceSourceCreateInput = {
@@ -88549,6 +90321,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutAttendanceSourcesInput
+    events?: AttendanceEventCreateNestedManyWithoutSourceInput
   }
 
   export type AttendanceSourceUncheckedCreateInput = {
@@ -88564,6 +90337,7 @@ export namespace Prisma {
     lastSyncAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    events?: AttendanceEventUncheckedCreateNestedManyWithoutSourceInput
   }
 
   export type AttendanceSourceUpdateInput = {
@@ -88579,6 +90353,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutAttendanceSourcesNestedInput
+    events?: AttendanceEventUpdateManyWithoutSourceNestedInput
   }
 
   export type AttendanceSourceUncheckedUpdateInput = {
@@ -88594,6 +90369,7 @@ export namespace Prisma {
     lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    events?: AttendanceEventUncheckedUpdateManyWithoutSourceNestedInput
   }
 
   export type AttendanceSourceCreateManyInput = {
@@ -92534,6 +94310,12 @@ export namespace Prisma {
     none?: AttendanceWhereInput
   }
 
+  export type AttendanceEventListRelationFilter = {
+    every?: AttendanceEventWhereInput
+    some?: AttendanceEventWhereInput
+    none?: AttendanceEventWhereInput
+  }
+
   export type AttendanceRequestListRelationFilter = {
     every?: AttendanceRequestWhereInput
     some?: AttendanceRequestWhereInput
@@ -92688,6 +94470,10 @@ export namespace Prisma {
   }
 
   export type AttendanceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AttendanceEventOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -94081,6 +95867,8 @@ export namespace Prisma {
     shiftId?: SortOrder
     status?: SortOrder
     isLate?: SortOrder
+    generatedFromEvents?: SortOrder
+    primarySourceId?: SortOrder
   }
 
   export type AttendanceAvgOrderByAggregateInput = {
@@ -94098,6 +95886,8 @@ export namespace Prisma {
     shiftId?: SortOrder
     status?: SortOrder
     isLate?: SortOrder
+    generatedFromEvents?: SortOrder
+    primarySourceId?: SortOrder
   }
 
   export type AttendanceMinOrderByAggregateInput = {
@@ -94111,10 +95901,141 @@ export namespace Prisma {
     shiftId?: SortOrder
     status?: SortOrder
     isLate?: SortOrder
+    generatedFromEvents?: SortOrder
+    primarySourceId?: SortOrder
   }
 
   export type AttendanceSumOrderByAggregateInput = {
     hours?: SortOrder
+  }
+
+  export type EnumAttendanceEventTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceEventType | EnumAttendanceEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceEventType[] | ListEnumAttendanceEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceEventType[] | ListEnumAttendanceEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceEventTypeFilter<$PrismaModel> | $Enums.AttendanceEventType
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type AttendanceSourceNullableScalarRelationFilter = {
+    is?: AttendanceSourceWhereInput | null
+    isNot?: AttendanceSourceWhereInput | null
+  }
+
+  export type AttendanceEventCompanyIdDedupKeyCompoundUniqueInput = {
+    companyId: string
+    dedupKey: string
+  }
+
+  export type AttendanceEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+    sourceId?: SortOrder
+    eventType?: SortOrder
+    timestamp?: SortOrder
+    businessDate?: SortOrder
+    verificationMethod?: SortOrder
+    dedupKey?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    locationData?: SortOrder
+    rawPayload?: SortOrder
+    ingestedVia?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AttendanceEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+    sourceId?: SortOrder
+    eventType?: SortOrder
+    timestamp?: SortOrder
+    businessDate?: SortOrder
+    verificationMethod?: SortOrder
+    dedupKey?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    ingestedVia?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AttendanceEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    userId?: SortOrder
+    sourceId?: SortOrder
+    eventType?: SortOrder
+    timestamp?: SortOrder
+    businessDate?: SortOrder
+    verificationMethod?: SortOrder
+    dedupKey?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    ingestedVia?: SortOrder
+    createdById?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumAttendanceEventTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceEventType | EnumAttendanceEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceEventType[] | ListEnumAttendanceEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceEventType[] | ListEnumAttendanceEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceEventTypeWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceEventType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceEventTypeFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceEventTypeFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type EnumAttendanceSourceTypeFilter<$PrismaModel = never> = {
@@ -97052,6 +98973,13 @@ export namespace Prisma {
     connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
   }
 
+  export type AttendanceEventCreateNestedManyWithoutUserInput = {
+    create?: XOR<AttendanceEventCreateWithoutUserInput, AttendanceEventUncheckedCreateWithoutUserInput> | AttendanceEventCreateWithoutUserInput[] | AttendanceEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AttendanceEventCreateOrConnectWithoutUserInput | AttendanceEventCreateOrConnectWithoutUserInput[]
+    createMany?: AttendanceEventCreateManyUserInputEnvelope
+    connect?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+  }
+
   export type AttendanceRequestCreateNestedManyWithoutUserInput = {
     create?: XOR<AttendanceRequestCreateWithoutUserInput, AttendanceRequestUncheckedCreateWithoutUserInput> | AttendanceRequestCreateWithoutUserInput[] | AttendanceRequestUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AttendanceRequestCreateOrConnectWithoutUserInput | AttendanceRequestCreateOrConnectWithoutUserInput[]
@@ -97330,6 +99258,13 @@ export namespace Prisma {
     connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
   }
 
+  export type AttendanceEventUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AttendanceEventCreateWithoutUserInput, AttendanceEventUncheckedCreateWithoutUserInput> | AttendanceEventCreateWithoutUserInput[] | AttendanceEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AttendanceEventCreateOrConnectWithoutUserInput | AttendanceEventCreateOrConnectWithoutUserInput[]
+    createMany?: AttendanceEventCreateManyUserInputEnvelope
+    connect?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+  }
+
   export type AttendanceRequestUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AttendanceRequestCreateWithoutUserInput, AttendanceRequestUncheckedCreateWithoutUserInput> | AttendanceRequestCreateWithoutUserInput[] | AttendanceRequestUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AttendanceRequestCreateOrConnectWithoutUserInput | AttendanceRequestCreateOrConnectWithoutUserInput[]
@@ -97604,6 +99539,20 @@ export namespace Prisma {
     update?: AttendanceUpdateWithWhereUniqueWithoutUserInput | AttendanceUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AttendanceUpdateManyWithWhereWithoutUserInput | AttendanceUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
+  }
+
+  export type AttendanceEventUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AttendanceEventCreateWithoutUserInput, AttendanceEventUncheckedCreateWithoutUserInput> | AttendanceEventCreateWithoutUserInput[] | AttendanceEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AttendanceEventCreateOrConnectWithoutUserInput | AttendanceEventCreateOrConnectWithoutUserInput[]
+    upsert?: AttendanceEventUpsertWithWhereUniqueWithoutUserInput | AttendanceEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AttendanceEventCreateManyUserInputEnvelope
+    set?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    disconnect?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    delete?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    connect?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    update?: AttendanceEventUpdateWithWhereUniqueWithoutUserInput | AttendanceEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AttendanceEventUpdateManyWithWhereWithoutUserInput | AttendanceEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AttendanceEventScalarWhereInput | AttendanceEventScalarWhereInput[]
   }
 
   export type AttendanceRequestUpdateManyWithoutUserNestedInput = {
@@ -98142,6 +100091,20 @@ export namespace Prisma {
     update?: AttendanceUpdateWithWhereUniqueWithoutUserInput | AttendanceUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AttendanceUpdateManyWithWhereWithoutUserInput | AttendanceUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
+  }
+
+  export type AttendanceEventUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AttendanceEventCreateWithoutUserInput, AttendanceEventUncheckedCreateWithoutUserInput> | AttendanceEventCreateWithoutUserInput[] | AttendanceEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AttendanceEventCreateOrConnectWithoutUserInput | AttendanceEventCreateOrConnectWithoutUserInput[]
+    upsert?: AttendanceEventUpsertWithWhereUniqueWithoutUserInput | AttendanceEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AttendanceEventCreateManyUserInputEnvelope
+    set?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    disconnect?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    delete?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    connect?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    update?: AttendanceEventUpdateWithWhereUniqueWithoutUserInput | AttendanceEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AttendanceEventUpdateManyWithWhereWithoutUserInput | AttendanceEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AttendanceEventScalarWhereInput | AttendanceEventScalarWhereInput[]
   }
 
   export type AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput = {
@@ -99937,10 +101900,58 @@ export namespace Prisma {
     deleteMany?: BreakScalarWhereInput | BreakScalarWhereInput[]
   }
 
+  export type UserCreateNestedOneWithoutAttendanceEventsInput = {
+    create?: XOR<UserCreateWithoutAttendanceEventsInput, UserUncheckedCreateWithoutAttendanceEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAttendanceEventsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AttendanceSourceCreateNestedOneWithoutEventsInput = {
+    create?: XOR<AttendanceSourceCreateWithoutEventsInput, AttendanceSourceUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: AttendanceSourceCreateOrConnectWithoutEventsInput
+    connect?: AttendanceSourceWhereUniqueInput
+  }
+
+  export type EnumAttendanceEventTypeFieldUpdateOperationsInput = {
+    set?: $Enums.AttendanceEventType
+  }
+
+  export type UserUpdateOneRequiredWithoutAttendanceEventsNestedInput = {
+    create?: XOR<UserCreateWithoutAttendanceEventsInput, UserUncheckedCreateWithoutAttendanceEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAttendanceEventsInput
+    upsert?: UserUpsertWithoutAttendanceEventsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAttendanceEventsInput, UserUpdateWithoutAttendanceEventsInput>, UserUncheckedUpdateWithoutAttendanceEventsInput>
+  }
+
+  export type AttendanceSourceUpdateOneWithoutEventsNestedInput = {
+    create?: XOR<AttendanceSourceCreateWithoutEventsInput, AttendanceSourceUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: AttendanceSourceCreateOrConnectWithoutEventsInput
+    upsert?: AttendanceSourceUpsertWithoutEventsInput
+    disconnect?: AttendanceSourceWhereInput | boolean
+    delete?: AttendanceSourceWhereInput | boolean
+    connect?: AttendanceSourceWhereUniqueInput
+    update?: XOR<XOR<AttendanceSourceUpdateToOneWithWhereWithoutEventsInput, AttendanceSourceUpdateWithoutEventsInput>, AttendanceSourceUncheckedUpdateWithoutEventsInput>
+  }
+
   export type CompanyCreateNestedOneWithoutAttendanceSourcesInput = {
     create?: XOR<CompanyCreateWithoutAttendanceSourcesInput, CompanyUncheckedCreateWithoutAttendanceSourcesInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutAttendanceSourcesInput
     connect?: CompanyWhereUniqueInput
+  }
+
+  export type AttendanceEventCreateNestedManyWithoutSourceInput = {
+    create?: XOR<AttendanceEventCreateWithoutSourceInput, AttendanceEventUncheckedCreateWithoutSourceInput> | AttendanceEventCreateWithoutSourceInput[] | AttendanceEventUncheckedCreateWithoutSourceInput[]
+    connectOrCreate?: AttendanceEventCreateOrConnectWithoutSourceInput | AttendanceEventCreateOrConnectWithoutSourceInput[]
+    createMany?: AttendanceEventCreateManySourceInputEnvelope
+    connect?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+  }
+
+  export type AttendanceEventUncheckedCreateNestedManyWithoutSourceInput = {
+    create?: XOR<AttendanceEventCreateWithoutSourceInput, AttendanceEventUncheckedCreateWithoutSourceInput> | AttendanceEventCreateWithoutSourceInput[] | AttendanceEventUncheckedCreateWithoutSourceInput[]
+    connectOrCreate?: AttendanceEventCreateOrConnectWithoutSourceInput | AttendanceEventCreateOrConnectWithoutSourceInput[]
+    createMany?: AttendanceEventCreateManySourceInputEnvelope
+    connect?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
   }
 
   export type EnumAttendanceSourceTypeFieldUpdateOperationsInput = {
@@ -99961,6 +101972,34 @@ export namespace Prisma {
     upsert?: CompanyUpsertWithoutAttendanceSourcesInput
     connect?: CompanyWhereUniqueInput
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAttendanceSourcesInput, CompanyUpdateWithoutAttendanceSourcesInput>, CompanyUncheckedUpdateWithoutAttendanceSourcesInput>
+  }
+
+  export type AttendanceEventUpdateManyWithoutSourceNestedInput = {
+    create?: XOR<AttendanceEventCreateWithoutSourceInput, AttendanceEventUncheckedCreateWithoutSourceInput> | AttendanceEventCreateWithoutSourceInput[] | AttendanceEventUncheckedCreateWithoutSourceInput[]
+    connectOrCreate?: AttendanceEventCreateOrConnectWithoutSourceInput | AttendanceEventCreateOrConnectWithoutSourceInput[]
+    upsert?: AttendanceEventUpsertWithWhereUniqueWithoutSourceInput | AttendanceEventUpsertWithWhereUniqueWithoutSourceInput[]
+    createMany?: AttendanceEventCreateManySourceInputEnvelope
+    set?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    disconnect?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    delete?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    connect?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    update?: AttendanceEventUpdateWithWhereUniqueWithoutSourceInput | AttendanceEventUpdateWithWhereUniqueWithoutSourceInput[]
+    updateMany?: AttendanceEventUpdateManyWithWhereWithoutSourceInput | AttendanceEventUpdateManyWithWhereWithoutSourceInput[]
+    deleteMany?: AttendanceEventScalarWhereInput | AttendanceEventScalarWhereInput[]
+  }
+
+  export type AttendanceEventUncheckedUpdateManyWithoutSourceNestedInput = {
+    create?: XOR<AttendanceEventCreateWithoutSourceInput, AttendanceEventUncheckedCreateWithoutSourceInput> | AttendanceEventCreateWithoutSourceInput[] | AttendanceEventUncheckedCreateWithoutSourceInput[]
+    connectOrCreate?: AttendanceEventCreateOrConnectWithoutSourceInput | AttendanceEventCreateOrConnectWithoutSourceInput[]
+    upsert?: AttendanceEventUpsertWithWhereUniqueWithoutSourceInput | AttendanceEventUpsertWithWhereUniqueWithoutSourceInput[]
+    createMany?: AttendanceEventCreateManySourceInputEnvelope
+    set?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    disconnect?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    delete?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    connect?: AttendanceEventWhereUniqueInput | AttendanceEventWhereUniqueInput[]
+    update?: AttendanceEventUpdateWithWhereUniqueWithoutSourceInput | AttendanceEventUpdateWithWhereUniqueWithoutSourceInput[]
+    updateMany?: AttendanceEventUpdateManyWithWhereWithoutSourceInput | AttendanceEventUpdateManyWithWhereWithoutSourceInput[]
+    deleteMany?: AttendanceEventScalarWhereInput | AttendanceEventScalarWhereInput[]
   }
 
   export type AttendanceCreateNestedManyWithoutShiftInput = {
@@ -101878,6 +103917,46 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedEnumAttendanceEventTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceEventType | EnumAttendanceEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceEventType[] | ListEnumAttendanceEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceEventType[] | ListEnumAttendanceEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceEventTypeFilter<$PrismaModel> | $Enums.AttendanceEventType
+  }
+
+  export type NestedEnumAttendanceEventTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceEventType | EnumAttendanceEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceEventType[] | ListEnumAttendanceEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceEventType[] | ListEnumAttendanceEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceEventTypeWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceEventType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceEventTypeFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceEventTypeFilter<$PrismaModel>
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
   export type NestedEnumAttendanceSourceTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.AttendanceSourceType | EnumAttendanceSourceTypeFieldRefInput<$PrismaModel>
     in?: $Enums.AttendanceSourceType[] | ListEnumAttendanceSourceTypeFieldRefInput<$PrismaModel>
@@ -102461,6 +104540,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -102517,6 +104597,7 @@ export namespace Prisma {
     shiftId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -102836,6 +104917,7 @@ export namespace Prisma {
     lastSyncAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    events?: AttendanceEventCreateNestedManyWithoutSourceInput
   }
 
   export type AttendanceSourceUncheckedCreateWithoutCompanyInput = {
@@ -102850,6 +104932,7 @@ export namespace Prisma {
     lastSyncAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    events?: AttendanceEventUncheckedCreateNestedManyWithoutSourceInput
   }
 
   export type AttendanceSourceCreateOrConnectWithoutCompanyInput = {
@@ -103604,6 +105687,8 @@ export namespace Prisma {
     hours?: number | null
     status?: string
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: string | null
     shift?: ShiftCreateNestedOneWithoutAttendanceInput
     breaks?: BreakCreateNestedManyWithoutAttendanceInput
   }
@@ -103618,6 +105703,8 @@ export namespace Prisma {
     shiftId?: string | null
     status?: string
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: string | null
     breaks?: BreakUncheckedCreateNestedManyWithoutAttendanceInput
   }
 
@@ -103628,6 +105715,52 @@ export namespace Prisma {
 
   export type AttendanceCreateManyUserInputEnvelope = {
     data: AttendanceCreateManyUserInput | AttendanceCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AttendanceEventCreateWithoutUserInput = {
+    id?: string
+    companyId: string
+    eventType: $Enums.AttendanceEventType
+    timestamp: Date | string
+    businessDate: Date | string
+    verificationMethod?: string | null
+    dedupKey: string
+    status?: string
+    note?: string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    source?: AttendanceSourceCreateNestedOneWithoutEventsInput
+  }
+
+  export type AttendanceEventUncheckedCreateWithoutUserInput = {
+    id?: string
+    companyId: string
+    sourceId?: string | null
+    eventType: $Enums.AttendanceEventType
+    timestamp: Date | string
+    businessDate: Date | string
+    verificationMethod?: string | null
+    dedupKey: string
+    status?: string
+    note?: string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AttendanceEventCreateOrConnectWithoutUserInput = {
+    where: AttendanceEventWhereUniqueInput
+    create: XOR<AttendanceEventCreateWithoutUserInput, AttendanceEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type AttendanceEventCreateManyUserInputEnvelope = {
+    data: AttendanceEventCreateManyUserInput | AttendanceEventCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -104553,6 +106686,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -104610,6 +106744,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -104664,6 +106799,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -104720,6 +106856,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -105428,6 +107565,46 @@ export namespace Prisma {
     shiftId?: StringNullableFilter<"Attendance"> | string | null
     status?: StringFilter<"Attendance"> | string
     isLate?: BoolFilter<"Attendance"> | boolean
+    generatedFromEvents?: BoolFilter<"Attendance"> | boolean
+    primarySourceId?: StringNullableFilter<"Attendance"> | string | null
+  }
+
+  export type AttendanceEventUpsertWithWhereUniqueWithoutUserInput = {
+    where: AttendanceEventWhereUniqueInput
+    update: XOR<AttendanceEventUpdateWithoutUserInput, AttendanceEventUncheckedUpdateWithoutUserInput>
+    create: XOR<AttendanceEventCreateWithoutUserInput, AttendanceEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type AttendanceEventUpdateWithWhereUniqueWithoutUserInput = {
+    where: AttendanceEventWhereUniqueInput
+    data: XOR<AttendanceEventUpdateWithoutUserInput, AttendanceEventUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AttendanceEventUpdateManyWithWhereWithoutUserInput = {
+    where: AttendanceEventScalarWhereInput
+    data: XOR<AttendanceEventUpdateManyMutationInput, AttendanceEventUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AttendanceEventScalarWhereInput = {
+    AND?: AttendanceEventScalarWhereInput | AttendanceEventScalarWhereInput[]
+    OR?: AttendanceEventScalarWhereInput[]
+    NOT?: AttendanceEventScalarWhereInput | AttendanceEventScalarWhereInput[]
+    id?: StringFilter<"AttendanceEvent"> | string
+    companyId?: StringFilter<"AttendanceEvent"> | string
+    userId?: StringFilter<"AttendanceEvent"> | string
+    sourceId?: StringNullableFilter<"AttendanceEvent"> | string | null
+    eventType?: EnumAttendanceEventTypeFilter<"AttendanceEvent"> | $Enums.AttendanceEventType
+    timestamp?: DateTimeFilter<"AttendanceEvent"> | Date | string
+    businessDate?: DateTimeFilter<"AttendanceEvent"> | Date | string
+    verificationMethod?: StringNullableFilter<"AttendanceEvent"> | string | null
+    dedupKey?: StringFilter<"AttendanceEvent"> | string
+    status?: StringFilter<"AttendanceEvent"> | string
+    note?: StringNullableFilter<"AttendanceEvent"> | string | null
+    locationData?: JsonNullableFilter<"AttendanceEvent">
+    rawPayload?: JsonNullableFilter<"AttendanceEvent">
+    ingestedVia?: StringNullableFilter<"AttendanceEvent"> | string | null
+    createdById?: StringNullableFilter<"AttendanceEvent"> | string | null
+    createdAt?: DateTimeFilter<"AttendanceEvent"> | Date | string
   }
 
   export type AttendanceRequestUpsertWithWhereUniqueWithoutUserInput = {
@@ -106291,6 +108468,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -106348,6 +108526,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -106901,6 +109080,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -106957,6 +109137,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -107331,6 +109512,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -107388,6 +109570,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -107670,6 +109853,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -107727,6 +109911,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -108413,6 +110598,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -108470,6 +110656,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -108524,6 +110711,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -108581,6 +110769,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -109039,6 +111228,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -109096,6 +111286,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -109156,6 +111347,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -109213,6 +111405,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -109580,6 +111773,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -109637,6 +111831,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -109821,6 +112016,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -109878,6 +112074,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -110049,6 +112246,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -110106,6 +112304,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -110289,6 +112488,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -110346,6 +112546,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -110474,6 +112675,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -110531,6 +112733,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -110681,6 +112884,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -110738,6 +112942,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -110866,6 +113071,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -110923,6 +113129,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -111073,6 +113280,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -111130,6 +113338,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -111258,6 +113467,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -111315,6 +113525,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -111369,6 +113580,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -111426,6 +113638,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -111576,6 +113789,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -111633,6 +113847,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -111693,6 +113908,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -111750,6 +113966,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -112291,6 +114508,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -112348,6 +114566,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -112413,6 +114632,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -112470,6 +114690,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -112519,6 +114740,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -112576,6 +114798,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -112641,6 +114864,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -112698,6 +114922,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -112824,6 +115049,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -112881,6 +115107,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -113075,6 +115302,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -113132,6 +115360,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -113269,6 +115498,7 @@ export namespace Prisma {
     status?: string
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -113326,6 +115556,7 @@ export namespace Prisma {
     shiftId?: string | null
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -113452,6 +115683,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -113509,6 +115741,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -113571,6 +115804,314 @@ export namespace Prisma {
     startTime?: DateTimeFilter<"Break"> | Date | string
     endTime?: DateTimeNullableFilter<"Break"> | Date | string | null
     duration?: FloatNullableFilter<"Break"> | number | null
+  }
+
+  export type UserCreateWithoutAttendanceEventsInput = {
+    id?: string
+    employeeId?: string | null
+    email: string
+    passwordHash: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
+    status?: string
+    role?: $Enums.Role
+    assets?: AssetCreateNestedManyWithoutUserInput
+    attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    audits?: AuditLogCreateNestedManyWithoutActorInput
+    certificates?: CertificateCreateNestedManyWithoutUserInput
+    expenses?: ExpenseClaimCreateNestedManyWithoutUserInput
+    goals?: GoalCreateNestedManyWithoutUserInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutUserInput
+    encashments?: LeaveEncashmentCreateNestedManyWithoutUserInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    offboarding?: OffboardingCreateNestedOneWithoutUserInput
+    onboarding?: OnboardingCreateNestedOneWithoutUserInput
+    payslips?: PayslipCreateNestedManyWithoutUserInput
+    reviewsGiven?: PerformanceReviewCreateNestedManyWithoutReviewerInput
+    reviews?: PerformanceReviewCreateNestedManyWithoutUserInput
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    salary?: SalaryStructureCreateNestedOneWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    createdTasks?: TaskCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionCreateNestedManyWithoutGiverInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    manager?: UserCreateNestedOneWithoutSubordinatesInput
+    subordinates?: UserCreateNestedManyWithoutManagerInput
+    shift?: ShiftCreateNestedOneWithoutUsersInput
+    documents?: UserDocumentCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentCreateNestedManyWithoutUploaderInput
+    policyOverride?: UserPolicyOverrideCreateNestedOneWithoutUserInput
+    workLogs?: WorkLogCreateNestedManyWithoutUserInput
+    accessRole?: AccessRoleCreateNestedOneWithoutUsersInput
+    ticketsRequested?: TicketCreateNestedManyWithoutRequesterInput
+    ticketsAssigned?: TicketCreateNestedManyWithoutAssigneeInput
+    ticketComments?: TicketCommentCreateNestedManyWithoutAuthorInput
+    ticketAttachmentsUploaded?: TicketAttachmentCreateNestedManyWithoutUploadedByInput
+    ticketActivities?: TicketActivityCreateNestedManyWithoutActorInput
+    ticketWatching?: TicketWatcherCreateNestedManyWithoutUserInput
+    ticketAssignmentsTo?: TicketAssignmentCreateNestedManyWithoutAssignedToInput
+    ticketAssignmentsBy?: TicketAssignmentCreateNestedManyWithoutAssignedByInput
+    supportQueuesOwned?: SupportDepartmentCreateNestedManyWithoutDefaultAssigneeInput
+  }
+
+  export type UserUncheckedCreateWithoutAttendanceEventsInput = {
+    id?: string
+    employeeId?: string | null
+    email: string
+    passwordHash: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    refreshToken?: string | null
+    refreshTokenExpiry?: Date | string | null
+    status?: string
+    role?: $Enums.Role
+    accessRoleId?: string | null
+    managerId?: string | null
+    shiftId?: string | null
+    companyId?: string | null
+    assets?: AssetUncheckedCreateNestedManyWithoutUserInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
+    certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    expenses?: ExpenseClaimUncheckedCreateNestedManyWithoutUserInput
+    goals?: GoalUncheckedCreateNestedManyWithoutUserInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutUserInput
+    encashments?: LeaveEncashmentUncheckedCreateNestedManyWithoutUserInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    offboarding?: OffboardingUncheckedCreateNestedOneWithoutUserInput
+    onboarding?: OnboardingUncheckedCreateNestedOneWithoutUserInput
+    payslips?: PayslipUncheckedCreateNestedManyWithoutUserInput
+    reviewsGiven?: PerformanceReviewUncheckedCreateNestedManyWithoutReviewerInput
+    reviews?: PerformanceReviewUncheckedCreateNestedManyWithoutUserInput
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    salary?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    createdTasks?: TaskUncheckedCreateNestedManyWithoutCreatorInput
+    recognitionsReceived?: RecognitionUncheckedCreateNestedManyWithoutUserInput
+    recognitionsGiven?: RecognitionUncheckedCreateNestedManyWithoutGiverInput
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    subordinates?: UserUncheckedCreateNestedManyWithoutManagerInput
+    documents?: UserDocumentUncheckedCreateNestedManyWithoutUserInput
+    uploadedDocs?: UserDocumentUncheckedCreateNestedManyWithoutUploaderInput
+    policyOverride?: UserPolicyOverrideUncheckedCreateNestedOneWithoutUserInput
+    workLogs?: WorkLogUncheckedCreateNestedManyWithoutUserInput
+    ticketsRequested?: TicketUncheckedCreateNestedManyWithoutRequesterInput
+    ticketsAssigned?: TicketUncheckedCreateNestedManyWithoutAssigneeInput
+    ticketComments?: TicketCommentUncheckedCreateNestedManyWithoutAuthorInput
+    ticketAttachmentsUploaded?: TicketAttachmentUncheckedCreateNestedManyWithoutUploadedByInput
+    ticketActivities?: TicketActivityUncheckedCreateNestedManyWithoutActorInput
+    ticketWatching?: TicketWatcherUncheckedCreateNestedManyWithoutUserInput
+    ticketAssignmentsTo?: TicketAssignmentUncheckedCreateNestedManyWithoutAssignedToInput
+    ticketAssignmentsBy?: TicketAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    supportQueuesOwned?: SupportDepartmentUncheckedCreateNestedManyWithoutDefaultAssigneeInput
+  }
+
+  export type UserCreateOrConnectWithoutAttendanceEventsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAttendanceEventsInput, UserUncheckedCreateWithoutAttendanceEventsInput>
+  }
+
+  export type AttendanceSourceCreateWithoutEventsInput = {
+    id?: string
+    name: string
+    type: $Enums.AttendanceSourceType
+    ingestionMode: $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    priority?: number
+    healthStatus?: $Enums.AttendanceSourceHealth
+    lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutAttendanceSourcesInput
+  }
+
+  export type AttendanceSourceUncheckedCreateWithoutEventsInput = {
+    id?: string
+    companyId: string
+    name: string
+    type: $Enums.AttendanceSourceType
+    ingestionMode: $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    priority?: number
+    healthStatus?: $Enums.AttendanceSourceHealth
+    lastSyncAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AttendanceSourceCreateOrConnectWithoutEventsInput = {
+    where: AttendanceSourceWhereUniqueInput
+    create: XOR<AttendanceSourceCreateWithoutEventsInput, AttendanceSourceUncheckedCreateWithoutEventsInput>
+  }
+
+  export type UserUpsertWithoutAttendanceEventsInput = {
+    update: XOR<UserUpdateWithoutAttendanceEventsInput, UserUncheckedUpdateWithoutAttendanceEventsInput>
+    create: XOR<UserCreateWithoutAttendanceEventsInput, UserUncheckedCreateWithoutAttendanceEventsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAttendanceEventsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAttendanceEventsInput, UserUncheckedUpdateWithoutAttendanceEventsInput>
+  }
+
+  export type UserUpdateWithoutAttendanceEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    assets?: AssetUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    audits?: AuditLogUpdateManyWithoutActorNestedInput
+    certificates?: CertificateUpdateManyWithoutUserNestedInput
+    expenses?: ExpenseClaimUpdateManyWithoutUserNestedInput
+    goals?: GoalUpdateManyWithoutUserNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutUserNestedInput
+    encashments?: LeaveEncashmentUpdateManyWithoutUserNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    offboarding?: OffboardingUpdateOneWithoutUserNestedInput
+    onboarding?: OnboardingUpdateOneWithoutUserNestedInput
+    payslips?: PayslipUpdateManyWithoutUserNestedInput
+    reviewsGiven?: PerformanceReviewUpdateManyWithoutReviewerNestedInput
+    reviews?: PerformanceReviewUpdateManyWithoutUserNestedInput
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    salary?: SalaryStructureUpdateOneWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUpdateManyWithoutGiverNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    manager?: UserUpdateOneWithoutSubordinatesNestedInput
+    subordinates?: UserUpdateManyWithoutManagerNestedInput
+    shift?: ShiftUpdateOneWithoutUsersNestedInput
+    documents?: UserDocumentUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUpdateManyWithoutUploaderNestedInput
+    policyOverride?: UserPolicyOverrideUpdateOneWithoutUserNestedInput
+    workLogs?: WorkLogUpdateManyWithoutUserNestedInput
+    accessRole?: AccessRoleUpdateOneWithoutUsersNestedInput
+    ticketsRequested?: TicketUpdateManyWithoutRequesterNestedInput
+    ticketsAssigned?: TicketUpdateManyWithoutAssigneeNestedInput
+    ticketComments?: TicketCommentUpdateManyWithoutAuthorNestedInput
+    ticketAttachmentsUploaded?: TicketAttachmentUpdateManyWithoutUploadedByNestedInput
+    ticketActivities?: TicketActivityUpdateManyWithoutActorNestedInput
+    ticketWatching?: TicketWatcherUpdateManyWithoutUserNestedInput
+    ticketAssignmentsTo?: TicketAssignmentUpdateManyWithoutAssignedToNestedInput
+    ticketAssignmentsBy?: TicketAssignmentUpdateManyWithoutAssignedByNestedInput
+    supportQueuesOwned?: SupportDepartmentUpdateManyWithoutDefaultAssigneeNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAttendanceEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    accessRoleId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
+    certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    expenses?: ExpenseClaimUncheckedUpdateManyWithoutUserNestedInput
+    goals?: GoalUncheckedUpdateManyWithoutUserNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
+    encashments?: LeaveEncashmentUncheckedUpdateManyWithoutUserNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    offboarding?: OffboardingUncheckedUpdateOneWithoutUserNestedInput
+    onboarding?: OnboardingUncheckedUpdateOneWithoutUserNestedInput
+    payslips?: PayslipUncheckedUpdateManyWithoutUserNestedInput
+    reviewsGiven?: PerformanceReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    reviews?: PerformanceReviewUncheckedUpdateManyWithoutUserNestedInput
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    salary?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    createdTasks?: TaskUncheckedUpdateManyWithoutCreatorNestedInput
+    recognitionsReceived?: RecognitionUncheckedUpdateManyWithoutUserNestedInput
+    recognitionsGiven?: RecognitionUncheckedUpdateManyWithoutGiverNestedInput
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    subordinates?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    documents?: UserDocumentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedDocs?: UserDocumentUncheckedUpdateManyWithoutUploaderNestedInput
+    policyOverride?: UserPolicyOverrideUncheckedUpdateOneWithoutUserNestedInput
+    workLogs?: WorkLogUncheckedUpdateManyWithoutUserNestedInput
+    ticketsRequested?: TicketUncheckedUpdateManyWithoutRequesterNestedInput
+    ticketsAssigned?: TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+    ticketComments?: TicketCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    ticketAttachmentsUploaded?: TicketAttachmentUncheckedUpdateManyWithoutUploadedByNestedInput
+    ticketActivities?: TicketActivityUncheckedUpdateManyWithoutActorNestedInput
+    ticketWatching?: TicketWatcherUncheckedUpdateManyWithoutUserNestedInput
+    ticketAssignmentsTo?: TicketAssignmentUncheckedUpdateManyWithoutAssignedToNestedInput
+    ticketAssignmentsBy?: TicketAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    supportQueuesOwned?: SupportDepartmentUncheckedUpdateManyWithoutDefaultAssigneeNestedInput
+  }
+
+  export type AttendanceSourceUpsertWithoutEventsInput = {
+    update: XOR<AttendanceSourceUpdateWithoutEventsInput, AttendanceSourceUncheckedUpdateWithoutEventsInput>
+    create: XOR<AttendanceSourceCreateWithoutEventsInput, AttendanceSourceUncheckedCreateWithoutEventsInput>
+    where?: AttendanceSourceWhereInput
+  }
+
+  export type AttendanceSourceUpdateToOneWithWhereWithoutEventsInput = {
+    where?: AttendanceSourceWhereInput
+    data: XOR<AttendanceSourceUpdateWithoutEventsInput, AttendanceSourceUncheckedUpdateWithoutEventsInput>
+  }
+
+  export type AttendanceSourceUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttendanceSourceTypeFieldUpdateOperationsInput | $Enums.AttendanceSourceType
+    ingestionMode?: EnumAttendanceIngestionModeFieldUpdateOperationsInput | $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    healthStatus?: EnumAttendanceSourceHealthFieldUpdateOperationsInput | $Enums.AttendanceSourceHealth
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutAttendanceSourcesNestedInput
+  }
+
+  export type AttendanceSourceUncheckedUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttendanceSourceTypeFieldUpdateOperationsInput | $Enums.AttendanceSourceType
+    ingestionMode?: EnumAttendanceIngestionModeFieldUpdateOperationsInput | $Enums.AttendanceIngestionMode
+    configuration?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    healthStatus?: EnumAttendanceSourceHealthFieldUpdateOperationsInput | $Enums.AttendanceSourceHealth
+    lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CompanyCreateWithoutAttendanceSourcesInput = {
@@ -113648,6 +116189,52 @@ export namespace Prisma {
   export type CompanyCreateOrConnectWithoutAttendanceSourcesInput = {
     where: CompanyWhereUniqueInput
     create: XOR<CompanyCreateWithoutAttendanceSourcesInput, CompanyUncheckedCreateWithoutAttendanceSourcesInput>
+  }
+
+  export type AttendanceEventCreateWithoutSourceInput = {
+    id?: string
+    companyId: string
+    eventType: $Enums.AttendanceEventType
+    timestamp: Date | string
+    businessDate: Date | string
+    verificationMethod?: string | null
+    dedupKey: string
+    status?: string
+    note?: string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutAttendanceEventsInput
+  }
+
+  export type AttendanceEventUncheckedCreateWithoutSourceInput = {
+    id?: string
+    companyId: string
+    userId: string
+    eventType: $Enums.AttendanceEventType
+    timestamp: Date | string
+    businessDate: Date | string
+    verificationMethod?: string | null
+    dedupKey: string
+    status?: string
+    note?: string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AttendanceEventCreateOrConnectWithoutSourceInput = {
+    where: AttendanceEventWhereUniqueInput
+    create: XOR<AttendanceEventCreateWithoutSourceInput, AttendanceEventUncheckedCreateWithoutSourceInput>
+  }
+
+  export type AttendanceEventCreateManySourceInputEnvelope = {
+    data: AttendanceEventCreateManySourceInput | AttendanceEventCreateManySourceInput[]
+    skipDuplicates?: boolean
   }
 
   export type CompanyUpsertWithoutAttendanceSourcesInput = {
@@ -113733,6 +116320,22 @@ export namespace Prisma {
     ticketCategories?: TicketCategoryUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
+  export type AttendanceEventUpsertWithWhereUniqueWithoutSourceInput = {
+    where: AttendanceEventWhereUniqueInput
+    update: XOR<AttendanceEventUpdateWithoutSourceInput, AttendanceEventUncheckedUpdateWithoutSourceInput>
+    create: XOR<AttendanceEventCreateWithoutSourceInput, AttendanceEventUncheckedCreateWithoutSourceInput>
+  }
+
+  export type AttendanceEventUpdateWithWhereUniqueWithoutSourceInput = {
+    where: AttendanceEventWhereUniqueInput
+    data: XOR<AttendanceEventUpdateWithoutSourceInput, AttendanceEventUncheckedUpdateWithoutSourceInput>
+  }
+
+  export type AttendanceEventUpdateManyWithWhereWithoutSourceInput = {
+    where: AttendanceEventScalarWhereInput
+    data: XOR<AttendanceEventUpdateManyMutationInput, AttendanceEventUncheckedUpdateManyWithoutSourceInput>
+  }
+
   export type AttendanceCreateWithoutShiftInput = {
     id?: string
     date: Date | string
@@ -113742,6 +116345,8 @@ export namespace Prisma {
     hours?: number | null
     status?: string
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: string | null
     user: UserCreateNestedOneWithoutAttendanceInput
     breaks?: BreakCreateNestedManyWithoutAttendanceInput
   }
@@ -113756,6 +116361,8 @@ export namespace Prisma {
     hours?: number | null
     status?: string
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: string | null
     breaks?: BreakUncheckedCreateNestedManyWithoutAttendanceInput
   }
 
@@ -113894,6 +116501,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -113950,6 +116558,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -114394,6 +117003,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -114451,6 +117061,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -114516,6 +117127,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -114573,6 +117185,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -114618,6 +117231,8 @@ export namespace Prisma {
     hours?: number | null
     status?: string
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: string | null
     shift?: ShiftCreateNestedOneWithoutAttendanceInput
     user: UserCreateNestedOneWithoutAttendanceInput
   }
@@ -114633,6 +117248,8 @@ export namespace Prisma {
     shiftId?: string | null
     status?: string
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: string | null
   }
 
   export type AttendanceCreateOrConnectWithoutBreaksInput = {
@@ -114660,6 +117277,8 @@ export namespace Prisma {
     hours?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     isLate?: BoolFieldUpdateOperationsInput | boolean
+    generatedFromEvents?: BoolFieldUpdateOperationsInput | boolean
+    primarySourceId?: NullableStringFieldUpdateOperationsInput | string | null
     shift?: ShiftUpdateOneWithoutAttendanceNestedInput
     user?: UserUpdateOneRequiredWithoutAttendanceNestedInput
   }
@@ -114675,6 +117294,8 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isLate?: BoolFieldUpdateOperationsInput | boolean
+    generatedFromEvents?: BoolFieldUpdateOperationsInput | boolean
+    primarySourceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeaveBalanceCreateWithoutLeaveTypeInput = {
@@ -115021,6 +117642,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -115078,6 +117700,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -115178,6 +117801,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -115235,6 +117859,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -115313,6 +117938,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -115370,6 +117996,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -115470,6 +118097,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -115527,6 +118155,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -115605,6 +118234,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -115662,6 +118292,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -115762,6 +118393,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -115819,6 +118451,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -116028,6 +118661,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -116085,6 +118719,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -116258,6 +118893,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -116315,6 +118951,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -117633,6 +120270,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -117690,6 +120328,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -117780,6 +120419,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -117837,6 +120477,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -117938,6 +120579,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -117995,6 +120637,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -118060,6 +120703,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -118117,6 +120761,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -118166,6 +120811,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -118223,6 +120869,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -118277,6 +120924,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -118334,6 +120982,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -118399,6 +121048,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -118456,6 +121106,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -118516,6 +121167,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -118573,6 +121225,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -118622,6 +121275,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -118679,6 +121333,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -118733,6 +121388,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -118790,6 +121446,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -118932,6 +121589,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -118989,6 +121647,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -119049,6 +121708,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -119106,6 +121766,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -119741,6 +122402,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -119798,6 +122460,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -119888,6 +122551,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -119945,6 +122609,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -119994,6 +122659,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     expenses?: ExpenseClaimCreateNestedManyWithoutUserInput
@@ -120051,6 +122717,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     expenses?: ExpenseClaimUncheckedCreateNestedManyWithoutUserInput
@@ -120116,6 +122783,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     expenses?: ExpenseClaimUpdateManyWithoutUserNestedInput
@@ -120173,6 +122841,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     expenses?: ExpenseClaimUncheckedUpdateManyWithoutUserNestedInput
@@ -120221,6 +122890,7 @@ export namespace Prisma {
     status?: string
     role?: $Enums.Role
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -120278,6 +122948,7 @@ export namespace Prisma {
     shiftId?: string | null
     companyId?: string | null
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -120420,6 +123091,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -120477,6 +123149,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -120610,6 +123283,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -120667,6 +123341,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -120721,6 +123396,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -120778,6 +123454,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -120843,6 +123520,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -120900,6 +123578,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -120960,6 +123639,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -121017,6 +123697,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -121066,6 +123747,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -121123,6 +123805,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -121188,6 +123871,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -121245,6 +123929,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -121454,6 +124139,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -121511,6 +124197,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -121616,6 +124303,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -121673,6 +124361,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -121970,6 +124659,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -122027,6 +124717,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -122081,6 +124772,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -122138,6 +124830,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -122326,6 +125019,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -122383,6 +125077,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -122443,6 +125138,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -122500,6 +125196,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -122642,6 +125339,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -122699,6 +125397,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -122847,6 +125546,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -122904,6 +125604,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -122953,6 +125654,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     audits?: AuditLogCreateNestedManyWithoutActorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
     expenses?: ExpenseClaimCreateNestedManyWithoutUserInput
@@ -123010,6 +125712,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     audits?: AuditLogUncheckedCreateNestedManyWithoutActorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
     expenses?: ExpenseClaimUncheckedCreateNestedManyWithoutUserInput
@@ -123075,6 +125778,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
     expenses?: ExpenseClaimUpdateManyWithoutUserNestedInput
@@ -123132,6 +125836,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
     expenses?: ExpenseClaimUncheckedUpdateManyWithoutUserNestedInput
@@ -123181,6 +125886,7 @@ export namespace Prisma {
     role?: $Enums.Role
     assets?: AssetCreateNestedManyWithoutUserInput
     attendance?: AttendanceCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
     expenses?: ExpenseClaimCreateNestedManyWithoutUserInput
@@ -123238,6 +125944,7 @@ export namespace Prisma {
     companyId?: string | null
     assets?: AssetUncheckedCreateNestedManyWithoutUserInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    attendanceEvents?: AttendanceEventUncheckedCreateNestedManyWithoutUserInput
     attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
     expenses?: ExpenseClaimUncheckedCreateNestedManyWithoutUserInput
@@ -123303,6 +126010,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
     expenses?: ExpenseClaimUpdateManyWithoutUserNestedInput
@@ -123360,6 +126068,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
     expenses?: ExpenseClaimUncheckedUpdateManyWithoutUserNestedInput
@@ -124716,6 +127425,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -124772,6 +127482,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -125122,6 +127833,7 @@ export namespace Prisma {
     lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    events?: AttendanceEventUpdateManyWithoutSourceNestedInput
   }
 
   export type AttendanceSourceUncheckedUpdateWithoutCompanyInput = {
@@ -125136,6 +127848,7 @@ export namespace Prisma {
     lastSyncAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    events?: AttendanceEventUncheckedUpdateManyWithoutSourceNestedInput
   }
 
   export type AttendanceSourceUncheckedUpdateManyWithoutCompanyInput = {
@@ -125173,6 +127886,26 @@ export namespace Prisma {
     shiftId?: string | null
     status?: string
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: string | null
+  }
+
+  export type AttendanceEventCreateManyUserInput = {
+    id?: string
+    companyId: string
+    sourceId?: string | null
+    eventType: $Enums.AttendanceEventType
+    timestamp: Date | string
+    businessDate: Date | string
+    verificationMethod?: string | null
+    dedupKey: string
+    status?: string
+    note?: string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
   }
 
   export type AttendanceRequestCreateManyUserInput = {
@@ -125603,6 +128336,8 @@ export namespace Prisma {
     hours?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     isLate?: BoolFieldUpdateOperationsInput | boolean
+    generatedFromEvents?: BoolFieldUpdateOperationsInput | boolean
+    primarySourceId?: NullableStringFieldUpdateOperationsInput | string | null
     shift?: ShiftUpdateOneWithoutAttendanceNestedInput
     breaks?: BreakUpdateManyWithoutAttendanceNestedInput
   }
@@ -125617,6 +128352,8 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isLate?: BoolFieldUpdateOperationsInput | boolean
+    generatedFromEvents?: BoolFieldUpdateOperationsInput | boolean
+    primarySourceId?: NullableStringFieldUpdateOperationsInput | string | null
     breaks?: BreakUncheckedUpdateManyWithoutAttendanceNestedInput
   }
 
@@ -125630,6 +128367,62 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     isLate?: BoolFieldUpdateOperationsInput | boolean
+    generatedFromEvents?: BoolFieldUpdateOperationsInput | boolean
+    primarySourceId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AttendanceEventUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    eventType?: EnumAttendanceEventTypeFieldUpdateOperationsInput | $Enums.AttendanceEventType
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupKey?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: AttendanceSourceUpdateOneWithoutEventsNestedInput
+  }
+
+  export type AttendanceEventUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    sourceId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumAttendanceEventTypeFieldUpdateOperationsInput | $Enums.AttendanceEventType
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupKey?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceEventUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    sourceId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventType?: EnumAttendanceEventTypeFieldUpdateOperationsInput | $Enums.AttendanceEventType
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupKey?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttendanceRequestUpdateWithoutUserInput = {
@@ -126212,6 +129005,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -126268,6 +129062,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -126964,6 +129759,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -127020,6 +129816,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -127808,6 +130605,78 @@ export namespace Prisma {
     duration?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
+  export type AttendanceEventCreateManySourceInput = {
+    id?: string
+    companyId: string
+    userId: string
+    eventType: $Enums.AttendanceEventType
+    timestamp: Date | string
+    businessDate: Date | string
+    verificationMethod?: string | null
+    dedupKey: string
+    status?: string
+    note?: string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: string | null
+    createdById?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AttendanceEventUpdateWithoutSourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    eventType?: EnumAttendanceEventTypeFieldUpdateOperationsInput | $Enums.AttendanceEventType
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupKey?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAttendanceEventsNestedInput
+  }
+
+  export type AttendanceEventUncheckedUpdateWithoutSourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    eventType?: EnumAttendanceEventTypeFieldUpdateOperationsInput | $Enums.AttendanceEventType
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupKey?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceEventUncheckedUpdateManyWithoutSourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    eventType?: EnumAttendanceEventTypeFieldUpdateOperationsInput | $Enums.AttendanceEventType
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    businessDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupKey?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    locationData?: NullableJsonNullValueInput | InputJsonValue
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AttendanceCreateManyShiftInput = {
     id?: string
     userId: string
@@ -127818,6 +130687,8 @@ export namespace Prisma {
     hours?: number | null
     status?: string
     isLate?: boolean
+    generatedFromEvents?: boolean
+    primarySourceId?: string | null
   }
 
   export type UserCreateManyShiftInput = {
@@ -127845,6 +130716,8 @@ export namespace Prisma {
     hours?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     isLate?: BoolFieldUpdateOperationsInput | boolean
+    generatedFromEvents?: BoolFieldUpdateOperationsInput | boolean
+    primarySourceId?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutAttendanceNestedInput
     breaks?: BreakUpdateManyWithoutAttendanceNestedInput
   }
@@ -127859,6 +130732,8 @@ export namespace Prisma {
     hours?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     isLate?: BoolFieldUpdateOperationsInput | boolean
+    generatedFromEvents?: BoolFieldUpdateOperationsInput | boolean
+    primarySourceId?: NullableStringFieldUpdateOperationsInput | string | null
     breaks?: BreakUncheckedUpdateManyWithoutAttendanceNestedInput
   }
 
@@ -127872,6 +130747,8 @@ export namespace Prisma {
     hours?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     isLate?: BoolFieldUpdateOperationsInput | boolean
+    generatedFromEvents?: BoolFieldUpdateOperationsInput | boolean
+    primarySourceId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUpdateWithoutShiftInput = {
@@ -127887,6 +130764,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     assets?: AssetUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
     audits?: AuditLogUpdateManyWithoutActorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -127943,6 +130821,7 @@ export namespace Prisma {
     companyId?: NullableStringFieldUpdateOperationsInput | string | null
     assets?: AssetUncheckedUpdateManyWithoutUserNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    attendanceEvents?: AttendanceEventUncheckedUpdateManyWithoutUserNestedInput
     attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
     audits?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
