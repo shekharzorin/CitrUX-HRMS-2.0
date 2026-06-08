@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import ConfirmModal from '../components/ConfirmModal';
 import ShiftConfig from './ShiftConfig';
 import SalaryConfig from './SalaryConfig';
+import AttendanceSources from './AttendanceSources';
 import { api } from '../services/api';
 import { Icon } from '../components/ui/Icons';
 import { Button } from '../components/ui/Button';
@@ -13,7 +14,8 @@ import { ImageCropper } from '../components/ImageCropper';
 import { resolveImageUrl } from '../utils/image';
 
 const Settings: React.FC = () => {
-    const { user, updateUser, logout } = useAuth();
+    const { user, updateUser, logout, hasPermission, hasFeature } = useAuth();
+    const showAttendanceTab = hasFeature('ATTENDANCE_FRAMEWORK') && hasPermission('MANAGE_ATTENDANCE_SOURCES');
 
     // Security State
     const [pass, setPass] = useState({ current: '', new: '', confirm: '' });
@@ -72,7 +74,7 @@ const Settings: React.FC = () => {
     // Roles State
     const [roles, setRoles] = useState<any[]>([]);
     const [newRole, setNewRole] = useState({ title: '', department: '', level: 0, description: '' });
-    const [activeTab, setActiveTab] = useState<'general' | 'roles' | 'leaves' | 'holidays' | 'shifts' | 'salary' | 'ai' | 'security' | 'danger' | 'org'>('general');
+    const [activeTab, setActiveTab] = useState<'general' | 'roles' | 'leaves' | 'holidays' | 'shifts' | 'attendance' | 'salary' | 'ai' | 'security' | 'danger' | 'org'>('general');
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -471,6 +473,7 @@ const Settings: React.FC = () => {
                         { id: 'leaves', label: 'Leaves', icon: 'leaves' },
                         { id: 'holidays', label: 'Holidays', icon: 'holidays' },
                         { id: 'shifts', label: 'Shifts', icon: 'shifts' },
+                        ...(showAttendanceTab ? [{ id: 'attendance', label: 'Attendance', icon: 'attendance' as const }] : []),
                         { id: 'salary', label: 'Salary', icon: 'payroll' },
                         { id: 'org', label: 'Organization', icon: 'departments' },
                         { id: 'ai', label: 'AI Assistant', icon: 'bolt' },
@@ -854,6 +857,12 @@ const Settings: React.FC = () => {
                 {activeTab === 'shifts' && (
                     <div className="animation-fade-in">
                         <ShiftConfig embedded />
+                    </div>
+                )}
+
+                {activeTab === 'attendance' && showAttendanceTab && (
+                    <div className="animate-fade-in">
+                        <AttendanceSources />
                     </div>
                 )}
 

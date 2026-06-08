@@ -1,0 +1,274 @@
+import React, { useEffect, useState } from 'react';
+import { api } from '../services/api';
+import { Button } from '../components/ui/Button';
+
+// ── Types mirror the backend catalog + serializer ────────────────────────────
+interface ConfigField {
+    key: string;
+    label: string;
+    type: 'text' | 'number' | 'password' | 'select' | 'boolean' | 'url';
+    required?: boolean;
+    secret?: boolean;
+    options?: { value: string; label: string }[];
+    placeholder?: string;
+    help?: string;
+    default?: string | number | boolean;
+}
+interface SourceTypeDescriptor {
+    type: string;
+    label: string;
+    category: string;
+    ingestionMode: string;
+    needsConnectorAgent: boolean;
+    supportsRealtime: boolean;
+    description: string;
+    configFields: ConfigField[];
+    ingestionReady: boolean;
+}
+interface AttendanceSource {
+    id: string;
+    name: string;
+    type: string;
+    ingestionMode: string;
+    isActive: boolean;
+    priority: number;
+    healthStatus: string;
+    configuration: Record<string, any>;
+    secretsSet: Record<string, boolean>;
+    createdAt: string;
+    updatedAt: string;
+}
+
+const toast = (message: string, type: 'success' | 'error' = 'success') =>
+    window.dispatchEvent(new CustomEvent('app:toast', { detail: { message, type } }));
+
+// ── Source editor (create / edit) ────────────────────────────────────────────
+const SourceEditor = ({ initial, types, onClose, onSaved }: {
+    initial: AttendanceSource | null;
+    types: SourceTypeDescriptor[];
+    onClose: () => void;
+    onSaved: () => void;
+}) => {
+    const [typeKey, setTypeKey] = useState(initial?.type || types[0]?.type || '');
+    const descriptor = types.find((t) => t.type === typeKey);
+    const [name, setName] = useState(initial?.name || '');
+    const [priority, setPriority] = useState<number>(initial?.priority ?? 0);
+    const [isActive, setIsActive] = useState<boolean>(initial?.isActive ?? true);
+    const [config, setConfig] = useState<Record<string, any>>(initial?.configuration || {});
+    const [saving, setSaving] = useState(false);
+
+    const setField = (k: string, v: any) => setConfig((c) => ({ ...c, [k]: v }));
+
+    const save = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!name.trim()) { toast('Name is required', 'error'); return; }
+        setSaving(true);
+        try {
+            const payload: any = { name: name.trim(), priority: Number(priority) || 0, isActive, configuration: config };
+            if (initial) {
+                await api.put(`/attendance-sources/${initial.id}`, payload);
+                toast('Attendance source updated');
+            } else {
+                await api.post('/attendance-sources', { ...payload, type: typeKey });
+                toast('Attendance source added');
+            }
+            onSaved();
+        } catch {
+            /* api service already shows an error toast */
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    return (
+        <form onSubmit={save} className="glass-panel p-5 space-y-4 animate-fade-in">
+            <div className="flex items-center justify-between">
+                <h3 className="font-semibold text-slate-800 dark:text-white">{initial ? 'Edit source' : 'Add attendance source'}</h3>
+                {descriptor?.needsConnectorAgent && (
+                    <span className="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Needs Connector Agent</span>
+                )}
+            </div>
+
+            {!initial && (
+                <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">Method</label>
+                    <select value={typeKey} onChange={(e) => { setTypeKey(e.target.value); setConfig({}); }}
+                        className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm">
+                        {types.map((t) => <option key={t.type} value={t.type}>{t.label}</option>)}
+                    </select>
+                </div>
+            )}
+            {descriptor && <p className="text-xs text-slate-500 dark:text-slate-400 -mt-1">{descriptor.description}</p>}
+
+            <div className="grid sm:grid-cols-2 gap-3">
+                <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">Name</label>
+                    <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Lobby ZKTeco" required
+                        className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm" />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">Priority</label>
+                    <input type="number" value={priority} onChange={(e) => setPriority(Number(e.target.value))}
+                        className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm" />
+                </div>
+            </div>
+
+            {/* capability-driven config fields */}
+            {descriptor && descriptor.configFields.length > 0 && (
+                <div className="grid sm:grid-cols-2 gap-3">
+                    {descriptor.configFields.map((f) => {
+                        const val = config[f.key];
+                        const secretSet = initial?.secretsSet?.[f.key];
+                        if (f.type === 'boolean') {
+                            return (
+                                <label key={f.key} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 sm:col-span-2">
+                                    <input type="checkbox" checked={val ?? !!f.default} onChange={(e) => setField(f.key, e.target.checked)} />
+                                    {f.label}
+                                </label>
+                            );
+                        }
+                        if (f.type === 'select') {
+                            return (
+                                <div key={f.key}>
+                                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">{f.label}</label>
+                                    <select value={val ?? f.default ?? ''} onChange={(e) => setField(f.key, e.target.value)}
+                                        className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm">
+                                        {f.options?.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+                                    </select>
+                                </div>
+                            );
+                        }
+                        return (
+                            <div key={f.key}>
+                                <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">{f.label}</label>
+                                <input
+                                    type={f.type === 'password' ? 'password' : f.type === 'number' ? 'number' : 'text'}
+                                    value={val ?? (f.type === 'number' ? (f.default ?? '') : '')}
+                                    onChange={(e) => setField(f.key, f.type === 'number' ? Number(e.target.value) : e.target.value)}
+                                    placeholder={f.secret && secretSet ? '●●●●●● (set — leave blank to keep)' : f.placeholder}
+                                    className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm" />
+                                {f.help && <p className="text-[11px] text-slate-400 mt-0.5">{f.help}</p>}
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
+
+            <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} /> Active
+            </label>
+
+            {descriptor && !descriptor.ingestionReady && (
+                <p className="text-[11px] text-slate-400">
+                    Configuration is saved now; live punch ingestion for this method ships in a later release.
+                </p>
+            )}
+
+            <div className="flex gap-2">
+                <Button type="submit" disabled={saving}>{saving ? 'Saving…' : initial ? 'Save' : 'Add source'}</Button>
+                <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>
+            </div>
+        </form>
+    );
+};
+
+// ── Main ─────────────────────────────────────────────────────────────────────
+const AttendanceSources: React.FC = () => {
+    const [types, setTypes] = useState<SourceTypeDescriptor[]>([]);
+    const [sources, setSources] = useState<AttendanceSource[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [editor, setEditor] = useState<AttendanceSource | 'new' | null>(null);
+
+    const load = async () => {
+        setLoading(true);
+        try {
+            const [caps, list] = await Promise.all([
+                api.get<SourceTypeDescriptor[]>('/attendance-sources/capabilities'),
+                api.get<AttendanceSource[]>('/attendance-sources'),
+            ]);
+            setTypes(caps);
+            setSources(list);
+        } catch {
+            /* error toast shown by api service */
+        } finally {
+            setLoading(false);
+        }
+    };
+    useEffect(() => { load(); }, []);
+
+    const labelFor = (type: string) => types.find((t) => t.type === type)?.label || type;
+
+    const toggleActive = async (s: AttendanceSource) => {
+        try {
+            await api.put(`/attendance-sources/${s.id}`, { isActive: !s.isActive });
+            setSources((arr) => arr.map((x) => x.id === s.id ? { ...x, isActive: !x.isActive } : x));
+        } catch { /* toast shown */ }
+    };
+
+    const remove = async (s: AttendanceSource) => {
+        if (!window.confirm(`Remove attendance source "${s.name}"?`)) return;
+        try {
+            await api.delete(`/attendance-sources/${s.id}`);
+            toast('Attendance source removed');
+            setSources((arr) => arr.filter((x) => x.id !== s.id));
+        } catch { /* toast shown */ }
+    };
+
+    return (
+        <div className="space-y-5 animate-fade-in">
+            <div className="flex items-start justify-between gap-3">
+                <div>
+                    <h2 className="text-lg font-bold text-slate-800 dark:text-white">Attendance Sources</h2>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                        Configure how this company records attendance. Multiple methods can be active at once.
+                    </p>
+                </div>
+                {editor === null && <Button onClick={() => setEditor('new')}>Add source</Button>}
+            </div>
+
+            {editor !== null && (
+                <SourceEditor
+                    initial={editor === 'new' ? null : editor}
+                    types={types}
+                    onClose={() => setEditor(null)}
+                    onSaved={() => { setEditor(null); load(); }}
+                />
+            )}
+
+            {loading && <div className="h-24 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse" />}
+
+            {!loading && sources.length === 0 && editor === null && (
+                <div className="text-center py-12 border border-dashed border-slate-200 dark:border-slate-700 rounded-xl">
+                    <div className="text-3xl mb-2" aria-hidden>🕒</div>
+                    <p className="text-slate-500 mb-3">No attendance sources configured yet.</p>
+                    <Button onClick={() => setEditor('new')}>Add your first source</Button>
+                </div>
+            )}
+
+            <div className="space-y-2">
+                {sources.map((s) => (
+                    <div key={s.id} className="glass-panel p-4 flex items-center justify-between gap-3 flex-wrap">
+                        <div className="min-w-0">
+                            <p className="font-medium text-slate-800 dark:text-white flex items-center gap-2">
+                                {s.name}
+                                {!s.isActive && <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">INACTIVE</span>}
+                            </p>
+                            <p className="text-xs text-slate-400">
+                                {labelFor(s.type)} · {s.ingestionMode} · priority {s.priority}
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-3 text-sm shrink-0">
+                            <label className="flex items-center gap-1.5 text-xs text-slate-500 cursor-pointer">
+                                <input type="checkbox" checked={s.isActive} onChange={() => toggleActive(s)} /> Active
+                            </label>
+                            <button className="text-slate-500 hover:text-slate-700" onClick={() => setEditor(s)}>Edit</button>
+                            <button className="text-red-500 hover:text-red-600" onClick={() => remove(s)}>Remove</button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default AttendanceSources;
