@@ -252,7 +252,14 @@ export const getAllAttendance = async (req: AuthRequest, res: Response) => {
         const attendance = await withRetry(() =>
             prisma.attendance.findMany({
                 where: { user: tenantWhere },
-                include: { user: { include: { profile: true } }, breaks: true },
+                // Whitelist — never return the full User (passwordHash/resetToken). The
+                // admin "view all" table only needs the employee name + employeeId.
+                select: {
+                    id: true, userId: true, date: true, checkIn: true, checkOut: true,
+                    location: true, hours: true, shiftId: true, status: true, isLate: true,
+                    user: { select: { id: true, employeeId: true, profile: { select: { firstName: true, lastName: true } } } },
+                    breaks: true,
+                },
                 orderBy: { date: 'desc' }
             })
         );
