@@ -7,15 +7,20 @@ import fs from 'fs';
  * 
  * @param filePath The local path to the file
  * @param removeLocal After successful upload, delete the local file
+ * @param subfolder Optional tenant/scope subfolder (e.g. companyId) for isolation
  */
-export const uploadToCloudinary = async (filePath: string, removeLocal: boolean = true): Promise<string> => {
+export const uploadToCloudinary = async (filePath: string, removeLocal: boolean = true, subfolder?: string): Promise<string> => {
     try {
         if (!process.env.CLOUDINARY_CLOUD_NAME) {
             throw new Error("Cloudinary configuration missing");
         }
 
+        // Sanitize subfolder to a safe path segment (no traversal).
+        const safe = (subfolder ?? '').replace(/[^a-zA-Z0-9_-]/g, '');
+        const folder = safe ? `citrux_hrms/${safe}` : 'citrux_hrms';
+
         const result = await cloudinary.uploader.upload(filePath, {
-            folder: "citrux_hrms",
+            folder,
             resource_type: "auto" // Auto-detects image, raw, document types
         });
 

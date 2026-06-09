@@ -54,3 +54,9 @@ export const reprocessTicketAi = async (req: AuthRequest, res: Response, next: N
     } catch (err) { next(err); }
 };
 
+export const getTicketActivity = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+        res.json(await TicketService.listActivity(req.user!, req.params.id));
+    } catch (err) { next(err); }
+};
+

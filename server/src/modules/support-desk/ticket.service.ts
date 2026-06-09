@@ -171,6 +171,40 @@ export class TicketService {
         return this.serializeForCaller(user, ticket);
     }
 
+    /**
+     * Activity timeline for a ticket. Same access rules as getById. Agents see the
+     * full timeline; employees (requester) see only public-safe event types so
+     * internal operations (AI routing, assignment, watchers) aren't disclosed.
+     */
+    static async listActivity(user: JwtPayload, id: string) {
+        const companyId = requireCompany(user);
+        const ticket = await prisma.ticket.findUnique({
+            where: { id },
+            select: { id: true, companyId: true, deletedAt: true, requesterId: true, assigneeId: true },
+        });
+        if (!ticket || ticket.deletedAt || ticket.companyId !== companyId) throw new AppError('Ticket not found', 404);
+
+        const canViewAll = await RoleService.hasPermission(user, 'VIEW_ALL_TICKETS');
+        const isAgent = canViewAll || (await RoleService.hasPermission(user, 'MANAGE_TICKETS'));
+        const isParticipant = ticket.requesterId === user.userId || ticket.assigneeId === user.userId;
+        if (!isAgent && !isParticipant) throw new AppError('Access denied', 403);
+
+        const activities = await prisma.ticketActivity.findMany({
+            where: { ticketId: id },
+            orderBy: { createdAt: 'asc' },
+        });
+
+        const PUBLIC_SAFE = new Set(['CREATED', 'STATUS_CHANGED', 'RESOLVED', 'REOPENED', 'CLOSED', 'COMMENT_ADDED']);
+        const visible = isAgent ? activities : activities.filter((a) => PUBLIC_SAFE.has(a.type));
+        return visible.map((a) => ({
+            id: a.id,
+            type: a.type,
+            actorId: a.actorId ?? null,
+            data: a.data == null ? null : (typeof a.data === 'string' ? a.data : JSON.stringify(a.data)),
+            createdAt: a.createdAt,
+        }));
+    }
+
     /** POST status change with central transition rules + optimistic concurrency. */
     static async changeStatus(user: JwtPayload, id: string, toStatus: TicketStatusValue, note?: string) {
         const companyId = requireCompany(user);

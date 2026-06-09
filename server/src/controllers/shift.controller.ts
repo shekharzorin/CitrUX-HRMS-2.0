@@ -3,6 +3,7 @@ import { prisma } from '../db';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
 import { CacheService } from '../services/cacheService';
+import { AuditService } from '../services/audit.service';
 
 // ─── Create ───────────────────────────────────────────────────────────────────
 export const createShift = async (req: AuthRequest, res: Response) => {
@@ -185,6 +186,7 @@ export const assignShift = async (req: AuthRequest, res: Response) => {
             data: { shiftId: shiftId ?? null },
             select: { id: true, email: true, shiftId: true },
         });
+        await AuditService.log(req.user!.userId, 'ASSIGN_SHIFT', 'USER', userId, { shiftId: shiftId ?? null });
 
         res.json({ message: 'Shift assigned', user });
     } catch (error) {
@@ -221,6 +223,7 @@ export const bulkAssignShift = async (req: AuthRequest, res: Response) => {
             where: { id: { in: userIds } },
             data: { shiftId: shiftId ?? null },
         });
+        await AuditService.log(req.user!.userId, 'BULK_ASSIGN_SHIFT', 'SHIFT', shiftId ?? 'none', { userIds, count: result.count });
 
         res.json({ message: `Shift updated for ${result.count} employee(s)`, count: result.count });
     } catch (error) {

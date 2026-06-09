@@ -159,6 +159,7 @@ export const updateDocument = async (req: AuthRequest, res: Response) => {
                 tags
             }
         });
+        await AuditService.log(userId, 'UPDATE', 'USER_DOCUMENT', id, { ownerId: doc.userId });
         res.json(doc);
     } catch (error) {
         res.status(500).json({ message: 'Error updating document' });
@@ -312,6 +313,7 @@ export const verifyDocument = async (req: AuthRequest, res: Response) => {
                 verifiedBy: verifierId
             }
         });
+        await AuditService.log(verifierId, status, 'USER_DOCUMENT', id, { ownerId: doc.userId });
 
         // Notify User
         await notifyUser(doc.userId, `Document ${doc.name} was ${status}`, '/my-documents', 'INFO');

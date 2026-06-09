@@ -16,7 +16,7 @@ import {
 } from './support-department.controller';
 import { listCategories, createCategory, updateCategory, deleteCategory } from './ticket-category.controller';
 import {
-    createTicket, listTickets, getTicket,
+    createTicket, listTickets, getTicket, getTicketActivity,
     changeTicketStatus, assignTicket, unassignTicket, assignTicketToMe, reprocessTicketAi,
 } from './ticket.controller';
 import { listComments, createComment } from './comment.controller';
@@ -55,6 +55,8 @@ router.delete('/categories/:id', requirePermission('MANAGE_TICKET_CATEGORIES'), 
 router.post('/tickets', requirePermission('CREATE_TICKETS'), withAttachments, validate({ body: createTicketSchema }), createTicket);
 router.get('/tickets', requirePermission('VIEW_TICKETS'), listTickets);
 router.get('/tickets/:id', requirePermission('VIEW_TICKETS'), getTicket);
+// Activity timeline (service enforces participant/agent access + employee-safe filtering).
+router.get('/tickets/:id/activity', requirePermission('VIEW_TICKETS'), getTicketActivity);
 
 // Status transitions (service enforces agent vs requester-reopen).
 router.post('/tickets/:id/status', requirePermission('VIEW_TICKETS'), validate({ body: changeStatusSchema }), changeTicketStatus);

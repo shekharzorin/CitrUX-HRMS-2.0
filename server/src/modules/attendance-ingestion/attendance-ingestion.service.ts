@@ -152,6 +152,17 @@ export class AttendanceIngestionService {
         const businessDate = utcMidnight(dateStr);
         const dedupKey = `gps:${user.userId}:${dateStr}:${input.eventType}`;
 
+        // If this punch replaces an earlier selfie for the same day, capture the
+        // prior URL so we can delete it after the upsert (avoid orphaned files).
+        let priorSelfieUrl: string | null = null;
+        if (selfieUrl) {
+            const prior = await prisma.attendanceEvent.findUnique({
+                where: { companyId_dedupKey: { companyId, dedupKey } },
+                select: { selfieUrl: true },
+            });
+            priorSelfieUrl = prior?.selfieUrl ?? null;
+        }
+
         await upsertEvent({
             companyId, userId: user.userId, sourceId: source.id, eventType: input.eventType,
             timestamp: now, businessDate, verificationMethod: 'MOBILE_GPS', dedupKey,
@@ -159,6 +170,11 @@ export class AttendanceIngestionService {
             locationData: { lat: input.lat, lng: input.lng, accuracy: input.accuracy ?? null, geofenceId },
             ingestedVia: 'MOBILE_GPS', createdById: user.userId,
         });
+
+        // Destroy the replaced selfie (fire-and-forget; never block the check-in).
+        if (selfieUrl && priorSelfieUrl && priorSelfieUrl !== selfieUrl) {
+            UploadService.deleteDocument(priorSelfieUrl).catch(() => { /* orphan cleanup is best-effort */ });
+        }
 
         const result = await projectDay(companyId, user.userId, businessDate, source.id);
         await AuditService.log(user.userId, 'CREATE', 'ATTENDANCE_EVENT', user.userId, {

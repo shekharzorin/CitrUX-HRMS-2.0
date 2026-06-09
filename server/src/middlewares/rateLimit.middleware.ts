@@ -44,3 +44,17 @@ export const tenantRateLimiter = rateLimit({
     }),
     message: 'Too many requests from this tenant/IP, please try again later.'
 });
+
+// Tight limit for file uploads (cost/abuse protection): 30 per minute per tenant/IP.
+export const uploadRateLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 30,
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator,
+    store: new RedisStore({
+        // @ts-ignore
+        sendCommand: (...args: string[]) => cacheConnection.call(...args),
+    }),
+    message: 'Too many uploads, please try again later.'
+});
