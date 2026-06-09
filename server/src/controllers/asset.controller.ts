@@ -3,6 +3,8 @@ import { prisma } from '../db';
 import { requireString } from '../utils/requestUtils';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
+import { userSafeSelectWithEmail } from '../utils/safe-select';
+import { AuditService } from '../services/audit.service';
 
 // Create Asset (Admin)
 export const createAsset = async (req: AuthRequest, res: Response) => {
@@ -33,7 +35,7 @@ export const getAllAssets = async (req: AuthRequest, res: Response) => {
         // @ts-ignore
         const assets = await prisma.asset.findMany({
             where: scope,
-            include: { user: { include: { profile: true } } }
+            include: { user: { select: userSafeSelectWithEmail } }
         });
         res.json(assets);
     } catch (error) {
@@ -61,6 +63,7 @@ export const assignAsset = async (req: AuthRequest, res: Response) => {
             where: { id },
             data: { assignedTo: userId, status: 'ASSIGNED' }
         });
+        await AuditService.log(req.user!.userId, 'ASSIGN', 'ASSET', id, { assignedTo: userId });
         res.json(updated);
     } catch (error) {
         res.status(500).json({ message: 'Error assigning asset' });
@@ -81,6 +84,7 @@ export const returnAsset = async (req: AuthRequest, res: Response) => {
             where: { id },
             data: { assignedTo: null, status: 'AVAILABLE' }
         });
+        await AuditService.log(req.user!.userId, 'RETURN', 'ASSET', id, { previousAssignee: asset.assignedTo ?? null });
         res.json(updated);
     } catch (error) {
         res.status(500).json({ message: 'Error returning asset' });

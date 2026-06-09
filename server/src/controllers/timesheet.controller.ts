@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { userSafeSelect } from '../utils/safe-select';
+import { AuditService } from '../services/audit.service';
 import { startOfWeek, endOfWeek, addWeeks, subWeeks } from 'date-fns';
 
 import { AuthRequest } from '../middlewares/auth.middleware';
@@ -181,7 +183,7 @@ export const getPendingTimesheets = async (req: AuthRequest, res: Response) => {
                 }
             },
             include: {
-                user: { include: { profile: true } },
+                user: { select: userSafeSelect },
                 entries: true
             },
             orderBy: { startDate: 'desc' }
@@ -198,7 +200,7 @@ export const approveTimesheet = async (req: AuthRequest, res: Response) => {
 
         const timesheet = await prisma.timesheet.findUnique({
             where: { id },
-            include: { user: true }
+            include: { user: { select: userSafeSelect } }
         });
 
         if (!timesheet) return res.status(404).json({ message: 'Timesheet not found' });
@@ -208,6 +210,7 @@ export const approveTimesheet = async (req: AuthRequest, res: Response) => {
             where: { id },
             data: { status }
         });
+        await AuditService.log(req.user!.userId, status, 'TIMESHEET', id, { status, comment: comment ?? null });
 
         // Optionally create notification for user
         await prisma.notification.create({

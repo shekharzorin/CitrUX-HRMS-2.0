@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma, withRetry, Prisma } from '../db';
+import { userSafeSelect } from '../utils/safe-select';
 
 function isDbConnectionError(err: any): boolean {
     if (err instanceof Prisma.PrismaClientInitializationError) return true;
@@ -192,7 +193,7 @@ export const getDashboardStats = async (req: Request, res: Response) => {
                 endDate: { gte: todayUTC },
                 ...companyUserFilter,
             },
-            include: { user: { include: { profile: true } }, leaveType: true },
+            include: { user: { select: userSafeSelect }, leaveType: true },
             take: 10,
         }));
 

@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import { prisma } from '../db';
+import { userSafeSelect, userAuthSelect } from '../utils/safe-select';
 import { requireString } from '../utils/requestUtils';
 import { notifyUser, notifyRole } from '../utils/notification';
 import jwt from 'jsonwebtoken';
@@ -134,7 +135,7 @@ export const updateDocument = async (req: AuthRequest, res: Response) => {
 
         const existing = await prisma.userDocument.findUnique({
             where: { id },
-            include: { user: true }
+            include: { user: { select: userAuthSelect } }
         });
 
         if (!existing) return res.status(404).json({ message: 'Document not found' });
@@ -173,13 +174,13 @@ export const deleteDocument = async (req: AuthRequest, res: Response) => {
 
         const existing = await prisma.userDocument.findUnique({
             where: { id },
-            include: { user: true }
+            include: { user: { select: userAuthSelect } }
         });
 
         if (!existing) return res.status(404).json({ message: 'Document not found' });
         const doc = await prisma.userDocument.findUnique({
             where: { id },
-            include: { user: true }
+            include: { user: { select: userAuthSelect } }
         });
 
         if (!doc) return res.status(404).json({ message: 'Document not found' });
@@ -298,7 +299,7 @@ export const verifyDocument = async (req: AuthRequest, res: Response) => {
 
         const existing = await prisma.userDocument.findUnique({
             where: { id },
-            include: { user: true }
+            include: { user: { select: userAuthSelect } }
         });
 
         if (!existing) return res.status(404).json({ message: 'Document not found' });
@@ -341,7 +342,7 @@ export const getExpiringDocuments = async (req: AuthRequest, res: Response) => {
                     ...scope
                 }
             },
-            include: { user: { include: { profile: true } } }
+            include: { user: { select: userSafeSelect } }
         });
 
         res.json(docs);

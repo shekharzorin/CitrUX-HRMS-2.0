@@ -5,6 +5,7 @@ import { AuditService } from '../services/audit.service';
 import { prisma } from '../db';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
+import { userAuthSelect } from '../utils/safe-select';
 import axios from 'axios';
 
 export const calculatePayroll = async (req: AuthRequest, res: Response) => {
@@ -130,11 +131,13 @@ export const downloadPayslip = async (req: AuthRequest, res: Response) => {
 
         const payslip = await prisma.payslip.findUnique({
             where: { id },
-            include: { user: true }
+            include: { user: { select: userAuthSelect } }
         });
 
         if (!payslip) return res.status(404).json({ message: 'Payslip not found' });
         if (!assertSameCompany(payslip.user.companyId, req, res)) return;
+
+        await AuditService.log(req.user!.userId, 'DOWNLOAD', 'PAYSLIP', id, { ownerId: payslip.userId });
 
         const doc = await PayrollService.generatePdf(id);
 

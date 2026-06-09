@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { userSafeSelect, userSafeSelectWithEmail } from '../utils/safe-select';
 import { notifyRole, notifyUser } from '../utils/notification';
 import { sendEmail, welcomeEmailTemplate } from '../utils/email.util';
 import { requireString } from '../utils/requestUtils';
@@ -184,7 +185,7 @@ export const getPendingOnboardings = async (req: AuthRequest, res: Response) => 
                     ...scope
                 }
             },
-            include: { user: { include: { profile: true } } }
+            include: { user: { select: userSafeSelectWithEmail } }
         });
         
         // Decrypt sensitive info for admin view
@@ -209,7 +210,7 @@ export const approveOnboarding = async (req: AuthRequest, res: Response) => {
         const onboarding = await prisma.onboarding.findUnique({
             where: { id },
             include: {
-                user: true,
+                user: { select: userSafeSelectWithEmail },
                 emergencyContacts: true,
                 experiences: true,
                 education: true,
@@ -316,9 +317,9 @@ export const rejectOnboarding = async (req: AuthRequest, res: Response) => {
         const id = requireString(req.params.id);
         const { reason } = req.body;
 
-        const onboarding = await prisma.onboarding.findUnique({ 
+        const onboarding = await prisma.onboarding.findUnique({
             where: { id },
-            include: { user: true }
+            include: { user: { select: userSafeSelectWithEmail } }
         });
         if (!onboarding) return res.status(404).json({ message: 'Record not found' });
         if (!assertSameCompany(onboarding.user.companyId, req, res)) return;

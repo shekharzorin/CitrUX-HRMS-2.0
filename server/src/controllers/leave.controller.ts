@@ -7,6 +7,8 @@ import { calculateWorkingDays } from '../utils/date.util';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
 import { CacheService } from '../services/cacheService';
+import { userSafeSelect, userSafeSelectWithEmail } from '../utils/safe-select';
+import { AuditService } from '../services/audit.service';
 import { RoleService } from '../services/role.service';
 
 // Get available Leave Types (tenant-scoped)
@@ -215,7 +217,7 @@ export const getTeamRequests = async (req: AuthRequest, res: Response) => {
                 },
                 include: {
                     leaveType: true,
-                    user: { include: { profile: true } }
+                    user: { select: userSafeSelectWithEmail }
                 },
                 orderBy: { createdAt: 'desc' }
             });
@@ -233,7 +235,7 @@ export const getTeamRequests = async (req: AuthRequest, res: Response) => {
             where: { userId: { in: subIds } },
             include: {
                 leaveType: true,
-                user: { include: { profile: true } }
+                user: { select: userSafeSelectWithEmail }
             },
             orderBy: { createdAt: 'desc' }
         });
@@ -255,7 +257,7 @@ export const updateLeaveStatus = async (req: Request, res: Response) => {
 
         // Atomic transaction: balance update + status update together
         const updated = await prisma.$transaction(async (tx) => {
-            const request = await tx.leaveRequest.findUnique({ where: { id }, include: { user: true } });
+            const request = await tx.leaveRequest.findUnique({ where: { id }, include: { user: { select: userSafeSelect } } });
             if (!request) throw Object.assign(new Error('Request not found'), { statusCode: 404 });
 
             // Ensure Admin/Manager acts on a user in their own company
@@ -310,6 +312,8 @@ export const updateLeaveStatus = async (req: Request, res: Response) => {
                 type: 'LEAVE'
             }
         }).catch(e => console.error('[Notification] Failed:', e));
+
+        await AuditService.log((req as AuthRequest).user!.userId, status, 'LEAVE_REQUEST', id, { status, comment: comment ?? null });
 
         const userForEmail = await prisma.user.findUnique({ where: { id: updated.userId }, select: { email: true, profile: { select: { firstName: true } } } });
         if (userForEmail?.email) {
@@ -577,7 +581,7 @@ export const updateEncashmentStatus = async (req: AuthRequest, res: Response) =>
         const id = requireString(req.params.id);
         const { status, comment, amount } = req.body;
 
-        const request = await prisma.leaveEncashment.findUnique({ where: { id }, include: { user: true } });
+        const request = await prisma.leaveEncashment.findUnique({ where: { id }, include: { user: { select: userSafeSelect } } });
         if (!request) return res.status(404).json({ message: 'Request not found' });
         if (!assertSameCompany(request.user?.companyId, req, res)) return;
 
@@ -601,6 +605,8 @@ export const updateEncashmentStatus = async (req: AuthRequest, res: Response) =>
                 amount: amount ? parseFloat(amount) : (request as any).amount
             }
         });
+
+        await AuditService.log(req.user!.userId, status, 'LEAVE_ENCASHMENT', id, { status, amount: amount ?? null });
 
         // Notify User
         await notifyUser(request.userId, `Encashment Request ${status}`, '/my-finances', 'SYSTEM');

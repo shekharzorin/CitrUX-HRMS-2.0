@@ -3,6 +3,7 @@ import { prisma } from '../db';
 import { requireString } from '../utils/requestUtils';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
+import { userSafeSelect, userSafeSelectWithEmail } from '../utils/safe-select';
 
 // Create Goal (Self or Manager)
 export const createGoal = async (req: AuthRequest, res: Response) => {
@@ -76,7 +77,7 @@ export const getMyReviews = async (req: AuthRequest, res: Response) => {
         // @ts-ignore
         const reviews = await prisma.performanceReview.findMany({
             where: { userId },
-            include: { reviewer: { include: { profile: true } } }
+            include: { reviewer: { select: userSafeSelect } }
         });
         res.json(reviews);
     } catch (error) {
@@ -109,8 +110,8 @@ export const getTeamReviews = async (req: AuthRequest, res: Response) => {
         const reviews = await prisma.performanceReview.findMany({
             where: whereClause,
             include: {
-                user: { include: { profile: true } },
-                reviewer: { include: { profile: true } }
+                user: { select: userSafeSelectWithEmail },
+                reviewer: { select: userSafeSelect }
             },
             orderBy: { createdAt: 'desc' }
         });
@@ -131,7 +132,7 @@ export const updateGoal = async (req: AuthRequest, res: Response) => {
         // @ts-ignore
         const goal = await prisma.goal.findUnique({ 
             where: { id },
-            include: { user: true }
+            include: { user: { select: userSafeSelect } }
         });
         if (!goal) return res.status(404).json({ message: 'Goal not found' });
 
@@ -161,7 +162,7 @@ export const deleteGoal = async (req: AuthRequest, res: Response) => {
         // @ts-ignore
         const goal = await prisma.goal.findUnique({ 
             where: { id },
-            include: { user: true }
+            include: { user: { select: userSafeSelect } }
         });
         if (!goal) return res.status(404).json({ message: 'Goal not found' });
 

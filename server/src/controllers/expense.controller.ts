@@ -3,6 +3,8 @@ import { prisma } from '../db';
 import { requireString } from '../utils/requestUtils';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
+import { userSafeSelect, userSafeSelectWithEmail } from '../utils/safe-select';
+import { AuditService } from '../services/audit.service';
 
 // Create Expense Category (Admin)
 export const createCategory = async (req: AuthRequest, res: Response) => {
@@ -100,7 +102,7 @@ export const getPendingClaims = async (req: AuthRequest, res: Response) => {
                     ...scope
                 }
             },
-            include: { user: { include: { profile: true } }, category: true }
+            include: { user: { select: userSafeSelectWithEmail }, category: true }
         });
         res.json(claims);
     } catch (error) {
@@ -117,7 +119,7 @@ export const updateClaimStatus = async (req: AuthRequest, res: Response) => {
         // @ts-ignore
         const claim = await prisma.expenseClaim.findUnique({
             where: { id },
-            include: { user: true }
+            include: { user: { select: userSafeSelect } }
         });
 
         if (!claim) return res.status(404).json({ message: 'Claim not found' });
@@ -128,6 +130,7 @@ export const updateClaimStatus = async (req: AuthRequest, res: Response) => {
             where: { id },
             data: { status }
         });
+        await AuditService.log(req.user!.userId, status, 'EXPENSE_CLAIM', id, { status });
         res.json(updated);
     } catch (error) {
         res.status(500).json({ message: 'Error updating status' });

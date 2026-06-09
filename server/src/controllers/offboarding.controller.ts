@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { userSafeSelectWithEmail } from '../utils/safe-select';
 import { notifyRole, notifyUser } from '../utils/notification';
 import { requireString } from '../utils/requestUtils';
 
@@ -65,7 +66,7 @@ export const getResignations = async (req: Request, res: Response) => {
     try {
         // @ts-ignore
         const list = await prisma.offboarding.findMany({
-            include: { user: { include: { profile: true } } }
+            include: { user: { select: userSafeSelectWithEmail } }
         });
         res.json(list);
     } catch (error) {

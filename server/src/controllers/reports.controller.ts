@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import { prisma } from '../db';
+import { userSafeSelect } from '../utils/safe-select';
 import { Parser } from 'json2csv';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope } from '../middlewares/tenant.middleware';
@@ -103,9 +104,7 @@ export const getPayrollReport = async (req: AuthRequest, res: Response) => {
                 }
             },
             include: {
-                user: {
-                    include: { profile: true }
-                }
+                user: { select: userSafeSelect }
             }
         });
 
@@ -153,7 +152,7 @@ export const getLeaveReport = async (req: AuthRequest, res: Response) => {
                 }
             },
             include: {
-                user: { include: { profile: true } },
+                user: { select: userSafeSelect },
                 leaveType: true
             }
         });

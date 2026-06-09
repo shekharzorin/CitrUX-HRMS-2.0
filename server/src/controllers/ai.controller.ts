@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../db';
+import { userSafeSelect } from '../utils/safe-select';
 import axios from 'axios';
 
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
@@ -80,7 +81,7 @@ async function handleTeamLeaveQuery(userId: string, role: string, companyId: str
 
     const onLeave = await prisma.leaveRequest.findMany({
         where: whereClause,
-        include: { user: { include: { profile: true } }, leaveType: true },
+        include: { user: { select: userSafeSelect }, leaveType: true },
     });
 
     if (!onLeave.length) return "No one is on approved leave today. 🎉";
@@ -88,7 +89,7 @@ async function handleTeamLeaveQuery(userId: string, role: string, companyId: str
     const lines = onLeave.map(l => {
         const name = l.user.profile
             ? `${l.user.profile.firstName} ${l.user.profile.lastName}`
-            : l.user.email;
+            : (l.user.employeeId || 'Employee');
         return `• **${name}** — ${l.leaveType.name} (until ${l.endDate.toDateString()})`;
     });
 
@@ -235,10 +236,10 @@ async function buildContext(userId: string, role: string, companyId: string | nu
                         endDate: { gte: today },
                         user: { companyId },
                     },
-                    include: { user: { include: { profile: true } }, leaveType: true },
+                    include: { user: { select: userSafeSelect }, leaveType: true },
                 });
                 ctx.employeesOnLeaveToday = onLeaveToday.map(l => ({
-                    name: l.user.profile ? `${l.user.profile.firstName} ${l.user.profile.lastName}` : l.user.email,
+                    name: l.user.profile ? `${l.user.profile.firstName} ${l.user.profile.lastName}` : (l.user.employeeId || 'Employee'),
                     leaveType: l.leaveType.name,
                     from: l.startDate.toDateString(),
                     to: l.endDate.toDateString(),

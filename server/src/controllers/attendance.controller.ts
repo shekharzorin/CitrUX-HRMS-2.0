@@ -5,6 +5,7 @@ import { AuditService } from '../services/audit.service';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
 import { AttendanceAdminService } from '../services/attendance-admin.service';
+import { userSafeSelect, userAuthSelect } from '../utils/safe-select';
 
 // ── Admin/HR org-wide attendance console (additive) ──────────────────────────
 export const getAdminRecords = async (req: AuthRequest, res: Response) => {
@@ -506,9 +507,7 @@ export const getPendingAdjustments = async (req: AuthRequest, res: Response) => 
         const requests = await prisma.attendanceRequest.findMany({
             where: whereClause,
             include: {
-                user: {
-                    include: { profile: true }
-                }
+                user: { select: userSafeSelect }
             },
             orderBy: { createdAt: 'desc' }
         });
@@ -528,7 +527,7 @@ export const respondToAdjustment = async (req: AuthRequest, res: Response) => {
         const result = await prisma.$transaction(async (tx) => {
             const request = await tx.attendanceRequest.findUnique({
                 where: { id },
-                include: { user: true }
+                include: { user: { select: userAuthSelect } }
             });
 
             if (!request) throw new Error('Request not found');
@@ -549,6 +548,7 @@ export const respondToAdjustment = async (req: AuthRequest, res: Response) => {
                     managerComment: comment
                 }
             });
+            await AuditService.log(responderId, status, 'ATTENDANCE_REQUEST', id, { status, comment: comment ?? null });
 
             // NOTIFICATION: Notify Employee
             // We need to do this AFTER transaction or usually outside, but inside works if we don't await strictly or if we do simple insert.

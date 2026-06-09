@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import { prisma } from '../db';
+import { userSafeSelect } from '../utils/safe-select';
 import { AuthRequest } from '../middlewares/auth.middleware';
 
 export const getUpcomingEvents = async (req: AuthRequest, res: Response) => {
@@ -89,8 +90,8 @@ export const getRecognitions = async (req: AuthRequest, res: Response) => {
         const recognitions = await prisma.recognition.findMany({
             where: { companyId },
             include: {
-                user: { include: { profile: true } },
-                giver: { include: { profile: true } }
+                user: { select: userSafeSelect },
+                giver: { select: userSafeSelect }
             },
             orderBy: { createdAt: 'desc' },
             take: 20
@@ -126,8 +127,8 @@ export const createRecognition = async (req: AuthRequest, res: Response) => {
                 message
             },
             include: {
-                user: { include: { profile: true } },
-                giver: { include: { profile: true } }
+                user: { select: userSafeSelect },
+                giver: { select: userSafeSelect }
             }
         });
 
@@ -156,7 +157,7 @@ export const getAppraisals = async (req: AuthRequest, res: Response) => {
         const myAppraisals = await prisma.performanceReview.findMany({
             where: { userId },
             include: {
-                reviewer: { include: { profile: true } }
+                reviewer: { select: userSafeSelect }
             },
             orderBy: { createdAt: 'desc' }
         });
@@ -167,8 +168,8 @@ export const getAppraisals = async (req: AuthRequest, res: Response) => {
             teamAppraisals = await prisma.performanceReview.findMany({
                 where: { user: { companyId } },
                 include: {
-                    user: { include: { profile: true } },
-                    reviewer: { include: { profile: true } }
+                    user: { select: userSafeSelect },
+                    reviewer: { select: userSafeSelect }
                 },
                 orderBy: { createdAt: 'desc' }
             });
@@ -206,8 +207,8 @@ export const createAppraisal = async (req: AuthRequest, res: Response) => {
                 feedback
             },
             include: {
-                user: { include: { profile: true } },
-                reviewer: { include: { profile: true } }
+                user: { select: userSafeSelect },
+                reviewer: { select: userSafeSelect }
             }
         });
 
