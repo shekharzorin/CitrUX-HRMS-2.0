@@ -18,6 +18,7 @@ import ManagerLeaves from './pages/ManagerLeaves';
 import CreateUser from './pages/CreateUser';
 import EditUser from './pages/EditUser';
 import Attendance from './pages/Attendance';
+import AttendanceConsole from './pages/AttendanceConsole';
 import Timesheets from './pages/Timesheets';
 import TimesheetApprovals from './pages/TimesheetApprovals';
 import AttendanceApprovals from './pages/AttendanceApprovals';
@@ -94,6 +95,7 @@ const App: React.FC = () => {
                 <Route path="/users/edit/:id" element={<ProtectedRoute><EditUser /></ProtectedRoute>} />
 
                 <Route path="/attendance" element={<ProtectedRoute><Attendance /></ProtectedRoute>} />
+                <Route path="/attendance/console" element={<ProtectedRoute allowedRoles={['ADMIN', 'HR', 'SUPER_ADMIN']}><AttendanceConsole /></ProtectedRoute>} />
                 <Route path="/attendance/approvals" element={<ProtectedRoute><AttendanceApprovals /></ProtectedRoute>} />
 
                 <Route path="/leaves" element={<ProtectedRoute><Leaves /></ProtectedRoute>} />

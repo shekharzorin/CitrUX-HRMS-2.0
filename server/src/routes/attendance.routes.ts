@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { punchIn, punchOut, getAttendance, getAllAttendance, startBreak, endBreak, requestAdjustment, getPendingAdjustments, respondToAdjustment, overrideAttendance } from '../controllers/attendance.controller';
+import { punchIn, punchOut, getAttendance, getAllAttendance, startBreak, endBreak, requestAdjustment, getPendingAdjustments, respondToAdjustment, overrideAttendance, getAdminRecords, getAdminFilterOptions, exportAdminRecords } from '../controllers/attendance.controller';
 import { authenticateToken, requirePermission } from '../middlewares/auth.middleware';
 import { validate } from '../middlewares/validate.middleware';
 import { requestAdjustmentSchema, respondAdjustmentSchema, overrideAttendanceSchema } from '../validators/schemas';
@@ -16,5 +16,10 @@ router.post('/adjust/respond', authenticateToken, requirePermission('APPROVE_ATT
 router.post('/override', authenticateToken, requirePermission('MANAGE_ATTENDANCE'), validate({ body: overrideAttendanceSchema }), overrideAttendance);
 router.get('/my-history', authenticateToken, getAttendance);
 router.get('/all', authenticateToken, requirePermission('MANAGE_ATTENDANCE'), getAllAttendance);
+
+// Admin/HR org-wide attendance console (paginated + filtered + CSV export).
+router.get('/admin/filter-options', authenticateToken, requirePermission('MANAGE_ATTENDANCE'), getAdminFilterOptions);
+router.get('/admin/records', authenticateToken, requirePermission('MANAGE_ATTENDANCE'), getAdminRecords);
+router.get('/admin/records/export', authenticateToken, requirePermission('MANAGE_ATTENDANCE'), exportAdminRecords);
 
 export default router;

@@ -4,6 +4,39 @@ import { NotificationService } from '../services/notification.service';
 import { AuditService } from '../services/audit.service';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
+import { AttendanceAdminService } from '../services/attendance-admin.service';
+
+// ── Admin/HR org-wide attendance console (additive) ──────────────────────────
+export const getAdminRecords = async (req: AuthRequest, res: Response) => {
+    try {
+        res.json(await AttendanceAdminService.listRecords(req, req.query as any));
+    } catch (error: any) {
+        console.error('AdminRecords Error:', error);
+        res.status(500).json({ message: 'Failed to load attendance records.' });
+    }
+};
+
+export const getAdminFilterOptions = async (req: AuthRequest, res: Response) => {
+    try {
+        res.json(await AttendanceAdminService.filterOptions(req));
+    } catch (error: any) {
+        console.error('AdminFilterOptions Error:', error);
+        res.status(500).json({ message: 'Failed to load filter options.' });
+    }
+};
+
+export const exportAdminRecords = async (req: AuthRequest, res: Response) => {
+    try {
+        const { csv, truncated } = await AttendanceAdminService.exportRecords(req, req.query as any);
+        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+        res.setHeader('Content-Disposition', `attachment; filename="attendance-${new Date().toISOString().slice(0, 10)}.csv"`);
+        if (truncated) res.setHeader('X-Export-Truncated', 'true');
+        res.send(csv);
+    } catch (error: any) {
+        console.error('AdminExport Error:', error);
+        res.status(500).json({ message: 'Failed to export attendance.' });
+    }
+};
 
 function isDbConnectionError(err: any): boolean {
     if (err instanceof Prisma.PrismaClientInitializationError) return true;

@@ -172,6 +172,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <NavItem to="/users" icon="employees" label="Employees" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                     <NavItem to="/org-chart" icon="org_chart" label="Org Chart" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                     <NavItem to="/attendance" icon="attendance" label="Attendance" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                    {hasPermission('MANAGE_ATTENDANCE') && (
+                        <NavItem to="/attendance/console" icon="attendance" label="Attendance Console" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
+                    )}
                     <NavItem to="/leaves" icon="leaves" label="Leaves" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                     <NavItem to="/worklogs" icon="timesheet" label="Work Log" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
                     <NavItem to="/tasks" icon="approvals" label="Tasks" collapsed={collapsed} isMobile={isMobile} onCloseMobile={() => setIsMobileMenuOpen(false)} />
