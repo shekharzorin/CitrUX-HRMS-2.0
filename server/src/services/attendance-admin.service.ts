@@ -1,6 +1,7 @@
 import { prisma } from '../db';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getTenantScope } from '../middlewares/tenant.middleware';
+import { AppError } from '../middlewares/error.middleware';
 
 // Admin/HR org-wide attendance console: paginated, filtered, whitelist-serialized.
 // Tenant-scoped via the user relation. NEVER returns the full User (passwordHash)
@@ -19,8 +20,16 @@ function utcMidnight(dateStr?: string): Date | null {
 
 interface ConsoleQuery {
     page?: string; pageSize?: string; search?: string;
-    from?: string; to?: string; status?: string;
+    from?: string; to?: string;
+    status?: string; attendanceStatus?: string; // accept either name
     departmentId?: string; branchId?: string; sourceId?: string;
+    sortBy?: string; sortDir?: string;
+}
+
+function resolveWindow(q: ConsoleQuery): { from: Date; to: Date } {
+    const to = utcMidnight(q.to) ?? utcMidnight(new Date().toISOString())!;
+    const from = utcMidnight(q.from) ?? new Date(to.getTime() - DEFAULT_WINDOW_DAYS * 86400000);
+    return { from, to };
 }
 
 function buildWhere(req: AuthRequest, q: ConsoleQuery) {
@@ -42,18 +51,32 @@ function buildWhere(req: AuthRequest, q: ConsoleQuery) {
 
     const where: any = { user: userWhere };
 
-    // Date window — default last 30 days to bound query cost.
-    const to = utcMidnight(q.to) ?? utcMidnight(new Date().toISOString())!;
-    const from = utcMidnight(q.from) ?? new Date(to.getTime() - DEFAULT_WINDOW_DAYS * 86400000);
+    const { from, to } = resolveWindow(q);
     where.date = { gte: from, lte: to };
 
-    if (q.status) where.status = q.status;
+    const status = q.attendanceStatus ?? q.status;
+    if (status) where.status = status;
     if (q.sourceId) where.primarySourceId = q.sourceId;
     return where;
 }
 
+// Stable ordering: chosen sort field, then userId ASC as a deterministic tiebreak.
+function orderByOf(q: ConsoleQuery): any[] {
+    const dir: 'asc' | 'desc' = q.sortDir === 'asc' ? 'asc' : 'desc';
+    const by = q.sortBy ?? 'date';
+    let primary: any;
+    switch (by) {
+        case 'hours': primary = { hours: dir }; break;
+        case 'status': primary = { status: dir }; break;
+        case 'employee': primary = { user: { profile: { firstName: dir } } }; break;
+        case 'date':
+        default: primary = { date: dir }; break;
+    }
+    return [primary, { userId: 'asc' }];
+}
+
 const rowSelect = {
-    id: true, date: true, checkIn: true, checkOut: true, hours: true, status: true,
+    id: true, userId: true, date: true, checkIn: true, checkOut: true, hours: true, status: true,
     isLate: true, generatedFromEvents: true, primarySourceId: true,
     user: {
         select: {
@@ -78,6 +101,8 @@ async function sourceNameMap(ids: (string | null)[]): Promise<Record<string, str
 
 function serializeRow(r: any, srcMap: Record<string, string>) {
     const p = r.user?.profile;
+    const firstName = p?.firstName ?? '';
+    const lastName = p?.lastName ?? '';
     return {
         id: r.id,
         date: r.date,
@@ -90,8 +115,10 @@ function serializeRow(r: any, srcMap: Record<string, string>) {
         generatedFromEvents: r.generatedFromEvents,
         employee: {
             id: r.user?.id,
-            name: p ? `${p.firstName ?? ''} ${p.lastName ?? ''}`.trim() : '',
             employeeId: r.user?.employeeId ?? null,
+            firstName,
+            lastName,
+            name: `${firstName} ${lastName}`.trim(),
             department: p?.departmentRef?.name ?? null,
             branch: p?.branch?.name ?? null,
         },
@@ -118,7 +145,7 @@ export class AttendanceAdminService {
         const [rows, total] = await prisma.$transaction([
             prisma.attendance.findMany({
                 where, select: rowSelect,
-                orderBy: [{ date: 'desc' }, { id: 'asc' }],
+                orderBy: orderByOf(q),
                 skip: (page - 1) * pageSize, take: pageSize,
             }),
             prisma.attendance.count({ where }),
@@ -127,29 +154,54 @@ export class AttendanceAdminService {
         return { rows: rows.map((r) => serializeRow(r, srcMap)), total, page, pageSize };
     }
 
-    static async exportRecords(req: AuthRequest, q: ConsoleQuery): Promise<{ csv: string; truncated: boolean }> {
+    /** CSV export. Hard 400 when the filtered set exceeds the cap (don't truncate silently). */
+    static async exportRecords(req: AuthRequest, q: ConsoleQuery): Promise<string> {
         const where = buildWhere(req, q);
-        const rows = await prisma.attendance.findMany({
-            where, select: rowSelect, orderBy: [{ date: 'desc' }], take: EXPORT_CAP + 1,
+        const total = await prisma.attendance.count({ where });
+        if (total > EXPORT_CAP) {
+            throw new AppError(`Export matches ${total} rows, which exceeds the ${EXPORT_CAP.toLocaleString()}-row limit. Narrow the date range or filters and try again.`, 400);
+        }
+
+        const rows = await prisma.attendance.findMany({ where, select: rowSelect, orderBy: orderByOf(q), take: EXPORT_CAP });
+        const srcMap = await sourceNameMap(rows.map((r) => r.primarySourceId));
+
+        const gen = await prisma.user.findUnique({
+            where: { id: req.user!.userId },
+            select: { employeeId: true, profile: { select: { firstName: true, lastName: true } } },
         });
-        const truncated = rows.length > EXPORT_CAP;
-        const slice = truncated ? rows.slice(0, EXPORT_CAP) : rows;
-        const srcMap = await sourceNameMap(slice.map((r) => r.primarySourceId));
+        const genName = gen?.profile ? `${gen.profile.firstName ?? ''} ${gen.profile.lastName ?? ''}`.trim() : req.user!.userId;
 
         const esc = (v: any) => {
             const s = v == null ? '' : String(v);
             return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
         };
-        const t = (d: any) => (d ? new Date(d).toISOString() : '');
-        const header = ['Date', 'Employee', 'Employee ID', 'Department', 'Branch', 'Check In', 'Check Out', 'Hours', 'Status', 'Source'];
-        const lines = [header.join(',')];
-        for (const r of slice) {
+        const iso = (d: any) => (d ? new Date(d).toISOString() : '');
+        const { from, to } = resolveWindow(q);
+        const status = q.attendanceStatus ?? q.status;
+        const appliedFilters = [
+            `from=${iso(from).slice(0, 10)}`, `to=${iso(to).slice(0, 10)}`,
+            q.search ? `search=${q.search}` : null,
+            status ? `status=${status}` : null,
+            q.departmentId ? `departmentId=${q.departmentId}` : null,
+            q.branchId ? `branchId=${q.branchId}` : null,
+            q.sourceId ? `sourceId=${q.sourceId}` : null,
+        ].filter(Boolean).join('; ');
+
+        const lines: string[] = [
+            ['Generated By', genName].map(esc).join(','),
+            ['Generated At', new Date().toISOString()].map(esc).join(','),
+            ['Applied Filters', appliedFilters].map(esc).join(','),
+            '',
+            ['Employee ID', 'Employee Name', 'Department', 'Branch', 'Date', 'Check In', 'Check Out', 'Hours Worked', 'Attendance Status', 'Attendance Source'].join(','),
+        ];
+        for (const r of rows) {
             const s = serializeRow(r, srcMap);
             lines.push([
-                t(s.date).slice(0, 10), s.employee.name, s.employee.employeeId, s.employee.department, s.employee.branch,
-                t(s.checkIn), t(s.checkOut), s.hours ?? '', s.status, s.sourceName ?? '',
+                s.employee.employeeId, s.employee.name, s.employee.department, s.employee.branch,
+                iso(s.date).slice(0, 10), iso(s.checkIn), iso(s.checkOut),
+                s.hours ?? '', s.status, s.sourceName ?? '',
             ].map(esc).join(','));
         }
-        return { csv: lines.join('\n'), truncated };
+        return lines.join('\n');
     }
 }

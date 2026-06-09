@@ -27,12 +27,13 @@ export const getAdminFilterOptions = async (req: AuthRequest, res: Response) => 
 
 export const exportAdminRecords = async (req: AuthRequest, res: Response) => {
     try {
-        const { csv, truncated } = await AttendanceAdminService.exportRecords(req, req.query as any);
+        const csv = await AttendanceAdminService.exportRecords(req, req.query as any);
         res.setHeader('Content-Type', 'text/csv; charset=utf-8');
         res.setHeader('Content-Disposition', `attachment; filename="attendance-${new Date().toISOString().slice(0, 10)}.csv"`);
-        if (truncated) res.setHeader('X-Export-Truncated', 'true');
         res.send(csv);
     } catch (error: any) {
+        // Cap-exceeded (and other validation) errors carry a statusCode → surface them.
+        if (error?.statusCode) return res.status(error.statusCode).json({ message: error.message });
         console.error('AdminExport Error:', error);
         res.status(500).json({ message: 'Failed to export attendance.' });
     }
