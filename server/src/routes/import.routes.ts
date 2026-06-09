@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { authenticateToken } from '../middlewares/auth.middleware';
+import { authenticateToken, requirePermission } from '../middlewares/auth.middleware';
 import { bulkImportEmployees } from '../controllers/import.controller';
 
 const router = Router();
 
 router.use(authenticateToken);
 
-// Bulk Import (Admin/HR restricted - usually handled by authenticateToken + Role check, 
-// but here we just need to ensure token is valid as a start)
-router.post('/employees', bulkImportEmployees);
+// Bulk Import — creating employee accounts requires MANAGE_USERS; the controller
+// always scopes new users to the caller's company.
+router.post('/employees', requirePermission('MANAGE_USERS'), bulkImportEmployees);
 
 export default router;

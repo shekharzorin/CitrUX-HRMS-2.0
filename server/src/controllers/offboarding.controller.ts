@@ -3,6 +3,8 @@ import { prisma } from '../db';
 import { userSafeSelectWithEmail } from '../utils/safe-select';
 import { notifyRole, notifyUser } from '../utils/notification';
 import { requireString } from '../utils/requestUtils';
+import { getTenantScope, assertSameCompany } from '../middlewares/tenant.middleware';
+import { AuditService } from '../services/audit.service';
 
 interface AuthRequest extends Request {
     user?: any;
@@ -61,11 +63,12 @@ export const submitExitInterview = async (req: AuthRequest, res: Response) => {
     }
 };
 
-// List Resignations (Admin)
-export const getResignations = async (req: Request, res: Response) => {
+// List Resignations (Admin) — scoped to the caller's company.
+export const getResignations = async (req: AuthRequest, res: Response) => {
     try {
         // @ts-ignore
         const list = await prisma.offboarding.findMany({
+            where: { user: getTenantScope(req as any) },
             include: { user: { select: userSafeSelectWithEmail } }
         });
         res.json(list);
@@ -75,10 +78,18 @@ export const getResignations = async (req: Request, res: Response) => {
 };
 
 // Approve/Update Status (Admin)
-export const updateOffboardingStatus = async (req: Request, res: Response) => {
+export const updateOffboardingStatus = async (req: AuthRequest, res: Response) => {
     try {
         const id = requireString(req.params.id);
         const { status } = req.body;
+
+        // Tenant isolation: the offboarding's employee must be in the caller's company.
+        const owner = await prisma.offboarding.findUnique({
+            where: { id }, include: { user: { select: { companyId: true } } },
+        });
+        if (!owner) return res.status(404).json({ message: 'Offboarding record not found' });
+        if (!assertSameCompany(owner.user?.companyId, req as any, res)) return;
+
         // Check for pending assets if status is 'EXITED' or 'COMPLETED'
         if ((status === 'EXITED' || status === 'COMPLETED')) {
             // Need userId, fetch if not in request (it's not, we have offboarding ID)
@@ -109,6 +120,7 @@ export const updateOffboardingStatus = async (req: Request, res: Response) => {
             where: { id },
             data: { status }
         });
+        await AuditService.log(req.user!.userId, status, 'OFFBOARDING', id, { status });
 
         // Notify User
         await notifyUser(updated.userId, `Your offboarding status has been updated to: ${status}`);
@@ -120,13 +132,14 @@ export const updateOffboardingStatus = async (req: Request, res: Response) => {
 };
 
 // Terminate Employee (Admin)
-export const terminateEmployee = async (req: Request, res: Response) => {
+export const terminateEmployee = async (req: AuthRequest, res: Response) => {
     try {
         const { userId, lastDay, reason } = req.body;
 
-        // Check if user exists
-        const user = await prisma.user.findUnique({ where: { id: userId } });
+        // Check if user exists AND is in the caller's company (no cross-tenant termination).
+        const user = await prisma.user.findUnique({ where: { id: userId }, select: { id: true, companyId: true } });
         if (!user) return res.status(404).json({ message: 'User not found' });
+        if (!assertSameCompany(user.companyId, req as any, res)) return;
 
         // Check if exists
         const existing = await prisma.offboarding.findUnique({ where: { userId } });
@@ -141,6 +154,8 @@ export const terminateEmployee = async (req: Request, res: Response) => {
                 status: 'APPROVED' // Auto-approved as it's admin initiated
             }
         });
+
+        await AuditService.log(req.user!.userId, 'TERMINATE', 'OFFBOARDING', offboarding.id, { userId, reason });
 
         // Notify User
         await notifyUser(userId, `URGENT: Offboarding initiated by HR. Last working day: ${lastDay}. Please contact HR.`);

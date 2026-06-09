@@ -1,15 +1,21 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { prisma } from '../db';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
+import { AuthRequest } from '../middlewares/auth.middleware';
+import { AuditService } from '../services/audit.service';
 
 /**
  * Bulk Import Controller
  * Allows HR/Admin to create multiple employees at once.
  * Expected format: Array of objects with email, firstName, lastName, designation, etc.
+ * Tenant-scoped: imported users are always created in the CALLER's company.
+ * Route is gated by requirePermission('MANAGE_USERS').
  */
-export const bulkImportEmployees = async (req: Request, res: Response) => {
+export const bulkImportEmployees = async (req: AuthRequest, res: Response) => {
     try {
+        const companyId = req.user!.companyId;
+        if (!companyId) return res.status(403).json({ message: 'Company context required' });
         const employees = req.body; // Expecting an array
 
         if (!Array.isArray(employees)) {
@@ -44,20 +50,22 @@ export const bulkImportEmployees = async (req: Request, res: Response) => {
                     continue;
                 }
 
-                await prisma.$transaction(async (tx) => {
+                const createdUser = await prisma.$transaction(async (tx) => {
                     const user = await tx.user.create({
                         data: {
                             email,
                             employeeId: employeeId || `EMP-${uuidv4().slice(0, 8).toUpperCase()}`,
                             passwordHash,
                             role: 'EMPLOYEE',
-                            status: 'ACTIVE'
+                            status: 'ACTIVE',
+                            companyId, // always the caller's company — never cross-tenant
                         }
                     });
 
                     await tx.profile.create({
                         data: {
                             userId: user.id,
+                            companyId,
                             firstName,
                             lastName: lastName || '',
                             designation: designation || '',
@@ -66,8 +74,10 @@ export const bulkImportEmployees = async (req: Request, res: Response) => {
                             dateOfJoining: new Date()
                         }
                     });
+                    return user;
                 });
 
+                await AuditService.log(req.user!.userId, 'BULK_IMPORT_CREATE', 'USER', createdUser.id, { email, companyId });
                 results.success++;
             } catch (err: any) {
                 results.failed++;
