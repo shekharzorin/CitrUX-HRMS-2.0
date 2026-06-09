@@ -17,12 +17,14 @@ interface AttendanceTableProps {
     records: AttendanceRecord[];
     isLoading?: boolean;
     canViewAll?: boolean;
+    onViewEvidence?: (record: AttendanceRecord) => void;
 }
 
 export const AttendanceTable: React.FC<AttendanceTableProps> = ({
     records,
     isLoading,
-    canViewAll = false
+    canViewAll = false,
+    onViewEvidence
 }) => {
     const [expandedRow, setExpandedRow] = useState<string | null>(null);
     const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' }>({ key: 'date', direction: 'desc' });
@@ -196,13 +198,21 @@ export const AttendanceTable: React.FC<AttendanceTableProps> = ({
                                                         </h4>
                                                         <div className="bg-white p-4 rounded-2xl border border-slate-100 space-y-4">
                                                             <div className="flex justify-between text-xs">
-                                                                <span className="text-slate-400 font-bold">Punch Location</span>
-                                                                <span className="text-slate-800 font-black">Main Office - Ground Floor</span>
+                                                                <span className="text-slate-400 font-bold">Work Hours</span>
+                                                                <span className="text-slate-800 font-black">{record.hours ? `${record.hours.toFixed(1)}h` : '—'}</span>
                                                             </div>
                                                             <div className="flex justify-between text-xs">
-                                                                <span className="text-slate-400 font-bold">Shift Compliance</span>
-                                                                <span className="text-emerald-600 font-black">98.5% (On Time)</span>
+                                                                <span className="text-slate-400 font-bold">Status</span>
+                                                                <span className="text-slate-800 font-black">{record.status}</span>
                                                             </div>
+                                                            {onViewEvidence && (
+                                                                <button
+                                                                    onClick={(e) => { e.stopPropagation(); onViewEvidence(record); }}
+                                                                    className="w-full mt-1 px-3 py-2 rounded-xl bg-indigo-50 text-indigo-600 text-xs font-black hover:bg-indigo-100 transition-colors flex items-center justify-center gap-2"
+                                                                >
+                                                                    <Icon name="search" size={14} /> View Evidence (selfie / GPS)
+                                                                </button>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>

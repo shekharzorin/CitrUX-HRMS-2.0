@@ -73,6 +73,7 @@ export const SOURCE_TYPES: SourceTypeDescriptor[] = [
         description: 'Employees check in/out from the mobile app with GPS (optionally geofenced + selfie).',
         configFields: [
             { key: 'requireSelfie', label: 'Require selfie', type: 'boolean', default: false },
+            { key: 'allowCheckOutWithoutSelfie', label: 'Allow check-out without selfie', type: 'boolean', default: true },
             { key: 'requireGeofence', label: 'Require geofence', type: 'boolean', default: false },
             { key: 'accuracyThresholdMeters', label: 'Max GPS accuracy (m)', type: 'number', default: 100 },
         ],
@@ -99,6 +100,8 @@ export const SOURCE_TYPES: SourceTypeDescriptor[] = [
         ingestionMode: 'DIRECT', needsConnectorAgent: false, supportsRealtime: true, ingestionReady: false,
         description: 'Desktop webcam capture at check-in (face verification is a future add-on).',
         configFields: [
+            { key: 'requireSelfie', label: 'Require selfie', type: 'boolean', default: true },
+            { key: 'allowCheckOutWithoutSelfie', label: 'Allow check-out without selfie', type: 'boolean', default: true },
             { key: 'requireFaceMatch', label: 'Require face match (future)', type: 'boolean', default: false },
         ],
     },

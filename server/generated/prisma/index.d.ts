@@ -32587,6 +32587,8 @@ export namespace Prisma {
     dedupKey: string | null
     status: string | null
     note: string | null
+    selfieUrl: string | null
+    selfieStatus: string | null
     ingestedVia: string | null
     createdById: string | null
     createdAt: Date | null
@@ -32604,6 +32606,8 @@ export namespace Prisma {
     dedupKey: string | null
     status: string | null
     note: string | null
+    selfieUrl: string | null
+    selfieStatus: string | null
     ingestedVia: string | null
     createdById: string | null
     createdAt: Date | null
@@ -32621,6 +32625,8 @@ export namespace Prisma {
     dedupKey: number
     status: number
     note: number
+    selfieUrl: number
+    selfieStatus: number
     locationData: number
     rawPayload: number
     ingestedVia: number
@@ -32642,6 +32648,8 @@ export namespace Prisma {
     dedupKey?: true
     status?: true
     note?: true
+    selfieUrl?: true
+    selfieStatus?: true
     ingestedVia?: true
     createdById?: true
     createdAt?: true
@@ -32659,6 +32667,8 @@ export namespace Prisma {
     dedupKey?: true
     status?: true
     note?: true
+    selfieUrl?: true
+    selfieStatus?: true
     ingestedVia?: true
     createdById?: true
     createdAt?: true
@@ -32676,6 +32686,8 @@ export namespace Prisma {
     dedupKey?: true
     status?: true
     note?: true
+    selfieUrl?: true
+    selfieStatus?: true
     locationData?: true
     rawPayload?: true
     ingestedVia?: true
@@ -32768,6 +32780,8 @@ export namespace Prisma {
     dedupKey: string
     status: string
     note: string | null
+    selfieUrl: string | null
+    selfieStatus: string | null
     locationData: JsonValue | null
     rawPayload: JsonValue | null
     ingestedVia: string | null
@@ -32804,6 +32818,8 @@ export namespace Prisma {
     dedupKey?: boolean
     status?: boolean
     note?: boolean
+    selfieUrl?: boolean
+    selfieStatus?: boolean
     locationData?: boolean
     rawPayload?: boolean
     ingestedVia?: boolean
@@ -32825,6 +32841,8 @@ export namespace Prisma {
     dedupKey?: boolean
     status?: boolean
     note?: boolean
+    selfieUrl?: boolean
+    selfieStatus?: boolean
     locationData?: boolean
     rawPayload?: boolean
     ingestedVia?: boolean
@@ -32846,6 +32864,8 @@ export namespace Prisma {
     dedupKey?: boolean
     status?: boolean
     note?: boolean
+    selfieUrl?: boolean
+    selfieStatus?: boolean
     locationData?: boolean
     rawPayload?: boolean
     ingestedVia?: boolean
@@ -32867,6 +32887,8 @@ export namespace Prisma {
     dedupKey?: boolean
     status?: boolean
     note?: boolean
+    selfieUrl?: boolean
+    selfieStatus?: boolean
     locationData?: boolean
     rawPayload?: boolean
     ingestedVia?: boolean
@@ -32874,7 +32896,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type AttendanceEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "userId" | "sourceId" | "eventType" | "timestamp" | "businessDate" | "verificationMethod" | "dedupKey" | "status" | "note" | "locationData" | "rawPayload" | "ingestedVia" | "createdById" | "createdAt", ExtArgs["result"]["attendanceEvent"]>
+  export type AttendanceEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "userId" | "sourceId" | "eventType" | "timestamp" | "businessDate" | "verificationMethod" | "dedupKey" | "status" | "note" | "selfieUrl" | "selfieStatus" | "locationData" | "rawPayload" | "ingestedVia" | "createdById" | "createdAt", ExtArgs["result"]["attendanceEvent"]>
   export type AttendanceEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     source?: boolean | AttendanceEvent$sourceArgs<ExtArgs>
@@ -32906,6 +32928,8 @@ export namespace Prisma {
       dedupKey: string
       status: string
       note: string | null
+      selfieUrl: string | null
+      selfieStatus: string | null
       locationData: Prisma.JsonValue | null
       rawPayload: Prisma.JsonValue | null
       ingestedVia: string | null
@@ -33347,6 +33371,8 @@ export namespace Prisma {
     readonly dedupKey: FieldRef<"AttendanceEvent", 'String'>
     readonly status: FieldRef<"AttendanceEvent", 'String'>
     readonly note: FieldRef<"AttendanceEvent", 'String'>
+    readonly selfieUrl: FieldRef<"AttendanceEvent", 'String'>
+    readonly selfieStatus: FieldRef<"AttendanceEvent", 'String'>
     readonly locationData: FieldRef<"AttendanceEvent", 'Json'>
     readonly rawPayload: FieldRef<"AttendanceEvent", 'Json'>
     readonly ingestedVia: FieldRef<"AttendanceEvent", 'String'>
@@ -82728,6 +82754,8 @@ export namespace Prisma {
     dedupKey: 'dedupKey',
     status: 'status',
     note: 'note',
+    selfieUrl: 'selfieUrl',
+    selfieStatus: 'selfieStatus',
     locationData: 'locationData',
     rawPayload: 'rawPayload',
     ingestedVia: 'ingestedVia',
@@ -85788,6 +85816,8 @@ export namespace Prisma {
     dedupKey?: StringFilter<"AttendanceEvent"> | string
     status?: StringFilter<"AttendanceEvent"> | string
     note?: StringNullableFilter<"AttendanceEvent"> | string | null
+    selfieUrl?: StringNullableFilter<"AttendanceEvent"> | string | null
+    selfieStatus?: StringNullableFilter<"AttendanceEvent"> | string | null
     locationData?: JsonNullableFilter<"AttendanceEvent">
     rawPayload?: JsonNullableFilter<"AttendanceEvent">
     ingestedVia?: StringNullableFilter<"AttendanceEvent"> | string | null
@@ -85809,6 +85839,8 @@ export namespace Prisma {
     dedupKey?: SortOrder
     status?: SortOrder
     note?: SortOrderInput | SortOrder
+    selfieUrl?: SortOrderInput | SortOrder
+    selfieStatus?: SortOrderInput | SortOrder
     locationData?: SortOrderInput | SortOrder
     rawPayload?: SortOrderInput | SortOrder
     ingestedVia?: SortOrderInput | SortOrder
@@ -85834,6 +85866,8 @@ export namespace Prisma {
     dedupKey?: StringFilter<"AttendanceEvent"> | string
     status?: StringFilter<"AttendanceEvent"> | string
     note?: StringNullableFilter<"AttendanceEvent"> | string | null
+    selfieUrl?: StringNullableFilter<"AttendanceEvent"> | string | null
+    selfieStatus?: StringNullableFilter<"AttendanceEvent"> | string | null
     locationData?: JsonNullableFilter<"AttendanceEvent">
     rawPayload?: JsonNullableFilter<"AttendanceEvent">
     ingestedVia?: StringNullableFilter<"AttendanceEvent"> | string | null
@@ -85855,6 +85889,8 @@ export namespace Prisma {
     dedupKey?: SortOrder
     status?: SortOrder
     note?: SortOrderInput | SortOrder
+    selfieUrl?: SortOrderInput | SortOrder
+    selfieStatus?: SortOrderInput | SortOrder
     locationData?: SortOrderInput | SortOrder
     rawPayload?: SortOrderInput | SortOrder
     ingestedVia?: SortOrderInput | SortOrder
@@ -85880,6 +85916,8 @@ export namespace Prisma {
     dedupKey?: StringWithAggregatesFilter<"AttendanceEvent"> | string
     status?: StringWithAggregatesFilter<"AttendanceEvent"> | string
     note?: StringNullableWithAggregatesFilter<"AttendanceEvent"> | string | null
+    selfieUrl?: StringNullableWithAggregatesFilter<"AttendanceEvent"> | string | null
+    selfieStatus?: StringNullableWithAggregatesFilter<"AttendanceEvent"> | string | null
     locationData?: JsonNullableWithAggregatesFilter<"AttendanceEvent">
     rawPayload?: JsonNullableWithAggregatesFilter<"AttendanceEvent">
     ingestedVia?: StringNullableWithAggregatesFilter<"AttendanceEvent"> | string | null
@@ -91566,6 +91604,8 @@ export namespace Prisma {
     dedupKey: string
     status?: string
     note?: string | null
+    selfieUrl?: string | null
+    selfieStatus?: string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: string | null
@@ -91587,6 +91627,8 @@ export namespace Prisma {
     dedupKey: string
     status?: string
     note?: string | null
+    selfieUrl?: string | null
+    selfieStatus?: string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: string | null
@@ -91604,6 +91646,8 @@ export namespace Prisma {
     dedupKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieStatus?: NullableStringFieldUpdateOperationsInput | string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
@@ -91625,6 +91669,8 @@ export namespace Prisma {
     dedupKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieStatus?: NullableStringFieldUpdateOperationsInput | string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
@@ -91644,6 +91690,8 @@ export namespace Prisma {
     dedupKey: string
     status?: string
     note?: string | null
+    selfieUrl?: string | null
+    selfieStatus?: string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: string | null
@@ -91661,6 +91709,8 @@ export namespace Prisma {
     dedupKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieStatus?: NullableStringFieldUpdateOperationsInput | string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
@@ -91680,6 +91730,8 @@ export namespace Prisma {
     dedupKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieStatus?: NullableStringFieldUpdateOperationsInput | string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
@@ -97433,6 +97485,8 @@ export namespace Prisma {
     dedupKey?: SortOrder
     status?: SortOrder
     note?: SortOrder
+    selfieUrl?: SortOrder
+    selfieStatus?: SortOrder
     locationData?: SortOrder
     rawPayload?: SortOrder
     ingestedVia?: SortOrder
@@ -97452,6 +97506,8 @@ export namespace Prisma {
     dedupKey?: SortOrder
     status?: SortOrder
     note?: SortOrder
+    selfieUrl?: SortOrder
+    selfieStatus?: SortOrder
     ingestedVia?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
@@ -97469,6 +97525,8 @@ export namespace Prisma {
     dedupKey?: SortOrder
     status?: SortOrder
     note?: SortOrder
+    selfieUrl?: SortOrder
+    selfieStatus?: SortOrder
     ingestedVia?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
@@ -107367,6 +107425,8 @@ export namespace Prisma {
     dedupKey: string
     status?: string
     note?: string | null
+    selfieUrl?: string | null
+    selfieStatus?: string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: string | null
@@ -107386,6 +107446,8 @@ export namespace Prisma {
     dedupKey: string
     status?: string
     note?: string | null
+    selfieUrl?: string | null
+    selfieStatus?: string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: string | null
@@ -109241,6 +109303,8 @@ export namespace Prisma {
     dedupKey?: StringFilter<"AttendanceEvent"> | string
     status?: StringFilter<"AttendanceEvent"> | string
     note?: StringNullableFilter<"AttendanceEvent"> | string | null
+    selfieUrl?: StringNullableFilter<"AttendanceEvent"> | string | null
+    selfieStatus?: StringNullableFilter<"AttendanceEvent"> | string | null
     locationData?: JsonNullableFilter<"AttendanceEvent">
     rawPayload?: JsonNullableFilter<"AttendanceEvent">
     ingestedVia?: StringNullableFilter<"AttendanceEvent"> | string | null
@@ -117866,6 +117930,8 @@ export namespace Prisma {
     dedupKey: string
     status?: string
     note?: string | null
+    selfieUrl?: string | null
+    selfieStatus?: string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: string | null
@@ -117885,6 +117951,8 @@ export namespace Prisma {
     dedupKey: string
     status?: string
     note?: string | null
+    selfieUrl?: string | null
+    selfieStatus?: string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: string | null
@@ -129828,6 +129896,8 @@ export namespace Prisma {
     dedupKey: string
     status?: string
     note?: string | null
+    selfieUrl?: string | null
+    selfieStatus?: string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: string | null
@@ -130308,6 +130378,8 @@ export namespace Prisma {
     dedupKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieStatus?: NullableStringFieldUpdateOperationsInput | string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
@@ -130327,6 +130399,8 @@ export namespace Prisma {
     dedupKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieStatus?: NullableStringFieldUpdateOperationsInput | string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
@@ -130345,6 +130419,8 @@ export namespace Prisma {
     dedupKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieStatus?: NullableStringFieldUpdateOperationsInput | string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
@@ -132543,6 +132619,8 @@ export namespace Prisma {
     dedupKey: string
     status?: string
     note?: string | null
+    selfieUrl?: string | null
+    selfieStatus?: string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: string | null
@@ -132560,6 +132638,8 @@ export namespace Prisma {
     dedupKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieStatus?: NullableStringFieldUpdateOperationsInput | string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
@@ -132579,6 +132659,8 @@ export namespace Prisma {
     dedupKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieStatus?: NullableStringFieldUpdateOperationsInput | string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null
@@ -132597,6 +132679,8 @@ export namespace Prisma {
     dedupKey?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    selfieStatus?: NullableStringFieldUpdateOperationsInput | string | null
     locationData?: NullableJsonNullValueInput | InputJsonValue
     rawPayload?: NullableJsonNullValueInput | InputJsonValue
     ingestedVia?: NullableStringFieldUpdateOperationsInput | string | null

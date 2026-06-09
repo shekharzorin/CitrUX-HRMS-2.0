@@ -9,8 +9,24 @@ export const getCheckinOptions = async (req: AuthRequest, res: Response, next: N
 
 export const gpsCheckin = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-        const body = { ...req.body, selfieUrl: req.body.selfieUrl || undefined };
-        res.status(201).json(await AttendanceIngestionService.gpsCheckIn(req.user!, body));
+        const file = (req as any).file;
+        res.status(201).json(await AttendanceIngestionService.gpsCheckIn(req.user!, {
+            eventType: req.body.eventType,
+            lat: Number(req.body.lat),
+            lng: Number(req.body.lng),
+            accuracy: req.body.accuracy != null && req.body.accuracy !== '' ? Number(req.body.accuracy) : undefined,
+            selfieFile: file ? { buffer: file.buffer, originalname: file.originalname, mimetype: file.mimetype, size: file.size } : undefined,
+        }));
+    } catch (err) { next(err); }
+};
+
+export const listEvents = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+        res.json(await AttendanceIngestionService.listEvents(req.user!, {
+            userId: req.query.userId as string | undefined,
+            from: req.query.from as string | undefined,
+            to: req.query.to as string | undefined,
+        }));
     } catch (err) { next(err); }
 };
 

@@ -13,6 +13,7 @@ import { useAttendanceWidget } from '../hooks/useAttendanceWidget';
 import { AttendanceTable } from '../components/attendance/AttendanceTable';
 import { FiltersBar } from '../components/attendance/FiltersBar';
 import GpsCheckIn from '../components/attendance/GpsCheckIn';
+import AttendanceEvidenceModal from '../components/attendance/AttendanceEvidenceModal';
 
 const Attendance: React.FC = () => {
     const { user, hasFeature } = useAuth();
@@ -33,6 +34,7 @@ const Attendance: React.FC = () => {
     } = useAttendanceWidget();
 
     // History & Filtering
+    const [evidence, setEvidence] = useState<{ userId: string; date: string; name?: string } | null>(null);
     const [history, setHistory] = useState<any[]>([]);
     const [filteredHistory, setFilteredHistory] = useState<any[]>([]);
     const [historyLoading, setHistoryLoading] = useState(true);
@@ -278,12 +280,22 @@ const Attendance: React.FC = () => {
                         canViewAll={user?.role === 'ADMIN' || user?.role === 'HR'}
                     />
 
-                    <AttendanceTable 
+                    <AttendanceTable
                         records={filteredHistory}
                         isLoading={historyLoading}
+                        onViewEvidence={hasFeature('ATTENDANCE_FRAMEWORK') ? (rec: any) => setEvidence({ userId: rec.user?.id || user?.id, date: rec.date, name: rec.user?.profile ? `${rec.user.profile.firstName ?? ''} ${rec.user.profile.lastName ?? ''}`.trim() : undefined }) : undefined}
                     />
                 </div>
             </div>
+
+            {evidence && (
+                <AttendanceEvidenceModal
+                    userId={evidence.userId}
+                    date={evidence.date}
+                    employeeName={evidence.name}
+                    onClose={() => setEvidence(null)}
+                />
+            )}
         </div>
     );
 };

@@ -418,6 +418,8 @@ exports.Prisma.AttendanceEventScalarFieldEnum = {
   dedupKey: 'dedupKey',
   status: 'status',
   note: 'note',
+  selfieUrl: 'selfieUrl',
+  selfieStatus: 'selfieStatus',
   locationData: 'locationData',
   rawPayload: 'rawPayload',
   ingestedVia: 'ingestedVia',

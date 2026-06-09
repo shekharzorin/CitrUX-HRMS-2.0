@@ -596,6 +596,8 @@ model AttendanceEvent {
   dedupKey           String              // idempotency: re-imports/retries upsert
   status             String              @default("ACCEPTED") // ACCEPTED | QUARANTINED | VOIDED
   note               String?
+  selfieUrl          String?             // selfie evidence (Cloudinary URL)
+  selfieStatus       String?             // CAPTURED (future: VERIFIED | REJECTED | EXPIRED) — no verification logic yet
   locationData       Json?
   rawPayload         Json?
   ingestedVia        String?

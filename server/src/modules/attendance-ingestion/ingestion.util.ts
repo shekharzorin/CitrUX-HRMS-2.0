@@ -28,6 +28,8 @@ interface EventInput {
     verificationMethod?: string | null;
     dedupKey: string;
     note?: string | null;
+    selfieUrl?: string | null;
+    selfieStatus?: string | null;
     locationData?: any;
     rawPayload?: any;
     ingestedVia?: string;
@@ -41,12 +43,14 @@ export async function upsertEvent(e: EventInput) {
         create: {
             companyId: e.companyId, userId: e.userId, sourceId: e.sourceId, eventType: e.eventType,
             timestamp: e.timestamp, businessDate: e.businessDate, verificationMethod: e.verificationMethod,
-            dedupKey: e.dedupKey, note: e.note, locationData: e.locationData ?? undefined,
-            rawPayload: e.rawPayload, ingestedVia: e.ingestedVia, createdById: e.createdById, status: 'ACCEPTED',
+            dedupKey: e.dedupKey, note: e.note, selfieUrl: e.selfieUrl ?? undefined, selfieStatus: e.selfieStatus ?? undefined,
+            locationData: e.locationData ?? undefined, rawPayload: e.rawPayload, ingestedVia: e.ingestedVia,
+            createdById: e.createdById, status: 'ACCEPTED',
         },
         update: {
             userId: e.userId, sourceId: e.sourceId, eventType: e.eventType, timestamp: e.timestamp,
             businessDate: e.businessDate, verificationMethod: e.verificationMethod, note: e.note,
+            ...(e.selfieUrl !== undefined ? { selfieUrl: e.selfieUrl, selfieStatus: e.selfieStatus ?? 'CAPTURED' } : {}),
             locationData: e.locationData ?? undefined, rawPayload: e.rawPayload, status: 'ACCEPTED',
         },
     });

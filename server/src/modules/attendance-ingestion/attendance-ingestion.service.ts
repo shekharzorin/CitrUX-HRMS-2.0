@@ -1,10 +1,14 @@
 import { prisma } from '../../db';
 import { AppError } from '../../middlewares/error.middleware';
 import { AuditService } from '../../services/audit.service';
+import { UploadService } from '../../services/upload.service';
+import { RoleService } from '../../shared/permissions';
 import type { JwtPayload } from '../../shared/auth';
 import { utcMidnight, combineDateTime, upsertEvent, deleteEventByDedup, parseCsv } from './ingestion.util';
 import { projectDay, projectDays } from './attendance-engine';
 import { findContainingGeofence } from './geofence.util';
+
+interface SelfieFile { buffer: Buffer; originalname: string; mimetype: string; size: number }
 
 const MAX_CSV_ROWS = 5000;
 
@@ -86,20 +90,32 @@ export class AttendanceIngestionService {
             sourceName: source?.name ?? null,
             requireGeofence: !!cfg.requireGeofence,
             requireSelfie: !!cfg.requireSelfie,
+            allowCheckOutWithoutSelfie: cfg.allowCheckOutWithoutSelfie !== false,
             accuracyThresholdMeters: Number(cfg.accuracyThresholdMeters) || null,
         };
     }
 
-    /** Employee checks THEMSELVES in/out via GPS → validated event → projection. */
+    /**
+     * Employee checks THEMSELVES in/out via GPS → validated event → projection.
+     * Atomic selfie flow: cheap rules (accuracy, geofence, required-selfie present)
+     * are checked BEFORE upload; the selfie is uploaded only if validation passes,
+     * and a *required* selfie whose upload fails aborts the whole action (no event).
+     */
     static async gpsCheckIn(user: JwtPayload, input: {
-        eventType: 'CHECK_IN' | 'CHECK_OUT'; lat: number; lng: number; accuracy?: number; selfieUrl?: string;
+        eventType: 'CHECK_IN' | 'CHECK_OUT'; lat: number; lng: number; accuracy?: number; selfieFile?: SelfieFile;
     }) {
         const companyId = requireCompany(user);
         const source = await this.activeGpsSource(companyId);
         if (!source) throw new AppError('GPS attendance is not enabled for your company', 400);
         const cfg: any = source.configuration ?? {};
 
-        if (cfg.requireSelfie && !input.selfieUrl) throw new AppError('A selfie is required to check in', 400);
+        // Selfie requirement: CHECK_IN needs it when requireSelfie; CHECK_OUT only when
+        // allowCheckOutWithoutSelfie is false.
+        const selfieRequired = !!cfg.requireSelfie
+            && (input.eventType === 'CHECK_IN' || !cfg.allowCheckOutWithoutSelfie);
+        if (selfieRequired && !input.selfieFile) {
+            throw new AppError('A selfie is required for this attendance action', 400);
+        }
 
         const threshold = Number(cfg.accuracyThresholdMeters) || 0;
         if (threshold > 0 && typeof input.accuracy === 'number' && input.accuracy > threshold) {
@@ -117,6 +133,20 @@ export class AttendanceIngestionService {
             geofenceName = match.fence.name;
         }
 
+        // Upload AFTER cheap validation. If a required selfie fails to upload, abort.
+        let selfieUrl: string | null = null;
+        if (input.selfieFile) {
+            try {
+                selfieUrl = await UploadService.uploadDocument(
+                    input.selfieFile.buffer, input.selfieFile.originalname || 'selfie.jpg',
+                    `attendance-selfies/${companyId}`,
+                );
+            } catch {
+                if (selfieRequired) throw new AppError('Selfie upload failed. Please try again.', 502);
+                selfieUrl = null; // optional selfie: record the punch without it
+            }
+        }
+
         const now = new Date();
         const dateStr = now.toISOString().slice(0, 10); // UTC business date
         const businessDate = utcMidnight(dateStr);
@@ -125,15 +155,67 @@ export class AttendanceIngestionService {
         await upsertEvent({
             companyId, userId: user.userId, sourceId: source.id, eventType: input.eventType,
             timestamp: now, businessDate, verificationMethod: 'MOBILE_GPS', dedupKey,
-            locationData: { lat: input.lat, lng: input.lng, accuracy: input.accuracy ?? null, geofenceId, selfieUrl: input.selfieUrl ?? null },
+            selfieUrl, selfieStatus: selfieUrl ? 'CAPTURED' : undefined,
+            locationData: { lat: input.lat, lng: input.lng, accuracy: input.accuracy ?? null, geofenceId },
             ingestedVia: 'MOBILE_GPS', createdById: user.userId,
         });
 
         const result = await projectDay(companyId, user.userId, businessDate, source.id);
         await AuditService.log(user.userId, 'CREATE', 'ATTENDANCE_EVENT', user.userId, {
-            via: 'MOBILE_GPS', eventType: input.eventType, geofence: geofenceName,
+            via: 'MOBILE_GPS', eventType: input.eventType, geofence: geofenceName, selfie: !!selfieUrl,
         });
-        return { ...result, eventType: input.eventType, geofence: geofenceName };
+        // Activity: record SELFIE_CAPTURED only when a selfie was actually attached.
+        if (selfieUrl) {
+            await AuditService.log(user.userId, 'SELFIE_CAPTURED', 'ATTENDANCE_EVENT', user.userId, {
+                event: 'SELFIE_CAPTURED', employeeId: user.userId, attendanceSource: source.type,
+                timestamp: now.toISOString(),
+            });
+        }
+        return { ...result, eventType: input.eventType, geofence: geofenceName, selfieCaptured: !!selfieUrl };
+    }
+
+    /**
+     * Evidence/audit trail: events for an employee. Self-service for one's OWN events;
+     * viewing ANOTHER employee requires MANAGE_ATTENDANCE. Tenant-scoped. Includes
+     * selfieUrl — never surfaced through any other serializer.
+     */
+    static async listEvents(user: JwtPayload, query: { userId?: string; from?: string; to?: string }) {
+        const companyId = requireCompany(user);
+        const targetUserId = query.userId || user.userId;
+        if (targetUserId !== user.userId) {
+            const canManage = await RoleService.hasPermission(user, 'MANAGE_ATTENDANCE');
+            if (!canManage) throw new AppError('Not authorized to view this employee\'s attendance evidence', 403);
+        }
+        // Confirm the target is in the same tenant.
+        const target = await prisma.user.findFirst({ where: { id: targetUserId, companyId }, select: { id: true } });
+        if (!target) throw new AppError('Employee not found in this company', 404);
+
+        const where: any = { companyId, userId: targetUserId };
+        if (query.from || query.to) {
+            where.businessDate = {};
+            if (query.from) where.businessDate.gte = utcMidnight(query.from);
+            if (query.to) where.businessDate.lte = utcMidnight(query.to);
+        }
+        const events = await prisma.attendanceEvent.findMany({
+            where, orderBy: { timestamp: 'desc' }, take: 200,
+            include: { source: { select: { name: true, type: true } } },
+        });
+
+        if (targetUserId !== user.userId) {
+            await AuditService.log(user.userId, 'VIEW_EVIDENCE', 'ATTENDANCE_EVENT', targetUserId, { count: events.length });
+        }
+        return events.map((e) => ({
+            id: e.id,
+            eventType: e.eventType,
+            timestamp: e.timestamp,
+            businessDate: e.businessDate,
+            verificationMethod: e.verificationMethod,
+            sourceName: e.source?.name ?? null,
+            sourceType: e.source?.type ?? null,
+            selfieUrl: e.selfieUrl,
+            selfieStatus: e.selfieStatus,
+            location: e.locationData ?? null,
+        }));
     }
 
     // ── CSV ──────────────────────────────────────────────────────────────────
