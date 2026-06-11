@@ -774,6 +774,7 @@ model LeaveType {
   daysPerYear     Int
   carryForward    Boolean           @default(false)
   maxCarryForward Int               @default(0)
+  isPaid          Boolean           @default(true) // Payroll Core: paid vs unpaid (LOP) leave. Default true preserves legacy behavior until admins classify types.
   companyId       String?
   balances        LeaveBalance[]
   encashments     LeaveEncashment[]
@@ -1279,4 +1280,240 @@ model Department {
   updatedAt DateTime  @updatedAt
 
   @@unique([name, companyId])
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// GLOBAL PAYROLL CORE (Phase 1) — country-agnostic, additive.
+//
+// These models run in PARALLEL with the legacy SalaryStructure / Payslip tables;
+// nothing here references country-specific statutory concepts (PF/ESI/PT/TDS).
+// Statutory items are produced by Compliance Packs (Phase 2) as PayslipLine rows
+// with origin = "PACK:<countryCode>". Core only ever computes gross earnings.
+//
+// Cross-entity integrity to User/Company is enforced in the service layer
+// (companyId scoping) rather than via Prisma relations, so these models stay
+// fully additive and require no edits to existing User/Company models.
+// ════════════════════════════════════════════════════════════════════════════
+
+enum PayFrequency {
+  MONTHLY
+  WEEKLY
+  BIWEEKLY
+  SEMI_MONTHLY
+}
+
+enum PayrollRunStatus {
+  DRAFT
+  REVIEW
+  LOCKED
+  PUBLISHED
+  REVERSED
+}
+
+enum SalaryComponentKind {
+  EARNING
+  DEDUCTION
+}
+
+enum SalaryComponentCalcMethod {
+  FIXED
+  PERCENT_OF_BASE
+  FORMULA
+}
+
+enum CompensationType {
+  SALARIED
+  HOURLY
+  DAILY
+}
+
+enum PayslipLineCategory {
+  EARNING
+  DEDUCTION
+  ADJUSTMENT
+  ARREAR
+  STATUTORY_EMPLOYEE // reserved for Phase 2 compliance packs
+  STATUTORY_EMPLOYER // reserved for Phase 2 compliance packs
+}
+
+/// One row per tenant for now. `companyId @unique` is the single field that
+/// changes to `legalEntityId` when multiple legal entities per tenant arrive.
+model CompanyPayrollSettings {
+  id                    String       @id @default(uuid())
+  companyId             String       @unique
+  countryCode           String // ISO-3166 alpha-2
+  currency              String // ISO-4217
+  payFrequency          PayFrequency @default(MONTHLY)
+  timezone              String       @default("UTC") // IANA tz
+  fiscalYearStartMonth  Int          @default(1) // 1-12
+  fiscalYearStartDay    Int          @default(1) // 1-31
+  weekendDays           Int[]        @default([0, 6]) // 0=Sun .. 6=Sat — working-day calendar input (no hardcoded Sat/Sun)
+  compliancePackId      String? // selected pack (Phase 2)
+  compliancePackVersion String?
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+}
+
+/// Payroll-authoritative employee settings. Country IDs live in a generic Json
+/// blob — NEVER as country-specific columns.
+model EmployeePayrollProfile {
+  id                   String           @id @default(uuid())
+  userId               String           @unique
+  companyId            String
+  taxResidencyCountry  String? // ISO-3166; may differ from work country
+  employmentType       String           @default("FULL_TIME")
+  compensationType     CompensationType @default(SALARIED)
+  payFrequencyOverride PayFrequency?
+  exemptions           Json? // pack-interpreted; Core never reads semantics
+  statutoryIdentifiers Json? // { "PAN": "...", "UAN": "..." } / { "SSN": "..." } / { "NINO": "..." }
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+
+  @@index([companyId])
+}
+
+/// Effective-dated salary structure. Replaces the flat-column SalaryStructure.
+model SalaryStructureV2 {
+  id            String              @id @default(uuid())
+  userId        String
+  companyId     String
+  currency      String // ISO-4217 for every component amount in this structure
+  ctcMinor      BigInt              @default(0) // annual CTC in minor units
+  effectiveFrom DateTime
+  effectiveTo   DateTime?
+  components    SalaryComponentV2[]
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+
+  @@index([userId])
+  @@index([companyId])
+}
+
+/// A single earning or deduction line of a salary structure. Component-based
+/// design: adding DA / OT / housing / a US 401k line is a row, not a migration.
+/// NO statutory deductions here — those are Compliance-Pack output.
+model SalaryComponentV2 {
+  id                String                    @id @default(uuid())
+  structureId       String
+  code              String // BASIC, HRA, DA, ALLOWANCE, ...
+  name              String
+  kind              SalaryComponentKind
+  calcMethod        SalaryComponentCalcMethod
+  amountMinor       BigInt? // FIXED
+  currency          String? // FIXED (defaults to structure currency)
+  rateBps           Int? // PERCENT_OF_BASE — basis points (1% = 100)
+  baseComponentCode String? // PERCENT_OF_BASE — base component code
+  formula           String? // FORMULA — expression over sibling component codes
+  taxable           Boolean                   @default(true)
+  prorate           Boolean                   @default(true)
+  effectiveFrom     DateTime?
+  effectiveTo       DateTime?
+  sortOrder         Int                       @default(0)
+  structure         SalaryStructureV2         @relation(fields: [structureId], references: [id], onDelete: Cascade)
+
+  @@index([structureId])
+}
+
+/// The payroll run — the lifecycle entity the legacy schema lacked.
+model PayrollRun {
+  id                    String           @id @default(uuid())
+  companyId             String
+  periodStart           DateTime
+  periodEnd             DateTime
+  payFrequency          PayFrequency
+  payDate               DateTime?
+  currency              String
+  status                PayrollRunStatus @default(DRAFT)
+  compliancePackVersion String?
+  totals                Json?
+  createdById           String?
+  lockedById            String?
+  lockedAt              DateTime?
+  publishedById         String?
+  publishedAt           DateTime?
+  reversedById          String?
+  reversedAt            DateTime?
+  reversalOfRunId       String? // set on the DRAFT spawned by a reversal
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+  payslips              PayslipV2[]
+
+  @@unique([companyId, periodStart, periodEnd, payFrequency])
+  @@index([companyId, status])
+}
+
+/// A payslip belongs to a run (not a month/year) so it is frequency-agnostic.
+model PayslipV2 {
+  id                   String        @id @default(uuid())
+  payrollRunId         String
+  userId               String
+  companyId            String
+  currency             String
+  grossMinor           BigInt        @default(0)
+  totalDeductionsMinor BigInt        @default(0)
+  netMinor             BigInt        @default(0)
+  status               String        @default("DRAFT")
+  snapshot             Json? // immutable computed detail, frozen at publish
+  payDate              DateTime?
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  run                  PayrollRun    @relation(fields: [payrollRunId], references: [id], onDelete: Cascade)
+  lines                PayslipLine[]
+
+  @@unique([payrollRunId, userId])
+  @@index([userId])
+  @@index([companyId])
+}
+
+/// One line of a payslip. The SAME schema renders any country's payslip — core
+/// earnings (origin CORE) and, later, statutory lines (origin PACK:<cc>).
+model PayslipLine {
+  id            String              @id @default(uuid())
+  payslipId     String
+  componentCode String
+  name          String
+  category      PayslipLineCategory
+  amountMinor   BigInt
+  currency      String
+  taxable       Boolean             @default(false)
+  origin        String              @default("CORE") // CORE | PACK:<countryCode>
+  sortOrder     Int                 @default(0)
+  payslip       PayslipV2           @relation(fields: [payslipId], references: [id], onDelete: Cascade)
+
+  @@index([payslipId])
+}
+
+/// A correction attributed to a target period; flows into a future run instead
+/// of mutating a locked one.
+model PayrollAdjustment {
+  id            String   @id @default(uuid())
+  companyId     String
+  userId        String
+  targetPeriod  DateTime
+  componentCode String
+  name          String
+  amountMinor   BigInt
+  currency      String
+  reason        String?
+  appliedRunId  String?
+  createdById   String?
+  createdAt     DateTime @default(now())
+
+  @@index([companyId, userId])
+}
+
+/// Back-pay attributed to its origin period, settled in a later run.
+model PayrollArrear {
+  id           String   @id @default(uuid())
+  companyId    String
+  userId       String
+  originPeriod DateTime
+  amountMinor  BigInt
+  currency     String
+  reason       String?
+  settledRunId String?
+  createdById  String?
+  createdAt    DateTime @default(now())
+
+  @@index([companyId, userId])
 }
