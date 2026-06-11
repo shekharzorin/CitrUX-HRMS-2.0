@@ -1,18 +1,25 @@
 /**
- * EmployeePayrollProfile service (Phase 1).
+ * EmployeePayrollProfile service (Phase 1, decoupled in Phase 2.1).
  *
  * Payroll-authoritative per-employee settings. Country-specific identifiers
- * (PAN/UAN, SSN, NINO, …) are stored generically in a Json column — there are
- * NO country-specific columns. Compliance Packs (Phase 2) interpret these.
+ * (PAN/UAN, SSN, NINO, …), residency status and jurisdiction codes are stored
+ * generically (Json / opaque strings) — there are NO country-specific columns.
+ * Compliance Packs (Phase 2.4+) interpret them.
+ *
+ * This service is framework-agnostic: it no longer depends on Express req/res.
+ * Tenant violations throw `PayrollTenantError` (controllers map it to 403),
+ * so the service is unit-testable and reusable from any caller.
  */
 import { prisma } from '../../db';
 import { AuditService } from '../../services/audit.service';
-import { assertSameCompany } from '../../middlewares/tenant.middleware';
-import type { AuthRequest } from '../../middlewares/auth.middleware';
-import type { Response } from 'express';
+import { PayrollTenantError } from '../run/payroll-run.service';
+
+export class PayrollProfileError extends Error {}
 
 export interface EmployeeProfileInput {
     taxResidencyCountry?: string | null;
+    residencyStatus?: string | null;
+    jurisdictionCodes?: Record<string, string | null | undefined> | null;
     employmentType?: string;
     compensationType?: 'SALARIED' | 'HOURLY' | 'DAILY';
     payFrequencyOverride?: 'MONTHLY' | 'WEEKLY' | 'BIWEEKLY' | 'SEMI_MONTHLY' | null;
@@ -29,26 +36,27 @@ export class EmployeePayrollProfileService {
 
     /**
      * Upsert a profile. Verifies the target user belongs to the caller's tenant
-     * before writing (service-level isolation, validated via assertSameCompany).
+     * before writing; throws PayrollTenantError on cross-tenant access (no
+     * Express coupling).
      */
     static async upsert(
         companyId: string,
         userId: string,
         input: EmployeeProfileInput,
-        actorId: string,
-        req: AuthRequest,
-        res: Response
+        actorId: string
     ) {
-        const user = await prisma.user.findUnique({ where: { id: userId }, select: { companyId: true } });
-        if (!user) {
-            res.status(404).json({ message: 'User not found' });
-            return null;
-        }
-        if (!assertSameCompany(user.companyId, req, res)) return null;
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: { companyId: true },
+        });
+        if (!user) throw new PayrollProfileError('User not found');
+        if (user.companyId !== companyId) throw new PayrollTenantError();
 
         const data = {
             companyId,
             taxResidencyCountry: input.taxResidencyCountry ?? null,
+            residencyStatus: input.residencyStatus ?? null,
+            jurisdictionCodes: (input.jurisdictionCodes ?? undefined) as any,
             employmentType: input.employmentType ?? 'FULL_TIME',
             compensationType: input.compensationType ?? 'SALARIED',
             payFrequencyOverride: input.payFrequencyOverride ?? null,
