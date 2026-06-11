@@ -31,3 +31,7 @@ export { PayrollRunService, assertRunTenant, PayrollTenantError } from './run/pa
 export { CompanyPayrollSettingsService } from './profile/company-payroll-settings.service';
 export { EmployeePayrollProfileService } from './profile/employee-payroll-profile.service';
 export { isPayrollV2Enabled } from './feature';
+
+// Compliance Engine — Phase 2.1 contracts + assembler (no packs/registry/statutory logic)
+export * from './compliance/contracts';
+export { ComplianceAssembler } from './compliance/assembler';
