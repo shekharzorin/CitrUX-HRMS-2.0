@@ -1347,6 +1347,9 @@ model CompanyPayrollSettings {
   timezone              String       @default("UTC") // IANA tz
   fiscalYearStartMonth  Int          @default(1) // 1-12
   fiscalYearStartDay    Int          @default(1) // 1-31
+  taxYearStartMonth     Int          @default(1) // tax-year anchor; may differ from fiscal year (e.g. UK 6 April)
+  taxYearStartDay       Int          @default(1)
+  requireDualApproval   Boolean      @default(true) // maker-checker: LOCK and PUBLISH need distinct actors (enforced from Phase 2.2)
   weekendDays           Int[]        @default([0, 6]) // 0=Sun .. 6=Sat — working-day calendar input (no hardcoded Sat/Sun)
   compliancePackId      String? // selected pack (Phase 2)
   compliancePackVersion String?
@@ -1361,6 +1364,8 @@ model EmployeePayrollProfile {
   userId               String           @unique
   companyId            String
   taxResidencyCountry  String? // ISO-3166; may differ from work country
+  residencyStatus      String? // opaque, pack-interpreted (e.g. PR / citizen / foreigner / national / non-resident)
+  jurisdictionCodes    Json? // pack-defined keyed codes, e.g. { "work": "US-CA", "residence": "US-NY" } — Core never interprets
   employmentType       String           @default("FULL_TIME")
   compensationType     CompensationType @default(SALARIED)
   payFrequencyOverride PayFrequency?
@@ -1406,6 +1411,7 @@ model SalaryComponentV2 {
   formula           String? // FORMULA — expression over sibling component codes
   taxable           Boolean                   @default(true)
   prorate           Boolean                   @default(true)
+  classifications   String[]                  @default([]) // opaque pack-defined tags mapping a component to a statutory base (e.g. PF/NI/CPF/OTE) — Core never interprets
   effectiveFrom     DateTime?
   effectiveTo       DateTime?
   sortOrder         Int                       @default(0)
